@@ -6,6 +6,10 @@ raw evidence it produced.
 
 ```
 frozen_candidate_sha: ff17d5f28ec0ae6cfaef4be96442e5d3134cf089
+evidence_commit_sha:  911c93aa4687d4c5bc2097fac4650d5b094f4d74
+binding_rule:         every artefact carries candidate_head == frozen_candidate_sha, and
+                      `git diff ff17d5f 911c93a -- src tools tests schemas` MUST be empty
+                      (the artefacts describe exactly this source tree)
 product_root:         C:\Projects\Agent_Workspace\PIPD
 artifact_roots:       .hgk/artifacts/s2  .hgk/artifacts/s3  .hgk/artifacts/s4
 python:               the same interpreter that runs the tools (python3.11); PYTHONPATH=src
@@ -50,6 +54,7 @@ python:               the same interpreter that runs the tools (python3.11); PYT
 {
   "checker": "glm-5.3-flash/opencode-go",
   "frozen_candidate_sha": "ff17d5f28ec0ae6cfaef4be96442e5d3134cf089",
+  "evidence_commit_sha": "911c93aa4687d4c5bc2097fac4650d5b094f4d74",
   "head_at_verification": "<git rev-parse HEAD you observe>",
   "frozen_sha_matches_head": true,
   "edges": [{"edge": "E1", "verdict": "PASS|FAIL", "evidence": "<what you ran and saw>"}],
