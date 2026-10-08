@@ -91,13 +91,17 @@ def main() -> int:
     A(f"| `HGK_ADMITTED` | CLAIMED | HGK typed lifecycle reached `EXECUTING` |")
     A(f"| `RUNTIME_READY` | **NOT CLAIMED** | only S0/S1 built |")
     A(f"| `LOCAL_QUALIFIED` | CLAIMED | deterministic tests + 13/13 CLI smoke |")
-    ao_bound = (ao.get("verdict") == "PASS"
-                and ao.get("candidate_commit") == head
-                and ao.get("checker_identity")
-                and ao.get("checker_identity") != "HERMES-MAKER")
+    pb = rd("publication_binding.json", {})
+    vers = pb.get("independent_verdicts") or []
+    full = [v for v in vers if v.get("scope", "").startswith("12 edges")
+            and v.get("verdict") == "PASS" and v.get("candidate") == head]
+    ao_bound = bool(full)
     A(f"| `INDEPENDENT_PASS` | {'CLAIMED (bound)' if ao_bound else '**NOT CLAIMED**'} | "
-      f"AO lane `{ao.get('checker_identity','none')}` bound to `{ao.get('candidate_commit','-')[:12]}`"
-      f"{'' if ao_bound else ' — verdict missing, stale, or unbound to this candidate commit'} |")
+      + ("a full independent sweep is bound to this exact commit |" if ao_bound else
+         "three independent verdicts exist but none is a FULL sweep of this commit: "
+         "12/12 PASS is bound to a superseded commit, and the verdict bound to this commit covers only "
+         "the affected edges (3/3). No human gate. |"))
+
     A(f"| `PUBLICATION_APPROVED` | **NOT CLAIMED** | source corpus declares no license (`TT-PIPD-LICENSE-001`) |")
     A(f"| `RELEASED` | **NOT CLAIMED** | — |")
     A(f"| `PRODUCTION_VERIFIED` | **NOT CLAIMED** | — |\n")
@@ -187,9 +191,23 @@ def main() -> int:
         A("- AO verdict file not present")
     A("")
     A("## 10. Publication\n")
-    A("```json")
-    A(json.dumps(pub, indent=1, ensure_ascii=False))
-    A("```\n")
+    if pub and pub.get("PUSH_EXIT") == 0 and pub.get("COMMIT_MATCH"):
+        A(f"- repository: `{pub.get('REPO_URL')}` ({pub.get('VISIBILITY_AFTER')})")
+        A(f"- pushed commit: `{pub.get('LOCAL_HEAD')}`")
+        A(f"- remote HEAD re-read through the API after the push: `{pub.get('HEAD_SHA')}` "
+          f"(match: {pub.get('COMMIT_MATCH')})")
+        A(f"- anonymous (logged-out) reads: README HTTP {pub.get('ANON_README_HTTP')} "
+          f"({pub.get('ANON_README_BYTES')} bytes), repo API HTTP {pub.get('ANON_API_HTTP')} "
+          f"-> `PUBLIC_ANON_READABLE={pub.get('PUBLIC_ANON_READABLE')}`")
+        A(f"- `release_claim_ceiling = EVIDENCE_AND_HUMAN_GATE_BOUND`")
+        A("- `PUBLICATION_APPROVED` is **NOT CLAIMED**: the license gate is unmet by the source "
+          "(`TT-PIPD-LICENSE-001`); the repository ships a no-license NOTICE only.")
+        A("- publication proves the artifact is public and readable, not that it is accepted.\n")
+    else:
+        A(f"- NOT_CREATED / NOT_PUBLIC. Raw publish receipt:\n")
+        A("```json")
+        A(json.dumps(pub, indent=1, ensure_ascii=False))
+        A("```\n")
     A("## 11. Open TT / CR register (maker does not close these)\n")
     A("| id | class | owner | close condition |")
     A("|---|---|---|---|")
@@ -198,7 +216,7 @@ def main() -> int:
     A("")
     A("## 12. How an external reviewer verifies this offline\n")
     A("1. `git clone` the repo and `git checkout " + head + "`.")
-    A("2. `python -m unittest discover -s tests -t .` → 22 tests pass.")
+    A("2. `python -m unittest discover -s tests -t .` → 26 tests pass.")
     A("3. Recompute `sha256sum` on every file listed by `.hgk/artifacts/evidence_manifest.json`.")
     A("4. Re-run the AO prompt (`.hgk/ao/ao_prompt.md`) on any checker model; it is self-contained.")
     A("Large or sensitive raw stores are not published; the digests above are the binding references.")
@@ -207,8 +225,11 @@ def main() -> int:
     A("| round | lanes | verdict | effect on this deliverable |")
     A("|---|---|---|---|")
     A("| SWARM round 1 (`deleg_5a26d6d5`) | 3 (knowledge+compiler recheck / admission+board readback / adversarial claim audit) | 1 PASS, 2 FAIL | drove 5 real repairs: honest knowledge verdict, clause-level NRTV, contract `baseline_verified=false`, kanban DAG links, `__pycache__` purge |")
-    A("| SWARM round 2 (`deleg_1e6aaacf`) | 3 (fresh-copy reproduction / governance audit / adversarial exploits) | see receipts | re-verification of the repaired candidate |")
-    A("| AO lane (checker `glm-5.3-flash/opencode-go`) | 1 | see section 9 | independent acceptance officer |")
+    A("| SWARM round 2 (`deleg_1e6aaacf`) | 3 (fresh-copy reproduction / governance audit / adversarial exploits) | 0 PASS, 3 FAIL | drove 14 repairs: SoD persistence + alias refusal, body-hash recomputation, empty-bundle FAIL, claim-ceiling evidence gate, repair-scope confinement, fine-grained PAT pattern, LF canonicalization, fixtures materialised, missing evidence manifest created |")
+    A("| AO lane `glm-5.3-flash/opencode-go` | 1 | 10/10 PASS, 0 blocking | verdict bound to candidate `a2fb27b`, SUPERSEDED when the candidate moved |")
+    A("| affected-edge re-verify (checker `glm-5.3-flash/opencode-go`) | 1 | 12/12 PASS, `regressions: []` | on candidate `4473c532`; found the bearer token-class gap |")
+    A("| narrow re-verify #1 | 1 | 5 PASS / 2 FAIL | A2 (new test not standalone) and A6 (scan artifact named the wrong revision) - both repaired |")
+    A("| narrow re-verify #2 (final) | 1 | 3/3 PASS, `regressions: []` | A2/A6 repairs confirmed on the published candidate `7814fa48` |")
     A("")
     A("Disclosed reviewer findings that are **not** closed by this candidate: the wrong-authority NRTV cannot be")
     A("expressed by the HGK assertion API (`TT-PIPD-AUTHORITY-ASSERT`); the preflight ordering violation")
