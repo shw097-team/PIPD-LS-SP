@@ -80,7 +80,7 @@ def export_manifest(root: Path, *, include: list[str] | None = None) -> dict[str
             files.append(target)
         elif target.is_dir():
             files.extend(x for x in sorted(target.rglob("*")) if x.is_file()
-                         and "__pycache__" not in x.parts)
+                         and "__pycache__" not in x.parts and ".git" not in x.parts)
     rows = [{"rel": str(f.relative_to(root)).replace("\\", "/"),
              "size": f.stat().st_size, "sha256": sha256_file(f)} for f in files]
     rows.sort(key=lambda r: r["rel"])

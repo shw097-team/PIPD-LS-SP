@@ -63,5 +63,30 @@ class TestToolingExecutes(unittest.TestCase):
         self.assertEqual(offenders, [], "read_text() was given a `newline` argument")
 
 
+    def test_tracked_file_metric_excludes_vcs_internals(self) -> None:
+        """Pin the other class a checker caught: a file-count metric that counted .git objects.
+
+        `tracked_files` used to be `rglob('*')` over the whole root, so it moved on every git repack
+        and reported hundreds of version-control internals as project files.
+        """
+        import subprocess as sp
+        from pipd_ls_sp.cli import _tracked_file_count
+
+        n = _tracked_file_count(ROOT)
+        tracked = [l for l in sp.run(["git", "-C", str(ROOT), "ls-files"],
+                                     capture_output=True, text=True).stdout.splitlines() if l.strip()]
+        self.assertEqual(n, len(tracked), "tracked_files must equal `git ls-files`, not rglob('*')")
+        self.assertLess(n, 1000, "tracked_files looks like it is counting .git internals again")
+
+    def test_export_manifest_has_no_vcs_paths(self) -> None:
+        from pipd_ls_sp import workspace
+
+        bundle = workspace.export_manifest(ROOT, include=["src", "tests"])
+        paths = [row["rel"] for row in bundle.get("files", [])]
+        self.assertTrue(paths, "export bundle produced no rows")
+        self.assertEqual([p for p in paths if ".git/" in p or p.startswith(".git")], [],
+                         "export manifest leaked version-control internals")
+
+
 if __name__ == "__main__":
     unittest.main()

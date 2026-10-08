@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -85,7 +86,7 @@ def run(args: argparse.Namespace) -> dict:
         ctx = None
         if args.repo_root:
             ctx = {"root": str(args.repo_root), "head": args.head,
-                   "tracked_files": sum(1 for _ in args.repo_root.rglob("*") if _.is_file()),
+                   "tracked_files": _tracked_file_count(args.repo_root),
                    "currentness": "FRESH", "writable_scope": "src/**"}
         return pipeline.bind_pd(pi, ctx)
     if cmd == "compile-ecp":
@@ -112,6 +113,25 @@ def run(args: argparse.Namespace) -> dict:
         return workspace.repair_candidate(args.subject, scope=args.scope, maker=args.maker,
                                           authorized_root=args.authorized_root or str(ROOT))
     raise AssertionError(cmd)
+
+
+def _tracked_file_count(root: Path) -> int:
+    """Count VCS-tracked files, or files in the tree when it is not a checkout.
+
+    This used to be `sum(1 for _ in root.rglob("*") if _.is_file())`, which counted every object
+    inside `.git/` - hundreds of internals that change on every repack - under a field literally
+    named `tracked_files`. An independent checker caught the drift. Never count version-control
+    internals as project files.
+    """
+    try:
+        out = subprocess.run(["git", "-C", str(root), "ls-files"],
+                             capture_output=True, text=True, timeout=30)
+        if out.returncode == 0:
+            return len([l for l in out.stdout.splitlines() if l.strip()])
+    except Exception:
+        pass
+    return sum(1 for p in root.rglob("*") if p.is_file()
+               and ".git" not in p.parts and "__pycache__" not in p.parts)
 
 
 def main(argv: list[str] | None = None) -> int:
