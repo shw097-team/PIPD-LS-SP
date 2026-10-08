@@ -16,7 +16,11 @@ import sys
 import unittest
 from pathlib import Path
 
+# Self-bootstrap, same rule as every other test file here: a test file must be runnable standalone.
+# An independent checker had to run this one with PYTHONPATH=src, which is exactly the defect the
+# previous round flagged in another test file. Relying on a sibling's import side effects is not ok.
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
 
 
 class TestToolingExecutes(unittest.TestCase):
@@ -81,11 +85,28 @@ class TestToolingExecutes(unittest.TestCase):
     def test_export_manifest_has_no_vcs_paths(self) -> None:
         from pipd_ls_sp import workspace
 
-        bundle = workspace.export_manifest(ROOT, include=["src", "tests"])
+        bundle = workspace.export_manifest(ROOT, include=["."])
         paths = [row["rel"] for row in bundle.get("files", [])]
         self.assertTrue(paths, "export bundle produced no rows")
-        self.assertEqual([p for p in paths if ".git/" in p or p.startswith(".git")], [],
-                         "export manifest leaked version-control internals")
+        def _is_vcs_internal(p: str) -> bool:
+            # `.git/...` is a version-control internal. `.gitattributes` / `.gitignore` are ordinary
+            # project files that merely start with the same four characters - an earlier version of
+            # this predicate flagged them and failed on a correct tree.
+            return p == ".git" or p.startswith(".git/") or "/.git/" in p
+
+        leaked = [p for p in paths if _is_vcs_internal(p)]
+        self.assertEqual(leaked, [], "export manifest leaked version-control internals")
+        self.assertGreater(len(paths), 50,
+                           "include=['.'] must walk the tree; a tiny result means the walk was skipped")
+
+    def test_every_test_file_bootstraps_sys_path(self) -> None:
+        """No test file may depend on a sibling importing src/ first."""
+        missing = []
+        for f in sorted((ROOT / "tests").glob("test_*.py")):
+            src = f.read_text(encoding="utf-8")
+            if "sys.path.insert" not in src:
+                missing.append(f.name)
+        self.assertEqual(missing, [], "test files without a sys.path bootstrap")
 
 
 if __name__ == "__main__":
