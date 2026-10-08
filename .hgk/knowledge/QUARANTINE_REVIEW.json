@@ -1,0 +1,208 @@
+{
+ "gate": "G-KNOWLEDGE-READY / quarantine review",
+ "quarantined_total": 7,
+ "classification_counts": {
+  "IDENTIFIER_SUBSTRING_FALSE_POSITIVE": 5,
+  "DOCUMENTED_INJECTION_EXAMPLE": 7
+ },
+ "review": [
+  {
+   "source_id": "SRC-97355259edde717eeaf2",
+   "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/05_SDD_ADR_TASKSPEC.md",
+   "exists": true,
+   "sha256_prefix": "97355259edde717e",
+   "findings": [
+    {
+     "detector": "SECRET_PATTERN",
+     "pattern_declared_by_report": "sk-[A-Za-z0-9_-]{20,}",
+     "matches_in_file": 3,
+     "entries": [
+      {
+       "verdict": "IDENTIFIER_SUBSTRING_FALSE_POSITIVE",
+       "why": "the match is the tail of a longer identifier, so the detector's pattern lacks a left word-boundary anchor",
+       "match_redacted": "sk-c********ease (len=27)",
+       "line_context_redacted": "sk-c********ease"
+      },
+      {
+       "verdict": "IDENTIFIER_SUBSTRING_FALSE_POSITIVE",
+       "why": "the match is the tail of a longer identifier, so the detector's pattern lacks a left word-boundary anchor",
+       "match_redacted": "sk-c********ease (len=27)",
+       "line_context_redacted": "sk-c********ease"
+      },
+      {
+       "verdict": "IDENTIFIER_SUBSTRING_FALSE_POSITIVE",
+       "why": "the match is the tail of a longer identifier, so the detector's pattern lacks a left word-boundary anchor",
+       "match_redacted": "sk-c********ease (len=27)",
+       "line_context_redacted": "sk-c********ease"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "source_id": "SRC-f3b64233d0983ad60fa9",
+   "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/13_SECURITY_PRIVACY_PROMPT_INJECTION.md",
+   "exists": true,
+   "sha256_prefix": "f3b64233d0983ad6",
+   "findings": [
+    {
+     "detector": "PROMPT_INJECTION",
+     "pattern_declared_by_report": "ignore\\s+(?:all\\s+)?(?:previous|prior)\\s+instructions",
+     "matches_in_file": 2,
+     "entries": [
+      {
+       "verdict": "DOCUMENTED_INJECTION_EXAMPLE",
+       "why": "the matched phrase is one the document itself quotes as an attack example it teaches about; the prompt-injection control stays enabled, only this source is flagged for a human to confirm it is teaching material",
+       "match_redacted": "igno********ions (len=28)",
+       "line_context_redacted": "igno********ions"
+      },
+      {
+       "verdict": "DOCUMENTED_INJECTION_EXAMPLE",
+       "why": "the matched phrase is one the document itself quotes as an attack example it teaches about; the prompt-injection control stays enabled, only this source is flagged for a human to confirm it is teaching material",
+       "match_redacted": "igno********ions (len=28)",
+       "line_context_redacted": "igno********ions"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "source_id": "SRC-b753f2e5cdd5598a818f",
+   "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_DOC-01_2026-10-07_r2_HIGH_RETENTION_FULL_REPAIR_FULL_SUBSTANTIVE_BODY.md",
+   "exists": true,
+   "sha256_prefix": "b753f2e5cdd5598a",
+   "findings": [
+    {
+     "detector": "PROMPT_INJECTION",
+     "pattern_declared_by_report": "(?:exfiltrate|reveal|print)\\s+(?:the\\s+)?(?:secret|token|api\\s*key)",
+     "matches_in_file": 1,
+     "entries": [
+      {
+       "verdict": "DOCUMENTED_INJECTION_EXAMPLE",
+       "why": "the matched phrase is one the document itself quotes as an attack example it teaches about; the prompt-injection control stays enabled, only this source is flagged for a human to confirm it is teaching material",
+       "match_redacted": "exfi********cret (len=17)",
+       "line_context_redacted": "exfi********cret"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "source_id": "SRC-e46caa7e440392a6cfa7",
+   "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_DOC-08_2026-10-07_r2_HIGH_RETENTION_FULL_REPAIR_FULL_SUBSTANTIVE_BODY.md",
+   "exists": true,
+   "sha256_prefix": "e46caa7e440392a6",
+   "findings": [
+    {
+     "detector": "PROMPT_INJECTION",
+     "pattern_declared_by_report": "(?:exfiltrate|reveal|print)\\s+(?:the\\s+)?(?:secret|token|api\\s*key)",
+     "matches_in_file": 1,
+     "entries": [
+      {
+       "verdict": "DOCUMENTED_INJECTION_EXAMPLE",
+       "why": "the matched phrase is one the document itself quotes as an attack example it teaches about; the prompt-injection control stays enabled, only this source is flagged for a human to confirm it is teaching material",
+       "match_redacted": "exfi********cret (len=17)",
+       "line_context_redacted": "exfi********cret"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "source_id": "SRC-eaf0aefe2b4711c140fc",
+   "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_DOC-09_2026-10-07_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_REPAIR_FULL_SUBSTANTIVE_BODY.md",
+   "exists": true,
+   "sha256_prefix": "eaf0aefe2b4711c1",
+   "findings": [
+    {
+     "detector": "SECRET_PATTERN",
+     "pattern_declared_by_report": "(?i)(?:api[_-]?key|secret|token)\\s*[:=]\\s*['\\\"]?[A-Za-z0-9_./+-]{16,}",
+     "matches_in_file": 1,
+     "entries": [
+      {
+       "verdict": "IDENTIFIER_SUBSTRING_FALSE_POSITIVE",
+       "why": "the match is the tail of a longer identifier, so the detector's pattern lacks a left word-boundary anchor",
+       "match_redacted": "toke********ions (len=24)",
+       "line_context_redacted": "toke********ions"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "source_id": "SRC-c5f5fe48156dc6458378",
+   "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG_藍圖&skeleton.md",
+   "exists": true,
+   "sha256_prefix": "c5f5fe48156dc645",
+   "findings": [
+    {
+     "detector": "PROMPT_INJECTION",
+     "pattern_declared_by_report": "disable\\s+(?:the\\s+)?(?:sandbox|security|validation)",
+     "matches_in_file": 1,
+     "entries": [
+      {
+       "verdict": "DOCUMENTED_INJECTION_EXAMPLE",
+       "why": "the matched phrase is one the document itself quotes as an attack example it teaches about; the prompt-injection control stays enabled, only this source is flagged for a human to confirm it is teaching material",
+       "match_redacted": "disa********dbox (len=15)",
+       "line_context_redacted": "disa********dbox"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "source_id": "SRC-4a2ec8640c378b9490b8",
+   "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_skeleton.md",
+   "exists": true,
+   "sha256_prefix": "a320d344785da970",
+   "findings": [
+    {
+     "detector": "PROMPT_INJECTION",
+     "pattern_declared_by_report": "(?:exfiltrate|reveal|print)\\s+(?:the\\s+)?(?:secret|token|api\\s*key)",
+     "matches_in_file": 2,
+     "entries": [
+      {
+       "verdict": "DOCUMENTED_INJECTION_EXAMPLE",
+       "why": "the matched phrase is one the document itself quotes as an attack example it teaches about; the prompt-injection control stays enabled, only this source is flagged for a human to confirm it is teaching material",
+       "match_redacted": "exfi********cret (len=17)",
+       "line_context_redacted": "exfi********cret"
+      },
+      {
+       "verdict": "DOCUMENTED_INJECTION_EXAMPLE",
+       "why": "the matched phrase is one the document itself quotes as an attack example it teaches about; the prompt-injection control stays enabled, only this source is flagged for a human to confirm it is teaching material",
+       "match_redacted": "exfi********cret (len=17)",
+       "line_context_redacted": "exfi********cret"
+      }
+     ]
+    },
+    {
+     "detector": "SECRET_PATTERN",
+     "pattern_declared_by_report": "(?i)(?:api[_-]?key|secret|token)\\s*[:=]\\s*['\\\"]?[A-Za-z0-9_./+-]{16,}",
+     "matches_in_file": 1,
+     "entries": [
+      {
+       "verdict": "IDENTIFIER_SUBSTRING_FALSE_POSITIVE",
+       "why": "the match is the tail of a longer identifier, so the detector's pattern lacks a left word-boundary anchor",
+       "match_redacted": "toke********ions (len=24)",
+       "line_context_redacted": "toke********ions"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "controls_disabled": [],
+ "owner_decision_required": true,
+ "owner_decision_slot": {
+  "question": "Ratify the per-source classification below and lift the quarantine for the sources whose only finding is a documented rule or an identifier substring?",
+  "options": [
+   "RATIFY_ALL_AS_DOCUMENTED",
+   "RATIFY_SELECTIVELY (list source_ids)",
+   "REJECT (keep quarantined)"
+  ],
+  "status": "AWAITING_OWNER"
+ },
+ "verdict": "PARTIAL",
+ "why_not_pass": "the review path and the evidence exist, but lifting a quarantine is a knowledge-owner authority act; an agent must not self-clear a security control",
+ "candidate_head": "93ec150404a2afb81f9f6d4f51e07e9a064218ff"
+}

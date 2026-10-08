@@ -1,6 +1,6 @@
 {
  "schema": "PIPD-TT-REGISTER/1",
- "count": 14,
+ "count": 15,
  "tts": [
   {
    "id": "TT-PIPD-KNOWLEDGE-QUARANTINE",
@@ -188,15 +188,28 @@
    "status_evidence": "The previously untested tooling now has guard tests and every new S2-S4 surface has a negative control: test_cli_typed_errors (5), test_technology_admission (5), plus the S2 pilot negative set .43/43 tests pass with the tree staying clean.",
    "status_ref": "tests/test_cli_typed_errors.py, tests/test_technology_admission.py",
    "status_round": "911c93aa4687d4c5bc2097fac4650d5b094f4d74"
+  },
+  {
+   "id": "TT-HGK-SANITIZER-UNANCHORED-KEY-PATTERN",
+   "class": "CONTROL_PLANE_DEFECT",
+   "owner": "HG-KSEOS knowledge/sanitizer owner",
+   "affected_edges": "knowledge ingest sanitation -> F2 PIPD standard family -> G-KNOWLEDGE-READY",
+   "first_failing_invariant": "SECRET_PATTERN `sk-[A-Za-z0-9_-]{20,}` matches the tail of the identifier `task-code-test-review-release` (in `SDLC_PRW#spec-task-code-test-review-release`)",
+   "detail": "The key pattern has no left word-boundary anchor, so a stable identifier is quarantined as though it were a credential. 5 of the 7 quarantined sources are this false positive. The agent must not edit HG-KSEOS sanitisation; the review path in tools/quarantine_review.py re-derives each match and records it with evidence instead.",
+   "close_condition": "sanitizer anchors the key pattern (e.g. `(?<![A-Za-z0-9_-])sk-[A-Za-z0-9]{20,}`) or the knowledge owner ratifies the per-source classification, then re-run the probe to clean_coverage=true",
+   "evidence": ".hgk/knowledge/QUARANTINE_REVIEW.json",
+   "status": "OPEN",
+   "status_evidence": "raised this round with reproducible per-match evidence",
+   "status_round": "93ec150404a2afb81f9f6d4f51e07e9a064218ff"
   }
  ],
  "status_summary": {
-  "total": 14,
+  "total": 15,
   "closed": 1,
   "partial": 2,
-  "open": 9,
+  "open": 10,
   "open_owner_gate": 2,
-  "blocking_count": 11
+  "blocking_count": 12
  },
  "as_of_candidate": "911c93aa4687d4c5bc2097fac4650d5b094f4d74"
 }
