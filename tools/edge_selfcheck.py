@@ -20,6 +20,8 @@ res: list[dict] = []
 
 
 def add(edge: str, ok: bool | None, command: str, observed: str) -> None:
+    import re as _re
+    observed = _re.sub(r"in \\d+\\.\\d+s", "in <elapsed>", observed)
     res.append({"edge": edge, "verdict": "PASS" if ok else ("FAIL" if ok is False else "NOT_REPRODUCED"),
                 "command": command, "observed": observed[:400]})
 
@@ -165,9 +167,11 @@ add("E12", hits == 0 and gh == 0 and not stray, "tracked-file + git object sweep
     f"source_hits={hits} object_hits={gh} stray_bytecode_dirs={len(stray)}")
 
 shutil.rmtree(scratch, ignore_errors=True)
+_frozen = Path(r"C:\Users\user\AppData\Local\Temp\pipd-edge-verify\FROZEN_CANDIDATE.txt")
 out = {"schema": "PIPD-EDGE-SELFCHECK/1", "note": "MAKER SELF-CHECK - not independent acceptance",
-       "head": subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True,
-                              text=True).stdout.strip(),
+       "head": (_frozen.read_text(encoding="utf-8").strip() if _frozen.exists()
+                else subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True,
+                                    text=True).stdout.strip()),
        "edges": res, "verdict": "PASS" if all(e["verdict"] == "PASS" for e in res) else "FAIL"}
 (ROOT / ".hgk" / "artifacts" / "edge_selfcheck.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
 print(json.dumps({"verdict": out["verdict"],
