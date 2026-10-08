@@ -1,0 +1,2220 @@
+{
+ "schema": "CAPC-PROMPT-CONTRACT/1",
+ "task_id": "PIPD-LS-SP-HERMES-ROUTEOUT-2026-10-08-R1",
+ "source_scan": {
+  "required_source_families": [
+   "F1_GPTB_KNOWLEDGE",
+   "F2_PIPD_STANDARD",
+   "F3_PIPD_DESIGN",
+   "F4_ENGINEERING_DONORS",
+   "F5_COMMAND_BASIS",
+   "F6_MACHINE_TRUTH"
+  ],
+  "reviewed": [
+   {
+    "source_family": "F1_GPTB_KNOWLEDGE",
+    "source_id": "F1",
+    "locator": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/00_KNOW_INDEX.md..19_KP_INDEX_CROSSWALK.md; 知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13/{PORTABLE_MOUNT_PROFILE,GRP-00..GRP-09}.md",
+    "sha256": "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F2_PIPD_STANDARD",
+    "source_id": "F2",
+    "locator": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/{PIPD_LS_canonical_standard.md, PIPD_LS_DOC-00..DOC-09}.md #2",
+    "sha256": "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F3_PIPD_DESIGN",
+    "source_id": "F3",
+    "locator": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/{PIPD-LS-SP_skeleton.md, PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00..PKG-10, PIPD-LS-SP_藍圖/*} #2",
+    "sha256": "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F4_ENGINEERING_DONORS",
+    "source_id": "F4",
+    "locator": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/SKILLS_PLUGIN/{SDLC_PRW_HLPE_SKILLS_PLUGIN_R2,SWOF_ECP_SKILLS_PLUGIN_v2.0.1,SWOF_TQAEP_SKILLS_PLUGIN_v2.0.1}.md #4",
+    "sha256": "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+    "role": "SUPPORT",
+    "critical": true
+   },
+   {
+    "source_family": "F5_COMMAND_BASIS",
+    "source_id": "F5",
+    "locator": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/** ; HG-KSEOS/docs/HG-KSEOS使用說明文檔.md ; Fabric/docs/Fabric使用說明文檔.md #5",
+    "sha256": "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F6_MACHINE_TRUTH",
+    "source_id": "F6",
+    "locator": "HG-KSEOS/{AGENTS.md,config/**,src/**} ; Fabric/{control/**,contracts/**,assurance/**} #6",
+    "sha256": "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e",
+    "role": "STATE_EVIDENCE",
+    "critical": true
+   }
+  ],
+  "missing": [],
+  "normative_claims": [
+   {
+    "claim_id": "NC-01",
+    "text": "HG-KSEOS is the sole normative WorkOrder/admission/reducer/release control plane for this task; no second control plane may be created.",
+    "source_ids": [
+     "F5_COMMAND_BASIS",
+     "F6_MACHINE_TRUTH"
+    ],
+    "locators": [
+     "HG-KSEOS/AGENTS.md §1-preamble",
+     "Fabric/docs/Fabric使用說明文檔.md §2-3"
+    ]
+   },
+   {
+    "claim_id": "NC-02",
+    "text": "PIPD-LS-SP implements PIPD-LIFECYCLE-SPEC@1.1.0 across 11 design packages (PIPD-PKG-00..10).",
+    "source_ids": [
+     "F2_PIPD_STANDARD",
+     "F3_PIPD_DESIGN"
+    ],
+    "locators": [
+     "PIPD_LS/PIPD_LS_canonical_standard.md#standard_id",
+     "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00..PKG-10 §package_id"
+    ]
+   },
+   {
+    "claim_id": "NC-03",
+    "text": "Product writes require an admitted HGK WorkOrder, candidate WriteSet and a git baseline/rollback pointer before any mutation.",
+    "source_ids": [
+     "F6_MACHINE_TRUTH"
+    ],
+    "locators": [
+     "HG-KSEOS/AGENTS.md §Admission chain",
+     "HG-KSEOS/AGENTS.md §Routing"
+    ]
+   },
+   {
+    "claim_id": "NC-04",
+    "text": "PROMPT_COMPILE_PASS must be produced only by the bundled deterministic compiler, never self-authored.",
+    "source_ids": [
+     "F5_COMMAND_BASIS"
+    ],
+    "locators": [
+     "construction-acceptance-prompt-compiler_SKILL.md §Run deterministic validation"
+    ]
+   }
+  ]
+ },
+ "intent": {
+  "goal": "Implement the PIPD-LS-SP Pre-Implementation & Pre-Dev Lifecycle Skills Plugin under HG-KSEOS governance: compile vague user intent into source-bound, traceable, profile-aware, evidence-ready, receiver-ready PI->PD->ConstructionContract->ECP/TQAEP/Handoff artifacts, with HGK admission, Kanban/Swarm/GSTACK/OpenSpec/Codex execution surfaces, deterministic validators, and independent acceptance.",
+  "user_expected_outcome": "A real, runnable PIPD-LS-SP product tree at C:\\Projects\\Agent_Workspace\\PIPD with source-bound artifacts, tests, evidence, and a single external-acceptance MD; honest stage reporting S0..S8.",
+  "user_expected_experience": "An ordinary user can trigger the lifecycle with natural language and receive a compiled spec package without knowing internal Skill, WorkOrder, Agent or Provider names.",
+  "explicit_constraints": [
+   "HG-KSEOS is the only normative control plane; Hermes is the governed runtime/orchestration plane; Codex is the bounded writer.",
+   "Only C:\\Projects\\Agent_Workspace\\PIPD is the product mutation root; HG-KSEOS/Fabric control code is not mutated.",
+   "Every durable mutation rides an admitted HGK WorkOrder with baseline + rollback pointer.",
+   "Claim levels PROMPT_COMPILE_PASS / HGK_ADMITTED / RUNTIME_READY / LOCAL_QUALIFIED / INDEPENDENT_PASS / PUBLICATION_APPROVED / RELEASED / PRODUCTION_VERIFIED are kept separate.",
+   "No secret values are written to chat, argv, logs, git history or evidence."
+  ],
+  "non_goals": [
+   "No second HGK control plane, scheduler, reducer, Canonical Plan IR, Task DB or release authority.",
+   "No copying of Fabric authority or enabling Apps/Actions/MCP/external providers without admission.",
+   "No unbounded self-evolution, no self-issued INDEPENDENT_PASS or PRODUCTION_PASS.",
+   "No claiming runtime/effect PASS from docs, schemas, README or green CI.",
+   "No inheriting a previous Stage PASS into a new Stage."
+  ],
+  "authorized_mutations": [
+   "Create/modify/rename/restructure files under C:\\Projects\\Agent_Workspace\\PIPD (product target root).",
+   "Write run receipts, checkpoints and evidence under C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\.",
+   "Create and update candidate git repository and, after local qualification + independent gate, push to the candidate GitHub repo.",
+   "Write the mandated single-file external acceptance evidence MD under 知識庫/實作相關DOC/PIPD/實作證據/."
+  ],
+  "forbidden_mutations": [
+   "Any write to HG-KSEOS src/config or Fabric control/contracts/assurance.",
+   "Any SQL write to the SharedSpine DB outside the typed API.",
+   "Any publication of secrets, private corpora or raw sensitive local evidence.",
+   "Any production deployment or Stage-3/Fabric SQP1 escalation."
+  ],
+  "expected_autonomy": "HIGH",
+  "allowed_hitl": [
+   "GITHUB_AUTH",
+   "SCOPE_EXPANSION",
+   "SEALED_GOVERNANCE_CHANGE",
+   "PROVIDER_ACTIVATION",
+   "PUBLICATION_VISIBILITY"
+  ],
+  "requested_delivery": [
+   "DEL_PIPD_PRODUCT_TREE",
+   "DEL_EXTERNAL_ACCEPTANCE_EVIDENCE_MD",
+   "DEL_PUBLIC_GITHUB_REPO_PIPD-LS-SP",
+   "DEL_SOURCE_MANIFEST_AND_KNOWLEDGE_READBACK",
+   "DEL_COMPILER_CONTRACT_PROMPT_RECEIPTS"
+  ],
+  "active_requirement_ids": [
+   "REQ-PIPD-01-SOURCE-FREEZE",
+   "REQ-PIPD-02-INTENT-ATOM",
+   "REQ-PIPD-03-PROFILE",
+   "REQ-PIPD-05-PI-COMPILER",
+   "REQ-PIPD-06-PD-BINDER",
+   "REQ-PIPD-07-CONSTRUCTION-CONTRACT",
+   "REQ-PIPD-08-ECP-TQAEP",
+   "REQ-PIPD-09-TRACE-EVIDENCE-CLAIM"
+  ],
+  "claim_ceiling": "LOCAL"
+ },
+ "authority": {
+  "sources": [
+   {
+    "id": "F1_GPTB_KNOWLEDGE",
+    "rank": "R1",
+    "path": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/",
+    "sha256": "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+    "locator": "00_KNOW_INDEX.md §1..19_KP_INDEX_CROSSWALK.md",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F2_PIPD_STANDARD",
+    "rank": "R1",
+    "path": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/",
+    "sha256": "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+    "locator": "PIPD_LS_canonical_standard.md#standard_id=PIPD-LIFECYCLE-SPEC",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F3_PIPD_DESIGN",
+    "rank": "R1",
+    "path": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/",
+    "sha256": "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+    "locator": "PIPD-LS-SP_藍圖.md ; PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.1-5.3 ; PIPD-LS-SP_PIPD-PKG-00..10",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F4_ENGINEERING_DONORS",
+    "rank": "R2",
+    "path": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/SKILLS_PLUGIN/",
+    "sha256": "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+    "locator": "SDLC_PRW_HLPE_SKILLS_PLUGIN_R2.md ; SWOF_ECP_SKILLS_PLUGIN_v2.0.1.md ; SWOF_TQAEP_SKILLS_PLUGIN_v2.0.1.md",
+    "role": "SUPPORT",
+    "governs": false
+   },
+   {
+    "id": "F5_COMMAND_BASIS",
+    "rank": "R1",
+    "path": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/",
+    "sha256": "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+    "locator": "construction-acceptance-prompt-compiler_SKILL.md ; scripts/prompt_contract_compiler.py ; HG-KSEOS使用說明文檔.md §3-10 ; Fabric使用說明文檔.md §2-3",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F6_MACHINE_TRUTH",
+    "rank": "R1",
+    "path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS ; C:\\Projects\\Agent_Workspace\\Fabric",
+    "sha256": "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e",
+    "locator": "HG-KSEOS/AGENTS.md ; config/hermes.json#HGK-HERMES-BINDING/2 ; var/shared-spine/hg-kseos.db ; Fabric/{control,contracts,assurance}",
+    "role": "STATE_EVIDENCE",
+    "governs": false
+   }
+  ],
+  "conflicts": [],
+  "missing_sources": [],
+  "native_control_plane_ids": [
+   "HG-KSEOS"
+  ],
+  "current_control_plane_id": "HG-KSEOS"
+ },
+ "changeset": {
+  "class": "NEW_IMPLEMENTATION",
+  "baseline_required": true,
+  "baseline_verified": true,
+  "reuse_prior_pass": false,
+  "affected_domains": [
+   "PIPD-LS-SP product tree (PI/PD lifecycle plugin)",
+   "Host Skills + CLI/SDK surfaces",
+   "HGK typed receiver seam",
+   "GENIE/JIT-SGM seams",
+   "public deliverable + evidence"
+  ],
+  "affected_files": [
+   "C:\\Projects\\Agent_Workspace\\PIPD\\** (whole target root)"
+  ],
+  "must_not_reopen": [
+   "HG-KSEOS src/config/Fabric control code",
+   "RP-002 Stage-1/2/3 sealed scope",
+   "Fabric SQP1/Stage-3"
+  ],
+  "scope_expansion_requires_hitl": true,
+  "tracked_mutation": true,
+  "product_mutation_allowed": true
+ },
+ "execution_scope": [
+  {
+   "capability": "CAP_SOURCE_AUTHORITY_FREEZE",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_INTENT_REQUIREMENT_ATOM",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PROFILE_TRIO",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_SEARCH_BEFORE_BUILD_TECH_ADMISSION",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PI_COMPILER",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PD_BINDER_REPOCONTEXT",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_TASKSPEC_CONSTRUCTION_CONTRACT",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_ECP_TQAEP",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_TRACE_EVIDENCE_CLAIM",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_EIGHT_LOGICAL_SKILLS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_NINETEEN_CONTRACT_FAMILIES",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_DETERMINISTIC_VALIDATORS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_THREE_GOLDEN_PILOTS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_WEB_PACK_5_HOST_PROJECTIONS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_CLI_SDK_13_COMMANDS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_HGK_SHADOW_CANARY_RECEIVER",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_GENIE_OBJECT_PROJECTION",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_JIT_TEAM_ACTIVATION",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_BOUNDED_REPAIR_ROLLBACK",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PUBLIC_ARTIFACT_ACCEPTANCE_EVIDENCE",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_EXTERNAL_SAAS",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_EXTRA_VECTOR_KG_STORE",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_MCP_BRIDGE",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_REMOTE_EXECUTION",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_TOOL_MODEL_PROVIDER_SWITCH",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_SGM_CUTOVER",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PRODUCTION_DEPLOY",
+   "source_disposition": "FORBIDDEN_IN_SOURCE",
+   "current_execution_disposition": "PROHIBITED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "PROHIBIT",
+   "source_locators": [
+    "construction-acceptance-prompt-compiler_SKILL.md §Compile C0-C9",
+    "HG-KSEOS/AGENTS.md §Governed execution method",
+    "HG-KSEOS/config/hermes.json#HGK-HERMES-BINDING/2"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_FABRIC_SQP1_ESCALATION",
+   "source_disposition": "FORBIDDEN_IN_SOURCE",
+   "current_execution_disposition": "PROHIBITED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "PROHIBIT",
+   "source_locators": [
+    "construction-acceptance-prompt-compiler_SKILL.md §Compile C0-C9",
+    "HG-KSEOS/AGENTS.md §Governed execution method",
+    "HG-KSEOS/config/hermes.json#HGK-HERMES-BINDING/2"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_MAKER_SELF_ACCEPTANCE",
+   "source_disposition": "FORBIDDEN_IN_SOURCE",
+   "current_execution_disposition": "PROHIBITED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "PROHIBIT",
+   "source_locators": [
+    "construction-acceptance-prompt-compiler_SKILL.md §Compile C0-C9",
+    "HG-KSEOS/AGENTS.md §Governed execution method",
+    "HG-KSEOS/config/hermes.json#HGK-HERMES-BINDING/2"
+   ],
+   "external_method": false,
+   "control_authority": false
+  }
+ ],
+ "runtime_readiness": [
+  {
+   "capability": "CAP_SOURCE_AUTHORITY_FREEZE",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize SourceManifest+KnowledgeIndexReadback"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_SOURCE_AUTHORITY_FREEZE"
+   ]
+  },
+  {
+   "capability": "CAP_INTENT_REQUIREMENT_ATOM",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize RequirementAtom schema + validator"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_INTENT_REQUIREMENT_ATOM"
+   ]
+  },
+  {
+   "capability": "CAP_NINETEEN_CONTRACT_FAMILIES",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize 19 typed machine contracts + schema validators"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_NINETEEN_CONTRACT_FAMILIES"
+   ]
+  },
+  {
+   "capability": "CAP_DETERMINISTIC_VALIDATORS",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize deterministic validator suite + NEG cases"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_DETERMINISTIC_VALIDATORS"
+   ]
+  },
+  {
+   "capability": "CAP_PI_COMPILER",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "build PI compiler vertical slice (intent->PI)"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_PI_COMPILER"
+   ]
+  },
+  {
+   "capability": "CAP_PD_BINDER_REPOCONTEXT",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "build PD binder / RepoContext late-binding"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_PD_BINDER_REPOCONTEXT"
+   ]
+  },
+  {
+   "capability": "CAP_TASKSPEC_CONSTRUCTION_CONTRACT",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "build TaskSpecSeed + ConstructionContract emitter"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_TASKSPEC_CONSTRUCTION_CONTRACT"
+   ]
+  },
+  {
+   "capability": "CAP_ECP_TQAEP",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "build ECP/TQAEP emitter with donor adapters"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_ECP_TQAEP"
+   ]
+  },
+  {
+   "capability": "CAP_TRACE_EVIDENCE_CLAIM",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "build trace/evidence/claim registry + readback"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_TRACE_EVIDENCE_CLAIM"
+   ]
+  },
+  {
+   "capability": "CAP_CLI_SDK_13_COMMANDS",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "implement 13 CLI/SDK commands with dry-run/explain"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_CLI_SDK_13_COMMANDS"
+   ]
+  },
+  {
+   "capability": "CAP_BOUNDED_REPAIR_ROLLBACK",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "implement bounded repair + rollback drill harness"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_BOUNDED_REPAIR_ROLLBACK"
+   ]
+  }
+ ],
+ "journeys": [
+  {
+   "journey_id": "J1_NL_SPEC_PACKAGE",
+   "required": true,
+   "user_goal": "用自然語言描述需求即可取得可追溯規格包",
+   "expected_visible_result": "從自由文字編譯出 PI 規格包",
+   "expected_automatic_behavior": [
+    "輸出可追溯 ARTIFACT ID 與 Locator",
+    "缺少來源時明確回報 SOURCE_GAP"
+   ],
+   "expected_manual_behavior": [],
+   "allowed_hitl": [
+    "GITHUB_AUTH",
+    "SCOPE_EXPANSION"
+   ],
+   "required_capabilities": [
+    "CAP_PI_COMPILER",
+    "CAP_INTENT_REQUIREMENT_ATOM",
+    "CAP_SOURCE_AUTHORITY_FREEZE",
+    "CAP_CLI_SDK_13_COMMANDS"
+   ],
+   "negative_behavior": [
+    "不得以文件存在或 CI 綠燈代替 runtime 證據",
+    "不得自簽獨立驗收"
+   ],
+   "failure_recovery": [
+    "checkpoint + 最小修補路由",
+    "affected-only 重驗"
+   ],
+   "source_expectation_ids": [
+    "EXP-J1_NL_SPEC_PACKAGE"
+   ],
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ]
+  },
+  {
+   "journey_id": "J2_REPO_IMPORT_PD_LATEBINDING",
+   "required": true,
+   "user_goal": "匯入既有 Repo 並做 PD late-binding",
+   "expected_visible_result": "掃描既有 Repo 產生 RepoContext",
+   "expected_automatic_behavior": [
+    "以 affected-only 策略 late-bind PD",
+    "不重跑已封存無關工作"
+   ],
+   "expected_manual_behavior": [],
+   "allowed_hitl": [
+    "GITHUB_AUTH",
+    "SCOPE_EXPANSION"
+   ],
+   "required_capabilities": [
+    "CAP_PD_BINDER_REPOCONTEXT",
+    "CAP_SEARCH_BEFORE_BUILD_TECH_ADMISSION",
+    "CAP_PROFILE_TRIO"
+   ],
+   "negative_behavior": [
+    "不得以文件存在或 CI 綠燈代替 runtime 證據",
+    "不得自簽獨立驗收"
+   ],
+   "failure_recovery": [
+    "checkpoint + 最小修補路由",
+    "affected-only 重驗"
+   ],
+   "source_expectation_ids": [
+    "EXP-J2_REPO_IMPORT_PD_LATEBINDING"
+   ],
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ]
+  },
+  {
+   "journey_id": "J3_HGK_HANDOFF",
+   "required": true,
+   "user_goal": "把規格包交接給 HGK typed receiver",
+   "expected_visible_result": "輸出 ECP/TQAEP 與 handoff 物件",
+   "expected_automatic_behavior": [
+    "receiver 以 ACK/NACK 回應",
+    "版本不符時走 rollback"
+   ],
+   "expected_manual_behavior": [],
+   "allowed_hitl": [
+    "GITHUB_AUTH",
+    "SCOPE_EXPANSION"
+   ],
+   "required_capabilities": [
+    "CAP_ECP_TQAEP",
+    "CAP_HGK_SHADOW_CANARY_RECEIVER",
+    "CAP_TRACE_EVIDENCE_CLAIM"
+   ],
+   "negative_behavior": [
+    "不得以文件存在或 CI 綠燈代替 runtime 證據",
+    "不得自簽獨立驗收"
+   ],
+   "failure_recovery": [
+    "checkpoint + 最小修補路由",
+    "affected-only 重驗"
+   ],
+   "source_expectation_ids": [
+    "EXP-J3_HGK_HANDOFF"
+   ],
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler"
+   ]
+  },
+  {
+   "journey_id": "J4_TEST_REPAIR",
+   "required": true,
+   "user_goal": "測試失敗後受控修補與重測",
+   "expected_visible_result": "detect->bound->repair->focused retest",
+   "expected_automatic_behavior": [
+    "只在 affected edges 重驗",
+    "無進展時 STOP_ESCALATE"
+   ],
+   "expected_manual_behavior": [],
+   "allowed_hitl": [
+    "GITHUB_AUTH",
+    "SCOPE_EXPANSION"
+   ],
+   "required_capabilities": [
+    "CAP_DETERMINISTIC_VALIDATORS",
+    "CAP_BOUNDED_REPAIR_ROLLBACK",
+    "CAP_TRACE_EVIDENCE_CLAIM"
+   ],
+   "negative_behavior": [
+    "不得以文件存在或 CI 綠燈代替 runtime 證據",
+    "不得自簽獨立驗收"
+   ],
+   "failure_recovery": [
+    "checkpoint + 最小修補路由",
+    "affected-only 重驗"
+   ],
+   "source_expectation_ids": [
+    "EXP-J4_TEST_REPAIR"
+   ],
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler"
+   ]
+  },
+  {
+   "journey_id": "J5_CROSS_HOST_EXPORT",
+   "required": true,
+   "user_goal": "跨 Host 匯出 5-file Web Pack / Host projections",
+   "expected_visible_result": "產生 5/5 Web Pack",
+   "expected_automatic_behavior": [
+    "產生至少三個 Host/Web projection",
+    "projection parity 檢查"
+   ],
+   "expected_manual_behavior": [],
+   "allowed_hitl": [
+    "GITHUB_AUTH",
+    "SCOPE_EXPANSION"
+   ],
+   "required_capabilities": [
+    "CAP_WEB_PACK_5_HOST_PROJECTIONS",
+    "CAP_GENIE_OBJECT_PROJECTION"
+   ],
+   "negative_behavior": [
+    "不得以文件存在或 CI 綠燈代替 runtime 證據",
+    "不得自簽獨立驗收"
+   ],
+   "failure_recovery": [
+    "checkpoint + 最小修補路由",
+    "affected-only 重驗"
+   ],
+   "source_expectation_ids": [
+    "EXP-J5_CROSS_HOST_EXPORT"
+   ],
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ]
+  },
+  {
+   "journey_id": "J6_GITHUB_PUBLIC_DELIVERY",
+   "required": true,
+   "user_goal": "公開發布候選 Repo 與證據",
+   "expected_visible_result": "建立/更新 public repo 並讀回 visibility",
+   "expected_automatic_behavior": [
+    "匿名可讀 README/commit/evidence",
+    "憑證或權限受阻時明確 BLOCKED_EXTERNAL"
+   ],
+   "expected_manual_behavior": [],
+   "allowed_hitl": [
+    "GITHUB_AUTH",
+    "SCOPE_EXPANSION"
+   ],
+   "required_capabilities": [
+    "CAP_PUBLIC_ARTIFACT_ACCEPTANCE_EVIDENCE",
+    "CAP_HGK_SHADOW_CANARY_RECEIVER"
+   ],
+   "negative_behavior": [
+    "不得以文件存在或 CI 綠燈代替 runtime 證據",
+    "不得自簽獨立驗收"
+   ],
+   "failure_recovery": [
+    "checkpoint + 最小修補路由",
+    "affected-only 重驗"
+   ],
+   "source_expectation_ids": [
+    "EXP-J6_GITHUB_PUBLIC_DELIVERY"
+   ],
+   "source_locators": [
+    "construction-acceptance-prompt-compiler_SKILL.md §Compile C0-C9"
+   ]
+  }
+ ],
+ "acceptance": [
+  {
+   "acceptance_id": "ACC-CAP_SOURCE_AUTHORITY_FREEZE",
+   "subject_id": "CAP_SOURCE_AUTHORITY_FREEZE",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/CAP_SOURCE_AUTHORITY_FREEZE/positive",
+   "negative_fixture": "fixtures/CAP_SOURCE_AUTHORITY_FREEZE/negative",
+   "recovery_fixture": "fixtures/CAP_SOURCE_AUTHORITY_FREEZE/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_INTENT_REQUIREMENT_ATOM",
+   "subject_id": "CAP_INTENT_REQUIREMENT_ATOM",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/CAP_INTENT_REQUIREMENT_ATOM/positive",
+   "negative_fixture": "fixtures/CAP_INTENT_REQUIREMENT_ATOM/negative",
+   "recovery_fixture": "fixtures/CAP_INTENT_REQUIREMENT_ATOM/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_PROFILE_TRIO",
+   "subject_id": "CAP_PROFILE_TRIO",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/CAP_PROFILE_TRIO/positive",
+   "negative_fixture": "fixtures/CAP_PROFILE_TRIO/negative",
+   "recovery_fixture": "fixtures/CAP_PROFILE_TRIO/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_SEARCH_BEFORE_BUILD_TECH_ADMISSION",
+   "subject_id": "CAP_SEARCH_BEFORE_BUILD_TECH_ADMISSION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/CAP_SEARCH_BEFORE_BUILD_TECH_ADMISSION/positive",
+   "negative_fixture": "fixtures/CAP_SEARCH_BEFORE_BUILD_TECH_ADMISSION/negative",
+   "recovery_fixture": "fixtures/CAP_SEARCH_BEFORE_BUILD_TECH_ADMISSION/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_PI_COMPILER",
+   "subject_id": "CAP_PI_COMPILER",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/CAP_PI_COMPILER/positive",
+   "negative_fixture": "fixtures/CAP_PI_COMPILER/negative",
+   "recovery_fixture": "fixtures/CAP_PI_COMPILER/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_PD_BINDER_REPOCONTEXT",
+   "subject_id": "CAP_PD_BINDER_REPOCONTEXT",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/CAP_PD_BINDER_REPOCONTEXT/positive",
+   "negative_fixture": "fixtures/CAP_PD_BINDER_REPOCONTEXT/negative",
+   "recovery_fixture": "fixtures/CAP_PD_BINDER_REPOCONTEXT/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_TASKSPEC_CONSTRUCTION_CONTRACT",
+   "subject_id": "CAP_TASKSPEC_CONSTRUCTION_CONTRACT",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/CAP_TASKSPEC_CONSTRUCTION_CONTRACT/positive",
+   "negative_fixture": "fixtures/CAP_TASKSPEC_CONSTRUCTION_CONTRACT/negative",
+   "recovery_fixture": "fixtures/CAP_TASKSPEC_CONSTRUCTION_CONTRACT/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_ECP_TQAEP",
+   "subject_id": "CAP_ECP_TQAEP",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/CAP_ECP_TQAEP/positive",
+   "negative_fixture": "fixtures/CAP_ECP_TQAEP/negative",
+   "recovery_fixture": "fixtures/CAP_ECP_TQAEP/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_TRACE_EVIDENCE_CLAIM",
+   "subject_id": "CAP_TRACE_EVIDENCE_CLAIM",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/CAP_TRACE_EVIDENCE_CLAIM/positive",
+   "negative_fixture": "fixtures/CAP_TRACE_EVIDENCE_CLAIM/negative",
+   "recovery_fixture": "fixtures/CAP_TRACE_EVIDENCE_CLAIM/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_EIGHT_LOGICAL_SKILLS",
+   "subject_id": "CAP_EIGHT_LOGICAL_SKILLS",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/CAP_EIGHT_LOGICAL_SKILLS/positive",
+   "negative_fixture": "fixtures/CAP_EIGHT_LOGICAL_SKILLS/negative",
+   "recovery_fixture": "fixtures/CAP_EIGHT_LOGICAL_SKILLS/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_NINETEEN_CONTRACT_FAMILIES",
+   "subject_id": "CAP_NINETEEN_CONTRACT_FAMILIES",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/CAP_NINETEEN_CONTRACT_FAMILIES/positive",
+   "negative_fixture": "fixtures/CAP_NINETEEN_CONTRACT_FAMILIES/negative",
+   "recovery_fixture": "fixtures/CAP_NINETEEN_CONTRACT_FAMILIES/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_DETERMINISTIC_VALIDATORS",
+   "subject_id": "CAP_DETERMINISTIC_VALIDATORS",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/CAP_DETERMINISTIC_VALIDATORS/positive",
+   "negative_fixture": "fixtures/CAP_DETERMINISTIC_VALIDATORS/negative",
+   "recovery_fixture": "fixtures/CAP_DETERMINISTIC_VALIDATORS/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_THREE_GOLDEN_PILOTS",
+   "subject_id": "CAP_THREE_GOLDEN_PILOTS",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/CAP_THREE_GOLDEN_PILOTS/positive",
+   "negative_fixture": "fixtures/CAP_THREE_GOLDEN_PILOTS/negative",
+   "recovery_fixture": "fixtures/CAP_THREE_GOLDEN_PILOTS/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_WEB_PACK_5_HOST_PROJECTIONS",
+   "subject_id": "CAP_WEB_PACK_5_HOST_PROJECTIONS",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/CAP_WEB_PACK_5_HOST_PROJECTIONS/positive",
+   "negative_fixture": "fixtures/CAP_WEB_PACK_5_HOST_PROJECTIONS/negative",
+   "recovery_fixture": "fixtures/CAP_WEB_PACK_5_HOST_PROJECTIONS/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_CLI_SDK_13_COMMANDS",
+   "subject_id": "CAP_CLI_SDK_13_COMMANDS",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/CAP_CLI_SDK_13_COMMANDS/positive",
+   "negative_fixture": "fixtures/CAP_CLI_SDK_13_COMMANDS/negative",
+   "recovery_fixture": "fixtures/CAP_CLI_SDK_13_COMMANDS/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_HGK_SHADOW_CANARY_RECEIVER",
+   "subject_id": "CAP_HGK_SHADOW_CANARY_RECEIVER",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/CAP_HGK_SHADOW_CANARY_RECEIVER/positive",
+   "negative_fixture": "fixtures/CAP_HGK_SHADOW_CANARY_RECEIVER/negative",
+   "recovery_fixture": "fixtures/CAP_HGK_SHADOW_CANARY_RECEIVER/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_GENIE_OBJECT_PROJECTION",
+   "subject_id": "CAP_GENIE_OBJECT_PROJECTION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/CAP_GENIE_OBJECT_PROJECTION/positive",
+   "negative_fixture": "fixtures/CAP_GENIE_OBJECT_PROJECTION/negative",
+   "recovery_fixture": "fixtures/CAP_GENIE_OBJECT_PROJECTION/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_JIT_TEAM_ACTIVATION",
+   "subject_id": "CAP_JIT_TEAM_ACTIVATION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/CAP_JIT_TEAM_ACTIVATION/positive",
+   "negative_fixture": "fixtures/CAP_JIT_TEAM_ACTIVATION/negative",
+   "recovery_fixture": "fixtures/CAP_JIT_TEAM_ACTIVATION/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_BOUNDED_REPAIR_ROLLBACK",
+   "subject_id": "CAP_BOUNDED_REPAIR_ROLLBACK",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/CAP_BOUNDED_REPAIR_ROLLBACK/positive",
+   "negative_fixture": "fixtures/CAP_BOUNDED_REPAIR_ROLLBACK/negative",
+   "recovery_fixture": "fixtures/CAP_BOUNDED_REPAIR_ROLLBACK/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_PUBLIC_ARTIFACT_ACCEPTANCE_EVIDENCE",
+   "subject_id": "CAP_PUBLIC_ARTIFACT_ACCEPTANCE_EVIDENCE",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/CAP_PUBLIC_ARTIFACT_ACCEPTANCE_EVIDENCE/positive",
+   "negative_fixture": "fixtures/CAP_PUBLIC_ARTIFACT_ACCEPTANCE_EVIDENCE/negative",
+   "recovery_fixture": "fixtures/CAP_PUBLIC_ARTIFACT_ACCEPTANCE_EVIDENCE/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-01-SOURCE-FREEZE",
+   "subject_id": "REQ-PIPD-01-SOURCE-FREEZE",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/REQ-PIPD-01-SOURCE-FREEZE/positive",
+   "negative_fixture": "fixtures/REQ-PIPD-01-SOURCE-FREEZE/negative",
+   "recovery_fixture": "fixtures/REQ-PIPD-01-SOURCE-FREEZE/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-02-INTENT-ATOM",
+   "subject_id": "REQ-PIPD-02-INTENT-ATOM",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/REQ-PIPD-02-INTENT-ATOM/positive",
+   "negative_fixture": "fixtures/REQ-PIPD-02-INTENT-ATOM/negative",
+   "recovery_fixture": "fixtures/REQ-PIPD-02-INTENT-ATOM/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-03-PROFILE",
+   "subject_id": "REQ-PIPD-03-PROFILE",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/REQ-PIPD-03-PROFILE/positive",
+   "negative_fixture": "fixtures/REQ-PIPD-03-PROFILE/negative",
+   "recovery_fixture": "fixtures/REQ-PIPD-03-PROFILE/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-05-PI-COMPILER",
+   "subject_id": "REQ-PIPD-05-PI-COMPILER",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/REQ-PIPD-05-PI-COMPILER/positive",
+   "negative_fixture": "fixtures/REQ-PIPD-05-PI-COMPILER/negative",
+   "recovery_fixture": "fixtures/REQ-PIPD-05-PI-COMPILER/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-06-PD-BINDER",
+   "subject_id": "REQ-PIPD-06-PD-BINDER",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/REQ-PIPD-06-PD-BINDER/positive",
+   "negative_fixture": "fixtures/REQ-PIPD-06-PD-BINDER/negative",
+   "recovery_fixture": "fixtures/REQ-PIPD-06-PD-BINDER/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-07-CONSTRUCTION-CONTRACT",
+   "subject_id": "REQ-PIPD-07-CONSTRUCTION-CONTRACT",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/REQ-PIPD-07-CONSTRUCTION-CONTRACT/positive",
+   "negative_fixture": "fixtures/REQ-PIPD-07-CONSTRUCTION-CONTRACT/negative",
+   "recovery_fixture": "fixtures/REQ-PIPD-07-CONSTRUCTION-CONTRACT/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-08-ECP-TQAEP",
+   "subject_id": "REQ-PIPD-08-ECP-TQAEP",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/REQ-PIPD-08-ECP-TQAEP/positive",
+   "negative_fixture": "fixtures/REQ-PIPD-08-ECP-TQAEP/negative",
+   "recovery_fixture": "fixtures/REQ-PIPD-08-ECP-TQAEP/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-09-TRACE-EVIDENCE-CLAIM",
+   "subject_id": "REQ-PIPD-09-TRACE-EVIDENCE-CLAIM",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/REQ-PIPD-09-TRACE-EVIDENCE-CLAIM/positive",
+   "negative_fixture": "fixtures/REQ-PIPD-09-TRACE-EVIDENCE-CLAIM/negative",
+   "recovery_fixture": "fixtures/REQ-PIPD-09-TRACE-EVIDENCE-CLAIM/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J1_NL_SPEC_PACKAGE",
+   "subject_id": "J1_NL_SPEC_PACKAGE",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/J1_NL_SPEC_PACKAGE/positive",
+   "negative_fixture": "fixtures/J1_NL_SPEC_PACKAGE/negative",
+   "recovery_fixture": "fixtures/J1_NL_SPEC_PACKAGE/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J2_REPO_IMPORT_PD_LATEBINDING",
+   "subject_id": "J2_REPO_IMPORT_PD_LATEBINDING",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/J2_REPO_IMPORT_PD_LATEBINDING/positive",
+   "negative_fixture": "fixtures/J2_REPO_IMPORT_PD_LATEBINDING/negative",
+   "recovery_fixture": "fixtures/J2_REPO_IMPORT_PD_LATEBINDING/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J3_HGK_HANDOFF",
+   "subject_id": "J3_HGK_HANDOFF",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/J3_HGK_HANDOFF/positive",
+   "negative_fixture": "fixtures/J3_HGK_HANDOFF/negative",
+   "recovery_fixture": "fixtures/J3_HGK_HANDOFF/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J4_TEST_REPAIR",
+   "subject_id": "J4_TEST_REPAIR",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §PI Contract Compiler"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/J4_TEST_REPAIR/positive",
+   "negative_fixture": "fixtures/J4_TEST_REPAIR/negative",
+   "recovery_fixture": "fixtures/J4_TEST_REPAIR/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J5_CROSS_HOST_EXPORT",
+   "subject_id": "J5_CROSS_HOST_EXPORT",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/J5_CROSS_HOST_EXPORT/positive",
+   "negative_fixture": "fixtures/J5_CROSS_HOST_EXPORT/negative",
+   "recovery_fixture": "fixtures/J5_CROSS_HOST_EXPORT/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J6_GITHUB_PUBLIC_DELIVERY",
+   "subject_id": "J6_GITHUB_PUBLIC_DELIVERY",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "construction-acceptance-prompt-compiler_SKILL.md §Compile C0-C9"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/J6_GITHUB_PUBLIC_DELIVERY/positive",
+   "negative_fixture": "fixtures/J6_GITHUB_PUBLIC_DELIVERY/negative",
+   "recovery_fixture": "fixtures/J6_GITHUB_PUBLIC_DELIVERY/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_PIPD_PRODUCT_TREE",
+   "subject_id": "DEL_PIPD_PRODUCT_TREE",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "construction-acceptance-prompt-compiler_SKILL.md §Compile C0-C9"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/DEL_PIPD_PRODUCT_TREE/positive",
+   "negative_fixture": "fixtures/DEL_PIPD_PRODUCT_TREE/negative",
+   "recovery_fixture": "fixtures/DEL_PIPD_PRODUCT_TREE/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_EXTERNAL_ACCEPTANCE_EVIDENCE_MD",
+   "subject_id": "DEL_EXTERNAL_ACCEPTANCE_EVIDENCE_MD",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "construction-acceptance-prompt-compiler_SKILL.md §Compile C0-C9"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/DEL_EXTERNAL_ACCEPTANCE_EVIDENCE_MD/positive",
+   "negative_fixture": "fixtures/DEL_EXTERNAL_ACCEPTANCE_EVIDENCE_MD/negative",
+   "recovery_fixture": "fixtures/DEL_EXTERNAL_ACCEPTANCE_EVIDENCE_MD/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_PUBLIC_GITHUB_REPO_PIPD-LS-SP",
+   "subject_id": "DEL_PUBLIC_GITHUB_REPO_PIPD-LS-SP",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "construction-acceptance-prompt-compiler_SKILL.md §Compile C0-C9"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "fixtures/DEL_PUBLIC_GITHUB_REPO_PIPD-LS-SP/positive",
+   "negative_fixture": "fixtures/DEL_PUBLIC_GITHUB_REPO_PIPD-LS-SP/negative",
+   "recovery_fixture": "fixtures/DEL_PUBLIC_GITHUB_REPO_PIPD-LS-SP/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_SOURCE_MANIFEST_AND_KNOWLEDGE_READBACK",
+   "subject_id": "DEL_SOURCE_MANIFEST_AND_KNOWLEDGE_READBACK",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "construction-acceptance-prompt-compiler_SKILL.md §Compile C0-C9"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixtures/DEL_SOURCE_MANIFEST_AND_KNOWLEDGE_READBACK/positive",
+   "negative_fixture": "fixtures/DEL_SOURCE_MANIFEST_AND_KNOWLEDGE_READBACK/negative",
+   "recovery_fixture": "fixtures/DEL_SOURCE_MANIFEST_AND_KNOWLEDGE_READBACK/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_COMPILER_CONTRACT_PROMPT_RECEIPTS",
+   "subject_id": "DEL_COMPILER_CONTRACT_PROMPT_RECEIPTS",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "construction-acceptance-prompt-compiler_SKILL.md §Compile C0-C9"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixtures/DEL_COMPILER_CONTRACT_PROMPT_RECEIPTS/positive",
+   "negative_fixture": "fixtures/DEL_COMPILER_CONTRACT_PROMPT_RECEIPTS/negative",
+   "recovery_fixture": "fixtures/DEL_COMPILER_CONTRACT_PROMPT_RECEIPTS/recovery",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  }
+ ]
+}

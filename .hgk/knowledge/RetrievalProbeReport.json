@@ -1,0 +1,88 @@
+{
+ "retrieval_probe_report": {
+  "probes": {
+   "positive": [
+    {
+     "query": "PIPD-LIFECYCLE-SPEC",
+     "why": "standard_id",
+     "hits": 3,
+     "top_citation": "SRC-a751a9e91dc6d0b7914b#full",
+     "verdict": "HIT"
+    },
+    {
+     "query": "PIPD-PKG-00",
+     "why": "package",
+     "hits": 3,
+     "top_citation": "SRC-89b60fde8b7bb93522c8#full",
+     "verdict": "HIT"
+    },
+    {
+     "query": "ECP",
+     "why": "donor",
+     "hits": 3,
+     "top_citation": "SRC-eddc399cfe9d4490aaf2#full",
+     "verdict": "HIT"
+    },
+    {
+     "query": "TQAEP",
+     "why": "donor",
+     "hits": 3,
+     "top_citation": "SRC-b86de72e874958a90f6f#full",
+     "verdict": "HIT"
+    },
+    {
+     "query": "skeleton",
+     "why": "design",
+     "hits": 3,
+     "top_citation": "SRC-967c0a4906d735f7f097#full",
+     "verdict": "HIT"
+    },
+    {
+     "query": "HG-KSEOS",
+     "why": "control plane",
+     "hits": 3,
+     "top_citation": "SRC-b0ecacc2a1272774b361#full",
+     "verdict": "HIT"
+    },
+    {
+     "query": "AGENTS.md",
+     "why": "operating rules",
+     "hits": 3,
+     "top_citation": "SRC-2ea19f21e0f590b016de#full",
+     "verdict": "HIT"
+    }
+   ],
+   "negative": [
+    {
+     "query": "ZZQQXX-NONEXISTENT-CLAUSE-9911",
+     "hits": 0,
+     "verdict": "ABSTAIN_AS_EXPECTED",
+     "error": "ABSTAIN_NO_GROUNDING:\"ZZQQXX\" AND \"NONEXISTENT\" AND \"CLAUSE\" AND \"9911\""
+    },
+    {
+     "query": "PIPD-CLAUSE-DOES-NOT-EXIST-1234",
+     "hits": 0,
+     "verdict": "ABSTAIN_AS_EXPECTED",
+     "error": "ABSTAIN_NO_GROUNDING:\"PIPD\" AND \"CLAUSE\" AND \"DOES\" AND \"NOT\" AND \"EXIST\" AND \"1234\""
+    }
+   ],
+   "query_normalization": "tokens AND-joined (FTS5-safe)"
+  },
+  "nrtv": {
+   "nonexistent_clause": {
+    "verdict": "PASS",
+    "detail": "GroundingFailure:ERR_CITATION_INVALID:DOC-DOES-NOT-EXIST-0000"
+   },
+   "stale_source": {
+    "verdict": "PASS",
+    "detail": "ERR_SOURCE_DRIFT:知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/00_KNOW_INDEX.md"
+   },
+   "wrong_authority": {
+    "verdict": "PASS",
+    "detail": "ERR_KG_SOURCE_NOT_ACTIVE:DOC-DOES-NOT-EXIST-0000"
+   }
+  },
+  "revoked_namespace_excluded": true,
+  "revoked_source_id": "SRC-5b42ababab952cb79460"
+ }
+}

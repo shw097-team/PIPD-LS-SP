@@ -1,0 +1,813 @@
+{
+ "schema": "CAPC-PROMPT-CONTRACT/1",
+ "task_id": "PIPD-LS-SP-HERMES-ROUTEOUT-2026-10-08-R1",
+ "source_scan": {
+  "required_source_families": [
+   "F1_GPTB_KNOWLEDGE",
+   "F2_PIPD_STANDARD",
+   "F3_PIPD_DESIGN",
+   "F4_ENGINEERING_DONORS",
+   "F5_COMMAND_BASIS",
+   "F6_MACHINE_TRUTH"
+  ],
+  "reviewed": [
+   {
+    "source_family": "F1_GPTB_KNOWLEDGE",
+    "source_id": "F1",
+    "locator": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/00_KNOW_INDEX.md..19_KP_INDEX_CROSSWALK.md; 知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13/{PORTABLE_MOUNT_PROFILE,GRP-00..GRP-09}.md",
+    "sha256": "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F2_PIPD_STANDARD",
+    "source_id": "F2",
+    "locator": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/{PIPD_LS_canonical_standard.md, PIPD_LS_DOC-00..DOC-09}.md #2",
+    "sha256": "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F3_PIPD_DESIGN",
+    "source_id": "F3",
+    "locator": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/{PIPD-LS-SP_skeleton.md, PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00..PKG-10, PIPD-LS-SP_藍圖/*} #2",
+    "sha256": "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F4_ENGINEERING_DONORS",
+    "source_id": "F4",
+    "locator": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/SKILLS_PLUGIN/{SDLC_PRW_HLPE_SKILLS_PLUGIN_R2,SWOF_ECP_SKILLS_PLUGIN_v2.0.1,SWOF_TQAEP_SKILLS_PLUGIN_v2.0.1}.md #4",
+    "sha256": "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+    "role": "SUPPORT",
+    "critical": true
+   },
+   {
+    "source_family": "F5_COMMAND_BASIS",
+    "source_id": "F5",
+    "locator": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/** ; HG-KSEOS/docs/HG-KSEOS使用說明文檔.md ; Fabric/docs/Fabric使用說明文檔.md #5",
+    "sha256": "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F6_MACHINE_TRUTH",
+    "source_id": "F6",
+    "locator": "HG-KSEOS/{AGENTS.md,config/**,src/**} ; Fabric/{control/**,contracts/**,assurance/**} #6",
+    "sha256": "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e",
+    "role": "STATE_EVIDENCE",
+    "critical": true
+   }
+  ],
+  "missing": [],
+  "normative_claims": [
+   {
+    "claim_id": "NC-01",
+    "text": "HG-KSEOS is the sole normative WorkOrder/admission/reducer/release control plane for this task; no second control plane may be created.",
+    "source_ids": [
+     "F5_COMMAND_BASIS",
+     "F6_MACHINE_TRUTH"
+    ],
+    "locators": [
+     "HG-KSEOS/AGENTS.md §1-preamble",
+     "Fabric/docs/Fabric使用說明文檔.md §2-3"
+    ]
+   },
+   {
+    "claim_id": "NC-02",
+    "text": "PIPD-LS-SP implements PIPD-LIFECYCLE-SPEC@1.1.0 across 11 design packages (PIPD-PKG-00..10).",
+    "source_ids": [
+     "F2_PIPD_STANDARD",
+     "F3_PIPD_DESIGN"
+    ],
+    "locators": [
+     "PIPD_LS/PIPD_LS_canonical_standard.md#standard_id",
+     "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00..PKG-10 §package_id"
+    ]
+   },
+   {
+    "claim_id": "NC-03",
+    "text": "Product writes require an admitted HGK WorkOrder, candidate WriteSet and a git baseline/rollback pointer before any mutation.",
+    "source_ids": [
+     "F6_MACHINE_TRUTH"
+    ],
+    "locators": [
+     "HG-KSEOS/AGENTS.md §Admission chain",
+     "HG-KSEOS/AGENTS.md §Routing"
+    ]
+   },
+   {
+    "claim_id": "NC-04",
+    "text": "PROMPT_COMPILE_PASS must be produced only by the bundled deterministic compiler, never self-authored.",
+    "source_ids": [
+     "F5_COMMAND_BASIS"
+    ],
+    "locators": [
+     "construction-acceptance-prompt-compiler_SKILL.md §Run deterministic validation"
+    ]
+   }
+  ]
+ },
+ "intent": {
+  "goal": "Implement the PIPD-LS-SP Pre-Implementation & Pre-Dev Lifecycle Skills Plugin under HG-KSEOS governance: compile vague user intent into source-bound, traceable, profile-aware, evidence-ready, receiver-ready PI->PD->ConstructionContract->ECP/TQAEP/Handoff artifacts, with HGK admission, Kanban/Swarm/GSTACK/OpenSpec/Codex execution surfaces, deterministic validators, and independent acceptance.",
+  "user_expected_outcome": "A real, runnable PIPD-LS-SP product tree at C:\\Projects\\Agent_Workspace\\PIPD with source-bound artifacts, tests, evidence, and a single external-acceptance MD; honest stage reporting S0..S8.",
+  "user_expected_experience": "An ordinary user can trigger the lifecycle with natural language and receive a compiled spec package without knowing internal Skill, WorkOrder, Agent or Provider names.",
+  "explicit_constraints": [
+   "HG-KSEOS is the only normative control plane; Hermes is the governed runtime/orchestration plane; Codex is the bounded writer.",
+   "Only C:\\Projects\\Agent_Workspace\\PIPD is the product mutation root; HG-KSEOS/Fabric control code is not mutated.",
+   "Every durable mutation rides an admitted HGK WorkOrder with baseline + rollback pointer.",
+   "Claim levels PROMPT_COMPILE_PASS / HGK_ADMITTED / RUNTIME_READY / LOCAL_QUALIFIED / INDEPENDENT_PASS / PUBLICATION_APPROVED / RELEASED / PRODUCTION_VERIFIED are kept separate.",
+   "No secret values are written to chat, argv, logs, git history or evidence."
+  ],
+  "non_goals": [
+   "No second HGK control plane, scheduler, reducer, Canonical Plan IR, Task DB or release authority.",
+   "No copying of Fabric authority or enabling Apps/Actions/MCP/external providers without admission.",
+   "No unbounded self-evolution, no self-issued INDEPENDENT_PASS or PRODUCTION_PASS.",
+   "No claiming runtime/effect PASS from docs, schemas, README or green CI.",
+   "No inheriting a previous Stage PASS into a new Stage."
+  ],
+  "authorized_mutations": [
+   "Create/modify/rename/restructure files under C:\\Projects\\Agent_Workspace\\PIPD (product target root).",
+   "Write run receipts, checkpoints and evidence under C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\.",
+   "Create and update candidate git repository and, after local qualification + independent gate, push to the candidate GitHub repo.",
+   "Write the mandated single-file external acceptance evidence MD under 知識庫/實作相關DOC/PIPD/實作證據/."
+  ],
+  "forbidden_mutations": [
+   "Any write to HG-KSEOS src/config or Fabric control/contracts/assurance.",
+   "Any SQL write to the SharedSpine DB outside the typed API.",
+   "Any publication of secrets, private corpora or raw sensitive local evidence.",
+   "Any production deployment or Stage-3/Fabric SQP1 escalation."
+  ],
+  "expected_autonomy": "HIGH",
+  "allowed_hitl": [
+   "GITHUB_AUTH",
+   "SCOPE_EXPANSION",
+   "SEALED_GOVERNANCE_CHANGE",
+   "PROVIDER_ACTIVATION",
+   "PUBLICATION_VISIBILITY"
+  ],
+  "requested_delivery": [
+   "DEL_PIPD_PRODUCT_TREE",
+   "DEL_EXTERNAL_ACCEPTANCE_EVIDENCE_MD",
+   "DEL_PUBLIC_GITHUB_REPO_PIPD-LS-SP",
+   "DEL_SOURCE_MANIFEST_AND_KNOWLEDGE_READBACK",
+   "DEL_COMPILER_CONTRACT_PROMPT_RECEIPTS"
+  ],
+  "active_requirement_ids": [
+   "REQ-PIPD-01-SOURCE-FREEZE",
+   "REQ-PIPD-02-INTENT-ATOM",
+   "REQ-PIPD-03-PROFILE",
+   "REQ-PIPD-05-PI-COMPILER",
+   "REQ-PIPD-06-PD-BINDER",
+   "REQ-PIPD-07-CONSTRUCTION-CONTRACT",
+   "REQ-PIPD-08-ECP-TQAEP",
+   "REQ-PIPD-09-TRACE-EVIDENCE-CLAIM"
+  ],
+  "claim_ceiling": "LOCAL"
+ },
+ "authority": {
+  "sources": [
+   {
+    "id": "F1_GPTB_KNOWLEDGE",
+    "rank": "R1",
+    "path": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/",
+    "sha256": "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+    "locator": "00_KNOW_INDEX.md §1..19_KP_INDEX_CROSSWALK.md",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F2_PIPD_STANDARD",
+    "rank": "R1",
+    "path": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/",
+    "sha256": "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+    "locator": "PIPD_LS_canonical_standard.md#standard_id=PIPD-LIFECYCLE-SPEC",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F3_PIPD_DESIGN",
+    "rank": "R1",
+    "path": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/",
+    "sha256": "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+    "locator": "PIPD-LS-SP_藍圖.md ; PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.1-5.3 ; PIPD-LS-SP_PIPD-PKG-00..10",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F4_ENGINEERING_DONORS",
+    "rank": "R2",
+    "path": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/SKILLS_PLUGIN/",
+    "sha256": "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+    "locator": "SDLC_PRW_HLPE_SKILLS_PLUGIN_R2.md ; SWOF_ECP_SKILLS_PLUGIN_v2.0.1.md ; SWOF_TQAEP_SKILLS_PLUGIN_v2.0.1.md",
+    "role": "SUPPORT",
+    "governs": false
+   },
+   {
+    "id": "F5_COMMAND_BASIS",
+    "rank": "R1",
+    "path": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/",
+    "sha256": "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+    "locator": "construction-acceptance-prompt-compiler_SKILL.md ; scripts/prompt_contract_compiler.py ; HG-KSEOS使用說明文檔.md §3-10 ; Fabric使用說明文檔.md §2-3",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F6_MACHINE_TRUTH",
+    "rank": "R1",
+    "path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS ; C:\\Projects\\Agent_Workspace\\Fabric",
+    "sha256": "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e",
+    "locator": "HG-KSEOS/AGENTS.md ; config/hermes.json#HGK-HERMES-BINDING/2 ; var/shared-spine/hg-kseos.db ; Fabric/{control,contracts,assurance}",
+    "role": "STATE_EVIDENCE",
+    "governs": false
+   }
+  ],
+  "conflicts": [],
+  "missing_sources": [],
+  "native_control_plane_ids": [
+   "HG-KSEOS"
+  ],
+  "current_control_plane_id": "HG-KSEOS"
+ },
+ "changeset": {
+  "class": "NEW_IMPLEMENTATION",
+  "baseline_required": true,
+  "baseline_verified": true,
+  "reuse_prior_pass": false,
+  "affected_domains": [
+   "PIPD-LS-SP product tree (PI/PD lifecycle plugin)",
+   "Host Skills + CLI/SDK surfaces",
+   "HGK typed receiver seam",
+   "GENIE/JIT-SGM seams",
+   "public deliverable + evidence"
+  ],
+  "affected_files": [
+   "C:\\Projects\\Agent_Workspace\\PIPD\\** (whole target root)"
+  ],
+  "must_not_reopen": [
+   "HG-KSEOS src/config/Fabric control code",
+   "RP-002 Stage-1/2/3 sealed scope",
+   "Fabric SQP1/Stage-3"
+  ],
+  "scope_expansion_requires_hitl": true,
+  "tracked_mutation": true,
+  "product_mutation_allowed": true
+ },
+ "execution_scope": [
+  {
+   "capability": "CAP_SOURCE_AUTHORITY_FREEZE",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_INTENT_REQUIREMENT_ATOM",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PROFILE_TRIO",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_SEARCH_BEFORE_BUILD_TECH_ADMISSION",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PI_COMPILER",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PD_BINDER_REPOCONTEXT",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_TASKSPEC_CONSTRUCTION_CONTRACT",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_ECP_TQAEP",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_TRACE_EVIDENCE_CLAIM",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_EIGHT_LOGICAL_SKILLS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_NINETEEN_CONTRACT_FAMILIES",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_DETERMINISTIC_VALIDATORS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_THREE_GOLDEN_PILOTS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_WEB_PACK_5_HOST_PROJECTIONS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_CLI_SDK_13_COMMANDS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_HGK_SHADOW_CANARY_RECEIVER",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_GENIE_OBJECT_PROJECTION",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_JIT_TEAM_ACTIVATION",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_BOUNDED_REPAIR_ROLLBACK",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PUBLIC_ARTIFACT_ACCEPTANCE_EVIDENCE",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_EXTERNAL_SAAS",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_EXTRA_VECTOR_KG_STORE",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_MCP_BRIDGE",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_REMOTE_EXECUTION",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_TOOL_MODEL_PROVIDER_SWITCH",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_SGM_CUTOVER",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PRODUCTION_DEPLOY",
+   "source_disposition": "FORBIDDEN_IN_SOURCE",
+   "current_execution_disposition": "PROHIBITED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "PROHIBIT",
+   "source_locators": [
+    "construction-acceptance-prompt-compiler_SKILL.md §Compile C0-C9",
+    "HG-KSEOS/AGENTS.md §Governed execution method",
+    "HG-KSEOS/config/hermes.json#HGK-HERMES-BINDING/2"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_FABRIC_SQP1_ESCALATION",
+   "source_disposition": "FORBIDDEN_IN_SOURCE",
+   "current_execution_disposition": "PROHIBITED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "PROHIBIT",
+   "source_locators": [
+    "construction-acceptance-prompt-compiler_SKILL.md §Compile C0-C9",
+    "HG-KSEOS/AGENTS.md §Governed execution method",
+    "HG-KSEOS/config/hermes.json#HGK-HERMES-BINDING/2"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_MAKER_SELF_ACCEPTANCE",
+   "source_disposition": "FORBIDDEN_IN_SOURCE",
+   "current_execution_disposition": "PROHIBITED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "PROHIBIT",
+   "source_locators": [
+    "construction-acceptance-prompt-compiler_SKILL.md §Compile C0-C9",
+    "HG-KSEOS/AGENTS.md §Governed execution method",
+    "HG-KSEOS/config/hermes.json#HGK-HERMES-BINDING/2"
+   ],
+   "external_method": false,
+   "control_authority": false
+  }
+ ],
+ "_stage_tmpl": [
+  "identify",
+  "pin",
+  "install_materialize",
+  "configure",
+  "discover",
+  "bind",
+  "route",
+  "effective_load",
+  "doctor_health",
+  "positive_pilot",
+  "negative_security",
+  "fallback",
+  "rollback_uninstall",
+  "independent_qualification",
+  "certify",
+  "enable"
+ ]
+}
