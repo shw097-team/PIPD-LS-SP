@@ -3,8 +3,9 @@ Assume every claim below is FALSE until your own command proves it.
 
 CANDIDATE
   repo: C:\Projects\Agent_Workspace\PIPD
-  commit: e4b43b7c02e1e9d5a5d7b305f52858ba44d55a23   <-- FROZEN. `git rev-parse HEAD` MUST equal this. If it does not, report the
-         mismatch as a finding and stop.
+  commit: READ IT YOURSELF: `git -C C:/Projects/Agent_Workspace/PIPD rev-parse HEAD` and also read
+         C:/Users/user/AppData/Local/Temp/pipd-edge-verify/FROZEN_CANDIDATE.txt . They MUST be equal.
+         If they differ, report the mismatch as a finding and stop.
 
 HARD RULES
  1. READ-ONLY. Do not create, edit, delete or move any file inside the repo, the knowledge base or HG-KSEOS.
