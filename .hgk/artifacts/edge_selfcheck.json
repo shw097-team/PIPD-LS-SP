@@ -1,0 +1,86 @@
+{
+ "schema": "PIPD-EDGE-SELFCHECK/1",
+ "note": "MAKER SELF-CHECK - not independent acceptance",
+ "head": "c022d3393a7287be3c6c7d4a3e673d041c179f30",
+ "edges": [
+  {
+   "edge": "E1",
+   "verdict": "PASS",
+   "command": "python -m unittest discover -s tests -t .",
+   "observed": "......................\n----------------------------------------------------------------------\nRan 22 tests in 0.179s\n\nOK"
+  },
+  {
+   "edge": "E2",
+   "verdict": "PASS",
+   "command": "fresh copy w/o .git: python -m unittest discover -s tests -t .",
+   "observed": ".......s..............\n----------------------------------------------------------------------\nRan 22 tests in 0.141s\n\nOK (skipped=1)"
+  },
+  {
+   "edge": "E3",
+   "verdict": "PASS",
+   "command": "validate.validate_bundle({})",
+   "observed": "{\"verdict\": \"FAIL\", \"checked\": 0, \"findings\": [{\"contract\": \"*\", \"kind\": \"DENOMINATOR\", \"detail\": \"empty bundle: zero records checked cannot be a PASS\"}]}"
+  },
+  {
+   "edge": "E4",
+   "verdict": "PASS",
+   "command": "semantic_invariants(\"PI-PKG\", forged)",
+   "observed": "[\"PI-PKG: identity field subject_id must be a non-empty string\", \"PI-PKG: identity field version must be a non-empty string\", \"PI-PKG: content_hash must be a 64-char lowercase sha256 hex digest\"]"
+  },
+  {
+   "edge": "E5",
+   "verdict": "PASS",
+   "command": "tamper stable_semantic_contract then semantic_invariants",
+   "observed": "[\"PI-PKG: content_hash does not match the record body (body edited without re-issuing identity)\"]"
+  },
+  {
+   "edge": "E6",
+   "verdict": "PASS",
+   "command": "compile_tqaep alias / SELF_ATTESTED / proper",
+   "observed": "alias=TqSodFail self=TqSodFail fields=['case', 'checker_execution_receipt', 'checker_identity', 'distinct', 'maker_identity']"
+  },
+  {
+   "edge": "E7",
+   "verdict": "PASS",
+   "command": "repair_candidate scope probes",
+   "observed": "[\"RepairScopeFail\", \"RepairScopeFail\", \"RepairScopeFail\", \"RepairScopeFail\"]"
+  },
+  {
+   "edge": "E7b",
+   "verdict": "PASS",
+   "command": "repair_candidate scope ['src/**'] with authorized_root",
+   "observed": "accepted"
+  },
+  {
+   "edge": "E8",
+   "verdict": "PASS",
+   "command": "semantic_invariants ClaimCeiling INDEPENDENT_PASS",
+   "observed": "[\"ClaimCeiling: claims above LOCAL_QUALIFIED require a bound approval receipt AND a checker identity; a maker cannot mint them unilaterally\"]"
+  },
+  {
+   "edge": "E9",
+   "verdict": "PASS",
+   "command": "in-memory fine-grained PAT vs SECRET_PATTERNS",
+   "observed": "matched=True"
+  },
+  {
+   "edge": "E10",
+   "verdict": "FAIL",
+   "command": "git show HEAD:<receipt>.contract_sha256 vs sha256(blob)",
+   "observed": "receipt=eab713925663de02 blob=6c08dd57af2b7dc4"
+  },
+  {
+   "edge": "E11",
+   "verdict": "PASS",
+   "command": "pipeline.trace_closure(bundle)",
+   "observed": "{\"verdict\": \"PASS\", \"orphans\": [], \"bad_hashes\": []}"
+  },
+  {
+   "edge": "E12",
+   "verdict": "FAIL",
+   "command": "worktree + git object sweep",
+   "observed": "worktree_hits=1 object_hits=0"
+  }
+ ],
+ "verdict": "FAIL"
+}
