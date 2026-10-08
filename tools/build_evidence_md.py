@@ -111,11 +111,18 @@ def main() -> int:
     full = [v for v in vers if v.get("scope", "").startswith("12 edges")
             and v.get("verdict") == "PASS" and v.get("candidate") == head]
     ao_bound = bool(full)
-    A(f"| `INDEPENDENT_PASS` | {'CLAIMED (bound)' if ao_bound else '**NOT CLAIMED**'} | "
-      + ("a full independent sweep is bound to this exact commit |" if ao_bound else
-         "three independent verdicts exist but none is a FULL sweep of this commit: "
-         "12/12 PASS is bound to a superseded commit, and the verdict bound to this commit covers only "
-         "the affected edges (3/3). No human gate. |"))
+    _n = len(vers)
+    _pass = len([v for v in vers if v.get("verdict") == "PASS"])
+    _fail = [v for v in vers if v.get("verdict") not in (None, "PASS")]
+    if ao_bound:
+        _basis = "a full independent sweep is bound to this exact commit |"
+    else:
+        _scoped = ", ".join(f"{v.get('verdict')} ({v.get('scope')})" for v in vers[-3:])
+        _basis = (f"{_n} independent verdicts on record ({_pass} PASS"
+                  + (f", {len(_fail)} FAIL that drove repairs" if _fail else "")
+                  + f"). None is a FULL sweep bound to this exact commit: the sweeps are scoped "
+                    f"({_scoped}). No human gate. |")
+    A(f"| `INDEPENDENT_PASS` | {'CLAIMED (bound)' if ao_bound else '**NOT CLAIMED**'} | " + _basis)
 
     A(f"| `PUBLICATION_APPROVED` | **NOT CLAIMED** | source corpus declares no license (`TT-PIPD-LICENSE-001`) |")
     A(f"| `RELEASED` | **NOT CLAIMED** | — |")
