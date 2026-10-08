@@ -1,0 +1,218 @@
+{
+ "nrtv": [
+  {
+   "case": "NRTV-01_pure_filler_goal",
+   "verdict": "PASS",
+   "refusal_type": "IntakeInvalid",
+   "detail": "goal produced zero requirement atoms"
+  },
+  {
+   "case": "NRTV-02_zero_atoms",
+   "verdict": "PASS",
+   "refusal_type": "IntakeInvalid",
+   "detail": "goal produced zero requirement atoms"
+  },
+  {
+   "case": "NRTV-03_no_sources",
+   "verdict": "PASS",
+   "refusal_type": "AuthorityUnknown",
+   "detail": "intake requires at least one source locator"
+  },
+  {
+   "case": "NRTV-04_source_does_not_exist",
+   "verdict": "PASS",
+   "refusal_type": "AuthorityUnknown",
+   "detail": "source locator does not exist: C:/nope/missing.md"
+  },
+  {
+   "case": "NRTV-05_pd_without_repo",
+   "verdict": "PASS",
+   "refusal_type": "RepoContextMissing",
+   "detail": "PD late-binding requires a RepoContext"
+  },
+  {
+   "case": "NRTV-06_repo_root_missing",
+   "verdict": "PASS",
+   "refusal_type": "RepoContextMissing",
+   "detail": "RepoContext root missing: C:\\nope"
+  },
+  {
+   "case": "NRTV-07_unknown_profile",
+   "verdict": "PASS",
+   "refusal_type": "ProfileVeto",
+   "detail": "unknown profile 'TURBO'"
+  },
+  {
+   "case": "NRTV-08_unknown_axis",
+   "verdict": "PASS",
+   "refusal_type": "UnsupportedSurface",
+   "detail": "unknown axes ['vibes']"
+  },
+  {
+   "case": "NRTV-09_empty_authority_family",
+   "verdict": "PASS",
+   "refusal_type": "AuthorityUnknown",
+   "detail": "family F2 is empty"
+  },
+  {
+   "case": "NRTV-10_unknown_claim",
+   "verdict": "PASS",
+   "refusal_type": "PiSemanticFail",
+   "detail": "unknown claim TOTALLY_VERIFIED"
+  }
+ ],
+ "neg": [
+  {
+   "case": "NEG-01_sod_same",
+   "verdict": "PASS",
+   "refusal_type": "TqSodFail",
+   "detail": "maker must not be the independent checker (case/whitespace-insensitive)"
+  },
+  {
+   "case": "NEG-02_sod_self_attested",
+   "verdict": "PASS",
+   "refusal_type": "TqSodFail",
+   "detail": "an independent checker must supply a checker_execution_receipt; a maker cannot self-attest independence"
+  },
+  {
+   "case": "NEG-03_sod_no_receipt",
+   "verdict": "PASS",
+   "refusal_type": "TqSodFail",
+   "detail": "an independent checker must supply a checker_execution_receipt; a maker cannot self-attest independence"
+  },
+  {
+   "case": "NEG-04_no_trace",
+   "verdict": "PASS",
+   "refusal_type": "TqTraceFail",
+   "detail": "TQAEP requires trace links"
+  },
+  {
+   "case": "NEG-05_cc_without_scope",
+   "verdict": "PASS",
+   "refusal_type": "EffectUnknown",
+   "detail": "ConstructionContract requires an explicit writable scope"
+  },
+  {
+   "case": "NEG-06_ecp_without_scope",
+   "verdict": "PASS",
+   "refusal_type": "EffectUnknown",
+   "detail": "ECP requires an explicit writable scope"
+  },
+  {
+   "case": "NEG-07_repair_glob_scope",
+   "verdict": "PASS",
+   "refusal_type": "RepairScopeFail",
+   "detail": "repair scope escapes the authorised root: ['**']"
+  },
+  {
+   "case": "NEG-08_repair_escape_scope",
+   "verdict": "PASS",
+   "refusal_type": "RepairScopeFail",
+   "detail": "repair scope escapes the authorised root: ['../HG-KSEOS/**']"
+  },
+  {
+   "case": "NEG-09_repair_absolute_subject",
+   "verdict": "PASS",
+   "refusal_type": "RepairScopeFail",
+   "detail": "repair subject outside the authorised root C:\\Projects\\Agent_Workspace\\PIPD: C:/Windows/x.dll"
+  },
+  {
+   "case": "NEG-10_repair_no_authorized_root",
+   "verdict": "PASS",
+   "refusal_type": "RepairScopeFail",
+   "detail": "repair requires authorized_root; an unscoped repair is not bounded"
+  },
+  {
+   "case": "NEG-11_repair_self_accept",
+   "verdict": "PASS",
+   "refusal_type": "SelfAcceptForbidden",
+   "detail": "repair candidate cannot be self-accepted by the maker"
+  },
+  {
+   "case": "NEG-12_diff_schema_mismatch",
+   "verdict": "PASS",
+   "refusal_type": "DiffIncompatible",
+   "detail": "schema_version changed without a migration record"
+  },
+  {
+   "case": "NEG-13_authority_without_families",
+   "verdict": "PASS",
+   "refusal_type": "AuthorityUnknown",
+   "detail": "no source families in manifest"
+  },
+  {
+   "case": "NEG-14_authority_missing_digest",
+   "verdict": "PASS",
+   "refusal_type": "AuthorityUnknown",
+   "detail": "family F2 lacks a manifest digest"
+  }
+ ],
+ "sec": [
+  {
+   "case": "SEC-01_planted_bearer_is_found",
+   "verdict": "PASS",
+   "detail": "hits=1"
+  },
+  {
+   "case": "SEC-02_export_refuses_secret_tree",
+   "verdict": "PASS",
+   "refusal_type": "ExportSecretFound",
+   "detail": "secret scan found 1 hits"
+  },
+  {
+   "case": "SEC-03_clean_tree_still_exports",
+   "verdict": "PASS",
+   "refusal_type": "NO_REFUSAL",
+   "detail": "exported"
+  },
+  {
+   "case": "SEC-04_product_tree_has_no_secret_hit",
+   "verdict": "PASS",
+   "detail": "hits=0 scanned=None"
+  }
+ ],
+ "judge": {
+  "judge_kind": "DETERMINISTIC_ORACLE",
+  "llm_judge_run": false,
+  "llm_judge_note": "no LLM judge lane executed in this round; the calibration below is a deterministic oracle, and the absence of an LLM judge is recorded as a TT",
+  "rows": [
+   {
+    "oracle": "ConstructionContract.schema",
+    "expect": "ACCEPT",
+    "got": "PASS",
+    "verdict": "PASS"
+   },
+   {
+    "oracle": "ConstructionContract.schema",
+    "expect": "REJECT_MISSING_ROLLBACK",
+    "got": "FAIL",
+    "verdict": "PASS",
+    "counterexample": [
+     "ConstructionContract/: 'rollback' is a required property",
+     "ConstructionContract: content_hash does not match the record body (body edited without re-issuing identity)"
+    ]
+   },
+   {
+    "oracle": "ArtifactIdentity.content_hash",
+    "expect": "REJECT_STALE_HASH",
+    "got": "FAIL",
+    "verdict": "PASS",
+    "counterexample": [
+     "ConstructionContract: content_hash does not match the record body (body edited without re-issuing identity)"
+    ]
+   },
+   {
+    "oracle": "denominator",
+    "expect": "REJECT_EMPTY",
+    "got": "FAIL",
+    "verdict": "PASS"
+   }
+  ],
+  "verdict": "PASS"
+ },
+ "candidate_head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+ "nrtv_pass": "10/10",
+ "neg_pass": "14/14",
+ "sec_pass": "4/4",
+ "verdict": "PASS"
+}

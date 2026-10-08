@@ -1,0 +1,12 @@
+row_id	subject	kind	observed	source_locator	whose_licence	verdict
+SCAN-01	source corpus (35 files)	full-text scan	total lines mentioning licence/copyright/SPDX/token = 5251	corpus_root/**/*	n/a	NO_GRANT_TEXT_FOUND
+SCAN-02	source corpus	decisive filter	total lines naming a licence (MIT/Apache-2.0/LGPL-2.1/CC-BY/BSD/GPL) AND a licence/copyright word = 42	corpus_root	THIRD_PARTY	NO_GRANT_OVER_CORPUS
+SCAN-03	source corpus	grant-shaped statements	lines constituting a grant over the PIPD corpus itself = 0	corpus_root	n/a	CORPUS_DECLARES_NO_LICENCE
+SCAN-04	PIPD-LS-SP_skeleton.md	license_ref values	"MIT at selected package"; "Apache-2.0 project family"; "LGPL-2.1 for CLI source"; "MIT scanner"	PIPD-LS-SP_skeleton.md:L43956,L44136,L44196,L44256	THIRD_PARTY	TECHNOLOGY_ADMISSION_INPUT
+SCAN-05	PIPD-LS-SP_skeleton.md	license_ref values	"license": "MIT" x10 (candidate technology records)	PIPD-LS-SP_skeleton.md:L199727..L214185	THIRD_PARTY	TECHNOLOGY_ADMISSION_INPUT
+SCAN-06	PIPD-LS-SP_skeleton.md	normative field	MC-05 TechnologyAdmission@1 declares a `license_state` field	PIPD-LS-SP_skeleton.md:L182	CONTRACT_FIELD	NOT_A_GRANT
+SCAN-07	PIPD-LS-SP_skeleton.md	rights note	"CC BY 3.0 on spec site noted by source"	PIPD-LS-SP_skeleton.md:L6406	THIRD_PARTY	UPSTREAM_SPEC_PROVENANCE
+SCAN-08	PIPD-LS-SP_skeleton.md	internal authorization	"本包 7 DO" 單獨授權 — authorizes a package's DO list, not a copyright licence	PIPD-LS-SP_skeleton.md:L150870	INTERNAL	NOT_A_LICENCE
+SCAN-09	PIPD product tree	LICENSE file	"NO LICENSE IS GRANTED." + review-candidate notice	PIPD/LICENSE	n/a	EXPLICIT_NON_GRANT_CURRENT_STATE
+SCAN-10	PIPD product tree	SBOM	CycloneDX 1.5; metadata.licenses = null; components = 1; components carrying a licence = 0	PIPD/SBOM.cdx.json	MISSING	MACHINE_READABLE_LICENCE_ABSENT
+SCAN-11	PIPD product tree	public repo	GitHub API license = NOASSERTION	api.github.com/repos/shw097-team/PIPD-LS-SP	n/a	UNRESOLVED_AT_CONSUMER

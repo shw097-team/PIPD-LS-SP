@@ -211,6 +211,20 @@ def repair_candidate(subject: str, *, scope: list[str], maker: str,
                 outside.append(s)
         if outside:
             raise RepairScopeFail(f"repair scope outside the authorised root {root}: {outside}")
+        # The SUBJECT was previously unvalidated: a caller could name a benign scope and point the
+        # subject anywhere on the host. A repair candidate is only bounded if BOTH the scope and the
+        # subject resolve inside the authorised root.
+        raw = subject.replace("\\", "/")
+        absolute = raw.startswith("/") or bool(re.match(r"^[A-Za-z]:", raw))
+        if ".." in raw.split("/"):
+            raise RepairScopeFail(f"repair subject escapes the authorised root: {subject}")
+        try:
+            # A leading "/" or a drive letter is an ABSOLUTE path: resolve it as given. Re-basing it
+            # onto the root would silently reinterpret "/etc/passwd" as "<root>/etc/passwd" and let an
+            # absolute escape through as if it were root-relative.
+            (Path(raw) if absolute else (root / raw)).resolve().relative_to(root)
+        except Exception:
+            raise RepairScopeFail(f"repair subject outside the authorised root {root}: {subject}")
     else:
         raise RepairScopeFail("repair requires authorized_root; an unscoped repair is not bounded")
     return {"schema": "PIPD-REPAIR-CANDIDATE/1", "subject": subject, "scope": scope,

@@ -1,0 +1,51 @@
+{
+ "required_hosts": [
+  "host:generic-skills",
+  "host:hgk-receiver",
+  "host:genie-adapter"
+ ],
+ "rows": [
+  {
+   "host": "host:generic-skills",
+   "present": true,
+   "effective_load": true,
+   "entry": "SKILL.md",
+   "bytes": 37,
+   "files": [
+    "SKILL.md"
+   ]
+  },
+  {
+   "host": "host:hgk-receiver",
+   "present": true,
+   "effective_load": true,
+   "entry": "receiver-map.json",
+   "bytes": 35,
+   "files": [
+    "receiver-map.json"
+   ]
+  },
+  {
+   "host": "host:genie-adapter",
+   "present": true,
+   "effective_load": true,
+   "entry": "object-crosswalk.json",
+   "bytes": 36,
+   "files": [
+    "object-crosswalk.json"
+   ]
+  }
+ ],
+ "host_count": "3/3",
+ "semantic_parity": "PASS",
+ "capability_loss": {
+  "host:hgk-receiver": [
+   "no runtime authority"
+  ],
+  "host:genie-adapter": [
+   "no truth writeback"
+  ]
+ },
+ "candidate_head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+ "verdict": "PASS"
+}

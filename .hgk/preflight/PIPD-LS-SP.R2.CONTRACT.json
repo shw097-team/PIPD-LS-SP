@@ -1,0 +1,4159 @@
+{
+ "schema": "CAPC-PROMPT-CONTRACT/1",
+ "task_id": "PIPD-LS-SP-HERMES-S0S4-CONTINUATION-FAR-R2",
+ "source_scan": {
+  "required_source_families": [
+   "F1_GPTB_KNOWLEDGE",
+   "F2_PIPD_STANDARD",
+   "F3_PIPD_DESIGN",
+   "F4_ENGINEERING_DONORS",
+   "F5_COMMAND_BASIS",
+   "F6_MACHINE_TRUTH"
+  ],
+  "reviewed": [
+   {
+    "source_family": "F1_GPTB_KNOWLEDGE",
+    "source_id": "F1",
+    "locator": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/00_KNOW_INDEX.md..19_KP_INDEX_CROSSWALK.md; 知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13/{PORTABLE_MOUNT_PROFILE,GRP-00..GRP-09}.md",
+    "sha256": "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F2_PIPD_STANDARD",
+    "source_id": "F2",
+    "locator": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/{PIPD_LS_canonical_standard.md, PIPD_LS_DOC-00..DOC-09}.md #2",
+    "sha256": "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F3_PIPD_DESIGN",
+    "source_id": "F3",
+    "locator": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/{PIPD-LS-SP_skeleton.md, PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00..PKG-10, PIPD-LS-SP_藍圖/*} #2",
+    "sha256": "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F4_ENGINEERING_DONORS",
+    "source_id": "F4",
+    "locator": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/SKILLS_PLUGIN/{SDLC_PRW_HLPE_SKILLS_PLUGIN_R2,SWOF_ECP_SKILLS_PLUGIN_v2.0.1,SWOF_TQAEP_SKILLS_PLUGIN_v2.0.1}.md #4",
+    "sha256": "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+    "role": "SUPPORT",
+    "critical": true
+   },
+   {
+    "source_family": "F5_COMMAND_BASIS",
+    "source_id": "F5",
+    "locator": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/** ; HG-KSEOS/docs/HG-KSEOS使用說明文檔.md ; Fabric/docs/Fabric使用說明文檔.md #5",
+    "sha256": "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F6_MACHINE_TRUTH",
+    "source_id": "F6",
+    "locator": "HG-KSEOS/{AGENTS.md,config/**,src/**} ; Fabric/{control/**,contracts/**,assurance/**} #6",
+    "sha256": "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e",
+    "role": "STATE_EVIDENCE",
+    "critical": true
+   }
+  ],
+  "missing": [],
+  "normative_claims": [
+   {
+    "claim_id": "NC-01",
+    "text": "HG-KSEOS is the sole normative WorkOrder/admission/reducer/release control plane for this task; no second control plane may be created.",
+    "source_ids": [
+     "F5_COMMAND_BASIS",
+     "F6_MACHINE_TRUTH"
+    ],
+    "locators": [
+     "HG-KSEOS/AGENTS.md §1-preamble",
+     "Fabric/docs/Fabric使用說明文檔.md §2-3"
+    ]
+   },
+   {
+    "claim_id": "NC-02",
+    "text": "PIPD-LS-SP implements PIPD-LIFECYCLE-SPEC@1.1.0 across 11 design packages (PIPD-PKG-00..10).",
+    "source_ids": [
+     "F2_PIPD_STANDARD",
+     "F3_PIPD_DESIGN"
+    ],
+    "locators": [
+     "PIPD_LS/PIPD_LS_canonical_standard.md#standard_id",
+     "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00..PKG-10 §package_id"
+    ]
+   },
+   {
+    "claim_id": "NC-03",
+    "text": "Product writes require an admitted HGK WorkOrder, candidate WriteSet and a git baseline/rollback pointer before any mutation.",
+    "source_ids": [
+     "F6_MACHINE_TRUTH"
+    ],
+    "locators": [
+     "HG-KSEOS/AGENTS.md §Admission chain",
+     "HG-KSEOS/AGENTS.md §Routing"
+    ]
+   },
+   {
+    "claim_id": "NC-04",
+    "text": "PROMPT_COMPILE_PASS must be produced only by the bundled deterministic compiler, never self-authored.",
+    "source_ids": [
+     "F5_COMMAND_BASIS"
+    ],
+    "locators": [
+     "construction-acceptance-prompt-compiler_SKILL.md §Run deterministic validation"
+    ]
+   }
+  ]
+ },
+ "intent": {
+  "goal": "在現有 public Repo 與 S0/S1 基線上，以 CONTINUATION 續建 PIPD-LS-SP 至 S0_TO_S4_INDEPENDENT_PRODUCT_DELIVERED：完成可獨立安裝、可執行、可重播、可驗收的 Pre-Implementation & Pre-Dev Lifecycle Engineering Compiler（19 contracts／8 Skills／3 Golden Pilots／5 Web Pack／至少 3 Host projections／13 CLI＋SDK／deterministic compile-validate-explain-dryrun-replay／安裝升級卸載／回退／效能與上下文預算）。",
+  "user_expected_outcome": "同一候選上 S0~S4 全部必要 Gate PASS，並有獨立驗收官判定；S5~S8 僅交付 typed seam 與 Integration Backlog。",
+  "user_expected_experience": "使用者以自然語言即可觸發 lifecycle，取得可供合法 Receiver 接收的施工前契約；任何未閉合項以 typed error 明確呈現，不以檔案存在冒充可用。",
+  "explicit_constraints": [
+   "HG-KSEOS 為唯一控制平面；Hermes 為受治理 Runtime／Orchestration Plane",
+   "Knowledge 視圖為 derived/read-only，共用 HGK SharedSpine typed API",
+   "不得建立第二 WorkOrder／RBWI／Reducer／Task DB／Canonical Plan IR",
+   "所有一般工程決策由 FAR 自動研究裁決後執行，不因技術歧義反覆詢問使用者",
+   "寫入權限限 PIPD 產品根目錄內；GitHub 僅更新既有 public Repo，不重建、不 force-push"
+  ],
+  "non_goals": [
+   "S5 真實 HGK Receiver Shadow／Canary execution",
+   "S6 真實 GENIE Product Compiler",
+   "S7 JIT runtime world-effect factory",
+   "S8 SGM authority cutover",
+   "SWOF 整體工程工廠與 Fabric sealed RP-002／SQP1／Stage-3 修改或 production deployment"
+  ],
+  "authorized_mutations": [
+   "PIPD 產品根目錄內檔案新增／修改／搬移／刪除／重構",
+   "更新既有公開 Repo shw097-team/PIPD-LS-SP 與單檔驗收證據 MD",
+   "建立／更新 HGK requirement／taskspec／workorder／checkpoint 與 Kanban 卡",
+   "執行 FAR 研究並輸出 Gate-1 決策（研究層，非 acceptance）"
+  ],
+  "forbidden_mutations": [
+   "建立第二 HGK 控制平面／RBWI／Reducer／Task DB",
+   "SharedSpine 原生 SQL 寫入",
+   "PIPD root 外寫入",
+   "Maker 自批獨立驗收",
+   "公開任何憑證內容",
+   "force-push 覆蓋公開 main",
+   "把舊候選 checker verdict 轉移到新 HEAD"
+  ],
+  "expected_autonomy": "HIGH",
+  "allowed_hitl": [
+   "LICENSE_DECISION",
+   "PUBLICATION_AUTHORITY",
+   "SCOPE_EXPANSION_BEYOND_PIPD_ROOT",
+   "CREDENTIAL_OR_TTL",
+   "POLICY_MANDATED_HITL"
+  ],
+  "requested_delivery": [
+   "DEL_PIPD_PRODUCT_TREE",
+   "DEL_EXTERNAL_ACCEPTANCE_EVIDENCE_MD",
+   "DEL_PUBLIC_GITHUB_REPO_PIPD-LS-SP",
+   "DEL_SOURCE_MANIFEST_AND_KNOWLEDGE_READBACK",
+   "DEL_COMPILER_CONTRACT_PROMPT_RECEIPTS",
+   "DEL_S4_INDEPENDENT_PRODUCT_ACCEPTANCE",
+   "DEL_S5_S8_INTEGRATION_BACKLOG"
+  ],
+  "active_requirement_ids": [
+   "REQ-PIPD-01-SOURCE-FREEZE",
+   "REQ-PIPD-02-INTENT-ATOM",
+   "REQ-PIPD-03-PROFILE",
+   "REQ-PIPD-05-PI-COMPILER",
+   "REQ-PIPD-06-PD-BINDER",
+   "REQ-PIPD-07-CONSTRUCTION-CONTRACT",
+   "REQ-PIPD-08-ECP-TQAEP",
+   "REQ-PIPD-09-TRACE-EVIDENCE-CLAIM",
+   "REQ-PIPD-10-PORTABLE-RELEASE",
+   "REQ-PIPD-11-PUBLICATION-READBACK",
+   "REQ-PIPD-12-GOLDEN-PILOTS",
+   "REQ-PIPD-13-HOST-PROJECTIONS",
+   "REQ-PIPD-14-DETERMINISTIC-COMPILER",
+   "REQ-PIPD-15-SDK",
+   "REQ-PIPD-16-SECURITY-HOLDOUT",
+   "REQ-PIPD-17-FAR-GOVERNED",
+   "REQ-PIPD-18-TECH-ADMISSION",
+   "REQ-PIPD-19-EIGHT-SKILLS",
+   "REQ-PIPD-20-EVIDENCE-MD"
+  ],
+  "claim_ceiling": "EXTERNAL_ACCEPTANCE"
+ },
+ "authority": {
+  "sources": [
+   {
+    "id": "F1_GPTB_KNOWLEDGE",
+    "rank": "R1",
+    "path": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/",
+    "sha256": "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+    "locator": "00_KNOW_INDEX.md §1..19_KP_INDEX_CROSSWALK.md",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F2_PIPD_STANDARD",
+    "rank": "R1",
+    "path": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/",
+    "sha256": "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+    "locator": "PIPD_LS_canonical_standard.md#standard_id=PIPD-LIFECYCLE-SPEC",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F3_PIPD_DESIGN",
+    "rank": "R1",
+    "path": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/",
+    "sha256": "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+    "locator": "PIPD-LS-SP_藍圖.md ; PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.1-5.3 ; PIPD-LS-SP_PIPD-PKG-00..10",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F4_ENGINEERING_DONORS",
+    "rank": "R2",
+    "path": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/SKILLS_PLUGIN/",
+    "sha256": "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+    "locator": "SDLC_PRW_HLPE_SKILLS_PLUGIN_R2.md ; SWOF_ECP_SKILLS_PLUGIN_v2.0.1.md ; SWOF_TQAEP_SKILLS_PLUGIN_v2.0.1.md",
+    "role": "SUPPORT",
+    "governs": false
+   },
+   {
+    "id": "F5_COMMAND_BASIS",
+    "rank": "R1",
+    "path": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/",
+    "sha256": "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+    "locator": "construction-acceptance-prompt-compiler_SKILL.md ; scripts/prompt_contract_compiler.py ; HG-KSEOS使用說明文檔.md §3-10 ; Fabric使用說明文檔.md §2-3",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F6_MACHINE_TRUTH",
+    "rank": "R1",
+    "path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS ; C:\\Projects\\Agent_Workspace\\Fabric",
+    "sha256": "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e",
+    "locator": "HG-KSEOS/AGENTS.md ; config/hermes.json#HGK-HERMES-BINDING/2 ; var/shared-spine/hg-kseos.db ; Fabric/{control,contracts,assurance}",
+    "role": "STATE_EVIDENCE",
+    "governs": false
+   }
+  ],
+  "conflicts": [],
+  "missing_sources": [],
+  "native_control_plane_ids": [
+   "HG-KSEOS"
+  ],
+  "current_control_plane_id": "HG-KSEOS"
+ },
+ "changeset": {
+  "class": "CONTINUATION",
+  "baseline_required": true,
+  "baseline_verified": true,
+  "reuse_prior_pass": true,
+  "affected_domains": [
+   "src/pipd_ls_sp",
+   "schemas",
+   "tests",
+   "tools",
+   "docs",
+   "fixtures",
+   "dist",
+   "openspec",
+   ".hgk"
+  ],
+  "affected_files": [
+   "src/pipd_ls_sp/*",
+   "tests/*",
+   "tools/*",
+   "schemas/*",
+   "docs/*"
+  ],
+  "must_not_reopen": [
+   "已 SI 驗證的 S0 19/19 contract 家族語意（僅可加測不可改語意）",
+   "已驗證的 S1 genuine vertical slice 行為",
+   "已發布的歷史 commit（不得改寫）"
+  ],
+  "scope_expansion_requires_hitl": true,
+  "tracked_mutation": true,
+  "product_mutation_allowed": true
+ },
+ "execution_scope": [
+  {
+   "capability": "CAP_SOURCE_AUTHORITY_FREEZE",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_INTENT_REQUIREMENT_ATOM",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PROFILE_TRIO",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_SEARCH_BEFORE_BUILD_TECH_ADMISSION",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PI_COMPILER",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PD_BINDER_REPOCONTEXT",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_TASKSPEC_CONSTRUCTION_CONTRACT",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_ECP_TQAEP",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_TRACE_EVIDENCE_CLAIM",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_EIGHT_LOGICAL_SKILLS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_NINETEEN_CONTRACT_FAMILIES",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_DETERMINISTIC_VALIDATORS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_THREE_GOLDEN_PILOTS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_WEB_PACK_5_HOST_PROJECTIONS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_CLI_SDK_13_COMMANDS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_HGK_SHADOW_CANARY_RECEIVER",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_GENIE_OBJECT_PROJECTION",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_JIT_TEAM_ACTIVATION",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_BOUNDED_REPAIR_ROLLBACK",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PUBLIC_ARTIFACT_ACCEPTANCE_EVIDENCE",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD_LS/PIPD_LS_canonical_standard.md",
+    "PIPD_LS/PIPD_LS_DOC-02 §Pre-Implementation Contract Compiler",
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_EXTERNAL_SAAS",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_EXTRA_VECTOR_KG_STORE",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_MCP_BRIDGE",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_REMOTE_EXECUTION",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_TOOL_MODEL_PROVIDER_SWITCH",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_SGM_CUTOVER",
+   "source_disposition": "DEFERRED_PROFILE_GATED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md §5.2-5.3",
+    "PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-07"
+   ],
+   "external_method": true,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PRODUCTION_DEPLOY",
+   "source_disposition": "FORBIDDEN_IN_SOURCE",
+   "current_execution_disposition": "PROHIBITED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "PROHIBIT",
+   "source_locators": [
+    "construction-acceptance-prompt-compiler_SKILL.md §Compile C0-C9",
+    "HG-KSEOS/AGENTS.md §Governed execution method",
+    "HG-KSEOS/config/hermes.json#HGK-HERMES-BINDING/2"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_FABRIC_SQP1_ESCALATION",
+   "source_disposition": "FORBIDDEN_IN_SOURCE",
+   "current_execution_disposition": "PROHIBITED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "PROHIBIT",
+   "source_locators": [
+    "construction-acceptance-prompt-compiler_SKILL.md §Compile C0-C9",
+    "HG-KSEOS/AGENTS.md §Governed execution method",
+    "HG-KSEOS/config/hermes.json#HGK-HERMES-BINDING/2"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_MAKER_SELF_ACCEPTANCE",
+   "source_disposition": "FORBIDDEN_IN_SOURCE",
+   "current_execution_disposition": "PROHIBITED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "PROHIBIT",
+   "source_locators": [
+    "construction-acceptance-prompt-compiler_SKILL.md §Compile C0-C9",
+    "HG-KSEOS/AGENTS.md §Governed execution method",
+    "HG-KSEOS/config/hermes.json#HGK-HERMES-BINDING/2"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_KNOWLEDGE_READY_GATE",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "USE_NATIVE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_FAR_AUTONOMOUS_RESEARCH",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "USE_NATIVE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_HGK_ADMITTED_WORKORDER_EXECUTION",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "USE_NATIVE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_TECHNOLOGY_ADMISSION_22",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_THREE_GOLDEN_PILOTS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_NRTV_JUDGE_CALIBRATION",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_ROLLBACK_READBACK",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_PERF_CONTEXT_BUDGET",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "ENABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_PORTABLE_RELEASE_INSTALL",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_WEB_PACK_5",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_HOST_PROJECTIONS_3",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_COMPATIBILITY_LOSS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_SKILL_MANAGED_VENDORED_ISOLATION",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_CLI_13_COMMANDS_SDK",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_DETERMINISTIC_COMPILER_STATE_MACHINE",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_EXPLAIN_DRYRUN_REPLAY",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_TYPED_ERRORS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "ENABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_SECURITY_HOLDOUT_REGRESSION",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CAP_INDEPENDENT_ACCEPTANCE_OFFICER",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "USE_NATIVE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "PIPD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json",
+    "R2:附件 PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  }
+ ],
+ "runtime_readiness": [
+  {
+   "capability": "CAP_SOURCE_AUTHORITY_FREEZE",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "PASS",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_SOURCE_AUTHORITY_FREEZE in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_SOURCE_AUTHORITY_FREEZE"
+   ]
+  },
+  {
+   "capability": "CAP_INTENT_REQUIREMENT_ATOM",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "PASS",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_INTENT_REQUIREMENT_ATOM in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_INTENT_REQUIREMENT_ATOM"
+   ]
+  },
+  {
+   "capability": "CAP_PI_COMPILER",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "PASS",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_PI_COMPILER in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_PI_COMPILER"
+   ]
+  },
+  {
+   "capability": "CAP_PD_BINDER_REPOCONTEXT",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "PASS",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_PD_BINDER_REPOCONTEXT in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_PD_BINDER_REPOCONTEXT"
+   ]
+  },
+  {
+   "capability": "CAP_TASKSPEC_CONSTRUCTION_CONTRACT",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "PASS",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_TASKSPEC_CONSTRUCTION_CONTRACT in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_TASKSPEC_CONSTRUCTION_CONTRACT"
+   ]
+  },
+  {
+   "capability": "CAP_ECP_TQAEP",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "PASS",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_ECP_TQAEP in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_ECP_TQAEP"
+   ]
+  },
+  {
+   "capability": "CAP_TRACE_EVIDENCE_CLAIM",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "PASS",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_TRACE_EVIDENCE_CLAIM in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_TRACE_EVIDENCE_CLAIM"
+   ]
+  },
+  {
+   "capability": "CAP_EIGHT_LOGICAL_SKILLS",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_EIGHT_LOGICAL_SKILLS in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_EIGHT_LOGICAL_SKILLS"
+   ]
+  },
+  {
+   "capability": "CAP_NINETEEN_CONTRACT_FAMILIES",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "PASS",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_NINETEEN_CONTRACT_FAMILIES in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_NINETEEN_CONTRACT_FAMILIES"
+   ]
+  },
+  {
+   "capability": "CAP_DETERMINISTIC_VALIDATORS",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "PASS",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_DETERMINISTIC_VALIDATORS in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_DETERMINISTIC_VALIDATORS"
+   ]
+  },
+  {
+   "capability": "CAP_CLI_SDK_13_COMMANDS",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_CLI_SDK_13_COMMANDS in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_CLI_SDK_13_COMMANDS"
+   ]
+  },
+  {
+   "capability": "CAP_BOUNDED_REPAIR_ROLLBACK",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_BOUNDED_REPAIR_ROLLBACK in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_BOUNDED_REPAIR_ROLLBACK"
+   ]
+  },
+  {
+   "capability": "CAP_KNOWLEDGE_READY_GATE",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_KNOWLEDGE_READY_GATE in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_KNOWLEDGE_READY_GATE"
+   ]
+  },
+  {
+   "capability": "CAP_FAR_AUTONOMOUS_RESEARCH",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_FAR_AUTONOMOUS_RESEARCH in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_FAR_AUTONOMOUS_RESEARCH"
+   ]
+  },
+  {
+   "capability": "CAP_HGK_ADMITTED_WORKORDER_EXECUTION",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_HGK_ADMITTED_WORKORDER_EXECUTION in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_HGK_ADMITTED_WORKORDER_EXECUTION"
+   ]
+  },
+  {
+   "capability": "CAP_THREE_GOLDEN_PILOTS",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_THREE_GOLDEN_PILOTS in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_THREE_GOLDEN_PILOTS"
+   ]
+  },
+  {
+   "capability": "CAP_NRTV_JUDGE_CALIBRATION",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_NRTV_JUDGE_CALIBRATION in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_NRTV_JUDGE_CALIBRATION"
+   ]
+  },
+  {
+   "capability": "CAP_ROLLBACK_READBACK",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_ROLLBACK_READBACK in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_ROLLBACK_READBACK"
+   ]
+  },
+  {
+   "capability": "CAP_PORTABLE_RELEASE_INSTALL",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_PORTABLE_RELEASE_INSTALL in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_PORTABLE_RELEASE_INSTALL"
+   ]
+  },
+  {
+   "capability": "CAP_WEB_PACK_5",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_WEB_PACK_5 in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_WEB_PACK_5"
+   ]
+  },
+  {
+   "capability": "CAP_HOST_PROJECTIONS_3",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_HOST_PROJECTIONS_3 in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_HOST_PROJECTIONS_3"
+   ]
+  },
+  {
+   "capability": "CAP_CLI_13_COMMANDS_SDK",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_CLI_13_COMMANDS_SDK in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_CLI_13_COMMANDS_SDK"
+   ]
+  },
+  {
+   "capability": "CAP_DETERMINISTIC_COMPILER_STATE_MACHINE",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_DETERMINISTIC_COMPILER_STATE_MACHINE in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_DETERMINISTIC_COMPILER_STATE_MACHINE"
+   ]
+  },
+  {
+   "capability": "CAP_EXPLAIN_DRYRUN_REPLAY",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_EXPLAIN_DRYRUN_REPLAY in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_EXPLAIN_DRYRUN_REPLAY"
+   ]
+  },
+  {
+   "capability": "CAP_SECURITY_HOLDOUT_REGRESSION",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_SECURITY_HOLDOUT_REGRESSION in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_SECURITY_HOLDOUT_REGRESSION"
+   ]
+  },
+  {
+   "capability": "CAP_INDEPENDENT_ACCEPTANCE_OFFICER",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize runtime closure for CAP_INDEPENDENT_ACCEPTANCE_OFFICER in S2..S4 with raw receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_INDEPENDENT_ACCEPTANCE_OFFICER"
+   ]
+  }
+ ],
+ "journeys": [
+  {
+   "journey_id": "J1_NL_SPEC_PACKAGE",
+   "required": true,
+   "user_goal": "用一句自然語言需求取得綁定來源的 PI 與 PD 施工前契約包",
+   "expected_visible_result": "一份 PI/PD package（含 source binding、claim ceiling），可在 CLI 以 --json 讀出",
+   "expected_automatic_behavior": [
+    "自動解析意圖為 requirement atoms",
+    "自動綁定來源 locator 與 hash",
+    "自動拒絕無來源的規範性宣稱"
+   ],
+   "expected_manual_behavior": [
+    "使用者僅需提供需求句與目標 root"
+   ],
+   "allowed_hitl": [
+    "SOURCE_GAP"
+   ],
+   "required_capabilities": [
+    "CAP_PI_COMPILER",
+    "CAP_INTENT_REQUIREMENT_ATOM",
+    "CAP_SOURCE_AUTHORITY_FREEZE",
+    "CAP_CLI_13_COMMANDS_SDK"
+   ],
+   "negative_behavior": [
+    "空句或純填充詞不得產出 package",
+    "未綁來源的宣稱必須 FAIL 而非降級"
+   ],
+   "failure_recovery": [
+    "來源缺漏時輸出 typed error 並保留 checkpoint"
+   ],
+   "source_expectation_ids": [
+    "REQ-PIPD-05-PI-COMPILER"
+   ],
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ]
+  },
+  {
+   "journey_id": "J2_REPO_IMPORT_PD_LATEBINDING",
+   "required": true,
+   "user_goal": "對真實 Brownfield repo 做 PD late binding",
+   "expected_visible_result": "RepoContext（root/head/tracked_files/writable_scope）與 PD 決策",
+   "expected_automatic_behavior": [
+    "自動掃描 repo 結構",
+    "自動計算 tracked 檔案數並排除 VCS 內部"
+   ],
+   "expected_manual_behavior": [
+    "使用者提供 repo root"
+   ],
+   "allowed_hitl": [
+    "SOURCE_GAP"
+   ],
+   "required_capabilities": [
+    "CAP_PD_BINDER_REPOCONTEXT",
+    "CAP_PROFILE_TRIO"
+   ],
+   "negative_behavior": [
+    "把 .git 內部物件計入檔案數必須被守門測試擋下"
+   ],
+   "failure_recovery": [
+    "非 git root 時退化為檔案樹計數並揭露"
+   ],
+   "source_expectation_ids": [
+    "REQ-PIPD-06-PD-BINDER"
+   ],
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ]
+  },
+  {
+   "journey_id": "J3_HGK_HANDOFF",
+   "required": true,
+   "user_goal": "產出 HGK 相容的 ConstructionContract／ECP／TQAEP（僅契約相容，不冒稱 S5 live ACK）",
+   "expected_visible_result": "可被合法 Receiver 接收的施工前契約三件套",
+   "expected_automatic_behavior": [
+    "自動驗證 schema 與語意不變式",
+    "自動標記 claim ceiling"
+   ],
+   "expected_manual_behavior": [
+    "使用者在 HGK 端接收"
+   ],
+   "allowed_hitl": [
+    "POLICY_MANDATED"
+   ],
+   "required_capabilities": [
+    "CAP_ECP_TQAEP",
+    "CAP_TASKSPEC_CONSTRUCTION_CONTRACT",
+    "CAP_TRACE_EVIDENCE_CLAIM"
+   ],
+   "negative_behavior": [
+    "不得宣稱 live Receiver ACK"
+   ],
+   "failure_recovery": [
+    "schema 不符時 typed error"
+   ],
+   "source_expectation_ids": [
+    "REQ-PIPD-08-ECP-TQAEP"
+   ],
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ]
+  },
+  {
+   "journey_id": "J4_TEST_REPAIR",
+   "required": true,
+   "user_goal": "偵測篡改→限縮修補→回歸",
+   "expected_visible_result": "bounded repair 只動 affected edges，rollback pointer 可還原",
+   "expected_automatic_behavior": [
+    "自動跑負例與 holdout",
+    "自動限制 WriteSet"
+   ],
+   "expected_manual_behavior": [
+    "無"
+   ],
+   "allowed_hitl": [
+    "SCOPE_EXPANSION"
+   ],
+   "required_capabilities": [
+    "CAP_DETERMINISTIC_VALIDATORS",
+    "CAP_BOUNDED_REPAIR_ROLLBACK",
+    "CAP_ROLLBACK_READBACK"
+   ],
+   "negative_behavior": [
+    "越界路徑（絕對路徑、**、../HG-KSEOS/**）必須被拒"
+   ],
+   "failure_recovery": [
+    "以 rollback pointer 還原並記錄"
+   ],
+   "source_expectation_ids": [
+    "REQ-PIPD-09-TRACE-EVIDENCE-CLAIM"
+   ],
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ]
+  },
+  {
+   "journey_id": "J5_CROSS_HOST_EXPORT",
+   "required": true,
+   "user_goal": "跨 Host 可攜使用（至少三種 Host projection）",
+   "expected_visible_result": "同一候選在多 Host 的 effective-load 與語意一致",
+   "expected_automatic_behavior": [
+    "自動產生 Host projection",
+    "自動檢查語意 parity"
+   ],
+   "expected_manual_behavior": [
+    "使用者在各 Host 載入"
+   ],
+   "allowed_hitl": [
+    "POLICY_MANDATED"
+   ],
+   "required_capabilities": [
+    "CAP_HOST_PROJECTIONS_3",
+    "CAP_WEB_PACK_5",
+    "CAP_PORTABLE_RELEASE_INSTALL"
+   ],
+   "negative_behavior": [
+    "重複 skill 或殘留必須被偵測"
+   ],
+   "failure_recovery": [
+    "uninstall 後重裝驗證"
+   ],
+   "source_expectation_ids": [
+    "REQ-PIPD-10-PORTABLE-RELEASE"
+   ],
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ]
+  },
+  {
+   "journey_id": "J6_GITHUB_PUBLIC_DELIVERY",
+   "required": true,
+   "user_goal": "產物在乾淨機器可重裝、GitHub 公開讀回、外部可核證",
+   "expected_visible_result": "public repo 的 commit SHA 與匿名讀回一致",
+   "expected_automatic_behavior": [
+    "自動 push 並以匿名 API 重讀驗證"
+   ],
+   "expected_manual_behavior": [
+    "人類核可發布"
+   ],
+   "allowed_hitl": [
+    "PUBLICATION_AUTHORITY",
+    "LICENSE_DECISION"
+   ],
+   "required_capabilities": [
+    "CAP_PUBLIC_ARTIFACT_ACCEPTANCE_EVIDENCE",
+    "CAP_PORTABLE_RELEASE_INSTALL"
+   ],
+   "negative_behavior": [
+    "不得因 repo 已 public 就冒稱 PUBLICATION_APPROVED"
+   ],
+   "failure_recovery": [
+    "auth 失敗 → GITHUB_AUTH_BLOCKED"
+   ],
+   "source_expectation_ids": [
+    "REQ-PIPD-11-PUBLICATION-READBACK"
+   ],
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ]
+  }
+ ],
+ "acceptance": [
+  {
+   "acceptance_id": "ACC-CAP_SOURCE_AUTHORITY_FREEZE",
+   "subject_id": "CAP_SOURCE_AUTHORITY_FREEZE",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_source_authority_freeze_positive.json",
+   "negative_fixture": "tests/fixtures/cap_source_authority_freeze_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_SOURCE_AUTHORITY_FREEZE",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_INTENT_REQUIREMENT_ATOM",
+   "subject_id": "CAP_INTENT_REQUIREMENT_ATOM",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_intent_requirement_atom_positive.json",
+   "negative_fixture": "tests/fixtures/cap_intent_requirement_atom_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_INTENT_REQUIREMENT_ATOM",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_PROFILE_TRIO",
+   "subject_id": "CAP_PROFILE_TRIO",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/cap_profile_trio_positive.json",
+   "negative_fixture": "tests/fixtures/cap_profile_trio_negative.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "PASS",
+    "FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_SEARCH_BEFORE_BUILD_TECH_ADMISSION",
+   "subject_id": "CAP_SEARCH_BEFORE_BUILD_TECH_ADMISSION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/cap_search_before_build_tech_admission_positive.json",
+   "negative_fixture": "tests/fixtures/cap_search_before_build_tech_admission_negative.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "PASS",
+    "FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_PI_COMPILER",
+   "subject_id": "CAP_PI_COMPILER",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_pi_compiler_positive.json",
+   "negative_fixture": "tests/fixtures/cap_pi_compiler_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_PI_COMPILER",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_PD_BINDER_REPOCONTEXT",
+   "subject_id": "CAP_PD_BINDER_REPOCONTEXT",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_pd_binder_repocontext_positive.json",
+   "negative_fixture": "tests/fixtures/cap_pd_binder_repocontext_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_PD_BINDER_REPOCONTEXT",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_TASKSPEC_CONSTRUCTION_CONTRACT",
+   "subject_id": "CAP_TASKSPEC_CONSTRUCTION_CONTRACT",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_taskspec_construction_contract_positive.json",
+   "negative_fixture": "tests/fixtures/cap_taskspec_construction_contract_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_TASKSPEC_CONSTRUCTION_CONTRACT",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_ECP_TQAEP",
+   "subject_id": "CAP_ECP_TQAEP",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_ecp_tqaep_positive.json",
+   "negative_fixture": "tests/fixtures/cap_ecp_tqaep_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_ECP_TQAEP",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_TRACE_EVIDENCE_CLAIM",
+   "subject_id": "CAP_TRACE_EVIDENCE_CLAIM",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_trace_evidence_claim_positive.json",
+   "negative_fixture": "tests/fixtures/cap_trace_evidence_claim_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_TRACE_EVIDENCE_CLAIM",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_EIGHT_LOGICAL_SKILLS",
+   "subject_id": "CAP_EIGHT_LOGICAL_SKILLS",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_eight_logical_skills_positive.json",
+   "negative_fixture": "tests/fixtures/cap_eight_logical_skills_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_EIGHT_LOGICAL_SKILLS",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_NINETEEN_CONTRACT_FAMILIES",
+   "subject_id": "CAP_NINETEEN_CONTRACT_FAMILIES",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_nineteen_contract_families_positive.json",
+   "negative_fixture": "tests/fixtures/cap_nineteen_contract_families_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_NINETEEN_CONTRACT_FAMILIES",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_DETERMINISTIC_VALIDATORS",
+   "subject_id": "CAP_DETERMINISTIC_VALIDATORS",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_deterministic_validators_positive.json",
+   "negative_fixture": "tests/fixtures/cap_deterministic_validators_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_DETERMINISTIC_VALIDATORS",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_THREE_GOLDEN_PILOTS",
+   "subject_id": "CAP_THREE_GOLDEN_PILOTS",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": false,
+   "required_depth": "L5_REAL_LIFECYCLE_SIDE_EFFECT",
+   "positive_fixture": "tests/fixtures/cap_three_golden_pilots_positive.json",
+   "negative_fixture": "tests/fixtures/cap_three_golden_pilots_negative.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "PASS",
+    "FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_WEB_PACK_5_HOST_PROJECTIONS",
+   "subject_id": "CAP_WEB_PACK_5_HOST_PROJECTIONS",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/cap_web_pack_5_host_projections_positive.json",
+   "negative_fixture": "tests/fixtures/cap_web_pack_5_host_projections_negative.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "PASS",
+    "FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_CLI_SDK_13_COMMANDS",
+   "subject_id": "CAP_CLI_SDK_13_COMMANDS",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_cli_sdk_13_commands_positive.json",
+   "negative_fixture": "tests/fixtures/cap_cli_sdk_13_commands_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_CLI_SDK_13_COMMANDS",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_BOUNDED_REPAIR_ROLLBACK",
+   "subject_id": "CAP_BOUNDED_REPAIR_ROLLBACK",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_bounded_repair_rollback_positive.json",
+   "negative_fixture": "tests/fixtures/cap_bounded_repair_rollback_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_BOUNDED_REPAIR_ROLLBACK",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_PUBLIC_ARTIFACT_ACCEPTANCE_EVIDENCE",
+   "subject_id": "CAP_PUBLIC_ARTIFACT_ACCEPTANCE_EVIDENCE",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": false,
+   "required_depth": "L5_REAL_LIFECYCLE_SIDE_EFFECT",
+   "positive_fixture": "tests/fixtures/cap_public_artifact_acceptance_evidence_positive.json",
+   "negative_fixture": "tests/fixtures/cap_public_artifact_acceptance_evidence_negative.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "PASS",
+    "FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_KNOWLEDGE_READY_GATE",
+   "subject_id": "CAP_KNOWLEDGE_READY_GATE",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_knowledge_ready_gate_positive.json",
+   "negative_fixture": "tests/fixtures/cap_knowledge_ready_gate_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_KNOWLEDGE_READY_GATE",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_FAR_AUTONOMOUS_RESEARCH",
+   "subject_id": "CAP_FAR_AUTONOMOUS_RESEARCH",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_far_autonomous_research_positive.json",
+   "negative_fixture": "tests/fixtures/cap_far_autonomous_research_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_FAR_AUTONOMOUS_RESEARCH",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_HGK_ADMITTED_WORKORDER_EXECUTION",
+   "subject_id": "CAP_HGK_ADMITTED_WORKORDER_EXECUTION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_hgk_admitted_workorder_execution_positive.json",
+   "negative_fixture": "tests/fixtures/cap_hgk_admitted_workorder_execution_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_HGK_ADMITTED_WORKORDER_EXECUTION",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_TECHNOLOGY_ADMISSION_22",
+   "subject_id": "CAP_TECHNOLOGY_ADMISSION_22",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/cap_technology_admission_22_positive.json",
+   "negative_fixture": "tests/fixtures/cap_technology_admission_22_negative.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "PASS",
+    "FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_THREE_GOLDEN_PILOTS",
+   "subject_id": "CAP_THREE_GOLDEN_PILOTS",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L5_REAL_LIFECYCLE_SIDE_EFFECT",
+   "positive_fixture": "tests/fixtures/cap_three_golden_pilots_positive.json",
+   "negative_fixture": "tests/fixtures/cap_three_golden_pilots_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_THREE_GOLDEN_PILOTS",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_NRTV_JUDGE_CALIBRATION",
+   "subject_id": "CAP_NRTV_JUDGE_CALIBRATION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_nrtv_judge_calibration_positive.json",
+   "negative_fixture": "tests/fixtures/cap_nrtv_judge_calibration_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_NRTV_JUDGE_CALIBRATION",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_ROLLBACK_READBACK",
+   "subject_id": "CAP_ROLLBACK_READBACK",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_rollback_readback_positive.json",
+   "negative_fixture": "tests/fixtures/cap_rollback_readback_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_ROLLBACK_READBACK",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_PERF_CONTEXT_BUDGET",
+   "subject_id": "CAP_PERF_CONTEXT_BUDGET",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/cap_perf_context_budget_positive.json",
+   "negative_fixture": "tests/fixtures/cap_perf_context_budget_negative.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "PASS",
+    "FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_PORTABLE_RELEASE_INSTALL",
+   "subject_id": "CAP_PORTABLE_RELEASE_INSTALL",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L5_REAL_LIFECYCLE_SIDE_EFFECT",
+   "positive_fixture": "tests/fixtures/cap_portable_release_install_positive.json",
+   "negative_fixture": "tests/fixtures/cap_portable_release_install_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_PORTABLE_RELEASE_INSTALL",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_WEB_PACK_5",
+   "subject_id": "CAP_WEB_PACK_5",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_web_pack_5_positive.json",
+   "negative_fixture": "tests/fixtures/cap_web_pack_5_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_WEB_PACK_5",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_HOST_PROJECTIONS_3",
+   "subject_id": "CAP_HOST_PROJECTIONS_3",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_host_projections_3_positive.json",
+   "negative_fixture": "tests/fixtures/cap_host_projections_3_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_HOST_PROJECTIONS_3",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_COMPATIBILITY_LOSS",
+   "subject_id": "CAP_COMPATIBILITY_LOSS",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/cap_compatibility_loss_positive.json",
+   "negative_fixture": "tests/fixtures/cap_compatibility_loss_negative.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "PASS",
+    "FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_SKILL_MANAGED_VENDORED_ISOLATION",
+   "subject_id": "CAP_SKILL_MANAGED_VENDORED_ISOLATION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/cap_skill_managed_vendored_isolation_positive.json",
+   "negative_fixture": "tests/fixtures/cap_skill_managed_vendored_isolation_negative.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "PASS",
+    "FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_CLI_13_COMMANDS_SDK",
+   "subject_id": "CAP_CLI_13_COMMANDS_SDK",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_cli_13_commands_sdk_positive.json",
+   "negative_fixture": "tests/fixtures/cap_cli_13_commands_sdk_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_CLI_13_COMMANDS_SDK",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_DETERMINISTIC_COMPILER_STATE_MACHINE",
+   "subject_id": "CAP_DETERMINISTIC_COMPILER_STATE_MACHINE",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_deterministic_compiler_state_machine_positive.json",
+   "negative_fixture": "tests/fixtures/cap_deterministic_compiler_state_machine_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_DETERMINISTIC_COMPILER_STATE_MACHINE",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_EXPLAIN_DRYRUN_REPLAY",
+   "subject_id": "CAP_EXPLAIN_DRYRUN_REPLAY",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_explain_dryrun_replay_positive.json",
+   "negative_fixture": "tests/fixtures/cap_explain_dryrun_replay_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_EXPLAIN_DRYRUN_REPLAY",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_TYPED_ERRORS",
+   "subject_id": "CAP_TYPED_ERRORS",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/cap_typed_errors_positive.json",
+   "negative_fixture": "tests/fixtures/cap_typed_errors_negative.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "PASS",
+    "FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_SECURITY_HOLDOUT_REGRESSION",
+   "subject_id": "CAP_SECURITY_HOLDOUT_REGRESSION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_security_holdout_regression_positive.json",
+   "negative_fixture": "tests/fixtures/cap_security_holdout_regression_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_SECURITY_HOLDOUT_REGRESSION",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_INDEPENDENT_ACCEPTANCE_OFFICER",
+   "subject_id": "CAP_INDEPENDENT_ACCEPTANCE_OFFICER",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/cap_independent_acceptance_officer_positive.json",
+   "negative_fixture": "tests/fixtures/cap_independent_acceptance_officer_negative.json",
+   "recovery_fixture": "rollback pointer drill for CAP_INDEPENDENT_ACCEPTANCE_OFFICER",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J1_NL_SPEC_PACKAGE",
+   "subject_id": "J1_NL_SPEC_PACKAGE",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/journey_J1_NL_SPEC_PACKAGE_positive.json",
+   "negative_fixture": "tests/fixtures/journey_J1_NL_SPEC_PACKAGE_negative.json",
+   "recovery_fixture": "typed error + checkpoint for J1_NL_SPEC_PACKAGE",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J2_REPO_IMPORT_PD_LATEBINDING",
+   "subject_id": "J2_REPO_IMPORT_PD_LATEBINDING",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/journey_J2_REPO_IMPORT_PD_LATEBINDING_positive.json",
+   "negative_fixture": "tests/fixtures/journey_J2_REPO_IMPORT_PD_LATEBINDING_negative.json",
+   "recovery_fixture": "typed error + checkpoint for J2_REPO_IMPORT_PD_LATEBINDING",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J3_HGK_HANDOFF",
+   "subject_id": "J3_HGK_HANDOFF",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/journey_J3_HGK_HANDOFF_positive.json",
+   "negative_fixture": "tests/fixtures/journey_J3_HGK_HANDOFF_negative.json",
+   "recovery_fixture": "typed error + checkpoint for J3_HGK_HANDOFF",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J4_TEST_REPAIR",
+   "subject_id": "J4_TEST_REPAIR",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/journey_J4_TEST_REPAIR_positive.json",
+   "negative_fixture": "tests/fixtures/journey_J4_TEST_REPAIR_negative.json",
+   "recovery_fixture": "typed error + checkpoint for J4_TEST_REPAIR",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J5_CROSS_HOST_EXPORT",
+   "subject_id": "J5_CROSS_HOST_EXPORT",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/journey_J5_CROSS_HOST_EXPORT_positive.json",
+   "negative_fixture": "tests/fixtures/journey_J5_CROSS_HOST_EXPORT_negative.json",
+   "recovery_fixture": "typed error + checkpoint for J5_CROSS_HOST_EXPORT",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J6_GITHUB_PUBLIC_DELIVERY",
+   "subject_id": "J6_GITHUB_PUBLIC_DELIVERY",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "tests/fixtures/journey_J6_GITHUB_PUBLIC_DELIVERY_positive.json",
+   "negative_fixture": "tests/fixtures/journey_J6_GITHUB_PUBLIC_DELIVERY_negative.json",
+   "recovery_fixture": "typed error + checkpoint for J6_GITHUB_PUBLIC_DELIVERY",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-01-SOURCE-FREEZE",
+   "subject_id": "REQ-PIPD-01-SOURCE-FREEZE",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-01-source-freeze_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-01-source-freeze_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-02-INTENT-ATOM",
+   "subject_id": "REQ-PIPD-02-INTENT-ATOM",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-02-intent-atom_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-02-intent-atom_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-03-PROFILE",
+   "subject_id": "REQ-PIPD-03-PROFILE",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-03-profile_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-03-profile_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-05-PI-COMPILER",
+   "subject_id": "REQ-PIPD-05-PI-COMPILER",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-05-pi-compiler_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-05-pi-compiler_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-06-PD-BINDER",
+   "subject_id": "REQ-PIPD-06-PD-BINDER",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-06-pd-binder_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-06-pd-binder_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-07-CONSTRUCTION-CONTRACT",
+   "subject_id": "REQ-PIPD-07-CONSTRUCTION-CONTRACT",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-07-construction-contract_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-07-construction-contract_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-08-ECP-TQAEP",
+   "subject_id": "REQ-PIPD-08-ECP-TQAEP",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-08-ecp-tqaep_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-08-ecp-tqaep_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-09-TRACE-EVIDENCE-CLAIM",
+   "subject_id": "REQ-PIPD-09-TRACE-EVIDENCE-CLAIM",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-09-trace-evidence-claim_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-09-trace-evidence-claim_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-10-PORTABLE-RELEASE",
+   "subject_id": "REQ-PIPD-10-PORTABLE-RELEASE",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-10-portable-release_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-10-portable-release_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-11-PUBLICATION-READBACK",
+   "subject_id": "REQ-PIPD-11-PUBLICATION-READBACK",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-11-publication-readback_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-11-publication-readback_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-12-GOLDEN-PILOTS",
+   "subject_id": "REQ-PIPD-12-GOLDEN-PILOTS",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-12-golden-pilots_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-12-golden-pilots_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-13-HOST-PROJECTIONS",
+   "subject_id": "REQ-PIPD-13-HOST-PROJECTIONS",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-13-host-projections_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-13-host-projections_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-14-DETERMINISTIC-COMPILER",
+   "subject_id": "REQ-PIPD-14-DETERMINISTIC-COMPILER",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-14-deterministic-compiler_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-14-deterministic-compiler_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-15-SDK",
+   "subject_id": "REQ-PIPD-15-SDK",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-15-sdk_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-15-sdk_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-16-SECURITY-HOLDOUT",
+   "subject_id": "REQ-PIPD-16-SECURITY-HOLDOUT",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-16-security-holdout_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-16-security-holdout_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-17-FAR-GOVERNED",
+   "subject_id": "REQ-PIPD-17-FAR-GOVERNED",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-17-far-governed_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-17-far-governed_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-18-TECH-ADMISSION",
+   "subject_id": "REQ-PIPD-18-TECH-ADMISSION",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-18-tech-admission_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-18-tech-admission_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-19-EIGHT-SKILLS",
+   "subject_id": "REQ-PIPD-19-EIGHT-SKILLS",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-19-eight-skills_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-19-eight-skills_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-20-EVIDENCE-MD",
+   "subject_id": "REQ-PIPD-20-EVIDENCE-MD",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "tests/fixtures/req-pipd-20-evidence-md_pos.json",
+   "negative_fixture": "tests/fixtures/req-pipd-20-evidence-md_neg.json",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_PIPD_PRODUCT_TREE",
+   "subject_id": "DEL_PIPD_PRODUCT_TREE",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "deliverable check DEL_PIPD_PRODUCT_TREE",
+   "negative_fixture": "absent/stale DEL_PIPD_PRODUCT_TREE",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_EXTERNAL_ACCEPTANCE_EVIDENCE_MD",
+   "subject_id": "DEL_EXTERNAL_ACCEPTANCE_EVIDENCE_MD",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "deliverable check DEL_EXTERNAL_ACCEPTANCE_EVIDENCE_MD",
+   "negative_fixture": "absent/stale DEL_EXTERNAL_ACCEPTANCE_EVIDENCE_MD",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_PUBLIC_GITHUB_REPO_PIPD-LS-SP",
+   "subject_id": "DEL_PUBLIC_GITHUB_REPO_PIPD-LS-SP",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L5_REAL_LIFECYCLE_SIDE_EFFECT",
+   "positive_fixture": "deliverable check DEL_PUBLIC_GITHUB_REPO_PIPD-LS-SP",
+   "negative_fixture": "absent/stale DEL_PUBLIC_GITHUB_REPO_PIPD-LS-SP",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_SOURCE_MANIFEST_AND_KNOWLEDGE_READBACK",
+   "subject_id": "DEL_SOURCE_MANIFEST_AND_KNOWLEDGE_READBACK",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "deliverable check DEL_SOURCE_MANIFEST_AND_KNOWLEDGE_READBACK",
+   "negative_fixture": "absent/stale DEL_SOURCE_MANIFEST_AND_KNOWLEDGE_READBACK",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_COMPILER_CONTRACT_PROMPT_RECEIPTS",
+   "subject_id": "DEL_COMPILER_CONTRACT_PROMPT_RECEIPTS",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "deliverable check DEL_COMPILER_CONTRACT_PROMPT_RECEIPTS",
+   "negative_fixture": "absent/stale DEL_COMPILER_CONTRACT_PROMPT_RECEIPTS",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_S4_INDEPENDENT_PRODUCT_ACCEPTANCE",
+   "subject_id": "DEL_S4_INDEPENDENT_PRODUCT_ACCEPTANCE",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "deliverable check DEL_S4_INDEPENDENT_PRODUCT_ACCEPTANCE",
+   "negative_fixture": "absent/stale DEL_S4_INDEPENDENT_PRODUCT_ACCEPTANCE",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_S5_S8_INTEGRATION_BACKLOG",
+   "subject_id": "DEL_S5_S8_INTEGRATION_BACKLOG",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "知識庫:HG-KSEOS/AGENTS.md",
+    "R2:attachment PIPD-LS-SP_HERMES_EXECUTION_PROMPT_R2_S0-S4_FAR_AUTONOMOUS.md"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "deliverable check DEL_S5_S8_INTEGRATION_BACKLOG",
+   "negative_fixture": "absent/stale DEL_S5_S8_INTEGRATION_BACKLOG",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  }
+ ],
+ "evidence": [
+  {
+   "gate_id": "G-R2-PROMPT-COMPILE",
+   "predicate": "compiler lint+activation+acceptance+compile exit 0",
+   "expected": "PROMPT_COMPILE_PASS",
+   "command_or_probe": "python scripts/prompt_contract_compiler.py lint/activation/acceptance/compile",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-BASELINE-READBACK",
+   "predicate": "baseline HEAD and tree read back and pinned",
+   "expected": "HEAD==1d4d2987c62525d9af345f1ec337913c5ad534b0",
+   "command_or_probe": "git -C PIPD rev-parse HEAD; git status --porcelain",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-KNOWLEDGE-READY",
+   "predicate": "knowledge corpus denominator and isolation resolved",
+   "expected": "no unresolved critical source",
+   "command_or_probe": "python tools/knowledge_ready_probe.py",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-FAR-LICENSE",
+   "predicate": "FAR Gate-1 decision on TT-PIPD-LICENSE-001 recorded",
+   "expected": "decision + minimal-resistance option",
+   "command_or_probe": "FAR route receipt under knowledge_root",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "PACKAGE"
+  },
+  {
+   "gate_id": "G-S2-GOLDEN-PILOTS",
+   "predicate": "3/3 golden pilots really executed (not fixed output)",
+   "expected": "3/3 PASS with per-pilot receipts",
+   "command_or_probe": "python tools/run_golden_pilots.py",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-S2-NRTV-JUDGE",
+   "predicate": "NRTV + negative/security + oracle/judge calibration",
+   "expected": "calibration table with counterexamples",
+   "command_or_probe": "python tools/run_nrtv_judge.py",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-S2-ROLLBACK",
+   "predicate": "rollback drill restores byte-identical tree",
+   "expected": "27/27 files restored",
+   "command_or_probe": "python tools/rollback_drill.py",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-S2-PERF",
+   "predicate": "performance and context budget within declared bound",
+   "expected": "budget table",
+   "command_or_probe": "python tools/perf_budget.py",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-S3-PORTABLE",
+   "predicate": "install / upgrade / uninstall real lifecycle",
+   "expected": "L5 real side effect on a clean root",
+   "command_or_probe": "python -m pip install dist/*.whl in isolated venv",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-S3-WEBPACK",
+   "predicate": "5/5 web pack exact set",
+   "expected": "exact set equality",
+   "command_or_probe": "python tools/web_pack_check.py",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-S3-HOSTS",
+   "predicate": "at least 3 host projections with semantic parity",
+   "expected": "3/3 effective load + parity",
+   "command_or_probe": "python tools/host_projection_check.py",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-S4-CLI",
+   "predicate": "13/13 CLI commands success AND refusal paths",
+   "expected": "13/13 + refusal receipts",
+   "command_or_probe": "python tools/cli_smoke.py",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-S4-SDK",
+   "predicate": "SDK clean install and import",
+   "expected": "clean install OK",
+   "command_or_probe": "python -c 'import pipd_ls_sp'",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "PACKAGE"
+  },
+  {
+   "gate_id": "G-S4-REPLAY",
+   "predicate": "replay identity and semantic diff",
+   "expected": "byte-identical replay",
+   "command_or_probe": "python tools/replay_check.py",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-SEC-HOLDOUT",
+   "predicate": "security + holdout regression pass",
+   "expected": "0 findings, 0 regressions",
+   "command_or_probe": "python -m unittest discover -s tests",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-INDEPENDENT-VERIFY",
+   "predicate": "fresh-context independent checker on same candidate",
+   "expected": "SAME_CANDIDATE_INDEPENDENT_PASS",
+   "command_or_probe": "hermes one-shot checker lane",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  },
+  {
+   "gate_id": "G-PUBLICATION",
+   "predicate": "public repo readback matches local HEAD",
+   "expected": "remote HEAD == local HEAD, anonymous readable",
+   "command_or_probe": "gh api + anonymous read",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": false,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  },
+  {
+   "gate_id": "G-EVIDENCE-MD",
+   "predicate": "single external acceptance MD bound to candidate",
+   "expected": "file exists with matching shas",
+   "command_or_probe": "python tools/build_evidence_md.py",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  },
+  {
+   "gate_id": "G-TT-CLOSURE",
+   "predicate": "no blocking TT open",
+   "expected": "blocking_tt == 0",
+   "command_or_probe": "python tools/tt_status.py",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "glm-5.3-flash/opencode-go",
+   "candidate_binding": {
+    "head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+    "package_sha256": "UNBOUND_UNTIL_PACKAGE_BUILD",
+    "source_hashes": [
+     "6e1270bc028770dbbf440a29cd8398bd9c8040937e8451826a0237ba92946c0c",
+     "0a7c8538427f1f089aeab7131a9fc2e67083b18d2ae99fe983e401a7a52ec4d6",
+     "73253c8b3cda60c1e14e810ac6874192b069c4a6d2e830673711152cc3762e5b",
+     "5c1101a7691fbd6c85be1cf6595797ef7395fefb9f2c4425cf82bf9510d408de",
+     "069c9940ebda166873392f16f8d6d76516a940d9bdf2a3b64c551a6c446f3aec",
+     "240227060211002b5ead3578216ddd0db2bfc5d39fd87717ea620a34d817511e"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate HEAD changes",
+    "source hash changes"
+   ],
+   "terminal_verdict": "PENDING",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  }
+ ],
+ "termination": {
+  "terminal_states": [
+   "PASS",
+   "PARTIAL",
+   "FAIL",
+   "TEMP_CLOSED"
+  ],
+  "non_terminal_pause": [
+   "ITERATION_BUDGET_PAUSE",
+   "SESSION_BOUNDARY"
+  ],
+  "checkpoint_required": true,
+  "checkpoint_fields": [
+   "task_id",
+   "source_hashes",
+   "current_candidate",
+   "completed_gates",
+   "open_gates",
+   "next_work_order",
+   "rollback_pointer",
+   "checkpoint_id",
+   "router_reason_code",
+   "claim_ceiling"
+  ],
+  "retry_budget": 3,
+  "rollback_pointer_required": true
+ },
+ "render_policy": {
+  "control_corpus_restatement": false,
+  "embedded_control_bodies": [],
+  "max_prompt_chars": 24000,
+  "output_language": "zh-Hant"
+ }
+}

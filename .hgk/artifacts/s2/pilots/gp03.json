@@ -1,0 +1,99 @@
+{
+ "pilot": "GP-03_ASSURED_FAILURE_RECOVERY",
+ "candidate_head": "1d4d2987c62525d9af345f1ec337913c5ad534b0",
+ "steps": [
+  {
+   "step": "intake",
+   "status": "OK"
+  },
+  {
+   "step": "compile_pi[ASSURED]",
+   "status": "OK"
+  },
+  {
+   "step": "bind_pd",
+   "status": "OK"
+  },
+  {
+   "step": "construction_contract",
+   "status": "OK"
+  },
+  {
+   "step": "compile_ecp",
+   "status": "OK"
+  },
+  {
+   "step": "compile_tqaep",
+   "status": "OK"
+  },
+  {
+   "step": "evidence_expectations",
+   "status": "OK"
+  },
+  {
+   "step": "claim_ceiling",
+   "status": "OK"
+  },
+  {
+   "step": "trace_closure",
+   "status": "OK"
+  }
+ ],
+ "artefact_hashes": {
+  "pi": "488e691fc8f536214cebbf51f30b6525dc13faa19fdd9349593173871124a6ca",
+  "pd": "7c485184e418a174f5024cf191678817682b6786254ec576eb0294e21ba1705c",
+  "cc": "75a6fe2da789d9484c1179f606e91f2a4ed2cbf966c83975ec7ecc5ff41e8afd",
+  "ecp": "4eea75874de7554294fb1f091a940c47904bb4c6a26c44d1f0e1dfa46169f825",
+  "tqaep": "5ad5033a12f70b4c63dc3e2bcbab69fa53e4b09efa943c44a82064a1243d09a6",
+  "ee": "4832525af2df3aaa70accce1480606a25a75f7e128b42282e5d4001c4467643e",
+  "ccl": "e7918d1d5c0e08b85006c59405e7d78d4f3dda2cd59c373f2bb11eadbf6f835d",
+  "trc": "477dd9965405994dd42c9b8a519b7e7c05812ecdb28d4ca208033f15f1c19124"
+ },
+ "artefact_ids": {
+  "pi": "PI-488e691fc8f53621",
+  "pd": "PD-7c485184e418a174",
+  "cc": "CC-75a6fe2da789d948",
+  "ecp": "ECP-4eea75874de75542",
+  "tqaep": "TQAEP-5ad5033a12f70b4c",
+  "ee": "EE-4832525af2df3aaa",
+  "ccl": "CCL-e7918d1d5c0e08b8",
+  "trc": "TRC-477dd9965405994d"
+ },
+ "schema_validation": {
+  "verdict": "PASS",
+  "checked": 7,
+  "findings": []
+ },
+ "trace_closure": {
+  "verdict": "PASS",
+  "edges": 5,
+  "orphans": [],
+  "bad_hashes": []
+ },
+ "claim_ceiling": [
+  "HGK_ADMITTED",
+  "LOCAL_QUALIFIED",
+  "PROMPT_COMPILE_PASS"
+ ],
+ "producer": "HERMES-MAKER",
+ "independent": false,
+ "tamper_detected": true,
+ "out_of_scope_repair_refused": true,
+ "bounded_repair_receipt": {
+  "schema": "PIPD-REPAIR-CANDIDATE/1",
+  "subject": "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-gp03-rs5vaav1\\src\\pipd_ls_sp\\util.py",
+  "scope": [
+   "src/**"
+  ],
+  "maker": "HERMES-MAKER",
+  "state": "CANDIDATE",
+  "authorized_root": "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-gp03-rs5vaav1",
+  "isolation": "workspace_only",
+  "requalification": "affected-only",
+  "self_accept": false
+ },
+ "rollback_byte_identical": true,
+ "profile": "ASSURED",
+ "pilot_verdict": "PASS",
+ "failure_recovery_verdict": "PASS"
+}

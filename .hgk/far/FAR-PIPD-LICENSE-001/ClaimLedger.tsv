@@ -1,0 +1,9 @@
+claim_id	claim	confidence	source
+C-01	The PIPD source corpus contains no statement granting a licence over itself	HIGH	SCAN-01..SCAN-03,SCAN-08
+C-02	Every licence token observed in the corpus names a THIRD-PARTY technology's licence, consumed as a TechnologyAdmission `license_ref`	HIGH	SCAN-04..SCAN-07
+C-03	The product tree currently declares "NO LICENSE IS GRANTED"	HIGH	SCAN-09
+C-04	The machine-readable layer carries no licence at all (SBOM null, GitHub NOASSERTION)	HIGH	SCAN-10,SCAN-11
+C-05	Consequently TT-PIPD-LICENSE-001 is a REAL source gap, not a bookkeeping error	HIGH	C-01..C-04
+C-06	No agent in this run has standing to grant a licence over the owner's corpus or product	HIGH	authority analysis (L3); R2 forbidden-mutation list
+C-07	Public repository visibility is not licence approval and is not publication approval	HIGH	R2 §8; PIPD/LICENSE
+C-08	Under copyright default, absence of a licence means all rights reserved; the corpus is therefore unlicensed-but-not-licensed-to-the-public	MEDIUM	legal default; recorded as OpenQuestion OQ-02 for owner confirmation

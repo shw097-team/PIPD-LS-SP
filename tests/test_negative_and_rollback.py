@@ -75,6 +75,24 @@ class TestRollback(unittest.TestCase):
                                      capture_output=True, text=True)
         self.assertEqual(dirty_check.returncode, 0)
 
+    def test_repair_subject_must_also_be_inside_the_authorised_root(self) -> None:
+        """A real defect found by the S2 golden pilot GP-03 negative set.
+
+        `repair_candidate` validated the SCOPE but never the SUBJECT, so a caller could declare a
+        benign scope such as `src/**` and point the subject at any path on the host. A bounded repair
+        is only bounded if BOTH resolve inside the authorised root.
+        """
+        from pipd_ls_sp.errors import RepairScopeFail
+        for bad_subject in ("C:/Windows/system32/x.dll", "/etc/passwd", "../../escape.py"):
+            with self.subTest(subject=bad_subject):
+                with self.assertRaises(RepairScopeFail):
+                    workspace.repair_candidate(bad_subject, scope=["src/**"], maker="M",
+                                               authorized_root=str(ROOT))
+        # a subject genuinely inside the root still succeeds
+        ok = workspace.repair_candidate("src/pipd_ls_sp/util.py", scope=["src/**"], maker="M",
+                                        authorized_root=str(ROOT))
+        self.assertEqual(ok["state"], "CANDIDATE")
+
     def test_semantic_diff_flags_schema_change(self) -> None:
         from pipd_ls_sp.errors import DiffIncompatible
         with self.assertRaises(DiffIncompatible):

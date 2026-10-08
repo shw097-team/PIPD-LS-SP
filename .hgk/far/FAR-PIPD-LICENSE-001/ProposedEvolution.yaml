@@ -1,0 +1,62 @@
+schema: FAR-PROPOSED-EVOLUTION/1
+proposal_id: PE-PIPD-LICENSE-001
+request_id: FAR-PIPD-LICENSE-001
+title: >
+  Make the PIPD-LS-SP licence position explicit and machine-readable, and hand the owner a
+  single-action ratification slot — without granting anything the owner has not granted.
+selected_option: B_AND_C_EXPLICIT_NON_GRANT_PLUS_OWNER_SLOT
+
+decision_matrix:
+  - option: A_AGENT_GRANTS_MIT_OR_APACHE
+    applicable: false
+    reason: REJECTED — no agent standing; would be a FALSE GRANT and a policy violation
+    blast_radius: whole corpus
+  - option: B_EXPLICIT_NON_GRANT_MADE_PRECISE_AND_MACHINE_READABLE
+    applicable: true
+    chosen: true
+    reason: documents the EXISTING position; grants nothing; removes consumer ambiguity; fully in-scope
+    blast_radius: LICENSE, SBOM, NOTICE
+    rollback: revert the three files (rollback pointer recorded)
+  - option: C_PREPARED_OWNER_RATIFICATION_SLOT
+    applicable: true
+    chosen: true
+    reason: converts an open research question into ONE owner action; does not bypass Gate 2
+    blast_radius: one new file + one evidence row
+  - option: D_MAKE_THE_REPO_PRIVATE
+    applicable: false
+    reason: REJECTED — contradicts the delivered public state, and visibility is not approval anyway
+  - option: E_LEAVE_SILENT
+    applicable: false
+    reason: REJECTED — leaves consumers ambiguous and keeps the gate permanently un-actionable
+  - option: F_ASK_THE_USER_IN_CHAT
+    applicable: false
+    reason: REJECTED — the user is asleep and the R2 order delegates FAR research; the question is an
+            AUTHORITY boundary, so FAR researches and PREPARES rather than asking a redundant question
+
+actions:
+  - id: A1
+    change: refine PIPD/LICENSE to state the position precisely, split into (i) corpus-derived material —
+            all rights reserved, no licence granted; (ii) agent-authored engineering output — licence to be
+            set by the owner, currently also non-granting
+    owner: agent
+    evidence: LICENSE sha256 before/after
+  - id: A2
+    change: emit SPDX-expressible identifiers (LicenseRef-PIPD-Proprietary) into SBOM.cdx.json
+            metadata.licenses and into the single component record
+    owner: agent
+    evidence: SBOM sha256 + licence fields readback
+  - id: A3
+    change: ship OWNER_LICENSE_DECISION.yaml — a prepared, schema-valid, single-action ratification record
+            offering {MIT, Apache-2.0, LicenseRef-PIPD-Proprietary} with the exact downstream edits each choice triggers
+    owner: agent
+    evidence: file exists + validates
+  - id: A4
+    change: record that PUBLICATION_APPROVED remains NOT CLAIMED and that public visibility is not approval
+    owner: agent
+    evidence: evidence MD claim table
+
+owner_only_residue:
+  - PUBLICATION_APPROVED sign-off
+  - choosing and GRANTING an actual licence
+
+claim_ceiling: FAR local research + in-scope product-root documentation changes; NOT an acceptance verdict

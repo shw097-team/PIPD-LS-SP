@@ -1,0 +1,25 @@
+schema: FAR-RESEARCH-PLAN/1
+request_id: FAR-PIPD-LICENSE-001
+lifecycle: R0_R8
+lanes:
+  L1_SOURCE_LICENSE_SCAN:
+    method: deterministic full-text scan of the 35 source files for grant-shaped statements
+    question: does the corpus grant any licence over itself?
+    output: SourceDispositionLedger.tsv
+  L2_THIRD_PARTY_LICENSE_DISPOSITION:
+    method: classify every named licence token by WHOSE licence it is
+    question: are the observed MIT/Apache-2.0/LGPL-2.1/CC-BY tokens grants over the corpus,
+              or inputs to TechnologyAdmission?
+    output: SourceDispositionLedger.tsv (rows LIC-*)
+  L3_RIGHTS_AND_AUTHORITY_ANALYSIS:
+    method: separate the observables (what is declared) from the authority (who may grant)
+    question: which closure options are executable by the agent, and which are owner-only?
+    output: IntegratedFindings.yaml, ProposedEvolution.yaml
+  LC_CHALLENGE:
+    method: fresh-context adversarial review of L1-L3 against the corpus
+    output: LaneE_Challenge.json
+tri_source:
+  knowledge_corpus: 35 files under corpus_root
+  hgk_shared_spine: typed read (project PIPD-LS-SP-20261008)
+  governed_web: read-only GET, licence-norm references only
+stop_conditions: [evidence_saturation, budget_exhausted, abstain_condition_met]

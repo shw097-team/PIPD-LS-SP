@@ -109,3 +109,22 @@ class SelfAcceptForbidden(PipdError):
 
 class EvidenceGap(PipdError):
     code = "EVIDENCE_GAP"
+
+class IoNotFound(PipdError):
+    """An input path could not be read. Typed so the CLI never surfaces a bare traceback."""
+    code = "IO_NOT_FOUND"
+
+
+class ParseInvalid(PipdError):
+    """An input file is not parseable JSON. Typed: a caller must be able to branch on this."""
+    code = "PARSE_INVALID"
+
+
+class InputShapeInvalid(PipdError):
+    """An input record is missing a field this command requires."""
+    code = "INPUT_SHAPE_INVALID"
+
+
+class UsageInvalid(PipdError):
+    """The command line itself was wrong (bad flag, missing argument)."""
+    code = "USAGE_INVALID"

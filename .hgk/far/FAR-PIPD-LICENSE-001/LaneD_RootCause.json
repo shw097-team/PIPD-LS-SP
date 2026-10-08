@@ -1,0 +1,19 @@
+{
+ "lane": "LaneD_RootCause",
+ "request_id": "FAR-PIPD-LICENSE-001",
+ "root_cause": "The corpus was authored as a DESIGN/SPEC body whose only licence-bearing construct is the TechnologyAdmission `license_state`/`license_ref` field describing THIRD-PARTY technologies. No artefact in the corpus ever answers the question \"under what terms may a consumer use THIS material?\" — so the question was never posed, never answered, and the downstream gate could only record a gap.",
+ "mechanism": "field-scope confusion: `license_state` is an INPUT field about a candidate technology, and it was the only licence-shaped surface in the corpus; the corpus-own licence question has no surface at all.",
+ "evidence": [
+  "SCAN-02",
+  "SCAN-03",
+  "SCAN-06",
+  "SCAN-08"
+ ],
+ "not_the_cause": [
+  "a missing file (LICENSE exists)",
+  "a wrong SPDX id (none was ever chosen)",
+  "a build defect"
+ ],
+ "blast_radius": "licence gate + PUBLICATION_APPROVED + any downstream consumer's redistribution decision",
+ "minimal_fix_that_addresses_cause": "give the corpus-own licence question its own explicit, machine-readable surface, and a prepared owner decision"
+}

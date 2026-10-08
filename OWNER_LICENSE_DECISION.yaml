@@ -1,0 +1,33 @@
+# OWNER_LICENSE_DECISION — single-action ratification slot
+# Prepared by FAR-PIPD-LICENSE-001 (ProposedEvolution PE-PIPD-LICENSE-001).
+# NOTHING HERE IS A GRANT. Until the owner sets `decision` below, the repository remains
+# UNLICENSED (all rights reserved) per LICENSE and SPDX LicenseRef-PIPD-Proprietary.
+schema: PIPD-OWNER-LICENSE-DECISION/1
+subject: PIPD-LS-SP (https://github.com/shw097-team/PIPD-LS-SP)
+prepared_by: FAR-PIPD-LICENSE-001
+prepared_utc: "2026-10-09"
+current_position: LicenseRef-PIPD-Proprietary   # unlicensed review candidate; all rights reserved
+decision: UNSET                                # owner sets exactly one value below
+allowed_values:
+  - UNSET                                      # keep the current non-grant (no change required)
+  - LicenseRef-PIPD-Proprietary                # keep non-grant but affirm it explicitly
+  - MIT                                        # grant; triggers edits 1-4 below
+  - Apache-2.0                                 # grant; triggers edits 1-4 below
+downstream_edits_on_grant:
+  - id: E1
+    file: LICENSE
+    change: replace the non-grant body with the chosen SPDX licence text, keep the corpus-derived vs
+            agent-authored split and the provenance note
+  - id: E2
+    file: SBOM.cdx.json
+    change: metadata.licenses and the component licence -> the chosen SPDX id
+  - id: E3
+    file: pyproject.toml
+    change: set `license` / `license-files` to the chosen id
+  - id: E4
+    file: .hgk/artifacts/publication_binding.json
+    change: record license decision receipt; PUBLICATION_APPROVED may then be reassessed by the owner
+authority_note: >
+  Granting a licence over the owner's material is an owner-only act. This file exists so that the act is
+  one edit, not an open research question. No agent may set `decision` to a granting value on the owner's
+  behalf.

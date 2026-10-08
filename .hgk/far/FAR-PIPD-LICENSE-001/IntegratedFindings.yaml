@@ -1,0 +1,35 @@
+schema: FAR-INTEGRATED-FINDINGS/1
+request_id: FAR-PIPD-LICENSE-001
+verdict: CONFIRMS_USEFUL
+summary: >
+  TT-PIPD-LICENSE-001 is empirically confirmed. The corpus declares no licence over itself; the
+  licence tokens found are third-party TechnologyAdmission inputs. The blocker is an
+  AUTHORITY boundary (only the owner can grant a licence), not a technical unknown. The
+  minimum-resistance compliant move is therefore not to grant anything but to make the status
+  EXPLICIT, MACHINE-READABLE and ACTIONABLE, and to hand the owner a single-action ratification slot.
+
+observables:
+  corpus_files: 35
+  lines_mentioning_licence_words: 5251
+  lines_naming_a_real_licence_in_a_licence_context: 42
+  lines_constituting_a_grant_over_the_corpus: 0
+  product_license_file: "/c/Projects/Agent_Workspace/PIPD/LICENSE"
+  sbom_metadata_licenses: null
+  github_api_license: NOASSERTION
+
+authority_split:
+  agent_executable:
+    - make the licence position explicit in LICENSE (already non-granting) and precise in the machine layer
+    - emit SPDX-expressible identifiers so a consumer is not left guessing
+    - prepare an OWNER_LICENSE_DECISION record so the human gate is ONE action, not an open question
+    - record PUBLICATION_APPROVED as NOT CLAIMED (unchanged)
+  owner_only:
+    - granting any licence (MIT / Apache-2.0 / other) over corpus-derived content
+    - signing off PUBLICATION_APPROVED
+    - re-publishing under a different visibility
+
+open_questions:
+  - id: OQ-01
+    question: Does the owner hold unencumbered rights over the whole corpus (including any third-party-derived prose) sufficient to license it?
+  - id: OQ-02
+    question: Confirm the legal default position for an unlicensed public repo is acceptable for the review-candidate window.

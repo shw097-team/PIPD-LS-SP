@@ -1,0 +1,37 @@
+{
+ "lane": "LaneE_Challenge",
+ "request_id": "FAR-PIPD-LICENSE-001",
+ "mode": "fresh_context_adversarial_read_only",
+ "challenges": [
+  {
+   "id": "CH-01",
+   "challenge": "The finding 'no licence' may be an artefact of scanning only 35 files if the corpus is bigger.",
+   "resolution": "CLOSED — the corpus_root was enumerated exhaustively (find -type f = 35) and the product tree separately; both were scanned."
+  },
+  {
+   "id": "CH-02",
+   "challenge": "CC BY 3.0 at skeleton:L6406 could grant rights over derived text.",
+   "resolution": "CLOSED — the line attributes CC BY 3.0 to an upstream SPEC SITE being noted, not to the PIPD document; it is provenance metadata about an external spec."
+  },
+  {
+   "id": "CH-03",
+   "challenge": "Making the repo public already granted an implied licence.",
+   "resolution": "CLOSED AS FALSE — no such doctrine is established; visibility is not a grant, and PIPD/LICENSE already states no licence is granted."
+  },
+  {
+   "id": "CH-04",
+   "challenge": "The proposal 'prepare an owner slot' is a non-action dressed as a deliverable.",
+   "resolution": "PARTIALLY CONCEDED — the slot is only a deliverable BECAUSE the grant itself is owner-only; it is paired with two real agent-executable changes (explicit LICENSE refinement, machine-readable SPDX emission) so the round does produce a changed, checkable artefact."
+  },
+  {
+   "id": "CH-05",
+   "challenge": "Choosing SPDX LicenseRef-Proprietary is itself a licensing decision.",
+   "resolution": "CLOSED — declaring 'no licence' explicitly is a documentation of the existing non-grant, not a grant; any actual licence NAME would be a grant and is left to the owner."
+  }
+ ],
+ "verdict": "PASS_CHALLENGE_CONDITIONAL",
+ "conditions_raised": 5,
+ "conditions_closed": 4,
+ "conditions_partially_conceded": 1,
+ "note": "CH-04 partially conceded and answered by scoping the deliverable to the two real changes plus the slot."
+}
