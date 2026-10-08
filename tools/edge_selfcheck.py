@@ -21,7 +21,7 @@ res: list[dict] = []
 
 def add(edge: str, ok: bool | None, command: str, observed: str) -> None:
     import re as _re
-    observed = _re.sub(r"in \\d+\\.\\d+s", "in <elapsed>", observed)
+    observed = _re.sub(r"in \d+\.\d+s", "in <elapsed>", observed)
     res.append({"edge": edge, "verdict": "PASS" if ok else ("FAIL" if ok is False else "NOT_REPRODUCED"),
                 "command": command, "observed": observed[:400]})
 
