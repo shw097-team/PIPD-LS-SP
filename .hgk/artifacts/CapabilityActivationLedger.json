@@ -153,5 +153,34 @@
   "publishing the private knowledge corpus or raw local sensitive evidence"
  ],
  "closure_rule": "a capability missing a stage row blocks that capability; no capability may be declared usable before its tests exist",
- "round2_dispositions_note": "Round-2 independent lanes proved the round-1 dispositions overstated enforcement strength (SoD compared caller strings only; a null/forged record passed; an empty bundle passed; repair accepted '../HG-KSEOS/**'). Every one of those holes is now closed and re-tested; dispositions were downgraded from IMPLEMENTED to HARDENED_ROUND2 until an independent lane re-verifies the hardened code."
+ "round2_dispositions_note": "Round-2 independent lanes proved the round-1 dispositions overstated enforcement strength (SoD compared caller strings only; a null/forged record passed; an empty bundle passed; repair accepted '../HG-KSEOS/**'). Every one of those holes is now closed and re-tested; dispositions were downgraded from IMPLEMENTED to HARDENED_ROUND2 until an independent lane re-verifies the hardened code.",
+ "independent_verdicts": [
+  {
+   "checker_identity": "glm-5.3-flash/opencode-go",
+   "candidate": "a2fb27b7479ac519b823023ff0982b55c4954772",
+   "verdict": "PASS",
+   "checks": "10/10 PASS",
+   "blocking_findings": 0,
+   "claim_ceiling_recommended": "LOCAL_QUALIFIED",
+   "status": "SUPERSEDED - the candidate moved to 1cf60ac, so this verdict is not valid for the current HEAD"
+  },
+  {
+   "checker_identity": "swarm lanes deleg_5a26d6d5 (3)",
+   "candidate": "pre-repair snapshot",
+   "verdict": "1 PASS / 2 FAIL",
+   "status": "ACTED_ON - produced 6 repairs"
+  },
+  {
+   "checker_identity": "swarm lanes deleg_1e6aaacf (3)",
+   "candidate": "a47cd07",
+   "verdict": "0 PASS / 3 FAIL",
+   "status": "ACTED_ON - produced 14 repairs (validator/pipeline/workspace hardening, fixtures, LF canonicalization)"
+  },
+  {
+   "checker_identity": "lane deleg_c8cfecc7",
+   "candidate": "1cf60ac804ae02af753341df35f5705647a16ae5",
+   "verdict": "PENDING",
+   "status": "running - affected-edge re-verification"
+  }
+ ]
 }

@@ -108,7 +108,10 @@ def main() -> int:
     A(f"- source families: 6 (GPT-B knowledge 20 files, PIPD standard DOC-00..09, PIPD design 11-PKG + blueprint + skeleton,")
     A("  engineering donors x3, command bundle, live HG-KSEOS/Fabric machine truth)")
     A(f"- PackageDerivationReceipt: {pdr.get('observed_count','?')} packages, topology match = {pdr.get('count_matches_design')}")
-    A(f"- derived knowledge index: `.hgk/knowledge/derived-spine.db` built from the HGK SharedSpine/FTS5 typed API (read-only view, no second SSOT)")
+    A("- derived knowledge index: `.hgk/knowledge/derived-spine.db` — a SEPARATE physical SQLite file built "
+      "through the HGK SharedSpine typed API. It carries the HGK schema but contains ZERO governance rows "
+      "(0 projects/requirements/taskspecs/workorders/events) and is never written by the orchestration plane. "
+      "Accurate label: **derived, non-authoritative knowledge index** — not \"read-only\" and not \"no second store\".")
     gp = kready.get("gate_predicate", {})
     A(f"- **G-KNOWLEDGE-READY verdict: `{kready.get('verdict','NOT_RUN')}`** — unique paths {gp.get('unique_input_paths','?')}, "
       f"indexed {gp.get('indexed_docs','?')}, quarantined {gp.get('quarantined','?')}, genuine ingest errors {gp.get('ingest_errors','?')}")
