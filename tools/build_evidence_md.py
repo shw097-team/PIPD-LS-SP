@@ -91,7 +91,13 @@ def main() -> int:
     A(f"| `HGK_ADMITTED` | CLAIMED | HGK typed lifecycle reached `EXECUTING` |")
     A(f"| `RUNTIME_READY` | **NOT CLAIMED** | only S0/S1 built |")
     A(f"| `LOCAL_QUALIFIED` | CLAIMED | deterministic tests + 13/13 CLI smoke |")
-    A(f"| `INDEPENDENT_PASS` | {'CLAIMED' if ao.get('verdict')=='PASS' else '**NOT CLAIMED**'} | AO lane `glm-5.3-flash/opencode-go` |")
+    ao_bound = (ao.get("verdict") == "PASS"
+                and ao.get("candidate_commit") == head
+                and ao.get("checker_identity")
+                and ao.get("checker_identity") != "HERMES-MAKER")
+    A(f"| `INDEPENDENT_PASS` | {'CLAIMED (bound)' if ao_bound else '**NOT CLAIMED**'} | "
+      f"AO lane `{ao.get('checker_identity','none')}` bound to `{ao.get('candidate_commit','-')[:12]}`"
+      f"{'' if ao_bound else ' — verdict missing, stale, or unbound to this candidate commit'} |")
     A(f"| `PUBLICATION_APPROVED` | **NOT CLAIMED** | source corpus declares no license (`TT-PIPD-LICENSE-001`) |")
     A(f"| `RELEASED` | **NOT CLAIMED** | — |")
     A(f"| `PRODUCTION_VERIFIED` | **NOT CLAIMED** | — |\n")

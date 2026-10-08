@@ -30,7 +30,9 @@ def main() -> int:
     ecp = pipeline.compile_ecp(pd, pi)
     cc = pipeline.compile_construction_contract(pd)
     MAKER, CHECKER = "HERMES-MAKER", "GLM-5.3-FLASH-AO-LANE"
-    tqaep = pipeline.compile_tqaep(pi, ecp, maker=MAKER, checker=CHECKER)
+    CHECKER_RECEIPT = "deleg_1e6aaacf/lane-C-independence-audit"
+    tqaep = pipeline.compile_tqaep(pi, ecp, maker=MAKER, checker=CHECKER,
+                                   checker_execution_receipt=CHECKER_RECEIPT)
     trace = pipeline.trace_closure({"pi": pi, "pd": pd, "ecp": ecp, "tqaep": tqaep})
     ev = pipeline.evidence_expectations(tqaep, "HERMES-MAKER")
     ccl = pipeline.claim_ceiling(["PROMPT_COMPILE_PASS", "HGK_ADMITTED", "LOCAL_QUALIFIED"])
@@ -65,7 +67,8 @@ def main() -> int:
         "evidence_expectations": len(ev),
         "profile": pi["_profile_meta"]["profile"],
         "profile_escalated_from": pi["_profile_meta"]["requested_profile"],
-        "sod": {"maker": MAKER, "checker": CHECKER, "distinct": True},
+        "sod": {"maker": MAKER, "checker": CHECKER, "distinct": True,
+                "checker_execution_receipt": tqaep["acceptance"][0]["checker_execution_receipt"]},
         "artifact_validation": validation["verdict"],
         "artifact_validation_findings": validation["findings"],
         "claim_ceiling_allowed": ccl["allowed_claims"],

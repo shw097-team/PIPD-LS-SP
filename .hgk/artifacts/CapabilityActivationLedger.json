@@ -16,8 +16,8 @@
   {
    "capability": "Source/Authority Freeze",
    "stage": "S0",
-   "current_execution_disposition": "IMPLEMENTED",
-   "evidence_or_gap": "pipeline.freeze_authority + .hgk/preflight/source-manifest.json"
+   "current_execution_disposition": "HARDENED_ROUND2",
+   "evidence_or_gap": "freeze_authority now verifies each family locator resolves on disk and each manifest digest is a real sha256"
   },
   {
    "capability": "Intent / RequirementAtom",
@@ -58,14 +58,14 @@
   {
    "capability": "ECP / TQAEP",
    "stage": "S1",
-   "current_execution_disposition": "IMPLEMENTED",
-   "evidence_or_gap": "pipeline.compile_ecp/compile_tqaep; maker==checker refused"
+   "current_execution_disposition": "HARDENED_ROUND2",
+   "evidence_or_gap": "SoD is persisted inside TQAEP.acceptance (maker_identity, checker_identity, distinct, checker_execution_receipt); alias/self-attested/short-circuit probes are refused"
   },
   {
    "capability": "Trace / Evidence / Claim",
    "stage": "S1",
-   "current_execution_disposition": "IMPLEMENTED",
-   "evidence_or_gap": "trace_closure, evidence_expectations, claim_ceiling"
+   "current_execution_disposition": "HARDENED_ROUND2",
+   "evidence_or_gap": "trace_closure recomputes both endpoint hashes and fails on mismatch/absent endpoints; claim_ceiling refuses any claim above LOCAL_QUALIFIED without a bound approval receipt AND a checker identity; validate_bundle fails on an empty denominator"
   },
   {
    "capability": "8 logical Skills",
@@ -82,8 +82,8 @@
   {
    "capability": "deterministic validators",
    "stage": "S0",
-   "current_execution_disposition": "IMPLEMENTED",
-   "evidence_or_gap": "validate.schema_validate + semantic_invariants; negative tests"
+   "current_execution_disposition": "HARDENED_ROUND2",
+   "evidence_or_gap": "identity fields must be non-empty; content_hash must be a 64-hex digest recomputed from the record body (body tamper is now detected); empty bundle FAIL; schemas + semantics"
   },
   {
    "capability": "3 Golden Pilots (GP-01..03)",
@@ -124,8 +124,8 @@
   {
    "capability": "bounded repair / rollback",
    "stage": "S1",
-   "current_execution_disposition": "IMPLEMENTED",
-   "evidence_or_gap": "repair() bounded + rollback drill PASS via git worktree"
+   "current_execution_disposition": "HARDENED_ROUND2",
+   "evidence_or_gap": "repair refuses '**', absolute paths, '../' escapes and any scope outside an explicit authorized_root; rollback drill now has a bound raw receipt (.hgk/artifacts/rollback_drill.json)"
   },
   {
    "capability": "public deliverable + acceptance evidence",
@@ -152,5 +152,6 @@
   "maker signing an Independent/Human PASS",
   "publishing the private knowledge corpus or raw local sensitive evidence"
  ],
- "closure_rule": "a capability missing a stage row blocks that capability; no capability may be declared usable before its tests exist"
+ "closure_rule": "a capability missing a stage row blocks that capability; no capability may be declared usable before its tests exist",
+ "round2_dispositions_note": "Round-2 independent lanes proved the round-1 dispositions overstated enforcement strength (SoD compared caller strings only; a null/forged record passed; an empty bundle passed; repair accepted '../HG-KSEOS/**'). Every one of those holes is now closed and re-tested; dispositions were downgraded from IMPLEMENTED to HARDENED_ROUND2 until an independent lane re-verifies the hardened code."
 }

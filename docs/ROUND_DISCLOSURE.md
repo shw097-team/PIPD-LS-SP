@@ -83,3 +83,8 @@ documents document (e.g. `ignore previous instructions`, `exfiltrate the secret`
 example). This is a knowledge-layer false positive class, not a leak, and it currently excludes
 **three required PIPD standard documents** (`DOC-01`, `DOC-08`, `DOC-09`) from the index. It is
 recorded as `TT-PIPD-KNOWLEDGE-QUARANTINE` rather than repaired by weakening the sanitiser.
+
+
+## 8. Correction of a wording overclaim (round 2 finding)
+
+docs/ROUND_DISCLOSURE.md previously implied the knowledge layer introduced no new store and was read-only. Both were inaccurate: derived knowledge index built through the HGK SharedSpine typed API; it is a SEPARATE physical SQLite file that carries the HGK schema but contains ZERO governance rows (0 projects/requirements/taskspecs/workorders/events) and is never written by the orchestration plane. Correct description: 'derived, non-authoritative knowledge index' - not 'read-only' and not 'no second store'.

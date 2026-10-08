@@ -12,10 +12,12 @@ from .errors import (DiffIncompatible, ExportSecretFound, ProjectionLoss,
 from .util import canonical_json, sha256_file, sha256_text, utc_now
 
 SECRET_PATTERNS = [
-    ("github_pat", re.compile(r"gh[pousr]_[A-Za-z0-9]{20,}")),
-    ("openai_key", re.compile(r"sk-[A-Za-z0-9]{20,}")),
-    ("aws_key", re.compile(r"AKIA[0-9A-Z]{16}")),
-    ("private_key", re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----")),
+    ("github_pat_fine_grained", re.compile(r"github_pat_[A-Za-z0-9_]{20,}")),
+    ("github_classic", re.compile(r"gh[pousr]_[A-Za-z0-9]{20,}")),
+    ("openai_sk", re.compile(r"sk-[A-Za-z0-9]{20,}")),
+    ("aws_access_key", re.compile(r"AKIA[0-9A-Z]{16}")),
+    ("private_key_block", re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----")),
+    ("bearer_literal", re.compile(r"(?i)authorization:\s*bearer\s+[A-Za-z0-9._-]{20,}")),
 ]
 
 WEB_PACK_5 = ["index.html", "app.js", "styles.css", "manifest.webmanifest", "README.md"]
@@ -166,12 +168,33 @@ def semantic_diff(a: dict[str, Any], b: dict[str, Any]) -> dict[str, Any]:
 
 
 def repair_candidate(subject: str, *, scope: list[str], maker: str,
-                     self_accept: bool = False) -> dict[str, Any]:
+                     authorized_root: str = "", self_accept: bool = False) -> dict[str, Any]:
     if self_accept:
         raise SelfAcceptForbidden("repair candidate cannot be self-accepted by the maker")
     if not scope:
         raise RepairScopeFail("repair requires an explicit bounded scope")
+    # An adversarial lane (deleg_1e6aaacf lane C) drove `**`, absolute external paths and `../`
+    # escapes through this function, which previously accepted anything non-empty. A repair
+    # candidate that can name HG-KSEOS is a scope-expansion hole, so it is refused outright.
+    bad = [s for s in scope
+           if not s or s.strip() in ("**", "**/*", "*", "/", "")
+           or s.startswith(("/", "\\")) or re.match(r"^[A-Za-z]:", s)
+           or ".." in s.replace("\\", "/").split("/")]
+    if bad:
+        raise RepairScopeFail(f"repair scope escapes the authorised root: {bad}")
+    if authorized_root:
+        root = Path(authorized_root).resolve()
+        outside = []
+        for s in scope:
+            try:
+                (root / s.split("*")[0].strip("/")).resolve().relative_to(root)
+            except Exception:
+                outside.append(s)
+        if outside:
+            raise RepairScopeFail(f"repair scope outside the authorised root {root}: {outside}")
+    else:
+        raise RepairScopeFail("repair requires authorized_root; an unscoped repair is not bounded")
     return {"schema": "PIPD-REPAIR-CANDIDATE/1", "subject": subject, "scope": scope,
-            "maker": maker, "state": "CANDIDATE",
+            "maker": maker, "state": "CANDIDATE", "authorized_root": str(authorized_root),
             "isolation": "workspace_only", "requalification": "affected-only",
             "self_accept": False}

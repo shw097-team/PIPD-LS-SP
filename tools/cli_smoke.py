@@ -47,13 +47,15 @@ def main() -> int:
         ["bind-pd", "--pi", str(ART / "pi_pkg.json"), "--repo-root", str(ROOT), "--head", "HEAD"],
         ["compile-ecp", "--pd", str(ART / "pd_pkg.json"), "--pi", str(ART / "pi_pkg.json")],
         ["compile-tqaep", "--pi", str(ART / "pi_pkg.json"), "--ecp", str(ART / "ecp.json"),
-         "--maker", "HERMES-MAKER", "--checker", "GLM-5.3-FLASH-AO-LANE"],
+         "--maker", "HERMES-MAKER", "--checker", "GLM-5.3-FLASH-AO-LANE",
+         "--checker-receipt", "deleg_5a26d6d5/lane-C"],
         ["validate", "--bundle", str(ART / "bundle.json")],
         ["doctor"],
         ["project"],
         ["export"],
         ["diff", "--a", str(ART / "claim_ceiling.json"), "--b", str(ART / "claim_ceiling.json")],
-        ["repair", "--subject", "PI-PKG", "--scope", "src/**", "--maker", "HERMES-MAKER"],
+        ["repair", "--subject", "PI-PKG", "--scope", "src/**", "--maker", "HERMES-MAKER",
+         "--authorized-root", str(ROOT)],
     ]
     receipts = [run(p) for p in plan]
     reds = [r for r in receipts if r["exit"] != 0]

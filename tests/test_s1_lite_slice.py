@@ -21,7 +21,8 @@ class TestLiteSlice(unittest.TestCase):
                                    "writable_scope": "src/**"})
         ecp = pipeline.compile_ecp(pd, pi)
         cc = pipeline.compile_construction_contract(pd)
-        tq = pipeline.compile_tqaep(pi, ecp, maker="HERMES-MAKER", checker="GLM-5.3-FLASH-AO-LANE")
+        tq = pipeline.compile_tqaep(pi, ecp, maker="HERMES-MAKER", checker="GLM-5.3-FLASH-AO-LANE",
+                                   checker_execution_receipt="deleg_5a26d6d5/lane-C")
         return card, pi, pd, ecp, cc, tq
 
     def test_slice_runs_and_binds(self) -> None:
@@ -30,6 +31,7 @@ class TestLiteSlice(unittest.TestCase):
         self.assertTrue(pd["RepoContext"]["root"])
         self.assertTrue(cc["writable_scope"])
         self.assertTrue(tq["tests"])
+        self.assertTrue(tq["acceptance"][0]["checker_execution_receipt"])
 
     def test_slice_is_replay_deterministic(self) -> None:
         a = self._slice()

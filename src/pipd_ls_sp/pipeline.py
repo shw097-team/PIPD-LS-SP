@@ -13,17 +13,22 @@ from typing import Any
 from .errors import (AuthorityUnknown, EffectUnknown, IntakeInvalid, PiSemanticFail,
                      RepoContextMissing, TqOracleFail, TqSodFail, TqTraceFail)
 from .profiles import compute_profile
-from .util import canonical_json, content_id, sha256_text
+from .util import canonical_json, content_id, sha256_text  # noqa: F401
 
 CLAIM_LADDER = ["PROMPT_COMPILE_PASS", "HGK_ADMITTED", "RUNTIME_READY", "LOCAL_QUALIFIED",
                 "INDEPENDENT_PASS", "PUBLICATION_APPROVED", "RELEASED", "PRODUCTION_VERIFIED"]
 
 
 def _rec(kind: str, prefix: str, payload: Any, **fields: Any) -> dict[str, Any]:
-    """Build a schema-conformant record: identity fields first, then declared fields."""
-    rec = {"subject_id": content_id(prefix, payload),
+    """Build a schema-conformant record whose identity is derived from its own body.
+
+    The hash covers every declared field (not just the caller's `payload`), so a body edited
+    without re-issuing identity is detectable by validate.semantic_invariants.
+    """
+    digest = sha256_text(canonical_json(fields))
+    rec = {"subject_id": f"{prefix}-{digest[:16]}",
            "version": "1",
-           "content_hash": sha256_text(canonical_json(payload)),
+           "content_hash": digest,
            "schema_version": f"{kind}@1"}
     rec.update(fields)
     return rec
@@ -40,6 +45,12 @@ def freeze_authority(manifest: dict[str, Any]) -> dict[str, Any]:
             raise AuthorityUnknown(f"family {fam} lacks a manifest digest")
         if not spec.get("files"):
             raise AuthorityUnknown(f"family {fam} is empty")
+        loc = spec["files"][0]["rel"]
+        if not (Path(spec.get("root", "")) / loc).exists() and not Path(loc).exists():
+            raise AuthorityUnknown(f"authority locator does not resolve on disk: {loc}")
+        digest = spec["manifest_sha256"]
+        if not re.match(r"^[0-9a-f]{64}$", str(digest)):
+            raise AuthorityUnknown(f"family {fam} manifest digest is not a sha256: {digest!r}")
         rank = "R1" if fam.startswith(("F1", "F2", "F3", "F5", "F6")) else "R2"
         bindings.append(_rec("AuthorityBinding", "AUTH",
                              {"fam": fam, "digest": spec["manifest_sha256"]},
@@ -115,6 +126,7 @@ def compile_pi(card: dict[str, Any], profile_name: str = "LITE") -> dict[str, An
     pi["stable_semantic_contract"] = {"contract": "stable", "profile_binding": pb,
                                       "atoms": atoms, "goal": card["goal"]}
     pi["acceptance"] = {"mode": "bound", "oracle_source": "DOC-03 DOMAIN_ORACLES"}
+    _seal(pi, "PI")
     pi["trace"] = [_rec("TraceLink", "TL", {"f": pi["subject_id"], "t": a["subject_id"]},
                         from_type="PI-PKG", from_id=pi["subject_id"], from_hash=pi["content_hash"],
                         to_type="RequirementAtom", to_id=a["subject_id"],
@@ -123,6 +135,21 @@ def compile_pi(card: dict[str, Any], profile_name: str = "LITE") -> dict[str, An
                    for a in atoms]
     pi["_profile_meta"] = profile_meta  # non-record sidecar, stripped before validation
     return pi
+
+
+def _seal(rec: dict[str, Any], prefix: str) -> dict[str, Any]:
+    """Recompute identity over the FINAL body.
+
+    Builders that add declared fields after _rec() must seal at the end, otherwise the hash does
+    not cover the body and validate.semantic_invariants correctly rejects the record.
+    """
+    # `trace` is a derived relation, not body content: it carries the parent hash, so it cannot be
+    # inside the hash it references. The validator excludes exactly the same key set.
+    body = {k: v for k, v in rec.items() if k not in ("subject_id", "version", "content_hash", "schema_version", "trace", "_profile_meta")}
+    digest = sha256_text(canonical_json(body))
+    rec["subject_id"] = f"{prefix}-{digest[:16]}"
+    rec["content_hash"] = digest
+    return rec
 
 
 def atoms_of(pi: dict[str, Any]) -> list[dict[str, Any]]:
@@ -149,7 +176,7 @@ def bind_pd(pi: dict[str, Any], repo_context: dict[str, Any] | None) -> dict[str
     pd["late_bound_construction_binding"] = {
         "bound_at": "PD", "binding_scope": "affected_only",
         "writable_scope": repo_context.get("writable_scope", "src/**")}
-    return pd
+    return _seal(pd, "PD")
 
 
 # ---------------------------------------------------------------- ECP / TQAEP
@@ -158,12 +185,12 @@ def compile_construction_contract(pd: dict[str, Any]) -> dict[str, Any]:
     if not scope:
         raise EffectUnknown("ConstructionContract requires an explicit writable scope")
     payload = {"pd": pd["subject_id"], "scope": scope}
-    return _rec("ConstructionContract", "CC", payload,
+    return _seal(_rec("ConstructionContract", "CC", payload,
                 subject=pd["subject_id"], writable_scope=[scope],
                 expected_changes=["bounded edits inside writable scope"],
                 tests=["tests/test_s1_lite_slice.py"],
                 rollback="git revert to baseline commit",
-                evidence_expectations=["EVD-POS", "EVD-NEG"])
+                evidence_expectations=["EVD-POS", "EVD-NEG"]), "CC")
 
 
 def compile_ecp(pd: dict[str, Any], pi: dict[str, Any]) -> dict[str, Any]:
@@ -171,19 +198,23 @@ def compile_ecp(pd: dict[str, Any], pi: dict[str, Any]) -> dict[str, Any]:
     if not scope:
         raise EffectUnknown("ECP requires an explicit writable scope")
     payload = {"pd": pd["subject_id"], "scope": scope, "pi": pi["subject_id"]}
-    return _rec("ECP", "ECP", payload,
+    return _seal(_rec("ECP", "ECP", payload,
                 effect_intent="apply bounded edits inside the writable scope",
                 permission={"scope": scope, "token_required": True},
                 retries={"max": 1, "backoff": "none"},
                 idempotency={"key": content_id("IDEM", payload), "guarantee": "at_most_once"},
                 readback={"required": True, "kind": "residue_scan"},
-                rollback={"pointer": "baseline_commit", "required": True})
+                rollback={"pointer": "baseline_commit", "required": True}), "ECP")
 
 
-def compile_tqaep(pi: dict[str, Any], ecp: dict[str, Any], *, maker: str,
-                  checker: str) -> dict[str, Any]:
-    if maker == checker:
-        raise TqSodFail("maker must not be the independent checker")
+def compile_tqaep(pi: dict[str, Any], ecp: dict[str, Any], *, maker: str, checker: str,
+                  checker_execution_receipt: str = "") -> dict[str, Any]:
+    # C-3 repair: reject aliasing tricks, not just exact string equality.
+    if maker.strip().lower() == checker.strip().lower():
+        raise TqSodFail("maker must not be the independent checker (case/whitespace-insensitive)")
+    if not checker_execution_receipt or checker_execution_receipt.upper() == "SELF_ATTESTED":
+        raise TqSodFail("an independent checker must supply a checker_execution_receipt; a maker "
+                        "cannot self-attest independence")
     if not pi.get("trace"):
         raise TqTraceFail("TQAEP requires trace links")
     tests, oracles, fixtures = [], [], []
@@ -199,9 +230,12 @@ def compile_tqaep(pi: dict[str, Any], ecp: dict[str, Any], *, maker: str,
         raise TqOracleFail("every TQAEP test needs an oracle")
     payload = {"pi": pi["subject_id"], "ecp": ecp["subject_id"],
                "tests": [t["test_id"] for t in tests]}
-    return _rec("TQAEP", "TQAEP", payload,
+    acceptance = [{"case": "INDEPENDENT_CASE_PASS", "maker_identity": maker,
+                   "checker_identity": checker, "distinct": True,
+                   "checker_execution_receipt": checker_execution_receipt}]
+    return _seal(_rec("TQAEP", "TQAEP", payload,
                 tests=tests, oracles=oracles, fixtures=fixtures,
-                acceptance=["INDEPENDENT_CASE_PASS"], requalification="affected-only")
+                acceptance=acceptance, requalification="affected-only"), "TQAEP")
 
 
 # ---------------------------------------------------------------- evidence / claim
@@ -240,7 +274,25 @@ def trace_closure(artifacts: dict[str, dict[str, Any]]) -> dict[str, Any]:
         for tl in arte.get("trace", []) or []:
             edges.append((name, tl["to_id"]))
     orphans = sorted(t for _, t in edges if t not in known)
+    # C-10 repair: a fabricated endpoint hash used to sail through. Recompute both sides.
+    by_id = {}
+    for name, arte in artifacts.items():
+        if "subject_id" in arte:
+            by_id[arte["subject_id"]] = arte.get("content_hash", "")
+        for atom in (arte.get("stable_semantic_contract", {}) or {}).get("atoms", []) or []:
+            by_id[atom["subject_id"]] = atom.get("content_hash", "")
+    bad_hash = []
+    for name, arte in artifacts.items():
+        for tl in arte.get("trace", []) or []:
+            for side in ("from", "to"):
+                got = str(tl.get(f"{side}_hash") or "")
+                want = by_id.get(tl.get(f"{side}_id"))
+                if want is None:
+                    bad_hash.append(f"{tl.get(f'{side}_id')}: endpoint not present in the bundle")
+                elif got != want:
+                    bad_hash.append(f"{tl.get(f'{side}_id')}: {side}_hash mismatch "
+                                    f"(recorded {got[:12]} real {want[:12]})")
     payload = {"artifacts": sorted(artifacts), "edges": len(edges)}
     return _rec("TraceClosureReport", "TRC", payload,
-                edges=len(edges), orphans=orphans,
-                verdict="PASS" if not orphans and edges else "FAIL")
+                edges=len(edges), orphans=orphans, bad_hashes=bad_hash,
+                verdict="PASS" if (not orphans and edges and not bad_hash) else "FAIL")

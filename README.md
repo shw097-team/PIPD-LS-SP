@@ -24,8 +24,8 @@ This repository is a **review candidate**. Status words are kept separate on pur
 | `PROMPT_COMPILE_PASS` | claimed locally, evidence in `.hgk/preflight/` |
 | `HGK_ADMITTED` | claimed locally (HGK lifecycle reached `EXECUTING`) |
 | `RUNTIME_READY` | **NOT claimed** |
-| `LOCAL_QUALIFIED` | claimed locally (deterministic tests + CLI smoke) |
-| `INDEPENDENT_PASS` | see the external acceptance evidence file |
+| `LOCAL_QUALIFIED` | claimed locally (deterministic tests + CLI smoke), scoped to S0/S1 |
+| `INDEPENDENT_PASS` | **NOT CLAIMED by the maker** — pending an independent acceptance officer receipt |
 | `PUBLICATION_APPROVED` | **NOT claimed** — no license is declared in the source corpus |
 | `RELEASED` | **NOT claimed** |
 | `PRODUCTION_VERIFIED` | **NOT claimed** |
@@ -36,3 +36,8 @@ This repository is a **review candidate**. Status words are kept separate on pur
 
 No license is granted — see `LICENSE`. The authoritative source corpus declares none; this is
 recorded as source gap `TT-PIPD-LICENSE-001`.
+
+
+## 8. Correction of a wording overclaim (round 2 finding)
+
+README.md previously implied the knowledge layer introduced no new store and was read-only. Both were inaccurate: derived knowledge index built through the HGK SharedSpine typed API; it is a SEPARATE physical SQLite file that carries the HGK schema but contains ZERO governance rows (0 projects/requirements/taskspecs/workorders/events) and is never written by the orchestration plane. Correct description: 'derived, non-authoritative knowledge index' - not 'read-only' and not 'no second store'.

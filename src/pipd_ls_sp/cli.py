@@ -53,6 +53,7 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--ecp", type=Path, required=True)
     s.add_argument("--maker", default="HERMES-MAKER")
     s.add_argument("--checker", default="GLM-5.3-FLASH-AO-LANE")
+    s.add_argument("--checker-receipt", dest="checker_receipt", default="")
     s = sub.add_parser("validate"); s.add_argument("--bundle", type=Path, required=True)
     sub.add_parser("doctor")
     s = sub.add_parser("project"); s.add_argument("--out", type=Path, default=None)
@@ -60,6 +61,7 @@ def build_parser() -> argparse.ArgumentParser:
     s = sub.add_parser("diff"); s.add_argument("--a", type=Path, required=True)
     s.add_argument("--b", type=Path, required=True)
     s = sub.add_parser("repair"); s.add_argument("--subject", required=True)
+    s.add_argument("--authorized-root", dest="authorized_root", default="")
     s.add_argument("--scope", action="append", default=[])
     s.add_argument("--maker", default="HERMES-MAKER")
     return p
@@ -92,7 +94,8 @@ def run(args: argparse.Namespace) -> dict:
     if cmd == "compile-tqaep":
         return pipeline.compile_tqaep(json.loads(args.pi.read_text(encoding="utf-8")),
                                       json.loads(args.ecp.read_text(encoding="utf-8")),
-                                      maker=args.maker, checker=args.checker)
+                                      maker=args.maker, checker=args.checker,
+                                      checker_execution_receipt=args.checker_receipt)
     if cmd == "validate":
         bundle = json.loads(args.bundle.read_text(encoding="utf-8"))
         return validate.validate_bundle(bundle, root / "schemas")
@@ -106,7 +109,8 @@ def run(args: argparse.Namespace) -> dict:
         return workspace.semantic_diff(json.loads(args.a.read_text(encoding="utf-8")),
                                        json.loads(args.b.read_text(encoding="utf-8")))
     if cmd == "repair":
-        return workspace.repair_candidate(args.subject, scope=args.scope, maker=args.maker)
+        return workspace.repair_candidate(args.subject, scope=args.scope, maker=args.maker,
+                                          authorized_root=args.authorized_root or str(ROOT))
     raise AssertionError(cmd)
 
 
