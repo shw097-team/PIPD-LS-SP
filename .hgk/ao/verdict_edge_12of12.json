@@ -1,0 +1,82 @@
+{
+ "lane": "edge-reverify-glm",
+ "checker_identity": "glm-5.3-flash/opencode-go",
+ "candidate": "4473c5328f781c29cc7b3048a333c6f090c15de2",
+ "edges": [
+  {
+   "edge": "E1",
+   "verdict": "PASS",
+   "command": "cd C:/Projects/Agent_Workspace/PIPD && python -m unittest discover -s tests -t .",
+   "observed": "Ran 22 tests in 0.180s\nOK"
+  },
+  {
+   "edge": "E2",
+   "verdict": "PASS",
+   "command": "python -B -c 'copytree(repo, scratch\\e2copy, ignore=.git)' && cd <scratch-copy> && python -m unittest discover -s tests -t . -v",
+   "observed": "test_rollback_pointer_is_a_real_git_commit ... skipped 'no usable git checkout here (fresh copy excludes .git): git exited 128'\nRan 22 tests in 0.149s\nOK (skipped=1)"
+  },
+  {
+   "edge": "E3",
+   "verdict": "PASS",
+   "command": "python -B -c \"import sys;sys.path.insert(0,'src');from pipd_ls_sp import validate;print(validate.validate_bundle({}))\"",
+   "observed": "{\"verdict\": \"FAIL\", \"checked\": 0, \"findings\": [{\"contract\": \"*\", \"kind\": \"DENOMINATOR\", \"detail\": \"empty bundle: zero records checked cannot be a PASS\"}]}"
+  },
+  {
+   "edge": "E4",
+   "verdict": "PASS",
+   "command": "validate.semantic_invariants('PI-PKG', {'subject_id':'','version':'','content_hash':'not-a-hash','schema_version':'Anything@1'})",
+   "observed": "3 findings: 'PI-PKG: identity field subject_id must be a non-empty string'; 'PI-PKG: identity field version must be a non-empty string'; 'PI-PKG: content_hash must be a 64-char lowercase sha256 hex digest'"
+  },
+  {
+   "edge": "E5",
+   "verdict": "PASS",
+   "command": "load .hgk/artifacts/s1/pi_pkg.json, deepcopy, tamper stable_semantic_contract.goal='TAMPERED-GOAL-XYZ', call semantic_invariants('PI-PKG', tampered)",
+   "observed": "untampered -> []; tampered -> [\"PI-PKG: content_hash does not match the record body (body edited without re-issuing identity)\"]"
+  },
+  {
+   "edge": "E6",
+   "verdict": "PASS",
+   "command": "pipeline.compile_tqaep(minimal_pi, minimal_ecp, maker='M', checker='m '/'C'/'C', checker_execution_receipt=''/'SELF_ATTESTED'/'lane-X')",
+   "observed": "a) TqSodFail: maker must not be the independent checker (case/whitespace-insensitive); b) TqSodFail: an independent checker must supply a checker_execution_receipt; a maker cannot self-attest independence; c) acceptance[0] = {\"case\":\"INDEPENDENT_CASE_PASS\",\"maker_identity\":\"M\",\"checker_identity\":\"C\",\"distinct\":true,\"checker_execution_receipt\":\"lane-X\"}"
+  },
+  {
+   "edge": "E7",
+   "verdict": "PASS",
+   "command": "workspace.repair_candidate('X', scope=..., maker='M') for ['**'], ['C:/Projects/Agent_Workspace/HG-KSEOS/**'], ['../HG-KSEOS/**'], ['src/**'] w/o authorized_root, then ['src/**'] + authorized_root=repo",
+   "observed": "4x RepairScopeFail: ['**'] escapes the authorised root / ['C:/Projects/Agent_Workspace/HG-KSEOS/**'] escapes / ['../HG-KSEOS/**'] escapes / 'repair requires authorized_root; an unscoped repair is not bounded'; 5th returned state=CANDIDATE, authorized_root=C:\\Projects\\Agent_Workspace\\PIPD, self_accept=false"
+  },
+  {
+   "edge": "E8",
+   "verdict": "PASS",
+   "command": "validate.semantic_invariants('ClaimCeiling', {'subject_id':'CCL-0000000000000000','version':'1','content_hash':'a'*64,'schema_version':'ClaimCeiling@1','allowed_claims':['INDEPENDENT_PASS'],'forbidden_escalation':[]})",
+   "observed": "[\"ClaimCeiling: claims above LOCAL_QUALIFIED require a bound approval receipt AND a checker identity; a maker cannot mint them unilaterally\"]"
+  },
+  {
+   "edge": "E9",
+   "verdict": "PASS",
+   "command": "s='github_pat_'+'A'*30 in memory; [p.search(s) for p in pipd_ls_sp.workspace.SECRET_PATTERNS]",
+   "observed": "pattern count: 6; HIT idx=0 name='github…', pattern 'github_pat_[A-Za-z0-9_]{20,}' matches"
+  },
+  {
+   "edge": "E10",
+   "verdict": "PASS",
+   "command": "git stash list; git status --porcelain; git show HEAD:.hgk/preflight/PIPD-LS-SP.CONTRACT.json | sha256sum; compare with contract_sha256 in git show HEAD:.hgk/preflight/compile_out/compiler-receipt.json",
+   "observed": "stash empty, status clean; both = 6c08dd57af2b7dc4e7775618e8ab93136da17f2c6601928232a02fdc9314d472 (worktree receipt carries the same value)"
+  },
+  {
+   "edge": "E11",
+   "verdict": "PASS",
+   "command": "load each .hgk/artifacts/s1/*.json from `git show HEAD:<file>` (8 records with subject_id), run pipeline.trace_closure",
+   "observed": "edges=5 orphans=[] bad_hashes=[] verdict=PASS"
+  },
+  {
+   "edge": "E12",
+   "verdict": "PASS",
+   "command": "six canonical patterns (incl. (?i)authorization:\\s*bearer\\s+[A-Za-z0-9._\\-]{20,}) over all 165 worktree files and over `git rev-list --objects --all | git cat-file --batch` (211 blobs of 436 objects)",
+   "observed": "worktree hits: 0 (all six patterns); git-object hits: 0 (all six patterns)"
+  }
+ ],
+ "regressions": [],
+ "verdict": "PASS",
+ "notes": "HEAD 4473c5328f781c29cc7b3048a333c6f090c15de2 equals FROZEN_CANDIDATE.txt; git status --porcelain empty before, between and after every probe, no writes touched the repo (all probes ran via python -B from scratch scripts under %TEMP%\\pipd-edge-verify). All 12 edges reproduce as specified. One latent defect found during source reading, NOT a regression of this freeze: SECRET_PATTERNS[5] 'bearer_literal' in src/pipd_ls_sp/workspace.py:20 compiled to the mangled regex (?i)authorization:\\s*bea...20,} which cannot match a real bearer token (verified False against a sample); it has been broken identically since commit 55fa925 (two freezes ago), no test pins it, and the sweep with the canonical pattern found zero hits, so E12 passes as specified — recommend a candidate-only repair in a later round. Candidate stands at ceiling LOCAL_QUALIFIED: this is an independent verification of E1-E12 only, no external acceptance implied."
+}

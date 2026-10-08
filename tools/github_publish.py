@@ -93,15 +93,19 @@ def main() -> int:
 
     # Push WITHOUT ever putting the token in argv or a URL: the credential travels only in the
     # child process environment, which is process memory and is never persisted to .git/config.
-    basic = base64.b64encode(f"x-access-token:{token}".encode()).decode()
+    basic = base64.b64encode(f"x-access-token:{token}".encode()).decode("ascii")
     push_env = {**os.environ,
                 "GIT_TERMINAL_PROMPT": "0",
                 "GIT_CONFIG_COUNT": "1",
-                "GIT_CONFIG_KEY_0": "http.extraheader",
+                # URL-scoped on purpose. The previous run set the bare `http.extraheader` here AND
+                # passed `-c http.https://github.com/.extraheader=` (empty) on the command line; the
+                # more specific command-line value won and cleared the Authorization header, so the
+                # push went out unauthenticated ("Invalid username or token"). Nothing on the command
+                # line may override this key now.
+                "GIT_CONFIG_KEY_0": "http.https://github.com/.extraheader",
                 "GIT_CONFIG_VALUE_0": f"Authorization: Basic {basic}",
                 "GIT_ASKPASS": "echo", "GIT_CONFIG_NOSYSTEM": "1"}
     push = subprocess.run(["git", "-C", str(REPO_ROOT), "-c", "credential.helper=",
-                           "-c", "http.https://github.com/.extraheader=",
                            "push", "--quiet", f"https://github.com/{ORG}/{NAME}.git",
                            "HEAD:refs/heads/main", "--force"],
                           capture_output=True, text=True, env=push_env)
