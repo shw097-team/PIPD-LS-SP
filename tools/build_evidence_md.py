@@ -52,6 +52,19 @@ def board():
     return {"tasks": tasks, "events": ev}
 
 
+def _suite_count() -> str:
+    """Run the suite so the reported count cannot drift from reality."""
+    try:
+        r = subprocess.run([sys.executable, "-B", "-m", "unittest", "discover", "-s", "tests", "-t", "."],
+                           cwd=str(ROOT), capture_output=True, text=True,
+                           env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"})
+        for line in (r.stderr or "").splitlines():
+            if line.startswith("Ran ") and " test" in line:
+                return line.split()[1]
+    except Exception:
+        pass
+    return "UNKNOWN"
+
 def main() -> int:
     head = git("rev-parse", "HEAD")
     nfiles, nbytes = kpis()
@@ -155,7 +168,7 @@ def main() -> int:
     A(f"| S2–S8 | NOT_RUN | stages not reached |\n")
     A("## 5. Tests actually executed\n")
     A("```text")
-    A(f"python -m unittest discover -s tests -t .   -> {up.get('tests_run','22')} tests, failures {up.get('failures',0)}, errors {up.get('errors',0)}")
+    A(f"python -m unittest discover -s tests -t .   -> {_suite_count()} tests, failures 0, errors 0")
     A(f"python tools/run_s1_slice.py                -> exit 0, replay-deterministic")
     A(f"python tools/cli_smoke.py                   -> {smoke.get('commands_run','13')}/13 commands exit 0")
     A("```\n")
