@@ -29,8 +29,11 @@ def main() -> int:
                                "writable_scope": "src/**"})
     ecp = pipeline.compile_ecp(pd, pi)
     cc = pipeline.compile_construction_contract(pd)
-    MAKER, CHECKER = "HERMES-MAKER", "GLM-5.3-FLASH-AO-LANE"
-    CHECKER_RECEIPT = "deleg_1e6aaacf/lane-C-independence-audit"
+    MAKER, CHECKER = "HERMES-MAKER", "glm-5.3-flash/opencode-go"
+    # The receipt must name the lane whose ACTUAL execution produced the verdict, and must agree with
+    # CHECKER. An earlier value pointed at a gpt-6.1-sol audit lane while CHECKER claimed a GLM lane:
+    # a checker identity and its execution receipt that disagree are not evidence of independence.
+    CHECKER_RECEIPT = ".hgk/ao/verdict_edge_12of12.log (lane edge-reverify-glm, glm-5.3-flash/opencode-go)"
     tqaep = pipeline.compile_tqaep(pi, ecp, maker=MAKER, checker=CHECKER,
                                    checker_execution_receipt=CHECKER_RECEIPT)
     trace = pipeline.trace_closure({"pi": pi, "pd": pd, "ecp": ecp, "tqaep": tqaep})
