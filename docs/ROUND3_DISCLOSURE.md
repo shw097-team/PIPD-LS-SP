@@ -93,6 +93,55 @@ checker 同時確認：bearer 修補是**真加寬**而非行為改變（最小�
 
 ### 窄域複驗 #2（候選 `7814fa48`）：僅驗 A2/A6 兩項修補 + 輕度回歸，執行中。
 
-## 7. 宣稱上限
+## 7. 複驗通過「之後」才發現的缺陷（最嚴重的一筆）
+
+**事實**：`7814fa48` 通過獨立窄域複驗（B1/B2/B3 全 PASS）並已公開發布。之後我方自行重跑 `tools/cli_smoke.py`，**立即以 `TypeError` 崩潰**：
+
+```
+Path.read_text() got an unexpected keyword argument 'newline'
+```
+
+**根因**：我為修 CRLF digest 漂移而做的「所有 `write_text` 強制 `newline=""`」修補**過寬**，把 `newline=""` 也加到了 **`read_text`** 呼叫上（`Path.read_text` 不吃此參數）。共 5 處，全在 `tools/cli_smoke.py`。
+
+**為什麼沒被任何一層驗證抓到（逐層檢討，不推給工具）**：
+1. **單元測試**從不執行 `tools/*.py` → 整個可執行工具層是無測試區。
+2. **獨立複驗 lane** 被我自己的指令明確要求「不要執行會寫入 repo 的 `tools/*.py`」（該禁令是為了保護凍結候選的乾淨度）→ 一道正確的保護措施同時造成了盲區。
+3. 我先前以「22/22、13/13 CLI、selfcheck 12/12 全綠」作為候選已驗證的依據，但那些綠燈**是在該修補之前**跑的；修補後我沒有重跑 `cli_smoke`，只重跑了 unittest 與 selfcheck。
+
+**這是本回合最嚴重的一筆**：一份已被獨立 PASS 且已發布的候選，其實帶著一個當場可重現的崩潰缺陷。已發布的 `7814fa48` 確實有此缺陷；後續提交修復。
+
+**修補**：
+1. `tools/cli_smoke.py` 的 5 處 `read_text` 移除 `newline=""`。
+2. 新增 `tests/test_tooling_executes.py`（**守門測試**，3 項）：
+   - 對 `src/ tools/ tests/` 下每個 `.py` 做 `py_compile`；
+   - **實際執行** `tools/cli_smoke.py` 並要求 exit 0（把「工具層可執行」納入回歸）；
+   - 直接掃描並釘住「`read_text` 不得帶 `newline=`」這個具體缺陷。
+3. **守門有效性已實測**：暫時把缺陷注入回 `cli_smoke.py` → 新測試 **2/3 FAIL**；還原後 29/29 PASS。守門不是裝飾。
+
+**測試數變化**：26 → **29**。
+
+**仍在的結構性缺口（不宣稱已解）**：工具層目前只有 `cli_smoke.py` 被強制執行；`run_s1_slice.py`、`history_secret_scan.py`、`build_evidence_md.py`、`github_publish.py` 仍是「靠它自己跑得動」而非由測試釘住。此缺口已記入 TT。
+
+**處置**：修補後的候選執行**再一次**窄域獨立複驗（C1–C5）。若通過，最終裁決綁定該候選；已發布的 `7814fa48` 之缺陷在外部證據檔中明確標示，不回溯掩蓋。
+
+## 8. 又一個由獨立複驗「自己的附註」揭露的缺陷（工具層複驗 PASS 之後）
+
+第四輪窄域複驗（C1–C5）判定 **PASS**，但 checker 在附註中指出：`CLI_SMOKE.json` 的檔案計數會漂移，因為它把 **`.git/` 內部物件**也算進去了。
+
+**查證結果（真缺陷，兩處）**：
+1. `src/pipd_ls_sp/cli.py:88` — `tracked_files` 由 `repo_root.rglob("*")` 計算，**未排除 `.git`**：一個名為「tracked_files」的欄位，實際在數版本控制內部物件（隨每次 repack 變動）。名稱與實作不符。
+2. `src/pipd_ls_sp/workspace.py:82` — export manifest 只排除 `__pycache__`，**未排除 `.git`**，會把 `.git` 內部路徑寫進匯出清單。
+
+**修補**：
+1. 新增 `_tracked_file_count(root)`：若有可用的 git checkout 則以 `git ls-files` 計數（名副其實），否則退回「排除 `.git`/`__pycache__` 的樹內檔案數」。實測 `170 == git ls-files 170`。
+2. `export_manifest` 排除 `.git`。
+3. `tests/test_tooling_executes.py` 增 2 項守門：`tracked_files` 必須等於 `git ls-files` 且不得逼近 `.git` 內部量級；export manifest 不得含 `.git` 路徑。**守門有效性已實測**（注入原缺陷 → 5 項中 2 項 FAIL；還原 → 31/31 PASS）。
+4. 另修一處我方工具瑕疵：`evidence_manifest` 的內嵌重生程式因 heredoc 轉義而語法錯誤 → 抽出為 `tools/build_evidence_manifest.py`，讓它有自己的產生器。
+
+**測試數**：29 → **31**。
+
+**累積模式（值得記錄）**：本回合的兩個最嚴重缺陷（`read_text` 的 `newline`、`.git` 計數）**都不是被獨立驗收抓到的**，而是「獨立驗收的附註」或「我方事後重跑」才浮現。共同根因是同一類：**我用來做證據的工具本身缺乏回歸測試**。目前已以 `tests/test_tooling_executes.py`（5 項）建立守門，並實測其有效性；但 `run_s1_slice.py`、`history_secret_scan.py`、`build_evidence_md.py`、`build_evidence_manifest.py`、`github_publish.py` 仍未被測試釘住 —— 此結構性缺口記入 TT，不宣稱已解。
+
+## 9. 宣稱上限
 
 `release_claim_ceiling = EVIDENCE_AND_HUMAN_GATE_BOUND`。本回合**不宣稱** `INDEPENDENT_PASS`、`PUBLICATION_APPROVED`、`RUNTIME_READY`、`RELEASED`。最終裁決待獨立複驗 lane 回收後，於外部證據檔回填。

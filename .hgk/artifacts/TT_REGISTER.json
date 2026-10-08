@@ -1,6 +1,6 @@
 {
  "schema": "PIPD-TT-REGISTER/1",
- "count": 13,
+ "count": 14,
  "tts": [
   {
    "id": "TT-PIPD-KNOWLEDGE-QUARANTINE",
@@ -130,6 +130,16 @@
    "detail": "The AO lane (glm-5.3-flash) returned PASS on all 10 checks but against candidate a2fb27b; the round-2 hardening moved HEAD to 55fa925, which invalidates that verdict for the new candidate. Only the affected edges are re-verified; the AO receipt in this evidence file is explicitly scoped to a2fb27b.",
    "close_condition": "an independent lane re-verifies the affected edges on the new candidate commit",
    "evidence": ".hgk/ao/ao_verdict.json#_binding_note"
+  },
+  {
+   "id": "TT-PIPD-TOOLING-UNTESTED",
+   "class": "TEST_GAP",
+   "owner": "PIPD maintainers",
+   "affected_edges": "tools/*.py -> any claim that depends on them",
+   "first_failing_invariant": "two of the most serious defects this round (a newline= keyword on Path.read_text, and a tracked_files metric that counted 609 .git-internal objects) were caught neither by the unit suite nor by independent verification, but by a checker's footnote and a post-pass re-run",
+   "detail": "tests/test_tooling_executes.py now executes tools/cli_smoke.py and pins the read_text and metric classes, and the guards were proven to bite. Still unguarded by any test: tools/run_s1_slice.py, tools/history_secret_scan.py, tools/build_evidence_md.py, tools/build_evidence_manifest.py, tools/github_publish.py. Several are non-deterministic or network-bound, which is why they are not yet pinned - that is a reason, not an excuse.",
+   "close_condition": "each tools/*.py is executed (or deterministically dry-run) by a test, or is explicitly declared out of test scope with a reason",
+   "evidence": ".hgk/artifacts/edge_selfcheck.json; tests/test_tooling_executes.py"
   }
  ]
 }

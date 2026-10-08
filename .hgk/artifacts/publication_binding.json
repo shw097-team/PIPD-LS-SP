@@ -15,7 +15,8 @@
  "verified_candidate_binding": {
   "note": "the independently re-verified candidate and the published commit are the SAME sha; the verification ran BEFORE the push and no source change followed",
   "source_revision_scanned_by_the_secret_scan_artifact": "e91e670477de4b2a17d7db2390989f60367878f4",
-  "src_tests_schemas_changes_between_source_revision_and_published": []
+  "src_tests_schemas_changes_between_source_revision_and_published": [],
+  "independently_verified_candidate_after_all_repairs": "5c9ee06272dcbe6d93e745d072a5b8665ca5c8ee"
  },
  "independent_verdicts": [
   {
@@ -41,6 +42,27 @@
    "candidate": "7814fa48c6d642f4b8393787867928eb9c28d055",
    "verdict": "PASS",
    "regressions": []
+  },
+  {
+   "checker": "glm-5.3-flash/opencode-go",
+   "scope": "5 edges C1..C5 (tooling repair)",
+   "candidate": "e766e0f5cecc585c0bfb96166c25c505ef0f8e90",
+   "verdict": "PASS",
+   "regressions": [],
+   "note": "found the tracked_files metric defect in its own footnote"
+  },
+  {
+   "checker": "glm-5.3-flash/opencode-go",
+   "scope": "5 edges D1..D5 (metric repair + guards)",
+   "candidate": "9a7bd05f6c868c6a452f62dc58acfa8a06c28ee1",
+   "verdict": "PASS",
+   "regressions": [],
+   "decorative_tests": [],
+   "quantified": {
+    "correct_count": 171,
+    "old_implementation_count": 780,
+    "git_internals_being_counted": 609
+   }
   }
  ],
  "claim_ceiling": "LOCAL_QUALIFIED",
