@@ -62,7 +62,7 @@ def main() -> int:
         result["checkpoint"] = lc.checkpoint(PID)
 
     (args.out / f"admission_{args.step}.json").write_text(
-        json.dumps(result, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
+        json.dumps(result, ensure_ascii=False, indent=1, default=str), encoding="utf-8", newline="")
     summary = json.dumps(result, ensure_ascii=False, default=str)
     print(summary[:3000])
     return 0

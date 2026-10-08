@@ -27,7 +27,7 @@ def run(*args: str) -> str:
 TASKS = json.loads("[" + run("list", "--json").split("[", 1)[1])
 tasks = json.loads(run("list", "--json"))
 by_title = {t["title"]: t["id"] for t in tasks}
-(REC / "canonical_dag.json").write_text(json.dumps(tasks, indent=1), encoding="utf-8")
+(REC / "canonical_dag.json").write_text(json.dumps(tasks, indent=1), encoding="utf-8", newline="")
 
 RECEIPTS = {
  "C0": "C0 Preflight PASS: PIPD root empty -> NEW_IMPLEMENTATION (single ChangeSet); "
@@ -79,6 +79,6 @@ for key, receipt in RECEIPTS.items():
 
 final = run("stats")
 (REC / "canonical_completion.json").write_text(
-    json.dumps({"receipts": out, "stats": final}, indent=1), encoding="utf-8")
+    json.dumps({"receipts": out, "stats": final}, indent=1), encoding="utf-8", newline="")
 print("---- board ----")
 print(run("list"))

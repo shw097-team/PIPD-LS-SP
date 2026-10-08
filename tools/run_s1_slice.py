@@ -45,7 +45,7 @@ def main() -> int:
                       ("trace_closure", trace),
                       ("evidence_expectations", {"items": ev}), ("claim_ceiling", ccl),
                       ("artifact_validation", validation)):
-        (OUT / f"{name}.json").write_text(json.dumps(obj, ensure_ascii=False, indent=1), encoding="utf-8")
+        (OUT / f"{name}.json").write_text(json.dumps(obj, ensure_ascii=False, indent=1), encoding="utf-8", newline="")
 
     summary = {
         "schema": "PIPD-S1-SLICE-EVIDENCE/1",
@@ -74,7 +74,7 @@ def main() -> int:
         "claim_ceiling_allowed": ccl["allowed_claims"],
         "claim_ceiling_forbidden": ccl["forbidden_escalation"],
     }
-    (OUT / "SLICE_EVIDENCE.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
+    (OUT / "SLICE_EVIDENCE.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8", newline="")
     print(json.dumps(summary, ensure_ascii=False, indent=1))
     return 0 if trace["verdict"] == "PASS" and validation["verdict"] == "PASS" else 2
 

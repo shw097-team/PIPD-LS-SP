@@ -215,7 +215,7 @@ def main() -> int:
     A("(`TT-PIPD-PREFLIGHT-ORDER`); the discontinuous transition chain (`TT-PIPD-ADMISSION-CHAIN-GAP`).\n")
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text("\n".join(L), encoding="utf-8")
+    OUT.write_text("\n".join(L), encoding="utf-8", newline="")
     print(json.dumps({"out": str(OUT), "bytes": OUT.stat().st_size,
                       "sha256": sha256_file(OUT), "head": head}, indent=1))
     return 0

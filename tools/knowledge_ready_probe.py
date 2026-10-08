@@ -270,7 +270,7 @@ def main() -> int:
                       ("KnowledgeIndexReadback.json", "knowledge_index_readback"),
                       ("RetrievalProbeReport.json", "retrieval_probe_report"),
                       ("SourceConsumptionTrace.json", "source_consumption_trace")):
-        (args.out / name).write_text(json.dumps({key: results[key]}, ensure_ascii=False, indent=1), encoding="utf-8")
+        (args.out / name).write_text(json.dumps({key: results[key]}, ensure_ascii=False, indent=1), encoding="utf-8", newline="")
     results["gate_predicate"] = {
         "no_drift": not drift, "ingest_complete": ingest_complete,
         "unique_input_paths": len(unique), "indexed_docs": len(indexed),
@@ -278,7 +278,7 @@ def main() -> int:
         "ingest_errors": len(ingest_errors), "clean_coverage": clean_coverage,
         "note": "PASS requires every unique source path to be ingested exactly once; a partial "
                 "ingestion now yields FAIL instead of a silent PASS"}
-    (args.out / "KNOWLEDGE_READY_REPORT.json").write_text(json.dumps(results, ensure_ascii=False, indent=1), encoding="utf-8")
+    (args.out / "KNOWLEDGE_READY_REPORT.json").write_text(json.dumps(results, ensure_ascii=False, indent=1), encoding="utf-8", newline="")
     print(json.dumps({"verdict": results["verdict"], "drift": len(drift),
                       "indexed_docs": len(indexed), "ingest_errors": len(ingest_errors),
                       "pos_hits": sum(1 for p in probes["positive"] if p["verdict"] == "HIT"),

@@ -77,9 +77,9 @@ def project_surfaces(root: Path, out: Path) -> dict[str, Any]:
     (out / "index.html").write_text("<!doctype html><meta charset=utf-8><title>PIPD-LS-SP</title>"
                                     "<div id=app></div><script src=app.js></script>", encoding="utf-8", newline="")
     (out / "app.js").write_text("fetch('manifest.webmanifest').then(r=>r.json()).then(m=>{"
-                                "document.getElementById('app').textContent='PIPD-LS-SP '+m.version;});", encoding="utf-8")
+                                "document.getElementById('app').textContent='PIPD-LS-SP '+m.version;});", encoding="utf-8", newline="")
     (out / "styles.css").write_text("body{font-family:system-ui;margin:2rem}", encoding="utf-8", newline="")
-    (out / "manifest.webmanifest").write_text(json.dumps({"name": "PIPD-LS-SP", "version": "0.1.0"}), encoding="utf-8")
+    (out / "manifest.webmanifest").write_text(json.dumps({"name": "PIPD-LS-SP", "version": "0.1.0"}), encoding="utf-8", newline="")
     (out / "README.md").write_text("# PIPD-LS-SP web projection\n", encoding="utf-8", newline="")
     present = [f for f in WEB_PACK_5 if (out / f).is_file()]
     if len(present) != 5:
@@ -91,7 +91,7 @@ def project_surfaces(root: Path, out: Path) -> dict[str, Any]:
         d = out / name.replace(":", "_")
         d.mkdir(parents=True, exist_ok=True)
         for f in spec["files"]:
-            (d / f).write_text(json.dumps({"surface": name}, indent=1), encoding="utf-8")
+            (d / f).write_text(json.dumps({"surface": name}, indent=1), encoding="utf-8", newline="")
     if len(hosts) < 3:
         raise ProjectionLoss("fewer than three host projections")
     payload = {"web": sorted(present), "hosts": sorted(hosts)}

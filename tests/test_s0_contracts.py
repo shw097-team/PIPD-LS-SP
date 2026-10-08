@@ -46,7 +46,7 @@ class TestS0Contracts(unittest.TestCase):
         reg["families"].append({"contract": "Invented", "required_fields": ["a"]})
         import tempfile
         with tempfile.TemporaryDirectory() as td:
-            (Path(td) / "registry.json").write_text(json.dumps(reg), encoding="utf-8")
+            (Path(td) / "registry.json").write_text(json.dumps(reg), encoding="utf-8", newline="")
             with self.assertRaises(registry.ValidationFail):
                 registry.load_registry(Path(td))
 
@@ -57,7 +57,7 @@ class TestS0Contracts(unittest.TestCase):
             for f in reg["families"]:
                 (Path(td) / f"{f['contract']}.schema.json").write_text("{}", encoding="utf-8", newline="")
             reg["families"][0]["contract"] = "Renamed"
-            (Path(td) / "registry.json").write_text(json.dumps(reg), encoding="utf-8")
+            (Path(td) / "registry.json").write_text(json.dumps(reg), encoding="utf-8", newline="")
             with self.assertRaises(registry.ValidationFail):
                 registry.load_registry(Path(td))
 

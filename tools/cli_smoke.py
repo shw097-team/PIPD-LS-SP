@@ -29,13 +29,13 @@ def run(args: list[str]) -> dict:
 
 def main() -> int:
     (ART / "bundle.json").write_text(json.dumps({
-        "PI-PKG": json.loads((ART / "pi_pkg.json").read_text(encoding="utf-8")),
-        "PD-PKG": json.loads((ART / "pd_pkg.json").read_text(encoding="utf-8")),
-        "ECP": json.loads((ART / "ecp.json").read_text(encoding="utf-8")),
-        "TQAEP": json.loads((ART / "tqaep.json").read_text(encoding="utf-8")),
-        "ConstructionContract": json.loads((ART / "construction_contract.json").read_text(encoding="utf-8")),
-    }, ensure_ascii=False, indent=1), encoding="utf-8")
-    (ART / "tmp_diff.json").write_text(json.dumps({"schema_version": "X@1", "verdict": "PASS"}), encoding="utf-8")
+        "PI-PKG": json.loads((ART / "pi_pkg.json").read_text(encoding="utf-8", newline="")),
+        "PD-PKG": json.loads((ART / "pd_pkg.json").read_text(encoding="utf-8", newline="")),
+        "ECP": json.loads((ART / "ecp.json").read_text(encoding="utf-8", newline="")),
+        "TQAEP": json.loads((ART / "tqaep.json").read_text(encoding="utf-8", newline="")),
+        "ConstructionContract": json.loads((ART / "construction_contract.json").read_text(encoding="utf-8", newline="")),
+    }, ensure_ascii=False, indent=1), encoding="utf-8", newline="")
+    (ART / "tmp_diff.json").write_text(json.dumps({"schema_version": "X@1", "verdict": "PASS"}), encoding="utf-8", newline="")
 
     plan = [
         ["init"],
@@ -63,7 +63,7 @@ def main() -> int:
                "expected": 13, "nonzero_exit": len(reds),
                "verdicts": {r["args"][0]: r["payload"].get("verdict", "n/a") for r in receipts},
                "reds": reds, "receipts": receipts}
-    (OUT / "CLI_SMOKE.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
+    (OUT / "CLI_SMOKE.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8", newline="")
     print(json.dumps({k: summary[k] for k in ("commands_run", "expected", "nonzero_exit", "verdicts")},
                      ensure_ascii=False, indent=1))
     return 0 if len(receipts) == 13 and not reds else 2

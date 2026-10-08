@@ -173,7 +173,7 @@ out = {"schema": "PIPD-EDGE-SELFCHECK/1", "note": "MAKER SELF-CHECK - not indepe
                 else subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True,
                                     text=True).stdout.strip()),
        "edges": res, "verdict": "PASS" if all(e["verdict"] == "PASS" for e in res) else "FAIL"}
-(ROOT / ".hgk" / "artifacts" / "edge_selfcheck.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
+(ROOT / ".hgk" / "artifacts" / "edge_selfcheck.json").write_text(json.dumps(out, indent=1), encoding="utf-8", newline="")
 print(json.dumps({"verdict": out["verdict"],
                   "failed": [e["edge"] for e in res if e["verdict"] != "PASS"],
                   "edges": {e["edge"]: e["observed"][:90] for e in res}}, ensure_ascii=False, indent=1))

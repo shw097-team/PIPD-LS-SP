@@ -133,7 +133,7 @@ def main() -> int:
               and out["VISIBILITY_AFTER"] == "public")
     out["verdict"] = "PASS" if ok else "PUBLISH_INCOMPLETE"
     Path(REPO_ROOT / ".hgk" / "artifacts" / "github_publish.json").write_text(
-        json.dumps(out, indent=1, ensure_ascii=False), encoding="utf-8")
+        json.dumps(out, indent=1, ensure_ascii=False), encoding="utf-8", newline="")
     print(json.dumps(out, indent=1, ensure_ascii=False))
     return 0 if ok else 2
 
