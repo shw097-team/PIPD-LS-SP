@@ -10,9 +10,17 @@ file gets rewritten by the environment's secret redactor, which is the same fail
 """
 from __future__ import annotations
 
+import sys
 import unittest
+from pathlib import Path
 
-from pipd_ls_sp.workspace import SECRET_PATTERNS
+# Self-bootstrap: this file must be runnable standalone (`python -m unittest tests.test_secret_patterns`
+# or `python tests/test_secret_patterns.py`). Relying on a sibling test file to mutate sys.path as an
+# import side effect makes the file fail with ModuleNotFoundError outside discovery.
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+from pipd_ls_sp.workspace import SECRET_PATTERNS  # noqa: E402
 
 A = "A"
 

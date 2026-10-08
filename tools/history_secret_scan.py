@@ -42,7 +42,14 @@ for f in R.rglob("*"):
 
 out = {
     "schema": "PIPD-HISTORY-SECRET-SCAN/1",
-    "revision": rev,
+    # NOTE ON SEMANTICS: this field names the revision whose SOURCE was scanned, which is necessarily a
+    # commit EARLIER than the one that carries this file. A file cannot record the SHA of the commit that
+    # contains it. A previous version called this `revision`, and an independent checker correctly read
+    # that as claiming to be the candidate. `candidate_binding` below states the intended reading.
+    "source_revision_scanned": rev,
+    "candidate_binding": ("describes the source at source_revision_scanned; this file is committed by a "
+                          "subsequent evidence-only commit whose src/ tests/ schemas/ trees are identical "
+                          "to source_revision_scanned"),
     "source_file": "src/pipd_ls_sp/workspace.py",
     "source_sha256": __import__("hashlib").sha256(src).hexdigest(),
     "method": "each compiled pattern in pipd_ls_sp.workspace.SECRET_PATTERNS applied to (a) every "
@@ -57,5 +64,5 @@ out = {
 }
 p = R / ".hgk" / "artifacts" / "history_secret_scan.json"
 p.write_text(json.dumps(out, indent=1), encoding="utf-8", newline="")
-print(json.dumps({k: out[k] for k in ("revision", "source_sha256", "pattern_names", "objects_listed",
-                                      "worktree_files_scanned", "verdict")}, indent=1))
+print(json.dumps({k: out[k] for k in ("source_revision_scanned", "source_sha256", "pattern_names",
+                                      "objects_listed", "worktree_files_scanned", "verdict")}, indent=1))
