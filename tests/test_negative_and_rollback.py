@@ -46,7 +46,7 @@ class TestNegative(unittest.TestCase):
     def test_secret_scan_blocks_export(self) -> None:
         with tempfile.TemporaryDirectory() as td:
             d = Path(td)
-            (d / "leak.py").write_text('TOKEN = "ghp_' + "A" * 30 + '"', encoding="utf-8")
+            (d / "leak.py").write_text('TOKEN = "ghp_' + "A" * 30 + '"', encoding="utf-8", newline="")
             self.assertEqual(workspace.secret_scan(d)["verdict"], "FAIL")
             with self.assertRaises(ExportSecretFound):
                 workspace.export_manifest(d, include=["leak.py"])

@@ -75,12 +75,12 @@ def project_surfaces(root: Path, out: Path) -> dict[str, Any]:
     """Build the 5-file web pack + 3 host projections; assert 5/5 + parity."""
     out.mkdir(parents=True, exist_ok=True)
     (out / "index.html").write_text("<!doctype html><meta charset=utf-8><title>PIPD-LS-SP</title>"
-                                    "<div id=app></div><script src=app.js></script>", encoding="utf-8")
+                                    "<div id=app></div><script src=app.js></script>", encoding="utf-8", newline="")
     (out / "app.js").write_text("fetch('manifest.webmanifest').then(r=>r.json()).then(m=>{"
                                 "document.getElementById('app').textContent='PIPD-LS-SP '+m.version;});", encoding="utf-8")
-    (out / "styles.css").write_text("body{font-family:system-ui;margin:2rem}", encoding="utf-8")
+    (out / "styles.css").write_text("body{font-family:system-ui;margin:2rem}", encoding="utf-8", newline="")
     (out / "manifest.webmanifest").write_text(json.dumps({"name": "PIPD-LS-SP", "version": "0.1.0"}), encoding="utf-8")
-    (out / "README.md").write_text("# PIPD-LS-SP web projection\n", encoding="utf-8")
+    (out / "README.md").write_text("# PIPD-LS-SP web projection\n", encoding="utf-8", newline="")
     present = [f for f in WEB_PACK_5 if (out / f).is_file()]
     if len(present) != 5:
         raise ProjectionLoss(f"web pack {len(present)}/5")

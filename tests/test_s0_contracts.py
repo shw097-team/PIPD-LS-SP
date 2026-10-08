@@ -55,7 +55,7 @@ class TestS0Contracts(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             reg = json.loads(json.dumps(self.reg))
             for f in reg["families"]:
-                (Path(td) / f"{f['contract']}.schema.json").write_text("{}", encoding="utf-8")
+                (Path(td) / f"{f['contract']}.schema.json").write_text("{}", encoding="utf-8", newline="")
             reg["families"][0]["contract"] = "Renamed"
             (Path(td) / "registry.json").write_text(json.dumps(reg), encoding="utf-8")
             with self.assertRaises(registry.ValidationFail):
