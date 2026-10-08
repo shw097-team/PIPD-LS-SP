@@ -1,0 +1,27 @@
+{
+ "schema": "PIPD-LONG-RUN-MONITORING/1",
+ "as_of": "e1ab169eb76617d33399233f0b6772d1d421af67",
+ "watched": [
+  {
+   "task": "AO lane: hermes -z ao_prompt.md -m glm-5.3-flash --provider opencode-go (pid 17800/8884)",
+   "started": "2026-10-08T22:32:53+08:00",
+   "observed_minutes": 18.5,
+   "block_class": "SLOW_PROGRESS_NOT_STUCK",
+   "evidence": [
+    "process alive, WS 197MB, CPU advanced 12.94s -> 14.94s over ~5 min",
+    "child python.exe (18924) present = the lane is executing tool calls",
+    "tee log still 0 bytes because -z one-shot output is buffered until exit"
+   ],
+   "same_block_occurrences": 1,
+   "action": "NOT paused - not a repeated block; a single atomic long run that is demonstrably progressing",
+   "bound": "if no output by ~30 min elapsed, stop it and record the AO lane as TIMEOUT/BLOCKED rather than letting it run unbounded"
+  },
+  {
+   "task": "SWARM round 2 deleg_1e6aaacf (3 lanes, model gpt-6.1-sol)",
+   "started": "2026-10-08T22:41+08:00",
+   "block_class": "NONE",
+   "action": "running normally in background"
+  }
+ ],
+ "policy": "user standing order: inspect anything >10 min; remediate/pause on the same abnormal block repeated >4x; report grouped per error class"
+}

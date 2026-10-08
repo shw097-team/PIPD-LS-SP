@@ -54,3 +54,32 @@ written to `C:\c\Users\...\hermes\kanban\boards\pipd-ls-sp\`.
 - Stages **S2–S8 are not implemented**. Only S0 and S1 were reached.
 - The 22 named technology admission rows are **not written** → `TT-PIPD-TECHADMISSION`.
 - `RUNTIME_READY`, `PUBLICATION_APPROVED`, `RELEASED` and `PRODUCTION_VERIFIED` are **not claimed**.
+
+
+## 6. Independent verification rounds changed the claims (round 1 → repairs)
+
+Three independent lanes (`deleg_5a26d6d5`) reviewed the round read-only. Two returned **FAIL**.
+Their findings were acted on; the deliverable is smaller but honest as a result.
+
+| finding | was | now |
+|---|---|---|
+| C-02 knowledge gate PASS hid ingestion gaps | `PASS` with 7 swallowed errors | **`PARTIAL`** — 7 sources are `QUARANTINED` by the HGK sanitation layer, 0 genuine ingest errors, `clean_coverage=false`, disclosed |
+| C-01 wrong-authority NRTV tested a nonexistent document | `wrong_authority: PASS` | the API has **no authority-rank argument**, so the probe now records `FAIL` for that check plus `wrong_authority_located: LOCATED_ELSEWHERE` at the ingest layer — not a fake pass |
+| C-05 nonexistent-clause accepted any exception | any exception → PASS | `PASS` only on the expected citation-invalid class; any other exception → `FAIL`; a real clause-level probe was added |
+| C-03 `baseline_verified: true` preceded the baseline | asserted true at 14:03Z, baseline committed 14:11:52Z | `baseline_verified: **false**`; the real baseline commit + rollback pointer live in `.hgk/preflight/baseline_binding.json` |
+| B `task_links` empty — no persisted gate DAG | 0 edges | 14 edges created with real CLI `link` receipts |
+| C-06 synthetic PAT-shaped constant in `__pycache__` | present on disk | bytecode purged; 0 `.pyc` tracked by git |
+
+Findings that are **disclosed but not closed** (owners in `.hgk/artifacts/TT_REGISTER.json`):
+`TT-PIPD-PREFLIGHT-ORDER` (preflight writes preceded admission), `TT-PIPD-ADMISSION-CHAIN-GAP`
+(transition chain discontinuous; missing `evidence_refs` row), `TT-PIPD-WORKORDER-WORKTREES`
+(six WorkOrders have null results and no worktree on disk).
+
+## 7. Root-cause note on the quarantines
+
+The seven quarantined documents are quarantined because of the *text of the security rules inside
+them*: the sanitiser's `PROMPT_INJECTION` / `SECRET_PATTERN` regexes match the literal patterns the
+documents document (e.g. `ignore previous instructions`, `exfiltrate the secret`, an `api_key =`
+example). This is a knowledge-layer false positive class, not a leak, and it currently excludes
+**three required PIPD standard documents** (`DOC-01`, `DOC-08`, `DOC-09`) from the index. It is
+recorded as `TT-PIPD-KNOWLEDGE-QUARANTINE` rather than repaired by weakening the sanitiser.
