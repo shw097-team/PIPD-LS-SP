@@ -82,7 +82,7 @@ Non-active:
 Do not install, enable, or qualify a non-active capability.
 
 ## 5. Baseline / Reuse / Do-not-redo
-Baseline: required=true; verified=true; reuse_prior_pass=false
+Baseline: required=true; verified=false; reuse_prior_pass=false
 Do not reopen:
 - HG-KSEOS src/config/Fabric control code
 - RP-002 Stage-1/2/3 sealed scope

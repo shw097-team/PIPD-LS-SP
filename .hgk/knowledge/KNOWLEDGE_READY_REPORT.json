@@ -1,10 +1,10 @@
 {
  "schema": "PIPD-KNOWLEDGE-READY/1",
- "generated_at": "2026-10-08T14:05:24.345332+00:00",
+ "generated_at": "2026-10-08T14:44:36.553396+00:00",
  "derived_view": {
   "engine": "HG-KSEOS SharedSpine FTS5",
   "schema_source": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\src\\hg_kseos\\schema.sql",
-  "db": "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\knowledge\\derived-spine.db",
+  "db": ".hgk\\knowledge\\derived-spine.db",
   "ssot": "HG-KSEOS var/shared-spine/hg-kseos.db",
   "note": "derived read-only view, not a second SSOT"
  },
@@ -865,1106 +865,1138 @@
    "fts_documents": 153,
    "kg_edges": 0
   },
-  "ingest_errors": [
+  "unique_input_paths": 160,
+  "deduplicated": [],
+  "quarantined": [
    {
+    "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/05_SDD_ADR_TASKSPEC.md",
-    "error": "InvariantViolation:ERR_CANDIDATE_NOT_PROMOTABLE"
+    "source_id": "SRC-97355259edde717eeaf2",
+    "findings": [
+     "SECRET_PATTERN:sk-[A-Za-z0-9_-]{20,}"
+    ]
    },
    {
+    "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/13_SECURITY_PRIVACY_PROMPT_INJECTION.md",
-    "error": "InvariantViolation:ERR_CANDIDATE_NOT_PROMOTABLE"
+    "source_id": "SRC-f3b64233d0983ad60fa9",
+    "findings": [
+     "PROMPT_INJECTION:ignore\\s+(?:all\\s+)?(?:previous|prior)\\s+instructions"
+    ]
    },
    {
+    "family": "F2_PIPD_STANDARD",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_DOC-01_2026-10-07_r2_HIGH_RETENTION_FULL_REPAIR_FULL_SUBSTANTIVE_BODY.md",
-    "error": "InvariantViolation:ERR_CANDIDATE_NOT_PROMOTABLE"
+    "source_id": "SRC-b753f2e5cdd5598a818f",
+    "findings": [
+     "PROMPT_INJECTION:(?:exfiltrate|reveal|print)\\s+(?:the\\s+)?(?:secret|token|api\\s*key)"
+    ]
    },
    {
+    "family": "F2_PIPD_STANDARD",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_DOC-08_2026-10-07_r2_HIGH_RETENTION_FULL_REPAIR_FULL_SUBSTANTIVE_BODY.md",
-    "error": "InvariantViolation:ERR_CANDIDATE_NOT_PROMOTABLE"
+    "source_id": "SRC-e46caa7e440392a6cfa7",
+    "findings": [
+     "PROMPT_INJECTION:(?:exfiltrate|reveal|print)\\s+(?:the\\s+)?(?:secret|token|api\\s*key)"
+    ]
    },
    {
+    "family": "F2_PIPD_STANDARD",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_DOC-09_2026-10-07_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_REPAIR_FULL_SUBSTANTIVE_BODY.md",
-    "error": "InvariantViolation:ERR_CANDIDATE_NOT_PROMOTABLE"
+    "source_id": "SRC-eaf0aefe2b4711c140fc",
+    "findings": [
+     "SECRET_PATTERN:(?i)(?:api[_-]?key|secret|token)\\s*[:=]\\s*['\\\"]?[A-Za-z0-9_./+-]{16,}"
+    ]
    },
    {
+    "family": "F3_PIPD_DESIGN",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG_藍圖&skeleton.md",
-    "error": "InvariantViolation:ERR_CANDIDATE_NOT_PROMOTABLE"
+    "source_id": "SRC-c5f5fe48156dc6458378",
+    "findings": [
+     "PROMPT_INJECTION:disable\\s+(?:the\\s+)?(?:sandbox|security|validation)"
+    ]
    },
    {
+    "family": "F3_PIPD_DESIGN",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_skeleton.md",
-    "error": "InvariantViolation:ERR_CANDIDATE_NOT_PROMOTABLE"
+    "source_id": "SRC-4a2ec8640c378b9490b8",
+    "findings": [
+     "PROMPT_INJECTION:(?:exfiltrate|reveal|print)\\s+(?:the\\s+)?(?:secret|token|api\\s*key)",
+     "SECRET_PATTERN:(?i)(?:api[_-]?key|secret|token)\\s*[:=]\\s*['\\\"]?[A-Za-z0-9_./+-]{16,}"
+    ]
    }
   ],
+  "ingest_errors": [],
   "indexed": [
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/00_KNOW_INDEX.md",
     "source_id": "SRC-5b42ababab952cb79460",
-    "doc_id": "DOC-20ee901c64cca3599976",
+    "doc_id": "DOC-a52d6abeeda81eba4dc8",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/01_AUTHORITY_BOUNDARY.md",
     "source_id": "SRC-4fcbf184144d38918aa4",
-    "doc_id": "DOC-97b03942c99f419e91ac",
+    "doc_id": "DOC-133b1b1f946e68e372a2",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/02_OUTPUT_CONTRACT.md",
     "source_id": "SRC-302b9eb2876fd92b090e",
-    "doc_id": "DOC-890f0849896adaa599fb",
+    "doc_id": "DOC-bb5128d6dff75b9b150b",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/03_INTAKE_P2E_HANDOFF.md",
     "source_id": "SRC-f97afbe1e020d4ee9dee",
-    "doc_id": "DOC-fdc7e44088d3c0c849e9",
+    "doc_id": "DOC-44b48003ff4e70a9c5a8",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/04_PRODUCT_BUSINESS_RISK_ACCEPTANCE.md",
     "source_id": "SRC-e6d357b7ecbeeb1ff972",
-    "doc_id": "DOC-3635a110653abfdc9508",
+    "doc_id": "DOC-fff5893f44d647777e82",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/06_BUILDER_CONFIG.md",
     "source_id": "SRC-ac2357934eeca6f61684",
-    "doc_id": "DOC-d2db4dfeab6672d41885",
+    "doc_id": "DOC-60b39eeb6d6dfb546eab",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/07_BUILDER_INSTRUCTIONS.md",
     "source_id": "SRC-79d0bd91a4a24f0195e5",
-    "doc_id": "DOC-4415763f6a77206b867e",
+    "doc_id": "DOC-3f3230b66a150d6f13b7",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/08_KNOWLEDGE_RAG_SOURCE_TO_ANCHOR.md",
     "source_id": "SRC-42e12f231f01e750652c",
-    "doc_id": "DOC-486b9848a7ac120e7d8a",
+    "doc_id": "DOC-33b55c6219bf95ea9d7a",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/09_OROCHI_FACTORY_ORDER.md",
     "source_id": "SRC-578ca9310b5e7fe2ff88",
-    "doc_id": "DOC-4993f3fe8066b3ae5b55",
+    "doc_id": "DOC-a6af3657f08a076dcea8",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/10_AGENTIC_SWE_HARNESS.md",
     "source_id": "SRC-7773d221b1b15b7bb4bd",
-    "doc_id": "DOC-2004fc995e980ffaa0ca",
+    "doc_id": "DOC-8a0a929eb47b0358afb8",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/11_EVIDENCE_REQUIREMENT_MATRIX.md",
     "source_id": "SRC-577e1de7ff15f4d66aef",
-    "doc_id": "DOC-1d736ee6462daa6e1b72",
+    "doc_id": "DOC-bd61e59d2126b76952f9",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/12_EVAL_REGRESSION_LLM_JUDGE.md",
     "source_id": "SRC-ef8601f057f6b6a76441",
-    "doc_id": "DOC-1f7c33a1ffdd1b96f6f6",
+    "doc_id": "DOC-5cc93b85b6fe25eebcea",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/14_APPS_ACTIONS_MCP_ROUTEOUT.md",
     "source_id": "SRC-36e19f0e63555be39cb2",
-    "doc_id": "DOC-12543bab43202445c8da",
+    "doc_id": "DOC-a53321721b80254ff045",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/15_MEMORY_STATE_TRACE_REPLAY.md",
     "source_id": "SRC-4d4ebb379ee732b9e9af",
-    "doc_id": "DOC-96844c1e060030921352",
+    "doc_id": "DOC-29554febc254abeafe3f",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/16_RELEASE_PACKAGING_CHECKSUM_READBACK.md",
     "source_id": "SRC-dc4e9bbca29b1053235c",
-    "doc_id": "DOC-0a9c46f234de93fcb088",
+    "doc_id": "DOC-759915b28c0c6b4fd158",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/17_UX_ONBOARDING_NO_BRAIN_FLOW.md",
     "source_id": "SRC-f02c9507aa642910d18f",
-    "doc_id": "DOC-e2210ab9a45cb04776c2",
+    "doc_id": "DOC-3d6ff1a161a44ae49d09",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/18_TT_CR_DRIFT_REGISTER.md",
     "source_id": "SRC-b28b56aaaacb819b87ac",
-    "doc_id": "DOC-911117bfbb445b3ec59a",
+    "doc_id": "DOC-729c370b6e8ef5c2d828",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/19_KP_INDEX_CROSSWALK.md",
     "source_id": "SRC-b0cd77297e1a57207ab4",
-    "doc_id": "DOC-269a835e3e3e64940eea",
+    "doc_id": "DOC-c4cb9b9baaa5d80fc196",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13/AGENTS.md",
     "source_id": "SRC-2ea19f21e0f590b016de",
-    "doc_id": "DOC-073468741ecf02126bcd",
+    "doc_id": "DOC-842a32713520aea32b25",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13/DEPLOYMENT_PROMPT.md",
     "source_id": "SRC-cee60cdf51f5c25b952a",
-    "doc_id": "DOC-9e99b5cad92c05864b43",
+    "doc_id": "DOC-81148514e7d5937ecacf",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13/GRP-00.md",
     "source_id": "SRC-efa948788b0946a7ca3f",
-    "doc_id": "DOC-b139a755142d54f70563",
+    "doc_id": "DOC-529767de1daa20b6e75b",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13/GRP-01_CONTROL_PRODUCT.md",
     "source_id": "SRC-1ba585ea8ee6b63d9a51",
-    "doc_id": "DOC-91c684fe6d8474fa22f4",
+    "doc_id": "DOC-1c8c4f3c6ad97653296d",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13/GRP-02_ARCHITECTURE_AGENT.md",
     "source_id": "SRC-a6e840cc9dc9d5969b84",
-    "doc_id": "DOC-8c448bf6ee0d4a576cb5",
+    "doc_id": "DOC-a4b4523127b3cdc2ebb0",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13/GRP-03_SKILLS_SHARED.md",
     "source_id": "SRC-4c73f66b5e9cd9aa5f12",
-    "doc_id": "DOC-c7b6bfcbe9fa442052b6",
+    "doc_id": "DOC-0d4f2da5a10e9f80083a",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13/GRP-04_PRW_FACTORY.md",
     "source_id": "SRC-b6fa9e23179631739b79",
-    "doc_id": "DOC-fa0d68f0b6e215fb4642",
+    "doc_id": "DOC-93e32a80a588d57cbe7e",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13/GRP-05_TOOLCHAIN_PROVIDER.md",
     "source_id": "SRC-517e5160d403ee543510",
-    "doc_id": "DOC-18b2db30bccddd7abd2c",
+    "doc_id": "DOC-16b71263dff1ce1a8d07",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13/GRP-06_ASSURANCE_SECURITY.md",
     "source_id": "SRC-d4290ef7978864a877be",
-    "doc_id": "DOC-281499c9bb04828a7613",
+    "doc_id": "DOC-ad49b01729bbb62ddeea",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13/GRP-07_BUILDER_KNOWLEDGE.md",
     "source_id": "SRC-97ee2eabefe21d7ecfdd",
-    "doc_id": "DOC-b32b5fe5adc605ba1e66",
+    "doc_id": "DOC-4a4babf2bd0891c5603b",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13/GRP-08_RUNBOOK_HANDOFF.md",
     "source_id": "SRC-7c4653d8bdf726a550ba",
-    "doc_id": "DOC-38f9d8476f3d439e5091",
+    "doc_id": "DOC-4386ca28cac54b435773",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13/GRP-09_RELEASE.md",
     "source_id": "SRC-02985d76b99f4922c2a5",
-    "doc_id": "DOC-ac13adc4091c3ef46bf6",
+    "doc_id": "DOC-d130e531d7a4547bf0fe",
     "sanitation": "CLEAN"
    },
    {
     "family": "F1_GPTB_KNOWLEDGE",
     "rel": "知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13/PORTABLE_MOUNT_PROFILE.md",
     "source_id": "SRC-64f6998aafd4072cc6cb",
-    "doc_id": "DOC-200054e2fe097d004b1b",
+    "doc_id": "DOC-0b1490b3e0ad56752670",
     "sanitation": "CLEAN"
    },
    {
     "family": "F2_PIPD_STANDARD",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_DOC-00_2026-10-07_r2_HIGH_RETENTION_FULL_REPAIR_FULL_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-be3a672ec20aa0e6b5e0",
-    "doc_id": "DOC-a5109aad6d4e0d6ac086",
+    "doc_id": "DOC-171761c4742dab2f8024",
     "sanitation": "CLEAN"
    },
    {
     "family": "F2_PIPD_STANDARD",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_DOC-02_2026-10-07_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_REPAIR_FULL_SUBSTANTIVE_BODY (1).md",
     "source_id": "SRC-a021998dd3b63015e89a",
-    "doc_id": "DOC-3c5c5fc3cf85bf260ce1",
+    "doc_id": "DOC-722c28cadb2bfca54265",
     "sanitation": "CLEAN"
    },
    {
     "family": "F2_PIPD_STANDARD",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_DOC-03_2026-10-07_r2_AUDIT_REPAIR_FULL_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-d89d82dcd2c8603ec6b8",
-    "doc_id": "DOC-3e2811cbab078b179a34",
+    "doc_id": "DOC-1cb91b8a83459617dded",
     "sanitation": "CLEAN"
    },
    {
     "family": "F2_PIPD_STANDARD",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_DOC-04_2026-10-07_r2_HIGH_RETENTION_FULL_REPAIR_FULL_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-fa64d84da3d747b183e4",
-    "doc_id": "DOC-57689580daf2be1d9b99",
+    "doc_id": "DOC-21162270870dc352c725",
     "sanitation": "CLEAN"
    },
    {
     "family": "F2_PIPD_STANDARD",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_DOC-05_2026-10-07_r2_HIGH_RETENTION_FULL_REPAIR_FULL_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-7b40584540c162cda6de",
-    "doc_id": "DOC-296f2820245d59a2fd9d",
+    "doc_id": "DOC-b948b571b184a9b7436d",
     "sanitation": "CLEAN"
    },
    {
     "family": "F2_PIPD_STANDARD",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_DOC-06_2026-10-07_r2_HIGH_RETENTION_FULL_REPAIR_FULL_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-20e44ea4dd8e53c9b0a0",
-    "doc_id": "DOC-b399fd5dd529d5c9159e",
+    "doc_id": "DOC-2db71402fd5cb51dc581",
     "sanitation": "CLEAN"
    },
    {
     "family": "F2_PIPD_STANDARD",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_DOC-07_2026-10-07_r2_HIGH_RETENTION_FULL_REPAIR_FULL_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-a68dae1c3670d07bcfa3",
-    "doc_id": "DOC-c63a141d5fc2dc678b9d",
+    "doc_id": "DOC-6c430097810831cd4620",
     "sanitation": "CLEAN"
    },
    {
     "family": "F2_PIPD_STANDARD",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_canonical_standard.md",
     "source_id": "SRC-6f6aafece90b34e33786",
-    "doc_id": "DOC-1b54a027a232f9743280",
+    "doc_id": "DOC-cc39912de90f8291f3bc",
     "sanitation": "CLEAN"
    },
    {
     "family": "F2_PIPD_STANDARD",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/藍圖/PIPD 「canonical authority／生命週期」工程裁決.md",
     "source_id": "SRC-4ae876f856850e4f657c",
-    "doc_id": "DOC-ccdc3d7bed6c903becae",
+    "doc_id": "DOC-52e4c0e410a3917b0de6",
     "sanitation": "CLEAN"
    },
    {
     "family": "F2_PIPD_STANDARD",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖_2026-10-07_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_REPAIR_FULL_INTEGRATED_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-0a29095745c628728e6f",
-    "doc_id": "DOC-dc9359058e84ee2f5ae9",
+    "doc_id": "DOC-24bb563e568d52252d63",
     "sanitation": "CLEAN"
    },
    {
     "family": "F2_PIPD_STANDARD",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/藍圖/PIPD_LS_skeleton_2026-10-06_r2_FULL_REPAIR.md",
     "source_id": "SRC-03bb3609dc67f85fa4b6",
-    "doc_id": "DOC-df9c8edbb966639bdf51",
+    "doc_id": "DOC-406ef47fa50dfe4d2254",
     "sanitation": "CLEAN"
    },
    {
     "family": "F2_PIPD_STANDARD",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/藍圖/Pre-Implementation-PKG  Pre-Dev-PKG 生命週期規格_總討論.md",
     "source_id": "SRC-be1858e860092fb1751b",
-    "doc_id": "DOC-0513b4502489a0682c8b",
+    "doc_id": "DOC-b6506f65220087370142",
     "sanitation": "CLEAN"
    },
    {
     "family": "F2_PIPD_STANDARD",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/藍圖/Pre-Implementation_and_Pre-Dev_Lifecycle_Specification_總藍圖.md",
     "source_id": "SRC-9a8323e5237c1555a76d",
-    "doc_id": "DOC-b76716812f06b0b6b21f",
+    "doc_id": "DOC-c38212004373e61e883a",
     "sanitation": "CLEAN"
    },
    {
     "family": "F3_PIPD_DESIGN",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00~PKG-10/PIPD-LS-SP_PIPD-PKG-00.md",
     "source_id": "SRC-89b60fde8b7bb93522c8",
-    "doc_id": "DOC-d9cdd72a6b8791d31bb9",
+    "doc_id": "DOC-67152f0105cc631ac0b4",
     "sanitation": "CLEAN"
    },
    {
     "family": "F3_PIPD_DESIGN",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00~PKG-10/PIPD-LS-SP_PIPD-PKG-01_2026-10-08_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_REPAIR_FULL_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-4c468e38d461595f21cd",
-    "doc_id": "DOC-8bd05077cf78c3c01b27",
+    "doc_id": "DOC-61ba79ce9d7aaedf1f50",
     "sanitation": "CLEAN"
    },
    {
     "family": "F3_PIPD_DESIGN",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00~PKG-10/PIPD-LS-SP_PIPD-PKG-02_2026-10-08_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_REPAIR_FULL_INTEGRATED_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-decf42108f693563b112",
-    "doc_id": "DOC-ea10355d43e666504053",
+    "doc_id": "DOC-82e0896d8b31d7bf98d6",
     "sanitation": "CLEAN"
    },
    {
     "family": "F3_PIPD_DESIGN",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00~PKG-10/PIPD-LS-SP_PIPD-PKG-03_2026-10-08_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_REPAIR_FULL_INTEGRATED_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-a8d61dc4ab3062f40142",
-    "doc_id": "DOC-a0933341cba1ce16d153",
+    "doc_id": "DOC-d1d2619eb0bb43d46dac",
     "sanitation": "CLEAN"
    },
    {
     "family": "F3_PIPD_DESIGN",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00~PKG-10/PIPD-LS-SP_PIPD-PKG-04_2026-10-08_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_REPAIR_FULL_INTEGRATED_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-967c0a4906d735f7f097",
-    "doc_id": "DOC-0c3b3b246fdb3276daf9",
+    "doc_id": "DOC-bd4b9407be29a4274be4",
     "sanitation": "CLEAN"
    },
    {
     "family": "F3_PIPD_DESIGN",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00~PKG-10/PIPD-LS-SP_PIPD-PKG-05_2026-10-08_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_REPAIR_FULL_INTEGRATED_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-b01b170519b1343c6f45",
-    "doc_id": "DOC-8ec6db2c4328d80bcf3f",
+    "doc_id": "DOC-ea5cb7fec1d347e11e63",
     "sanitation": "CLEAN"
    },
    {
     "family": "F3_PIPD_DESIGN",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00~PKG-10/PIPD-LS-SP_PIPD-PKG-06_2026-10-08_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_REPAIR_FULL_INTEGRATED_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-073592099de22584e12b",
-    "doc_id": "DOC-529271c151b47403ee23",
+    "doc_id": "DOC-132cd87ca10054dd3396",
     "sanitation": "CLEAN"
    },
    {
     "family": "F3_PIPD_DESIGN",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00~PKG-10/PIPD-LS-SP_PIPD-PKG-07_2026-10-08_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_REPAIR_FULL_INTEGRATED_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-213b49c53f060ea78065",
-    "doc_id": "DOC-9bc290e7a2cc756a476e",
+    "doc_id": "DOC-aaa68d29936417d760ed",
     "sanitation": "CLEAN"
    },
    {
     "family": "F3_PIPD_DESIGN",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00~PKG-10/PIPD-LS-SP_PIPD-PKG-08_2026-10-08_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_REPAIR_FULL_INTEGRATED_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-e93fe81371192b43c2b5",
-    "doc_id": "DOC-aa099b92221193fce265",
+    "doc_id": "DOC-aa905974db942dcc9a2a",
     "sanitation": "CLEAN"
    },
    {
     "family": "F3_PIPD_DESIGN",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00~PKG-10/PIPD-LS-SP_PIPD-PKG-09_2026-10-08_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_REPAIR_FULL_INTEGRATED_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-b2952652d511ff726fac",
-    "doc_id": "DOC-78b6e81e7616bc81c01a",
+    "doc_id": "DOC-044afc2f8a98d501e18e",
     "sanitation": "CLEAN"
    },
    {
     "family": "F3_PIPD_DESIGN",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00~PKG-10/PIPD-LS-SP_PIPD-PKG-10_2026-10-08_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_REPAIR_FULL_INTEGRATED_SUBSTANTIVE_BODY.md",
     "source_id": "SRC-e089fa095aa83f130be4",
-    "doc_id": "DOC-ba0d06538ee0853c6244",
+    "doc_id": "DOC-c52eda15c44d0b15e4bc",
     "sanitation": "CLEAN"
    },
    {
     "family": "F3_PIPD_DESIGN",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總藍圖.md",
     "source_id": "SRC-0a29095745c628728e6f",
-    "doc_id": "DOC-b535f3323fb99d1249ee",
+    "doc_id": "DOC-a34f6e90dc9bf49ea808",
     "sanitation": "CLEAN"
    },
    {
     "family": "F3_PIPD_DESIGN",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_藍圖/PIPD-LS-SP_PIPD-EC_SGM_總討論.md",
     "source_id": "SRC-674eb471adca93532a1e",
-    "doc_id": "DOC-d89cf4490ce8418847c9",
+    "doc_id": "DOC-1a748f3c04bf8f677123",
     "sanitation": "CLEAN"
    },
    {
     "family": "F3_PIPD_DESIGN",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_藍圖/PIPD-LS-SP_藍圖.md",
     "source_id": "SRC-a751a9e91dc6d0b7914b",
-    "doc_id": "DOC-5e1191abe642c83da147",
+    "doc_id": "DOC-30e16479e519cd4bbff4",
     "sanitation": "CLEAN"
    },
    {
     "family": "F4_ENGINEERING_DONORS",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/SKILLS_PLUGIN/SDLC_PRW_HLPE_SKILLS_PLUGIN_R2.md",
     "source_id": "SRC-f9fe9224b076f5691d00",
-    "doc_id": "DOC-ded31697ea703301d77e",
+    "doc_id": "DOC-fa173caf161cd8ec6655",
     "sanitation": "CLEAN"
    },
    {
     "family": "F4_ENGINEERING_DONORS",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/SKILLS_PLUGIN/SWOF_ECP_SKILLS_PLUGIN_v2.0.1.md",
     "source_id": "SRC-eddc399cfe9d4490aaf2",
-    "doc_id": "DOC-0e6b7269910998787172",
+    "doc_id": "DOC-0cbce6ec481f3626b6a0",
     "sanitation": "CLEAN"
    },
    {
     "family": "F4_ENGINEERING_DONORS",
     "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/SKILLS_PLUGIN/SWOF_TQAEP_SKILLS_PLUGIN_v2.0.1.md",
     "source_id": "SRC-b86de72e874958a90f6f",
-    "doc_id": "DOC-72a30a6606cc629637e3",
+    "doc_id": "DOC-950253fc0e8bb0f1a3a7",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "Fabric/docs/Fabric使用說明文檔.md",
     "source_id": "SRC-959872522a8199098127",
-    "doc_id": "DOC-5a0e67592a83a12bda38",
+    "doc_id": "DOC-daaab1baf669da99ee5e",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "HG-KSEOS/docs/HG-KSEOS使用說明文檔.md",
     "source_id": "SRC-b0ecacc2a1272774b361",
-    "doc_id": "DOC-13b19110f1f55b4e7c7a",
+    "doc_id": "DOC-8db5b2c1e813dad2a896",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler_SKILL.md",
     "source_id": "SRC-0f1c0d62e86bc0824854",
-    "doc_id": "DOC-9e9e13e545f7f8893b90",
+    "doc_id": "DOC-4b79411957be10b6a971",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/references/acceptance-evidence.md",
     "source_id": "SRC-7c0602976678806c24bc",
-    "doc_id": "DOC-72cb2fdddd6aeb087c3b",
+    "doc_id": "DOC-ee23fa5ab1c2f5646001",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/references/activation-runtime.md",
     "source_id": "SRC-4d69e27dc1176bc3c170",
-    "doc_id": "DOC-e8451745ee67bc0d178a",
+    "doc_id": "DOC-6ef08b4e71491273c676",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/references/contract-model.md",
     "source_id": "SRC-a2da82dff78893330925",
-    "doc_id": "DOC-ab1cf82e05a39f239f11",
+    "doc_id": "DOC-11047cba172ba603f16a",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/references/hgk-control-plane-profile.md",
     "source_id": "SRC-b716f56e8456fd7e0c31",
-    "doc_id": "DOC-b11d6cbbbf8e22be35d7",
+    "doc_id": "DOC-a1a16dd7a4c057fedb87",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/references/prompt-contract.schema.json",
     "source_id": "SRC-cbcc9998cee3ba59f919",
-    "doc_id": "DOC-96b0232740b212923f6d",
+    "doc_id": "DOC-d7df775d54c6570d10f5",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/references/rendering-and-antipatterns.md",
     "source_id": "SRC-8db369edec9ca54045ae",
-    "doc_id": "DOC-87d00b66d74b6367e53c",
+    "doc_id": "DOC-5b3a96f4ac228bf2c2b2",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/references/source-routing.md",
     "source_id": "SRC-fa9a95e534673e021c8c",
-    "doc_id": "DOC-b27349d3e2b0d086c510",
+    "doc_id": "DOC-2a32bf5ed6dfac93dbf0",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/references/sqs-thc-domain-profile.md",
     "source_id": "SRC-59205a8a9c5c8599ffd1",
-    "doc_id": "DOC-1792aab1a634f49fe82a",
+    "doc_id": "DOC-ea16a522a34cd068c5ed",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/references/termination-permissions.md",
     "source_id": "SRC-5bedc535d3291434c026",
-    "doc_id": "DOC-8727e65dac674c9eca0c",
+    "doc_id": "DOC-5ad4eb707c50051c8d57",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/scripts/evo004_contract.json",
     "source_id": "SRC-463d53474fa54ada1cf3",
-    "doc_id": "DOC-169bf5af6d04a3e7cfad",
+    "doc_id": "DOC-5ff363f7cb8f8906fd77",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/scripts/evo004r5_contract.json",
     "source_id": "SRC-8c08d5891c55fe26bec6",
-    "doc_id": "DOC-3f3d1450592960539eae",
+    "doc_id": "DOC-1b488f9cc1269d67faab",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/scripts/evo005r6_contract.json",
     "source_id": "SRC-f4f096aedad220e265ed",
-    "doc_id": "DOC-083f8da185c01d882509",
+    "doc_id": "DOC-72f98d2e8dd5d3a7ff61",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/scripts/evo005r7_contract.json",
     "source_id": "SRC-267f3bb51ddb3c1f7fcf",
-    "doc_id": "DOC-05aafc99e92b6f886232",
+    "doc_id": "DOC-f4660f2a7b346b7d020b",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/scripts/prompt_contract_compiler.py",
     "source_id": "SRC-2c282ad6539a465c3b1d",
-    "doc_id": "DOC-534d404f0141e2283e60",
+    "doc_id": "DOC-90254386eb032dba679d",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/tests/fixtures/baseline.json",
     "source_id": "SRC-34ea95acc850f42fd784",
-    "doc_id": "DOC-b9e2bb8595f9a161ca4d",
+    "doc_id": "DOC-7b9f60d923e7dc2fcf80",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/tests/fixtures/golden.json",
     "source_id": "SRC-accbbf66b47dd43a6959",
-    "doc_id": "DOC-5cec21ab30bb5f96bdea",
+    "doc_id": "DOC-512f049345d559c78da1",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/tests/test_product_steering.py",
     "source_id": "SRC-4412ff9f8a689563f5b7",
-    "doc_id": "DOC-23d9401f9ef52c63561f",
+    "doc_id": "DOC-221263bf50b90228297c",
     "sanitation": "CLEAN"
    },
    {
     "family": "F5_COMMAND_BASIS",
     "rel": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/tests/test_prompt_contract_compiler.py",
     "source_id": "SRC-0fd01241a923e7256a3a",
-    "doc_id": "DOC-df63c65dce17084d2d37",
+    "doc_id": "DOC-93bc02eff1222b43485f",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/assurance/ACCEPTANCE_SCHEMA.yaml",
     "source_id": "SRC-4d9c22bb4f71af9f8a01",
-    "doc_id": "DOC-92383f2bb511b3e15769",
+    "doc_id": "DOC-ac250d1fdecec890fd29",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/assurance/BOOTSTRAP_META_ACCEPTANCE_POLICY.yaml",
     "source_id": "SRC-b2ae34d4d794375fc4be",
-    "doc_id": "DOC-34976790d35f6a6687e9",
+    "doc_id": "DOC-7dd367d3c6503b09d057",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/assurance/EVIDENCE_CONTRACT.yaml",
     "source_id": "SRC-b2783b6f889473a03240",
-    "doc_id": "DOC-1f34218088d37c1993c8",
+    "doc_id": "DOC-85a32bf366fea3b13486",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/assurance/PROFILE_ROLE_CONTRACTS.yaml",
     "source_id": "SRC-c5939a15e465c7904d97",
-    "doc_id": "DOC-dedcc13c675ac9c5e36f",
+    "doc_id": "DOC-aa1e554619850bc07b7c",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/assurance/acceptance-packs/README.stage2-materialization.md",
     "source_id": "SRC-13cbb4567d46767a79ad",
-    "doc_id": "DOC-3f0e25ac85135f6f7c46",
+    "doc_id": "DOC-a231d693ef07db6e40d5",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/assurance/acceptance-packs/hermes-runtime/acceptance-pack.yaml",
     "source_id": "SRC-91bfe84c55d96c3b793d",
-    "doc_id": "DOC-212fa2b0ac52053114a1",
+    "doc_id": "DOC-852ee8acc59d124d8adb",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/assurance/acceptance-packs/kanban-runtime/acceptance-pack.yaml",
     "source_id": "SRC-6de63b820998b5c0f01a",
-    "doc_id": "DOC-990a03cc4d5818f51bcb",
+    "doc_id": "DOC-e4c2ecbb382af5550b71",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/assurance/acceptance-packs/knowledge/acceptance-pack.yaml",
     "source_id": "SRC-2ffe36ceabf63fb83ad4",
-    "doc_id": "DOC-0f9917770219f9f08863",
+    "doc_id": "DOC-42c9412df438b67aef33",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/assurance/acceptance-packs/profile/acceptance-pack.yaml",
     "source_id": "SRC-34b7b78fe861c54efa2c",
-    "doc_id": "DOC-ddbb75d5794f82638bab",
+    "doc_id": "DOC-61a55bfd84c9c1c05346",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/assurance/acceptance-packs/provider/acceptance-pack.yaml",
     "source_id": "SRC-4788929dc1d2ab704567",
-    "doc_id": "DOC-35c01090267c059c26ee",
+    "doc_id": "DOC-5df8d922459d85a4715f",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/assurance/acceptance-packs/skill/acceptance-pack.yaml",
     "source_id": "SRC-c905dce561065c47c83a",
-    "doc_id": "DOC-00e7c46964b79e715f0a",
+    "doc_id": "DOC-53f994c773f6313da140",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/assurance/acceptance-packs/sqs-financial-bridge/acceptance-pack.yaml",
     "source_id": "SRC-1880cef0a87eb18a91e7",
-    "doc_id": "DOC-b8acc190ad3cdeeef04a",
+    "doc_id": "DOC-4fb1324006e5932fffe8",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/assurance/acceptance-packs/stack/acceptance-pack.yaml",
     "source_id": "SRC-ffc0e373481287d0536a",
-    "doc_id": "DOC-5ff7347cf5fe13d0ab11",
+    "doc_id": "DOC-0cf768ff29bb08a31898",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/contracts/AUTHORITY_RECEIPT.schema.yaml",
     "source_id": "SRC-e9be9585378f05c27651",
-    "doc_id": "DOC-d3d3390bf5cdd6bfc091",
+    "doc_id": "DOC-3a69dc1aa0eb5787f52d",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/contracts/CANDIDATE_MANIFEST.schema.yaml",
     "source_id": "SRC-d8959e6595b40db1453d",
-    "doc_id": "DOC-69f453dec595dac4f232",
+    "doc_id": "DOC-d13e43db731e91d2de28",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/contracts/FABRIC_CHANGE_PACKAGE.schema.yaml",
     "source_id": "SRC-eef43ed5637edb67688d",
-    "doc_id": "DOC-4a244af6471bb5d68c83",
+    "doc_id": "DOC-b4ba71bcb8c865b59aa2",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/contracts/FABRIC_COLLABORATION_ABI.schema.yaml",
     "source_id": "SRC-fde364bf69367321024f",
-    "doc_id": "DOC-c8e24e176810fb7c4640",
+    "doc_id": "DOC-a5fc5fed7f1e069ba1cd",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/contracts/PROMOTION_RECEIPT.schema.yaml",
     "source_id": "SRC-145fe2c1d5a302c4467e",
-    "doc_id": "DOC-9c347aa398a5a6343cb1",
+    "doc_id": "DOC-1c43a333e61b05e524d2",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/contracts/ROLLBACK_RECEIPT.schema.yaml",
     "source_id": "SRC-b3dd31de28b9806f5809",
-    "doc_id": "DOC-a16a87813ec6f37d83e9",
+    "doc_id": "DOC-f339b99c894cb38fc033",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/control/ACCEPTANCE_POLICY.yaml",
     "source_id": "SRC-695f327303cc7ad3f658",
-    "doc_id": "DOC-8010e275cde69ac77368",
+    "doc_id": "DOC-ff6ef4600c85450013bf",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/control/AUTHORITY_MATRIX.yaml",
     "source_id": "SRC-0256d1c1e5b1c3dcfc56",
-    "doc_id": "DOC-a2e476d60712c0d0b830",
+    "doc_id": "DOC-b0b46f1a8b92fe8c715f",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/control/BREAK_GLASS_POLICY.yaml",
     "source_id": "SRC-e02fb77882f2b1d97904",
-    "doc_id": "DOC-02fc812e0719b1d92850",
+    "doc_id": "DOC-6fbe0d031bf55ff02130",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/control/CAPABILITY_QUALIFICATION_POLICY.yaml",
     "source_id": "SRC-b312ca1b1bb60d568356",
-    "doc_id": "DOC-e3f5e59533f6131a0572",
+    "doc_id": "DOC-9b09d29f37bd6706825b",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/control/CHANGE_CLASS_ROUTER.yaml",
     "source_id": "SRC-2b76f5de663c9106a4dd",
-    "doc_id": "DOC-bc503bad1b26e051571d",
+    "doc_id": "DOC-d8ddb2c46c4d4fd4ba50",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/control/EVOLUTION_POLICY.yaml",
     "source_id": "SRC-1ccb5f3aff174a23e0f4",
-    "doc_id": "DOC-426ff8e2c434cee4e9ea",
+    "doc_id": "DOC-e0fc0f6ee8dbd6528a99",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/control/KNOWLEDGE_POLICY.yaml",
     "source_id": "SRC-9afb0daf438ff107b210",
-    "doc_id": "DOC-df55a7b03019c934fdd8",
+    "doc_id": "DOC-b534a203658259066521",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/control/MEMBER_POLICY.yaml",
     "source_id": "SRC-bc97f24981b803073d3a",
-    "doc_id": "DOC-6f4bf64487bdb879b913",
+    "doc_id": "DOC-031b82e3c2796992a6d3",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/control/PROFILE_STACK_REGISTRATION_POLICY.yaml",
     "source_id": "SRC-80e81a5cca9dae434e82",
-    "doc_id": "DOC-570860b926e6fbd089a4",
+    "doc_id": "DOC-ead24afaf4c8bcc8e4a6",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/control/PROMOTION_POLICY.yaml",
     "source_id": "SRC-a02a34383612198f0e7f",
-    "doc_id": "DOC-f881dbc207ad7ef5b6c6",
+    "doc_id": "DOC-a5eaaa5da493468772b0",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/control/RELEASE_POLICY.yaml",
     "source_id": "SRC-f1d9b4afbb7e1fa3c406",
-    "doc_id": "DOC-2b1e64455c70b07a1371",
+    "doc_id": "DOC-07a3048c608cd158e224",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/control/RISK_POLICY.yaml",
     "source_id": "SRC-bf23c01ec1f56c7e2c89",
-    "doc_id": "DOC-c2f1db802ed51bf55f24",
+    "doc_id": "DOC-14b59a3ca591824f33bb",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/control/SOD_POLICY.yaml",
     "source_id": "SRC-45a2caad808f0bcb2a35",
-    "doc_id": "DOC-b25e94b72c218e89beb8",
+    "doc_id": "DOC-d93732fa6a620e1aee3a",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/control/STAGE1_CONTRACT_EXACT_SET.yaml",
     "source_id": "SRC-694145105be695dc1150",
-    "doc_id": "DOC-d95d152c71f3e90b7e9a",
+    "doc_id": "DOC-92f5e8a7ad1897f5d478",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "Fabric/control/STAGE1_TOOL_CAPABILITY_FREEZE_MATRIX.yaml",
     "source_id": "SRC-9c3b272d13d41becbd6a",
-    "doc_id": "DOC-ebcdcbfcc6268790db60",
+    "doc_id": "DOC-73248117b635674b5be7",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/AGENTS.md",
     "source_id": "SRC-0a9209496f527470f6b7",
-    "doc_id": "DOC-37ef4e5f92e7c7eddb06",
+    "doc_id": "DOC-db926c5c4a829ff729c0",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/config/hermes-codex-lane.json",
     "source_id": "SRC-aa09d7571a1170987c34",
-    "doc_id": "DOC-16e3013b2509000db8ac",
+    "doc_id": "DOC-426911410a0e0f1b0beb",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/config/hermes.json",
     "source_id": "SRC-f031e3c1863bebbb8d8c",
-    "doc_id": "DOC-624f3569fac354ff73f3",
+    "doc_id": "DOC-244e67dac80bdedda47b",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/config/lane-routing-registry.yaml",
     "source_id": "SRC-18e7a73f5b66331b0449",
-    "doc_id": "DOC-55e8714d38a2c0adbe74",
+    "doc_id": "DOC-bff2cea878fc4081f9ac",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/config/model-lane-assignment.json",
     "source_id": "SRC-6b8379139d5ff0fbb388",
-    "doc_id": "DOC-dccedb47decfffdc8e45",
+    "doc_id": "DOC-5b74711d8b3609613c41",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/config/project.json",
     "source_id": "SRC-fc9caa9a28f3759f96d4",
-    "doc_id": "DOC-08f97da6db4b0af44a4e",
+    "doc_id": "DOC-066dab2d32ddbc14601d",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/config/ssot-supersession-ledger.json",
     "source_id": "SRC-94f4e9f9d88f4b486749",
-    "doc_id": "DOC-667964aad2dfbe2c0f93",
+    "doc_id": "DOC-930e2f20a519dca477d7",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/config/verify-acceptance-matrix.json",
     "source_id": "SRC-bba1d5013a11f1d1a671",
-    "doc_id": "DOC-ab5e3fee43fa7b1b5d84",
+    "doc_id": "DOC-5478e3aba25c1cdc85dd",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/config/verify-lane-contract.json",
     "source_id": "SRC-1c4469c8e30266bc4504",
-    "doc_id": "DOC-58efd5773a5bb95a5925",
+    "doc_id": "DOC-49857028671448d00815",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/__init__.py",
     "source_id": "SRC-242c86d46ae3017c7f9f",
-    "doc_id": "DOC-cbebf22fe15b1cb264fe",
+    "doc_id": "DOC-14b71eff2114b5615c31",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/__main__.py",
     "source_id": "SRC-76fa916e93e0ae1a6c1b",
-    "doc_id": "DOC-6fe0161ce49b4293d116",
+    "doc_id": "DOC-fa90dc81e42f9589c0f8",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/agents.py",
     "source_id": "SRC-16e6608b6b3b7ea862ed",
-    "doc_id": "DOC-9ae6973e96edacb0ecaa",
+    "doc_id": "DOC-a83582d2f6672f83f922",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/assurance.py",
     "source_id": "SRC-7b90ab43cc0537a22e56",
-    "doc_id": "DOC-8d79884c7a6091bb9c68",
+    "doc_id": "DOC-621441fcf50998b1c51d",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/bootstrap.py",
     "source_id": "SRC-e4e9d8c74ede0d073a69",
-    "doc_id": "DOC-f9cd8c3332bce86b309a",
+    "doc_id": "DOC-370c5f2999f31892fbbb",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/cli.py",
     "source_id": "SRC-eef5cfb6ece29b6786e4",
-    "doc_id": "DOC-1d9dadd6f90e8c0d9386",
+    "doc_id": "DOC-d3f698a4f1aa68e2fcaf",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/control_validation.py",
     "source_id": "SRC-669f53fd5c5b746529d0",
-    "doc_id": "DOC-189a8a2c4765bf5cbd61",
+    "doc_id": "DOC-20e7e35abd47af3cdbfb",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/doctor.py",
     "source_id": "SRC-e650687f9e941e948cc0",
-    "doc_id": "DOC-b653aa1876474f406fcf",
+    "doc_id": "DOC-a057169f5983503d597c",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/errors.py",
     "source_id": "SRC-33cc9a80ca824bc50ac9",
-    "doc_id": "DOC-cfc8fa01ccb060cf047e",
+    "doc_id": "DOC-ce7a95487e8899482dd7",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/evidence_graph.py",
     "source_id": "SRC-53ffe344a828ae2a5a16",
-    "doc_id": "DOC-552b849f087892c3aa21",
+    "doc_id": "DOC-4328d275b7e67dd45a8a",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/evolution.py",
     "source_id": "SRC-c5772c066e7aa55d1b91",
-    "doc_id": "DOC-8a986dddaa0aa3a5d2cb",
+    "doc_id": "DOC-d6b862c8ac0d92b1ffba",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/harness.py",
     "source_id": "SRC-409398828b500d9e473e",
-    "doc_id": "DOC-f9ccce9469752d81c5ab",
+    "doc_id": "DOC-c78d98d8e12741214e59",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/hlpe.py",
     "source_id": "SRC-11d1d9d471acef578e20",
-    "doc_id": "DOC-3517df9f285b92d1f6ff",
+    "doc_id": "DOC-ff8d11a089618872b442",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/knowledge.py",
     "source_id": "SRC-6edebd16ecad1bf5c6b8",
-    "doc_id": "DOC-0f67537b9421d1fe5b48",
+    "doc_id": "DOC-e9ccb69e2936ba3fc9e5",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/lane_admission.py",
     "source_id": "SRC-235b4bfbb5e98eb8573e",
-    "doc_id": "DOC-333a8fb733db280f4d8d",
+    "doc_id": "DOC-bfbc49642de1eb7ffb7a",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/lane_policy.py",
     "source_id": "SRC-498ab9435a7d5f885416",
-    "doc_id": "DOC-7d4f6344525617d8d903",
+    "doc_id": "DOC-cb18724d6966c596b882",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/lifecycle.py",
     "source_id": "SRC-a172e16ccca5924e35fd",
-    "doc_id": "DOC-709968a99ca1ba469c0b",
+    "doc_id": "DOC-fb4ffab2276bc4696fc0",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/meta_gates.py",
     "source_id": "SRC-a8621adbce99c719a5c6",
-    "doc_id": "DOC-17bc73a2936a9172f2ed",
+    "doc_id": "DOC-e5e65b8b32c215c802c4",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/named_methods.py",
     "source_id": "SRC-80fbb94cc71153b7df36",
-    "doc_id": "DOC-0f32a58f854bc7f58082",
+    "doc_id": "DOC-249a97f19f181039c5c5",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/observability.py",
     "source_id": "SRC-3620418f7571ed055da9",
-    "doc_id": "DOC-ba0f2051c92feddd639a",
+    "doc_id": "DOC-95a50cb5d1aac36453ae",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/providers.py",
     "source_id": "SRC-dd7909638590f9fd4cbd",
-    "doc_id": "DOC-1292a9526ccea4fe4161",
+    "doc_id": "DOC-53ce4e698c5aa63ec524",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/recovery.py",
     "source_id": "SRC-3c47652c6cd76b5b334d",
-    "doc_id": "DOC-9771af84963b1d8ee64b",
+    "doc_id": "DOC-2a5e384de4a96d1ce3e4",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/release.py",
     "source_id": "SRC-7d260fb85035e7e0c72c",
-    "doc_id": "DOC-2eab874ab508486271b8",
+    "doc_id": "DOC-9928cc5659ee8ec4f4c9",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/repo_intelligence.py",
     "source_id": "SRC-0ae6b740cc182fb8e6e1",
-    "doc_id": "DOC-e2b1effdfd22992876f6",
+    "doc_id": "DOC-9be96bfa7c91269aa038",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/schema.sql",
     "source_id": "SRC-12ee2ce74b731e7369cf",
-    "doc_id": "DOC-bd27a4765df82e203256",
+    "doc_id": "DOC-bdae9d7cf93a9d666c17",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/security.py",
     "source_id": "SRC-226f612b1901566e11b4",
-    "doc_id": "DOC-8488458c56a66f4441cc",
+    "doc_id": "DOC-c92ebb7d4a7d2325178c",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/spine.py",
     "source_id": "SRC-ca8de2a1c0973d529349",
-    "doc_id": "DOC-dff2c7da92cd25ae80fe",
+    "doc_id": "DOC-5c1a661f32b247a12bdb",
     "sanitation": "CLEAN"
    },
    {
     "family": "F6_MACHINE_TRUTH",
     "rel": "HG-KSEOS/src/hg_kseos/util.py",
     "source_id": "SRC-e75c10a605727aeea691",
-    "doc_id": "DOC-8acfa9499efdf029eee6",
+    "doc_id": "DOC-7054297995b60272ecf5",
     "sanitation": "CLEAN"
    }
   ]
@@ -2041,6 +2073,12 @@
   "nrtv": {
    "nonexistent_clause": {
     "verdict": "PASS",
+    "detail": "GroundingFailure:ERR_CITATION_INVALID:DOC-a52d6abeeda81eba4dc8",
+    "subject": "DOC-a52d6abeeda81eba4dc8",
+    "note": "PASS only on the expected citation-invalid class; any other exception is FAIL"
+   },
+   "nonexistent_document": {
+    "verdict": "PASS",
     "detail": "GroundingFailure:ERR_CITATION_INVALID:DOC-DOES-NOT-EXIST-0000"
    },
    "stale_source": {
@@ -2048,8 +2086,14 @@
     "detail": "ERR_SOURCE_DRIFT:知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/00_KNOW_INDEX.md"
    },
    "wrong_authority": {
-    "verdict": "PASS",
-    "detail": "ERR_KG_SOURCE_NOT_ACTIVE:DOC-DOES-NOT-EXIST-0000"
+    "verdict": "FAIL",
+    "subject": "DOC-a52d6abeeda81eba4dc8",
+    "detail": "assertion on a real document was accepted; this API has NO authority-rank argument, so it cannot express wrong-authority at assertion level",
+    "api_limit": "add_kg_assertion(doc_id, s, p, o) - rank is not a parameter"
+   },
+   "wrong_authority_located": {
+    "verdict": "LOCATED_ELSEWHERE",
+    "detail": "authority rank is enforced at ingest (ingest_text(authority_rank=...)), not at assertion time; the probe therefore records the ingest-time layer as the authority enforcement point instead of pretending the assertion API enforces it"
    }
   },
   "revoked_namespace_excluded": true,
@@ -2110,5 +2154,16 @@
   "withdrawn_probe_source": "SRC-5b42ababab952cb79460",
   "withdrawn_namespace_excluded": true
  },
- "verdict": "PASS"
+ "verdict": "PARTIAL",
+ "gate_predicate": {
+  "no_drift": true,
+  "ingest_complete": true,
+  "unique_input_paths": 160,
+  "indexed_docs": 153,
+  "accounted": 160,
+  "quarantined": 7,
+  "ingest_errors": 0,
+  "clean_coverage": false,
+  "note": "PASS requires every unique source path to be ingested exactly once; a partial ingestion now yields FAIL instead of a silent PASS"
+ }
 }

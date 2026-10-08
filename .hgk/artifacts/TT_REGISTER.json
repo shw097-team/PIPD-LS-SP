@@ -1,0 +1,95 @@
+{
+ "schema": "PIPD-TT-REGISTER/1",
+ "count": 9,
+ "tts": [
+  {
+   "id": "TT-PIPD-KNOWLEDGE-QUARANTINE",
+   "class": "SOURCE_GAP",
+   "owner": "PIPD-EC + HGK knowledge owner",
+   "affected_edges": "knowledge ingestion -> F2 PIPD standard family -> PI compile source binding",
+   "first_failing_invariant": "G-KNOWLEDGE-READY clean_coverage (7 of 160 sources quarantined)",
+   "detail": "HGK sanitation quarantines 7 required documents because their TEXT contains the security patterns they document (PROMPT_INJECTION / SECRET_PATTERN regexes). Includes 3 required PIPD standard docs DOC-01/DOC-08/DOC-09.",
+   "close_condition": "a quarantine review path distinguishes a documented pattern from a live secret, with an owner decision recorded; then re-run the probe to clean_coverage=true",
+   "evidence": ".hgk/knowledge/KNOWLEDGE_READY_REPORT.json#knowledge_index_readback.quarantined"
+  },
+  {
+   "id": "TT-PIPD-AUTHORITY-ASSERT",
+   "class": "EVIDENCE_GAP",
+   "owner": "HG-KSEOS knowledge layer",
+   "affected_edges": "kg assertion API -> authority enforcement proof",
+   "first_failing_invariant": "NRTV wrong_authority cannot be demonstrated at assertion level",
+   "detail": "add_kg_assertion(doc_id, subject, predicate, obj) has no authority-rank parameter; rank is enforced at ingest only.",
+   "close_condition": "either expose rank-aware assertion or record the ingest-layer test as the authority oracle in the gate contract",
+   "evidence": "tools/knowledge_ready_probe.py nrtv.wrong_authority"
+  },
+  {
+   "id": "TT-PIPD-LICENSE-001",
+   "class": "SOURCE_GAP",
+   "owner": "human owner",
+   "affected_edges": "publication gate",
+   "first_failing_invariant": "PUBLICATION_APPROVED requires a declared license",
+   "detail": "no source in the corpus declares a license.",
+   "close_condition": "declare a license or accept the no-license NOTICE",
+   "evidence": "LICENSE"
+  },
+  {
+   "id": "TT-PIPD-PREFLIGHT-ORDER",
+   "class": "ADMISSION_ORDER",
+   "owner": "Hermes orchestration / HGK",
+   "affected_edges": "preflight artifacts -> admission chronology",
+   "first_failing_invariant": "preflight durable writes precede the admitted WorkOrders",
+   "detail": "Independent lane B found the compiler receipt (14:03:17Z) and knowledge report (14:05:24Z) were written before admission_start (14:06:52Z). The preflight artifacts are maker-local under .hgk/preflight and were later re-derived; the ordering violation is recorded, not hidden.",
+   "close_condition": "re-run preflight under an already-admitted WorkOrder, or formally classify .hgk/preflight as pre-admission scratch",
+   "evidence": ".hgk/admission/admission_start.json"
+  },
+  {
+   "id": "TT-PIPD-ADMISSION-CHAIN-GAP",
+   "class": "EVIDENCE_GAP",
+   "owner": "HG-KSEOS lifecycle",
+   "affected_edges": "project_transitions continuity",
+   "first_failing_invariant": "persisted transition chain is discontinuous",
+   "detail": "Lane B: project_transitions/canonical_events omit SOURCE_DISCOVERY->SOURCE_ADMISSION and DESIGN_READY->PLAN_READY; the requirement-freeze event references EV-REQ-... with no evidence_refs row; ACC-REQ-... remains NOT_RUN; all six workorder result_json are null.",
+   "close_condition": "record the missing transitions through the typed API and register the missing evidence_refs row",
+   "evidence": ".hgk/artifacts/hgk_admission_readback.json"
+  },
+  {
+   "id": "TT-PIPD-WORKORDER-WORKTREES",
+   "class": "EVIDENCE_GAP",
+   "owner": "HGK",
+   "affected_edges": "workorder execution provenance",
+   "first_failing_invariant": "declared TaskSpec writable roots and workorder worktrees are absent on disk",
+   "detail": "Six workorders are CREATED/ADMITTED but have no worktree and no recorded result; execution is not established through them.",
+   "close_condition": "either bind real worktrees or record that the product writes were made by the orchestration plane under an explicit admitted exception",
+   "evidence": ".hgk/artifacts/hgk_admission_readback.json"
+  },
+  {
+   "id": "TT-PIPD-TECHADMISSION",
+   "class": "EVIDENCE_GAP",
+   "owner": "PIPD-EC",
+   "affected_edges": "22 named technology rows -> TechnologyAdmission contracts",
+   "first_failing_invariant": "no admission rows written for the 22 named technologies",
+   "close_condition": "write the 22 rows with license/dependency disposition",
+   "evidence": ".hgk/artifacts/CapabilityActivationLedger.json"
+  },
+  {
+   "id": "TT-PIPD-S2-S8",
+   "class": "NOT_RUN",
+   "owner": "HGK",
+   "affected_edges": "stages S2..S8",
+   "first_failing_invariant": "stages not reached",
+   "detail": "GP-01..03, Web Pack external install, HGK shadow/canary receiver, GENIE projection, JIT and SGM cutover are not built.",
+   "close_condition": "admit S2 as the next WorkOrder",
+   "evidence": "docs/ROUND_DISCLOSURE.md"
+  },
+  {
+   "id": "TT-PIPD-PYCACHE-SECRETSHAPE",
+   "class": "HYGIENE",
+   "owner": "PIPD-EC",
+   "affected_edges": "secret scan surface",
+   "first_failing_invariant": "a synthetic PAT-shaped constant was found in tests/__pycache__/*.pyc",
+   "detail": "Lane C found one pattern hit in a compiled bytecode cache of the negative test. .pyc are not tracked by git and all __pycache__ trees have been purged; the constant is a deliberate negative-test fixture.",
+   "close_condition": "closed in-round by purging bytecode; keep __pycache__ out of any published artifact",
+   "evidence": "git ls-files | grep .pyc -> 0"
+  }
+ ]
+}

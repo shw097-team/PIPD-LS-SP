@@ -71,6 +71,12 @@
   "nrtv": {
    "nonexistent_clause": {
     "verdict": "PASS",
+    "detail": "GroundingFailure:ERR_CITATION_INVALID:DOC-a52d6abeeda81eba4dc8",
+    "subject": "DOC-a52d6abeeda81eba4dc8",
+    "note": "PASS only on the expected citation-invalid class; any other exception is FAIL"
+   },
+   "nonexistent_document": {
+    "verdict": "PASS",
     "detail": "GroundingFailure:ERR_CITATION_INVALID:DOC-DOES-NOT-EXIST-0000"
    },
    "stale_source": {
@@ -78,8 +84,14 @@
     "detail": "ERR_SOURCE_DRIFT:知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/00_KNOW_INDEX.md"
    },
    "wrong_authority": {
-    "verdict": "PASS",
-    "detail": "ERR_KG_SOURCE_NOT_ACTIVE:DOC-DOES-NOT-EXIST-0000"
+    "verdict": "FAIL",
+    "subject": "DOC-a52d6abeeda81eba4dc8",
+    "detail": "assertion on a real document was accepted; this API has NO authority-rank argument, so it cannot express wrong-authority at assertion level",
+    "api_limit": "add_kg_assertion(doc_id, s, p, o) - rank is not a parameter"
+   },
+   "wrong_authority_located": {
+    "verdict": "LOCATED_ELSEWHERE",
+    "detail": "authority rank is enforced at ingest (ingest_text(authority_rank=...)), not at assertion time; the probe therefore records the ingest-time layer as the authority enforcement point instead of pretending the assertion API enforces it"
    }
   },
   "revoked_namespace_excluded": true,

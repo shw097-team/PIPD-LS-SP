@@ -1,0 +1,9 @@
+{
+ "schema": "PIPD-BASELINE-BINDING/1",
+ "changeset_baseline_verified_field": false,
+ "reason": "C-03 repair: at the moment this contract was rendered there was no git baseline in the target root, so `baseline_verified: true` was an unsupported maker assertion. It is now false and the real baseline is bound by explicit commit id.",
+ "baseline_commit": "fe97156080764768e6e064e2c68375156c976868",
+ "rollback_pointer": "git -C <PIPD_ROOT> worktree add --detach <DIR> fe97156080764768e6e064e2c68375156c976868",
+ "rollback_drill_evidence": ".hgk/artifacts/rollback_drill.json",
+ "note": "PIPD-LS-SP.CONTRACT.json cannot carry this: the compiler schema sets changeset.additionalProperties=false. The binding therefore lives here and the contract asserts baseline_verified=false."
+}
