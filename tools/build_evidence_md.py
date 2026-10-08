@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import sqlite3
 import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -224,7 +226,14 @@ def main() -> int:
     A("")
     A("## 12. How an external reviewer verifies this offline\n")
     A("1. `git clone` the repo and `git checkout " + head + "`.")
-    A("2. `python -m unittest discover -s tests -t .` → 26 tests pass.")
+    _t = subprocess.run([sys.executable, "-B", "-m", "unittest", "discover", "-s", "tests", "-t", "."],
+                        cwd=str(ROOT), capture_output=True, text=True,
+                        env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"})
+    _tail = [l for l in _t.stderr.strip().splitlines() if l.strip()][-3:]
+    A("2. `python -m unittest discover -s tests -t .` must reproduce:\n")
+    A("```")
+    A("\n".join(_tail))
+    A("```")
     A("3. Recompute `sha256sum` on every file listed by `.hgk/artifacts/evidence_manifest.json`.")
     A("4. Re-run the AO prompt (`.hgk/ao/ao_prompt.md`) on any checker model; it is self-contained.")
     A("Large or sensitive raw stores are not published; the digests above are the binding references.")
