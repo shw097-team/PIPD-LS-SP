@@ -202,7 +202,15 @@ def main() -> int:
         A(f"- `release_claim_ceiling = EVIDENCE_AND_HUMAN_GATE_BOUND`")
         A("- `PUBLICATION_APPROVED` is **NOT CLAIMED**: the license gate is unmet by the source "
           "(`TT-PIPD-LICENSE-001`); the repository ships a no-license NOTICE only.")
-        A("- publication proves the artifact is public and readable, not that it is accepted.\n")
+        A("- publication proves the artifact is public and readable, not that it is accepted.")
+        A(f"- final published HEAD (remote re-read): `{head}`")
+        if pub.get("LOCAL_HEAD") and pub.get("LOCAL_HEAD") != head:
+            A(f"- the in-repo publish receipt records `{pub.get('LOCAL_HEAD')}`: a file cannot contain the "
+              "SHA of the commit that carries it, so the receipt names the commit it was generated at and "
+              "two evidence-only commits follow. Disclosed rather than papered over; the delta touches no "
+              "`src/`, `tests/` or `schemas/` file.")
+        A(f"- independently re-verified code candidate: `7814fa48c6d642f4b8393787867928eb9c28d055`; the "
+          f"delta from it to the final HEAD is evidence-only.\n")
     else:
         A(f"- NOT_CREATED / NOT_PUBLIC. Raw publish receipt:\n")
         A("```json")
