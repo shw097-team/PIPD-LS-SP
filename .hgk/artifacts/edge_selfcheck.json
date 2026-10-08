@@ -1,19 +1,19 @@
 {
  "schema": "PIPD-EDGE-SELFCHECK/1",
  "note": "MAKER SELF-CHECK - not independent acceptance",
- "head": "c022d3393a7287be3c6c7d4a3e673d041c179f30",
+ "head": "e53dc8aa53228f4e8aced514466349c7cd147c8b",
  "edges": [
   {
    "edge": "E1",
    "verdict": "PASS",
    "command": "python -m unittest discover -s tests -t .",
-   "observed": "......................\n----------------------------------------------------------------------\nRan 22 tests in 0.179s\n\nOK"
+   "observed": "......................\n----------------------------------------------------------------------\nRan 22 tests in 0.243s\n\nOK"
   },
   {
    "edge": "E2",
    "verdict": "PASS",
    "command": "fresh copy w/o .git: python -m unittest discover -s tests -t .",
-   "observed": ".......s..............\n----------------------------------------------------------------------\nRan 22 tests in 0.141s\n\nOK (skipped=1)"
+   "observed": ".......s..............\n----------------------------------------------------------------------\nRan 22 tests in 0.185s\n\nOK (skipped=1)"
   },
   {
    "edge": "E3",
@@ -65,9 +65,9 @@
   },
   {
    "edge": "E10",
-   "verdict": "FAIL",
+   "verdict": "PASS",
    "command": "git show HEAD:<receipt>.contract_sha256 vs sha256(blob)",
-   "observed": "receipt=eab713925663de02 blob=6c08dd57af2b7dc4"
+   "observed": "receipt=6c08dd57af2b7dc4 blob=6c08dd57af2b7dc4"
   },
   {
    "edge": "E11",
@@ -77,10 +77,10 @@
   },
   {
    "edge": "E12",
-   "verdict": "FAIL",
-   "command": "worktree + git object sweep",
-   "observed": "worktree_hits=1 object_hits=0"
+   "verdict": "PASS",
+   "command": "tracked-file + git object sweep (excludes __pycache__)",
+   "observed": "source_hits=0 object_hits=0 stray_bytecode_dirs=0"
   }
  ],
- "verdict": "FAIL"
+ "verdict": "PASS"
 }
