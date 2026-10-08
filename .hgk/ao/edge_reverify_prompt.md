@@ -3,8 +3,8 @@ Assume every claim below is FALSE until your own command proves it.
 
 CANDIDATE
   repo: C:\Projects\Agent_Workspace\PIPD
-  commit: 1cf60ac804ae02af753341df35f5705647a16ae5
-         (also accept 4b7be48 if a later evidence-only commit moved HEAD; report the actual HEAD)
+  commit: e4b43b7c02e1e9d5a5d7b305f52858ba44d55a23   <-- FROZEN. `git rev-parse HEAD` MUST equal this. If it does not, report the
+         mismatch as a finding and stop.
 
 HARD RULES
  1. READ-ONLY. Do not create, edit, delete or move any file inside the repo, the knowledge base or HG-KSEOS.
@@ -39,7 +39,7 @@ are the repairs that must now be proven). For each: run the probe, quote the dec
      "forbidden_escalation":[]}) must return a finding (a bare ceiling may not allow a level above LOCAL_QUALIFIED).
  E9  Build the string 'github_pat_' + 'A'*30 IN MEMORY ONLY and confirm at least one compiled pattern in
      pipd_ls_sp.workspace.SECRET_PATTERNS matches it.
- E10 LF canonicalization: `git stash list` empty; `git status --porcelain` shows no line-ending churn.
+ E10 LF canonicalization (was FAILING before this freeze; the fix re-froze the compile receipts): `git stash list` empty; `git status --porcelain` shows no line-ending churn.
      Compare the sha256 of the COMMITTED BLOB of .hgk/preflight/compile_out/compiler-receipt.json's
      contract_sha256 field against the sha256 of the COMMITTED BLOB of
      .hgk/preflight/PIPD-LS-SP.CONTRACT.json (use `git show HEAD:<path>` piped to sha256sum, not the worktree).
