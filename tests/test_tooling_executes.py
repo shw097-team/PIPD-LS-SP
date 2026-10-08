@@ -37,10 +37,21 @@ class TestToolingExecutes(unittest.TestCase):
         self.assertEqual(bad, [], "modules failed to compile")
 
     def test_cli_smoke_runs(self) -> None:
-        """The 13-command CLI surface must actually execute, not just import."""
-        r = subprocess.run([sys.executable, "-B", "tools/cli_smoke.py"], cwd=str(ROOT),
-                           capture_output=True, text=True,
-                           env={**__import__("os").environ, "PYTHONDONTWRITEBYTECODE": "1"})
+        """The 13-command CLI surface must actually execute, not just import.
+
+        Run inside a throwaway copy of the repo: the runner writes .hgk/artifacts/cli/CLI_SMOKE.json
+        by design, and a test that rewrites tracked evidence makes "tree clean after a test run"
+        impossible. The copy has every artifact the runner reads, so nothing is skipped.
+        """
+        import os as _os
+        import shutil as _sh
+        import tempfile as _tf
+        with _tf.TemporaryDirectory() as tmp:
+            dst = Path(tmp) / "repo"
+            _sh.copytree(ROOT, dst, ignore=_sh.ignore_patterns(".git", "__pycache__", "*.db", "*.pyc"))
+            r = subprocess.run([sys.executable, "-B", "tools/cli_smoke.py"], cwd=str(dst),
+                               capture_output=True, text=True,
+                               env={**_os.environ, "PYTHONDONTWRITEBYTECODE": "1"})
         self.assertEqual(r.returncode, 0,
                          f"cli_smoke.py exited {r.returncode}\n{(r.stderr or r.stdout)[-800:]}")
 

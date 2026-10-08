@@ -13,6 +13,7 @@ SRC = ROOT / "src"
 ART = ROOT / ".hgk" / "artifacts" / "s1"
 OUT = ROOT / ".hgk" / "artifacts" / "cli"
 OUT.mkdir(parents=True, exist_ok=True)
+OUT.mkdir(parents=True, exist_ok=True)
 env = dict(os.environ, PYTHONPATH=str(SRC), PYTHONDONTWRITEBYTECODE="1")
 
 
