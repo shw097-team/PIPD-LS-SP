@@ -1,0 +1,156 @@
+{
+ "schema": "PIPD-CAPABILITY-ACTIVATION-LEDGER/1",
+ "project_id": "PIPD-LS-SP-20261008",
+ "claim_ceiling": "LOCAL_QUALIFIED",
+ "stages_reached": [
+  "S0",
+  "S1"
+ ],
+ "owner": {
+  "control_plane": "HG-KSEOS",
+  "orchestrator": "Hermes",
+  "bounded_writer": "codex-cli 0.147.0-alpha.6.5 / admitted Hermes writer",
+  "independent_checker": "glm-5.3-flash (opencode-go)"
+ },
+ "active": [
+  {
+   "capability": "Source/Authority Freeze",
+   "stage": "S0",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "pipeline.freeze_authority + .hgk/preflight/source-manifest.json"
+  },
+  {
+   "capability": "Intent / RequirementAtom",
+   "stage": "S1",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "pipeline.intake() emits schema-exact RequirementAtom records"
+  },
+  {
+   "capability": "Profile LITE/STANDARD/ASSURED",
+   "stage": "S1",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "profiles.compute_profile + schema-exact ProfileBinding; escalation veto works"
+  },
+  {
+   "capability": "Search-Before-Build / TechnologyAdmission",
+   "stage": "S0",
+   "current_execution_disposition": "PARTIAL",
+   "evidence_or_gap": "22 named technology rows inventoried from source; no admission ledger rows written yet"
+  },
+  {
+   "capability": "PI Compiler",
+   "stage": "S1",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "pipeline.compile_pi() -> PI-PKG, schema+semantic clean"
+  },
+  {
+   "capability": "PD Binder / RepoContext",
+   "stage": "S1",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "pipeline.bind_pd() refuses a missing RepoContext (late binding)"
+  },
+  {
+   "capability": "TaskSpecSeed / ConstructionContract",
+   "stage": "S1",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "pipeline.compile_construction_contract()"
+  },
+  {
+   "capability": "ECP / TQAEP",
+   "stage": "S1",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "pipeline.compile_ecp/compile_tqaep; maker==checker refused"
+  },
+  {
+   "capability": "Trace / Evidence / Claim",
+   "stage": "S1",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "trace_closure, evidence_expectations, claim_ceiling"
+  },
+  {
+   "capability": "8 logical Skills",
+   "stage": "S1",
+   "current_execution_disposition": "NOT_IMPLEMENTED",
+   "evidence_or_gap": "donors inventoried and retained as source; no skill split built yet"
+  },
+  {
+   "capability": "19 machine-contract families",
+   "stage": "S0",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "schemas/ 19/19 + registry.json, verified by tests"
+  },
+  {
+   "capability": "deterministic validators",
+   "stage": "S0",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "validate.schema_validate + semantic_invariants; negative tests"
+  },
+  {
+   "capability": "3 Golden Pilots (GP-01..03)",
+   "stage": "S2",
+   "current_execution_disposition": "NOT_IMPLEMENTED",
+   "evidence_or_gap": "stage not reached"
+  },
+  {
+   "capability": "5-file Web Pack / Host projections",
+   "stage": "S3",
+   "current_execution_disposition": "PARTIAL",
+   "evidence_or_gap": "dist/web 5/5 + 3 host projections generated; external install not authorised"
+  },
+  {
+   "capability": "13 CLI/SDK commands",
+   "stage": "S4",
+   "current_execution_disposition": "PARTIAL",
+   "evidence_or_gap": "13/13 commands execute (exit 0) and are smoke-frozen; explain/dry-run and replay suites not built"
+  },
+  {
+   "capability": "named HGK Shadow / Canary receiver",
+   "stage": "S5",
+   "current_execution_disposition": "NOT_IMPLEMENTED",
+   "evidence_or_gap": "stage not reached"
+  },
+  {
+   "capability": "GENIE object projection",
+   "stage": "S6",
+   "current_execution_disposition": "NOT_IMPLEMENTED",
+   "evidence_or_gap": "stage not reached"
+  },
+  {
+   "capability": "JIT teaming / requalification",
+   "stage": "S7",
+   "current_execution_disposition": "NOT_IMPLEMENTED",
+   "evidence_or_gap": "stage not reached"
+  },
+  {
+   "capability": "bounded repair / rollback",
+   "stage": "S1",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "repair() bounded + rollback drill PASS via git worktree"
+  },
+  {
+   "capability": "public deliverable + acceptance evidence",
+   "stage": "S1",
+   "current_execution_disposition": "IN_PROGRESS",
+   "evidence_or_gap": "local candidate committed; publication pending the independent release gate"
+  }
+ ],
+ "deferred_profile_gated": [
+  "external SaaS",
+  "extra vector DB / KG",
+  "MCP",
+  "remote execution",
+  "tool/model/provider switching",
+  "SGM cutover"
+ ],
+ "forbidden": [
+  "unauthorised production deployment",
+  "Fabric SQP1 / Stage-3 self-upgrade",
+  "credential leakage",
+  "modifying sealed authority",
+  "dual-writing task truth",
+  "unbounded self-repair",
+  "maker signing an Independent/Human PASS",
+  "publishing the private knowledge corpus or raw local sensitive evidence"
+ ],
+ "closure_rule": "a capability missing a stage row blocks that capability; no capability may be declared usable before its tests exist"
+}
