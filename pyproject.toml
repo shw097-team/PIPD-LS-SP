@@ -1,0 +1,16 @@
+[project]
+name = "pipd-ls-sp"
+version = "0.1.0"
+description = "PIPD-LS-SP Pre-Implementation & Pre-Dev Lifecycle Skills Plugin (HG-KSEOS governed)"
+requires-python = ">=3.11"
+dependencies = ["jsonschema>=4.0"]
+
+[project.scripts]
+pipd = "pipd_ls_sp.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

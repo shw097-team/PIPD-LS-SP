@@ -1,0 +1,1 @@
+fetch('manifest.webmanifest').then(r=>r.json()).then(m=>{document.getElementById('app').textContent='PIPD-LS-SP '+m.version;});

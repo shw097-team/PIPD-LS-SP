@@ -1,0 +1,579 @@
+Reading additional input from stdin...
+OpenAI Codex v0.147.0-alpha.6.5
+--------
+workdir: C:\Projects\Agent_Workspace\PIPD
+model: gpt-6.1-sol
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 01a11bdc-a0d8-7222-80f0-1ae8b95df6f2
+--------
+user
+Read docs/S0_CONTRACT_SPEC.md and execute it exactly: create exactly the 19 JSON Schema files under schemas/ plus schemas/registry.json. Write ONLY under schemas/. Do not use the network. Do not modify any other file. Then print a final summary listing every filename you created.
+warning: Model metadata for `gpt-6.1-sol` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.
+2026-10-08T14:13:26.779385Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10102/v1/responses
+codex
+I’ll read the contract and repository instructions, then create and validate only the required files under `schemas/`.
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command 'Get-Content docs/S0_CONTRACT_SPEC.md; Write-Output "`n--- INSTRUCTION FILES ---"; rg --files -g AGENTS.md -g '"'*schema*' -g '"'!node_modules'"' -g '"'!vendor'"'; Write-Output \""'`n--- ROOT CONTENTS ---"; Get-ChildItem -Force' in C:\Projects\Agent_Workspace\PIPD
+ succeeded in 712ms:
+# PIPD-LS-SP S0 Canonical Machine Contract Spec — exact 19/19
+
+Source (NORMATIVE): `PIPD-LS-SP_藍圖.md` §7.3 "Canonical Machine Contracts — exact 19/19"
+(sha256 6f6aafece90b34e33786647e14fee840f5424893995b3164cbb52953a5c4f14a for the
+canonical standard; the blueprint file digest is recorded in the source manifest).
+
+Bootstrap order (`.pipd` §5.6.1): 01 standard lock, 02 project manifest, 03 schemas/registry,
+04 package index, 05 PI/PD objects, 06 policies/currentness/execution contracts,
+07 evidence expectations/conformance, 08 surface/GENIE/execution binding refs.
+
+## Deliverable
+
+Create exactly 19 JSON Schema files under `schemas/`, named `<Contract>.schema.json`,
+each Draft 2020-12 (`"$schema": "https://json-schema.org/draft/2020-12/schema"`),
+`type: object`, `additionalProperties: false`, with `required` covering **exactly** the
+required-field list below plus the four universal identity fields
+(`subject_id`, `version`, `content_hash`, `schema_version`) where the row does not already
+name them. Each schema must carry `"$id": "urn:pipd:s0:<Contract>:1"` and a
+`description` naming the Owner and Consumer from the table.
+
+Also write `schemas/registry.json`:
+
+```json
+{"schema": "PIPD-S0-CONTRACT-REGISTRY/1",
+ "families": [{"index": "01", "contract": "ArtifactIdentity", "materialization": "REQUIRED_NOW",
+               "owner": "PIPD", "consumers": ["all planes"],
+               "required_fields": ["subject_id","version","content_hash","schema_version","supersedes","invalidates"],
+               "schema_file": "schemas/ArtifactIdentity.schema.json"}, ... all 19 ...]}
+```
+
+## The 19 families (exact)
+
+| # | Contract | Materialization | Owner | Consumer | Required fields / invariant |
+| --- | --- | --- | --- | --- | --- |
+| 01 | ArtifactIdentity | REQUIRED_NOW | PIPD | all planes | subject_id, version, content_hash, schema_version, supersedes, invalidates |
+| 02 | AuthorityBinding | REQUIRED_NOW | PIPD | all compilers/adapters | source_id, authority_rank, locator, supersession, conflict_state |
+| 03 | RequirementAtom | REQUIRED_NOW | PIPD | PI compiler/TQAEP | req_id, source_clause, owner, acceptance_cue, risk_guard |
+| 04 | ProfileBinding | REQUIRED_NOW | PIPD | Skills/JIT/HGK | profile, axes, vetoes, artifact_depth, assurance |
+| 05 | TechnologyAdmission | REQUIRED_NOW | PIPD | tool/provider adapters | capability_need, candidate, disposition, pin_license_currentness, fallback_exit |
+| 06 | PI-PKG | REQUIRED_NOW | PIPD | PD binder | stable semantic contract, trace, acceptance |
+| 07 | PD-PKG | REQUIRED_NOW | PIPD | execution handoff | RepoContext, currentness, late_bound_construction_binding |
+| 08 | TraceLink | REQUIRED_NOW | PIPD/TQAEP | validators/checkers | from_type, from_id, from_hash, to_type, to_id, to_hash, rationale |
+| 09 | TaskSpecSeed | REQUIRED_NOW | PIPD | receiver adapter | goal, inputs, outputs, constraints, dependencies, tests, rollback, evidence |
+| 10 | ConstructionContract | REQUIRED_NOW | PIPD | HGK adapter | subject, writable_scope, expected_changes, tests, rollback, evidence_expectations |
+| 11 | WorkOrderCandidate | REQUIRED_NOW_NONAUTHORITY | PIPD | HGK admission | candidate_only marker, never runtime authority |
+| 12 | ECP | REQUIRED_NOW | PIPD/ECP semantics | HGK/TQAEP | effect_intent, permission, retries, idempotency, readback, rollback |
+| 13 | TQAEP | REQUIRED_NOW | PIPD/TQAEP semantics | Independent checker/release | tests, oracles, fixtures, acceptance, requalification |
+| 14 | ExecutionHandoff | REQUIRED_NOW | PIPD | HGK/other receiver | receiver, abi_version, payload_refs, ack_nack_state |
+| 15 | EvidenceExpectation | REQUIRED_NOW | PIPD/TQAEP | HGK/CI/provider | expected_evidence_type, producer, postcondition, freshness, claim_effect |
+| 16 | ClaimCeiling | REQUIRED_NOW | PIPD | all planes | allowed_claims, forbidden_escalation, close_conditions |
+| 17 | SurfaceProjectionManifest | REQUIRED_NOW | PIPD | surface compiler | surface, source_hashes, generated_files, parity_loss, stale_rule |
+| 18 | GENIEProjectionRef | SCHEMA_SEAM_ONLY_UNTIL_S6 | GENIE adapter | GENIE compiler | target refs ProductGraph/Profile/Bundle/GENIEArtifact; no truth writeback |
+| 19 | ExecutionBindingRef | SCHEMA_SEAM_ONLY_UNTIL_S5 | HGK adapter | HGK | receiver binding id/version/hash/lease/state; ACK only after HGK admission |
+
+## Hard invariants
+
+- Every schema filename must exactly equal `<Contract>.schema.json` with `PI-PKG` → `PI-PKG.schema.json` and `PD-PKG` → `PD-PKG.schema.json`.
+- `registry.json` must list all 19 in index order 01..19 and must agree byte-for-byte with the schema files on `required_fields`.
+- Do not invent a 20th family, do not rename a family, do not reorder.
+- Do not write anything outside `schemas/`.
+
+--- INSTRUCTION FILES ---
+
+--- ROOT CONTENTS ---
+
+    Directory: C:\Projects\Agent_Workspace\PIPD
+
+[32;1mMode   [0m[32;1m              LastWriteTime[0m [32;1;3m        Length[0m[32;1m Name[0m
+[32;1m----   [0m [32;1m             -------------[0m [32;1m        ------[0m [32;1m----[0m
+d--h-         2026/10/8 下午 10:11                [44;1m.git[0m
+d----         2026/10/8 下午 10:12                [44;1m.hgk[0m
+d----         2026/10/8 下午 10:11                [44;1mdocs[0m
+d----         2026/10/8 下午 10:10                [44;1mtools[0m
+-a---         2026/10/8 下午 10:11             68 .gitignore
+
+
+**Interpreting ambiguous fields**
+
+I need to clarify some ambiguous rows in the required field list, focusing on the descriptive phrases. It seems like I should check the blueprint documentation to explore the available tools and tests. This could provide insights into how to properly interpret and handle these fields. I'll make sure to be thorough and precise in my approach to get things right. Let’s see what the documentation reveals!
+  → Resolve contract fields and invariants
+  • Create schemas and ordered registry
+  • Validate files and write scope
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "Write-Output '--- FILES ---'; rg --files -g '"'!node_modules'"'; Write-Output '--- GIT STATUS ---'; git status --short; Write-Output '--- CONTRACT REFERENCES ---'; rg -n 'stable semantic|candidate_only|GENIEProjectionRef|ExecutionBindingRef|7\\.3|required_fields|S0_CONTRACT' docs tools; Write-Output '--- SCHEMA INSTRUCTIONS ---'; if (Test-Path schemas) { Get-ChildItem schemas -Force -Recurse -Filter AGENTS.md | ForEach-Object { Get-Content -LiteralPath "'$_.FullName } }' in C:\Projects\Agent_Workspace\PIPD
+ succeeded in 701ms:
+--- FILES ---
+pyproject.toml
+tools\knowledge_ready_probe.py
+tools\kanban_round.sh
+tools\kanban_dag.sh
+tools\kanban_complete_early.sh
+tools\hgk_admission_driver.py
+docs\S0_CONTRACT_SPEC.md
+src\pipd_ls_sp\__init__.py
+src\pipd_ls_sp\util.py
+src\pipd_ls_sp\errors.py
+--- GIT STATUS ---
+?? .hgk/codex/
+?? pyproject.toml
+?? src/
+--- CONTRACT REFERENCES ---
+docs\S0_CONTRACT_SPEC.md:3:Source (NORMATIVE): `PIPD-LS-SP_藍圖.md` §7.3 "Canonical Machine Contracts — exact 19/19"
+docs\S0_CONTRACT_SPEC.md:27:               "required_fields": ["subject_id","version","content_hash","schema_version","supersedes","invalidates"],
+docs\S0_CONTRACT_SPEC.md:40:| 06 | PI-PKG | REQUIRED_NOW | PIPD | PD binder | stable semantic contract, trace, acceptance |
+docs\S0_CONTRACT_SPEC.md:45:| 11 | WorkOrderCandidate | REQUIRED_NOW_NONAUTHORITY | PIPD | HGK admission | candidate_only marker, never runtime authority |
+docs\S0_CONTRACT_SPEC.md:52:| 18 | GENIEProjectionRef | SCHEMA_SEAM_ONLY_UNTIL_S6 | GENIE adapter | GENIE compiler | target refs ProductGraph/Profile/Bundle/GENIEArtifact; no truth writeback |
+docs\S0_CONTRACT_SPEC.md:53:| 19 | ExecutionBindingRef | SCHEMA_SEAM_ONLY_UNTIL_S5 | HGK adapter | HGK | receiver binding id/version/hash/lease/state; ACK only after HGK admission |
+docs\S0_CONTRACT_SPEC.md:58:- `registry.json` must list all 19 in index order 01..19 and must agree byte-for-byte with the schema files on `required_fields`.
+--- SCHEMA INSTRUCTIONS ---
+
+**Clarifying specifications**
+
+I need to think about the specifications for rows 6, 11, 18, and 19, but I wonder if it's better to request clarification instead of executing immediately. The task requires me to work while inferring normalized field names. I should consider using names that match the raw phrases for 6 and exact target names for 18, especially focusing on binding keys like ID, version, and hash lease state with nested receiver binding. I realize the distinction between universal version hashes and nested bindings is critical.
+**Exploring apply_patch usage**
+
+I'm thinking about using a Python script to call the apply_patch tool through a subprocess. I’m not entirely sure about the best way to do this, but I want to ensure I pass the right instructions. I'm considering checking the command with "Get-Command apply_patch" to verify the actual binary first. There’s a lot here to unpack, and I want to make sure I approach it correctly!
+codex
+Four rows describe fields in prose; I’ll use minimal snake_case keys and preserve their stated invariants.
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "Get-Command apply_patch | Select-Object Name,Source; python -B -c \"import importlib.util; print('jsonschema available:', importlib.util.find_spec('jsonschema') is not None)\"; Write-Output '--- LOCAL INSTRUCTIONS ---'; Get-ChildItem -LiteralPath . -Force -Filter AGENTS.md; if (Test-Path schemas) { Get-ChildItem -LiteralPath schemas -Force }" in C:\Projects\Agent_Workspace\PIPD
+ succeeded in 663ms:
+
+jsonschema available: True
+[32;1mName           [0m[32;1m Source[0m
+[32;1m----           [0m [32;1m------[0m
+apply_patch.bat C:\Users\user\.codex\tmp\arg0\codex-arg0Tx0QY6\apply_patch.bat
+--- LOCAL INSTRUCTIONS ---
+
+
+**Considering JSON field implementation**
+
+I’m thinking about implementing source exact phrase comments for fields to improve clarity. When working with JSON schemas, each field defined as `{}` means there are no required types mandated in the specification, which allows for more flexibility. I wonder if using conventional strings for identity field types would be useful. It seems like allowing versions as integers might also be a possibility, but the specifications may not clearly outline that. This could provide some room for creativity!
+Explicit field names are preserved. Prose rows use stable_semantic_contract, candidate_only, target_refs, and receiver_binding_id/version/hash with lease/state; semantic invariants are retained in descriptions and the candidate marker is fixed true.
+  ✓ Resolve contract fields and invariants
+  → Create schemas and ordered registry
+  • Validate files and write scope
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command '$rows = @'"'
+01|ArtifactIdentity|REQUIRED_NOW|PIPD|all planes|subject_id,version,content_hash,schema_version,supersedes,invalidates
+02|AuthorityBinding|REQUIRED_NOW|PIPD|all compilers/adapters|source_id,authority_rank,locator,supersession,conflict_state
+03|RequirementAtom|REQUIRED_NOW|PIPD|PI compiler/TQAEP|req_id,source_clause,owner,acceptance_cue,risk_guard
+04|ProfileBinding|REQUIRED_NOW|PIPD|Skills/JIT/HGK|profile,axes,vetoes,artifact_depth,assurance
+05|TechnologyAdmission|REQUIRED_NOW|PIPD|tool/provider adapters|capability_need,candidate,disposition,pin_license_currentness,fallback_exit
+06|PI-PKG|REQUIRED_NOW|PIPD|PD binder|stable_semantic_contract,trace,acceptance
+07|PD-PKG|REQUIRED_NOW|PIPD|execution handoff|RepoContext,currentness,late_bound_construction_binding
+08|TraceLink|REQUIRED_NOW|PIPD/TQAEP|validators/checkers|from_type,from_id,from_hash,to_type,to_id,to_hash,rationale
+09|TaskSpecSeed|REQUIRED_NOW|PIPD|receiver adapter|goal,inputs,outputs,constraints,dependencies,tests,rollback,evidence
+10|ConstructionContract|REQUIRED_NOW|PIPD|HGK adapter|subject,writable_scope,expected_changes,tests,rollback,evidence_expectations
+11|WorkOrderCandidate|REQUIRED_NOW_NONAUTHORITY|PIPD|HGK admission|candidate_only
+12|ECP|REQUIRED_NOW|PIPD/ECP semantics|HGK/TQAEP|effect_intent,permission,retries,idempotency,readback,rollback
+13|TQAEP|REQUIRED_NOW|PIPD/TQAEP semantics|Independent checker/release|tests,oracles,fixtures,acceptance,requalification
+14|ExecutionHandoff|REQUIRED_NOW|PIPD|HGK/other receiver|receiver,abi_version,payload_refs,ack_nack_state
+15|EvidenceExpectation|REQUIRED_NOW|PIPD/TQAEP|HGK/CI/provider|expected_evidence_type,producer,postcondition,freshness,claim_effect
+16|ClaimCeiling|REQUIRED_NOW|PIPD|all planes|allowed_claims,forbidden_escalation,close_conditions
+17|SurfaceProjectionManifest|REQUIRED_NOW|PIPD|surface compiler|surface,source_hashes,generated_files,parity_loss,stale_rule
+18|GENIEProjectionRef|SCHEMA_SEAM_ONLY_UNTIL_S6|GENIE adapter|GENIE compiler|target_refs
+19|ExecutionBindingRef|SCHEMA_SEAM_ONLY_UNTIL_S5|HGK adapter|HGK|receiver_binding_id,receiver_binding_version,receiver_binding_hash,lease,state
+'@ -split '\\r?\\n'
+"'$identityFields = @('"'subject_id', 'version', 'content_hash', 'schema_version')
+"'$families = @()
+foreach ($row in $rows) {
+    $columns = $row.Split('"'|')
+    "'$contract = $columns[1]
+    $requiredFields = @($columns[5].Split('"','))
+    foreach ("'$identityField in $identityFields) {
+        if ($requiredFields -cnotcontains $identityField) { $requiredFields += $identityField }
+    }
+    $properties = [ordered]@{}
+    foreach ($field in $requiredFields) { $properties[$field] = [ordered]@{} }
+    $description = "Owner: $($columns[3]). Consumer: $($columns[4])."
+    if ($contract -ceq '"'PI-PKG') {
+        "'$properties['"'stable_semantic_contract'] = [ordered]@{ description = 'Stable semantic contract.' }
+    }
+    if ("'$contract -ceq '"'WorkOrderCandidate') {
+        "'$description += '"' Candidate only; never runtime authority.'
+        "'$properties['"'candidate_only'] = [ordered]@{ const = "'$true; description = '"'Candidate-only marker; never runtime authority.' }
+    }
+    if ("'$contract -ceq '"'GENIEProjectionRef') {
+        "'$description += '"' Schema seam only until S6. Target references to ProductGraph, Profile, Bundle and GENIEArtifact; no truth writeback.'
+        "'$properties['"'target_refs'] = [ordered]@{
+            type = 'object'
+            description = 'Target references only; no truth writeback.'
+            additionalProperties = "'$false
+            required = @('"'ProductGraph', 'Profile', 'Bundle', 'GENIEArtifact')
+            properties = [ordered]@{
+                ProductGraph = [ordered]@{}
+                Profile = [ordered]@{}
+                Bundle = [ordered]@{}
+                GENIEArtifact = [ordered]@{}
+            }
+        }
+    }
+    if ("'$contract -ceq '"'ExecutionBindingRef') {
+        "'$description += '"' Schema seam only until S5. Receiver binding id/version/hash/lease/state; ACK only after HGK admission.'
+        "'$properties['"'state'] = [ordered]@{ description = 'Receiver binding state; ACK only after HGK admission.' }
+    }
+    "'$schema = [ordered]@{
+        '"'"'$schema'"' = 'https://json-schema.org/draft/2020-12/schema'
+        '"'$id'"' = \"urn:pipd:s0:"'${contract}:1"
+        type = '"'object'
+        description = "'$description
+        additionalProperties = $false
+        required = $requiredFields
+        properties = $properties
+    }
+    $schemaFile = "schemas/${contract}.schema.json"
+    $json = $schema | ConvertTo-Json -Depth 20
+    $patch = "*** Begin Patch`n*** Add File: ${schemaFile}`n" + (($json -split '"'\\r?\\n' | ForEach-Object { '+' + "'$_ }) -join "`n") + "`n*** End Patch"
+    & apply_patch $patch
+    if ($LASTEXITCODE -ne 0) { throw "Failed to create $schemaFile" }
+    $families += [ordered]@{
+        index = $columns[0]
+        contract = $contract
+        materialization = $columns[2]
+        owner = $columns[3]
+        consumers = @($columns[4])
+        required_fields = $requiredFields
+        schema_file = $schemaFile
+    }
+}
+$registry = [ordered]@{ schema = '"'PIPD-S0-CONTRACT-REGISTRY/1'; families = "'$families }
+$json = $registry | ConvertTo-Json -Depth 20
+$patch = "*** Begin Patch`n*** Add File: schemas/registry.json`n" + (($json -split '"'\\r?\\n' | ForEach-Object { '+' + "'$_ }) -join "`n") + "`n*** End Patch"
+& apply_patch $patch
+if ($LASTEXITCODE -ne 0) { throw '"'Failed to create schemas/registry.json' }" in C:\Projects\Agent_Workspace\PIPD
+2026-10-08T14:16:33.149286Z ERROR codex_core::tools::router: error=Exit code: 1
+Wall time: 1.7 seconds
+Output:
+Invalid patch: The last line of the patch must be '*** End Patch'
+[31;1mException: [0m
+[31;1m[36;1mLine |[0m
+[31;1m[36;1m[36;1m  74 | [0m     if ($LASTEXITCODE -ne 0) { [36;1mthrow "Failed to create $schemaFile"[0m }[0m
+[31;1m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mFailed to create schemas/ArtifactIdentity.schema.json[0m
+
+ exited 1 in 1689ms:
+Invalid patch: The last line of the patch must be '*** End Patch'
+[31;1mException: [0m
+[31;1m[36;1mLine |[0m
+[31;1m[36;1m[36;1m  74 | [0m     if ($LASTEXITCODE -ne 0) { [36;1mthrow "Failed to create $schemaFile"[0m }[0m
+[31;1m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mFailed to create schemas/ArtifactIdentity.schema.json[0m
+
+**Inspecting bat wrapper issues**
+
+I see that I need to look into bat wrapper issues. My first step is to inspect the script to find out what's going wrong. It's important to make sure that I check for any unexpected behaviors or errors in the code. I'll pay close attention to potential problem areas, as this could help me resolve any issues effectively and ensure smooth functionality. Let's tackle this and figure it out!
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "Get-Content -LiteralPath (Get-Command apply_patch).Source; Write-Output '--- OUTPUT STATE ---'; if (Test-Path schemas) { Get-ChildItem -LiteralPath schemas -Force }" in C:\Projects\Agent_Workspace\PIPD
+ succeeded in 769ms:
+@echo off
+"C:\Users\user\AppData\Local\HG-KSEOS\runtime\codex-0.147.0-alpha.6.5\codex.exe" --codex-run-as-apply-patch %*
+--- OUTPUT STATE ---
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "@'
+import json
+import pathlib
+import re
+import shutil
+import subprocess
+
+rows = '''01|ArtifactIdentity|REQUIRED_NOW|PIPD|all planes|subject_id,version,content_hash,schema_version,supersedes,invalidates
+02|AuthorityBinding|REQUIRED_NOW|PIPD|all compilers/adapters|source_id,authority_rank,locator,supersession,conflict_state
+03|RequirementAtom|REQUIRED_NOW|PIPD|PI compiler/TQAEP|req_id,source_clause,owner,acceptance_cue,risk_guard
+04|ProfileBinding|REQUIRED_NOW|PIPD|Skills/JIT/HGK|profile,axes,vetoes,artifact_depth,assurance
+05|TechnologyAdmission|REQUIRED_NOW|PIPD|tool/provider adapters|capability_need,candidate,disposition,pin_license_currentness,fallback_exit
+06|PI-PKG|REQUIRED_NOW|PIPD|PD binder|stable_semantic_contract,trace,acceptance
+07|PD-PKG|REQUIRED_NOW|PIPD|execution handoff|RepoContext,currentness,late_bound_construction_binding
+08|TraceLink|REQUIRED_NOW|PIPD/TQAEP|validators/checkers|from_type,from_id,from_hash,to_type,to_id,to_hash,rationale
+09|TaskSpecSeed|REQUIRED_NOW|PIPD|receiver adapter|goal,inputs,outputs,constraints,dependencies,tests,rollback,evidence
+10|ConstructionContract|REQUIRED_NOW|PIPD|HGK adapter|subject,writable_scope,expected_changes,tests,rollback,evidence_expectations
+11|WorkOrderCandidate|REQUIRED_NOW_NONAUTHORITY|PIPD|HGK admission|candidate_only
+12|ECP|REQUIRED_NOW|PIPD/ECP semantics|HGK/TQAEP|effect_intent,permission,retries,idempotency,readback,rollback
+13|TQAEP|REQUIRED_NOW|PIPD/TQAEP semantics|Independent checker/release|tests,oracles,fixtures,acceptance,requalification
+14|ExecutionHandoff|REQUIRED_NOW|PIPD|HGK/other receiver|receiver,abi_version,payload_refs,ack_nack_state
+15|EvidenceExpectation|REQUIRED_NOW|PIPD/TQAEP|HGK/CI/provider|expected_evidence_type,producer,postcondition,freshness,claim_effect
+16|ClaimCeiling|REQUIRED_NOW|PIPD|all planes|allowed_claims,forbidden_escalation,close_conditions
+17|SurfaceProjectionManifest|REQUIRED_NOW|PIPD|surface compiler|surface,source_hashes,generated_files,parity_loss,stale_rule
+18|GENIEProjectionRef|SCHEMA_SEAM_ONLY_UNTIL_S6|GENIE adapter|GENIE compiler|target_refs
+19|ExecutionBindingRef|SCHEMA_SEAM_ONLY_UNTIL_S5|HGK adapter|HGK|receiver_binding_id,receiver_binding_version,receiver_binding_hash,lease,state'''.splitlines()
+identity_fields = ['subject_id', 'version', 'content_hash', 'schema_version']
+wrapper = pathlib.Path(shutil.which('apply_patch')).read_text()
+executable = re.search(r'"'^"([''^"]+)" --codex-run-as-apply-patch'"', wrapper, re.MULTILINE).group(1)
+
+def add_file(filename, content):
+    patch = '*** Begin Patch\\n*** Add File: ' + filename + '\\n'
+    patch += '\\n'.join('+' + line for line in json.dumps(content, indent=2, ensure_ascii=False).splitlines())
+    patch += '\\n*** End Patch\\n'
+    subprocess.run([executable, '--codex-run-as-apply-patch', patch], check=True)
+
+families = []
+for row in rows:
+    index, contract, materialization, owner, consumer, fields = row.split('|')
+    required_fields = fields.split(',')
+    required_fields.extend(field for field in identity_fields if field not in required_fields)
+    properties = {field: {} for field in required_fields}
+    description = f'Owner: {owner}. Consumer: {consumer}.'
+    if contract == 'PI-PKG':
+        properties['stable_semantic_contract'] = {'description': 'Stable semantic contract.'}
+    if contract == 'WorkOrderCandidate':
+        description += ' Candidate only; never runtime authority.'
+        properties['candidate_only'] = {'const': True, 'description': 'Candidate-only marker; never runtime authority.'}
+    if contract == 'GENIEProjectionRef':
+        description += ' Schema seam only until S6. Target references to ProductGraph, Profile, Bundle and GENIEArtifact; no truth writeback.'
+        target_types = ['ProductGraph', 'Profile', 'Bundle', 'GENIEArtifact']
+        properties['target_refs'] = {
+            'type': 'object',
+            'description': 'Target references only; no truth writeback.',
+            'additionalProperties': False,
+            'required': target_types,
+            'properties': {target_type: {} for target_type in target_types},
+        }
+    if contract == 'ExecutionBindingRef':
+        description += ' Schema seam only until S5. Receiver binding id/version/hash/lease/state; ACK only after HGK admission.'
+        properties['state'] = {'description': 'Receiver binding state; ACK only after HGK admission.'}
+    schema = {
+        '"'$schema'"': 'https://json-schema.org/draft/2020-12/schema',
+        '"'$id'"': f'urn:pipd:s0:{contract}:1',
+        'type': 'object',
+        'description': description,
+        'additionalProperties': False,
+        'required': required_fields,
+        'properties': properties,
+    }
+    schema_file = f'schemas/{contract}.schema.json'
+    add_file(schema_file, schema)
+    families.append({
+        'index': index,
+        'contract': contract,
+        'materialization': materialization,
+        'owner': owner,
+        'consumers': [consumer],
+        'required_fields': required_fields,
+        'schema_file': schema_file,
+    })
+add_file('schemas/registry.json', {'schema': 'PIPD-S0-CONTRACT-REGISTRY/1', 'families': families})
+'@ | python -B -" in C:\Projects\Agent_Workspace\PIPD
+ succeeded in 1353ms:
+Success. Updated the following files:
+A schemas/ArtifactIdentity.schema.json
+Success. Updated the following files:
+A schemas/AuthorityBinding.schema.json
+Success. Updated the following files:
+A schemas/RequirementAtom.schema.json
+Success. Updated the following files:
+A schemas/ProfileBinding.schema.json
+Success. Updated the following files:
+A schemas/TechnologyAdmission.schema.json
+Success. Updated the following files:
+A schemas/PI-PKG.schema.json
+Success. Updated the following files:
+A schemas/PD-PKG.schema.json
+Success. Updated the following files:
+A schemas/TraceLink.schema.json
+Success. Updated the following files:
+A schemas/TaskSpecSeed.schema.json
+Success. Updated the following files:
+A schemas/ConstructionContract.schema.json
+Success. Updated the following files:
+A schemas/WorkOrderCandidate.schema.json
+Success. Updated the following files:
+A schemas/ECP.schema.json
+Success. Updated the following files:
+A schemas/TQAEP.schema.json
+Success. Updated the following files:
+A schemas/ExecutionHandoff.schema.json
+Success. Updated the following files:
+A schemas/EvidenceExpectation.schema.json
+Success. Updated the following files:
+A schemas/ClaimCeiling.schema.json
+Success. Updated the following files:
+A schemas/SurfaceProjectionManifest.schema.json
+Success. Updated the following files:
+A schemas/GENIEProjectionRef.schema.json
+Success. Updated the following files:
+A schemas/ExecutionBindingRef.schema.json
+Success. Updated the following files:
+A schemas/registry.json
+
+**Validating byte comparisons**
+
+I need to validate the byte-for-byte array segment, particularly focusing on the regex and the DOTALL option. There's a comparison between the raw required and registry fields, which seem to differ in indentation and spacing, with 2 space values required, but the registry shows 8 values instead. So, bytes aren’t equal. What I'm after is to ensure that JSON canonical forms match perfectly by compact encoding and robust serialization. I want everything to align properly!
+**Checking source lines and schemas**
+
+I need to check the required explicit lines while comparing the mapped dictionary, particularly the special schemas in the metadata registry. It’s important that owners and consumers align with the exact raw data, including nested identities. I also want to ensure there are no missing unknown arrays in behavioral tests, and the registry must match the required order precisely. 
+
+Also, I'm validating locally without a network check and noting the git diffs. It seems like everything runs smoothly!
+codex
+All 20 files are created. I’ll check schema validity, registry consistency, and write scope.
+
+  ✓ Resolve contract fields and invariants
+  ✓ Create schemas and ordered registry
+  → Validate files and write scope
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "@'
+import copy
+import json
+import pathlib
+from jsonschema import Draft202012Validator
+
+root = pathlib.Path('.')
+registry = json.loads((root / 'schemas/registry.json').read_text(encoding='utf-8'))
+assert registry['schema'] == 'PIPD-S0-CONTRACT-REGISTRY/1'
+rows = [line for line in (root / 'docs/S0_CONTRACT_SPEC.md').read_text(encoding='utf-8').splitlines() if line.startswith('| ') and line.split('|')[1].strip().isdigit()]
+assert len(rows) == len(registry['families']) == 19
+prose_fields = {
+    'PI-PKG': ['stable_semantic_contract', 'trace', 'acceptance'],
+    'WorkOrderCandidate': ['candidate_only'],
+    'GENIEProjectionRef': ['target_refs'],
+    'ExecutionBindingRef': ['receiver_binding_id', 'receiver_binding_version', 'receiver_binding_hash', 'lease', 'state'],
+}
+identity_fields = ['subject_id', 'version', 'content_hash', 'schema_version']
+expected_files = {'registry.json'}
+for row, family in zip(rows, registry['families']):
+    index, contract, materialization, owner, consumer, field_text = [column.strip() for column in row.split('|')[1:-1]]
+    fields = prose_fields.get(contract, field_text.split(', '))
+    required = fields + [field for field in identity_fields if field not in fields]
+    filename = f'{contract}.schema.json'
+    expected_files.add(filename)
+    assert family == {
+        'index': index,
+        'contract': contract,
+        'materialization': materialization,
+        'owner': owner,
+        'consumers': [consumer],
+        'required_fields': required,
+        'schema_file': f'schemas/{filename}',
+    }, contract
+    schema = json.loads((root / family['schema_file']).read_text(encoding='utf-8'))
+    Draft202012Validator.check_schema(schema)
+    assert schema['"'$schema'"'] == 'https://json-schema.org/draft/2020-12/schema'
+    assert schema['"'$id'"'] == f'urn:pipd:s0:{contract}:1'
+    assert schema['type'] == 'object'
+    assert schema['additionalProperties'] is False
+    assert f'Owner: {owner}.' in schema['description']
+    assert f'Consumer: {consumer}.' in schema['description']
+    assert schema['required'] == required
+    assert set(schema['properties']) == set(required)
+    assert len(required) == len(set(required))
+    canonical = lambda value: json.dumps(value, ensure_ascii=False, separators=(',', ':')).encode('utf-8')
+    assert canonical(family['required_fields']) == canonical(schema['required'])
+    example = {field: 'example' for field in required}
+    if contract == 'WorkOrderCandidate':
+        example['candidate_only'] = True
+    if contract == 'GENIEProjectionRef':
+        example['target_refs'] = {name: 'example-ref' for name in ['ProductGraph', 'Profile', 'Bundle', 'GENIEArtifact']}
+    validator = Draft202012Validator(schema)
+    validator.validate(example)
+    assert not validator.is_valid([])
+    assert not validator.is_valid({**example, 'unexpected_field': True})
+    for field in required:
+        incomplete = copy.deepcopy(example)
+        del incomplete[field]
+        assert not validator.is_valid(incomplete), (contract, field)
+    if contract == 'WorkOrderCandidate':
+        assert not validator.is_valid({**example, 'candidate_only': False})
+    if contract == 'GENIEProjectionRef':
+        for name in example['target_refs']:
+            incomplete = copy.deepcopy(example)
+            del incomplete['target_refs'][name]
+            assert not validator.is_valid(incomplete)
+    print(f'PASS {family[\"schema_file\"]}')
+assert {path.name for path in (root / 'schemas').iterdir()} == expected_files
+print('PASS schemas/registry.json: exact ordered families, metadata, and required-field agreement')
+print('PASS exact file count: 19 schemas + 1 registry; no extra files')
+'@ | python -B -
+if ("'$LASTEXITCODE -ne 0) { throw '"'Contract validation failed' }
+Write-Output '--- TRACKED CHANGES ---'; git diff --exit-code; if ("'$LASTEXITCODE -ne 0) { throw '"'Unexpected tracked-file changes' }
+Write-Output '--- STATUS ---'; git status --short" in C:\Projects\Agent_Workspace\PIPD
+ succeeded in 923ms:
+PASS schemas/ArtifactIdentity.schema.json
+PASS schemas/AuthorityBinding.schema.json
+PASS schemas/RequirementAtom.schema.json
+PASS schemas/ProfileBinding.schema.json
+PASS schemas/TechnologyAdmission.schema.json
+PASS schemas/PI-PKG.schema.json
+PASS schemas/PD-PKG.schema.json
+PASS schemas/TraceLink.schema.json
+PASS schemas/TaskSpecSeed.schema.json
+PASS schemas/ConstructionContract.schema.json
+PASS schemas/WorkOrderCandidate.schema.json
+PASS schemas/ECP.schema.json
+PASS schemas/TQAEP.schema.json
+PASS schemas/ExecutionHandoff.schema.json
+PASS schemas/EvidenceExpectation.schema.json
+PASS schemas/ClaimCeiling.schema.json
+PASS schemas/SurfaceProjectionManifest.schema.json
+PASS schemas/GENIEProjectionRef.schema.json
+PASS schemas/ExecutionBindingRef.schema.json
+PASS schemas/registry.json: exact ordered families, metadata, and required-field agreement
+PASS exact file count: 19 schemas + 1 registry; no extra files
+--- TRACKED CHANGES ---
+--- STATUS ---
+?? .agents/
+?? .hermes/
+?? .hgk/artifacts/
+?? .hgk/codex/
+?? .hgk/surfaces/
+?? openspec/
+?? pyproject.toml
+?? schemas/
+?? src/
+?? tests/
+?? tools/run_s1_slice.py
+
+Validated all 19 schemas offline against Draft 2020-12, checked required-field and registry agreement, exercised missing/extra-field rejection, and confirmed exactly 20 outputs. Git shows no tracked-file changes; unrelated untracked files appeared concurrently and were not touched.
+  ✓ Resolve contract fields and invariants
+  ✓ Create schemas and ordered registry
+  ✓ Validate files and write scope
+codex
+Created and validated exactly 19 JSON Schema files plus the registry. I wrote only under `schemas/` and used no network.
+
+- `schemas/ArtifactIdentity.schema.json`
+- `schemas/AuthorityBinding.schema.json`
+- `schemas/RequirementAtom.schema.json`
+- `schemas/ProfileBinding.schema.json`
+- `schemas/TechnologyAdmission.schema.json`
+- `schemas/PI-PKG.schema.json`
+- `schemas/PD-PKG.schema.json`
+- `schemas/TraceLink.schema.json`
+- `schemas/TaskSpecSeed.schema.json`
+- `schemas/ConstructionContract.schema.json`
+- `schemas/WorkOrderCandidate.schema.json`
+- `schemas/ECP.schema.json`
+- `schemas/TQAEP.schema.json`
+- `schemas/ExecutionHandoff.schema.json`
+- `schemas/EvidenceExpectation.schema.json`
+- `schemas/ClaimCeiling.schema.json`
+- `schemas/SurfaceProjectionManifest.schema.json`
+- `schemas/GENIEProjectionRef.schema.json`
+- `schemas/ExecutionBindingRef.schema.json`
+- `schemas/registry.json`
+tokens used
+71,964
+Created and validated exactly 19 JSON Schema files plus the registry. I wrote only under `schemas/` and used no network.
+
+- `schemas/ArtifactIdentity.schema.json`
+- `schemas/AuthorityBinding.schema.json`
+- `schemas/RequirementAtom.schema.json`
+- `schemas/ProfileBinding.schema.json`
+- `schemas/TechnologyAdmission.schema.json`
+- `schemas/PI-PKG.schema.json`
+- `schemas/PD-PKG.schema.json`
+- `schemas/TraceLink.schema.json`
+- `schemas/TaskSpecSeed.schema.json`
+- `schemas/ConstructionContract.schema.json`
+- `schemas/WorkOrderCandidate.schema.json`
+- `schemas/ECP.schema.json`
+- `schemas/TQAEP.schema.json`
+- `schemas/ExecutionHandoff.schema.json`
+- `schemas/EvidenceExpectation.schema.json`
+- `schemas/ClaimCeiling.schema.json`
+- `schemas/SurfaceProjectionManifest.schema.json`
+- `schemas/GENIEProjectionRef.schema.json`
+- `schemas/ExecutionBindingRef.schema.json`
+- `schemas/registry.json`

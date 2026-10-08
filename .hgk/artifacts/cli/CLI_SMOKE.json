@@ -1,0 +1,756 @@
+{
+ "schema": "PIPD-CLI-SMOKE/1",
+ "commands_run": 13,
+ "expected": 13,
+ "nonzero_exit": 0,
+ "verdicts": {
+  "init": "PASS",
+  "intake": "n/a",
+  "profile": "n/a",
+  "compile-pi": "n/a",
+  "bind-pd": "n/a",
+  "compile-ecp": "n/a",
+  "compile-tqaep": "n/a",
+  "validate": "PASS",
+  "doctor": "PASS",
+  "project": "PASS",
+  "export": "n/a",
+  "diff": "PASS",
+  "repair": "n/a"
+ },
+ "reds": [],
+ "receipts": [
+  {
+   "args": [
+    "init"
+   ],
+   "exit": 0,
+   "payload": {
+    "contract_families": 19,
+    "created": [
+     "dist"
+    ],
+    "root": "C:\\Projects\\Agent_Workspace\\PIPD",
+    "verdict": "PASS"
+   }
+  },
+  {
+   "args": [
+    "intake",
+    "--goal",
+    "以治理控制平面實作 PIPD-LS-SP 系統並完成測試驗收與公開交付",
+    "--source",
+    "C:\\Projects\\Agent_Workspace\\PIPD",
+    "--constraint",
+    "HGK-only control plane",
+    "--non-goal",
+    "no second control plane"
+   ],
+   "exit": 0,
+   "payload": {
+    "atoms": [
+     {
+      "axis": "intent",
+      "req_id": "REQ-INTENT"
+     },
+     {
+      "axis": "verification",
+      "req_id": "REQ-VERIFY"
+     },
+     {
+      "axis": "release",
+      "req_id": "REQ-DELIVER"
+     },
+     {
+      "axis": "trust_boundary",
+      "req_id": "REQ-GOVERN"
+     }
+    ],
+    "constraints": [
+     "HGK-only control plane"
+    ],
+    "content_hash": "7d35a95096ba02df42d035c1ff5c02a639130f3e2dfdde595c7ac5118e3292da",
+    "goal": "以治理控制平面實作 PIPD-LS-SP 系統並完成測試驗收與公開交付",
+    "non_goals": [
+     "no second control plane"
+    ],
+    "schema_version": "IntentCard@1",
+    "sources": [
+     "C:\\Projects\\Agent_Workspace\\PIPD"
+    ],
+    "subject_id": "INTENT-7d35a95096ba02df"
+   }
+  },
+  {
+   "args": [
+    "profile",
+    "--profile",
+    "STANDARD",
+    "--axis",
+    "intent",
+    "--axis",
+    "verification"
+   ],
+   "exit": 0,
+   "payload": {
+    "artifact_depth": "L3_INTEGRATION_RUNTIME",
+    "assurance": [
+     "deterministic_validator",
+     "negative_security"
+    ],
+    "axes": [
+     "intent",
+     "verification"
+    ],
+    "canonical_truth": "single",
+    "escalated": false,
+    "escalation_reason": null,
+    "profile": "STANDARD",
+    "requested_profile": "STANDARD",
+    "vetoes": []
+   }
+  },
+  {
+   "args": [
+    "compile-pi",
+    "--intent",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\intent_card.json",
+    "--profile",
+    "LITE"
+   ],
+   "exit": 0,
+   "payload": {
+    "_profile_meta": {
+     "artifact_depth": "L4_FAILURE_RECOVERY",
+     "assurance": [
+      "deterministic_validator",
+      "negative_security",
+      "adversarial",
+      "independent_checker"
+     ],
+     "axes": [
+      "intent",
+      "knowledge",
+      "verification",
+      "release",
+      "trust_boundary"
+     ],
+     "canonical_truth": "single",
+     "escalated": true,
+     "escalation_reason": "axis_complexity",
+     "profile": "ASSURED",
+     "requested_profile": "LITE",
+     "vetoes": []
+    },
+    "acceptance": {
+     "mode": "bound",
+     "oracle_source": "DOC-03 DOMAIN_ORACLES"
+    },
+    "content_hash": "07f5ad9c89f30c8528c70eac92cf983a9d4cdeff4c67534fcc82efe42d5b3c8d",
+    "schema_version": "PI-PKG@1",
+    "stable_semantic_contract": {
+     "atoms": [
+      {
+       "acceptance_cue": "REQ-INTENT has an oracle and a negative fixture",
+       "content_hash": "fe384619a32a08ee71b5d83fe37f36a002169b2efe0c2e9c4e281043f6ed2da9",
+       "owner": "PIPD-EC",
+       "req_id": "REQ-INTENT",
+       "risk_guard": "REQ-INTENT cannot self-accept",
+       "schema_version": "RequirementAtom@1",
+       "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD",
+       "subject_id": "ATOM-fe384619a32a08ee",
+       "version": "1"
+      },
+      {
+       "acceptance_cue": "REQ-KNOWLEDGE has an oracle and a negative fixture",
+       "content_hash": "de36cf8c16b4f1f10557f5cfbf05a3929a58c3d1e10251ab036dfdbe98089285",
+       "owner": "PIPD-EC",
+       "req_id": "REQ-KNOWLEDGE",
+       "risk_guard": "REQ-KNOWLEDGE cannot self-accept",
+       "schema_version": "RequirementAtom@1",
+       "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD",
+       "subject_id": "ATOM-de36cf8c16b4f1f1",
+       "version": "1"
+      },
+      {
+       "acceptance_cue": "REQ-VERIFY has an oracle and a negative fixture",
+       "content_hash": "d6a16081e09896f9a6cdf3d502b52f1d0672cb18566bc5085548a7a3863f02fd",
+       "owner": "PIPD-EC",
+       "req_id": "REQ-VERIFY",
+       "risk_guard": "REQ-VERIFY cannot self-accept",
+       "schema_version": "RequirementAtom@1",
+       "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD",
+       "subject_id": "ATOM-d6a16081e09896f9",
+       "version": "1"
+      },
+      {
+       "acceptance_cue": "REQ-DELIVER has an oracle and a negative fixture",
+       "content_hash": "46133d9d7a76673ab9ebaa7dfe4240a796f8f97a18998a02ec90464f508917c5",
+       "owner": "PIPD-EC",
+       "req_id": "REQ-DELIVER",
+       "risk_guard": "REQ-DELIVER cannot self-accept",
+       "schema_version": "RequirementAtom@1",
+       "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD",
+       "subject_id": "ATOM-46133d9d7a76673a",
+       "version": "1"
+      },
+      {
+       "acceptance_cue": "REQ-GOVERN has an oracle and a negative fixture",
+       "content_hash": "3be49ed6e5c1bfe9beafed85463e289b8a3384198879681647eabfe5c5aebf94",
+       "owner": "PIPD-EC",
+       "req_id": "REQ-GOVERN",
+       "risk_guard": "REQ-GOVERN cannot self-accept",
+       "schema_version": "RequirementAtom@1",
+       "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD",
+       "subject_id": "ATOM-3be49ed6e5c1bfe9",
+       "version": "1"
+      }
+     ],
+     "contract": "stable",
+     "goal": "以 HG-KSEOS 治理控制平面實作 PIPD-LS-SP 規格包編譯系統，完成知識來源編譯、測試驗收與公開交付。",
+     "profile_binding": {
+      "artifact_depth": "L4_FAILURE_RECOVERY",
+      "assurance": [
+       "deterministic_validator",
+       "negative_security",
+       "adversarial",
+       "independent_checker"
+      ],
+      "axes": [
+       "intent",
+       "knowledge",
+       "release",
+       "trust_boundary",
+       "verification"
+      ],
+      "content_hash": "626650c77b2bb538102d2c43f3f7970e71237d47b449d5d37c6e87f3e615c7b1",
+      "profile": "ASSURED",
+      "schema_version": "ProfileBinding@1",
+      "subject_id": "PB-626650c77b2bb538",
+      "version": "1",
+      "vetoes": []
+     }
+    },
+    "subject_id": "PI-07f5ad9c89f30c85",
+    "trace": [
+     {
+      "content_hash": "a06133244d41a63ec0d22cd9be6f3d5ff53196d1842d032d88ff3ca6560c77fc",
+      "from_hash": "07f5ad9c89f30c8528c70eac92cf983a9d4cdeff4c67534fcc82efe42d5b3c8d",
+      "from_id": "PI-07f5ad9c89f30c85",
+      "from_type": "PI-PKG",
+      "rationale": "PI derives this atom from the frozen intent",
+      "schema_version": "TraceLink@1",
+      "subject_id": "TL-a06133244d41a63e",
+      "to_hash": "fe384619a32a08ee71b5d83fe37f36a002169b2efe0c2e9c4e281043f6ed2da9",
+      "to_id": "ATOM-fe384619a32a08ee",
+      "to_type": "RequirementAtom",
+      "version": "1"
+     },
+     {
+      "content_hash": "1e57ae80faf06eb2759a44c93bbdc65290edf2c65e50a610a76c4e79cd7718b1",
+      "from_hash": "07f5ad9c89f30c8528c70eac92cf983a9d4cdeff4c67534fcc82efe42d5b3c8d",
+      "from_id": "PI-07f5ad9c89f30c85",
+      "from_type": "PI-PKG",
+      "rationale": "PI derives this atom from the frozen intent",
+      "schema_version": "TraceLink@1",
+      "subject_id": "TL-1e57ae80faf06eb2",
+      "to_hash": "de36cf8c16b4f1f10557f5cfbf05a3929a58c3d1e10251ab036dfdbe98089285",
+      "to_id": "ATOM-de36cf8c16b4f1f1",
+      "to_type": "RequirementAtom",
+      "version": "1"
+     },
+     {
+      "content_hash": "261f538df0e4374316fed5a6e80fc268b2324ecbdf9739d41e772b7fded7e522",
+      "from_hash": "07f5ad9c89f30c8528c70eac92cf983a9d4cdeff4c67534fcc82efe42d5b3c8d",
+      "from_id": "PI-07f5ad9c89f30c85",
+      "from_type": "PI-PKG",
+      "rationale": "PI derives this atom from the frozen intent",
+      "schema_version": "TraceLink@1",
+      "subject_id": "TL-261f538df0e43743",
+      "to_hash": "d6a16081e09896f9a6cdf3d502b52f1d0672cb18566bc5085548a7a3863f02fd",
+      "to_id": "ATOM-d6a16081e09896f9",
+      "to_type": "RequirementAtom",
+      "version": "1"
+     },
+     {
+      "content_hash": "026242268cdb6ec55e26575df13ec74aea7575af4959bfda37e9926e2e5054cf",
+      "from_hash": "07f5ad9c89f30c8528c70eac92cf983a9d4cdeff4c67534fcc82efe42d5b3c8d",
+      "from_id": "PI-07f5ad9c89f30c85",
+      "from_type": "PI-PKG",
+      "rationale": "PI derives this atom from the frozen intent",
+      "schema_version": "TraceLink@1",
+      "subject_id": "TL-026242268cdb6ec5",
+      "to_hash": "46133d9d7a76673ab9ebaa7dfe4240a796f8f97a18998a02ec90464f508917c5",
+      "to_id": "ATOM-46133d9d7a76673a",
+      "to_type": "RequirementAtom",
+      "version": "1"
+     },
+     {
+      "content_hash": "d229bc248006aaa0bd47c29a357ee4d8d11018a845f306cfab52c1da6e60ec1f",
+      "from_hash": "07f5ad9c89f30c8528c70eac92cf983a9d4cdeff4c67534fcc82efe42d5b3c8d",
+      "from_id": "PI-07f5ad9c89f30c85",
+      "from_type": "PI-PKG",
+      "rationale": "PI derives this atom from the frozen intent",
+      "schema_version": "TraceLink@1",
+      "subject_id": "TL-d229bc248006aaa0",
+      "to_hash": "3be49ed6e5c1bfe9beafed85463e289b8a3384198879681647eabfe5c5aebf94",
+      "to_id": "ATOM-3be49ed6e5c1bfe9",
+      "to_type": "RequirementAtom",
+      "version": "1"
+     }
+    ],
+    "version": "1"
+   }
+  },
+  {
+   "args": [
+    "bind-pd",
+    "--pi",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\pi_pkg.json",
+    "--repo-root",
+    "C:\\Projects\\Agent_Workspace\\PIPD",
+    "--head",
+    "HEAD"
+   ],
+   "exit": 0,
+   "payload": {
+    "RepoContext": {
+     "head": "HEAD",
+     "root": "C:\\Projects\\Agent_Workspace\\PIPD",
+     "tracked_files": 174
+    },
+    "content_hash": "7e02eb765cda1a15983d3dc01e102b6865092b733c88f5e2ae9ffd0eacc2e444",
+    "currentness": "FRESH",
+    "late_bound_construction_binding": {
+     "binding_scope": "affected_only",
+     "bound_at": "PD",
+     "writable_scope": "src/**"
+    },
+    "schema_version": "PD-PKG@1",
+    "subject_id": "PD-7e02eb765cda1a15",
+    "version": "1"
+   }
+  },
+  {
+   "args": [
+    "compile-ecp",
+    "--pd",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\pd_pkg.json",
+    "--pi",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\pi_pkg.json"
+   ],
+   "exit": 0,
+   "payload": {
+    "content_hash": "35a45bd209d99fc52617aa0ac4f6686c9b4cf539ae7f9bd64f83506b5754adc2",
+    "effect_intent": "apply bounded edits inside the writable scope",
+    "idempotency": {
+     "guarantee": "at_most_once",
+     "key": "IDEM-35a45bd209d99fc5"
+    },
+    "permission": {
+     "scope": "src/**",
+     "token_required": true
+    },
+    "readback": {
+     "kind": "residue_scan",
+     "required": true
+    },
+    "retries": {
+     "backoff": "none",
+     "max": 1
+    },
+    "rollback": {
+     "pointer": "baseline_commit",
+     "required": true
+    },
+    "schema_version": "ECP@1",
+    "subject_id": "ECP-35a45bd209d99fc5",
+    "version": "1"
+   }
+  },
+  {
+   "args": [
+    "compile-tqaep",
+    "--pi",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\pi_pkg.json",
+    "--ecp",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\ecp.json",
+    "--maker",
+    "HERMES-MAKER",
+    "--checker",
+    "GLM-5.3-FLASH-AO-LANE"
+   ],
+   "exit": 0,
+   "payload": {
+    "acceptance": [
+     "INDEPENDENT_CASE_PASS"
+    ],
+    "content_hash": "9b665469cd3b9364b8dad8735d8e2f05d38b2b7e82dedd4d61eb0838e36b990f",
+    "fixtures": [
+     "fixtures/REQ-INTENT/positive",
+     "fixtures/REQ-KNOWLEDGE/positive",
+     "fixtures/REQ-VERIFY/positive",
+     "fixtures/REQ-DELIVER/positive",
+     "fixtures/REQ-GOVERN/positive"
+    ],
+    "oracles": [
+     "TEST-REQ-INTENT: deterministic assertion on the bound artifact",
+     "TEST-REQ-KNOWLEDGE: deterministic assertion on the bound artifact",
+     "TEST-REQ-VERIFY: deterministic assertion on the bound artifact",
+     "TEST-REQ-DELIVER: deterministic assertion on the bound artifact",
+     "TEST-REQ-GOVERN: deterministic assertion on the bound artifact"
+    ],
+    "requalification": "affected-only",
+    "schema_version": "TQAEP@1",
+    "subject_id": "TQAEP-9b665469cd3b9364",
+    "tests": [
+     {
+      "evidence_expectation": "EVD-REQ-INTENT",
+      "negative_fixture": "fixtures/REQ-INTENT/negative",
+      "oracle": "deterministic assertion on the bound artifact",
+      "positive_fixture": "fixtures/REQ-INTENT/positive",
+      "requirement": "REQ-INTENT",
+      "test_id": "TEST-REQ-INTENT"
+     },
+     {
+      "evidence_expectation": "EVD-REQ-KNOWLEDGE",
+      "negative_fixture": "fixtures/REQ-KNOWLEDGE/negative",
+      "oracle": "deterministic assertion on the bound artifact",
+      "positive_fixture": "fixtures/REQ-KNOWLEDGE/positive",
+      "requirement": "REQ-KNOWLEDGE",
+      "test_id": "TEST-REQ-KNOWLEDGE"
+     },
+     {
+      "evidence_expectation": "EVD-REQ-VERIFY",
+      "negative_fixture": "fixtures/REQ-VERIFY/negative",
+      "oracle": "deterministic assertion on the bound artifact",
+      "positive_fixture": "fixtures/REQ-VERIFY/positive",
+      "requirement": "REQ-VERIFY",
+      "test_id": "TEST-REQ-VERIFY"
+     },
+     {
+      "evidence_expectation": "EVD-REQ-DELIVER",
+      "negative_fixture": "fixtures/REQ-DELIVER/negative",
+      "oracle": "deterministic assertion on the bound artifact",
+      "positive_fixture": "fixtures/REQ-DELIVER/positive",
+      "requirement": "REQ-DELIVER",
+      "test_id": "TEST-REQ-DELIVER"
+     },
+     {
+      "evidence_expectation": "EVD-REQ-GOVERN",
+      "negative_fixture": "fixtures/REQ-GOVERN/negative",
+      "oracle": "deterministic assertion on the bound artifact",
+      "positive_fixture": "fixtures/REQ-GOVERN/positive",
+      "requirement": "REQ-GOVERN",
+      "test_id": "TEST-REQ-GOVERN"
+     }
+    ],
+    "version": "1"
+   }
+  },
+  {
+   "args": [
+    "validate",
+    "--bundle",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\bundle.json"
+   ],
+   "exit": 0,
+   "payload": {
+    "checked": 5,
+    "findings": [],
+    "verdict": "PASS"
+   }
+  },
+  {
+   "args": [
+    "doctor"
+   ],
+   "exit": 0,
+   "payload": {
+    "families": 19,
+    "findings": [],
+    "skill_drift": [
+     "duplicate Skill name openspec-apply-change x2",
+     "duplicate Skill name openspec-archive-change x2",
+     "duplicate Skill name openspec-explore x2",
+     "duplicate Skill name openspec-propose x2",
+     "duplicate Skill name openspec-sync-specs x2",
+     "duplicate Skill name openspec-update-change x2"
+    ],
+    "verdict": "PASS"
+   }
+  },
+  {
+   "args": [
+    "project"
+   ],
+   "exit": 0,
+   "payload": {
+    "hosts": {
+     "host:generic-skills": {
+      "capability_loss": [],
+      "files": [
+       "SKILL.md"
+      ]
+     },
+     "host:genie-adapter": {
+      "capability_loss": [
+       "no truth writeback"
+      ],
+      "files": [
+       "object-crosswalk.json"
+      ]
+     },
+     "host:hgk-receiver": {
+      "capability_loss": [
+       "no runtime authority"
+      ],
+      "files": [
+       "receiver-map.json"
+      ]
+     }
+    },
+    "out": "C:\\Projects\\Agent_Workspace\\PIPD\\dist\\web",
+    "projection_parity_sha256": "431424f819770c7525873d10ee687bdcd321fdbc2ffaf81cfc9d640b231fb09c",
+    "verdict": "PASS",
+    "web_count": "5/5",
+    "web_pack": [
+     "index.html",
+     "app.js",
+     "styles.css",
+     "manifest.webmanifest",
+     "README.md"
+    ]
+   }
+  },
+  {
+   "args": [
+    "export"
+   ],
+   "exit": 0,
+   "payload": {
+    "file_count": 35,
+    "files": [
+     {
+      "rel": "docs/S0_CONTRACT_SPEC.md",
+      "sha256": "5902f620df2840a6ed00f984af96d3e1cfbe5275a4f6458a9e7a5eb4a5e933f9",
+      "size": 4731
+     },
+     {
+      "rel": "pyproject.toml",
+      "sha256": "84f6bd7946eb45536dd8b71a92f952f3dd854588af5da8970510734d547508aa",
+      "size": 409
+     },
+     {
+      "rel": "schemas/ArtifactIdentity.schema.json",
+      "sha256": "5bba4c153d5753307e9de147cdf745afd1f36fb3c487d00793f6bae02a8ca4ab",
+      "size": 505
+     },
+     {
+      "rel": "schemas/AuthorityBinding.schema.json",
+      "sha256": "50c7007a3f5ff3323db38044e00616717477fc9d83e3de6170ac04b85a7ea1aa",
+      "size": 647
+     },
+     {
+      "rel": "schemas/ClaimCeiling.schema.json",
+      "sha256": "b5e798346c4f5210d483f90276a5aab0643317c486b529af114a114016ba12d2",
+      "size": 579
+     },
+     {
+      "rel": "schemas/ConstructionContract.schema.json",
+      "sha256": "72fc5adb6c96360ba50df188aba58b5466a979ee503194afa1b4be3cae8aef4b",
+      "size": 690
+     },
+     {
+      "rel": "schemas/ECP.schema.json",
+      "sha256": "4ffbd800fac29ad54ee555393899784c7314cd69a4e51dd65e2053b605aca3f3",
+      "size": 657
+     },
+     {
+      "rel": "schemas/EvidenceExpectation.schema.json",
+      "sha256": "c8f3b984cd6931da5aa55693d8419e8815ed7547066fa79eccfe46cdb7a7f056",
+      "size": 665
+     },
+     {
+      "rel": "schemas/ExecutionBindingRef.schema.json",
+      "sha256": "19d3cc9b434901346bef92827d7e5c67371776e3816c71932ae77e4867e782a9",
+      "size": 859
+     },
+     {
+      "rel": "schemas/ExecutionHandoff.schema.json",
+      "sha256": "9cf3bf8cea6384e5c35573376bbab5dd9b5b4a5be3ed59eed91dc990925d7231",
+      "size": 601
+     },
+     {
+      "rel": "schemas/GENIEProjectionRef.schema.json",
+      "sha256": "86824e4f91e24e317d0a24513004eb301163f7ea80b549e25aa0406ae3b7bf15",
+      "size": 976
+     },
+     {
+      "rel": "schemas/PD-PKG.schema.json",
+      "sha256": "12334694f6ba8217936c5c506795676b52fdb2a576c80a679d8cef7e3bb53f21",
+      "size": 586
+     },
+     {
+      "rel": "schemas/PI-PKG.schema.json",
+      "sha256": "02e23f8c6f7cec25bd5ef3562c5c7882229c92e8db30335905efd636b0ba14aa",
+      "size": 604
+     },
+     {
+      "rel": "schemas/ProfileBinding.schema.json",
+      "sha256": "05a06bc6c9f1a2167ea571846f796fced26bd27ae25da9ca1864288e8b9977fd",
+      "size": 605
+     },
+     {
+      "rel": "schemas/RequirementAtom.schema.json",
+      "sha256": "c398e6a835932985790f5fc345a35941c412509a9a1a74453923f7ea65fb0d10",
+      "size": 625
+     },
+     {
+      "rel": "schemas/SurfaceProjectionManifest.schema.json",
+      "sha256": "9f15d4b3df927ff3f2e87bfb172c10d3ca0fc996b34e38a359198ded48515960",
+      "size": 650
+     },
+     {
+      "rel": "schemas/TQAEP.schema.json",
+      "sha256": "42b0dcb7dc82779c2304343565cf959b241f22e4c74944629f75091d030a0e99",
+      "size": 635
+     },
+     {
+      "rel": "schemas/TaskSpecSeed.schema.json",
+      "sha256": "2c8bb18c377ed95f10a37023982584bc9f3c1dc50c9497b8ffee356acc3a2618",
+      "size": 707
+     },
+     {
+      "rel": "schemas/TechnologyAdmission.schema.json",
+      "sha256": "952b7b91bb3c095c08aa2a217707bd48fef2120660874bea2f4f0779c4d951c9",
+      "size": 680
+     },
+     {
+      "rel": "schemas/TraceLink.schema.json",
+      "sha256": "65048af6188461e3a3703baec44058b7dfd833174155adfd69f04ff099522ecd",
+      "size": 677
+     },
+     {
+      "rel": "schemas/WorkOrderCandidate.schema.json",
+      "sha256": "f83f0df6b1bf79d9f215f5243d5dd74bd21cc77ab44d0bb1c55561afe845f062",
+      "size": 614
+     },
+     {
+      "rel": "schemas/registry.json",
+      "sha256": "293371d34a365103b48551cbcb71945f6f85bdd1c77e55f7ae90d06d8ae87727",
+      "size": 9207
+     },
+     {
+      "rel": "src/pipd_ls_sp/__init__.py",
+      "sha256": "5a081ddefb11cdeccd2ea55e3209706c31e2ff468dee455c8fa73d68dc90ee8f",
+      "size": 371
+     },
+     {
+      "rel": "src/pipd_ls_sp/cli.py",
+      "sha256": "ff12de1e308416c229167cf594e9bca8d0decbf6d28ad72f27d060047adb1e4c",
+      "size": 5979
+     },
+     {
+      "rel": "src/pipd_ls_sp/errors.py",
+      "sha256": "7089f1f4b53c0e2ccd957e4e7f54844f677731c5b09a37c01be178db7098c288",
+      "size": 2071
+     },
+     {
+      "rel": "src/pipd_ls_sp/pipeline.py",
+      "sha256": "f721ab343ce8b5386aa646389a38b4b7fe9f431be09b7c4fc4e5c572f3ccb27a",
+      "size": 12767
+     },
+     {
+      "rel": "src/pipd_ls_sp/profiles.py",
+      "sha256": "ec3e8499c8d6f7d2f18afc9b730c35d8e402b90a974fc3f37a0dc7b697bd8ea6",
+      "size": 2390
+     },
+     {
+      "rel": "src/pipd_ls_sp/registry.py",
+      "sha256": "522fd6e18186f4cb847ce698ddc0fc86fd21e47758ab866e5fcf5ca5e61be879",
+      "size": 2092
+     },
+     {
+      "rel": "src/pipd_ls_sp/util.py",
+      "sha256": "72cbe1ba07a134c9a9415a6eb684f981428fd6938f4142bff976d25f3038578b",
+      "size": 1302
+     },
+     {
+      "rel": "src/pipd_ls_sp/validate.py",
+      "sha256": "6d13586b4667f45c60576a9b075ecf328adc6e74427e699578571cbfbf2f79df",
+      "size": 3821
+     },
+     {
+      "rel": "src/pipd_ls_sp/workspace.py",
+      "sha256": "cacab00e41dc155bd65c93755fc95206233c586d709e8956bdbe84a69b86c7ce",
+      "size": 7997
+     },
+     {
+      "rel": "tests/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+     },
+     {
+      "rel": "tests/test_negative_and_rollback.py",
+      "sha256": "c3e214c242fa9aa99bb06d5304edde21d596a3fefcf2e30a1e812dcbef8db1c3",
+      "size": 4055
+     },
+     {
+      "rel": "tests/test_s0_contracts.py",
+      "sha256": "f6eaad4217dfa1bf110cd520a6c8e8f054c41e39b87259d21493e42f1d336b63",
+      "size": 3171
+     },
+     {
+      "rel": "tests/test_s1_lite_slice.py",
+      "sha256": "5a05244216e92d7e8ccea156fb731b66bf2f7ead5e8707b5db4c9f49f6fc932e",
+      "size": 3326
+     }
+    ],
+    "generated_at": "2026-10-08T14:21:01.188699+00:00",
+    "manifest_sha256": "95d803b0e7c9ef4ff41e6d9fc85c2476c33090f8ebf0bad1b36496187e02de85",
+    "schema": "PIPD-EXPORT-FREEZE/1",
+    "secret_scan": "PASS"
+   }
+  },
+  {
+   "args": [
+    "diff",
+    "--a",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\claim_ceiling.json",
+    "--b",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\claim_ceiling.json"
+   ],
+   "exit": 0,
+   "payload": {
+    "changed_fields": [],
+    "count": 0,
+    "verdict": "PASS"
+   }
+  },
+  {
+   "args": [
+    "repair",
+    "--subject",
+    "PI-PKG",
+    "--scope",
+    "src/**",
+    "--maker",
+    "HERMES-MAKER"
+   ],
+   "exit": 0,
+   "payload": {
+    "isolation": "workspace_only",
+    "maker": "HERMES-MAKER",
+    "requalification": "affected-only",
+    "schema": "PIPD-REPAIR-CANDIDATE/1",
+    "scope": [
+     "src/**"
+    ],
+    "self_accept": false,
+    "state": "CANDIDATE",
+    "subject": "PI-PKG"
+   }
+  }
+ ]
+}

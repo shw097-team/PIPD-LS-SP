@@ -1,0 +1,160 @@
+{
+ "subject_id": "PI-07f5ad9c89f30c85",
+ "version": "1",
+ "content_hash": "07f5ad9c89f30c8528c70eac92cf983a9d4cdeff4c67534fcc82efe42d5b3c8d",
+ "schema_version": "PI-PKG@1",
+ "stable_semantic_contract": {
+  "contract": "stable",
+  "profile_binding": {
+   "subject_id": "PB-626650c77b2bb538",
+   "version": "1",
+   "content_hash": "626650c77b2bb538102d2c43f3f7970e71237d47b449d5d37c6e87f3e615c7b1",
+   "schema_version": "ProfileBinding@1",
+   "profile": "ASSURED",
+   "axes": [
+    "intent",
+    "knowledge",
+    "release",
+    "trust_boundary",
+    "verification"
+   ],
+   "vetoes": [],
+   "artifact_depth": "L4_FAILURE_RECOVERY",
+   "assurance": [
+    "deterministic_validator",
+    "negative_security",
+    "adversarial",
+    "independent_checker"
+   ]
+  },
+  "atoms": [
+   {
+    "subject_id": "ATOM-fe384619a32a08ee",
+    "version": "1",
+    "content_hash": "fe384619a32a08ee71b5d83fe37f36a002169b2efe0c2e9c4e281043f6ed2da9",
+    "schema_version": "RequirementAtom@1",
+    "req_id": "REQ-INTENT",
+    "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD",
+    "owner": "PIPD-EC",
+    "acceptance_cue": "REQ-INTENT has an oracle and a negative fixture",
+    "risk_guard": "REQ-INTENT cannot self-accept"
+   },
+   {
+    "subject_id": "ATOM-de36cf8c16b4f1f1",
+    "version": "1",
+    "content_hash": "de36cf8c16b4f1f10557f5cfbf05a3929a58c3d1e10251ab036dfdbe98089285",
+    "schema_version": "RequirementAtom@1",
+    "req_id": "REQ-KNOWLEDGE",
+    "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD",
+    "owner": "PIPD-EC",
+    "acceptance_cue": "REQ-KNOWLEDGE has an oracle and a negative fixture",
+    "risk_guard": "REQ-KNOWLEDGE cannot self-accept"
+   },
+   {
+    "subject_id": "ATOM-d6a16081e09896f9",
+    "version": "1",
+    "content_hash": "d6a16081e09896f9a6cdf3d502b52f1d0672cb18566bc5085548a7a3863f02fd",
+    "schema_version": "RequirementAtom@1",
+    "req_id": "REQ-VERIFY",
+    "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD",
+    "owner": "PIPD-EC",
+    "acceptance_cue": "REQ-VERIFY has an oracle and a negative fixture",
+    "risk_guard": "REQ-VERIFY cannot self-accept"
+   },
+   {
+    "subject_id": "ATOM-46133d9d7a76673a",
+    "version": "1",
+    "content_hash": "46133d9d7a76673ab9ebaa7dfe4240a796f8f97a18998a02ec90464f508917c5",
+    "schema_version": "RequirementAtom@1",
+    "req_id": "REQ-DELIVER",
+    "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD",
+    "owner": "PIPD-EC",
+    "acceptance_cue": "REQ-DELIVER has an oracle and a negative fixture",
+    "risk_guard": "REQ-DELIVER cannot self-accept"
+   },
+   {
+    "subject_id": "ATOM-3be49ed6e5c1bfe9",
+    "version": "1",
+    "content_hash": "3be49ed6e5c1bfe9beafed85463e289b8a3384198879681647eabfe5c5aebf94",
+    "schema_version": "RequirementAtom@1",
+    "req_id": "REQ-GOVERN",
+    "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD",
+    "owner": "PIPD-EC",
+    "acceptance_cue": "REQ-GOVERN has an oracle and a negative fixture",
+    "risk_guard": "REQ-GOVERN cannot self-accept"
+   }
+  ],
+  "goal": "以 HG-KSEOS 治理控制平面實作 PIPD-LS-SP 規格包編譯系統，完成知識來源編譯、測試驗收與公開交付。"
+ },
+ "acceptance": {
+  "mode": "bound",
+  "oracle_source": "DOC-03 DOMAIN_ORACLES"
+ },
+ "trace": [
+  {
+   "subject_id": "TL-a06133244d41a63e",
+   "version": "1",
+   "content_hash": "a06133244d41a63ec0d22cd9be6f3d5ff53196d1842d032d88ff3ca6560c77fc",
+   "schema_version": "TraceLink@1",
+   "from_type": "PI-PKG",
+   "from_id": "PI-07f5ad9c89f30c85",
+   "from_hash": "07f5ad9c89f30c8528c70eac92cf983a9d4cdeff4c67534fcc82efe42d5b3c8d",
+   "to_type": "RequirementAtom",
+   "to_id": "ATOM-fe384619a32a08ee",
+   "to_hash": "fe384619a32a08ee71b5d83fe37f36a002169b2efe0c2e9c4e281043f6ed2da9",
+   "rationale": "PI derives this atom from the frozen intent"
+  },
+  {
+   "subject_id": "TL-1e57ae80faf06eb2",
+   "version": "1",
+   "content_hash": "1e57ae80faf06eb2759a44c93bbdc65290edf2c65e50a610a76c4e79cd7718b1",
+   "schema_version": "TraceLink@1",
+   "from_type": "PI-PKG",
+   "from_id": "PI-07f5ad9c89f30c85",
+   "from_hash": "07f5ad9c89f30c8528c70eac92cf983a9d4cdeff4c67534fcc82efe42d5b3c8d",
+   "to_type": "RequirementAtom",
+   "to_id": "ATOM-de36cf8c16b4f1f1",
+   "to_hash": "de36cf8c16b4f1f10557f5cfbf05a3929a58c3d1e10251ab036dfdbe98089285",
+   "rationale": "PI derives this atom from the frozen intent"
+  },
+  {
+   "subject_id": "TL-261f538df0e43743",
+   "version": "1",
+   "content_hash": "261f538df0e4374316fed5a6e80fc268b2324ecbdf9739d41e772b7fded7e522",
+   "schema_version": "TraceLink@1",
+   "from_type": "PI-PKG",
+   "from_id": "PI-07f5ad9c89f30c85",
+   "from_hash": "07f5ad9c89f30c8528c70eac92cf983a9d4cdeff4c67534fcc82efe42d5b3c8d",
+   "to_type": "RequirementAtom",
+   "to_id": "ATOM-d6a16081e09896f9",
+   "to_hash": "d6a16081e09896f9a6cdf3d502b52f1d0672cb18566bc5085548a7a3863f02fd",
+   "rationale": "PI derives this atom from the frozen intent"
+  },
+  {
+   "subject_id": "TL-026242268cdb6ec5",
+   "version": "1",
+   "content_hash": "026242268cdb6ec55e26575df13ec74aea7575af4959bfda37e9926e2e5054cf",
+   "schema_version": "TraceLink@1",
+   "from_type": "PI-PKG",
+   "from_id": "PI-07f5ad9c89f30c85",
+   "from_hash": "07f5ad9c89f30c8528c70eac92cf983a9d4cdeff4c67534fcc82efe42d5b3c8d",
+   "to_type": "RequirementAtom",
+   "to_id": "ATOM-46133d9d7a76673a",
+   "to_hash": "46133d9d7a76673ab9ebaa7dfe4240a796f8f97a18998a02ec90464f508917c5",
+   "rationale": "PI derives this atom from the frozen intent"
+  },
+  {
+   "subject_id": "TL-d229bc248006aaa0",
+   "version": "1",
+   "content_hash": "d229bc248006aaa0bd47c29a357ee4d8d11018a845f306cfab52c1da6e60ec1f",
+   "schema_version": "TraceLink@1",
+   "from_type": "PI-PKG",
+   "from_id": "PI-07f5ad9c89f30c85",
+   "from_hash": "07f5ad9c89f30c8528c70eac92cf983a9d4cdeff4c67534fcc82efe42d5b3c8d",
+   "to_type": "RequirementAtom",
+   "to_id": "ATOM-3be49ed6e5c1bfe9",
+   "to_hash": "3be49ed6e5c1bfe9beafed85463e289b8a3384198879681647eabfe5c5aebf94",
+   "rationale": "PI derives this atom from the frozen intent"
+  }
+ ]
+}
