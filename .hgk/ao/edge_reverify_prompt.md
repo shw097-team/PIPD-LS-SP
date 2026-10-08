@@ -10,6 +10,9 @@ CANDIDATE
 HARD RULES
  1. READ-ONLY. Do not create, edit, delete or move any file inside the repo, the knowledge base or HG-KSEOS.
     Write scratch files only under C:\Users\user\AppData\Local\Temp\pipd-edge-verify\ .
+    Do NOT run tools/edge_selfcheck.py or any tools/*.py that writes into the repo - it would dirty the frozen
+    candidate. Run your probes inline with `python -B -c "..."` or from the scratch dir.
+    Record `git -C <repo> status --porcelain` BEFORE and AFTER your probes; both must be empty. Report if not.
  2. Do not run git commit/add/push. Do not modify the kanban board or the spine.
  3. Shell is bash (git-bash/MSYS). `python` has jsonschema 4.x. Run tests with cwd = the repo root.
  4. Report a check as NOT_REPRODUCED rather than guessing if you cannot run it.
