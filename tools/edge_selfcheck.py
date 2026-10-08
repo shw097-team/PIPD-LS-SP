@@ -167,11 +167,11 @@ add("E12", hits == 0 and gh == 0 and not stray, "tracked-file + git object sweep
     f"source_hits={hits} object_hits={gh} stray_bytecode_dirs={len(stray)}")
 
 shutil.rmtree(scratch, ignore_errors=True)
-_frozen = Path(r"C:\Users\user\AppData\Local\Temp\pipd-edge-verify\FROZEN_CANDIDATE.txt")
 out = {"schema": "PIPD-EDGE-SELFCHECK/1", "note": "MAKER SELF-CHECK - not independent acceptance",
-       "head": (_frozen.read_text(encoding="utf-8").strip() if _frozen.exists()
-                else subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True,
-                                    text=True).stdout.strip()),
+       # no `head` field on purpose: a commit cannot contain its own SHA without self-reference.
+       "candidate_of_record": "frozen-SHA file outside the repo + the external acceptance evidence file",
+       "edges_cover": ("unittest / fresh-copy skip / empty-bundle / forged identity / body tamper / SoD / "
+                       "repair scope / claim ceiling / PAT pattern / LF+receipt digest / trace closure / secret sweep"),
        "edges": res, "verdict": "PASS" if all(e["verdict"] == "PASS" for e in res) else "FAIL"}
 (ROOT / ".hgk" / "artifacts" / "edge_selfcheck.json").write_text(json.dumps(out, indent=1), encoding="utf-8", newline="")
 print(json.dumps({"verdict": out["verdict"],
