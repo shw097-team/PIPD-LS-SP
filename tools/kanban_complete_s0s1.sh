@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
+SRC='/c/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/hermes-agent'
+export HERMES_HOME='C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes'
 set -u
-HP="/c/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes"
-SRC="$HP/hermes-agent"
-export HERMES_HOME="$HP" PYTHONPATH="$SRC" PYTHONDONTWRITEBYTECODE=1
+export PYTHONPATH="$SRC" PYTHONDONTWRITEBYTECODE=1
 cd "$SRC" || exit 1
 K=(./venv/Scripts/python.exe -B -m hermes_cli.main kanban)
 run() { echo "== $*"; "${K[@]}" "$@" 2>&1 | tail -2; }
