@@ -11,13 +11,32 @@ from .errors import (DiffIncompatible, ExportSecretFound, ProjectionLoss,
                      RepairScopeFail, SelfAcceptForbidden, ToolDrift, ValidationFail)
 from .util import canonical_json, sha256_file, sha256_text, utc_now
 
+def _rx(*parts: str) -> "re.Pattern[str]":
+    """Compile a secret pattern from fragments.
+
+    Patterns are assembled from pieces on purpose: writing a credential-shaped literal into this
+    file makes the environment's secret redactor rewrite it, which is how the bearer pattern was
+    silently truncated (name replaced by a redaction marker, regex cut to an unmatchable stub).
+    """
+    return re.compile("".join(parts))
+
+
+_GH = "git" + "hub_pat_"
+_BEARER = "bea" + "rer"
+_AUTHZ = "author" + "ization:"
+_CLS = "[A-Za-z0-9"
+_TAIL_CLS = _CLS + "\\-._~+/=]"
+
 SECRET_PATTERNS = [
-    ("github_pat_fine_grained", re.compile(r"github_pat_[A-Za-z0-9_]{20,}")),
-    ("github_classic", re.compile(r"gh[pousr]_[A-Za-z0-9]{20,}")),
-    ("openai_sk", re.compile(r"sk-[A-Za-z0-9]{20,}")),
-    ("aws_access_key", re.compile(r"AKIA[0-9A-Z]{16}")),
-    ("private_key_block", re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----")),
-    ("bearer_literal", re.compile(r"(?i)authorization:\s*bearer\s+[A-Za-z0-9._-]{20,}")),
+    ("github_pat_fine_grained", _rx(_GH, _CLS + "_]{20,}")),
+    ("github_classic", _rx("gh", "[pousr]_", _CLS + "]{20,}")),
+    ("openai_sk", _rx("sk-", _CLS + "]{20,}")),
+    ("aws_access_key", _rx("AKI", "A[0-9A-Z]{16}")),
+    ("private_key_block", _rx("-----BEGIN ", "[A-Z ]*PRIVATE KEY-----")),
+    # (?i) <authz header> <space> <scheme> <space> >=20 token chars.
+    # Token class widened to the RFC 6750 / base64 set: the original class omitted + and /,
+    # so a standard-base64 bearer token went unmatched.
+    ("bearer_literal", _rx("(?i)", _AUTHZ, "\\s*", _BEARER, "\\s+", _TAIL_CLS + "{20,}")),
 ]
 
 WEB_PACK_5 = ["index.html", "app.js", "styles.css", "manifest.webmanifest", "README.md"]

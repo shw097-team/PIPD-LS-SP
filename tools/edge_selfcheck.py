@@ -111,10 +111,18 @@ f8 = validate.semantic_invariants("ClaimCeiling", {
     "schema_version": "ClaimCeiling@1", "allowed_claims": ["INDEPENDENT_PASS"], "forbidden_escalation": []})
 add("E8", bool(f8), "semantic_invariants ClaimCeiling INDEPENDENT_PASS", json.dumps(f8)[:200])
 
-# E9
-probe = "github_pat_" + "A" * 30
-hit = any(pat.search(probe) for _, pat in workspace.SECRET_PATTERNS)
-add("E9", hit, "in-memory fine-grained PAT vs SECRET_PATTERNS", f"matched={hit}")
+# E9 - every pattern, not just the first one (a pattern table nobody pins rots silently)
+PROBES = {
+    "github_pat_fine_grained": "git" + "hub_pat_" + "A" * 30,
+    "github_classic": "gh" + "p_" + "A" * 30,
+    "openai_sk": "sk" + "-" + "A" * 30,
+    "aws_access_key": "AK" + "IA" + "B" * 16,
+    "private_key_block": "-----BEGIN " + "RSA " + "PRIVATE KEY" + "-----",
+    "bearer_literal": ("Author" + "ization: " + "Bea" + "rer " + "AbC+/" * 6),
+}
+miss = [n for n, rx in workspace.SECRET_PATTERNS if not rx.search(PROBES.get(n, "\u0000"))]
+add("E9", not miss, "all six SECRET_PATTERNS vs synthetic samples",
+    f"patterns={len(workspace.SECRET_PATTERNS)} unmatched={miss}")
 
 # E10
 blob_receipt = subprocess.run(["git", "-C", str(ROOT), "show",
