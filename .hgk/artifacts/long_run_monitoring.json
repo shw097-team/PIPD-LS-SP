@@ -21,6 +21,23 @@
    "started": "2026-10-08T22:41+08:00",
    "block_class": "NONE",
    "action": "running normally in background"
+  },
+  {
+   "task": "re-verify lane deleg_c8cfecc7 (delegate_task, model gpt-6.1-sol)",
+   "started": "2026-10-08T22:59:24+08:00",
+   "ended": "2026-10-08T23:00:08+08:00",
+   "duration_s": 43.8,
+   "block_class": "PROVIDER_RATE_LIMIT_429",
+   "occurrences_of_this_class": 1,
+   "evidence": "'ChatGPT or Codex Subscription rate-limited every one of 3 attempts ... HTTP 429 ... limit resets at 00:26'",
+   "action": "REMEDIATED, not paused: the lane was re-dispatched on the user's designated checker model glm-5.3-flash/opencode-go as a one-shot governed lane (proc_0d441b833763) instead of retrying the rate-limited provider. The maker (deepseek-v4.1-flash) and the checker (glm-5.3-flash) remain different models, so separation of duties is preserved.",
+   "deferred_alternative": "retry the gpt-6.1-sol lanes after the 00:26 reset for a second-model cross-check"
+  },
+  {
+   "task": "edge re-verify lane (glm-5.3-flash, one-shot)",
+   "started": "2026-10-08T23:01+08:00",
+   "block_class": "NONE_YET",
+   "action": "running; 12 targeted edge probes"
   }
  ],
  "policy": "user standing order: inspect anything >10 min; remediate/pause on the same abnormal block repeated >4x; report grouped per error class"
