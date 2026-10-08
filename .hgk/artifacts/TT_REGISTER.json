@@ -1,6 +1,6 @@
 {
  "schema": "PIPD-TT-REGISTER/1",
- "count": 9,
+ "count": 13,
  "tts": [
   {
    "id": "TT-PIPD-KNOWLEDGE-QUARANTINE",
@@ -90,6 +90,46 @@
    "detail": "Lane C found one pattern hit in a compiled bytecode cache of the negative test. .pyc are not tracked by git and all __pycache__ trees have been purged; the constant is a deliberate negative-test fixture.",
    "close_condition": "closed in-round by purging bytecode; keep __pycache__ out of any published artifact",
    "evidence": "git ls-files | grep .pyc -> 0"
+  },
+  {
+   "id": "TT-HGK-LIFECYCLE-UNLOGGED-TRANSITIONS",
+   "class": "CONTROL_PLANE_DEFECT",
+   "owner": "HG-KSEOS lifecycle owner",
+   "affected_edges": "project_transitions continuity for ANY project",
+   "first_failing_invariant": "lifecycle.py updates state without emitting a transition",
+   "detail": "Independent lane B located the cause: src/hg_kseos/lifecycle.py:254-256 and 287-289 perform a direct state update and never call the transition emitter, so SOURCE_DISCOVERY->SOURCE_ADMISSION and DESIGN_READY->PLAN_READY are absent for PIPD-LS-SP-20261008 (and would be for any project). This is an HG-KSEOS defect, not a PIPD product defect; PIPD must not paper over it.",
+   "close_condition": "HG-KSEOS emits a transition on those two edges; then re-read the spine and confirm a continuous chain",
+   "evidence": ".hgk/artifacts/hgk_admission_readback.json"
+  },
+  {
+   "id": "TT-HGK-LIFECYCLE-EVIDENCE-UNBOUND",
+   "class": "EVIDENCE_GAP",
+   "owner": "HG-KSEOS lifecycle/SharedSpine owner",
+   "affected_edges": "every canonical lifecycle event -> evidence/rollback binding",
+   "first_failing_invariant": "canonical_events.evidence_ref is empty for all 7 lifecycle events",
+   "detail": "Lane B: all 7 project_transitions have evidence_refs_json=[] and authority_refs_json=[], so the canonical mutations carry no evidence or authority reference. The requirement-freeze event references EV-REQ-PIPD-LS-SP-20261008-PLAN with no matching evidence_refs row.",
+   "close_condition": "register the evidence rows and bind them on the transition, or record why the tool cannot",
+   "evidence": ".hgk/artifacts/hgk_admission_readback.json"
+  },
+  {
+   "id": "TT-HGK-ARTIFACT-CONTRACTS-UNREGISTERED",
+   "class": "EVIDENCE_GAP",
+   "owner": "HG-KSEOS + PIPD-EC",
+   "affected_edges": "19 canonical machine contracts -> spine artifact_contracts",
+   "first_failing_invariant": "HG-KSEOS artifact_contracts table holds 0 rows",
+   "detail": "The independent checker (glm-5.3-flash AO lane, check C9) observed that the '19 canonical machine contracts' exist only as repository schemas/registry entries; the control plane holds no admitted artifact-contract rows for them. Registering them is an HGK write and is NOT attempted here.",
+   "close_condition": "admit the 19 families into the spine artifact_contracts through the typed API",
+   "evidence": ".hgk/ao/ao_verdict.json"
+  },
+  {
+   "id": "TT-PIPD-PUBLICATION-GATE",
+   "class": "RELEASE_BLOCKED",
+   "owner": "human owner",
+   "affected_edges": "public repo creation",
+   "first_failing_invariant": "independent verdict is bound to a superseded candidate",
+   "detail": "The AO lane (glm-5.3-flash) returned PASS on all 10 checks but against candidate a2fb27b; the round-2 hardening moved HEAD to 55fa925, which invalidates that verdict for the new candidate. Only the affected edges are re-verified; the AO receipt in this evidence file is explicitly scoped to a2fb27b.",
+   "close_condition": "an independent lane re-verifies the affected edges on the new candidate commit",
+   "evidence": ".hgk/ao/ao_verdict.json#_binding_note"
   }
  ]
 }
