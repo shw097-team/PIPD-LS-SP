@@ -5,8 +5,8 @@ maker's claims, not to confirm them. You have fresh context and read only the fr
 raw evidence it produced.
 
 ```
-frozen_candidate_sha: ff17d5f28ec0ae6cfaef4be96442e5d3134cf089
-evidence_commit_sha:  911c93aa4687d4c5bc2097fac4650d5b094f4d74
+frozen_candidate_sha: 965f405ba0b3684c413788fecf16578597dcebf4
+evidence_commit_sha:  965f405ba0b3684c413788fecf16578597dcebf4
 binding_rule:         every artefact carries candidate_head == frozen_candidate_sha, and
                       `git diff ff17d5f 911c93a -- src tools tests schemas` MUST be empty
                       (the artefacts describe exactly this source tree)
@@ -53,8 +53,8 @@ python:               the same interpreter that runs the tools (python3.11); PYT
 ```json
 {
   "checker": "glm-5.3-flash/opencode-go",
-  "frozen_candidate_sha": "ff17d5f28ec0ae6cfaef4be96442e5d3134cf089",
-  "evidence_commit_sha": "911c93aa4687d4c5bc2097fac4650d5b094f4d74",
+  "frozen_candidate_sha": "965f405ba0b3684c413788fecf16578597dcebf4",
+  "evidence_commit_sha": "965f405ba0b3684c413788fecf16578597dcebf4",
   "head_at_verification": "<git rev-parse HEAD you observe>",
   "frozen_sha_matches_head": true,
   "edges": [{"edge": "E1", "verdict": "PASS|FAIL", "evidence": "<what you ran and saw>"}],

@@ -13,6 +13,7 @@ typed, fail-closed refusal rather than an import crash.
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -26,7 +27,13 @@ PY = sys.executable
 
 
 def run(cmd: list[str], **kw) -> subprocess.CompletedProcess:
-    return subprocess.run(cmd, capture_output=True, text=True, **kw)
+    # The isolated env must not inherit the maker's PYTHONPATH: with it, `import pipd_ls_sp` resolves
+    # from the source tree even after uninstall, so `import_fails_after_uninstall` could PASS or FAIL
+    # purely from the caller's environment. Independently found by the AO lane; pinned here.
+    env = dict(kw.pop("env", os.environ))
+    env.pop("PYTHONPATH", None)
+    env.pop("PYTHONHOME", None)
+    return subprocess.run(cmd, capture_output=True, text=True, env=env, **kw)
 
 
 def main() -> int:

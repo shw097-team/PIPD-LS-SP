@@ -37,6 +37,15 @@ def sha256_file(p: Path) -> str:
             h.update(b)
     return h.hexdigest()
 
+
+# A frozen manifest entry carries rel/size/sha256 rather than an absolute path. The probe used to
+# read r["path"] unconditionally, so a fresh scan could never run against the frozen manifest at all.
+SOURCE_ROOT = Path(r"C:\Projects\Agent_Workspace")
+
+
+def _entry_path(entry: dict) -> Path:
+    return Path(entry["path"]) if "path" in entry else (SOURCE_ROOT / entry["rel"])
+
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
@@ -71,7 +80,9 @@ def main() -> int:
     for fam, spec in frozen.items():
         rows = []
         for r in spec["files"]:
-            p = Path(r["path"])
+            # A frozen manifest entry carries rel/size/sha256, not an absolute path; the
+            # tool used to read r["path"] and therefore could never run a fresh scan.
+            p = _entry_path(r)
             if not p.is_file():
                 drift.append({"family": fam, "rel": r["rel"], "kind": "MISSING"})
                 continue
@@ -109,7 +120,7 @@ def main() -> int:
     for rel, (fam, r) in unique.items():
         rank = RANK[fam]
         if True:
-            p = Path(r["path"])
+            p = _entry_path(r)
             if not p.is_file():
                 continue
             try:

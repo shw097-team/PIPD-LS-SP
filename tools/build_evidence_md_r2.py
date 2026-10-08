@@ -194,11 +194,56 @@ def main() -> int:
         ap("")
     ap("## 7. Independent acceptance")
     ap("")
-    ap("The checker lane (`glm-5.3-flash`, provider `opencode-go`) received a falsification brief bound to "
-       "the frozen candidate and was instructed to re-execute rather than trust, to attempt a named attack "
-       "list, and to report its own scope limits. Its verdict is reproduced verbatim in "
-       "`.hgk/ao/ao_s2s4_verdict.log`.")
+    aov = None
+    ap_ = ROOT / ".hgk" / "ao" / "ao_s2s4_verdict.json"
+    if ap_.exists():
+        aov = json.loads(ap_.read_text(encoding="utf-8"))
+    if aov:
+        ap("The checker lane (`glm-5.3-flash`, provider `opencode-go`) received a falsification brief bound "
+           "to the frozen candidate, was told to re-execute rather than trust, to attempt a named attack "
+           "list, and to report its own scope limits.")
+        ap("")
+        ap("| edge | verdict |")
+        ap("|---|---|")
+        for e in aov.get("edges", []):
+            ap(f"| {e['edge']} | {e['verdict']} |")
+        ap("")
+        ap(f"- adversarial attempts: {len(aov.get('adversarial_attempts', []))}")
+        ap(f"- non-blocking findings: {len(aov.get('regressions', []))}")
+        ap(f"- unit suite as run by the checker: `{aov.get('unit_suite',{}).get('command','')}` → "
+           f"{aov.get('unit_suite',{}).get('ran','?')} tests, {aov.get('unit_suite',{}).get('failures','?')} failures")
+        ap(f"- checker verdict: **{aov.get('verdict')}**, blocking: {aov.get('blocking')}")
+        ap(f"- scope stated by the checker: {aov.get('scope_of_this_verdict','')}")
+        ap("")
+        ap("Both findings the checker raised were acted on: the artefact binding was re-run so every "
+           "artefact carries the current candidate, and `portable_install_check.py` no longer inherits "
+           "`PYTHONPATH`, which had made `import_fails_after_uninstall` environment-dependent.")
+    else:
+        ap("The checker lane's verdict is reproduced verbatim in `.hgk/ao/ao_s2s4_verdict.log`.")
     ap("")
+    scan = None
+    sp = ROOT / ".hgk" / "knowledge" / "KNOWLEDGE_READY_REPORT.json"
+    if sp.exists():
+        try:
+            scan = json.loads(sp.read_text(encoding="utf-8"))
+        except Exception:
+            scan = None
+    if scan:
+        gp = scan.get("gate_predicate", {})
+        ap("## 7b. Fresh knowledge scan (G-KNOWLEDGE-READY)")
+        ap("")
+        L += table([
+            ("verdict", str(scan.get("verdict"))),
+            ("source drift", str(scan.get("drift", scan.get("drift_count", "n/a")))),
+            ("documents indexed", str(scan.get("indexed_docs", gp.get("indexed_docs", "n/a")))),
+            ("ingest errors", str(scan.get("ingest_errors", "n/a"))),
+            ("quarantined", str(gp.get("quarantined", "n/a"))),
+            ("clean coverage", str(gp.get("clean_coverage", "n/a"))),
+        ])
+        ap("")
+        ap("A defect in the probe itself was found and fixed here: it read `files[].path` while the frozen "
+           "manifest carries `rel`/`size`/`sha256`, so a fresh scan had never been able to run at all.")
+        ap("")
     ap("## 8. Publication readback")
     ap("")
     L += table([
