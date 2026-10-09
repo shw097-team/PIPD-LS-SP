@@ -1,0 +1,23 @@
+{
+  "id": "PIPD-R4-INCIDENT-02",
+  "class": "ORCHESTRATION_PATH_DEFECT",
+  "same_defect_class_as": "H2-DEFECT-01 (product-side `/c/...` -> literal `\\c\\...` path normalisation failure)",
+  "detected": "2026-10-09 ~20:22, during the post-publication integrity check, by noticing that the mtime of C:\\c had changed from 2026-08-10 08:36 to 2026-10-09 20:19",
+  "what_happened": "The publication step ran `git clone <tokenised-url> /c/r4-pub`. MSYS path translation is disabled on this host for native binaries, so the native git received the literal string `/c/r4-pub` and created a full 600-file clone at C:\\c\\r4-pub. The clone's .git/config carried the tokenised remote URL.",
+  "second_occurrence_same_session": "`curl -o /c/w8v3pub/re_pub.py` - the same class; curl could not create the path and wrote nothing, so no artifact was produced (the check had to be repeated with a native `C:/...` path).",
+  "impact": {
+    "product_or_repo_damage": "none",
+    "pre_existing_c_c_entries": "untouched (Projects 2026-08-08 19:17, Users 2026-08-10 08:36)",
+    "credential_exposure": "the accidental clone's .git/config held the tokenised remote URL on local disk for ~3 minutes; nothing was pushed from it, no remote was modified by it, and it was deleted. After deletion: 0 files under C:\\c match `github_pat_`; the only `x-access-token` matches (2 files) are the product's own `tools/github_publish.py` template string inside pre-existing defect-landing-zone copies.",
+    "cleanup": "C:\\c\\r4-pub removed; C:\\c now contains only its two pre-existing entries. The directory mtime necessarily changed (any add/remove does), so it no longer reads 2026-08-10."
+  },
+  "root_cause": "Orchestration-side commands pass MSYS-style `/c/...` paths to native binaries on a host where path conversion is disabled. An unvalidated, misdirected path argument then causes a real filesystem effect - the same structural flaw the product-side guard now refuses.",
+  "why_it_matters": "This is independent evidence that the H2-DEFECT-01 defect class is not hypothetical: it recurred in the orchestration plane itself, in the same session, twice, while publishing the very round that fixes it. It is also why the product-side guards must reject a misdirected destination *before* any effect rather than relying on the operator to get the path right.",
+  "remediation": [
+    "Native tools (git, curl, python, node) are invoked with `C:/...` forward-slash native paths, never `/c/...`.",
+    "The published round_envelope guards (STOP-1..STOP-6) are the product-side expression of the same rule.",
+    "Standing check retained: the directory mtime of C:\\c is a tripwire for this defect class."
+  ],
+  "claim": "Disclosed as a process incident of the round; it does not weaken any gate, does not change any product claim, and does not grant any authority.",
+  "claim_ceiling": "CANDIDATE_ONLY"
+}

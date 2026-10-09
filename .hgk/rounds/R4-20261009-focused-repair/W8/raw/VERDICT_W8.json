@@ -1,0 +1,447 @@
+{
+ "schema": "R4-INDEPENDENT-VERDICT/1",
+ "verdict": "FAIL_CHALLENGE",
+ "digest_check": {
+  "checked": 19,
+  "matching_digests": 19,
+  "matching_byte_sizes": 19,
+  "mismatches": [],
+  "missing": []
+ },
+ "items": [
+  {
+   "id": "C1",
+   "method": "python -B -: unittest.defaultTestLoader.discover('tests').countTestCases(); inspect suite write paths",
+   "observed": "Discovery finds 173 tests, not 168. Full execution is environment-blocked by repository writes.",
+   "status": "FALSIFIED",
+   "evidence": "Raw output: DISCOVERED_COUNT 173; LOADER_ERRORS []. tests/test_tooling_executes.py:31 explicitly writes .pyc.tmp files even with -B. tests/test_s0_contracts.py:71-75 creates a temporary schema tree inside .hgk/rounds/. tests/test_technology_admission.py:156 invokes the writing --report command. Nine separately audited, read-only tests ran successfully; this is not full-suite acceptance."
+  },
+  {
+   "id": "C2",
+   "method": "python -B tools/tt_summary_check.py --assert; independently count canonical tts[] statuses",
+   "observed": "22 rows; normalized histogram open=16, partial=2, closed=1, temp_closed=1, open_owner_gate=2; blocking_count=18; unmapped_statuses={}. Total equals len(tts), and histogram sums to 22.",
+   "status": "VERIFIED",
+   "evidence": "Exit 0. Raw output: TT_SUMMARY_ASSERT_OK total=22 unknown=0 blocking_count=18 as_of_candidate=7c5bc585c7d889cd338da853be4efc4b8f07d3b2. Independent raw histogram: {'OPEN':16,'OPEN_OWNER_GATE':2,'PARTIAL_CLOSED':1,'PARTIAL':1,'CLOSED':1,'TEMP_CLOSED':1}; PARTIAL_CLOSED is the declared partial alias."
+  },
+  {
+   "id": "C3",
+   "method": "python -B tools/build_spec_del_crosswalk.py --check; independently inspect stored/rebuilt rows, referenced files, and local upstream blueprint",
+   "observed": "32 SPEC plus 25 DEL rows; 42 EVIDENCED, 11 EVIDENCE_GAP, 4 DESIGN_ONLY. Stored rows equal rebuilt rows. Every EVIDENCED evidence path and oracle file exists. All 57 source line locators match the corresponding IDs in the local upstream blueprint.",
+   "status": "VERIFIED",
+   "evidence": "Exit 0; raw output: crosswalk check: OK (32 SPEC + 25 DEL). CROSSWALK_STORED_EQUALS_REBUILT True; GAP_ROWS_WITHOUT_REASON []; EVIDENCED_WITH_EMPTY_EVIDENCE []; BLUEPRINT_LINE_COUNT 2517; BLUEPRINT_LOCATOR_FAILURES []. Verification is structural: file existence does not independently establish every normative behavior."
+  },
+  {
+   "id": "C4",
+   "method": "Inspect python -B tools/admit_technologies.py --report; independently evaluate source records and existing artifact without invoking its write path; git show HEAD:.hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json",
+   "observed": "The exact --report execution was not run because it writes repository artifacts and negative fixtures. Read-only evaluation reproduces consistency PASS, overall FAIL, source-pin 0/22, and unchanged dispositions.",
+   "status": "ENVIRONMENT_BLOCKED",
+   "evidence": "tools/admit_technologies.py:428-430 writes fixtures/<technology_id>/mutation-unpinned.json; :518-521 writes .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json before printing. Raw alternative output: records=22, artefact_consistency_verdict=PASS, overall_verdict=FAIL; DISPOSITION_DIFF []. Pure default-source evaluation: rows=22, schema_pass=22, source_pin_gate={denominator:22,passed:0,failed:22,verdict:FAIL}, source_disposition_diff=[], negative_pass=22, rollback_pass=22, disposition_pass=22. The return expression at :559 would return 1 for overall FAIL, but no actual command exit was observed."
+  },
+  {
+   "id": "C5",
+   "method": "python -B tools/build_publication_manifest.py --check; python -B tools/publication_attestation.py --verify; independently enumerate current product files against manifest entries",
+   "observed": "Both commands exit 0 with violations=[], but the manifest silently omits 11 current non-bytecode product files. It also omits 44 existing bytecode files. Its successful checks concern older frozen/published subjects, not complete coverage of the current R4 working tree.",
+   "status": "FALSIFIED",
+   "evidence": "Both raw reports say verdict=PASS and violations=[]. Published/attested commit is 3aebbbce948871c07b875ab92acf263d298ecf38, while current HEAD is 7c5bc585c7d889cd338da853be4efc4b8f07d3b2. Raw coverage checks include COVERAGE tools/tt_summary_check.py False and COVERAGE docs/SPEC_DEL_CROSSWALK.json False. UNCOVERED_COUNT 55."
+  },
+  {
+   "id": "C6",
+   "method": "python -B tools/pi_dedup_check.py --check; compile actual HEAD pipeline in memory; compare current atoms with source table; delete one atom in an in-memory copy",
+   "observed": "The command exits 0, and all 16 requirements are retained and recoverable in the fixture corpus. Nevertheless, 10 atoms still contain a byte-identical full clause copy in source_clause.text. Actual HEAD PI size is 23972 bytes versus 24605 current bytes. The checker also accepts an atom-deletion mutation.",
+   "status": "FALSIFIED",
+   "evidence": "Raw command output: first_fail='', fails=[], verdict=PASS. FULL_CLAUSE_COUNTEREXAMPLE: REQ-17aaa2060430cfc8016f has source_clause.text='系統交付發行說明', identical to its source-table entry text. ACTUAL_HEAD_REQUIREMENTS 16 CURRENT_REQUIREMENTS 16 PI_ATOMS 16 IDS_EQUAL True; RAW_REQUIREMENTS_EQUAL True. ACTUAL_HEAD_PI_BYTES 23972 CURRENT_PI_BYTES 24605 HEAD_ATOMS 16. DELETED_ATOM_CHECKER_RESULT {'first_fail':'','fails':[]}. The tool's reconstructed before size, 24659, is not the actual HEAD baseline."
+  },
+  {
+   "id": "C7",
+   "method": "git diff HEAD -- tools/perf_budget.py tests; compare numeric budgets using AST; python -B tools/perf_budget.py --check",
+   "observed": "Numeric budgets are unchanged, and the tracked test diff removes no assertion and adds no skip. However, the performance gate is behaviorally weakened: an over-budget artifact becomes UNDECIDABLE and exits 0 rather than FAIL/non-zero.",
+   "status": "FALSIFIED",
+   "evidence": "Raw comparison: BUDGET_EQUAL True {'compile_chain_ms':2000,'validate_19_contracts_ms':3000,'cli_cold_start_ms':6000,'context_bytes_per_artefact':20000}. Actual performance output: context_bytes_per_artefact value=343547, budget=20000, verdict=UNDECIDABLE; overall verdict=UNDECIDABLE; PERF_EXIT=0. HEAD computes FAIL when worst > budget and returns 1 unless all rows PASS; current code returns 1 only for a provenanced FAIL."
+  },
+  {
+   "id": "C8",
+   "method": "python -B -: recursive binary-byte scan excluding .git/ and .hgk/rounds/**/raw/, using requested literals and GitHub/OpenAI token-shaped regexes",
+   "observed": "1650 files scanned. Found 3398 literal occurrences across 101 files and 54 token-shaped occurrences. No genuine credential was identified: shaped matches are an identifier tail or synthetic test values. Universal absence of secret material is not established by this bounded scan.",
+   "status": "UNVERIFIED",
+   "evidence": "Raw counts: {'sk-':3336,'AKIA':38,'ghp_':21,'BEGIN <REDACTED> KEY':1,'ghs_':2}. TOKEN_SHAPED_UNIQUE: sk-<REDACTED>=49; ghp_<REDACTED>=1; sk-<REDACTED>=1; AKIA<REDACTED>=1; ghp_<REDACTED>=1; AKIA<REDACTED>=1. The private-key marker is quoted in .hgk/ao/VERDICT_R3_INDEPENDENT.json, not an identified private-key body. The exhaustive per-file occurrence inventory is included below. Compressed archive payloads and other secret formats were not exhaustively decoded or classified."
+  },
+  {
+   "id": "C9",
+   "method": "python -B -: recursively search all non-.git files for danger-full-access, including R4 raw files",
+   "observed": "17 matching lines exist in the tree. No matching bytes occur in the 37 R4 raw files scanned; this does not establish the actual sandbox configuration of every R4 writer.",
+   "status": "FALSIFIED",
+   "evidence": "Direct counterexample: .hgk/codex/codex_s0_run2.log:8 contains 'sandbox: danger-full-access'. Other matches include .hgk/ao/ao_verdict.json:53, .hgk/ao/ao_verdict.log:14, .hgk/preflight/R4-compiler/R4.CONTRACT.json:162 and .hgk/preflight/R4-compiler/compiled/thin-prompt.md:32, plus three corresponding receipt/disclosure matches in each of four R2 candidate copies. Raw output: R4_RAW_FILES_SCANNED 37 R4_RAW_DANGER_HITS 0."
+  }
+ ],
+ "domains": [
+  {
+   "id": "S0",
+   "raw_command": "python -B tools/registry_reconcile.py --check",
+   "exit_code": 0,
+   "result": "PASS",
+   "notes": "Raw: registry_reconcile: OK 19/19 families field-exact (registry.json == schemas, single-sourced)."
+  },
+  {
+   "id": "S1",
+   "raw_command": "python -B tools/skill_pack_check.py --all",
+   "exit_code": 0,
+   "result": "PASS",
+   "notes": "Raw: state=PASS, discovered=8, loaded=8, routed=8, cases_run=56, cases_passed=56, first_failing_invariant=NONE, refusals=[]."
+  },
+  {
+   "id": "S2",
+   "raw_command": "python -B tools/run_golden_pilots.py --all --raw",
+   "exit_code": null,
+   "result": "NOT_RUN",
+   "notes": "ENVIRONMENT_BLOCKED. Import creates the pilots output directory; main writes gp01.json, gp02.json, gp03.json and GOLDEN_PILOTS.json under .hgk/artifacts/s2/pilots. GP-03 also creates and mutates a temporary source copy. No historical receipt was substituted for a rerun."
+  },
+  {
+   "id": "S2",
+   "raw_command": "python -B tools/perf_budget.py --check",
+   "exit_code": 0,
+   "result": "PARTIAL",
+   "notes": "Raw overall verdict=UNDECIDABLE, not PASS. compile_chain_ms=844.0/2000; validate_19_contracts_ms=1.9/3000; cli_cold_start_ms=103.6/6000; context_bytes_per_artefact=343547/20000. Every threshold is marked UNPROVENANCED. The context threshold is exceeded by approximately 17.18 times."
+  },
+  {
+   "id": "S3",
+   "raw_command": "python -B tools/web_pack_check.py --strict",
+   "exit_code": null,
+   "result": "PARTIAL",
+   "notes": "Exact command ENVIRONMENT_BLOCKED: it writes .hgk/artifacts/s3/WEB_PACK.json even in strict mode. Read-only invocation of projection.check_web_surface independently returned verdict=PASS, expected=5, present=5, ratio=5/5, failures=[]. Alternative Python invocation exited 0; that is not the requested command's exit."
+  },
+  {
+   "id": "S3",
+   "raw_command": "python -B tools/host_projection_check.py --strict",
+   "exit_code": null,
+   "result": "PARTIAL",
+   "notes": "Exact command ENVIRONMENT_BLOCKED: it writes .hgk/artifacts/s3/HOST_PROJECTIONS.json. Read-only projection.check_host_surfaces returned verdict=PASS, host_count=3/3, semantic_parity=PASS, failures=[]. All three compatibility modes are FIXTURE_MOCK; live_status=NOT_RUN and live integration is NOT_CLAIMED."
+  },
+  {
+   "id": "S4",
+   "raw_command": "python -B tools/cli_surface_check.py --strict",
+   "exit_code": null,
+   "result": "NOT_RUN",
+   "notes": "Tool exists but creates output directories, temporary input artifacts, and .hgk/artifacts/s4/CLI_SURFACE.json. ENVIRONMENT_BLOCKED. Read-only CLI help exited 0 and listed 13 commands: init, intake, profile, compile-pi, bind-pd, compile-ecp, compile-tqaep, validate, doctor, project, export, diff, repair. Listing is not execution qualification."
+  },
+  {
+   "id": "SUITE",
+   "raw_command": "python -B -m unittest discover -s tests -q",
+   "exit_code": null,
+   "result": "NOT_RUN",
+   "notes": "ENVIRONMENT_BLOCKED by explicit repository writes in tests. Discovery alone finds 173 tests. Read-only targeted runs: test_pi_dedup.py ran 4 tests, OK, exit 0; test_spec_del_crosswalk.py ran 4 tests, OK, exit 0; test_perf_budget.py ran 1 test, OK, exit 0. These nine tests are not substituted for the full suite."
+  }
+ ],
+ "counterexamples": [
+  {
+   "id": "A1",
+   "finding": "TestRollback.test_rollback_pointer_is_a_real_git_commit is vacuous with respect to the product rollback pointer.",
+   "location": "tests/test_negative_and_rollback.py:62",
+   "quote": "baseline = subprocess.run([\"git\", \"-C\", str(ROOT), \"log\", \"--format=%H\", \"--reverse\"], capture_output=True, text=True).stdout.split(); self.assertTrue(baseline, \"a baseline commit must exist for rollback\"); self.assertEqual(dirty_check.returncode, 0)",
+   "reason": "It asserts only that this checkout has history and git status runs successfully. It never reads, resolves, or validates the product's rollback pointer. An invalid product rollback target would not affect these assertions."
+  },
+  {
+   "id": "A2",
+   "finding": "Ten atoms retain full clause copies despite successful de-duplication checking.",
+   "example": "REQ-17aaa2060430cfc8016f: atom source_clause.text and sources[SRC-8f7d7af7b4673fd8bef7].text both equal 系統交付發行說明.",
+   "qualification": "Removing source_text fields is a real structural change, and fixture requirements remain recoverable. It does not establish the stronger claim that no atom embeds a byte-identical clause copy; actual PI serialized size increases by 633 bytes against HEAD."
+  },
+  {
+   "id": "C6-DELETION",
+   "finding": "Deleting one atom from an in-memory PI still produces {'first_fail':'','fails':[]} from pi_dedup_check.evaluate.",
+   "reason": "The checker validates retained atoms and source-table cardinality but does not require the complete baseline requirement ID set."
+  },
+  {
+   "id": "C5-COVERAGE",
+   "finding": "Eleven non-bytecode product paths are absent from the passing publication manifest.",
+   "paths": [
+    "tools/build_publication_manifest.py",
+    "tools/build_spec_del_crosswalk.py",
+    "tools/pi_dedup_check.py",
+    "tools/publication_attestation.py",
+    "tools/tt_summary_check.py",
+    "tests/test_perf_budget.py",
+    "tests/test_pi_dedup.py",
+    "tests/test_publication_projection.py",
+    "tests/test_spec_del_crosswalk.py",
+    "tests/test_tt_summary.py",
+    "docs/SPEC_DEL_CROSSWALK.json"
+   ]
+  },
+  {
+   "id": "C7-GATE",
+   "finding": "The 20000-byte context budget remains numerically unchanged but no longer refuses a 343547-byte artifact.",
+   "raw_result": "verdict=UNDECIDABLE; PERF_EXIT=0"
+  },
+  {
+   "id": "A3-CHECKER",
+   "finding": "An in-memory crosswalk mutation replacing an EVIDENCED row's oracle with tests/ORACLE_DOES_NOT_EXIST.py is accepted.",
+   "raw_result": "MISSING_ORACLE_MUTATION_VIOLATIONS []",
+   "qualification": "No missing oracle file or invalid source line was found in the actual candidate rows. All 57 line locators were independently checked against the accessible local blueprint. The mutation exposes a checker blind spot, not an actual missing-oracle row."
+  }
+ ],
+ "evidence_gaps": [
+  "The full suite, golden pilots, CLI qualification and exact strict web/host commands were not executed because they write files.",
+  "The exact technology --report command's non-zero exit was not observed; its pure computations and return logic were independently inspected instead.",
+  "Crosswalk --check uses an unavailable /src-ro blueprint path and accepts absent upstream text. The corresponding local Windows blueprint was available and independently checked, so actual candidate locator verification did not rely on that fallback.",
+  "Presence of an oracle file is weaker than proving that it exercises every behavior claimed by its crosswalk row.",
+  "No danger-full-access match in R4 raw files is not proof of each writer's actual execution permissions.",
+  "The secret scan found no confirmed credential but does not prove absence of every possible secret format or secrets inside compressed payloads."
+ ],
+ "residual_risks": [
+  "Publication validation can pass against older subjects while omitting newly introduced R4 product files.",
+  "Performance thresholds can be exceeded without a failing process exit.",
+  "The de-duplication checker can pass after losing a requirement atom.",
+  "Source-pin admission remains a hard FAIL at 0/22; no technology is independently source-pinned.",
+  "Host integration evidence is fixture/mock only.",
+  "perf_budget.py reports candidate_head=UNBOUND_NO_GIT_BINARY although git is available and was successfully used during this audit."
+ ],
+ "secret_scan_inventory": {
+  "representation": "Per-file occurrence counts, including every literal match. Repeated R2 copies are represented by explicit prefix expansions. These are detection hits, not declarations that each match is a real credential.",
+  "files_scanned": 1650,
+  "hit_files": 101,
+  "literal_totals": {
+   "sk-": 3336,
+   "ghp_": 21,
+   "ghs_": 2,
+   "AKIA": 38,
+   "BEGIN <REDACTED> KEY": 1
+  },
+  "non_round_files": {
+   ".agents/skills/openspec-archive-change/SKILL.md": {
+    "sk-": 1
+   },
+   ".hermes/skills/openspec-archive-change/SKILL.md": {
+    "sk-": 1
+   },
+   ".hgk/ao/ao_prompt.md": {
+    "sk-": 1,
+    "AKIA": 1
+   },
+   ".hgk/ao/ao_verdict.json": {
+    "ghp_": 1
+   },
+   ".hgk/ao/ao_verdict.log": {
+    "ghp_": 1
+   },
+   ".hgk/ao/edge_reverify_prompt.md": {
+    "sk-": 1,
+    "AKIA": 1
+   },
+   ".hgk/ao/VERDICT_R3_INDEPENDENT.json": {
+    "sk-": 3,
+    "ghp_": 1,
+    "AKIA": 1,
+    "BEGIN <REDACTED> KEY": 1
+   },
+   ".hgk/artifacts/TT_REGISTER.json": {
+    "sk-": 6
+   },
+   ".hgk/knowledge/derived-spine.db": {
+    "sk-": 1577,
+    "AKIA": 8
+   },
+   ".hgk/knowledge/KnowledgeIndexReadback.json": {
+    "sk-": 1
+   },
+   ".hgk/knowledge/KNOWLEDGE_READY_REPORT.json": {
+    "sk-": 1
+   },
+   ".hgk/knowledge/QUARANTINE_DISPOSITION_R3.json": {
+    "sk-": 9
+   },
+   ".hgk/knowledge/QUARANTINE_REVIEW.json": {
+    "sk-": 7
+   },
+   "dist/pipd_ls_sp-0.1.0-py3-none-any.whl": {
+    "sk-": 1
+   },
+   "docs/ROUND3_DISCLOSURE.md": {
+    "sk-": 1
+   },
+   "src/pipd_ls_sp/workspace.py": {
+    "sk-": 1
+   },
+   "src/pipd_ls_sp/__pycache__/workspace.cpython-311.pyc": {
+    "sk-": 1
+   },
+   "tests/test_evidence_manifest.py": {
+    "sk-": 2,
+    "ghp_": 1,
+    "ghs_": 1,
+    "AKIA": 2
+   },
+   "tests/test_negative_and_rollback.py": {
+    "ghp_": 1
+   },
+   "tests/test_quarantine_review.py": {
+    "sk-": 4
+   },
+   "tests/fixtures/quarantine_corpus/identifier_tail.md": {
+    "sk-": 7
+   },
+   "tests/__pycache__/test_evidence_manifest.cpython-311.pyc": {
+    "sk-": 2,
+    "ghp_": 2,
+    "ghs_": 1,
+    "AKIA": 2
+   },
+   "tests/__pycache__/test_negative_and_rollback.cpython-311.pyc": {
+    "ghp_": 1
+   },
+   "tests/__pycache__/test_quarantine_review.cpython-311.pyc": {
+    "sk-": 2
+   },
+   "tests/__pycache__/test_secret_patterns.cpython-311.pyc": {
+    "sk-": 1,
+    "ghp_": 1,
+    "AKIA": 1
+   },
+   "tools/build_evidence_md_r2.py": {
+    "sk-": 2
+   },
+   "tools/edge_selfcheck.py": {
+    "sk-": 1,
+    "AKIA": 1
+   },
+   "tools/quarantine_review.py": {
+    "sk-": 3
+   },
+   "tools/__pycache__/quarantine_review.cpython-311.pyc": {
+    "sk-": 3
+   }
+  },
+  "r2_base": ".hgk/rounds/R2-20261009-qualification/",
+  "r2_copy_prefixes": {
+   "E": "execute/candidate/",
+   "P": "product-repair/pristine-candidate/",
+   "R": "product-repair/regression-candidate/",
+   "S": "product-repair/semcheck/"
+  },
+  "r2_suffixes_in_each_of_E_P_R_S": {
+   ".agents/skills/openspec-archive-change/SKILL.md": {
+    "sk-": 1
+   },
+   ".hermes/skills/openspec-archive-change/SKILL.md": {
+    "sk-": 1
+   },
+   ".hgk/ao/ao_prompt.md": {
+    "sk-": 1,
+    "AKIA": 1
+   },
+   ".hgk/ao/ao_verdict.json": {
+    "ghp_": 1
+   },
+   ".hgk/ao/ao_verdict.log": {
+    "ghp_": 1
+   },
+   ".hgk/ao/edge_reverify_prompt.md": {
+    "sk-": 1,
+    "AKIA": 1
+   },
+   ".hgk/artifacts/TT_REGISTER.json": {
+    "sk-": 4
+   },
+   ".hgk/knowledge/KnowledgeIndexReadback.json": {
+    "sk-": 1
+   },
+   ".hgk/knowledge/KNOWLEDGE_READY_REPORT.json": {
+    "sk-": 1
+   },
+   "dist/pipd_ls_sp-0.1.0-py3-none-any.whl": {
+    "sk-": 1
+   },
+   "src/pipd_ls_sp/workspace.py": {
+    "sk-": 1
+   },
+   "tests/test_negative_and_rollback.py": {
+    "ghp_": 1
+   },
+   "tools/build_evidence_md_r2.py": {
+    "sk-": 2
+   },
+   "tools/edge_selfcheck.py": {
+    "sk-": 1,
+    "AKIA": 1
+   }
+  },
+  "r2_varying_suffixes": {
+   ".hgk/knowledge/QUARANTINE_REVIEW.json": {
+    "E": {
+     "sk-": 1
+    },
+    "P": {
+     "sk-": 7
+    },
+    "R": {
+     "sk-": 7
+    },
+    "S": {
+     "sk-": 7
+    }
+   },
+   "tests/test_quarantine_review.py": {
+    "E": {
+     "sk-": 2
+    },
+    "P": {
+     "sk-": 2
+    },
+    "R": {
+     "sk-": 3
+    },
+    "S": {
+     "sk-": 3
+    }
+   },
+   "tests/fixtures/quarantine_corpus/identifier_tail.md": {
+    "R": {
+     "sk-": 7
+    },
+    "S": {
+     "sk-": 7
+    }
+   }
+  },
+  "other_round_files": {
+   ".hgk/rounds/R2-20261009-qualification/execute/knowledge/own-derived.db": {
+    "sk-": 1577,
+    "AKIA": 8
+   },
+   ".hgk/rounds/R2-20261009-qualification/execute/knowledge/out/KnowledgeIndexReadback.json": {
+    "sk-": 1
+   },
+   ".hgk/rounds/R2-20261009-qualification/execute/knowledge/out/KNOWLEDGE_READY_REPORT.json": {
+    "sk-": 1
+   },
+   ".hgk/rounds/R2-20261009-qualification/execute/own-probes/edge_selfcheck_candidate.py": {
+    "sk-": 1,
+    "AKIA": 1
+   },
+   ".hgk/rounds/R3-20261009-audit-repair/SUPERVISION_0850.json": {
+    "sk-": 5
+   },
+   ".hgk/rounds/R3-20261009-audit-repair/FW-10-FW-12/source_contexts.json": {
+    "sk-": 6
+   }
+  },
+  "token_shaped_matches": {
+   "sk-<REDACTED>": {
+    "count": 1,
+    "path": "tests/__pycache__/test_evidence_manifest.cpython-311.pyc",
+    "classification": "Synthetic test value."
+   },
+   "ghp_<REDACTED>": {
+    "count": 1,
+    "path": "tests/__pycache__/test_negative_and_rollback.cpython-311.pyc",
+    "classification": "Synthetic test value."
+   },
+   "AKIA<REDACTED>": {
+    "count": 1,
+    "path": "tests/__pycache__/test_secret_patterns.cpython-311.pyc",
+    "classification": "Synthetic test value."
+   }
+  }
+ },
+ "rounding_check": "Nothing was rounded up to PASS. Non-zero required-command outcomes were not concealed; unexecuted commands have null exit codes. Performance exit 0 remains PARTIAL/UNDECIDABLE. Mock-host checks are not live verification. Passing historical-subject checks do not establish current-tree coverage.",
+ "_redaction_note": "Token-shaped display strings inherited from the checker's own sanitized inventory were neutralized to <REDACTED> so that the product's own secret_scan/export gate is not tripped by an evidence file. All counted values and classifications are unchanged; no real credential was ever present."
+}

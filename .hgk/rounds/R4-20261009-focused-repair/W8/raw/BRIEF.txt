@@ -1,0 +1,105 @@
+# W8 — INDEPENDENT ACCEPTANCE / SECURITY CHALLENGE (read-only, adversarial)
+
+You are the **Independent Acceptance Officer** for round R4 of the PIPD-LS-SP repository at
+`C:\Projects\Agent_Workspace\PIPD`. You are **not** the maker and you must not fix, adjust, soften or improve
+anything. Your job is to try to **falsify** the claims below and to report honestly.
+
+SoD: maker = `opencode-go/deepseek-v4.1-flash` (CODEX CLI); checker = you (`gpt-6.1-sol`, medium effort, OpenAI
+OAuth). Maker self-reports are evidence only, never acceptance.
+
+Hard rules:
+- Treat the repository as **read-only**. Do not edit, create or delete any file inside it. Use `python -B` (or
+  `PYTHONDONTWRITEBYTECODE=1`) so Python writes nothing. If a check genuinely needs a write, do not do it: record
+  that item `ENVIRONMENT_BLOCKED` and say what the write would have been.
+- Run commands from `C:\Projects\Agent_Workspace\PIPD`. `git` IS available; `python` is 3.11; the suite uses
+  `unittest` (there is no pytest).
+- Do not trust any summary, seal or receipt. Recompute it yourself and quote the raw output you relied on.
+- Anything you cannot verify is `UNVERIFIED` with the reason — never assumed true.
+- Time-box ~20 minutes; prefer the smallest command set that proves or breaks each claim.
+
+## Claims to challenge (R4 candidate = the current, uncommitted working tree)
+
+C1. The full suite passes: **168 tests, OK**, and nothing was skipped or weakened to get there.
+C2. `tools/tt_summary_check.py` regenerates the TT status projection from canonical rows: 22 rows,
+   16 open / 2 partial / 1 closed / 1 temp_closed / 2 open_owner_gate, `blocking_count = 18`,
+   `unmapped_statuses = {}`; `--assert` exits 0; `total == len(tts)` and the histogram sums to 22.
+C3. `tools/build_spec_del_crosswalk.py --check` exits 0 with exactly **32 SPEC + 25 DEL** rows; every `EVIDENCED`
+   row's evidence path exists on disk; a row that cannot be linked is honestly `EVIDENCE_GAP`/`DESIGN_ONLY`.
+C4. `tools/admit_technologies.py --report` exits **non-zero** (fail-closed) while its artefact-consistency verdict
+   is **PASS** and overall verdict is **FAIL**, `G-TECH-SOURCE-PIN` still `0/22`, and **no row disposition
+   changed** vs `git show HEAD:.hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json`.
+C5. `tools/build_publication_manifest.py --check` and `tools/publication_attestation.py --verify` both exit 0 with
+   `violations: []`; the manifest covers every product path with exactly one disposition (no silent drop).
+C6. `tools/pi_dedup_check.py --check` exits 0; the de-duplication removed real duplicated bytes (an atom no longer
+   embeds a byte-identical copy of its clause **and** the clause text is still recoverable), without dropping any
+   requirement — compare the requirement/atom count against the pre-change behaviour.
+C7. **No gate was weakened**: `git diff HEAD -- tools/perf_budget.py` shows no numeric budget raised/lowered, and
+   no test file lost an assertion or gained a skip.
+C8. **No secret material** in the tree: scan for `sk-`, `ghp_`, `ghs_`, `AKIA`, `BEGIN PRIVATE KEY`, and any
+   GitHub/OpenAI token-shaped string, outside `.git/` and `.hgk/rounds/**/raw/`. Report every hit.
+C9. No file in the tree mentions `danger-full-access`, and no R4 raw receipt shows a writer using it.
+
+## Domain re-runs (raw command + exit code each; a FAIL is a finding, not something to fix)
+
+1. `python -B tools/registry_reconcile.py --check`  (S0 machine contracts 19/19)
+2. `python -B tools/skill_pack_check.py --all`      (S1 skills 8/8)
+3. `python -B tools/run_golden_pilots.py --all --raw` (S2 pilots 3/3 + negatives)
+4. `python -B tools/perf_budget.py --check`          (performance — record FAIL/UNDECIDABLE honestly)
+5. `python -B tools/web_pack_check.py --strict`      (S3 web 5/5)
+6. `python -B tools/host_projection_check.py --strict` (S3 host 3/3; check whether it is FIXTURE_MOCK only)
+7. `python -B tools/cli_surface_check.py --strict`   (S4 CLI surface; if absent, enumerate the CLI subcommands)
+8. `python -B -m unittest discover -s tests -q`      (full suite; expect 168 OK)
+
+## Frozen digests to verify (recompute; these are the first 16 hex of each sha256)
+
+```json
+{
+ ".hgk/artifacts/TT_REGISTER.json": "94e4b82ea6bcfdbd",
+ ".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json": "f6269eb6e4b7f310",
+ ".hgk/ao/pub/PUBLICATION_PROJECTION_MANIFEST.json": "807206dde3ad0b4d",
+ ".hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION.json": "c3e0c01d792ed952",
+ "docs/SPEC_DEL_CROSSWALK.json": "d98e3b65c8064ef8",
+ "tools/tt_summary_check.py": "99e8872ee95019be",
+ "tests/test_tt_summary.py": "1010ea1f837310cc",
+ "tools/admit_technologies.py": "1173be279cb5e379",
+ "tests/test_technology_admission.py": "7b6afec23dccd144",
+ "tools/build_publication_manifest.py": "cf9eb4080267a7fd",
+ "tools/publication_attestation.py": "a10df44074027997",
+ "tests/test_publication_projection.py": "9e8491d0604eeaac",
+ "tools/build_spec_del_crosswalk.py": "2d40a92a5d1e978c",
+ "tests/test_spec_del_crosswalk.py": "8819cbb155947829",
+ "tools/pi_dedup_check.py": "3aa1b1385d3342df",
+ "tests/test_pi_dedup.py": "17444a27823c8d31",
+ "tools/perf_budget.py": "53a04c4871eeefd0",
+ "src/pipd_ls_sp/requirements.py": "1ac3a64c655d93e0",
+ "src/pipd_ls_sp/pipeline.py": "183b213d57541300"
+}
+```
+Byte sizes: TT_REGISTER 41235, s1 116041, manifest 860402, attestation 1333, crosswalk 41668, tt_summary_check
+14583, test_tt_summary 8866, admit_technologies 26559, test_technology_admission 14104,
+build_publication_manifest 23501, publication_attestation 10109, test_publication_projection 10681,
+build_spec_del_crosswalk 25101, test_spec_del_crosswalk 2659, pi_dedup_check 8236, test_pi_dedup 2596,
+perf_budget 5762, requirements 13407, pipeline 18630. Report every `MISSING` file or digest mismatch.
+
+## Adversarial extras (do these too)
+
+A1. Name any test you judge vacuous (asserts nothing, asserts its own fixture, or just re-prints the tool's
+    output) and quote it.
+A2. Show a case where the de-duplication is cosmetic — an atom still carrying a full clause copy, or a downstream
+    consumer that can no longer recover the clause text.
+A3. Check whether the crosswalk marks anything `EVIDENCED` whose oracle is missing or whose line range does not
+    exist in the upstream blueprint.
+A4. One sentence each: the **strongest** and the **weakest** part of this candidate.
+
+## Output (print this last)
+
+```json
+{"schema":"R4-INDEPENDENT-VERDICT/1","verdict":"PASS_CHALLENGE|PARTIAL_CHALLENGE|FAIL_CHALLENGE",
+ "digest_check":{"mismatches":[],"missing":[]},
+ "items":[{"id":"C1","method":"<command>","observed":"...","status":"VERIFIED|FALSIFIED|UNVERIFIED|ENVIRONMENT_BLOCKED","evidence":"..."}],
+ "domains":[{"id":"S0|S1|S2|S3|S4|SUITE","raw_command":"...","exit_code":0,"result":"PASS|FAIL|PARTIAL|NOT_RUN","notes":"..."}],
+ "counterexamples":[],"evidence_gaps":[],"residual_risks":[],
+ "rounding_check":"state whether anything was rounded up to PASS"}
+```
+Then a prose summary of ≤15 lines. Report `FALSIFIED` the moment you find one counterexample — never average it
+away, and never state `INDEPENDENT_PASS`, `RELEASED` or `PRODUCTION_VERIFIED`.

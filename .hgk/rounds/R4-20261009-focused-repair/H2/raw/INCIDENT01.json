@@ -1,0 +1,64 @@
+{
+ "schema": "PIPD-INCIDENT/1",
+ "incident_id": "INCIDENT-01-DESTRUCTIVE-DST",
+ "detected_by": "repair subagent self-report + supervisor observation (dirty 33->44->37 and .agents appearing/disappearing in git status)",
+ "mechanism": {
+  "trigger": "an empty --dst argument produced by shell substitution during a demo run of `round_envelope.py init`",
+  "path_resolution": "_norm_path('') == os.path.abspath('') == the current working directory (the repo root)",
+  "why_guards_missed": "the three guards model containment relations BETWEEN the given paths; the demo's --src pointed elsewhere, so dst (repo root) and src had no containment relation and every guard passed",
+  "destructive_op": "shutil.rmtree(dst) at tools/round_envelope.py:241 - the only non-ignore_errors rmtree in tools/ (whole-tree scan)",
+  "why_try_except_missed": "the surrounding try/except catches OSError, but this rmtree SUCCEEDS, so there is no exception to catch"
+ },
+ "damage": [
+  ".agents/skills/* (7 tracked files)",
+  ".git/HEAD",
+  ".git/config",
+  ".git/index",
+  ".git/logs"
+ ],
+ "agent_self_restore": [
+  "HEAD 7c5bc585 confirmed",
+  "index rebuilt via git read-tree HEAD",
+  ".agents restored via git checkout -- .agents",
+  "git fsck --full: no missing or corrupt objects (2 benign dangling commits)",
+  "4 nested R2 gitlinks marked assume-unchanged to compensate for the lost config setting"
+ ],
+ "supervisor_verification": {
+  "head": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+  "branch": "master",
+  "tracked_files": "601 == 601 in HEAD",
+  "fsck": "clean (2 benign dangling commits)",
+  "porcelain_vs_frozen_copy": "IDENTICAL, 33 entries",
+  "remote": "empty in BOTH live and the frozen copy -> no remote ever existed, nothing lost",
+  "deviations_found": [
+   ".git/config lost core.autocrlf=false, [user], [diff] ignoreSubmodules=dirty",
+   "index: 4 R2 gitlinks wrongly flagged assume-unchanged (frozen index shows H on all four; whole-repo assume-unchanged count 0)",
+   ".git/logs/HEAD missing (frozen has 64 reflog lines)"
+  ],
+  "restoration_performed": [
+   "cp frozen/.git/config -> live (251 B, sections [core] [user] [diff])",
+   "git update-index --no-assume-unchanged on the 4 gitlinks",
+   "cp -r frozen/.git/logs/. -> live"
+  ],
+  "post_restore_verification": {
+   "assume_unchanged_count": 0,
+   "logs_head_lines": 64,
+   "dirty": 33,
+   "porcelain_vs_frozen": "IDENTICAL",
+   "fsck": "clean",
+   "remote": "0 (same as frozen)"
+  },
+  "not_restored": [
+   ".git/COMMIT_EDITMSG (scratch file, no state impact)"
+  ]
+ },
+ "root_cause_far": {
+  "RC_A": "destructive operation on a path derived from an unvalidated argument",
+  "RC_B": "fail-closed wrapper only covers OSError; a successful rmtree has no exception to catch",
+  "RC_C": "the demo ran in the same domain as the subject (FAR class C4)",
+  "RC_D": "live instance of the original FAR RC-5: 'must not destroy' has no machine-enforceable guard"
+ },
+ "low_resistance_fix": "H2-DEFECT-02: refuse blank/whitespace dst before normalisation; refuse dst == cwd/home/drive-root; refuse dst == src or an ancestor of src; print the doomed path before destroying; --allow-destroy does not bypass those refusals; one test each",
+ "residual_risk_at_recording": "the delivered revision fca4c830... still lacked these guards, so the incident's trigger condition remained reproducible until H2-DEFECT-02 lands and passes an independent delta check (D6)",
+ "recorded_at": "2026-10-09T19:17:05+08:00"
+}

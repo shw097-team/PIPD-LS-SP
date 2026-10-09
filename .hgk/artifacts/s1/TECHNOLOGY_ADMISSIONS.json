@@ -128,6 +128,48 @@
   "G-TECH-ROLLBACK": "22/22 PASS",
   "G-TECH-DISPOSITION": "22/22 PASS"
  },
+ "hard_gate_verdicts": {
+  "G-TECH-SOURCE-PIN": {
+   "gate_id": "G-TECH-SOURCE-PIN",
+   "denominator": 22,
+   "passed": 0,
+   "failed": 22,
+   "verdict": "FAIL",
+   "first_fail_reason": "no row is admitted active: every row is UNAVAILABLE/PARTIAL (0/22 source-pinned); the exact repository+version/commit pin is left to receiver-side revalidation"
+  },
+  "G-TECH-NEGATIVE": {
+   "gate_id": "G-TECH-NEGATIVE",
+   "denominator": 22,
+   "passed": 22,
+   "failed": 0,
+   "verdict": "PASS",
+   "first_fail_reason": ""
+  },
+  "G-TECH-ROLLBACK": {
+   "gate_id": "G-TECH-ROLLBACK",
+   "denominator": 22,
+   "passed": 22,
+   "failed": 0,
+   "verdict": "PASS",
+   "first_fail_reason": ""
+  },
+  "G-TECH-DISPOSITION": {
+   "gate_id": "G-TECH-DISPOSITION",
+   "denominator": 22,
+   "passed": 22,
+   "failed": 0,
+   "verdict": "PASS",
+   "first_fail_reason": ""
+  }
+ },
+ "source_pin_summary": {
+  "pin_verified": 0,
+  "total": 22,
+  "active_rows": [],
+  "interpretation": "reported_active: [] means NO ROW IS ADMITTED ACTIVE — it is NOT a statement that 22/22 rows are source-pinned. The pin gate is 0/22 because zero rows carry a source-verified repository+version/commit pin; the pin is left to receiver-side revalidation, so the honest hard-gate denominator stays 0/22."
+ },
+ "consumer_guard": "G-TECH-SOURCE-PIN: 0/22 PASS — reported_active: [] means NO ROW IS ADMITTED ACTIVE (not 22/22 source-pinned); this is a FAIL, not an overall PASS.",
+ "overall_verdict": "FAIL",
  "runtime_state": "NOT_EXECUTED — no candidate was installed, fetched or run",
  "reported_active": [],
  "refused_active_claims": [],
@@ -139,8 +181,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -173,8 +215,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -207,8 +249,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -241,8 +283,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -275,8 +317,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -309,8 +351,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -343,8 +385,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -377,8 +419,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -411,8 +453,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -445,8 +487,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -479,8 +521,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -513,8 +555,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -547,8 +589,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -581,8 +623,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -615,8 +657,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -649,8 +691,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -683,8 +725,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -717,8 +759,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -751,8 +793,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -785,8 +827,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -819,8 +861,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -853,8 +895,8 @@
      "gate": "G-TECH-SOURCE-PIN",
      "pinned": false,
      "license_verified": false,
-     "verdict": "PARTIAL",
-     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate stays PARTIAL (never rounded up)"
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
     },
     {
      "gate": "G-TECH-NEGATIVE",
@@ -2600,6 +2642,7 @@
   }
  ],
  "honest_ceiling": "DESIGN_DISPOSITION_TERMINALIZED per source. This is NOT an active installation and NOT a licence determination; both are receiver-side.",
- "candidate_head": "10cb3d31fcbd54fffe64152f4b17085866d0d75e",
+ "candidate_head": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+ "artefact_consistency_verdict": "PASS",
  "verdict": "PASS"
 }

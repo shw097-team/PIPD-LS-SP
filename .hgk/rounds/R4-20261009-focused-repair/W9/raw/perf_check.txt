@@ -1,0 +1,71 @@
+{
+ "rows": [
+  {
+   "metric": "compile_chain_ms",
+   "value": 39515.5,
+   "budget": 2000,
+   "measurement": "wall-clock perf_counter around intake->compile_pi->bind_pd->compile_construction_contract->compile_ecp->compile_tqaep, ms",
+   "denominator": "",
+   "source_of_truth": "UNPROVENANCED",
+   "exceeded": true,
+   "verdict": "FAIL",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
+  },
+  {
+   "metric": "validate_19_contracts_ms",
+   "value": 28.0,
+   "budget": 3000,
+   "contracts": 19,
+   "measurement": "wall-clock perf_counter loading every registry family schema, ms",
+   "denominator": "19 registry families (registry.json)",
+   "source_of_truth": "UNPROVENANCED",
+   "exceeded": false,
+   "verdict": "UNDECIDABLE",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
+  },
+  {
+   "metric": "cli_cold_start_ms",
+   "value": 147.3,
+   "budget": 6000,
+   "measurement": "wall-clock perf_counter of `python -B -m pipd_ls_sp.cli --help` in a fresh interpreter, ms",
+   "denominator": "",
+   "source_of_truth": "UNPROVENANCED",
+   "exceeded": false,
+   "verdict": "UNDECIDABLE",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
+  },
+  {
+   "metric": "context_bytes_per_artefact",
+   "value": 335252,
+   "budget": 20000,
+   "sizes": {
+    "pi": 335252,
+    "pd": 1325,
+    "cc": 442,
+    "ecp": 528,
+    "tqaep": 109888
+   },
+   "measurement": "max of len(json.dumps(artefact)) in UTF-8 bytes over PI/PD/CC/ECP/TQAEP",
+   "denominator": "one artefact (bytes per artefact, not per atom)",
+   "source_of_truth": "UNPROVENANCED",
+   "exceeded": true,
+   "verdict": "FAIL",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
+  }
+ ],
+ "verdict": "FAIL",
+ "undecidable": [
+  "validate_19_contracts_ms",
+  "cli_cold_start_ms"
+ ],
+ "failed": [
+  "compile_chain_ms",
+  "context_bytes_per_artefact"
+ ],
+ "exceeded": [
+  "compile_chain_ms",
+  "context_bytes_per_artefact"
+ ],
+ "candidate_head": "UNBOUND_NO_GIT_BINARY"
+}
+exit=1

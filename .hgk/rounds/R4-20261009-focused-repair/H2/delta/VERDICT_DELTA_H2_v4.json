@@ -1,0 +1,135 @@
+{
+ "schema": "PIPD-DELTA-VERDICT/1",
+ "delta_id": "H2-DEFECT-01+02",
+ "checker_model_declared": "OpenAI Codex (exact model identifier unavailable)",
+ "verdict": "FAIL",
+ "checks": [
+  {
+   "id": "D1",
+   "status": "FAIL",
+   "evidence": "12 hunks; zero reported undisclosed hunks reproduced.",
+   "note": "Function membership is not semantic scope verification: unrelated changes inside whitelisted functions or <module> pass. _spans ends at the next definition, not the actual function boundary. Records justify normalization, specified fail-closed writes, guards, parser flag and docstring, not arbitrary edits in those regions. guard_paths/_within are described as unchanged; main is not specifically declared for repair. No actual unrelated edit is alleged from metadata alone."
+  },
+  {
+   "id": "D2",
+   "status": "PASS",
+   "evidence": "Exit 0; native drive destination created. Harness: 10960 C:\\c descendants, untruncated, differences 0/0/0. Independent names/sizes/mtimes/types/regular-file SHA256 and root metadata equal, no errors.",
+   "note": "Pass for observed preservation during this run. Harness omits root metadata/content hashes, silently skips lstat/walk errors, and does not traverse directory links. Endpoint equality cannot exclude transient deletion/recreation or same-metadata rewrites. No August baseline supplied."
+  },
+  {
+   "id": "D3",
+   "status": "PASS",
+   "evidence": "Blocker-file case: exit 2, one line naming path, REFUSED, no traceback/bad tree, fixture manifest unchanged.",
+   "note": "Covers this uncreatable-destination case, not all OSError sites or rollback."
+  },
+  {
+   "id": "D4",
+   "status": "PASS",
+   "evidence": "Three containment refusals: exit 2, REFUSED, no traceback, unchanged manifests. Accepted baseline 11 tests OK; fixture git codes 0/0/0.",
+   "note": "Actual fields inspected. make_repo records rather than asserts git codes; D2/D3/D6 discard them."
+  },
+  {
+   "id": "D5",
+   "status": "PASS",
+   "evidence": "23 tests OK, exit 0. Independent AST audit: all 11 accepted tests and pre-existing helpers unchanged, including assertion operands/method decorators; original class decorators unchanged.",
+   "note": "No pre-existing test/assertion removed or relaxed; no added skip/xfail on existing tests. Name/assertion counts alone remain insufficient generally."
+  },
+  {
+   "id": "D6",
+   "status": "PASS",
+   "evidence": "Independent blank CLI/root guard probes refuse; disposable manifests preserved; harness positive control succeeds.",
+   "note": "Candidate behavior passes observed cases. Unit loop counts exceptions as refusals; e2e_all_held omits diagnostics/traceback fields. I checked actual outputs, not only aggregates."
+  }
+ ],
+ "harness_reviewed": {
+  "sound_oracle": false,
+  "safe_for_this_observed_run": true,
+  "no_real_data_reach_guarantee": false,
+  "remaining_paths": [
+   "D2 checks intended native scratch path then passes different raw /c/... string to init. A normalization regression can reach C:\\c\\w8v3delta\\scratch\\probe_msys_<pid>; actual deletion target is not confined.",
+   "D2 calls shutil.rmtree(real) before assert_sandbox(real).",
+   "D3, D6 positive control, imports and D4/D5 subprocesses lack assert_sandbox wrapping/deletion interposition. D5 runs from repository, using ordinary OS temp directories. Reviewed nominal destructive operands are disposable, but preflight is not enforcement against subject transformations, link races or imported behavior."
+  ],
+  "other_weaknesses": "Function-wide scope whitelist; metadata-only endpoint manifests; recorded-not-asserted git codes; name/assert-count audit; exception-as-refusal unit results.",
+  "rerun_command": "Remove-Item Env:PYTHONPATH,Env:PYTHONHOME -ErrorAction SilentlyContinue; python -B scratch/harness_d1_d6_v4.py > scratch/D1_D6_RESULT_v4_recheck.json",
+  "rerun_exit": 0,
+  "comparison": {
+   "numeric_json_leaf_differences": [],
+   "differing_numbers_in_strings": [
+    "PID 19744 -> 19816",
+    "D4 seconds 0.929 -> 0.793",
+    "D5 seconds 1.686 -> 1.505"
+   ],
+   "finding": "Not byte-identical: PID/temp-name/timing differences are run-generated, not acceptance regressions. All numeric JSON leaves agree.",
+   "full_diff": "scratch/independent_v4_comparison.json"
+  }
+ },
+ "own_probes": [
+  {
+   "id": "blank_dst",
+   "status": "PASS",
+   "raw_command": "subprocess.run(['python', '-B', 'C:\\\\w8v3delta\\\\repo\\\\tools\\\\round_envelope.py', 'init', '--src', 'C:\\\\w8v3delta\\\\scratch\\\\own_blank_rk1l9jvu\\\\src', '--dst', '', '--scratch', 'C:\\\\w8v3delta\\\\scratch\\\\own_blank_rk1l9jvu\\\\scratch'], cwd='C:\\\\w8v3delta\\\\scratch\\\\own_blank_rk1l9jvu\\\\cwd', capture_output=True, text=True)",
+   "note": "python -B -; PYTHONPATH/PYTHONHOME removed; tempfile.mkdtemp created fixture. Python argv preserves genuinely empty argument. No harness used.",
+   "exit": 2,
+   "stdout": "",
+   "stderr": "round_envelope init: REFUSED - --dst '' is blank: an empty path is never a valid destination\n",
+   "manifest_before": {
+    "keep.txt": 6,
+    "nested": 0,
+    "nested\\keep.bin": 3
+   },
+   "manifest_after": {
+    "keep.txt": 6,
+    "nested": 0,
+    "nested\\keep.bin": 3
+   },
+   "scratch_exists": false
+  },
+  {
+   "id": "drive_root_guard",
+   "status": "PASS",
+   "raw_command": "spec=importlib.util.spec_from_file_location('own_round_envelope',w/'repo/tools/round_envelope.py'); module=importlib.util.module_from_spec(spec); sys.modules[spec.name]=module; spec.loader.exec_module(module); src=pathlib.Path(r'C:\\w8v3delta\\scratch\\own_blank_rk1l9jvu\\src'); problems=module.guard_destination(src,pathlib.Path('C:/'))",
+   "note": "python -B -; w=Path('C:/w8v3delta'); PYTHONPATH/PYTHONHOME removed. Direct guard call, no harness.",
+   "output": [
+    "--dst C:\\ is a filesystem/drive root: refusing to destroy a root"
+   ],
+   "init_called": false
+  }
+ ],
+ "test_weakening_audit": {
+  "conclusion": "No weakening found in full authorized accepted-to-repaired test-source audit.",
+  "accepted_tests": 11,
+  "repaired_tests": 23,
+  "removed_preexisting_tests": [],
+  "changed_preexisting_functions": [],
+  "deleted_or_relaxed_assertions": [],
+  "skip_or_xfail_added_to_preexisting_tests": [],
+  "new_conditional_skips": "Three added Windows-only tests and two added git-dependent tests; no xfail added.",
+  "evidence": "scratch/independent_v4_audit.json"
+ },
+ "safety_confirmation": {
+  "raw_commands": [
+   "git -C C:\\Projects\\Agent_Workspace\\PIPD rev-parse HEAD",
+   "git -C C:\\Projects\\Agent_Workspace\\PIPD status --porcelain"
+  ],
+  "environment": "GIT_OPTIONAL_LOCKS=0; both commands exit 0 before/after.",
+  "head": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+  "porcelain_lines": 33,
+  "porcelain_identical_before_after": true,
+  "c_descendants": 10960,
+  "c_root_and_descendant_manifest_identical": true,
+  "c_manifest_errors": [],
+  "limit": "C:\\c unchanged during this run; unchanged since August cannot be independently established without historical baseline.",
+  "evidence": "scratch/independent_v4_safety.json"
+ },
+ "undisclosed_scope": [],
+ "weakening_found": false,
+ "unfinished": [
+  "Semantic subject-hunk verification unestablished by function-only metadata; independent subject-source reading was not authorized.",
+  "Machine-enforced harness deletion confinement absent.",
+  "Historical unchanged-since-August claim needs historical C:\\c baseline."
+ ],
+ "claim_ceiling": "CANDIDATE_ONLY",
+ "supersedes": "DELTA-VERIFY v3 FAIL verdict (exact identifier not supplied)",
+ "verdict_note": "FAIL rejects v4 as complete acceptance oracle, not as observed repair malfunction. No destructive command received real home, drive root or production repository."
+}

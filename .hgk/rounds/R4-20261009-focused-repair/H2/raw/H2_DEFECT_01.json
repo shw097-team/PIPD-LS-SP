@@ -1,0 +1,22 @@
+{
+ "schema": "PIPD-ROUND-DEFECT/1",
+ "id": "H2-DEFECT-01",
+ "artifact": "tools/round_envelope.py",
+ "severity": "MINOR_TOOL_HYGIENE",
+ "state": "OPEN_RECORDED_DURING_FREEZE",
+ "reproduction": {
+  "command": "python -B tools/round_envelope.py init --src . --dst /c/Users/.../scratch/pipd-verify3 --scratch /c/Users/.../Temp/w8v3",
+  "observed": "FileNotFoundError [WinError 206] 檔名或副檔名太長 while mkdir on '<dst>\\.hgk\\rounds\\R2-...\\openspec\\changes\\...'",
+  "first_resolved_path": "\\c\\Users\\user\\AppData\\Local\\...\\pipd-verify3 (note the literal leading '\\c\\': the MSYS-style '/c/...' argument was taken as a relative path)"
+ },
+ "mechanism": "dst = Path(args.dst) is used without os.path.abspath/normalisation, so an MSYS-style '/c/...' path resolves as '\\c\\...' under the current drive and the copy is built in the wrong place; the same deep target then exceeds Windows MAX_PATH and dies with an os-level FileNotFoundError instead of a clear refusal.",
+ "impact": "A caller following the house habit of MSYS-style paths gets a bogus partial tree and an opaque error; the intended envelope never materialises. No product byte was modified (the failure happened before any write inside --src).",
+ "workaround_used": "re-run with native Windows paths and a short root: --src C:/Projects/Agent_Workspace/PIPD --dst C:/v3 --scratch C:/w8v3  -> succeeded, copy HEAD 7c5bc585c7d8, dirty 33, equal to source.",
+ "fix_recommended": [
+  "normalise every path argument with os.path.abspath(os.path.expanduser(...)) and reject a path whose resolved form does not sit under the expected drive (or, minimally, warn and refuse when the string starts with '/<letter>/' on Windows)",
+  "fail closed with an explicit message when a destination path would exceed MAX_PATH (or enable long-path handling) instead of surfacing the OSError text",
+  "add a test: an MSYS-style dst must be either normalised correctly or refused with a named exit code"
+ ],
+ "freeze_note": "Recorded during W8-VERIFY-3's freeze window; the artifact was deliberately NOT edited so the verdict's subject stays byte-identical. Repair + narrow delta re-verification to follow the verdict.",
+ "recorded_at": "2026-10-09T18:35:31+08:00"
+}

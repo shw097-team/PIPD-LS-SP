@@ -1,0 +1,84 @@
+{
+ "schema": "PIPD-ROUND-STATE/3",
+ "round": "R4-20261009-focused-repair",
+ "state": "TECHNICAL_WORK_COMPLETE_PENDING_DELTA_VERIFY_AND_OWNER_DECISIONS",
+ "candidate": {
+  "head": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+  "dirty_entries": 33,
+  "porcelain_vs_frozen_subject": "IDENTICAL",
+  "committed": false,
+  "pushed": false,
+  "remote": "none (never existed)"
+ },
+ "governance": {
+  "owner_control_plane": "HG-KSEOS_ONLY",
+  "claim_ceiling": "CANDIDATE_ONLY",
+  "independent_pass": "NOT_GRANTED",
+  "released": "NOT_GRANTED",
+  "production_verified": "NOT_GRANTED"
+ },
+ "model_sod": {
+  "plan": "deepseek-v4.1-flash (OPENCODE GO)",
+  "execute": "governed Hermes runtime, same mandated model (transport deviation disclosed)",
+  "verify": "CODEX CLI / gpt-6.1-sol medium"
+ },
+ "suite": {
+  "result": "Ran 256 tests / OK",
+  "baseline_188": true,
+  "added": 68
+ },
+ "hardening_tools": {
+  "preflight_check.py": "ab193f06ef533566",
+  "round_envelope.py": "d8a24cb565ff5112",
+  "round_selfscan.py": "e3feec03ead3538c",
+  "wired_consumer": null
+ },
+ "verification": {
+  "W8": "FAIL_CHALLENGE",
+  "W8-VERIFY-2": "FAIL_CHALLENGE",
+  "W8-VERIFY-3": "PARTIAL (V1-V6,V8 PASS; V7 NOT_RUN)",
+  "DELTA_H2_D1_D6": "IN_FLIGHT (workspace C:/w8v3delta, checker gpt-6.1-sol)",
+  "superseded": "delta attempt 1 (skeleton only, all NOT_RUN) - void"
+ },
+ "incident_01": {
+  "id": "INCIDENT-01-DESTRUCTIVE-DST",
+  "cause": "empty --dst -> cwd -> rmtree(repo root)",
+  "damage": [
+   "tracked .agents/skills/* (7)",
+   ".git HEAD/config/index/logs"
+  ],
+  "restored_from_frozen_copy": [
+   ".git/config (251 B)",
+   "4 wrongly-set assume-unchanged bits cleared",
+   ".git/logs (64 lines)"
+  ],
+  "post_restore": {
+   "assume_unchanged": 0,
+   "logs_head_lines": 64,
+   "porcelain": "IDENTICAL to frozen",
+   "fsck": "clean"
+  },
+  "long_term_fix": "H2-DEFECT-02 (STOP-1..STOP-6), tests 16->23"
+ },
+ "supervisor_corrections": [
+  "wrongly attributed .agents churn to the OpenSpec CLI (actually INCIDENT-01 + git checkout restore)",
+  "wrongly attributed the 33-vs-37 dirty delta to copy fidelity (actually .git/config [diff] ignoreSubmodules=dirty)"
+ ],
+ "open_items": {
+  "A1": "owner decision (rec ACCEPTED_AS_IS)",
+  "A2": "owner decision (rec KEEP_NOT_CLAIMED)",
+  "A3": "owner decision (rec BUDGET_CONFIRMED(20000))",
+  "A4": "owner decision (rec NOT_REQUIRED)",
+  "A5": "covered by A1/A3",
+  "TT-PIPD-R4-V7-UNTRACKED-GATE-BASELINE": "needs commit authorisation",
+  "DELTA_H2_D1_D6": "in flight"
+ },
+ "artifacts": {
+  "incident": "知識庫/實作相關DOC/PIPD/實作證據/PIPD-LS-SP_R4_INCIDENT01_DESTRUCTIVE_DST_2026-10-09.md",
+  "adjudication": "知識庫/實作相關DOC/PIPD/實作證據/PIPD-LS-SP_R4_ADJUDICATION_FAR_2026-10-09.md",
+  "closure_report": "知識庫/實作相關DOC/PIPD/實作證據/PIPD-LS-SP_R4_CLOSURE_REPORT_2026-10-09.md",
+  "evidence_master": "知識庫/實作相關DOC/PIPD/實作證據/PIPD-LS-SP_R4_FOCUSED_REPAIR_EVIDENCE_2026-10-09.md"
+ },
+ "recorded_at": "2026-10-09T19:24:56+08:00",
+ "self_sha256": "06640c5b928dbea4"
+}

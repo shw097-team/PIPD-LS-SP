@@ -1,0 +1,37 @@
+{
+ "schema": "PIPD-ROUND-DEFECT-REPAIR/1",
+ "defect_id": "H2-DEFECT-02",
+ "file": "tools/round_envelope.py",
+ "sha256_before": "fca4c8300d9ccff4028f585792225ab50d2cad63fb5acc5701e029bfa33cc3fa",
+ "sha256_after": "d8a24cb565ff51122cc5ecbd0f5fa814f3359da95c22f41023dedd7c7494dbd5",
+ "changed_lines": 69,
+ "tests_before": 16,
+ "tests_after": 23,
+ "status": "REPAIRED_PENDING_DELTA_VERIFY",
+ "tests_file": "tests/test_round_envelope.py",
+ "tests_file_sha256_before": "a5d879e0622c5b0ec8b11596cb914840467dbcb56742a1b6ba7175da92cee57a",
+ "tests_file_sha256_after": "907763d3c75883fa0082185c0fe8e8277afc368ce01e0938ce7a52141bef1d84",
+ "changed_lines_detail": "tools/round_envelope.py: net +69 lines (374 -> 443), all added, none removed except one replaced line in cmd_init; tests/test_round_envelope.py: net +150 lines (273 -> 423)",
+ "root_cause": "An empty --dst reached cmd_init. _norm_path('') = os.path.abspath('') = the current working directory, so a blank destination silently resolved to the repo root. The three existing guards (guard_paths) only model containment BETWEEN the src/dst/scratch arguments; with --src pointing at a different directory all three passed, and shutil.rmtree(dst) deleted the repository root (tracked .agents/ and parts of .git/). The try/except around the removal cannot help because that rmtree SUCCEEDS: there is no exception to catch.",
+ "stop_rules": {
+  "STOP-1": "cmd_init refuses a blank/whitespace-only --dst BEFORE any normalisation (is_blank(): None, '', or str().strip()==''). A genuinely empty argument is never a valid destination. Exit 2, single-line stderr naming --dst '', no traceback.",
+  "STOP-2": "After normalisation, guard_destination() refuses a resolved --dst equal to the current working directory, the user home directory, or a filesystem/drive root (is_fs_root(): resolved.parent == resolved). Each refusal is a single stderr line naming the offending path and reason, exit 2.",
+  "STOP-3": "guard_destination() refuses a resolved --dst equal to the resolved --src; ancestry in BOTH directions is already covered by guard_paths() via _within(): _within(dst, src) is True when dst == src or dst is inside src, and _within(src, dst) is True when dst == src or dst is an ancestor of src. Verified: Path.is_relative_to returns True for equality, so equality AND direct ancestry (src/copy, dst as parent of src) are both refused. The explicit equality check in guard_destination() is defence-in-depth and cannot weaken guard_paths().",
+  "STOP-4": "Before any removal, cmd_init prints 'round_envelope init: removing existing destination <absolute path>' to stderr, then destroys: the destructive step is visible in logs, not silent.",
+  "STOP-5": "--allow-destroy (argparse store_true, default OFF) is added and merely permits destroying an existing NON-EMPTY --dst; a non-empty existing dst without the flag is refused (exit 2). STOP-1..STOP-3 are evaluated before this flag and are never bypassed by it (tested with blank and ancestor cases).",
+  "STOP-6": "Every refusal is a single clean stderr line naming the offending path and the reason, returns exit code 2, and emits no traceback."
+ },
+ "other_destructive_subcommands": "Only init destroys a directory (shutil.rmtree). snapshot writes files (never removes a directory) and verify only reads/classifies, so no destination guard was added there.",
+ "new_helpers": "tools/round_envelope.py: is_blank(value), is_fs_root(path), guard_destination(src, dst); cmd_init wires STOP-1..STOP-5; --allow-destroy added to the init subparser; module docstring documents the destruction guards.",
+ "tests_added": "tests/test_round_envelope.py::DestinationDestructionGuards (7 tests): blank/whitespace dst refuses before normalisation (and never writes scratch); dst == cwd refuses; dst == src refuses; dst ancestor of src refuses; --allow-destroy does not bypass STOP-1..STOP-3 (blank + ancestor); legitimate temp destination still succeeds (positive control); non-empty existing dst needs --allow-destroy and STOP-4 names the removed path. Every destructive-path probe uses a disposable tempfile tree and, where a blank dst is involved, chdirs into a disposable dir so a hypothetical regression could never resolve onto the real tree.",
+ "commands": [
+  {"command": "env -u PYTHONPATH -u PYTHONHOME python -B -m unittest tests.test_round_envelope -v  # repo root, BEFORE edits", "exit_code": 0, "note": "baseline: Ran 16 tests, OK; sha256 tools/round_envelope.py = fca4c830...33cc3fa"},
+  {"command": "sha256sum tools/round_envelope.py tests/test_round_envelope.py  # BEFORE edits", "exit_code": 0, "note": "tool=fca4c8300d9ccff4028f585792225ab50d2cad63fb5acc5701e029bfa33cc3fa tests=a5d879e0622c5b0ec8b11596cb914840467dbcb56742a1b6ba7175da92cee57a"},
+  {"command": "env -u PYTHONPATH -u PYTHONHOME python -B -m unittest tests.test_round_envelope -v  # AFTER edits", "exit_code": 0, "note": "Ran 23 tests, OK (16 original + 7 added)"},
+  {"command": "env -u PYTHONPATH -u PYTHONHOME python -B -m unittest discover -s tests -q  # whole suite", "exit_code": 0, "note": "Ran 256 tests in 49.444s, OK"},
+  {"command": "sha256sum tools/round_envelope.py tests/test_round_envelope.py  # AFTER edits", "exit_code": 0, "note": "tool=d8a24cb565ff51122cc5ecbd0f5fa814f3359da95c22f41023dedd7c7494dbd5 tests=907763d3c75883fa0082185c0fe8e8277afc368ce01e0938ce7a52141bef1d84"},
+  {"command": "unittest tests already exercise the CLI via E.main()", "exit_code": 2, "note": "Demonstrated end-to-end with the tool's own CLI on disposable trees under %TEMP%\\\\r4h\\\\demo2 and %TEMP%\\\\r4h\\\\tmp*: blank --dst -> exit 2 REFUSED 'blank'; whitespace --dst --allow-destroy -> exit 2; dst == cwd -> exit 2; dst ancestor of src -> exit 2; dst == src -> exit 2; dst drive root C:/ -> exit 2. No traceback in any case; the disposable cwd and src remained intact. (These runs are the exit_code 2 rows: a refusal is the expected outcome.)"}
+ ],
+ "safety_note": "Every probe used DEDICATED DISPOSABLE trees created via tempfile.mkdtemp()/TemporaryDirectory under %TEMP%\\\\r4h\\\\ (or a TemporaryDirectory). --src/--dst were never pointed at C:/Projects/Agent_Workspace/PIPD, any parent/child of it, a drive root, or the user home; the blank-dst CLI demo and the blank-dst tests chdir into a disposable directory first so that even a hypothetical STOP-1 regression would resolve '' onto the throwaway dir, never the repository. Nothing under .git/ was touched. Only tools/round_envelope.py and tests/test_round_envelope.py were modified; repo 'git status --porcelain' count remains the pre-existing baseline of 33 entries.",
+ "verification_pending": "Awaiting independent adversarial delta verification (REPAIRED_PENDING_DELTA_VERIFY)."
+}

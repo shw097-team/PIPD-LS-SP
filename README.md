@@ -32,7 +32,15 @@ This repository is a **review candidate**. Status words are kept separate on pur
 
 `S0` and `S1` are the only stages reached. S2–S8 are not implemented.
 
-## R3 audit-repair status (2026-10-09, FW-10 / FW-12 / R-AUD-008 / R-AUD-012 / R-AUD-013)
+**R4 (2026-10-09) keeps every one of those ceilings — nothing below was promoted.**
+`INDEPENDENT_PASS`, `PUBLICATION_APPROVED`, `RELEASED` and `PRODUCTION_VERIFIED` remain **NOT CLAIMED**. One repair
+delta (the `round_envelope` destination guards) was independently verified by a separate lane whose verdict is **PASS at
+the delta level**, with the ceiling still `CANDIDATE_ONLY`; the *round's* acceptance stays **PARTIAL** (V7 `NOT_RUN`).
+
+## R3 audit-repair status — R3 snapshot (2026-10-09, FW-10 / FW-12 / R-AUD-008 / R-AUD-012 / R-AUD-013)
+
+> The counts in this section are the **R3** snapshot and are deliberately left as history. The current register is
+> **22 rows / 18 blocking** — see the R4 section below, which supersedes the "17 rows" figure quoted here.
 
 True denominators, failures named — no percentage ever hides a hard FAIL:
 
@@ -46,10 +54,108 @@ True denominators, failures named — no percentage ever hides a hard FAIL:
 | PRE-W3 cross-project | **TEMP_CLOSED** | independently closed; never derived from S0–S4 evidence (`TT-PRE-W3-CROSS-PROJECT`, HITL owner required) |
 | evidence-MD generator | refusal-protected | `tools/build_evidence_md.py` refuses to print PASS when any hard gate row is FAIL (typed `HARD_GATE_FAIL`, exit 2, no document written) |
 
+## R4 focused-repair status (2026-10-09) — `PIPD-LS-SP-HERMES-R4-FOCUSED-REPAIR-20261009`
+
+Task nature **`NARROW_REPAIR`** (scope `S0-S4_FOCUSED_REPAIR_PLUS_PUBLICATION_EVIDENCE`); R3 functionality is preserved —
+the round adds hardening tooling and its evidence, it does not rewrite the pipeline.
+
+### The hard gate that is FAILING — stated here at the top, not buried
+
+`python -B tools/perf_budget.py --check` → **FAIL**. `context_bytes_per_artefact` measures **343,547** against a
+**20,000** budget (other runs: 336,674 / 355,119 — the exceedance is stable, it is not noise). All four thresholds carry
+`source_of_truth: UNPROVENANCED`, so the three timing rows are `UNDECIDABLE`. Fail-closed behaviour was deliberately
+retained and **no threshold was raised** — widening 20,000 to make the gate green would be weakening a gate.
+The budget's derivation row is still missing (`TT-PIPD-PERF-CONTEXT-BUDGET-PROVENANCE`).
+
+### Hardening tools added this round (each with its own tests)
+
+| tool | what it enforces |
+|---|---|
+| `tools/preflight_check.py` | pre-admission preflight over the round's declared scope |
+| `tools/round_envelope.py` | freeze/envelope a candidate; destination guards **STOP-1..STOP-6** refuse a blank, empty, cwd, `$HOME`, drive-root, equal-to-source or ancestor destination **before any deletion** |
+| `tools/round_selfscan.py` | in-round self-scan of a round's own artifacts |
+| `tools/deny_list_scan.py` | deny-list scan of a scope; non-zero exit on a hit |
+| `tools/pi_dedup_check.py` | PI duplication check |
+| `tools/tt_summary_check.py` | recomputes the TT summary from `tts[]` only (`--assert` / `--write`) |
+| `tools/build_spec_del_crosswalk.py`, `tools/build_publication_manifest.py`, `tools/publication_attestation.py` | crosswalk, publication projection and attestation |
+
+### Tests
+
+`python -B -m unittest discover -s tests -q` in a clean environment (with `PYTHONPATH` and `PYTHONHOME` unset) →
+**`Ran 256 tests … OK`** (baseline 188 + 68 new). New-surface counts: `test_preflight_check` 35,
+`test_round_envelope` **23**, `test_round_selfscan` 10.
+
+### A destructive incident and its long-term repair — disclosed in full
+
+A repair subagent passed an **empty `--dst`**, which normalised to the working directory, and `shutil.rmtree` deleted
+tracked files in the repository root before it was caught. The round restored **every** affected artifact byte-identically
+from a frozen copy (HEAD, index flags, `.git/config`, `.git/logs/HEAD`, porcelain state) and verified each one
+independently. The event is recorded (`PIPD-LS-SP_R4_INCIDENT01_DESTRUCTIVE_DST_2026-10-09.md`) and repaired as
+`H2-DEFECT-02` — the STOP-1..STOP-6 destination guards above exist because of it.
+
+**A second instance of the same defect class occurred on the orchestration side during this publication**: a native
+`git` received an MSYS-style `/c/...` path, which this host does not translate, and created a clone under `C:\c\`.
+It is disclosed in `.hgk/rounds/R4-20261009-focused-repair/H2/raw/INCIDENT02.json`; it caused no product or repository
+damage, nothing was pushed from it, and the only credential material it held (a tokenised remote URL in its own
+`.git/config`) was deleted with it. It is direct evidence that this defect class is real rather than hypothetical.
+
+### Independent verification of that repair (separate lane, three rounds)
+
+| round | verdict | what it found |
+|---|---|---|
+| v3 | `FAIL` | the *instrument* aimed a destructive probe at the **real home directory** (the same error class as the incident); a root-mtime-only comparison was too weak to prove "untouched" |
+| v4 | `FAIL` (row D1 only) | rows D2–D6 PASS and the test-weakening audit found **none**; D1 FAIL because function-name whitelisting is not semantic verification |
+| v5 | **`PASS`** | all six rows PASS once the checker was authorised to read the subject source in full and performed the semantic hunk review itself (`unaccounted_lines: []`) |
+
+Residual, stated plainly: the differential harness is **orchestrator-authored** and is *not* treated as an independent
+authority (`sound_oracle: false`); the delta verdict's ceiling is `CANDIDATE_ONLY`.
+
+### Open, honestly
+
+- **The round's acceptance is PARTIAL.** `W8-VERIFY-3` rows V1–V6 and V8 PASS but **V7 is `NOT_RUN`**: two gate tools are
+  absent from the committed baseline, so "the gate was not weakened" cannot be computed. **A commit alone cannot convert
+  V7 to PASS** — a *new* baseline cannot prove an *absent historical* baseline was preserved.
+- **TT register: 22 rows, 18 blocking** (16 open · 2 owner-gate · 2 partial · 1 closed · 1 temp-closed), every row carrying
+  owner, current state, raw-evidence pointer and an explicit close criterion.
+- **The hardening tools have no automated consumer** in the pipeline (`actual_hgk_consumer: null`): they bite when a human
+  exercises them, which is materially weaker than an automated gate. Recorded, not papered over.
+- **`EVIDENCE_IDENTITY_MISMATCH`** (unresolved): an earlier external challenge quoted an evidence-file SHA that no version
+  in this tree reproduces. Recorded as-is.
+- `SPEC/DEL` crosswalk: **42 EVIDENCED / 11 EVIDENCE_GAP / 4 DESIGN_ONLY** of 57 rows — no overall PASS claim.
+
+### Owner adjudication (2026-10-09)
+
+`docs/OWNER_ADJUDICATION_R4_2026-10-09.json` records the six open items (`A1`–`A5`, `V7`) and the ruling executed for each.
+**Five required no owner action at all**; the only authority act taken is
+`A2 = ACCEPT_EXISTING_NO_LICENSE_NOTICE`, and it **grants nothing**: no licence, no release, no independent pass, no
+production verification.
+
+### Reproduce the headline checks
+
+```bash
+env -u PYTHONPATH -u PYTHONHOME python -B -m unittest discover -s tests -q     # expect: Ran 256 tests, OK
+env -u PYTHONPATH -u PYTHONHOME python -B tools/perf_budget.py --check         # expect: exit 1 — FAIL on context_bytes_per_artefact
+env -u PYTHONPATH -u PYTHONHOME python -B tools/deny_list_scan.py              # expect: exit 0, verdict PASS
+env -u PYTHONPATH -u PYTHONHOME python -B tools/tt_summary_check.py --assert   # expect: counts agree — total=22, unknown=0, blocking=18
+#   The `as_of_candidate` line is bound to the *verified* candidate 7c5bc585, not to the publication tip — the same
+#   convention as the previously published tree. A fresh clone therefore reports that one binding as "stale" by
+#   design; `--write` rebinds it. The counts are what the assert compares, and they agree.
+```
+
+### Publication note
+
+This branch is built **on top of the published `main`** using the same view strategy as R3: the 130.09 MB
+`.hgk/rounds/R2-20261009-qualification/execute/knowledge/own-derived.db` is excluded (GitHub's 100 MB single-file hard
+limit). **This publication is a candidate for external verification — it is not a release**, and it approves nothing.
+
 ## License
 
 No license is granted — see `LICENSE`. The authoritative source corpus declares none; this is
 recorded as source gap `TT-PIPD-LICENSE-001`.
+
+R4 note: the owner's adjudication (`docs/OWNER_ADJUDICATION_R4_2026-10-09.json`) accepted this existing no-license
+NOTICE (`A2 = ACCEPT_EXISTING_NO_LICENSE_NOTICE`). Accepting the notice does **not** grant a licence — it confirms that
+none is granted, so that the licence-disposition question no longer blocks anything.
 
 
 ## 8. Correction of a wording overclaim (round 2 finding)

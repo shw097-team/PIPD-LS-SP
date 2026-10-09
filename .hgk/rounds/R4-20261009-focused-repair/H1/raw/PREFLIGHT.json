@@ -1,0 +1,66 @@
+{
+ "schema": "PIPD-PREFLIGHT/1",
+ "as_of": "2026-10-09T10:30:38.764438+00:00",
+ "repo": "C:\\Projects\\Agent_Workspace\\PIPD",
+ "head": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+ "dirty": 33,
+ "checks": [
+  {
+   "id": "python",
+   "status": "PASS",
+   "detail": "interpreter 3.11.17; unittest importable",
+   "elapsed_ms": 19
+  },
+  {
+   "id": "git_head",
+   "status": "PASS",
+   "detail": "HEAD 7c5bc585c7d8 dirty=33",
+   "elapsed_ms": 0
+  },
+  {
+   "id": "disk",
+   "status": "PASS",
+   "detail": "53.30 GiB free (>= 5 GiB)",
+   "elapsed_ms": 0
+  },
+  {
+   "id": "docker",
+   "status": "PASS",
+   "detail": "docker reachable",
+   "elapsed_ms": 248
+  },
+  {
+   "id": "codex_binary",
+   "status": "PASS",
+   "detail": "1 hit(s): C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\9691020b546a15b2\\codex.exe | newest --version: codex-cli 0.162.0-alpha.2",
+   "elapsed_ms": 29
+  },
+  {
+   "id": "codex_sandbox",
+   "status": "WARN",
+   "detail": "SANDBOX_HELPER_BROKEN",
+   "elapsed_ms": 10839
+  },
+  {
+   "id": "model_pinning",
+   "status": "PASS",
+   "detail": "config.toml model matches --model ('opencode-go/deepseek-v4.1-flash')",
+   "elapsed_ms": 0
+  },
+  {
+   "id": "loopback",
+   "status": "WARN",
+   "detail": "unreachable loopback port(s) [10100]; up=[10102] down=[10100]",
+   "elapsed_ms": 2014
+  },
+  {
+   "id": "suite_baseline",
+   "status": "SKIP",
+   "detail": "not requested (pass --with-suite)",
+   "elapsed_ms": 0
+  }
+ ],
+ "verdict": "PASS",
+ "verdict_reason": "no FAIL; 2 warning(s): codex_sandbox, loopback",
+ "provider": null
+}
