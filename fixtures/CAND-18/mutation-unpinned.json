@@ -44,14 +44,35 @@
  "capability_need": "external runtime donor",
  "candidate": "External NousResearch Hermes Agent",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "QUARANTINE_EXTERNAL_DONOR",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "current HGK canonical Hermes binding",
+  "exit_criterion": "identity/provenance conflation",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "current HGK canonical Hermes binding",
+  "disposition": "QUARANTINE",
+  "design_disposition": "QUARANTINE",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "disposition QUARANTINE never activates",
   "independently_verified": false
  },
  "fallback_exit": "current HGK canonical Hermes binding",
  "subject_id": "subset-tech-f15c0625fd3d5cd6d03439f12e66fc6c",
  "version": "exact external repo/tag/commit required",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "26c59e41aff6de65d5f9b9fc637c180f34bd31104cb5a8a5358958049c0e09a1"
+ "content_hash": "c8dfb16fc4947bad1f6b26a3c0896ffb7b7b7ee0975805012acf2eed55632a21"
 }

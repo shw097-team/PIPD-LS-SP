@@ -1,0 +1,18 @@
+驗收完成。裁定檔已寫入唯一允許的檔案：
+
+**C:\Projects\Agent_Workspace\PIPD\.hgk\rounds\R2-FAR-RCA-20261009\verify\GLM_VERDICT.json**
+
+整體裁定：**PASS**（4/4 claims PASS，全部 locator 逐一到磁碟實讀驗證）
+
+重點：
+- **Q1 PASS**：start-hgk-hermes.ps1:204-210/235-262/328-361 確認 Write 分支只印 receipt 後 `exit 0`，無 AO spawn；lifecycle.py:58 確認 `EXECUTING→(VERIFYING, EVOLUTION_REVIEW)`；kanban_db.py:2128-2187/2723-2766/2819-2827 確認 completion 只 promote 既有 children；SKILL.md:196-207 確認 closure rule 是 orchestrator 指令。報告未過度宣稱「無 enforcement」— spine.py:324-346（writer==checker 拒絕）、release.py:44-64（INDEPENDENT_ACCEPTANCE_MISSING）、lane-guard 均在場，2.2/4.1 如實記錄。
+- **Q2 PASS**：lifecycle.py:260-296 無 model call（docstring 本身否證）、:555-609 admission 路徑純確定性；named_methods.route:151-192 無 model 欄位；admission.json:56-70 FROZEN event `payload_json={}`、actor 僅字串。報告明確將此特定 admission 作者標為 LOW/未取得 lineage。
+- **CHALLENGE PASS**：8 條件 4closed/2adjusted/1confound/2closed-with-residual，原始 LANE_C lane 與報告一致，confound（regEpoch 13 vs live 15）已折疊記錄。
+- **REMEDIATION PASS**：無新 scheduler/DB/reducer；predicate 存在先於 all()，避免空集 PASS — 與我實跑重現的 `evidence_reducer(capsules=[])→PASS` 盲點正好互補；check_sod 三組控制與 lane-guard REFUSE(rc=2) 均已唯讀重現成功。
+
+已揭露的瑕疵（記入 note，不翻案）：
+1. `R/logs/agent.log:12915-12947` 在現有磁碟找不到（live agent.log 僅 1048 行，疑似輪替）；該反例已由 FAR_LANE_VERIFY_002_EVIDENCE.md:26 與 lane_v1d_challenge.json 獨立佐證，故 Q1 不受影響，但該行區間列為無法驗證。
+2. `Hermes/hermes_cli/kanban_db.py` 路徑在 HG-KSEOS repo 下不存在；實檔在 live Hermes home，行為與行號一致。
+3. 報告的 lane-guard 重現指令需要 PyYAML（repo .venv）才能跑，預設 python 會失敗 — 報告未註明此前提。
+
+Digest 已逐檔 sha256 並繫入 verdict；subject_digests 與報告隨附的 16-hex 短碼前綴一致。全程唯讀，未動任何 DB/policy/credential，未 apply 建議的 remediation，亦未做任何 admission — 本裁定僅為獨立 VERIFY 結論，非放行。

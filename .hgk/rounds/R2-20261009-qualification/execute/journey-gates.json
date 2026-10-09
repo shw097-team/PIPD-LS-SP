@@ -1,0 +1,53 @@
+{
+  "schema": "PIPD-R2-JOURNEY-GATES/1",
+  "candidate_sha": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+  "journeys": {
+    "J1_NL_SPEC_PACKAGE": {
+      "verdict": "PASS_ON_CANDIDATE",
+      "evidence": ["run_s1_slice artifacts INTENT/PI/PD/TQAEP", "GP-01..03 produce PI/PD/CC/ECP/TQAEP with source binding + claim ceiling"],
+      "clause": "one PI/PD package with source binding + claim ceiling readable via --json",
+      "negative": ["N1 empty goal", "N2 no source"],
+      "oracle": "schema validation + trace closure",
+      "binding": "829c17e"
+    },
+    "J2_REPO_IMPORT_PD_LATEBINDING": {
+      "verdict": "PASS_ON_CANDIDATE",
+      "evidence": ["GP-02 brownfield late_binding_real=true, repo_context root/head/tracked_files=266", "E2 probe exercises git-ls-files definition"],
+      "clause": "RepoContext root/head/tracked_files/writable_scope",
+      "negative": ["N3 missing repo context"],
+      "oracle": "late binding on a real repo",
+      "binding": "829c17e"
+    },
+    "J3_HGK_HANDOFF": {
+      "verdict": "PASS_ON_CANDIDATE",
+      "evidence": ["construction_contract/ECP/TQAEP produced in pilots; typed seam only (no S5 live ACK)"],
+      "clause": "contract-compatible trio, NOT claiming S5 live ACK",
+      "negative": ["ExecutionBindingRef seam-only until S5", "GENIEProjectionRef seam-only until S6"],
+      "binding": "829c17e"
+    },
+    "J4_TEST_REPAIR": {
+      "verdict": "PASS_ON_CANDIDATE",
+      "evidence": ["GP-03 tamper_detected + out_of_scope_repair_refused + rollback_byte_identical=true", "N6/N7 RepairScopeFail", "rollback_drill.json PASS"],
+      "clause": "bounded repair only affected edges; rollback pointer restores",
+      "negative": ["N6 out-of-scope", "N7 absolute path"],
+      "binding": "829c17e"
+    },
+    "J5_CROSS_HOST_EXPORT": {
+      "verdict": "PASS_ON_CANDIDATE",
+      "evidence": ["3 host projections effective_load PASS (shipped + independent oracle)", "semantic_parity PASS"],
+      "clause": ">=3 host projections consistent effective-load/semantics",
+      "negative": ["web_pack exact-set leak check"],
+      "binding": "829c17e"
+    },
+    "J6_GITHUB_PUBLIC_DELIVERY": {
+      "verdict": "BLOCKED",
+      "evidence": ["wheel sha256 match (local)", "portable_install 11/11"],
+      "clause": "public repo commit SHA + anonymous readback identical",
+      "negative": ["publication NOT_PERFORMED"],
+      "block": "requires PUBLICATION_AUTHORITY (HITL) + license decision (UNSET); repo readback cannot be performed by this bounded task",
+      "binding": "829c17e"
+    }
+  },
+  "global_verdict": "PARTIAL",
+  "rationale": "J1-J5 close on the candidate; J6 is BLOCKED (owner authority + license). No journey above local ceiling."
+}

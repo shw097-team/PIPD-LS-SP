@@ -1,0 +1,68 @@
+test_a_twentieth_family_is_rejected (test_s0_contracts.TestS0Contracts.test_a_twentieth_family_is_rejected) ... ok
+test_every_schema_is_draft_2020_12_and_closed (test_s0_contracts.TestS0Contracts.test_every_schema_is_draft_2020_12_and_closed) ... ok
+test_exact_19_identity_and_order (test_s0_contracts.TestS0Contracts.test_exact_19_identity_and_order) ... ok
+test_negative_missing_schema_file_is_rejected (test_s0_contracts.TestS0Contracts.test_negative_missing_schema_file_is_rejected) ... ok
+test_registry_fields_are_enforced_by_schema (test_s0_contracts.TestS0Contracts.test_registry_fields_are_enforced_by_schema) ... ok
+test_seam_only_materialization (test_s0_contracts.TestS0Contracts.test_seam_only_materialization) ... ok
+test_all_19_are_field_exact (test_s0_contracts.TestS0Reconciliation.test_all_19_are_field_exact) ... FAIL
+test_extra_schema_family_is_refused (test_s0_contracts.TestS0Reconciliation.test_extra_schema_family_is_refused) ... FAIL
+test_required_field_removal_is_refused (test_s0_contracts.TestS0Reconciliation.test_required_field_removal_is_refused) ... FAIL
+test_version_id_mismatch_is_refused (test_s0_contracts.TestS0Reconciliation.test_version_id_mismatch_is_refused) ... FAIL
+test_wrong_owner_or_consumer_is_refused (test_s0_contracts.TestS0Reconciliation.test_wrong_owner_or_consumer_is_refused) ... ERROR
+
+======================================================================
+ERROR: test_wrong_owner_or_consumer_is_refused (test_s0_contracts.TestS0Reconciliation.test_wrong_owner_or_consumer_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\tests\test_s0_contracts.py", line 118, in test_wrong_owner_or_consumer_is_refused
+    result = self.run_check(lambda d: self.edit(d, "TechnologyAdmission",
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\tests\test_s0_contracts.py", line 77, in run_check
+    mutate(schemas)
+  File "C:\Projects\Agent_Workspace\PIPD\tests\test_s0_contracts.py", line 118, in <lambda>
+    result = self.run_check(lambda d: self.edit(d, "TechnologyAdmission",
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\tests\test_s0_contracts.py", line 88, in edit
+    change(schema)
+  File "C:\Projects\Agent_Workspace\PIPD\tests\test_s0_contracts.py", line 119, in <lambda>
+    lambda s: s["x-s0"].update({key: "Wrong" if key == "owner" else ["Wrong"]})))
+              ~^^^^^^^^
+KeyError: 'x-s0'
+
+======================================================================
+FAIL: test_all_19_are_field_exact (test_s0_contracts.TestS0Reconciliation.test_all_19_are_field_exact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\tests\test_s0_contracts.py", line 93, in test_all_19_are_field_exact
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+AssertionError: 2 != 0 : C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\python.exe: can't open file 'C:\\Projects\\Agent_Workspace\\PIPD\\tools\\registry_reconcile.py': [Errno 2] No such file or directory
+
+
+======================================================================
+FAIL: test_extra_schema_family_is_refused (test_s0_contracts.TestS0Reconciliation.test_extra_schema_family_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\tests\test_s0_contracts.py", line 127, in test_extra_schema_family_is_refused
+    self.assertIn("Invented", result.stderr)
+AssertionError: 'Invented' not found in "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\.hermes-runtime\\python\\cpython-3.11.17-windows-x86_64-none\\python.exe: can't open file 'C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\tools\\\\registry_reconcile.py': [Errno 2] No such file or directory\n"
+
+======================================================================
+FAIL: test_required_field_removal_is_refused (test_s0_contracts.TestS0Reconciliation.test_required_field_removal_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\tests\test_s0_contracts.py", line 106, in test_required_field_removal_is_refused
+    self.assertIn("TechnologyAdmission", result.stderr)
+AssertionError: 'TechnologyAdmission' not found in "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\.hermes-runtime\\python\\cpython-3.11.17-windows-x86_64-none\\python.exe: can't open file 'C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\tools\\\\registry_reconcile.py': [Errno 2] No such file or directory\n"
+
+======================================================================
+FAIL: test_version_id_mismatch_is_refused (test_s0_contracts.TestS0Reconciliation.test_version_id_mismatch_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\tests\test_s0_contracts.py", line 113, in test_version_id_mismatch_is_refused
+    self.assertIn("TechnologyAdmission", result.stderr)
+AssertionError: 'TechnologyAdmission' not found in "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\.hermes-runtime\\python\\cpython-3.11.17-windows-x86_64-none\\python.exe: can't open file 'C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\tools\\\\registry_reconcile.py': [Errno 2] No such file or directory\n"
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.353s
+
+FAILED (failures=4, errors=1)

@@ -1,0 +1,223 @@
+{
+ "command_count": 13,
+ "cases": [
+  {
+   "command": "init",
+   "success_path": {
+    "verdict": "PASS",
+    "exit": 0
+   },
+   "refusal_path": {
+    "verdict": "PASS",
+    "error_code": "USAGE_INVALID",
+    "exit": 2
+   },
+   "verdict": "PASS"
+  },
+  {
+   "command": "intake",
+   "success_path": {
+    "verdict": "PASS",
+    "exit": 0
+   },
+   "refusal_path": {
+    "verdict": "PASS",
+    "error_code": "INTAKE_INVALID",
+    "exit": 2
+   },
+   "verdict": "PASS"
+  },
+  {
+   "command": "profile",
+   "success_path": {
+    "verdict": "PASS",
+    "exit": 0
+   },
+   "refusal_path": {
+    "verdict": "PASS",
+    "error_code": "PROFILE_VETO",
+    "exit": 2
+   },
+   "verdict": "PASS"
+  },
+  {
+   "command": "compile-pi",
+   "success_path": {
+    "verdict": "PASS",
+    "exit": 0
+   },
+   "refusal_path": {
+    "verdict": "PASS",
+    "error_code": "IO_NOT_FOUND",
+    "exit": 2
+   },
+   "verdict": "PASS"
+  },
+  {
+   "command": "bind-pd",
+   "success_path": {
+    "verdict": "PASS",
+    "exit": 0
+   },
+   "refusal_path": {
+    "verdict": "PASS",
+    "error_code": "REPO_CONTEXT_MISSING",
+    "exit": 2
+   },
+   "verdict": "PASS"
+  },
+  {
+   "command": "compile-ecp",
+   "success_path": {
+    "verdict": "PASS",
+    "exit": 0
+   },
+   "refusal_path": {
+    "verdict": "PASS",
+    "error_code": "INPUT_SHAPE_INVALID",
+    "exit": 2
+   },
+   "verdict": "PASS"
+  },
+  {
+   "command": "compile-tqaep",
+   "success_path": {
+    "verdict": "PASS",
+    "exit": 0
+   },
+   "refusal_path": {
+    "verdict": "PASS",
+    "error_code": "TQ_SOD",
+    "exit": 2
+   },
+   "verdict": "PASS"
+  },
+  {
+   "command": "validate",
+   "success_path": {
+    "verdict": "PASS",
+    "exit": 0
+   },
+   "refusal_path": {
+    "verdict": "PASS",
+    "error_code": "IO_NOT_FOUND",
+    "exit": 2
+   },
+   "verdict": "PASS"
+  },
+  {
+   "command": "doctor",
+   "success_path": {
+    "verdict": "PASS",
+    "exit": 0
+   },
+   "refusal_path": {
+    "verdict": "PASS",
+    "error_code": "USAGE_INVALID",
+    "exit": 2
+   },
+   "verdict": "PASS"
+  },
+  {
+   "command": "project",
+   "success_path": {
+    "verdict": "PASS",
+    "exit": 0
+   },
+   "refusal_path": {
+    "verdict": "PASS",
+    "error_code": "USAGE_INVALID",
+    "exit": 2
+   },
+   "verdict": "PASS"
+  },
+  {
+   "command": "export",
+   "success_path": {
+    "verdict": "PASS",
+    "exit": 0
+   },
+   "refusal_path": {
+    "verdict": "PASS",
+    "error_code": "USAGE_INVALID",
+    "exit": 2
+   },
+   "verdict": "PASS"
+  },
+  {
+   "command": "diff",
+   "success_path": {
+    "verdict": "PASS",
+    "exit": 0
+   },
+   "refusal_path": {
+    "verdict": "PASS",
+    "error_code": "DIFF_INCOMPATIBLE_SCHEMA",
+    "exit": 2
+   },
+   "verdict": "PASS"
+  },
+  {
+   "command": "repair",
+   "success_path": {
+    "verdict": "PASS",
+    "exit": 0
+   },
+   "refusal_path": {
+    "verdict": "PASS",
+    "error_code": "REPAIR_SCOPE",
+    "exit": 2
+   },
+   "verdict": "PASS"
+  }
+ ],
+ "extras": [
+  {
+   "surface": "replay",
+   "verdict": "PASS"
+  },
+  {
+   "surface": "explain",
+   "verdict": "PASS"
+  },
+  {
+   "surface": "semantic_diff_explain",
+   "verdict": "PASS"
+  },
+  {
+   "surface": "dry_run_project",
+   "verdict": "PASS",
+   "target_untouched": true
+  },
+  {
+   "surface": "dry_run_export",
+   "verdict": "PASS"
+  },
+  {
+   "surface": "dry_run_repair",
+   "verdict": "PASS"
+  }
+ ],
+ "exact_set": {
+  "listed": [
+   "init",
+   "intake",
+   "profile",
+   "compile-pi",
+   "bind-pd",
+   "compile-ecp",
+   "compile-tqaep",
+   "validate",
+   "doctor",
+   "project",
+   "export",
+   "diff",
+   "repair"
+  ],
+  "count": 13,
+  "verdict": "PASS"
+ },
+ "passed": "13/13",
+ "candidate_head": "5c197cd51f2fc7cfc0e840173ee3c8b7f1ecb996",
+ "verdict": "PASS"
+}

@@ -127,9 +127,11 @@ def run(args: argparse.Namespace) -> dict:
         pi = _read_json(args.pi, "PI package")
         ctx = None
         if args.repo_root:
-            ctx = {"root": str(args.repo_root), "head": args.head,
-                   "tracked_files": _tracked_file_count(args.repo_root),
-                   "currentness": "FRESH", "writable_scope": "src/**"}
+            # R-AUD-009: RepoContext is DERIVED from the repository/host; --head is an unverified
+            # caller claim, never an authoritative head and never a self-asserted FRESH currentness.
+            ctx = pipeline.repo_probe.derive_repo_context(args.repo_root, writable_scope="src/**")
+            if args.head:
+                ctx.setdefault("claims", {})["head"] = args.head
         return pipeline.bind_pd(pi, ctx)
     if cmd == "compile-ecp":
         out = pipeline.compile_ecp(_read_json(args.pd, "PD package"),
@@ -158,7 +160,11 @@ def run(args: argparse.Namespace) -> dict:
     if cmd == "project":
         if getattr(args, "dry_run", False):
             target = args.out or (root / "dist" / "web")
-            planned = ["index.html", "app.js", "styles.css", "manifest.webmanifest", "README.md"]
+            # R-AUD-003: the plan is the five PIPD semantic documents, not the site UI five.
+            planned = ["PIPD_BOOTSTRAP.md", "PIPD_CANONICAL_CORE.md", "PIPD_ROUTER_PROFILES.md",
+                       "PIPD_ARTIFACT_SCHEMAS.md", "PIPD_EVAL_HANDOFF.md", "PROJECTION_IR.json",
+                       "host_generic-skills/SKILL.md", "host_hgk-receiver/receiver-map.json",
+                       "host_genie-adapter/object-crosswalk.json"]
             return {"verdict": "PASS", "dry_run": True, "would_write": planned,
                     "target": str(target), "wrote_nothing": True,
                     "explain": {"derivation": ["dry-run: the target tree was not touched"]}}
@@ -193,17 +199,11 @@ def _tracked_file_count(root: Path) -> int:
     This used to be `sum(1 for _ in root.rglob("*") if _.is_file())`, which counted every object
     inside `.git/` - hundreds of internals that change on every repack - under a field literally
     named `tracked_files`. An independent checker caught the drift. Never count version-control
-    internals as project files.
+    internals as project files. The probe now lives in repo_context (R-AUD-009 derives the whole
+    RepoContext there); this wrapper keeps the authoritative definition's exact behavior.
     """
-    try:
-        out = subprocess.run(["git", "-C", str(root), "ls-files"],
-                             capture_output=True, text=True, timeout=30)
-        if out.returncode == 0:
-            return len([l for l in out.stdout.splitlines() if l.strip()])
-    except Exception:
-        pass
-    return sum(1 for p in root.rglob("*") if p.is_file()
-               and ".git" not in p.parts and "__pycache__" not in p.parts)
+    from . import repo_context
+    return repo_context.tracked_file_count(root)
 
 
 def _read_json(p: Path, what: str) -> dict:

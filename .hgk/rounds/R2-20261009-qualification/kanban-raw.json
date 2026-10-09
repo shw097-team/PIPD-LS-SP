@@ -1,0 +1,370 @@
+[
+  {
+    "args": [
+      "boards",
+      "create",
+      "pipd-r2-20261009-qualification",
+      "--name",
+      "PIPD R2 fixed-candidate qualification",
+      "--default-workdir",
+      "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification"
+    ],
+    "exit": 0,
+    "stdout": "Board 'pipd-r2-20261009-qualification' created.\n  Display name: PIPD R2 fixed-candidate qualification\n  DB path:      C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\kanban\\boards\\pipd-r2-20261009-qualification\\kanban.db\n  Use `hermes kanban boards switch pipd-r2-20261009-qualification` to make it current.\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "create",
+      "PRECHECK",
+      "--body",
+      "HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.",
+      "--workspace",
+      "dir:C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification",
+      "--assignee",
+      "hgk-orchestrator",
+      "--model",
+      "gpt-6.1-sol",
+      "--provider",
+      "openai-codex",
+      "--initial-status",
+      "blocked",
+      "--idempotency-key",
+      "PIPD-R2-20261009-PRECHECK",
+      "--json"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"id\": \"t_217c4bbf\",\n  \"title\": \"PRECHECK\",\n  \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n  \"assignee\": \"hgk-orchestrator\",\n  \"status\": \"blocked\",\n  \"priority\": 0,\n  \"tenant\": null,\n  \"workspace_kind\": \"dir\",\n  \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n  \"branch_name\": null,\n  \"project_id\": null,\n  \"created_by\": \"user\",\n  \"created_at\": 1791500717,\n  \"started_at\": null,\n  \"completed_at\": null,\n  \"result\": null,\n  \"skills\": [],\n  \"max_runtime_seconds\": null,\n  \"max_retries\": null,\n  \"model_override\": \"gpt-6.1-sol\",\n  \"provider_override\": \"openai-codex\",\n  \"session_id\": null,\n  \"workflow_template_id\": null,\n  \"current_step_key\": null,\n  \"completion_contract\": \"local-only\",\n  \"last_failure_error\": null\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "create",
+      "EXECUTE",
+      "--body",
+      "HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.",
+      "--workspace",
+      "dir:C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification",
+      "--assignee",
+      "hgk-orchestrator",
+      "--model",
+      "deepseek-v4.1-flash",
+      "--provider",
+      "opencode-go",
+      "--initial-status",
+      "blocked",
+      "--idempotency-key",
+      "PIPD-R2-20261009-EXECUTE",
+      "--json",
+      "--parent",
+      "t_217c4bbf"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"id\": \"t_6b6b3c24\",\n  \"title\": \"EXECUTE\",\n  \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n  \"assignee\": \"hgk-orchestrator\",\n  \"status\": \"blocked\",\n  \"priority\": 0,\n  \"tenant\": null,\n  \"workspace_kind\": \"dir\",\n  \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n  \"branch_name\": null,\n  \"project_id\": null,\n  \"created_by\": \"user\",\n  \"created_at\": 1791500718,\n  \"started_at\": null,\n  \"completed_at\": null,\n  \"result\": null,\n  \"skills\": [],\n  \"max_runtime_seconds\": null,\n  \"max_retries\": null,\n  \"model_override\": \"deepseek-v4.1-flash\",\n  \"provider_override\": \"opencode-go\",\n  \"session_id\": null,\n  \"workflow_template_id\": null,\n  \"current_step_key\": null,\n  \"completion_contract\": \"local-only\",\n  \"last_failure_error\": null\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "create",
+      "VERIFY_FUNCTIONAL",
+      "--body",
+      "HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.",
+      "--workspace",
+      "dir:C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification",
+      "--assignee",
+      "hgk-orchestrator",
+      "--model",
+      "glm-5.3-flash",
+      "--provider",
+      "opencode-go",
+      "--initial-status",
+      "blocked",
+      "--idempotency-key",
+      "PIPD-R2-20261009-VERIFY_FUNCTIONAL",
+      "--json",
+      "--parent",
+      "t_6b6b3c24"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"id\": \"t_47183abf\",\n  \"title\": \"VERIFY_FUNCTIONAL\",\n  \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n  \"assignee\": \"hgk-orchestrator\",\n  \"status\": \"blocked\",\n  \"priority\": 0,\n  \"tenant\": null,\n  \"workspace_kind\": \"dir\",\n  \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n  \"branch_name\": null,\n  \"project_id\": null,\n  \"created_by\": \"user\",\n  \"created_at\": 1791500719,\n  \"started_at\": null,\n  \"completed_at\": null,\n  \"result\": null,\n  \"skills\": [],\n  \"max_runtime_seconds\": null,\n  \"max_retries\": null,\n  \"model_override\": \"glm-5.3-flash\",\n  \"provider_override\": \"opencode-go\",\n  \"session_id\": null,\n  \"workflow_template_id\": null,\n  \"current_step_key\": null,\n  \"completion_contract\": \"local-only\",\n  \"last_failure_error\": null\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "create",
+      "VERIFY_GOVERNANCE",
+      "--body",
+      "HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.",
+      "--workspace",
+      "dir:C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification",
+      "--assignee",
+      "hgk-orchestrator",
+      "--model",
+      "glm-5.3-flash",
+      "--provider",
+      "opencode-go",
+      "--initial-status",
+      "blocked",
+      "--idempotency-key",
+      "PIPD-R2-20261009-VERIFY_GOVERNANCE",
+      "--json",
+      "--parent",
+      "t_6b6b3c24"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"id\": \"t_e7f3fb8f\",\n  \"title\": \"VERIFY_GOVERNANCE\",\n  \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n  \"assignee\": \"hgk-orchestrator\",\n  \"status\": \"blocked\",\n  \"priority\": 0,\n  \"tenant\": null,\n  \"workspace_kind\": \"dir\",\n  \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n  \"branch_name\": null,\n  \"project_id\": null,\n  \"created_by\": \"user\",\n  \"created_at\": 1791500720,\n  \"started_at\": null,\n  \"completed_at\": null,\n  \"result\": null,\n  \"skills\": [],\n  \"max_runtime_seconds\": null,\n  \"max_retries\": null,\n  \"model_override\": \"glm-5.3-flash\",\n  \"provider_override\": \"opencode-go\",\n  \"session_id\": null,\n  \"workflow_template_id\": null,\n  \"current_step_key\": null,\n  \"completion_contract\": \"local-only\",\n  \"last_failure_error\": null\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "create",
+      "S0_GATE",
+      "--body",
+      "HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.",
+      "--workspace",
+      "dir:C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification",
+      "--assignee",
+      "hgk-orchestrator",
+      "--model",
+      "gpt-6.1-sol",
+      "--provider",
+      "openai-codex",
+      "--initial-status",
+      "blocked",
+      "--idempotency-key",
+      "PIPD-R2-20261009-S0_GATE",
+      "--json",
+      "--parent",
+      "t_47183abf",
+      "--parent",
+      "t_e7f3fb8f"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"id\": \"t_17f0499d\",\n  \"title\": \"S0_GATE\",\n  \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n  \"assignee\": \"hgk-orchestrator\",\n  \"status\": \"blocked\",\n  \"priority\": 0,\n  \"tenant\": null,\n  \"workspace_kind\": \"dir\",\n  \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n  \"branch_name\": null,\n  \"project_id\": null,\n  \"created_by\": \"user\",\n  \"created_at\": 1791500721,\n  \"started_at\": null,\n  \"completed_at\": null,\n  \"result\": null,\n  \"skills\": [],\n  \"max_runtime_seconds\": null,\n  \"max_retries\": null,\n  \"model_override\": \"gpt-6.1-sol\",\n  \"provider_override\": \"openai-codex\",\n  \"session_id\": null,\n  \"workflow_template_id\": null,\n  \"current_step_key\": null,\n  \"completion_contract\": \"local-only\",\n  \"last_failure_error\": null\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "create",
+      "S1_GATE",
+      "--body",
+      "HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.",
+      "--workspace",
+      "dir:C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification",
+      "--assignee",
+      "hgk-orchestrator",
+      "--model",
+      "gpt-6.1-sol",
+      "--provider",
+      "openai-codex",
+      "--initial-status",
+      "blocked",
+      "--idempotency-key",
+      "PIPD-R2-20261009-S1_GATE",
+      "--json",
+      "--parent",
+      "t_17f0499d"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"id\": \"t_69ad010e\",\n  \"title\": \"S1_GATE\",\n  \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n  \"assignee\": \"hgk-orchestrator\",\n  \"status\": \"blocked\",\n  \"priority\": 0,\n  \"tenant\": null,\n  \"workspace_kind\": \"dir\",\n  \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n  \"branch_name\": null,\n  \"project_id\": null,\n  \"created_by\": \"user\",\n  \"created_at\": 1791500722,\n  \"started_at\": null,\n  \"completed_at\": null,\n  \"result\": null,\n  \"skills\": [],\n  \"max_runtime_seconds\": null,\n  \"max_retries\": null,\n  \"model_override\": \"gpt-6.1-sol\",\n  \"provider_override\": \"openai-codex\",\n  \"session_id\": null,\n  \"workflow_template_id\": null,\n  \"current_step_key\": null,\n  \"completion_contract\": \"local-only\",\n  \"last_failure_error\": null\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "create",
+      "S2_GATE",
+      "--body",
+      "HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.",
+      "--workspace",
+      "dir:C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification",
+      "--assignee",
+      "hgk-orchestrator",
+      "--model",
+      "gpt-6.1-sol",
+      "--provider",
+      "openai-codex",
+      "--initial-status",
+      "blocked",
+      "--idempotency-key",
+      "PIPD-R2-20261009-S2_GATE",
+      "--json",
+      "--parent",
+      "t_69ad010e"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"id\": \"t_39e21bd4\",\n  \"title\": \"S2_GATE\",\n  \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n  \"assignee\": \"hgk-orchestrator\",\n  \"status\": \"blocked\",\n  \"priority\": 0,\n  \"tenant\": null,\n  \"workspace_kind\": \"dir\",\n  \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n  \"branch_name\": null,\n  \"project_id\": null,\n  \"created_by\": \"user\",\n  \"created_at\": 1791500723,\n  \"started_at\": null,\n  \"completed_at\": null,\n  \"result\": null,\n  \"skills\": [],\n  \"max_runtime_seconds\": null,\n  \"max_retries\": null,\n  \"model_override\": \"gpt-6.1-sol\",\n  \"provider_override\": \"openai-codex\",\n  \"session_id\": null,\n  \"workflow_template_id\": null,\n  \"current_step_key\": null,\n  \"completion_contract\": \"local-only\",\n  \"last_failure_error\": null\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "create",
+      "S3_GATE",
+      "--body",
+      "HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.",
+      "--workspace",
+      "dir:C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification",
+      "--assignee",
+      "hgk-orchestrator",
+      "--model",
+      "gpt-6.1-sol",
+      "--provider",
+      "openai-codex",
+      "--initial-status",
+      "blocked",
+      "--idempotency-key",
+      "PIPD-R2-20261009-S3_GATE",
+      "--json",
+      "--parent",
+      "t_39e21bd4"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"id\": \"t_20255189\",\n  \"title\": \"S3_GATE\",\n  \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n  \"assignee\": \"hgk-orchestrator\",\n  \"status\": \"blocked\",\n  \"priority\": 0,\n  \"tenant\": null,\n  \"workspace_kind\": \"dir\",\n  \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n  \"branch_name\": null,\n  \"project_id\": null,\n  \"created_by\": \"user\",\n  \"created_at\": 1791500724,\n  \"started_at\": null,\n  \"completed_at\": null,\n  \"result\": null,\n  \"skills\": [],\n  \"max_runtime_seconds\": null,\n  \"max_retries\": null,\n  \"model_override\": \"gpt-6.1-sol\",\n  \"provider_override\": \"openai-codex\",\n  \"session_id\": null,\n  \"workflow_template_id\": null,\n  \"current_step_key\": null,\n  \"completion_contract\": \"local-only\",\n  \"last_failure_error\": null\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "create",
+      "S4_GLOBAL",
+      "--body",
+      "HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.",
+      "--workspace",
+      "dir:C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification",
+      "--assignee",
+      "hgk-orchestrator",
+      "--model",
+      "gpt-6.1-sol",
+      "--provider",
+      "openai-codex",
+      "--initial-status",
+      "blocked",
+      "--idempotency-key",
+      "PIPD-R2-20261009-S4_GLOBAL",
+      "--json",
+      "--parent",
+      "t_20255189"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"id\": \"t_8661afde\",\n  \"title\": \"S4_GLOBAL\",\n  \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n  \"assignee\": \"hgk-orchestrator\",\n  \"status\": \"blocked\",\n  \"priority\": 0,\n  \"tenant\": null,\n  \"workspace_kind\": \"dir\",\n  \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n  \"branch_name\": null,\n  \"project_id\": null,\n  \"created_by\": \"user\",\n  \"created_at\": 1791500725,\n  \"started_at\": null,\n  \"completed_at\": null,\n  \"result\": null,\n  \"skills\": [],\n  \"max_runtime_seconds\": null,\n  \"max_retries\": null,\n  \"model_override\": \"gpt-6.1-sol\",\n  \"provider_override\": \"openai-codex\",\n  \"session_id\": null,\n  \"workflow_template_id\": null,\n  \"current_step_key\": null,\n  \"completion_contract\": \"local-only\",\n  \"last_failure_error\": null\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "unblock",
+      "t_217c4bbf"
+    ],
+    "exit": 0,
+    "stdout": "Unblocked t_217c4bbf\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "claim",
+      "t_217c4bbf"
+    ],
+    "exit": 0,
+    "stdout": "Claimed t_217c4bbf\nWorkspace: C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "heartbeat",
+      "t_217c4bbf"
+    ],
+    "exit": 0,
+    "stdout": "Heartbeat recorded for t_217c4bbf\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "complete",
+      "t_217c4bbf",
+      "--result",
+      "Compiler lint/activation/acceptance/compile and 22 selftests exit 0; typed WO readback; 160/160 fresh source bytes read, no drift. Qualification only, not product acceptance. Evidence: C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification"
+    ],
+    "exit": 0,
+    "stdout": "Completed t_217c4bbf\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "unblock",
+      "t_6b6b3c24"
+    ],
+    "exit": 0,
+    "stdout": "Unblocked t_6b6b3c24\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "claim",
+      "t_6b6b3c24"
+    ],
+    "exit": 0,
+    "stdout": "Claimed t_6b6b3c24\nWorkspace: C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "heartbeat",
+      "t_6b6b3c24"
+    ],
+    "exit": 0,
+    "stdout": "Heartbeat recorded for t_6b6b3c24\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "comment",
+      "t_6b6b3c24",
+      "Manual sealed Codex launcher dispatch; no native dispatcher spawn claimed. Exact model pin deepseek-v4.1-flash/opencode-go."
+    ],
+    "exit": 0,
+    "stdout": "Comment added to t_6b6b3c24\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "--board",
+      "pipd-r2-20261009-qualification",
+      "list",
+      "--json"
+    ],
+    "exit": 0,
+    "stdout": "[\n  {\n    \"id\": \"t_217c4bbf\",\n    \"title\": \"PRECHECK\",\n    \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n    \"assignee\": \"hgk-orchestrator\",\n    \"status\": \"done\",\n    \"priority\": 0,\n    \"tenant\": null,\n    \"workspace_kind\": \"dir\",\n    \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n    \"branch_name\": null,\n    \"project_id\": null,\n    \"created_by\": \"user\",\n    \"created_at\": 1791500717,\n    \"started_at\": 1791500727,\n    \"completed_at\": 1791500729,\n    \"result\": \"Compiler lint/activation/acceptance/compile and 22 selftests exit 0; typed WO readback; 160/160 fresh source bytes read, no drift. Qualification only, not product acceptance. Evidence: C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n    \"skills\": [],\n    \"max_runtime_seconds\": null,\n    \"max_retries\": null,\n    \"model_override\": \"gpt-6.1-sol\",\n    \"provider_override\": \"openai-codex\",\n    \"session_id\": null,\n    \"workflow_template_id\": null,\n    \"current_step_key\": null,\n    \"completion_contract\": \"local-only\",\n    \"last_failure_error\": null\n  },\n  {\n    \"id\": \"t_6b6b3c24\",\n    \"title\": \"EXECUTE\",\n    \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n    \"assignee\": \"hgk-orchestrator\",\n    \"status\": \"running\",\n    \"priority\": 0,\n    \"tenant\": null,\n    \"workspace_kind\": \"dir\",\n    \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n    \"branch_name\": null,\n    \"project_id\": null,\n    \"created_by\": \"user\",\n    \"created_at\": 1791500718,\n    \"started_at\": 1791500732,\n    \"completed_at\": null,\n    \"result\": null,\n    \"skills\": [],\n    \"max_runtime_seconds\": null,\n    \"max_retries\": null,\n    \"model_override\": \"deepseek-v4.1-flash\",\n    \"provider_override\": \"opencode-go\",\n    \"session_id\": null,\n    \"workflow_template_id\": null,\n    \"current_step_key\": null,\n    \"completion_contract\": \"local-only\",\n    \"last_failure_error\": null\n  },\n  {\n    \"id\": \"t_47183abf\",\n    \"title\": \"VERIFY_FUNCTIONAL\",\n    \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n    \"assignee\": \"hgk-orchestrator\",\n    \"status\": \"blocked\",\n    \"priority\": 0,\n    \"tenant\": null,\n    \"workspace_kind\": \"dir\",\n    \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n    \"branch_name\": null,\n    \"project_id\": null,\n    \"created_by\": \"user\",\n    \"created_at\": 1791500719,\n    \"started_at\": null,\n    \"completed_at\": null,\n    \"result\": null,\n    \"skills\": [],\n    \"max_runtime_seconds\": null,\n    \"max_retries\": null,\n    \"model_override\": \"glm-5.3-flash\",\n    \"provider_override\": \"opencode-go\",\n    \"session_id\": null,\n    \"workflow_template_id\": null,\n    \"current_step_key\": null,\n    \"completion_contract\": \"local-only\",\n    \"last_failure_error\": null\n  },\n  {\n    \"id\": \"t_e7f3fb8f\",\n    \"title\": \"VERIFY_GOVERNANCE\",\n    \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n    \"assignee\": \"hgk-orchestrator\",\n    \"status\": \"blocked\",\n    \"priority\": 0,\n    \"tenant\": null,\n    \"workspace_kind\": \"dir\",\n    \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n    \"branch_name\": null,\n    \"project_id\": null,\n    \"created_by\": \"user\",\n    \"created_at\": 1791500720,\n    \"started_at\": null,\n    \"completed_at\": null,\n    \"result\": null,\n    \"skills\": [],\n    \"max_runtime_seconds\": null,\n    \"max_retries\": null,\n    \"model_override\": \"glm-5.3-flash\",\n    \"provider_override\": \"opencode-go\",\n    \"session_id\": null,\n    \"workflow_template_id\": null,\n    \"current_step_key\": null,\n    \"completion_contract\": \"local-only\",\n    \"last_failure_error\": null\n  },\n  {\n    \"id\": \"t_17f0499d\",\n    \"title\": \"S0_GATE\",\n    \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n    \"assignee\": \"hgk-orchestrator\",\n    \"status\": \"blocked\",\n    \"priority\": 0,\n    \"tenant\": null,\n    \"workspace_kind\": \"dir\",\n    \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n    \"branch_name\": null,\n    \"project_id\": null,\n    \"created_by\": \"user\",\n    \"created_at\": 1791500721,\n    \"started_at\": null,\n    \"completed_at\": null,\n    \"result\": null,\n    \"skills\": [],\n    \"max_runtime_seconds\": null,\n    \"max_retries\": null,\n    \"model_override\": \"gpt-6.1-sol\",\n    \"provider_override\": \"openai-codex\",\n    \"session_id\": null,\n    \"workflow_template_id\": null,\n    \"current_step_key\": null,\n    \"completion_contract\": \"local-only\",\n    \"last_failure_error\": null\n  },\n  {\n    \"id\": \"t_69ad010e\",\n    \"title\": \"S1_GATE\",\n    \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n    \"assignee\": \"hgk-orchestrator\",\n    \"status\": \"blocked\",\n    \"priority\": 0,\n    \"tenant\": null,\n    \"workspace_kind\": \"dir\",\n    \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n    \"branch_name\": null,\n    \"project_id\": null,\n    \"created_by\": \"user\",\n    \"created_at\": 1791500722,\n    \"started_at\": null,\n    \"completed_at\": null,\n    \"result\": null,\n    \"skills\": [],\n    \"max_runtime_seconds\": null,\n    \"max_retries\": null,\n    \"model_override\": \"gpt-6.1-sol\",\n    \"provider_override\": \"openai-codex\",\n    \"session_id\": null,\n    \"workflow_template_id\": null,\n    \"current_step_key\": null,\n    \"completion_contract\": \"local-only\",\n    \"last_failure_error\": null\n  },\n  {\n    \"id\": \"t_39e21bd4\",\n    \"title\": \"S2_GATE\",\n    \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n    \"assignee\": \"hgk-orchestrator\",\n    \"status\": \"blocked\",\n    \"priority\": 0,\n    \"tenant\": null,\n    \"workspace_kind\": \"dir\",\n    \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n    \"branch_name\": null,\n    \"project_id\": null,\n    \"created_by\": \"user\",\n    \"created_at\": 1791500723,\n    \"started_at\": null,\n    \"completed_at\": null,\n    \"result\": null,\n    \"skills\": [],\n    \"max_runtime_seconds\": null,\n    \"max_retries\": null,\n    \"model_override\": \"gpt-6.1-sol\",\n    \"provider_override\": \"openai-codex\",\n    \"session_id\": null,\n    \"workflow_template_id\": null,\n    \"current_step_key\": null,\n    \"completion_contract\": \"local-only\",\n    \"last_failure_error\": null\n  },\n  {\n    \"id\": \"t_20255189\",\n    \"title\": \"S3_GATE\",\n    \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n    \"assignee\": \"hgk-orchestrator\",\n    \"status\": \"blocked\",\n    \"priority\": 0,\n    \"tenant\": null,\n    \"workspace_kind\": \"dir\",\n    \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n    \"branch_name\": null,\n    \"project_id\": null,\n    \"created_by\": \"user\",\n    \"created_at\": 1791500724,\n    \"started_at\": null,\n    \"completed_at\": null,\n    \"result\": null,\n    \"skills\": [],\n    \"max_runtime_seconds\": null,\n    \"max_retries\": null,\n    \"model_override\": \"gpt-6.1-sol\",\n    \"provider_override\": \"openai-codex\",\n    \"session_id\": null,\n    \"workflow_template_id\": null,\n    \"current_step_key\": null,\n    \"completion_contract\": \"local-only\",\n    \"last_failure_error\": null\n  },\n  {\n    \"id\": \"t_8661afde\",\n    \"title\": \"S4_GLOBAL\",\n    \"body\": \"HGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\",\n    \"assignee\": \"hgk-orchestrator\",\n    \"status\": \"blocked\",\n    \"priority\": 0,\n    \"tenant\": null,\n    \"workspace_kind\": \"dir\",\n    \"workspace_path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\",\n    \"branch_name\": null,\n    \"project_id\": null,\n    \"created_by\": \"user\",\n    \"created_at\": 1791500725,\n    \"started_at\": null,\n    \"completed_at\": null,\n    \"result\": null,\n    \"skills\": [],\n    \"max_runtime_seconds\": null,\n    \"max_retries\": null,\n    \"model_override\": \"gpt-6.1-sol\",\n    \"provider_override\": \"openai-codex\",\n    \"session_id\": null,\n    \"workflow_template_id\": null,\n    \"current_step_key\": null,\n    \"completion_contract\": \"local-only\",\n    \"last_failure_error\": null\n  }\n]\n",
+    "stderr": ""
+  }
+]

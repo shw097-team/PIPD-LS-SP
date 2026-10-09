@@ -1,0 +1,210 @@
+{
+ "schema": "PIPD-STATUS-PROJECTION/1",
+ "round": "R3-20261009-audit-repair",
+ "workstreams": [
+  "FW-10 (R-AUD-008)",
+  "FW-12 (R-AUD-012)",
+  "R-AUD-013 (with FW-10)"
+ ],
+ "frozen_candidate": "db2299118c791c5b251ed90d1d8d40171ce82aca",
+ "tests": {
+  "command": "python -B -m unittest discover -s tests -t .",
+  "run": 138,
+  "passed": 138,
+  "failures": 0,
+  "errors": 0,
+  "failing": [],
+  "raw_log": ".hgk/rounds/R3-20261009-audit-repair/FW-10-FW-12/unittest_raw_r3.txt",
+  "note": "real counts from the raw run above; failing tests are NAMED here and in README/docs — never averaged into a percentage"
+ },
+ "hard_gates": [
+  {
+   "id": "G-TESTS-UNIT-SUITE",
+   "state": "PASS",
+   "evidence": "unittest discover: Ran 138 tests, failures 0, errors 0"
+  },
+  {
+   "id": "G-S0-CONTRACTS-19",
+   "state": "PASS",
+   "evidence": "tests/test_s0_contracts.py green in the recorded run"
+  },
+  {
+   "id": "G-S1-LITE-SLICE",
+   "state": "PASS",
+   "evidence": "trace_verdict=PASS, artifact_validation=PASS"
+  },
+  {
+   "id": "G-CLI-SMOKE-13",
+   "state": "PASS",
+   "evidence": "13/13 commands, nonzero_exit=0, verdicts={'init': 'PASS', 'intake': 'n/a', 'profile': 'n/a', 'compile-pi': 'n/a', 'bind-pd': 'n/a', 'compile-ecp': 'n/a', 'compile-tqaep': 'n/a', 'validate': 'PASS', 'doctor': 'PASS', 'project': 'PASS', 'export': 'n/a', 'diff': 'PASS', 'repair': 'n/a'}"
+  },
+  {
+   "id": "G-KNOWLEDGE-READY",
+   "state": "PARTIAL",
+   "evidence": "KNOWLEDGE_READY_REPORT verdict=PARTIAL, clean_coverage=False"
+  },
+  {
+   "id": "G-EVIDENCE-MANIFEST",
+   "state": "PASS",
+   "evidence": "evidence_manifest sha256=bdae7f6b710253b27308172f09a03ee881fac6b11af649bec687b034635dd8c6"
+  }
+ ],
+ "hard_failures_visible": [],
+ "hard_gate_nonpass_visible": [
+  "G-KNOWLEDGE-READY"
+ ],
+ "evidence_md_generator": {
+  "tool": "tools/build_evidence_md.py",
+  "behaviour": "refuses to print PASS when any hard gate row is FAIL: typed HARD_GATE_FAIL envelope, exit 2, no acceptance document written",
+  "test_counts": "taken from a real unittest run (never hardcoded)"
+ },
+ "tt_register": {
+  "total": 17,
+  "summary": {
+   "total": 17,
+   "closed": 1,
+   "partial": 4,
+   "open": 9,
+   "open_owner_gate": 2,
+   "temp_closed": 1,
+   "unknown": 0,
+   "blocking_count": 11,
+   "state_vocabulary": [
+    "CLOSED (fresh verification required and re-done)",
+    "PARTIAL (stays visible)",
+    "OPEN",
+    "OPEN_OWNER_GATE",
+    "TEMP_CLOSED (independently closed)",
+    "UNKNOWN (stays visible)"
+   ],
+   "count": 17,
+   "as_of_round": "R3-20261009-audit-repair",
+   "note": "true denominator: every row carries owner / state / raw_evidence / close_criterion and a this-round re-verification. No row is closed on history alone and no FAIL is hidden behind a percentage."
+  },
+  "rows": [
+   {
+    "id": "TT-PIPD-KNOWLEDGE-QUARANTINE",
+    "state": "PARTIAL",
+    "owner": "PIPD-EC + HGK knowledge owner (sanitizer anchor fix: HG-KSEOS knowledge/sanitizer owner)"
+   },
+   {
+    "id": "TT-PIPD-AUTHORITY-ASSERT",
+    "state": "OPEN",
+    "owner": "HG-KSEOS knowledge layer"
+   },
+   {
+    "id": "TT-PIPD-LICENSE-001",
+    "state": "OPEN_OWNER_GATE",
+    "owner": "human owner"
+   },
+   {
+    "id": "TT-PIPD-PREFLIGHT-ORDER",
+    "state": "OPEN",
+    "owner": "Hermes orchestration / HGK"
+   },
+   {
+    "id": "TT-PIPD-ADMISSION-CHAIN-GAP",
+    "state": "OPEN",
+    "owner": "HG-KSEOS lifecycle"
+   },
+   {
+    "id": "TT-PIPD-WORKORDER-WORKTREES",
+    "state": "OPEN",
+    "owner": "HGK"
+   },
+   {
+    "id": "TT-PIPD-TECHADMISSION",
+    "state": "PARTIAL",
+    "owner": "PIPD-EC"
+   },
+   {
+    "id": "TT-PIPD-S2-S8",
+    "state": "PARTIAL",
+    "owner": "HGK"
+   },
+   {
+    "id": "TT-PIPD-PYCACHE-SECRETSHAPE",
+    "state": "CLOSED",
+    "owner": "PIPD-EC"
+   },
+   {
+    "id": "TT-HGK-LIFECYCLE-UNLOGGED-TRANSITIONS",
+    "state": "OPEN",
+    "owner": "HG-KSEOS lifecycle owner"
+   },
+   {
+    "id": "TT-HGK-LIFECYCLE-EVIDENCE-UNBOUND",
+    "state": "OPEN",
+    "owner": "HG-KSEOS lifecycle/SharedSpine owner"
+   },
+   {
+    "id": "TT-HGK-ARTIFACT-CONTRACTS-UNREGISTERED",
+    "state": "OPEN",
+    "owner": "HG-KSEOS + PIPD-EC"
+   },
+   {
+    "id": "TT-PIPD-PUBLICATION-GATE",
+    "state": "OPEN_OWNER_GATE",
+    "owner": "human owner"
+   },
+   {
+    "id": "TT-PIPD-TOOLING-UNTESTED",
+    "state": "PARTIAL",
+    "owner": "PIPD maintainers"
+   },
+   {
+    "id": "TT-HGK-SANITIZER-UNANCHORED-KEY-PATTERN",
+    "state": "OPEN",
+    "owner": "HG-KSEOS knowledge/sanitizer owner"
+   },
+   {
+    "id": "TT-ORACLE-DISAGREEMENT-KP-R04",
+    "state": "OPEN",
+    "owner": "Knowledge/Policy owner (KP Builder ReleasePack owner)"
+   },
+   {
+    "id": "TT-PRE-W3-CROSS-PROJECT",
+    "state": "TEMP_CLOSED",
+    "owner": "SWOF GENIE PRE-W3 owner (PRE_W3_CROSS_PROJECT_OWNER; HITL required)"
+   }
+  ]
+ },
+ "knowledge_readiness": {
+  "gate_verdict": "PARTIAL",
+  "unique_input_paths": 160,
+  "indexed_docs_physical": 153,
+  "quarantined_by_sanitizer": 7,
+  "dispositioned": 7,
+  "undispositioned": 0,
+  "released_safe_clean": 2,
+  "released_safe_reference": 5,
+  "retained_quarantine": 0,
+  "physical_coverage": "153/160 — the sanitizer still quarantines 7; NOT padded to 160/160",
+  "never_pad_statement": "160/160 is claimed ONLY as '160/160 dispositioned', every one with an explicit owner disposition + decision above. The physical sanitizer index remains 153/160 until TT-HGK-SANITIZER-UNANCHORED-KEY-PATTERN closes and the probe is re-run; no number is filled up without a decision.",
+  "necessary_sources_still_excluded": []
+ },
+ "oracle_disagreement": {
+  "entries": 1,
+  "id": "OD-R3-001",
+  "tt": "TT-ORACLE-DISAGREEMENT-KP-R04",
+  "resolution": "upper effective contract (raw-evidence requirement) prevails; KP files NOT edited; calibration negative keeps a genuine MUST NOT"
+ },
+ "pre_w3": {
+  "tt": "TT-PRE-W3-CROSS-PROJECT",
+  "state": "TEMP_CLOSED",
+  "independently_closed": true
+ },
+ "claim_ceiling": {
+  "PROMPT_COMPILE_PASS": "CLAIMED",
+  "HGK_ADMITTED": "CLAIMED",
+  "RUNTIME_READY": "NOT CLAIMED",
+  "LOCAL_QUALIFIED": "CLAIMED",
+  "INDEPENDENT_PASS": "NOT CLAIMED",
+  "PUBLICATION_APPROVED": "NOT CLAIMED",
+  "RELEASED": "NOT CLAIMED",
+  "PRODUCTION_VERIFIED": "NOT CLAIMED"
+ },
+ "percentages_used": false,
+ "principle": "true denominator, named failures; a hard FAIL is a FAIL and is never hidden behind a percentage",
+ "generated_by": "lane FW-10/FW-12 (maker output = evidence candidate)"
+}

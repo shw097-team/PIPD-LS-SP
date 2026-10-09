@@ -1,0 +1,94 @@
+[
+  {
+    "args": [
+      "complete",
+      "t_6b6b3c24",
+      "--result",
+      "Execution STOPPED by supervisor: FAIL_SCOPE_CONTAINMENT; shipped probe wrote canonical artifact and restored it, scope breach remains. No product acceptance. Evidence SCOPE_INCIDENT_SUPERVISOR.json; maker RESULT.json is untrusted PARTIAL."
+    ],
+    "exit": 0,
+    "stdout": "Completed t_6b6b3c24\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "unblock",
+      "t_47183abf"
+    ],
+    "exit": 0,
+    "stdout": "Unblocked t_47183abf\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "claim",
+      "t_47183abf"
+    ],
+    "exit": 0,
+    "stdout": "Claimed t_47183abf\nWorkspace: C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "heartbeat",
+      "t_47183abf"
+    ],
+    "exit": 0,
+    "stdout": "Heartbeat recorded for t_47183abf\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "unblock",
+      "t_e7f3fb8f"
+    ],
+    "exit": 0,
+    "stdout": "Unblocked t_e7f3fb8f\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "claim",
+      "t_e7f3fb8f"
+    ],
+    "exit": 0,
+    "stdout": "Claimed t_e7f3fb8f\nWorkspace: C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "heartbeat",
+      "t_e7f3fb8f"
+    ],
+    "exit": 0,
+    "stdout": "Heartbeat recorded for t_e7f3fb8f\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "show",
+      "t_6b6b3c24"
+    ],
+    "exit": 0,
+    "stdout": "Task t_6b6b3c24: EXECUTE\n  status:    done\n  assignee:  hgk-orchestrator\n  workspace: dir @ C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification\n  model:     deepseek-v4.1-flash (provider: opencode-go)\n  max-retries: 2 (default)\n  created:   2026-10-09 07:05 by user\n  started:   2026-10-09 07:05\n  completed: 2026-10-09 07:19\n  parents:   t_217c4bbf\n  children:  t_47183abf, t_e7f3fb8f\n\nBody:\nHGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\n\nResult:\nExecution STOPPED by supervisor: FAIL_SCOPE_CONTAINMENT; shipped probe wrote canonical artifact and restored it, scope breach remains. No product acceptance. Evidence SCOPE_INCIDENT_SUPERVISOR.json; maker RESULT.json is untrusted PARTIAL.\n\nComments (1):\n  [2026-10-09 07:05] default: Manual sealed Codex launcher dispatch; no native dispatcher spawn claimed. Exact model pin deepseek-v4.1-flash/opencode-go.\n\nEvents (7):\n  [2026-10-09 07:05] created {'assignee': 'hgk-orchestrator', 'status': 'blocked', 'parents': ['t_217c4bbf'], 'creator_task_id': None, 'tenant': None, 'workspace_kind': 'dir', 'workspace_path': 'C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification', 'branch_name': None, 'project_id': None, 'skills': None, 'goal_mode': None, 'model_override': 'deepseek-v4.1-flash', 'provider_override': 'opencode-go'}\n  [2026-10-09 07:05] blocked {'reason': 'initial_status', 'status': 'blocked', 'actor': 'user'}\n  [2026-10-09 07:05] unblocked\n  [2026-10-09 07:05] [run 2] claimed {'lock': 'DESKTOP-57EO414:20352', 'expires': 1791501632, 'run_id': 2}\n  [2026-10-09 07:05] [run 2] heartbeat\n  [2026-10-09 07:05] commented {'author': 'default', 'len': 123}\n  [2026-10-09 07:19] [run 2] completed {'result_len': 238, 'summary': 'Execution STOPPED by supervisor: FAIL_SCOPE_CONTAINMENT; shipped probe wrote canonical artifact and restored it, scope breach remains. No product acceptance. Evidence SCOPE_INCIDENT_SUPERVISOR.json; maker RESULT.json is untrusted PARTIAL.'}\n\nRuns (1):\n  #2   completed    @hgk-orchestrator  843s  2026-10-09 07:05\n        \u2192 Execution STOPPED by supervisor: FAIL_SCOPE_CONTAINMENT; shipped probe wrote canonical artifact and restored it, scope breach remains. No product acceptance. Ev\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "show",
+      "t_47183abf"
+    ],
+    "exit": 0,
+    "stdout": "Task t_47183abf: VERIFY_FUNCTIONAL\n  status:    running\n  assignee:  hgk-orchestrator\n  workspace: dir @ C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification\n  model:     glm-5.3-flash (provider: opencode-go)\n  max-retries: 2 (default)\n  created:   2026-10-09 07:05 by user\n  started:   2026-10-09 07:19\n  parents:   t_6b6b3c24\n  children:  t_17f0499d\n\nBody:\nHGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\n\nEvents (5):\n  [2026-10-09 07:05] created {'assignee': 'hgk-orchestrator', 'status': 'blocked', 'parents': ['t_6b6b3c24'], 'creator_task_id': None, 'tenant': None, 'workspace_kind': 'dir', 'workspace_path': 'C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification', 'branch_name': None, 'project_id': None, 'skills': None, 'goal_mode': None, 'model_override': 'glm-5.3-flash', 'provider_override': 'opencode-go'}\n  [2026-10-09 07:05] blocked {'reason': 'initial_status', 'status': 'blocked', 'actor': 'user'}\n  [2026-10-09 07:19] unblocked\n  [2026-10-09 07:19] [run 4] claimed {'lock': 'DESKTOP-57EO414:4332', 'expires': 1791502477, 'run_id': 4}\n  [2026-10-09 07:19] [run 4] heartbeat\n\nRuns (1):\n  #4   running      @hgk-orchestrator  active  2026-10-09 07:19\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "show",
+      "t_e7f3fb8f"
+    ],
+    "exit": 0,
+    "stdout": "Task t_e7f3fb8f: VERIFY_GOVERNANCE\n  status:    running\n  assignee:  hgk-orchestrator\n  workspace: dir @ C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification\n  model:     glm-5.3-flash (provider: opencode-go)\n  max-retries: 2 (default)\n  created:   2026-10-09 07:05 by user\n  started:   2026-10-09 07:19\n  parents:   t_6b6b3c24\n  children:  t_17f0499d\n\nBody:\nHGK admission.json is authority. Manual supervised dispatch; AUTOMATIC_ROUTING_HOLD. Gate is not PASS until same-candidate independent raw evidence closes every R2 predicate.\n\nEvents (5):\n  [2026-10-09 07:05] created {'assignee': 'hgk-orchestrator', 'status': 'blocked', 'parents': ['t_6b6b3c24'], 'creator_task_id': None, 'tenant': None, 'workspace_kind': 'dir', 'workspace_path': 'C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification', 'branch_name': None, 'project_id': None, 'skills': None, 'goal_mode': None, 'model_override': 'glm-5.3-flash', 'provider_override': 'opencode-go'}\n  [2026-10-09 07:05] blocked {'reason': 'initial_status', 'status': 'blocked', 'actor': 'user'}\n  [2026-10-09 07:19] unblocked\n  [2026-10-09 07:19] [run 5] claimed {'lock': 'DESKTOP-57EO414:21056', 'expires': 1791502480, 'run_id': 5}\n  [2026-10-09 07:19] [run 5] heartbeat\n\nRuns (1):\n  #5   running      @hgk-orchestrator  active  2026-10-09 07:19\n",
+    "stderr": ""
+  }
+]

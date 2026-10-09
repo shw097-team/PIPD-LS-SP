@@ -1,0 +1,85 @@
+{
+  "schema": "PIPD-R2-QUALIFICATION-RESULT/1",
+  "round": "R2-20261009-qualification",
+  "workorder_id": "WO-PIPD-R2-20261009-EXECUTE",
+  "taskspec_id": "TS-PIPD-R2-20261009-EXECUTE",
+  "task_id": "PIPD-LS-SP-HERMES-S0S4-CONTINUATION-FAR-R2",
+  "mode": "QUALIFICATION_EVIDENCE_ONLY",
+  "verdict": "PARTIAL",
+  "terminal_state": "PARTIAL",
+  "claim_ceiling": "LOCAL_QUALIFIED",
+  "candidate_sha": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+  "model_declaration": {
+    "declared": "opencode-go/deepseek-v4.1-flash",
+    "actual_self_identity": "deepseek-v4.1-flash",
+    "launcher": "sanctioned sealed launcher (authorized per TASK.md)"
+  },
+  "write_boundary": "C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R2-20261009-qualification/execute/**",
+  "boundary_respected": true,
+  "boundary_incident": {
+    "what": "tools/edge_selfcheck.py (shipped) hardcodes ROOT=C:\\Projects\\Agent_Workspace\\PIPD and wrote canonical .hgk/artifacts/edge_selfcheck.json when executed.",
+    "remediation": "Output preserved to side-effects/edge_selfcheck.canonical-overwrite.json; canonical file restored to HEAD via 'git checkout HEAD --'. Pre-existing ' M .hgk/artifacts/github_publish.json' left untouched.",
+    "canonical_state_after": "HEAD=829c17e unchanged; only pre-existing github_publish.json modification + untracked .hgk/rounds/ remain."
+  },
+  "outputs": {
+    "raw_command_receipts": "raw-command-receipts.json",
+    "source_digest_before": "source-digest-before.json",
+    "source_digest_after": "source-digest-after.json",
+    "stage_gates": "stage-gates.json",
+    "journey_gates": "journey-gates.json",
+    "knowledge_gate": "knowledge/G-KNOWLEDGE-READY.json",
+    "far_research": "far/far_research_evidence.json",
+    "openspec": "openspec-ev/openspec-validate.json",
+    "own_probes": ["own-probes/edge_selfcheck_candidate.py", "own-probes/host_effective_load_independent.json"],
+    "evidence_manifest": "OWN_EVIDENCE_MANIFEST.json"
+  },
+  "gate_summary": {
+    "S0": "CLOSED_ON_CANDIDATE",
+    "S1": "CLOSED_ON_CANDIDATE",
+    "S2": "PARTIAL",
+    "S3": "CLOSED_ON_CANDIDATE",
+    "S4": "PARTIAL",
+    "G-KNOWLEDGE-READY": "BLOCKED",
+    "J1": "PASS_ON_CANDIDATE",
+    "J2": "PASS_ON_CANDIDATE",
+    "J3": "PASS_ON_CANDIDATE",
+    "J4": "PASS_ON_CANDIDATE",
+    "J5": "PASS_ON_CANDIDATE",
+    "J6": "BLOCKED"
+  },
+  "first_failing_invariant": "G-KNOWLEDGE-READY clean_coverage < 1: 7 of 160 required sources quarantined (their text contains the security patterns they document).",
+  "blocking_tt_close_conditions": [
+    {"id": "TT-PIPD-KNOWLEDGE-QUARANTINE", "owner": "PIPD-EC + HGK knowledge owner", "close": "quarantine review distinguishes documented-pattern from live secret with owner decision; re-run probe to clean_coverage=true"},
+    {"id": "TT-PIPD-AUTHORITY-ASSERT", "owner": "HG-KSEOS knowledge layer", "close": "assertion-level authority-rank enforcement (currently ingest-time only)"},
+    {"id": "R2-E1-CORPUS-SKIP", "owner": "PIPD-EC (product test fixture)", "close": "source corpus present so test_unanchored_key_pattern_really_matches_an_identifier_tail does not skip"},
+    {"id": "R2-E2-TRACKED-FILES-ORACLE", "owner": "PIPD-EC (product test)", "close": "align tracked_files oracle with non-git fresh-copy condition (git-ls-files gate vs checkout expectation)"},
+    {"id": "R2-LICENSE-UNSET", "owner": "human owner", "close": "owner sets OWNER_LICENSE_DECISION.yaml decision (HITL; agent cannot)"}
+  ],
+  "repair_recommendation": {
+    "scope": "product test-side only (no semantic change to S0/S1); plus owner-controlled HGK knowledge layer",
+    "minimum_write_set": ["tests/test_quarantine_review.py or a present source corpus", "tests/test_tooling_executes.py tracked_files oracle", "dist/WHEEL_MANIFEST.json candidate_head refresh"],
+    "rollback_pointer": "RB-WO-PIPD-R2-20261009-EXECUTE",
+    "not_authorized_here": true
+  },
+  "resume_command": "python -B \"C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R2-20261009-qualification/execute/own-probes/edge_selfcheck_candidate.py\"; python -B candidate/tools/knowledge_ready_probe.py --manifest candidate/.hgk/preflight/source-manifest.json --hgk-root C:/Projects/Agent_Workspace/HG-KSEOS --out execute/knowledge/out --db execute/knowledge/own-derived.db",
+  "side_effects": {
+    "clone": "execute/candidate (git clone --no-hardlinks; origin=local product; .git retained; detached at 829c17e)",
+    "isolated_db": "execute/knowledge/own-derived.db (DISPOSABLE derived index; no canonical promotion)",
+    "build_install_dirs": "created under execute/tmp and execute/portable (TMP/TEMP kept inside evidence dir)",
+    "canonical_overwrite": "execute/side-effects/edge_selfcheck.canonical-overwrite.json (then restored)",
+    "raw_logs": "raw-command-receipts.json + console captures"
+  },
+  "source_snapshot_pristine_proof": {
+    "before_aggregate_sha256": "afc89e90c82ee4cc353764aba50d712f846279a80ec5952a61d0d4245a541801",
+    "after_aggregate_sha256": "afc89e90c82ee4cc353764aba50d712f846279a80ec5952a61d0d4245a541801",
+    "changed_source_files": [],
+    "candidate_head": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e"
+  },
+  "independence": "Maker/writer run (codex). NOT an Independent PASS. Officer still required for final acceptance.",
+  "historical_verdicts": "Superseded, not transferable.",
+  "notes": [
+    "No canonical product/HGK/Fabric mutation; no self-acceptance; no publication; no secrets read.",
+    "R3 disambiguation: max claim is LOCAL_QUALIFIED; global verdict is PARTIAL."
+  ],
+  "generated_at": "2026-10-09T00:00:00+08:00"
+}

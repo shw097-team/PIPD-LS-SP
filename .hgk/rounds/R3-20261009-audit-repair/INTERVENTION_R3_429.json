@@ -1,0 +1,30 @@
+{
+ "schema": "HGK-R3-SUPERVISION-INTERVENTION/1",
+ "recorded_at": "2026-10-09T08:14:09+08:00",
+ "trigger": "standing order: same abnormal block in one error CLASS repeated >4 times",
+ "error_class": "HTTP_429_PROVIDER_QUOTA",
+ "occurrences_in_class": 5,
+ "affected": [
+  "FW-02",
+  "FW-03",
+  "FW-04+FW-07",
+  "FW-05+FW-06",
+  "FW-10+FW-12"
+ ],
+ "observed_message": "ChatGPT or Codex Subscription rate-limited every one of 3 attempts; usage limit resets ~4h (11:49).",
+ "root_cause": "delegation.provider/model was pinned to openai-codex/gpt-6.1-sol (PLAN lane) whose subscription quota is exhausted; the children inherited it.",
+ "action_taken": "REMEDIATED (steer, not pause): switched the delegation route to the declared fallback opencode-go/mimo-v2.6-pro via `hermes config set`, read back from config.yaml, then re-dispatched all 5 lanes.",
+ "work_impact": "NONE on artifacts - the failing children died during read/analysis; no partial writes were committed. Verified: no lane receipt directory existed at failure time.",
+ "side_effects_disclosed": [
+  "Hermes config.yaml delegation.provider + delegation.model changed (fallback lane selected per the user's SoD plan)",
+  "5 background children were re-spawned on the fallback model",
+  "the FW-08+FW-11 lane was reassigned to the CODEX CLI EXECUTE lane (opencode-go/deepseek-v4.1-flash via the sanctioned frontdoor 127.0.0.1:10100), not re-spawned as a Hermes child"
+ ],
+ "codex_lane_smoke": {
+  "command": "codex exec --cd PIPD --skip-git-repo-check -s read-only",
+  "model": "opencode-go/deepseek-v4.1-flash",
+  "result": "CODEX_EXEC_OK",
+  "transport_note": "websocket reconnect warnings, fell back to HTTPS, completed"
+ },
+ "claim_ceiling": "CANDIDATE_ONLY"
+}

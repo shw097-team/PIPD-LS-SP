@@ -1,0 +1,63 @@
+{
+  "round": "R2-FAR-RCA-20261009",
+  "research_id": "FAR-PIPD-R2-SOD-RCA-20261009",
+  "work_order": "WO-REQ-PIPD-R2-FAR-RCA-20261009",
+  "status": "CLOSED_FOR_RESEARCH",
+  "claim_ceiling": "SOD_DEVIATION_ROOT_CAUSE_AND_MINIMAL_UPLIFT_PLAN_ONLY",
+  "not": ["HGK admission", "independent release authorization", "remediation applied"],
+
+  "route": {"task_class": "RESEARCH_GENERAL", "decision": "NATIVE", "primary": "fabric-autoresearch-native"},
+  "gates_enabled": ["KANBAN", "SWARM", "GSTACK", "OPENSPEC", "FAR"],
+
+  "lane_model_evidence": {
+    "LANE_A_B_C_D": {"model": "gpt-6.1-sol", "provider": "openai-codex", "role": "PLAN/RESEARCH", "delegation_id": "deleg_cce353b6", "duration_s": 290.06},
+    "AGGREGATE": {"engine": "codex-cli-sealed", "model": "opencode-go/deepseek-v4.1-flash", "role": "EXECUTE", "proc": "proc_ac754422e0b8", "exit": 0},
+    "VERIFY": {"model": "opencode-go/glm-5.3-flash", "role": "VERIFY/SECURITY", "proc": "proc_5ef4daf7b846", "exit": 0, "reasoning": "medium"}
+  },
+
+  "verdict": {
+    "file": "verify/GLM_VERDICT.json",
+    "contract_id": "VERIFY-PIPD-R2-FAR-RCA-20261009",
+    "overall_verdict": "PASS",
+    "per_claim": {"Q1": "PASS", "Q2": "PASS", "CHALLENGE": "PASS", "REMEDIATION": "PASS"},
+    "officer_observed_identity": "opencode-go/glm-5.3-flash",
+    "digests_bound": true
+  },
+
+  "root_causes": {
+    "Q1": "The checked dispatch chain has no obligatory EXECUTE-complete -> independent-VERIFY handoff; model-SoD is a supply choice, not a mandatory workflow edge. Sealed -Action Write prints a receipt and exits (start-hgk-hermes.ps1:328-361) without spawning an AO; lifecycle permits EXECUTING->EVOLUTION_REVIEW (lifecycle.py:58); Kanban completion only promotes existing children (kanban_db.py:2819-2827); the per-round closure rule is a skill instruction.",
+    "Q2": "Three layers all named PLAN; only the real authoring worker selects a model. lifecycle.plan() makes no model call (_derive_tasks, lifecycle.py:260-296); named_methods.route('plan') returns a method route (no model field); actor is a lease string, not model proof (admission.json:56-70, payload_json={})."
+  },
+  "challenge_corrections": {
+    "C1": "reworded: enforcement EXISTS (record_workorder_result writer!=checker; ReleaseReducer INDEPENDENT_ACCEPTANCE_MISSING; hgk-lane-guard.py REFUSE rc=2) but is NOT mandatorily wired into the independent-lane dispatch. Never say 'absent'.",
+    "C2": "split into skeleton generation (no model; HIGH) / plan authorship (LOW for this admission) / submission (no attestation); counterexample: gpt-6.1-sol adoption-design lane deleg_b78efec7 exists."
+  },
+  "remediation_proposal": {
+    "proposal_id": "PE-PIPD-R2-SOD-RCA-20261009",
+    "applied": false,
+    "option": "REUSE_EXISTING_RUNTIME_PLUS_NARROW_FIX_AT_SEALED_WRITE_BOUNDARY",
+    "blast_radius": "one launcher Write branch + one authorization contract + one skill rule",
+    "flywheel": "none (no new scheduler/DB/reducer/routing/credential)"
+  },
+
+  "officer_caveats_recorded": [
+    "R/logs/agent.log:12915-12947 is stale/rotated (live agent.log 1048 lines); counterexample otherwise corroborated by FAR_LANE_VERIFY_002_EVIDENCE:26 and lane_v1d_challenge.json.",
+    "'Hermes/hermes_cli/kanban_db.py' path prefix convention: real file lives in the live Hermes home, behavior/line ranges match.",
+    "declared lane-guard reproduce command needs a PyYAML-equipped interpreter (repo .venv), not the bare python."
+  ],
+
+  "must_disclose": [
+    "No canonical mutation, no commit/push, no promotion, no DB/policy/credential/profile write. All writes confined to PIPD/.hgk/rounds/R2-FAR-RCA-20261009/.",
+    "The officer's nits above are recorded, NOT patched into the frozen report: editing a bound subject would SUPERSEDE the verdict.",
+    "Concurrent unrelated Hermes sessions were observed active on this host (e.g. openai-codex subagents hitting HTTP 429 usage limit in session 20261009_081001_8a95b9); not part of this round."
+  ],
+  "artifacts": [
+    "far/ResearchRequest.yaml", "far/ResearchPlan.yaml",
+    "far/lanes/LANE_A_rca_verify.lane.json", "far/lanes/LANE_B_rca_plan.lane.json",
+    "far/lanes/LANE_C_challenge.lane.json", "far/lanes/LANE_D_remediation.lane.json",
+    "far/IntegratedFindings.yaml", "far/LaneD_RootCause.json", "far/LaneE_Challenge.json",
+    "far/ProposedEvolution.yaml", "far/Gate1_Receipt.json", "far/ResearchHandoff.yaml",
+    "far/FAR_RCA_REPORT.md", "far/SUBJECT_DIGESTS.json",
+    "verify/VERIFY_CONTRACT.yaml", "verify/GLM_VERDICT.json", "verify/glm-verify.log"
+  ]
+}

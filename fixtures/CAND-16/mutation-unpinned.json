@@ -44,14 +44,35 @@
  "capability_need": "model/data/eval skill donor",
  "candidate": "Hugging Face Agent Skills",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "PER_SKILL_ADMISSION",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "native PIPD skill",
+  "exit_criterion": "rights/tool-permission/provenance failure",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "native PIPD skill",
+  "disposition": "ADOPT",
+  "design_disposition": "ADOPT_WITH_TRANSLATION",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
   "independently_verified": false
  },
  "fallback_exit": "native PIPD skill",
  "subject_id": "subset-tech-3031fa59c164ea1b406d6f3ce1d085dc",
  "version": "per-skill revision/license/provenance pin",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "7618abdc12c98dedb58a7a2f6f77dc47b347da732bd24ce9b84b04432810febd"
+ "content_hash": "fbd2d2186a9a27d351370b13cc1c60e4d8f6595dbe225b9c587dd363abb40771"
 }

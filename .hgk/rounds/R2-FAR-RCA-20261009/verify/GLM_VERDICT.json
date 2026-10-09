@@ -1,0 +1,59 @@
+{
+  "contract_id": "VERIFY-PIPD-R2-FAR-RCA-20261009",
+  "officer_identity": {
+    "requested": "opencode-go/glm-5.3-flash",
+    "observed": "opencode-go/glm-5.3-flash (runtime self-report: Hermes CLI session on model glm-5.3-flash via provider opencode-go; reasoning effort per contract medium)"
+  },
+  "subject_digests": {
+    "far/FAR_RCA_REPORT.md": "b72b6491ff12a508beca63524bf9d4c0f67a71a4e5cacfb62c9119288d19b0ff",
+    "far/IntegratedFindings.yaml": "69233e8432209936dda7440759820f94e2ae36b347e983f3efd453d49c87572a",
+    "far/LaneD_RootCause.json": "52c4e395b711372ff6a6496b2474b9b9efcd73107757dbb8f87adee94f435344",
+    "far/LaneE_Challenge.json": "a1ea362898bd1aff55fc935bcec8c061b998002f7f40661e52b30e12b4f258e8",
+    "far/ProposedEvolution.yaml": "c61d763c42c4803e4887d1a3fb859cd9f433c51f06d78018191a5528e51f9a41",
+    "far/Gate1_Receipt.json": "e7d5b94db959bb0539e97351d8b5b52b23f1544b2706ffbae752fcb79ff38524",
+    "far/ResearchHandoff.yaml": "6127e9cb1089718d632f8e3e6f57c0910d13465fd645da45aebf90b40ab177d9",
+    "far/lanes/LANE_A_rca_verify.lane.json": "c8057bb74a9ba07c9df80ea23064d2d95dbaac3c6a82703766bb464f7304a93e",
+    "far/lanes/LANE_B_rca_plan.lane.json": "e264bc040855d943ec9f781e06a02c94e92145bd0150fd8404e8a42bbe1fca6e",
+    "far/lanes/LANE_C_challenge.lane.json": "0c61470f3af3b4b99f53456b5e59ec57485a8c582f697b26f2355c32909fd549",
+    "far/lanes/LANE_D_remediation.lane.json": "e528302c61bcb17a1fc03f56c2473e2880c102aa540f45562665b199beb3e0d9",
+    "verify/VERIFY_CONTRACT.yaml": "b28412b2b151c47f87193353714f457e1e24802fb765c22984fe6cc99b822c28"
+  },
+  "per_claim": [
+    {
+      "id": "Q1",
+      "verdict": "PASS",
+      "evidence": "A4: read start-hgk-hermes.ps1 lines 1-18 (action set Verify/Write), 204-210 (Verify branch prints receipt, exit 0), 235-262 (Write branch spawns codex.exe only), 328-361 (write receipt built, model-drift throw, exit 0) — no Acceptance-Officer spawn anywhere in the Write branch. A5: lifecycle.py:58 FORWARD['EXECUTING']=('VERIFYING','EVOLUTION_REVIEW') confirms VERIFYING is skippable. A7: kanban_db.py:2128-2187 recompute_ready only promotes pre-existing todo/blocked children; :2723-2766 complete_task gates/records; :2819-2827 fires recompute_ready, never creates/spawns a missing VERIFY card. A6: hgk-governed-execution SKILL.md:196-207 states the closure duty as an orchestrator instruction (delegate_task VERIFY_ONLY leaf); named_methods.route():151-192 returns a routing decision only. No overclaim: sections 2.2/4.1 record record_workorder_result writer==checker refusal (spine.py:324-346 verified), ReleaseReducer INDEPENDENT_ACCEPTANCE_MISSING (release.py:44-64 verified), and hgk-lane-guard.py exists; report frames them as 'result gates at call time' not a scheduler — matches source.",
+      "locator_ok": true,
+      "note": "Verified at disk. Two locator-path nits that do not flip the verdict: (1) 'Hermes/hermes_cli/kanban_db.py' does not exist under HG-KSEOS (no Hermes/ dir there); the real file at the live Hermes home (...\\Local\\hermes\\hermes-agent\\hermes_cli\\kanban_db.py) shows the cited behavior at the cited line ranges. (2) Counterexample locator R/logs/agent.log:12915-12947 is NOT locatable on current disk (live agent.log has 1048 lines; incident copies have 1307) — the counterexample facts are independently corroborated by HG-KSEOS/var/far-lane-verify-002/FAR_LANE_VERIFY_002_EVIDENCE_2026-10-07.md:26 and var/far-lane-verify-002/lanes/lane_v1d_challenge.json:2-12 (session 20261007_133742_33767d, glm-5.3-flash PARTIAL), so Q1's core claim stands, but the agent.log line range should be treated as a stale/rotated pointer."
+    },
+    {
+      "id": "Q2",
+      "verdict": "PASS",
+      "evidence": "B1: lifecycle.py:260-296 read — plan() only reads intent, calls _derive_tasks(goal, source_count) (keyword fallback), writes PLAN_READY; no model/LLM invocation; docstring at :296 says 'no external LLM needed for the skeleton'. B2: lifecycle.py:555-609 admit_requirement: register_requirement -> acquire_lease -> transition FROZEN -> create_taskspec -> create_workorder, all deterministic; spine.py:151-160/191-254 (transition_requirement: lease + version + event insert; payload optional) and spine.py:296-322 (create_workorder checks writer/base_head only) contain no model call and no PLAN policy resolution. B3: named_methods.route():151-192 returns {flow, provider, state, fallback, route} where provider is a method name (gstack.plan-eng-review when selected); no model field. B7: var/far-plan-enforcement-011/coordination/admission.json lines 56-70 read — FROZEN event (EVT-c12acc9c19b7aedc) actor='hermes-planner', payload_json='{}', no model/provider/session field. Report separates skeleton/authorship/submission (sections 3.1, 4.2) and explicitly does NOT claim this admission is proven deepseek-authored (LOW confidence, author lineage not obtained).",
+      "locator_ok": true,
+      "note": "Cited line ranges match disk. named_methods.route('plan') returns the gstack method route only under the ACTIVE_SELECTED condition ('gstack.plan-eng-review' in selected) — consistent with the report's own claim that it is a method route either way and never an LLM provider field. lane-routing-registry.yaml:52-70 confirms PLAN declared engine=hermes / openai-codex / gpt-6.1-sol / oauth / medium as declaration data only."
+    },
+    {
+      "id": "CHALLENGE",
+      "verdict": "PASS",
+      "evidence": "LaneE_Challenge.json: 8 challenges with statuses ADJUSTED (CH-01=C1, CH-05=C2), CLOSED (CH-04, CH-06, CH-07), CONCEDED_AS_CONFOUND (CH-03), CLOSED_WITH_RESIDUAL (CH-02, CH-08) — counts 4+2+1+2 match the raw LANE_C challenge lane. FAR_RCA_REPORT.md folds both adjustments: section 2.2/4.1 keeps the correctness framing ('exists but not mandatorily wired') AND records the confounds (guard epoch 13 vs live 15, bare ADMITTED not admissible — reproduced live: guard returned rc=2, decision=REFUSE, registry_epoch=13, live_epoch=15, ERR_LANE_SOD_VIOLATION, arm_admitted evidence=ABSENT); section 4.2 keeps the three-layer split and the refuting counterexample (deleg_b78efec7 gpt-6.1-sol adoption design), corroborated at HG-KSEOS/evidence/review/FAR_LANE_SOD_004_ADOPTION_EVIDENCE_2026-10-07.md:13-17 and var/far-lane-sod-004/lanes/laneP_adoption_design.json:1-10. IntegratedFindings.yaml challenge_adjustments section preserves both verbatim. Nothing silently dropped.",
+      "locator_ok": true,
+      "note": "Reproduced the lane-guard REFUSE (rc=2) read-only with the repo venv python; note the bare 'python' in the default environment lacks PyYAML, so the report's reproduce command only works with a yaml-enabled interpreter (venv). Confound record verified."
+    },
+    {
+      "id": "REMEDIATION",
+      "verdict": "PASS",
+      "evidence": "ProposedEvolution.yaml: selected_option REUSE_EXISTING_RUNTIME_PLUS_NARROW_FIX_AT_SEALED_WRITE_BOUNDARY; change surface limited to launcher ps1 pre-gate (:235-260) + Write success exit VERIFY handoff (:318-361), one skill rule, prompt-protocol; explicitly 'no second DB/scheduler/reducer', 'no routing or credential change'; rollback via preimage digests, never roll back to an acceptance PASS. sod_self_check_predicate (lines 117-122) is fail-closed: missing field / no invocation / unknown identity / SUPERSEDED / missing verdict are never PASS, and it requires exists(completed_VERIFY_after_candidate_freeze) BEFORE the all(...) over actual_makers, avoiding the vacuous empty-set PASS — consistent with the meta_gates empty-denominator defect (reproduced: evidence_reducer(capsules=[]) -> verdict PASS, the exact blind spot the exists-first clause closes). check_sod controls reproduced live: PLAN->GLM (True), PLAN->PLAN (False SOD_VIOLATION), empty maker (False SOD_UNDETERMINED) — matching the report's observed controls.",
+      "locator_ok": true,
+      "note": "One adjacent-issue claim verified at disk: ps1:349 uses $usedToken in $receipt.transported_model while $usedToken is assigned at :354 — order defect real as documented. Internal consistency holds; no mutation was performed by this officer."
+    }
+  ],
+  "overall_verdict": "PASS",
+  "claim_ceiling": "Independent VERIFY/AO verdict for round R2-FAR-RCA-20261009 only. This is NOT an HGK admission, not a release authorization, and does not implement or activate PE-PIPD-R2-SOD-RCA-20261009. Deviations are confirmed within the checked-source scope only, as the report itself scopes them.",
+  "residual_uncertainty": [
+    "Locator R/logs/agent.log:12915-12947 could not be located on current disk (live agent.log = 1048 lines; likely rotated). The counterexample it supports is corroborated by two other on-disk locators that were read (FAR_LANE_VERIFY_002_EVIDENCE:26; var/far-lane-verify-002/lanes/lane_v1d_challenge.json), so Q1 stands, but that specific line range is unverifiable.",
+    "Q1/Q2 'this round' facts (two MAKERs, GLM smoke, missing VERIFY dispatch, no 8-pack) are delegation-context givens the report itself does not re-attest; the officer did not re-attest the round transcript either. The root-cause claims are verified as source-scope facts, not as per-turn runtime facts.",
+    "Whether release/SoD reducers or evidence_reducer were invoked this round: ABSTAIN for both report and officer (no DB read; read-only officer).",
+    "The lane-guard reproduce command succeeds only under a PyYAML-equipped interpreter (repo .venv); the report's reproduce section does not state that prerequisite."
+  ]
+}

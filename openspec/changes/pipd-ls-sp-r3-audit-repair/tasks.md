@@ -1,0 +1,23 @@
+# Tasks
+
+- [x] Freeze the audit baseline and re-read the source corpus (7 families) — G-SOURCE
+- [x] Compile the R3 C0–C9 contract with the bundled compiler — G-PROMPT-COMPILE
+- [x] Admit the late-bound obligations: 27 requirement → taskspec → workorder chains — G-HGK-ADMISSION
+- [x] Create the Kanban board + gate DAG with real CLI receipts — KANBAN
+- [x] Route check: gstack (review/qa/security) and OpenSpec (brownfield_spec_change) — GSTACK / OPENSPEC
+- [ ] FW-01 freeze the candidate tuple and re-bind the AO on one subject
+- [ ] FW-02 reconcile the 19 S0 machine contracts, registry and versions
+- [ ] FW-03 materialise the 8 logical PIPD SkillContracts
+- [ ] FW-04 atomic requirement compiler replacing the keyword classifier
+- [ ] FW-05 rebuild the exact five PIPD semantic Web documents
+- [ ] FW-06 rebuild the 3 real host adapters and the effective-load oracle
+- [ ] FW-07 PD binding reads the real RepoContext and currentness
+- [ ] FW-08 disposition the 22 technology admission rows
+- [ ] FW-09 re-qualify GP-01/02/03 and the 13 CLI commands
+- [ ] FW-10 knowledge quarantine disposition and HGK admission continuity
+- [ ] FW-11 seal the evidence manifest and prove no secret leakage
+- [ ] FW-12 regenerate docs, status, CI and historical projections
+- [ ] Stage gates G-S0 / G-S1 / G-S3-WEB / G-S3-HOST / G-S4 on one frozen candidate
+- [ ] Independent VERIFY_ONLY officer verdict bound to the candidate tuple
+- [ ] Single-file external acceptance evidence MD + outer manifest seal
+- [ ] Owner-gated publication disposition (PUBLICATION_APPROVED stays NOT CLAIMED)

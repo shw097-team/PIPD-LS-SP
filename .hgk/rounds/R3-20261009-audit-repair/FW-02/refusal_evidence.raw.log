@@ -1,0 +1,39 @@
+### required-field removal (TechnologyAdmission/immutable_pin) [--check] exit=1
+REFUSE: TechnologyAdmission: schema.required drops previously registered required field(s) ['immutable_pin'] — weakening refused (never delete required fields)
+registry_reconcile: 1 violation(s) — refusing
+
+### required-field removal (TechnologyAdmission/immutable_pin) [--write] exit=1
+REFUSE: TechnologyAdmission: schema.required drops previously registered required field(s) ['immutable_pin'] — weakening refused (never delete required fields)
+registry_reconcile: 1 violation(s) — refusing
+
+### version/$id mismatch (TechnologyAdmission -> :2) [--check] exit=1
+REFUSE: TechnologyAdmission: $id 'urn:pipd:s0:TechnologyAdmission:2' breaks the v1 scheme (expected 'urn:pipd:s0:TechnologyAdmission:1')
+registry_reconcile: 1 violation(s) — refusing
+
+### version/$id mismatch (TechnologyAdmission -> :2) [--write] exit=1
+REFUSE: TechnologyAdmission: $id 'urn:pipd:s0:TechnologyAdmission:2' breaks the v1 scheme (expected 'urn:pipd:s0:TechnologyAdmission:1')
+registry_reconcile: 1 violation(s) — refusing
+
+### wrong owner (TechnologyAdmission) [--check] exit=1
+REFUSE: TechnologyAdmission: x-s0 owner 'Wrong' != canonical 'PIPD'
+registry_reconcile: 1 violation(s) — refusing
+
+### wrong owner (TechnologyAdmission) [--write] exit=1
+REFUSE: TechnologyAdmission: x-s0 owner 'Wrong' != canonical 'PIPD'
+registry_reconcile: 1 violation(s) — refusing
+
+### wrong consumer (TechnologyAdmission) [--check] exit=1
+REFUSE: TechnologyAdmission: x-s0 consumers ['Wrong'] != canonical ['tool/provider adapters']
+registry_reconcile: 1 violation(s) — refusing
+
+### wrong consumer (TechnologyAdmission) [--write] exit=1
+REFUSE: TechnologyAdmission: x-s0 consumers ['Wrong'] != canonical ['tool/provider adapters']
+registry_reconcile: 1 violation(s) — refusing
+
+### extra 20th family (Invented) [--check] exit=1
+REFUSE: Invented: unexpected schema family not in the S0 exact 19/19 set (schemas/Invented.schema.json) — a 20th family is refused
+registry_reconcile: 1 violation(s) — refusing
+
+### extra 20th family (Invented) [--write] exit=1
+REFUSE: Invented: unexpected schema family not in the S0 exact 19/19 set (schemas/Invented.schema.json) — a 20th family is refused
+registry_reconcile: 1 violation(s) — refusing

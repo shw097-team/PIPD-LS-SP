@@ -44,14 +44,35 @@
  "capability_need": "workflow/review donor",
  "candidate": "gstack",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "REFERENCE_UNTIL_PIN",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "HGK native review flow",
+  "exit_criterion": "identity/currentness/authority ambiguity",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "HGK native review flow",
+  "disposition": "REFERENCE",
+  "design_disposition": "REFERENCE",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "disposition REFERENCE never activates",
   "independently_verified": false
  },
  "fallback_exit": "HGK native review flow",
  "subject_id": "subset-tech-6b7fe0d1b662b0abfc5ff7cb4d4e7464",
  "version": "exact commit/release required before activation",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "d594736d400b71ffee6c121b7bdf7043c16126391b7c712bfc93a3f219892fee"
+ "content_hash": "3d691fa7942cdd9ab7c3bf2ca3a2cb1d03e5772905044dbebd509a691c0148d5"
 }

@@ -1,6 +1,13 @@
 {
  "$schema": "https://json-schema.org/draft/2020-12/schema",
- "$id": "urn:pipd:s0:TechnologyAdmission:2",
+ "$id": "urn:pipd:s0:TechnologyAdmission:1",
+ "x-s0": {
+  "index": "05",
+  "contract": "TechnologyAdmission",
+  "materialization": "REQUIRED_NOW",
+  "owner": "PIPD",
+  "consumers": ["tool/provider adapters"]
+ },
  "type": "object",
  "description": "Owner: PIPD. Consumer: tool/provider adapters. Tightened from the untyped `{}` shape found in review: every field now carries a type and the source's 24-column design record (PKG-00 §9.2) is representable without additionalProperties loss.",
  "additionalProperties": false,

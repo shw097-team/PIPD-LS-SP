@@ -1,0 +1,38 @@
+{
+  "schema": "PIPD-R2-KNOWLEDGE-GATE/1",
+  "gate": "G-KNOWLEDGE-READY",
+  "verdict": "BLOCKED",
+  "candidate_sha": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+  "probe_tool": "tools/knowledge_ready_probe.py (shipped, unmodified)",
+  "invocation": {
+    "manifest": "candidate/.hgk/preflight/source-manifest.json",
+    "hgk_root": "C:/Projects/Agent_Workspace/HG-KSEOS",
+    "out": "execute/knowledge/out",
+    "db": "execute/knowledge/own-derived.db (DISPOSABLE derived index)"
+  },
+  "disclosure": "The probe builds and promotes ONLY this disposable derived FTS/KG index inside the evidence directory; no canonical DB, no canonical promotion, no product write. Existing DBs untouched.",
+  "denominator": {
+    "unique_input_paths": 160,
+    "indexed": 153,
+    "quarantined": 7,
+    "deduplicated": 0,
+    "ingest_errors": 0,
+    "fts_documents": 153,
+    "kg_edges": 0
+  },
+  "retrieval": {
+    "positive_hits": "7/7",
+    "negative_abstain": "2/2",
+    "revoked_namespace_excluded": true,
+    "wrong_authority": "FAIL (add_kg_assertion has NO authority-rank arg; LOCATED_ELSEWHERE at ingest layer)"
+  },
+  "first_failing_invariant": "clean_coverage < 1: 7 of 160 required sources quarantined because their TEXT contains the security patterns they document (PROMPT_INJECTION/SECRET_PATTERN regexes), including required PIPD standard docs DOC-01/DOC-08/DOC-09.",
+  "blocking_tt": ["TT-PIPD-KNOWLEDGE-QUARANTINE", "TT-PIPD-AUTHORITY-ASSERT"],
+  "action": "G-KNOWLEDGE-READY BLOCKED. Product NOT repaired; admitted implementation NOT advanced. Owner-controlled (HGK knowledge owner) close condition required.",
+  "source_receipts": [
+    "knowledge/out/KNOWLEDGE_READY_REPORT.json",
+    "knowledge/out/RetrievalProbeReport.json",
+    "knowledge/out/KnowledgeIndexReadback.json",
+    "knowledge/out/SourceConsumptionTrace.json"
+  ]
+}

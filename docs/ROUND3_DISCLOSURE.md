@@ -145,3 +145,33 @@ Path.read_text() got an unexpected keyword argument 'newline'
 ## 9. 宣稱上限
 
 `release_claim_ceiling = EVIDENCE_AND_HUMAN_GATE_BOUND`。本回合**不宣稱** `INDEPENDENT_PASS`、`PUBLICATION_APPROVED`、`RUNTIME_READY`、`RELEASED`。最終裁決待獨立複驗 lane 回收後，於外部證據檔回填。
+
+## 10. R3 audit-repair：FW-10 / FW-12 狀態投影重生成（R-AUD-008 / R-AUD-012 / R-AUD-013）
+
+本節重生成狀態／TT 投影並取代先前任何過期分母（§3 的「TT 13 筆」為 R2 敘述，現行真實分母為 **17 列**，見 `.hgk/artifacts/TT_REGISTER.json`）。原則：**真分母、失敗點名、絕不以百分比遮蔽 hard FAIL**。
+
+### 10.1 知識隔離逐件處置（R-AUD-008）
+
+- 160 unique / 153 physically indexed / 7 quarantined（sanitizer 檢測）——**不補位成 160/160**。
+- 7/7 逐件 owner disposition（三選一：harmless example / secret / poison）+ 決定（safe-clean / safe-reference / quarantine），全部在 `.hgk/knowledge/QUARANTINE_DISPOSITION_R3.json`（由 `python tools/quarantine_review.py --report` 實際重導出，每筆 match 由檔案 bytes 重新導出、遮蔽後存證）。
+- 結果：2 件 `safe-clean`（KP05 sk- 識別子尾、DOC-09 `id-token:write/...` 權限語法）、5 件 `safe-reference`（KP13/DOC-01/DOC-08/PKG/skeleton 的「被引用的攻擊範例」，以 source-as-data 保存）、0 件續留隔離、0 件未處置。
+- **無誤放證明**：re-derived 證據凌駕 owner 主張（fail-closed）——惡意樣本（未框架化注入 + 執行期組裝的憑證形值）即使宣稱 harmless 也**不放行**；未決定（UNDECIDED）一律續留隔離。拒絕機制保留，sanitizer 與 KP／上位檔案皆未修改。
+- 必需來源 DOC-01/08/09 全數有決定且無一續留排除 → loss record 為顯式零損失；若有任一續留排除，該記錄會列出全部能力損失。
+- 未解：實體索引維持 153/160，待 `TT-HGK-SANITIZER-UNANCHORED-KEY-PATTERN`（HG-KSEOS owner）修好錨定後重跑 probe 讀回 unique=160/160。
+
+### 10.2 ORACLE_DISAGREEMENT（R-AUD-013）
+
+- `GPTB-KP02-R04` / `GPTB-KP11-R04` / `GPTB-KP12-R04` 的 `MUST NOT` 極性與上位 Evidence/Regression（Raw Evidence Gate）衝突 → 記為 `.hgk/knowledge/ORACLE_DISAGREEMENT_R3.json#OD-R3-001` + TT 列 `TT-ORACLE-DISAGREEMENT-KP-R04`。
+- 兩造立場＋locator 逐字記錄；**裁決方＝授權來源**（GPTB-DOC10#evidence-requirement-matrix / GPTB-DOC11#eval-regression-llm-judge，依 `01_AUTHORITY_BOUNDARY.md:47/54` authority stack；ratification owner＝Knowledge/Policy owner）。
+- 裁決：**上位有效契約優先**（missing-evidence table 必須附、evidence 必須綁 acceptance criteria、regression baseline 必須追蹤）；下位正規化 KP 列**不得**凌駕 raw-evidence requirement；**KP／上位檔案未被改寫**（disposition-only），三列記 `POLARITY_DISPUTED_NORMALIZATION_DEFECT`。
+- 校準負例：真正的禁止句「MUST NOT claim external execution/completion without returned raw evidence」（02:87/02:40）**保持 MUST NOT**、不被翻轉——證明此機制不是一律翻極性。
+
+### 10.3 TT 註冊表重驗（R-AUD-012）
+
+- 15 列全數補齊 owner / current state / raw evidence pointer / explicit close criterion + 本輪 fresh re-verification；**CLOSED 需 fresh verification**：`TT-PIPD-TOOLING-UNTESTED` 的 CLOSED 主張經本輪實測**不滿足自身 close criterion**（多數 tools/*.py 仍無測試釘住）→ **重開為 PARTIAL**；`TT-PIPD-PYCACHE-SECRETSHAPE` fresh 驗證通過（`git ls-files *.pyc` = 0、export 排除 `__pycache__`）→ CLOSED。PARTIAL/UNKNOWN 全部保持可見。
+- 本輪新增 2 列：`TT-ORACLE-DISAGREEMENT-KP-R04`（OPEN，待授權來源 ratify）、`TT-PRE-W3-CROSS-PROJECT`（**TEMP_CLOSED**，獨立關閉、不從 S0–S4 證據推導，HITL owner：SWOF GENIE PRE-W3 owner）。真實分母 17：1 CLOSED / 4 PARTIAL / 9 OPEN / 2 OPEN_OWNER_GATE / 1 TEMP_CLOSED。
+
+### 10.4 狀態投影與 hard-FAIL 防護
+
+- `README.md` 狀態區塊、本檔、`.hgk/artifacts/STATUS_R3.json` 同步重生成；測試數以實跑為準並點名失敗項，不使用百分比。
+- `tools/build_evidence_md.py` 現在**拒絕**在任一 hard gate 列為 `FAIL` 時輸出 PASS：輸出 typed `HARD_GATE_FAIL`、exit 2、**不寫任何驗收文件**；測試數不再寫死 `failures 0, errors 0`，改為實跑真數＋點名失敗測試（守門測試：`tests/test_evidence_md_guards.py`，含注入驗證）。

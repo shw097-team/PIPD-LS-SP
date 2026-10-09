@@ -44,14 +44,35 @@
  "capability_need": "superseded legacy donor",
  "candidate": "Legacy gsd-build/get-shit-done",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "ARCHIVED_REJECT",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "none",
+  "exit_criterion": "superseded/identity collision",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "none",
+  "disposition": "REJECT",
+  "design_disposition": "REJECT",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "disposition REJECT never activates",
   "independently_verified": false
  },
  "fallback_exit": "none",
  "subject_id": "subset-tech-4074a115d9c8bc471b14971b73c80905",
  "version": "n/a",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "486718aa03ab5a5c579d2eff8514f2888703f1cc90eb866d54bf5d65c907a314"
+ "content_hash": "ab57d79cdd023874e2e9de09979a69f81b04d71c236f0b738ca6402c12cfee93"
 }

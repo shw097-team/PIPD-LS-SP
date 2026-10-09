@@ -44,14 +44,35 @@
  "capability_need": "SDD/spec artifact workflow donor",
  "candidate": "GitHub Spec Kit",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "MIT_AT_UNPINNED_MAIN",
+  "pin": {
+   "value": "LATEST",
+   "repository": "https://github.com/github/spec-kit",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "RECHECK_RELEASE",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "PIPD native compiler workflow",
+  "exit_criterion": "bundle/pin/conflict semantics drift",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "PIPD native compiler workflow",
+  "disposition": "ADOPT",
+  "design_disposition": "ADOPT_WITH_WRAPPER",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
   "independently_verified": false
  },
  "fallback_exit": "PIPD native compiler workflow",
  "subject_id": "subset-tech-dbe37ec423d68b006691944ae35ab7d6",
  "version": "implementation-time immutable release/commit pin",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "e24e64f48a1f83dafd0dc7982038b17e4d08528c5795dd2dcbdb4aa1de345cf3"
+ "content_hash": "da65d9a2bf18c0a908e0f8e2afc1841847fdc537d216eaaee9512d12a4a7f38e"
 }

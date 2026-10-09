@@ -1,0 +1,197 @@
+{
+  "schema": "PIPD-R2-RAW-COMMAND-RECEIPTS/1",
+  "round": "R2-20261009-qualification",
+  "executor": "codex (writer=codex) sealed lane",
+  "candidate_sha": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+  "compiled_task": "../compiled/thin-prompt.md",
+  "admission": "../admission.json",
+  "authority": ["HG-KSEOS/AGENTS.md", "Fabric/AGENTS.md"],
+  "environment": {
+    "python": "3.11.17 (main, Oct  3 2026) [MSC v.1944 64 bit (AMD64)]",
+    "python_exe": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+    "jsonschema": "4.26.0",
+    "git": "available",
+    "openspec_cli": "1.8.0 (C:\\Users\\user\\AppData\\Roaming\\npm\\openspec.ps1)",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH_inherited": "",
+    "PYTHONHOME_inherited": ""
+  },
+  "receipts": [
+    {
+      "id": "R01",
+      "command": "git rev-parse HEAD (product)",
+      "cwd": "C:/Projects/Agent_Workspace/PIPD",
+      "exit": 0,
+      "stdout": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+      "note": "product HEAD == candidate SHA"
+    },
+    {
+      "id": "R02",
+      "command": "git clone --no-hardlinks --no-checkout <product> execute/candidate && git -C execute/candidate checkout --detach 829c17e...",
+      "cwd": "execute",
+      "exit": 0,
+      "stdout": "Cloning into ... done. HEAD is now at 829c17e evidence: publish readback snapshot",
+      "note": "isolated evidence snapshot; origin points to local product (no fetch/network); .git retained"
+    },
+    {
+      "id": "R03",
+      "command": "python -B -c \"import jsonschema;print(jsonschema version)\"; env leak check",
+      "cwd": "execute",
+      "exit": 0,
+      "stdout": "py 3.11.17; jsonschema 4.26.0; PYTHONPATH=[] PYTHONHOME=[]",
+      "note": "clean-install probes are not contaminated by inherited PYTHONPATH/PYTHONHOME"
+    },
+    {
+      "id": "R04",
+      "command": "python -B -m unittest discover -s tests -t . (snapshot)",
+      "cwd": "execute/candidate",
+      "exit": 0,
+      "stdout": "..................s............................\\n----------------------------------------------------------------------\\nRan 47 tests in 4.806s\\n\\nOK (skipped=1)",
+      "stderr": "1 skipped: tests.test_quarantine_review.test_unanchored_key_pattern_really_matches_an_identifier_tail ('source corpus not present')",
+      "note": "47 tests OK but ONE skipped; see edge probe E1."
+    },
+    {
+      "id": "R05",
+      "command": "python -B tools/run_s1_slice.py",
+      "cwd": "execute/candidate",
+      "exit": 0,
+      "stdout": "PIPD-S1-SLICE-EVIDENCE/1 cli_command_count=13 baseline_head=829c17e... artifacts intent/pi/pd/ecp/tqaep/trace",
+      "note": "genuine S1 vertical slice executes"
+    },
+    {
+      "id": "R06",
+      "command": "python -B tools/run_golden_pilots.py",
+      "cwd": "execute/candidate",
+      "exit": 0,
+      "stdout": "{\"all_pilot_verdicts\":{\"gp01\":\"PASS\",\"gp02\":\"PASS\",\"gp03\":\"PASS\"},\"negative_pass\":\"7/7\",\"verdict\":\"PASS\",\"candidate_head\":\"829c17e...\"}"
+    },
+    {
+      "id": "R07",
+      "command": "python -B tools/run_nrtv_judge.py",
+      "cwd": "execute/candidate",
+      "exit": 0,
+      "stdout": "{\"nrtv_pass\":\"10/10\",\"neg_pass\":\"14/14\",\"sec_pass\":\"4/4\",\"verdict\":\"PASS\"} judge: DETERMINISTIC_ORACLE PASS"
+    },
+    {
+      "id": "R08",
+      "command": "python -B tools/perf_budget.py",
+      "cwd": "execute/candidate",
+      "exit": 0,
+      "stdout": "compile_chain_ms 0.8/2000 PASS; validate_19_contracts_ms 2.4/3000 PASS; cli_cold_start_ms 103.1/6000 PASS"
+    },
+    {
+      "id": "R09",
+      "command": "python -B tools/host_projection_check.py",
+      "cwd": "execute/candidate",
+      "exit": 0,
+      "stdout": "3 required hosts present; each effective_load=true (>=1 non-empty file); semantic_parity=PASS",
+      "note": "effective-load oracle is non-empty-file only; see own-probes/host_effective_load_independent.json for a real independent re-derivation"
+    },
+    {
+      "id": "R10",
+      "command": "python -B tools/web_pack_check.py",
+      "cwd": "execute/candidate",
+      "exit": 0,
+      "stdout": "expected==present {README.md,app.js,index.html,manifest.webmanifest,styles.css}; exact_set_match=true; manifest_ok=true"
+    },
+    {
+      "id": "R11",
+      "command": "python -B tools/replay_check.py",
+      "cwd": "execute/candidate",
+      "exit": 0,
+      "stdout": "stdout_identical=true; all_artefacts_identical=true; verdict=PASS; schema_files=19"
+    },
+    {
+      "id": "R12",
+      "command": "python -B tools/cli_surface_check.py",
+      "cwd": "execute/candidate",
+      "exit": 0,
+      "stdout": "passed 13/13; extras replay/explain/semantic_diff_explain/dry_run_project/dry_run_export/dry_run_repair all PASS; exact_set=PASS"
+    },
+    {
+      "id": "R13",
+      "command": "python -B tools/quarantine_review.py",
+      "cwd": "execute/candidate",
+      "exit": 0,
+      "stdout": "{\"quarantined\":7,\"counts\":{},\"live_secret_suspects\":0,\"verdict\":\"PARTIAL\"}",
+      "note": "owner_decision_required=true; no control disabled."
+    },
+    {
+      "id": "R14",
+      "command": "python -B tools/admit_technologies.py",
+      "cwd": "execute/candidate",
+      "exit": 0,
+      "stdout": "records=22; schema_valid=22/22; G-TECH-SOURCE-PIN 0/22 PASS (rest PARTIAL); G-TECH-NEGATIVE 22/22 PASS; G-TECH-ROLLBACK 22/22 PASS; verdict=PASS",
+      "note": "22 technology dispositions; source-pin honestly PARTIAL, NOT labelled achieved."
+    },
+    {
+      "id": "R15",
+      "command": "python -B tools/edge_selfcheck.py  (SHIPPED)",
+      "cwd": "execute/candidate",
+      "exit": 0,
+      "stdout": "verdict=FAIL; failed=[E2,E12]; E2 'Error: 555 != 0 ...'; E12 'stray_bytecode_dirs=1'",
+      "note": "CRITICAL: shipped tool hardcodes ROOT=C:\\Projects\\Agent_Workspace\\PIPD (canonical) and wrote canonical .hgk/artifacts/edge_selfcheck.json. Preserved to side-effects/edge_selfcheck.canonical-overwrite.json; canonical file restored to HEAD."
+    },
+    {
+      "id": "R16",
+      "command": "python -B own-probes/edge_selfcheck_candidate.py  (ROOT redirected to snapshot)",
+      "cwd": "execute",
+      "exit": 0,
+      "stdout": "verdict=FAIL; failed=[E1,E2]; E1 unittest has 1 skip; E2 'Error: 266 != 0 : tracked_files must equal git ls-files, not rglob(*)'",
+      "note": "Fair snapshot re-run: E1 skip + E2 fail. E2 root cause = git-ls-files assumes a git checkout; the test's own fresh-copy (no .git) ORACLE is correct. E12 passes on a pristine checkout (no stray __pycache__)."
+    },
+    {
+      "id": "R17",
+      "command": "python -B tools/knowledge_ready_probe.py --manifest .hgk/preflight/source-manifest.json --hgk-root C:/Projects/Agent_Workspace/HG-KSEOS --out execute/knowledge/out --db execute/knowledge/own-derived.db",
+      "cwd": "execute/candidate",
+      "exit": 2,
+      "stdout": "{\"verdict\":\"PARTIAL\",\"drift\":0,\"indexed_docs\":153,\"ingest_errors\":0,\"pos_hits\":\"7/7\",\"neg_abstain\":\"2/2\",\"nrtv\":{\"nonexistent_clause\":\"PASS\",\"nonexistent_document\":\"PASS\",\"stale_source\":\"PASS\",\"wrong_authority\":\"FAIL\",\"wrong_authority_located\":\"LOCATED_ELSEWHERE\"},\"revoked_excluded\":true}",
+      "note": "DISPOSABLE derived index only (own-derived.db). Denominator unique_input_paths=160, indexed=153, quarantined=7. G-KNOWLEDGE-READY = BLOCKED. Never canonical promotion."
+    },
+    {
+      "id": "R18",
+      "command": "python -B - <<far_router.route()>>",
+      "cwd": "execute",
+      "exit": 0,
+      "stdout": "RESEARCH_GENERAL -> decision NATIVE, primary fabric-autoresearch-native, reason FAR_ROUTE_NATIVE_DEFAULT; RESEARCH_ADVERSARIAL_CHALLENGE(challenge_required, aris unqualified) -> BLOCK FAR_BLOCK_REQUIRED_CHALLENGE_UNAVAILABLE",
+      "note": "real FAR native route API executed; saved to far/far_route_calls.json"
+    },
+    {
+      "id": "R19",
+      "command": "openspec validate pipd-ls-sp-s0-s1 --strict  (cwd=snapshot)",
+      "cwd": "execute/candidate",
+      "exit": 0,
+      "stdout": "Change 'pipd-ls-sp-s0-s1' is valid",
+      "note": "openspec CLI 1.8.0; discover(--help)+validate(--strict); no manual scaffold; no product spec edit; openspec list shows 5/11 tasks"
+    },
+    {
+      "id": "R20",
+      "command": "python -B tools/portable_install_check.py; python -B tools/cli_smoke.py",
+      "cwd": "execute/candidate",
+      "exit": 0,
+      "stdout": "portable_install 11/11 PASS; cli_smoke commands_run=13 expected=13 nonzero_exit=0",
+      "note": "portable install execute PASS; cli_smoke exit0-only oracle (see NOT_VERIFIED note), stronger cli_surface_check.py 13/13 covers success/refusal"
+    },
+    {
+      "id": "R21",
+      "command": "sha256 wheel .whl vs shipped .whl.sha256; OWNER_LICENSE_DECISION.yaml",
+      "cwd": "execute/candidate",
+      "exit": 0,
+      "stdout": "computed=ba84115dfc5efa0f7c2240d137c2868a9469a9b5680cbd6cff833c1943630dfa == shipped; licence=LicenseRef-PIPD-Proprietary; decision=UNSET",
+      "note": "portable wheel checksum matches; license decision UNSET -> not a grant; agent did NOT and cannot set it."
+    },
+    {
+      "id": "R22",
+      "command": "python -B -m pipd_ls_sp.cli --root <snapshot> doctor (PYTHONPATH=src)",
+      "cwd": "execute/candidate",
+      "exit": 0,
+      "stdout": "{\"families\":19,\"findings\":[],\"skill_drift\":[],\"verdict\":\"PASS\"}",
+      "note": "doctor reports no skill drift/residue ON A GIT CHECKOUT; it does not remove bytecode residue."
+    }
+  ],
+  "raw_logs_dir": "logs/",
+  "notes": [
+    "Console summaries here are compact; every stdout was captured live during the run.",
+    "Worker exit code 0 is never treated as PASS; oracles and negative/boundary tests decide."
+  ]
+}

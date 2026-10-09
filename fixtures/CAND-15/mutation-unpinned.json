@@ -44,14 +44,35 @@
  "capability_need": "JIT skill + installer / whole-spec donor",
  "candidate": "mattpocock/skills",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "RECHECK_RELEASE",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "native PIPD/HGK execution",
+  "exit_criterion": "workflow/host drift",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "native PIPD/HGK execution",
+  "disposition": "ADOPT",
+  "design_disposition": "ADOPT_WITH_TRANSLATION",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
   "independently_verified": false
  },
  "fallback_exit": "native PIPD/HGK execution",
  "subject_id": "subset-tech-8372b21a859982705f3afd6734dbf289",
  "version": "v1.3.1 support finding; immutable commit at implementation",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "074506c80cfd52c0e1cd2be992d21f0db47aabe8d33e8edc7a2310a1bf6e6de7"
+ "content_hash": "d103ab6017efaa96e911176a2a47b9084bb3fdda0d8e5ccae4c135f5b8a50b36"
 }

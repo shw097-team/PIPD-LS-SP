@@ -1,0 +1,722 @@
+{
+ "schema": "PIPD-CLI-SMOKE/1",
+ "commands_run": 13,
+ "expected": 13,
+ "nonzero_exit": 2,
+ "verdicts": {
+  "init": "PASS",
+  "intake": "n/a",
+  "profile": "n/a",
+  "compile-pi": "FAIL",
+  "bind-pd": "FAIL",
+  "compile-ecp": "n/a",
+  "compile-tqaep": "n/a",
+  "validate": "PASS",
+  "doctor": "PASS",
+  "project": "PASS",
+  "export": "n/a",
+  "diff": "PASS",
+  "repair": "n/a"
+ },
+ "reds": [
+  {
+   "args": [
+    "compile-pi",
+    "--intent",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\intent_card.json",
+    "--profile",
+    "LITE"
+   ],
+   "exit": 2,
+   "payload": {
+    "code": "PI_SEMANTIC",
+    "message": "legacy keyword atoms are not clause-bound",
+    "verdict": "FAIL"
+   }
+  },
+  {
+   "args": [
+    "bind-pd",
+    "--pi",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\pi_pkg.json",
+    "--repo-root",
+    "C:\\Projects\\Agent_Workspace\\PIPD",
+    "--head",
+    "HEAD"
+   ],
+   "exit": 2,
+   "payload": {
+    "code": "STALE_PROVIDER",
+    "message": "spoofed freshness claim: head='HEAD' contradicts host truth 'db2299118c791c5b251ed90d1d8d40171ce82aca'",
+    "verdict": "FAIL"
+   }
+  }
+ ],
+ "receipts": [
+  {
+   "args": [
+    "init"
+   ],
+   "exit": 0,
+   "payload": {
+    "contract_families": 19,
+    "created": [],
+    "root": "C:\\Projects\\Agent_Workspace\\PIPD",
+    "verdict": "PASS"
+   }
+  },
+  {
+   "args": [
+    "intake",
+    "--goal",
+    "以治理控制平面實作 PIPD-LS-SP 系統並完成測試驗收與公開交付",
+    "--source",
+    "C:\\Projects\\Agent_Workspace\\PIPD",
+    "--constraint",
+    "HGK-only control plane",
+    "--non-goal",
+    "no second control plane"
+   ],
+   "exit": 0,
+   "payload": {
+    "atoms": [
+     {
+      "acceptance_cue": "MUST: 以治理控制平面實作 PIPD-LS-SP 系統並完成測試驗收",
+      "axis": "intent",
+      "owner": "PIPD-EC",
+      "req_id": "REQ-98ee67660b2d727e0852",
+      "risk_guard": {
+       "failure_condition": "violate MUST: 以治理控制平面實作 PIPD-LS-SP 系統並完成測試驗收",
+       "negative_fixture": "fixtures/REQ-98ee67660b2d727e0852/negative",
+       "oracle": {
+        "expected": "required",
+        "id": "ORACLE-REQ-98ee67660b2d727e0852",
+        "predicate": "以治理控制平面實作 PIPD-LS-SP 系統並完成測試驗收"
+       },
+       "polarity": "MUST"
+      },
+      "source_clause": {
+       "child": 0,
+       "clause_id": "clause-0-35",
+       "file": "C:\\Projects\\Agent_Workspace\\PIPD",
+       "kind": "inline-goal",
+       "source_sha256": "258c5f1af32a21f97a6f08f7aa01262e07fe1c37280e3f9cf04654b71bf1fbd6",
+       "source_text": "以治理控制平面實作 PIPD-LS-SP 系統並完成測試驗收與公開交付",
+       "span": [
+        0,
+        35
+       ],
+       "text": "以治理控制平面實作 PIPD-LS-SP 系統並完成測試驗收"
+      }
+     },
+     {
+      "acceptance_cue": "MUST: 公開交付",
+      "axis": "release",
+      "owner": "PIPD-EC",
+      "req_id": "REQ-13c926e9a97192ea571b",
+      "risk_guard": {
+       "failure_condition": "violate MUST: 公開交付",
+       "negative_fixture": "fixtures/REQ-13c926e9a97192ea571b/negative",
+       "oracle": {
+        "expected": "required",
+        "id": "ORACLE-REQ-13c926e9a97192ea571b",
+        "predicate": "公開交付"
+       },
+       "polarity": "MUST"
+      },
+      "source_clause": {
+       "child": 1,
+       "clause_id": "clause-0-35",
+       "file": "C:\\Projects\\Agent_Workspace\\PIPD",
+       "kind": "inline-goal",
+       "source_sha256": "258c5f1af32a21f97a6f08f7aa01262e07fe1c37280e3f9cf04654b71bf1fbd6",
+       "source_text": "以治理控制平面實作 PIPD-LS-SP 系統並完成測試驗收與公開交付",
+       "span": [
+        0,
+        35
+       ],
+       "text": "公開交付"
+      }
+     }
+    ],
+    "constraints": [
+     "HGK-only control plane"
+    ],
+    "content_hash": "7d35a95096ba02df42d035c1ff5c02a639130f3e2dfdde595c7ac5118e3292da",
+    "goal": "以治理控制平面實作 PIPD-LS-SP 系統並完成測試驗收與公開交付",
+    "non_goals": [
+     "no second control plane"
+    ],
+    "schema_version": "IntentCard@1",
+    "sources": [
+     "C:\\Projects\\Agent_Workspace\\PIPD"
+    ],
+    "subject_id": "INTENT-7d35a95096ba02df"
+   }
+  },
+  {
+   "args": [
+    "profile",
+    "--profile",
+    "STANDARD",
+    "--axis",
+    "intent",
+    "--axis",
+    "verification"
+   ],
+   "exit": 0,
+   "payload": {
+    "artifact_depth": "L3_INTEGRATION_RUNTIME",
+    "assurance": [
+     "deterministic_validator",
+     "negative_security"
+    ],
+    "axes": [
+     "intent",
+     "verification"
+    ],
+    "canonical_truth": "single",
+    "escalated": false,
+    "escalation_reason": null,
+    "profile": "STANDARD",
+    "requested_profile": "STANDARD",
+    "vetoes": []
+   }
+  },
+  {
+   "args": [
+    "compile-pi",
+    "--intent",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\intent_card.json",
+    "--profile",
+    "LITE"
+   ],
+   "exit": 2,
+   "payload": {
+    "code": "PI_SEMANTIC",
+    "message": "legacy keyword atoms are not clause-bound",
+    "verdict": "FAIL"
+   }
+  },
+  {
+   "args": [
+    "bind-pd",
+    "--pi",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\pi_pkg.json",
+    "--repo-root",
+    "C:\\Projects\\Agent_Workspace\\PIPD",
+    "--head",
+    "HEAD"
+   ],
+   "exit": 2,
+   "payload": {
+    "code": "STALE_PROVIDER",
+    "message": "spoofed freshness claim: head='HEAD' contradicts host truth 'db2299118c791c5b251ed90d1d8d40171ce82aca'",
+    "verdict": "FAIL"
+   }
+  },
+  {
+   "args": [
+    "compile-ecp",
+    "--pd",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\pd_pkg.json",
+    "--pi",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\pi_pkg.json"
+   ],
+   "exit": 0,
+   "payload": {
+    "content_hash": "e7bcd54a811ae7c9aa0d332a8ed1d32a133b635c96b5a91c7243c7c1f788e47c",
+    "effect_intent": "apply bounded edits inside the writable scope",
+    "idempotency": {
+     "guarantee": "at_most_once",
+     "key": "IDEM-7817a2d67859eb92"
+    },
+    "permission": {
+     "scope": "src/**",
+     "token_required": true
+    },
+    "readback": {
+     "kind": "residue_scan",
+     "required": true
+    },
+    "retries": {
+     "backoff": "none",
+     "max": 1
+    },
+    "rollback": {
+     "pointer": "baseline_commit",
+     "required": true
+    },
+    "schema_version": "ECP@1",
+    "subject_id": "ECP-e7bcd54a811ae7c9",
+    "version": "1"
+   }
+  },
+  {
+   "args": [
+    "compile-tqaep",
+    "--pi",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\pi_pkg.json",
+    "--ecp",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\ecp.json",
+    "--maker",
+    "HERMES-MAKER",
+    "--checker",
+    "GLM-5.3-FLASH-AO-LANE",
+    "--checker-receipt",
+    "deleg_5a26d6d5/lane-C"
+   ],
+   "exit": 0,
+   "payload": {
+    "acceptance": [
+     {
+      "case": "INDEPENDENT_CASE_PASS",
+      "checker_execution_receipt": "deleg_5a26d6d5/lane-C",
+      "checker_identity": "GLM-5.3-FLASH-AO-LANE",
+      "distinct": true,
+      "maker_identity": "HERMES-MAKER"
+     }
+    ],
+    "content_hash": "5aa6f9deb151ba7ccc6ae256fd79d954f2cf7bd7fb651166492506db3bbd1acf",
+    "fixtures": [
+     "fixtures/REQ-INTENT/positive",
+     "fixtures/REQ-KNOWLEDGE/positive",
+     "fixtures/REQ-VERIFY/positive",
+     "fixtures/REQ-DELIVER/positive",
+     "fixtures/REQ-GOVERN/positive"
+    ],
+    "oracles": [
+     "TEST-REQ-INTENT: deterministic assertion on the bound artifact",
+     "TEST-REQ-KNOWLEDGE: deterministic assertion on the bound artifact",
+     "TEST-REQ-VERIFY: deterministic assertion on the bound artifact",
+     "TEST-REQ-DELIVER: deterministic assertion on the bound artifact",
+     "TEST-REQ-GOVERN: deterministic assertion on the bound artifact"
+    ],
+    "requalification": "affected-only",
+    "schema_version": "TQAEP@1",
+    "subject_id": "TQAEP-5aa6f9deb151ba7c",
+    "tests": [
+     {
+      "evidence_expectation": "EVD-REQ-INTENT",
+      "negative_fixture": "fixtures/REQ-INTENT/negative",
+      "oracle": "deterministic assertion on the bound artifact",
+      "positive_fixture": "fixtures/REQ-INTENT/positive",
+      "requirement": "REQ-INTENT",
+      "test_id": "TEST-REQ-INTENT"
+     },
+     {
+      "evidence_expectation": "EVD-REQ-KNOWLEDGE",
+      "negative_fixture": "fixtures/REQ-KNOWLEDGE/negative",
+      "oracle": "deterministic assertion on the bound artifact",
+      "positive_fixture": "fixtures/REQ-KNOWLEDGE/positive",
+      "requirement": "REQ-KNOWLEDGE",
+      "test_id": "TEST-REQ-KNOWLEDGE"
+     },
+     {
+      "evidence_expectation": "EVD-REQ-VERIFY",
+      "negative_fixture": "fixtures/REQ-VERIFY/negative",
+      "oracle": "deterministic assertion on the bound artifact",
+      "positive_fixture": "fixtures/REQ-VERIFY/positive",
+      "requirement": "REQ-VERIFY",
+      "test_id": "TEST-REQ-VERIFY"
+     },
+     {
+      "evidence_expectation": "EVD-REQ-DELIVER",
+      "negative_fixture": "fixtures/REQ-DELIVER/negative",
+      "oracle": "deterministic assertion on the bound artifact",
+      "positive_fixture": "fixtures/REQ-DELIVER/positive",
+      "requirement": "REQ-DELIVER",
+      "test_id": "TEST-REQ-DELIVER"
+     },
+     {
+      "evidence_expectation": "EVD-REQ-GOVERN",
+      "negative_fixture": "fixtures/REQ-GOVERN/negative",
+      "oracle": "deterministic assertion on the bound artifact",
+      "positive_fixture": "fixtures/REQ-GOVERN/positive",
+      "requirement": "REQ-GOVERN",
+      "test_id": "TEST-REQ-GOVERN"
+     }
+    ],
+    "version": "1"
+   }
+  },
+  {
+   "args": [
+    "validate",
+    "--bundle",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\bundle.json"
+   ],
+   "exit": 0,
+   "payload": {
+    "checked": 5,
+    "findings": [],
+    "verdict": "PASS"
+   }
+  },
+  {
+   "args": [
+    "doctor"
+   ],
+   "exit": 0,
+   "payload": {
+    "families": 19,
+    "findings": [],
+    "skill_drift": [
+     "duplicate Skill name host_generic-skills x4 inside surface .hgk",
+     "duplicate Skill name openspec-apply-change x8 inside surface .hgk",
+     "duplicate Skill name openspec-archive-change x8 inside surface .hgk",
+     "duplicate Skill name openspec-explore x8 inside surface .hgk",
+     "duplicate Skill name openspec-propose x8 inside surface .hgk",
+     "duplicate Skill name openspec-sync-specs x8 inside surface .hgk",
+     "duplicate Skill name openspec-update-change x8 inside surface .hgk"
+    ],
+    "verdict": "PASS"
+   }
+  },
+  {
+   "args": [
+    "project"
+   ],
+   "exit": 0,
+   "payload": {
+    "hosts": {
+     "host:generic-skills": {
+      "capability_loss": [],
+      "files": [
+       "SKILL.md"
+      ]
+     },
+     "host:genie-adapter": {
+      "capability_loss": [
+       "no truth writeback"
+      ],
+      "files": [
+       "object-crosswalk.json"
+      ]
+     },
+     "host:hgk-receiver": {
+      "capability_loss": [
+       "no runtime authority"
+      ],
+      "files": [
+       "receiver-map.json"
+      ]
+     }
+    },
+    "out": "C:\\Projects\\Agent_Workspace\\PIPD\\dist\\web",
+    "projection_parity_sha256": "431424f819770c7525873d10ee687bdcd321fdbc2ffaf81cfc9d640b231fb09c",
+    "verdict": "PASS",
+    "web_count": "5/5",
+    "web_pack": [
+     "index.html",
+     "app.js",
+     "styles.css",
+     "manifest.webmanifest",
+     "README.md"
+    ]
+   }
+  },
+  {
+   "args": [
+    "export"
+   ],
+   "exit": 0,
+   "payload": {
+    "file_count": 49,
+    "files": [
+     {
+      "rel": "docs/ROUND3_DISCLOSURE.md",
+      "sha256": "0bb55f6013d329248f9baac257fd091ee28d8bde21039c26a0ebfacc90df3a68",
+      "size": 15228
+     },
+     {
+      "rel": "docs/ROUND_DISCLOSURE.md",
+      "sha256": "465a456ef12ec13e6456421cd2158bfcf3656964b78d5ad3098a73c28ffd4a8e",
+      "size": 6640
+     },
+     {
+      "rel": "docs/S0_CONTRACT_SPEC.md",
+      "sha256": "dfd67710920aa9b04f68c5e46cfb1e15b58cf713d3c5634bc2276d1c61a35788",
+      "size": 6714
+     },
+     {
+      "rel": "pyproject.toml",
+      "sha256": "673e3d1bb11010313711ed7d81e88916648dd5788497a76e975ec216e2dfcf57",
+      "size": 393
+     },
+     {
+      "rel": "schemas/ArtifactIdentity.schema.json",
+      "sha256": "67d26f18d26307410bf0be5369949eb525d477e053ee3a7091e54b97f6d4ad4c",
+      "size": 669
+     },
+     {
+      "rel": "schemas/AuthorityBinding.schema.json",
+      "sha256": "66f1b3ce91d7f12ad6a6350a6628afd6c600e3e7ff62408b714c6fa0f1898ded",
+      "size": 823
+     },
+     {
+      "rel": "schemas/ClaimCeiling.schema.json",
+      "sha256": "dbb2ce4dd322da99ca3b3067274b85928b995aba59ca3f04802d5e8ba253ab85",
+      "size": 739
+     },
+     {
+      "rel": "schemas/ConstructionContract.schema.json",
+      "sha256": "1c56f15abd6e30d06f914f021b0b813f441689f9d47989ef48c7d7325557f0f2",
+      "size": 859
+     },
+     {
+      "rel": "schemas/ECP.schema.json",
+      "sha256": "7ecd9e92e6d43dba9675bb93ff0dddd178a0a17c8c3bc3f143696594dc945505",
+      "size": 821
+     },
+     {
+      "rel": "schemas/EvidenceExpectation.schema.json",
+      "sha256": "02327839c21d5ba24d08dd52f9caa31a07616965c6235cece58487a810b99b7f",
+      "size": 843
+     },
+     {
+      "rel": "schemas/ExecutionBindingRef.schema.json",
+      "sha256": "7c98cebfee30d9719cb8fd2d565c44120ce8d1be5b231071c19528cae1e95f50",
+      "size": 1039
+     },
+     {
+      "rel": "schemas/ExecutionHandoff.schema.json",
+      "sha256": "7fa36d3e7fe6e7416111b975381a42f3f5ad46cc81d97b610f317548815bd77b",
+      "size": 773
+     },
+     {
+      "rel": "schemas/GENIEProjectionRef.schema.json",
+      "sha256": "22c88a0f9ec4ea4747967546f9a5ea7f19f0285be60ac42567fae2ca0b1c36ed",
+      "size": 1168
+     },
+     {
+      "rel": "schemas/PD-PKG.schema.json",
+      "sha256": "37291e8790e03839308a7c36125f9576d14da725a27480c9759ef5362d255541",
+      "size": 747
+     },
+     {
+      "rel": "schemas/PI-PKG.schema.json",
+      "sha256": "3e797d4eac04a04fee65add1ca6cb196154490ccd848b9b1cc561f24feaefb57",
+      "size": 757
+     },
+     {
+      "rel": "schemas/ProfileBinding.schema.json",
+      "sha256": "b559fb70bb6ceb9d491c989cb5ec031f44d15bcad5b40e75d6649aa059a93556",
+      "size": 771
+     },
+     {
+      "rel": "schemas/RequirementAtom.schema.json",
+      "sha256": "021f6a30cf178190281176138686447e492640cf97b125f9c21a0aa2fa31c684",
+      "size": 795
+     },
+     {
+      "rel": "schemas/SurfaceProjectionManifest.schema.json",
+      "sha256": "87f8057e8dac68f304ed4e9c2dd118a26c69428015769ab09d39398d34dcb57d",
+      "size": 829
+     },
+     {
+      "rel": "schemas/TQAEP.schema.json",
+      "sha256": "d14092817befb5e81c470449b9ac5160b6fba7e3fcde450ec00d1cadc21820cd",
+      "size": 821
+     },
+     {
+      "rel": "schemas/TaskSpecSeed.schema.json",
+      "sha256": "c6e086aef0e4f21179cba52c5187c33a3873b18732c669c4d03bcad057e9b6cc",
+      "size": 873
+     },
+     {
+      "rel": "schemas/TechnologyAdmission.schema.json",
+      "sha256": "40703552af4fb14c7aa87dd68ead6eac1cf7d272541fda273cf22b8fb109c4d6",
+      "size": 3035
+     },
+     {
+      "rel": "schemas/TraceLink.schema.json",
+      "sha256": "ff6ef713b95a1a2812bd31d2b10cdcc064671c986d29d0e69318dc5a9f54e5e4",
+      "size": 849
+     },
+     {
+      "rel": "schemas/WorkOrderCandidate.schema.json",
+      "sha256": "03a8692f183f106ec7e4739b925c980ba07d68551627ca6af315fa9f9e2caf54",
+      "size": 796
+     },
+     {
+      "rel": "schemas/registry.json",
+      "sha256": "85100a8e5ba6320f6648d33a14099fb999b2c452a94aff1652854d2550065e9d",
+      "size": 9328
+     },
+     {
+      "rel": "src/pipd_ls_sp/__init__.py",
+      "sha256": "cbc9ba5ad7c2950b296bd836a9c0c7ae2052dd3da0437eb16255f6f142963272",
+      "size": 363
+     },
+     {
+      "rel": "src/pipd_ls_sp/cli.py",
+      "sha256": "881eafb034cacb3dbee29ae1751f640bcd27376318c77f4ef8dcf2b66bef1eca",
+      "size": 13128
+     },
+     {
+      "rel": "src/pipd_ls_sp/errors.py",
+      "sha256": "b7bce3ffe5877b327d38c8318bf5741625c45b025bc6e3e7d8491b5bea522247",
+      "size": 2537
+     },
+     {
+      "rel": "src/pipd_ls_sp/pipeline.py",
+      "sha256": "08bfb9746a74a2d44abafa53ecc3d94bdc6b65b6fe0c3c98b2f302adefeef712",
+      "size": 17606
+     },
+     {
+      "rel": "src/pipd_ls_sp/profiles.py",
+      "sha256": "2631eac7f6cb2b48dba0ed6628c4d7d7e94b7843ac29353950c2d51172789070",
+      "size": 2341
+     },
+     {
+      "rel": "src/pipd_ls_sp/projection.py",
+      "sha256": "5d0033c986e9aa3918c220d531218f794a54395fe8993e543853aa9d5891b8c4",
+      "size": 73590
+     },
+     {
+      "rel": "src/pipd_ls_sp/registry.py",
+      "sha256": "960f27d8944abf55a0b6019ec103a77b1b4301e49060dbc5d753b1bcaa1ca6cf",
+      "size": 2042
+     },
+     {
+      "rel": "src/pipd_ls_sp/repo_context.py",
+      "sha256": "61738b32df88b5fe2559aea97583592ac52cd24fc0c4e31c116aab465f7b2a7b",
+      "size": 10718
+     },
+     {
+      "rel": "src/pipd_ls_sp/requirements.py",
+      "sha256": "f01ac1ac4e5fb5be29e2ced434ac2528f94f3bd2b8288244e318516d496818f6",
+      "size": 10689
+     },
+     {
+      "rel": "src/pipd_ls_sp/util.py",
+      "sha256": "e0f19219a669dd77c1e1fcf70dfdd072e66b142598b7d6dea0ab21c06c7e19c7",
+      "size": 1260
+     },
+     {
+      "rel": "src/pipd_ls_sp/validate.py",
+      "sha256": "f3da9e413cda1c7d7dedf763c29372c07c8e4d493ef0b02d8040589cfb2b561a",
+      "size": 8248
+     },
+     {
+      "rel": "src/pipd_ls_sp/workspace.py",
+      "sha256": "1918efa38b8875e5c6697550af7dca59190fb8ce8618596fe04fff01181dd4ab",
+      "size": 11842
+     },
+     {
+      "rel": "tests/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+     },
+     {
+      "rel": "tests/fixtures/quarantine_corpus/identifier_tail.md",
+      "sha256": "e979c57c5c7cddd062eb21b37a8096a9dd83485755653c44ad3ee4fb970c62ec",
+      "size": 1001
+     },
+     {
+      "rel": "tests/test_atomic_requirements.py",
+      "sha256": "145dc415ee029cb9bbe72d13ef5d565d3533a9a14b1fb40101b697890ff23936",
+      "size": 707
+     },
+     {
+      "rel": "tests/test_cli_typed_errors.py",
+      "sha256": "d3faa3f30b1129252df564d4bd2fcf467ff0e63f98f3f6863e812e5a0e2092e6",
+      "size": 2672
+     },
+     {
+      "rel": "tests/test_negative_and_rollback.py",
+      "sha256": "b2664ca12cd9fa182cb8f1a17da6486d9278b59e305854bec3a9697b94686c18",
+      "size": 5565
+     },
+     {
+      "rel": "tests/test_quarantine_review.py",
+      "sha256": "242466ab936a2c5fe28cfd199fdcce0d6e623c32b5bdb0cbb1f8a3f1398db7d4",
+      "size": 2843
+     },
+     {
+      "rel": "tests/test_s0_contracts.py",
+      "sha256": "04f3b5bbcaf5db5a74821d0b6a7efa0204f5c424702acc779ce4bb7a298dd5ad",
+      "size": 6402
+     },
+     {
+      "rel": "tests/test_s1_lite_slice.py",
+      "sha256": "b001d5920fd29e32481c6ed736c2b0b2be7c68a77e4130a8a25cf349135b1329",
+      "size": 3412
+     },
+     {
+      "rel": "tests/test_secret_patterns.py",
+      "sha256": "e1574bd9383f604295cb853543efcd8039f4ae5c531aab286c74b681e3933b7e",
+      "size": 3561
+     },
+     {
+      "rel": "tests/test_skill_contracts.py",
+      "sha256": "35788657cfc0843de458768b46662acdcadbf7753cebef8dcfea182b9fbd6379",
+      "size": 4994
+     },
+     {
+      "rel": "tests/test_technology_admission.py",
+      "sha256": "b790e281e27960a30e304b382dd71346b6084984eeddeb5f8184f32c519084d9",
+      "size": 7777
+     },
+     {
+      "rel": "tests/test_tooling_executes.py",
+      "sha256": "6463960288cb1a47eab326d065164ed9ce0d779d5bb27cdf2c670ce5b4102712",
+      "size": 10194
+     },
+     {
+      "rel": "tests/test_web_pack.py",
+      "sha256": "f79f2025896154e6394472ccc345503315e6c87a460bccaea7ba08f74dfcfad2",
+      "size": 741
+     }
+    ],
+    "generated_at": "2026-10-09T00:46:36.579502+00:00",
+    "manifest_sha256": "fe582c4e14c370b6adfd632f3ca4bae819075896251db4166d7c334cb52f6661",
+    "schema": "PIPD-EXPORT-FREEZE/1",
+    "secret_scan": "PASS"
+   }
+  },
+  {
+   "args": [
+    "diff",
+    "--a",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\claim_ceiling.json",
+    "--b",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s1\\claim_ceiling.json"
+   ],
+   "exit": 0,
+   "payload": {
+    "changed_fields": [],
+    "count": 0,
+    "verdict": "PASS"
+   }
+  },
+  {
+   "args": [
+    "repair",
+    "--subject",
+    "PI-PKG",
+    "--scope",
+    "src/**",
+    "--maker",
+    "HERMES-MAKER",
+    "--authorized-root",
+    "C:\\Projects\\Agent_Workspace\\PIPD"
+   ],
+   "exit": 0,
+   "payload": {
+    "authorized_root": "C:\\Projects\\Agent_Workspace\\PIPD",
+    "isolation": "workspace_only",
+    "maker": "HERMES-MAKER",
+    "requalification": "affected-only",
+    "schema": "PIPD-REPAIR-CANDIDATE/1",
+    "scope": [
+     "src/**"
+    ],
+    "self_accept": false,
+    "state": "CANDIDATE",
+    "subject": "PI-PKG"
+   }
+  }
+ ]
+}

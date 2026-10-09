@@ -1,0 +1,86 @@
+{
+ "schema": "HGK-R3-ROUTE-READBACK/1",
+ "generated_at": "2026-10-09T08:10:54+08:00",
+ "sod_declaration_from_user_order": {
+  "PLAN": {
+   "provider": "openai-codex",
+   "model": "gpt-6.1-sol",
+   "fallback": "mimo-v2.6-pro (opencode-go)"
+  },
+  "EXECUTE": {
+   "engine": "codex-cli",
+   "provider": "opencode-go",
+   "model": "deepseek-v4.1-flash"
+  },
+  "VERIFY_SECURITY": {
+   "provider": "opencode-go",
+   "model": "glm-5.3-flash"
+  }
+ },
+ "machine_truth": {
+  "lane_routing_registry": {
+   "path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\config\\lane-routing-registry.yaml",
+   "sha256": "bc417deb6ddeae0ce78a7a697e7be4ebd50433eb4827d479a27e1af2db7fe54c",
+   "status_line": "CANDIDATE enforcement artifact"
+  },
+  "extracted_route_lines": [
+   "- lane: PLAN",
+   "engine: hermes",
+   "provider: openai-codex",
+   "model: gpt-6.1-sol",
+   "- lane: EXECUTE",
+   "engine: codex-cli",
+   "provider: opencode-go",
+   "model: deepseek-v4.1-flash",
+   "- lane: VERIFY_SECURITY",
+   "engine: hermes",
+   "provider: opencode-go",
+   "model: glm-5.3-flash",
+   "model: glm-5.3-flash",
+   "provider: opencode-go",
+   "model: gpt-6.1-sol",
+   "provider: openai-codex"
+  ],
+  "codex_executable": {
+   "path": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\runtime\\codex-0.147.0-alpha.6.5\\codex.exe",
+   "sha256": "FB5C760E14CF8FE86E12E49E8A3E7F237AF06082D6B9FE1E411E463B7229C916",
+   "sha256_matches_declared": true,
+   "version": "codex-cli 0.147.0-alpha.6.5",
+   "rc": 0
+  },
+  "execute_frontdoor": {
+   "url": "http://127.0.0.1:10100",
+   "health_raw": {
+    "schema": "HGK-EXEC-FRONTDOOR-HEALTH/1",
+    "status": "ok",
+    "claim_ceiling": "CANDIDATE_ONLY",
+    "scope": "sealed EXECUTE lane only",
+    "sanctioned_provider": "opencode-go",
+    "sanctioned_model": "deepseek-v4.1-flash",
+    "sanctioned_pair": "opencode-go/deepseek-v4.1-flash",
+    "upstream": "http://127.0.0.1:10101",
+    "raw_upstream_out_of_scope": "http://127.0.0.1:10101 (127.0.0.1:10101) remains reachable"
+   }
+  },
+  "relay_models": {
+   "object": "list",
+   "data": [
+    {
+     "id": "opencode-go/deepseek-v4.1-flash",
+     "object": "model",
+     "created": 0,
+     "owned_by": "opencode"
+    }
+   ]
+  }
+ },
+ "sod_check": {
+  "maker_model": "deepseek-v4.1-flash",
+  "checker_model": "glm-5.3-flash",
+  "distinct_model_families": true,
+  "shared_provider": "opencode-go",
+  "note": "EXECUTE and VERIFY_SECURITY share the provider but not the model; the SoD invariant is model-distinctness (maker != checker token)."
+ },
+ "claim_ceiling": "CANDIDATE_ONLY",
+ "note": "The lane registry is a CANDIDATE enforcement artifact; these are readback facts, not an approved binding. No secret value is recorded here."
+}

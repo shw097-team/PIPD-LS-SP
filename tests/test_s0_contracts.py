@@ -62,5 +62,70 @@ class TestS0Contracts(unittest.TestCase):
                 registry.load_registry(Path(td))
 
 
+class TestS0Reconciliation(unittest.TestCase):
+    def run_check(self, mutate=None, flag="--check"):
+        import os
+        import shutil
+        import subprocess
+        import tempfile
+        receipt = ROOT / ".hgk/rounds/R3-20261009-audit-repair/FW-02"
+        receipt.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=receipt) as td:
+            schemas = Path(td) / "schemas"
+            shutil.copytree(ROOT / "schemas", schemas)
+            if mutate:
+                mutate(schemas)
+            env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
+            return subprocess.run(
+                [sys.executable, str(ROOT / "tools/registry_reconcile.py"),
+                 flag, "--schemas-dir", str(schemas)],
+                capture_output=True, text=True, env=env)
+
+    @staticmethod
+    def edit(schemas, family, change):
+        path = schemas / f"{family}.schema.json"
+        schema = json.loads(path.read_text(encoding="utf-8"))
+        change(schema)
+        path.write_text(json.dumps(schema), encoding="utf-8")
+
+    def test_all_19_are_field_exact(self):
+        result = self.run_check()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("19/19", result.stdout)
+        for family in registry.SOURCE_ORDER:
+            schema = registry.load_schema(family, ROOT / "schemas")
+            row = next(f for f in registry.load_registry(ROOT / "schemas")["families"]
+                       if f["contract"] == family)
+            self.assertEqual(set(row["required_fields"]), set(schema["required"]), family)
+
+    def test_required_field_removal_is_refused(self):
+        for flag in ("--check", "--write"):
+            result = self.run_check(lambda d: self.edit(d, "TechnologyAdmission",
+                lambda s: s["required"].remove("immutable_pin")), flag)
+            self.assertNotEqual(result.returncode, 0, "TechnologyAdmission immutable_pin accepted")
+            self.assertIn("TechnologyAdmission", result.stderr)
+            self.assertIn("immutable_pin", result.stderr)
+
+    def test_version_id_mismatch_is_refused(self):
+        result = self.run_check(lambda d: self.edit(d, "TechnologyAdmission",
+            lambda s: s.update({"$id": "urn:pipd:s0:TechnologyAdmission:2"})))
+        self.assertNotEqual(result.returncode, 0, "TechnologyAdmission $id accepted")
+        self.assertIn("TechnologyAdmission", result.stderr)
+        self.assertIn("$id", result.stderr)
+
+    def test_wrong_owner_or_consumer_is_refused(self):
+        for key in ("owner", "consumers"):
+            result = self.run_check(lambda d: self.edit(d, "TechnologyAdmission",
+                lambda s: s["x-s0"].update({key: "Wrong" if key == "owner" else ["Wrong"]})))
+            self.assertNotEqual(result.returncode, 0, f"TechnologyAdmission {key} accepted")
+            self.assertIn("TechnologyAdmission", result.stderr)
+            self.assertIn(key, result.stderr)
+
+    def test_extra_schema_family_is_refused(self):
+        result = self.run_check(lambda d: (d / "Invented.schema.json").write_text("{}", encoding="utf-8"))
+        self.assertNotEqual(result.returncode, 0, "Invented twentieth family accepted")
+        self.assertIn("Invented", result.stderr)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

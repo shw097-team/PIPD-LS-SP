@@ -44,14 +44,35 @@
  "capability_need": "harness donor / evaluation lane",
  "candidate": "Pi Coding Agent",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "NOT_RUNTIME_OWNER",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "HGK/Hermes/Codex lane",
+  "exit_criterion": "unproven parity/security",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "HGK/Hermes/Codex lane",
+  "disposition": "EVAL_ONLY",
+  "design_disposition": "EVAL_ONLY",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "disposition EVAL_ONLY never activates",
   "independently_verified": false
  },
  "fallback_exit": "HGK/Hermes/Codex lane",
  "subject_id": "subset-tech-065eec8bbc5136f8a424af359e44fb67",
  "version": "eval-time commit pin",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "dd6809a9c90f297cb3742c27979333ff3e8824206a4dd7588365192e05945d84"
+ "content_hash": "afd056ea9efd333a37d61f4a3b6e3b1607027596768123a9e32aef08091ffea3"
 }

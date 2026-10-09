@@ -1,0 +1,3197 @@
+{
+ "schema": "CAPC-PROMPT-CONTRACT/1",
+ "task_id": "PIPD-LS-SP-HGK-AUDIT-REPAIR-2026-10-09-R1",
+ "source_scan": {
+  "required_source_families": [
+   "F0_USER_AUDIT_REPAIR",
+   "F1_GPTB_KNOWLEDGE",
+   "F2_PIPD_STANDARD",
+   "F3_PIPD_DESIGN",
+   "F4_ENGINEERING_DONORS",
+   "F5_COMMAND_BASIS",
+   "F6_MACHINE_TRUTH",
+   "F7_PIPD_REPO"
+  ],
+  "reviewed": [
+   {
+    "source_family": "F0_USER_AUDIT_REPAIR",
+    "source_id": "F0_USER_AUDIT_REPAIR",
+    "locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/驗收報告/PIPD_LS_SP_S0_S4_FULL_DESTRUCTIVE_ACCEPTANCE_AUDIT_2026-10-09.md ; C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PROMPT/PIPD-LS-SP_HERMES_S0-S4_AUDIT_REPAIR_PROMPT_2026-10-09.md",
+    "sha256": "UNAVAILABLE",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F1_GPTB_KNOWLEDGE",
+    "source_id": "F1_GPTB_KNOWLEDGE",
+    "locator": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/00_KNOW_INDEX.md..19_KP_INDEX_CROSSWALK.md ; 知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13",
+    "sha256": "UNAVAILABLE",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F2_PIPD_STANDARD",
+    "source_id": "F2_PIPD_STANDARD",
+    "locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/{PIPD_LS_canonical_standard.md,PIPD_LS_DOC-00..09}",
+    "sha256": "UNAVAILABLE",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F3_PIPD_DESIGN",
+    "source_id": "F3_PIPD_DESIGN",
+    "locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/{PIPD-LS-SP_skeleton.md,PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00..10,PIPD-LS-SP_藍圖/*}",
+    "sha256": "UNAVAILABLE",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F4_ENGINEERING_DONORS",
+    "source_id": "F4_ENGINEERING_DONORS",
+    "locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/SKILLS_PLUGIN/{SDLC_PRW_HLPE_SKILLS_PLUGIN_R2,SWOF_ECP_SKILLS_PLUGIN_v2.0.1,SWOF_TQAEP_SKILLS_PLUGIN_v2.0.1}.md",
+    "sha256": "UNAVAILABLE",
+    "role": "SUPPORT",
+    "critical": false
+   },
+   {
+    "source_family": "F5_COMMAND_BASIS",
+    "source_id": "F5_COMMAND_BASIS",
+    "locator": "C:/Projects/Agent_Workspace/知識庫/工程基座/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/** ; C:/Projects/Agent_Workspace/HG-KSEOS/docs/HG-KSEOS使用說明文檔.md ; C:/Projects/Agent_Workspace/Fabric/docs/Fabric使用說明文檔.md",
+    "sha256": "UNAVAILABLE",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "F6_MACHINE_TRUTH",
+    "source_id": "F6_MACHINE_TRUTH",
+    "locator": "C:/Projects/Agent_Workspace/HG-KSEOS/{AGENTS.md,config/**,src/**,var/shared-spine/hg-kseos.db} ; C:/Projects/Agent_Workspace/Fabric/{control/**,contracts/**,assurance/**,rp002/**}",
+    "sha256": "UNAVAILABLE",
+    "role": "STATE_EVIDENCE",
+    "critical": false
+   },
+   {
+    "source_family": "F7_PIPD_REPO",
+    "source_id": "F7_PIPD_REPO",
+    "locator": "C:/Projects/Agent_Workspace/PIPD @ 829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "sha256": "UNAVAILABLE",
+    "role": "STATE_EVIDENCE",
+    "critical": false
+   }
+  ],
+  "missing": [],
+  "normative_claims": [
+   {
+    "claim_id": "NC-01",
+    "text": "HG-KSEOS is the sole normative WorkOrder/admission/reducer/release control plane; Hermes is the governed orchestration plane and Fabric only the contract surface.",
+    "source_ids": [
+     "F6_MACHINE_TRUTH",
+     "F5_COMMAND_BASIS"
+    ],
+    "locators": [
+     "HG-KSEOS/AGENTS.md §1 §Admission chain"
+    ]
+   },
+   {
+    "claim_id": "NC-02",
+    "text": "The 2026-10-09 audit is a user-supplied defect list that outranks project design docs but never replaces the upper specification.",
+    "source_ids": [
+     "F0_USER_AUDIT_REPAIR"
+    ],
+    "locators": [
+     "AUDIT §0.1",
+     "REPAIR §2"
+    ]
+   },
+   {
+    "claim_id": "NC-03",
+    "text": "Product writes require an admitted HGK WorkOrder, a bounded WriteSet and a git baseline/rollback pointer.",
+    "source_ids": [
+     "F6_MACHINE_TRUTH"
+    ],
+    "locators": [
+     "HG-KSEOS/AGENTS.md §Admission chain",
+     "HG-KSEOS/AGENTS.md §Routing"
+    ]
+   },
+   {
+    "claim_id": "NC-04",
+    "text": "PROMPT_COMPILE_PASS may only be produced by the bundled deterministic compiler.",
+    "source_ids": [
+     "F5_COMMAND_BASIS"
+    ],
+    "locators": [
+     "construction-acceptance-prompt-compiler_SKILL.md §Run deterministic validation"
+    ]
+   },
+   {
+    "claim_id": "NC-05",
+    "text": "A candidate file being present, non-empty or schema-valid is not runtime readiness.",
+    "source_ids": [
+     "F5_COMMAND_BASIS"
+    ],
+    "locators": [
+     "references/activation-runtime.md §Runtime evidence",
+     "AUDIT §4.1"
+    ]
+   }
+  ]
+ },
+ "intent": {
+  "goal": "在現有 PIPD-LS-SP public Repo 與 S0~S4 基線上，以 NARROW_REPAIR 修補 2026-10-09 外部破壞性稽核的 R-AUD-001~015 全部問題與 FW-01~12 全部最小修補工單，並以同一 frozen candidate 取得獨立驗收官判定。",
+  "user_expected_outcome": "R-AUD-001~015 全部具正確 disposition 與程式／契約／證據對應；FW-01~12 各有 fresh receipt；S0~S4 所有 applicable hard gate 在同一候選上獨立複驗；PRE-W3 維持 TEMP_CLOSED。",
+  "user_expected_experience": "使用者以自然語言即可觸發 lifecycle 並取得綁來源的 PI/PD 契約；8 Skills、5 Web、3 Host、13 CLI 的失敗一律以 typed error 呈現，不以檔案存在或非空 JSON 冒充可用。",
+  "explicit_constraints": [
+   "HG-KSEOS 為唯一控制平面；Hermes 為受治理 Runtime/Orchestration Plane；Fabric 僅為契約面",
+   "產品寫入限 PIPD target root；GitHub 只更新既有 public Repo，不重建、不 force-push",
+   "不得建立第二 WorkOrder／RBWI／Reducer／Canonical IR／SharedSpine",
+   "不得以改測例、改 Gate 分母、提高 PASS 百分比或修改 Oracle 換取 PASS",
+   "不得推進 S5+／PRE-W3／Fabric RP-002 SQP1／Stage-3／production",
+   "所有一般工程決策自行以 FAR 研究裁決，不因技術歧義反覆詢問使用者"
+  ],
+  "non_goals": [
+   "S5 HGK receiver shadow／canary execution",
+   "S6 GENIE live projection",
+   "S7 JIT runtime world-effect factory",
+   "S8 SGM authority cutover",
+   "PRE-W3 跨專案正式驗收",
+   "Fabric sealed RP-002／SQP1／Stage-3 修改與 production deployment"
+  ],
+  "authorized_mutations": [
+   "PIPD 產品根目錄內檔案新增／修改／搬移／刪除／重構（含新建 skills/、dist/、tools/）",
+   "更新既有公開 Repo shw097-team/PIPD-LS-SP 與單一驗收證據 MD",
+   "建立 HGK requirement／taskspec／workorder／checkpoint 與 Kanban 卡",
+   "執行 FAR 研究並輸出 Gate-1 決策（研究層，非 acceptance）"
+  ],
+  "forbidden_mutations": [
+   "建立第二控制平面／SharedSpine／Reducer／Task DB／Canonical Plan IR",
+   "對 SharedSpine 作原生 SQL 寫入",
+   "PIPD root 以外未經 admission 的寫入",
+   "Maker 自批獨立驗收或自我晉升",
+   "公開任何憑證內容／PAT 前後綴",
+   "修改 Fabric sealed control 或 HG-KSEOS 封存控制面",
+   "force-push 覆蓋公開 main 或改寫歷史 commit"
+  ],
+  "expected_autonomy": "HIGH",
+  "allowed_hitl": [
+   "LICENSE_DECISION",
+   "PUBLICATION_AUTHORITY",
+   "SCOPE_EXPANSION_BEYOND_PIPD_ROOT",
+   "CREDENTIAL_OR_TTL",
+   "POLICY_MANDATED_HITL",
+   "PRE_W3_CROSS_PROJECT_OWNER"
+  ],
+  "requested_delivery": [
+   "DEL_PIPD_S0_S4_REPAIRED_TREE",
+   "DEL_AUDIT_REPAIR_EVIDENCE_SINGLE_MD",
+   "DEL_HGK_ADMISSION_AND_WORKORDER_RECEIPTS",
+   "DEL_PROMPT_COMPILER_RECEIPTS",
+   "DEL_INDEPENDENT_OFFICER_VERDICT",
+   "DEL_FW_CLOSURE_TABLE",
+   "DEL_PUBLIC_REPO_READBACK",
+   "DEL_KANBAN_AND_LANE_RECEIPTS"
+  ],
+  "active_requirement_ids": [
+   "REQ-PIPD-R3-AUD-001",
+   "REQ-PIPD-R3-AUD-002",
+   "REQ-PIPD-R3-AUD-003",
+   "REQ-PIPD-R3-AUD-004",
+   "REQ-PIPD-R3-AUD-005",
+   "REQ-PIPD-R3-AUD-006",
+   "REQ-PIPD-R3-AUD-007",
+   "REQ-PIPD-R3-AUD-008",
+   "REQ-PIPD-R3-AUD-009",
+   "REQ-PIPD-R3-AUD-010",
+   "REQ-PIPD-R3-AUD-011",
+   "REQ-PIPD-R3-AUD-012",
+   "REQ-PIPD-R3-AUD-013",
+   "REQ-PIPD-R3-AUD-014",
+   "REQ-PIPD-R3-AUD-015",
+   "REQ-PIPD-R3-FW-01",
+   "REQ-PIPD-R3-FW-02",
+   "REQ-PIPD-R3-FW-03",
+   "REQ-PIPD-R3-FW-04",
+   "REQ-PIPD-R3-FW-05",
+   "REQ-PIPD-R3-FW-06",
+   "REQ-PIPD-R3-FW-07",
+   "REQ-PIPD-R3-FW-08",
+   "REQ-PIPD-R3-FW-09",
+   "REQ-PIPD-R3-FW-10",
+   "REQ-PIPD-R3-FW-11",
+   "REQ-PIPD-R3-FW-12"
+  ],
+  "claim_ceiling": "EXTERNAL_ACCEPTANCE"
+ },
+ "authority": {
+  "sources": [
+   {
+    "id": "F0_USER_AUDIT_REPAIR",
+    "rank": "R0",
+    "path": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/驗收報告/PIPD_LS_SP_S0_S4_FULL_DESTRUCTIVE_ACCEPTANCE_AUDIT_2026-10-09.md",
+    "sha256": "UNAVAILABLE",
+    "locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/驗收報告/PIPD_LS_SP_S0_S4_FULL_DESTRUCTIVE_ACCEPTANCE_AUDIT_2026-10-09.md ; C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PROMPT/PIPD-LS-SP_HERMES_S0-S4_AUDIT_REPAIR_PROMPT_2026-10-09.md",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F1_GPTB_KNOWLEDGE",
+    "rank": "R1",
+    "path": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/00_KNOW_INDEX.md..19_KP_INDEX_CROSSWALK.md",
+    "sha256": "UNAVAILABLE",
+    "locator": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/00_KNOW_INDEX.md..19_KP_INDEX_CROSSWALK.md ; 知識庫/工程基座/GRP_PORTABLE_DISTRIBUTION_SET_13",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F2_PIPD_STANDARD",
+    "rank": "R1",
+    "path": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/{PIPD_LS_canonical_standard.md,PIPD_LS_DOC-00..09}",
+    "sha256": "UNAVAILABLE",
+    "locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/{PIPD_LS_canonical_standard.md,PIPD_LS_DOC-00..09}",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F3_PIPD_DESIGN",
+    "rank": "R1",
+    "path": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/{PIPD-LS-SP_skeleton.md,PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00..10,PIPD-LS-SP_藍圖/*}",
+    "sha256": "UNAVAILABLE",
+    "locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/{PIPD-LS-SP_skeleton.md,PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG-00..10,PIPD-LS-SP_藍圖/*}",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F4_ENGINEERING_DONORS",
+    "rank": "R2",
+    "path": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/SKILLS_PLUGIN/{SDLC_PRW_HLPE_SKILLS_PLUGIN_R2,SWOF_ECP_SKILLS_PLUGIN_v2.0.1,SWOF_TQAEP_SKILLS_PLUGIN_v2.0.1}.md",
+    "sha256": "UNAVAILABLE",
+    "locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/SKILLS_PLUGIN/{SDLC_PRW_HLPE_SKILLS_PLUGIN_R2,SWOF_ECP_SKILLS_PLUGIN_v2.0.1,SWOF_TQAEP_SKILLS_PLUGIN_v2.0.1}.md",
+    "role": "SUPPORT",
+    "governs": false
+   },
+   {
+    "id": "F5_COMMAND_BASIS",
+    "rank": "R1",
+    "path": "C:/Projects/Agent_Workspace/知識庫/工程基座/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/**",
+    "sha256": "UNAVAILABLE",
+    "locator": "C:/Projects/Agent_Workspace/知識庫/工程基座/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/** ; C:/Projects/Agent_Workspace/HG-KSEOS/docs/HG-KSEOS使用說明文檔.md ; C:/Projects/Agent_Workspace/Fabric/docs/Fabric使用說明文檔.md",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "F6_MACHINE_TRUTH",
+    "rank": "R1",
+    "path": "C:/Projects/Agent_Workspace/HG-KSEOS/{AGENTS.md,config/**,src/**,var/shared-spine/hg-kseos.db}",
+    "sha256": "UNAVAILABLE",
+    "locator": "C:/Projects/Agent_Workspace/HG-KSEOS/{AGENTS.md,config/**,src/**,var/shared-spine/hg-kseos.db} ; C:/Projects/Agent_Workspace/Fabric/{control/**,contracts/**,assurance/**,rp002/**}",
+    "role": "STATE_EVIDENCE",
+    "governs": false
+   },
+   {
+    "id": "F7_PIPD_REPO",
+    "rank": "R1",
+    "path": "C:/Projects/Agent_Workspace/PIPD @ 829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "sha256": "UNAVAILABLE",
+    "locator": "C:/Projects/Agent_Workspace/PIPD @ 829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "role": "STATE_EVIDENCE",
+    "governs": false
+   }
+  ],
+  "conflicts": [],
+  "missing_sources": [],
+  "native_control_plane_ids": [
+   "HG-KSEOS"
+  ],
+  "current_control_plane_id": "HG-KSEOS"
+ },
+ "changeset": {
+  "class": "NARROW_REPAIR",
+  "baseline_required": true,
+  "baseline_verified": true,
+  "reuse_prior_pass": false,
+  "affected_domains": [
+   "src/pipd_ls_sp",
+   "schemas",
+   "skills",
+   "dist",
+   "tests",
+   "tools",
+   "docs",
+   "fixtures",
+   ".hgk"
+  ],
+  "affected_files": [
+   "src/pipd_ls_sp/*",
+   "schemas/*",
+   "skills/pipd-*/**",
+   "dist/**",
+   "tests/*",
+   "tools/*",
+   "docs/*",
+   ".hgk/**"
+  ],
+  "must_not_reopen": [
+   "已於基線存在的 19 個 schema 檔之非衝突欄位語意（僅可一致化與加測，不得刪欄位令測試過關）",
+   "既有 3 個 Golden Pilot fixture 與 13 CLI 名稱",
+   "GitHub 既有 public Repo 的歷史 commit（不得改寫）",
+   "HG-KSEOS／Fabric 封存控制面",
+   "PRE-W3 跨專案 frozen subject"
+  ],
+  "scope_expansion_requires_hitl": true,
+  "tracked_mutation": true,
+  "product_mutation_allowed": true
+ },
+ "execution_scope": [
+  {
+   "capability": "CAP_FREEZE_CANDIDATE_BINDING",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "USE_NATIVE",
+   "source_locators": [
+    "F7_PIPD_REPO:.hgk/ao/ao_s2s4_verdict.json",
+    "HG-KSEOS/AGENTS.md §Evidence / claims"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_S0_CONTRACT_SCHEMAS_19",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD:schemas/registry.json",
+    "PIPD:docs/S0_CONTRACT_SPEC.md",
+    "AUDIT §6"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_SKILL_CONTRACTS_8",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "PIPD:skills/pipd-*/",
+    "F3:PIPD-LS-SP_PIPD-PKG-07",
+    "AUDIT §7"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_ATOMIC_REQUIREMENT_COMPILER",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "PIPD:src/pipd_ls_sp/pipeline.py L67-L145",
+    "F3:PIPD-LS-SP_PIPD-PKG-02",
+    "AUDIT §3 R-AUD-005"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_WEB_CANONICAL_PACK_5",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "PIPD:tools/web_pack_check.py",
+    "F3:PIPD-LS-SP_PIPD-PKG-07",
+    "AUDIT §10"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_HOST_ADAPTERS_3",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "PIPD:tools/host_projection_check.py",
+    "PIPD:src/pipd_ls_sp/workspace.py L93+",
+    "AUDIT §10.1"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_SURFACE_PROJECTION_IR",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "PIPD:src/pipd_ls_sp/workspace.py::project_surfaces",
+    "AUDIT §3 R-AUD-015"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PD_LATE_BINDING",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "PIPD:src/pipd_ls_sp/pipeline.py L164+",
+    "F3:PIPD-LS-SP_PIPD-PKG-03",
+    "AUDIT §3 R-AUD-009"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_TECHNOLOGY_ADMISSION_22",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "QUALIFY",
+   "source_locators": [
+    "PIPD:.hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json",
+    "F3:PIPD-LS-SP_PIPD-PKG-04",
+    "AUDIT §8"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_GOLDEN_PILOTS_AND_CLI_13",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "PIPD:.hgk/artifacts/s2/",
+    "PIPD:src/pipd_ls_sp/cli.py",
+    "AUDIT §9 §11"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_KNOWLEDGE_QUARANTINE_DISPOSITION",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "USE_NATIVE",
+   "source_locators": [
+    "PIPD:.hgk/knowledge/QUARANTINE_REVIEW.json",
+    "PIPD:tools/quarantine_review.py",
+    "AUDIT §3 R-AUD-008"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_EVIDENCE_MANIFEST_SEAL",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "ENABLE",
+   "source_locators": [
+    "PIPD:.hgk/artifacts/evidence_manifest.json",
+    "AUDIT §3 R-AUD-014"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_CI_STATUS_HISTORICAL_PROJECTION",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "PIPD:README.md",
+    "PIPD:.hgk/artifacts/TT_REGISTER.json",
+    "AUDIT §9"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_AUDIT_FINDING_LEDGER",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": true,
+   "runtime_required_now": false,
+   "action": "DESIGN",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6.1",
+    "REPAIR §6.2"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_INDEPENDENT_ACCEPTANCE_OFFICER",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "USE_NATIVE",
+   "source_locators": [
+    "HG-KSEOS/AGENTS.md §Acceptance",
+    "FAB:control/SOD_POLICY.yaml"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_S5_S8_TYPED_SEAMS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "PIPD:schemas/GENIEProjectionRef.schema.json",
+    "REPAIR §4"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PRE_W3_CROSS_PROJECT",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "NOT_APPLICABLE_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "AUDIT §14",
+    "REPAIR §3"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_UI_SITE_PACK_AS_WEB_DENOMINATOR",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "PROHIBITED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "PROHIBIT",
+   "source_locators": [
+    "AUDIT §10",
+    "REPAIR §4 FORBIDDEN"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_PRODUCTION_DEPLOY",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "PROHIBITED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "PROHIBIT",
+   "source_locators": [
+    "HG-KSEOS/AGENTS.md §Stage boundary"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_SECOND_CONTROL_PLANE",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "PROHIBITED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "PROHIBIT",
+   "source_locators": [
+    "HG-KSEOS/AGENTS.md §1",
+    "REPAIR §4 FORBIDDEN"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_FABRIC_SEALED_CONTROL_MUTATION",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "PROHIBITED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "PROHIBIT",
+   "source_locators": [
+    "FAB:control/*",
+    "REPAIR §4 FORBIDDEN"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "CAP_MAKER_SELF_ACCEPTANCE",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "PROHIBITED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "PROHIBIT",
+   "source_locators": [
+    "HG-KSEOS/AGENTS.md §Acceptance"
+   ],
+   "external_method": false,
+   "control_authority": false
+  }
+ ],
+ "runtime_readiness": [
+  {
+   "capability": "CAP_FREEZE_CANDIDATE_BINDING",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "re-freeze {source,repo,manifest,policy,checker,toolchain} tuple on one candidate at HEAD and produce raw AO receipts"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_FREEZE_CANDIDATE_BINDING"
+   ]
+  },
+  {
+   "capability": "CAP_SKILL_CONTRACTS_8",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize 8 logical SkillContracts (SKILL.md, references/contract.md, references/examples.md, schemas/input+output, tests/cases.yaml) and prove discover->effective-load->trigger/non-trigger"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_SKILL_CONTRACTS_8"
+   ]
+  },
+  {
+   "capability": "CAP_ATOMIC_REQUIREMENT_COMPILER",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "replace the 5-axis keyword classifier with a clause-bound atomic requirement compiler carrying stable SRC->REQ/Child->SPEC->ACC->VER->EVD->DEL->GATE trace and per-clause oracles"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_ATOMIC_REQUIREMENT_COMPILER"
+   ]
+  },
+  {
+   "capability": "CAP_WEB_CANONICAL_PACK_5",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "emit the exact five PIPD semantic Web documents from the typed projection IR with source hashes, capability-loss and stale-source negative"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_WEB_CANONICAL_PACK_5"
+   ]
+  },
+  {
+   "capability": "CAP_HOST_ADAPTERS_3",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "build real generic-skills / hgk-receiver / genie-adapter adapters with effective-load, semantic parity, compatibility-loss and stub/permission-widen negatives"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_HOST_ADAPTERS_3"
+   ]
+  },
+  {
+   "capability": "CAP_SURFACE_PROJECTION_IR",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "replace hardcoded/empty payload projection with a declarative typed projection IR compiled from canonical objects, profile and adapter mapping"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_SURFACE_PROJECTION_IR"
+   ]
+  },
+  {
+   "capability": "CAP_PD_LATE_BINDING",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "bind PD to real git/host RepoContext (head, dirty tree, manifest, currentness epoch, permission); caller-supplied FRESH becomes a claim only"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_PD_LATE_BINDING"
+   ]
+  },
+  {
+   "capability": "CAP_GOLDEN_PILOTS_AND_CLI_13",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "re-run GP-01/02/03 and all 13 CLI commands on a fresh runner with raw stdout/stderr/exit, per-command contract, negative/refusal paths, perf and rollback"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_GOLDEN_PILOTS_AND_CLI_13"
+   ]
+  },
+  {
+   "capability": "CAP_KNOWLEDGE_QUARANTINE_DISPOSITION",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "per-source owner disposition for the 7 quarantined sources with false-positive proof and malicious negative controls; no unreviewed fill-up to 160/160"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_KNOWLEDGE_QUARANTINE_DISPOSITION"
+   ]
+  },
+  {
+   "capability": "CAP_EVIDENCE_MANIFEST_SEAL",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "canonical self-exclusion plus external immutable seal over the evidence manifest, byte-level readback and self-hash-cycle / foreign-manifest negatives"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_EVIDENCE_MANIFEST_SEAL"
+   ]
+  },
+  {
+   "capability": "CAP_INDEPENDENT_ACCEPTANCE_OFFICER",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "run a non-maker clean-room VERIFY_ONLY officer on the frozen candidate and receiver the raw verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-CAP_INDEPENDENT_ACCEPTANCE_OFFICER"
+   ]
+  }
+ ],
+ "journeys": [
+  {
+   "journey_id": "J1_NL_COMPOSITE_REQUIREMENT",
+   "required": true,
+   "user_goal": "以自然語言複合需求取得綁來源的 PI/PD 契約包",
+   "expected_visible_result": "一份含 per-clause requirement atom、source binding 與 claim ceiling 的 PI/PD package",
+   "expected_automatic_behavior": [
+    "自動將複合句拆成 clause-bound 原子要求",
+    "自動綁定 source locator 與 hash",
+    "拒絕無來源的規範性宣稱"
+   ],
+   "expected_manual_behavior": [
+    "使用者只提供需求句與目標 root"
+   ],
+   "allowed_hitl": [
+    "SOURCE_GAP",
+    "LICENSE_DECISION"
+   ],
+   "required_capabilities": [
+    "CAP_ATOMIC_REQUIREMENT_COMPILER",
+    "CAP_SKILL_CONTRACTS_8",
+    "CAP_GOLDEN_PILOTS_AND_CLI_13"
+   ],
+   "negative_behavior": [
+    "含『各有／分別／對應』的句子發生語義收斂時必須 FAIL",
+    "空句或純填充詞不得產出 package"
+   ],
+   "failure_recovery": [
+    "來源缺漏時輸出 typed error 並保留 checkpoint"
+   ],
+   "source_expectation_ids": [
+    "REQ-PIPD-R3-AUD-005"
+   ],
+   "source_locators": [
+    "AUDIT §3 R-AUD-005",
+    "F3:PIPD-LS-SP_PIPD-PKG-02"
+   ]
+  },
+  {
+   "journey_id": "J2_NEW_PROJECT_LITE",
+   "required": true,
+   "user_goal": "對新專案以 LITE 深度取得最小施工前契約",
+   "expected_visible_result": "LITE profile 的 PI/PD package 與 profile binding",
+   "expected_automatic_behavior": [
+    "自動選定 profile 深度",
+    "自動套用 veto 與 assurance"
+   ],
+   "expected_manual_behavior": [
+    "使用者提供專案目標"
+   ],
+   "allowed_hitl": [
+    "SOURCE_GAP",
+    "LICENSE_DECISION"
+   ],
+   "required_capabilities": [
+    "CAP_SKILL_CONTRACTS_8",
+    "CAP_ATOMIC_REQUIREMENT_COMPILER"
+   ],
+   "negative_behavior": [
+    "LITE 不得改變 canonical 語意或權限"
+   ],
+   "failure_recovery": [
+    "profile veto 觸發時輸出 typed error"
+   ],
+   "source_expectation_ids": [
+    "REQ-PIPD-R3-FW-03"
+   ],
+   "source_locators": [
+    "AUDIT §7",
+    "F3:PIPD-LS-SP_PIPD-PKG-07"
+   ]
+  },
+  {
+   "journey_id": "J3_BROWNFIELD_STANDARD_LATEBIND",
+   "required": true,
+   "user_goal": "對既有 Brownfield repo 做 STANDARD late binding",
+   "expected_visible_result": "真實 RepoContext（root/head/dirty/tracked/writable scope/currentness）與 PD 決策",
+   "expected_automatic_behavior": [
+    "自動讀 git HEAD 與 dirty tree",
+    "自動計算 tracked 檔數並排除 VCS 內部"
+   ],
+   "expected_manual_behavior": [
+    "使用者提供 repo root"
+   ],
+   "allowed_hitl": [
+    "SOURCE_GAP",
+    "LICENSE_DECISION"
+   ],
+   "required_capabilities": [
+    "CAP_PD_LATE_BINDING",
+    "CAP_GOLDEN_PILOTS_AND_CLI_13"
+   ],
+   "negative_behavior": [
+    "caller 偽造 FRESH currentness 必須被拒絕",
+    "把 .git 內部物件計入檔案數必須被守門測試擋下"
+   ],
+   "failure_recovery": [
+    "非 git root 時退化並揭露"
+   ],
+   "source_expectation_ids": [
+    "REQ-PIPD-R3-AUD-009"
+   ],
+   "source_locators": [
+    "AUDIT §3 R-AUD-009",
+    "F3:PIPD-LS-SP_PIPD-PKG-03"
+   ]
+  },
+  {
+   "journey_id": "J4_ASSURED_FAILURE_RECOVERY",
+   "required": true,
+   "user_goal": "ASSURED profile 含故障回復與 rollback",
+   "expected_visible_result": "含 recovery fixture、rollback pointer 與 residue readback 的驗收結果",
+   "expected_automatic_behavior": [
+    "自動產生 rollback pointer",
+    "自動驗 residue"
+   ],
+   "expected_manual_behavior": [
+    "使用者僅需確認 rollback 容許 dirty 狀態"
+   ],
+   "allowed_hitl": [
+    "SOURCE_GAP",
+    "LICENSE_DECISION"
+   ],
+   "required_capabilities": [
+    "CAP_GOLDEN_PILOTS_AND_CLI_13",
+    "CAP_FREEZE_CANDIDATE_BINDING"
+   ],
+   "negative_behavior": [
+    "rollback 後殘留物未清除必須 FAIL"
+   ],
+   "failure_recovery": [
+    "回復失敗時以 checkpoint 續行"
+   ],
+   "source_expectation_ids": [
+    "REQ-PIPD-R3-FW-09"
+   ],
+   "source_locators": [
+    "AUDIT §9",
+    "F3:PIPD-LS-SP_PIPD-PKG-08"
+   ]
+  },
+  {
+   "journey_id": "J5_SKILL_ROUTING_NON_TRIGGER",
+   "required": true,
+   "user_goal": "Skill 自動選路與非觸發",
+   "expected_visible_result": "8 個 Skill 的 discover→effective-load→trigger/non-trigger 證據",
+   "expected_automatic_behavior": [
+    "自動選路",
+    "非觸發情境不得誤觸"
+   ],
+   "expected_manual_behavior": [
+    "使用者不需要知道 Skill 名稱"
+   ],
+   "allowed_hitl": [
+    "SOURCE_GAP",
+    "LICENSE_DECISION"
+   ],
+   "required_capabilities": [
+    "CAP_SKILL_CONTRACTS_8"
+   ],
+   "negative_behavior": [
+    "marker-only 或非空 stub 不得算 effective load"
+   ],
+   "failure_recovery": [
+    "Skill 不可用時退化為 typed error"
+   ],
+   "source_expectation_ids": [
+    "REQ-PIPD-R3-AUD-002"
+   ],
+   "source_locators": [
+    "AUDIT §7",
+    "F3:PIPD-LS-SP_PIPD-PKG-07"
+   ]
+  },
+  {
+   "journey_id": "J6_PORTABLE_WEB_HOST_PROJECTION",
+   "required": true,
+   "user_goal": "跨 Web／Host 的可攜投影",
+   "expected_visible_result": "5 份 PIPD Web 文檔與 3 個 host adapter 的同源 semantic parity 與 capability loss",
+   "expected_automatic_behavior": [
+    "由 typed projection IR 生成",
+    "自動偵測 stale source"
+   ],
+   "expected_manual_behavior": [
+    "使用者指定目標 surface"
+   ],
+   "allowed_hitl": [
+    "SOURCE_GAP",
+    "LICENSE_DECISION"
+   ],
+   "required_capabilities": [
+    "CAP_WEB_CANONICAL_PACK_5",
+    "CAP_HOST_ADAPTERS_3",
+    "CAP_SURFACE_PROJECTION_IR"
+   ],
+   "negative_behavior": [
+    "UI 五檔不得計入 Web 分母",
+    "空 payload 或漏欄位必須 FAIL"
+   ],
+   "failure_recovery": [
+    "stale source 時重新生成"
+   ],
+   "source_expectation_ids": [
+    "REQ-PIPD-R3-AUD-003",
+    "REQ-PIPD-R3-AUD-004",
+    "REQ-PIPD-R3-AUD-015"
+   ],
+   "source_locators": [
+    "AUDIT §10",
+    "AUDIT §10.1",
+    "AUDIT §3 R-AUD-015"
+   ]
+  },
+  {
+   "journey_id": "J7_ERROR_DIAGNOSIS_LOCAL_REPAIR",
+   "required": true,
+   "user_goal": "錯誤診斷與局部 repair",
+   "expected_visible_result": "typed error code、受影響 edge 清單與最小 repair 建議",
+   "expected_automatic_behavior": [
+    "自動判定 first-failing invariant",
+    "自動限定 affected-only 重跑"
+   ],
+   "expected_manual_behavior": [
+    "使用者確認 repair 範圍"
+   ],
+   "allowed_hitl": [
+    "SOURCE_GAP",
+    "LICENSE_DECISION"
+   ],
+   "required_capabilities": [
+    "CAP_GOLDEN_PILOTS_AND_CLI_13",
+    "CAP_S0_CONTRACT_SCHEMAS_19"
+   ],
+   "negative_behavior": [
+    "不得以改測例或降 Gate 完成 repair"
+   ],
+   "failure_recovery": [
+    "repair 失敗時回報 TEMP_CLOSED 與 checkpoint"
+   ],
+   "source_expectation_ids": [
+    "REQ-PIPD-R3-FW-09"
+   ],
+   "source_locators": [
+    "AUDIT §11",
+    "REPAIR §7"
+   ]
+  },
+  {
+   "journey_id": "J8_PUBLIC_ARTIFACT_EXTERNAL_ACCEPTANCE",
+   "required": true,
+   "user_goal": "公開成果的外部驗收",
+   "expected_visible_result": "單一證據 MD、外層 seal 與非 maker 的獨立 verdict",
+   "expected_automatic_behavior": [
+    "自動封存 evidence manifest",
+    "自動產生匿名讀回證據"
+   ],
+   "expected_manual_behavior": [
+    "owner 決定 publication"
+   ],
+   "allowed_hitl": [
+    "SOURCE_GAP",
+    "LICENSE_DECISION"
+   ],
+   "required_capabilities": [
+    "CAP_EVIDENCE_MANIFEST_SEAL",
+    "CAP_INDEPENDENT_ACCEPTANCE_OFFICER",
+    "CAP_CI_STATUS_HISTORICAL_PROJECTION"
+   ],
+   "negative_behavior": [
+    "maker 自簽 PASS 必須被拒絕",
+    "public repo 存在不得視為 publication 核准"
+   ],
+   "failure_recovery": [
+    "證據缺漏時標 EVIDENCE_GAP 而非自稱 PASS"
+   ],
+   "source_expectation_ids": [
+    "REQ-PIPD-R3-AUD-014",
+    "REQ-PIPD-R3-AUD-006"
+   ],
+   "source_locators": [
+    "AUDIT §3 R-AUD-014",
+    "REPAIR §8"
+   ]
+  }
+ ],
+ "acceptance": [
+  {
+   "acceptance_id": "ACC-CAP_FREEZE_CANDIDATE_BINDING",
+   "subject_id": "CAP_FREEZE_CANDIDATE_BINDING",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "positive fixture for CAP_FREEZE_CANDIDATE_BINDING",
+   "negative_fixture": "negative/mutation fixture for CAP_FREEZE_CANDIDATE_BINDING",
+   "recovery_fixture": "recovery fixture for CAP_FREEZE_CANDIDATE_BINDING",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S0_CONTRACT_SCHEMAS_19",
+   "subject_id": "CAP_S0_CONTRACT_SCHEMAS_19",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "positive fixture for CAP_S0_CONTRACT_SCHEMAS_19",
+   "negative_fixture": "negative/mutation fixture for CAP_S0_CONTRACT_SCHEMAS_19",
+   "recovery_fixture": "recovery fixture for CAP_S0_CONTRACT_SCHEMAS_19",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_SKILL_CONTRACTS_8",
+   "subject_id": "CAP_SKILL_CONTRACTS_8",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "positive fixture for CAP_SKILL_CONTRACTS_8",
+   "negative_fixture": "negative/mutation fixture for CAP_SKILL_CONTRACTS_8",
+   "recovery_fixture": "recovery fixture for CAP_SKILL_CONTRACTS_8",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_ATOMIC_REQUIREMENT_COMPILER",
+   "subject_id": "CAP_ATOMIC_REQUIREMENT_COMPILER",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "positive fixture for CAP_ATOMIC_REQUIREMENT_COMPILER",
+   "negative_fixture": "negative/mutation fixture for CAP_ATOMIC_REQUIREMENT_COMPILER",
+   "recovery_fixture": "recovery fixture for CAP_ATOMIC_REQUIREMENT_COMPILER",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_WEB_CANONICAL_PACK_5",
+   "subject_id": "CAP_WEB_CANONICAL_PACK_5",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "positive fixture for CAP_WEB_CANONICAL_PACK_5",
+   "negative_fixture": "negative/mutation fixture for CAP_WEB_CANONICAL_PACK_5",
+   "recovery_fixture": "recovery fixture for CAP_WEB_CANONICAL_PACK_5",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_HOST_ADAPTERS_3",
+   "subject_id": "CAP_HOST_ADAPTERS_3",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "positive fixture for CAP_HOST_ADAPTERS_3",
+   "negative_fixture": "negative/mutation fixture for CAP_HOST_ADAPTERS_3",
+   "recovery_fixture": "recovery fixture for CAP_HOST_ADAPTERS_3",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_SURFACE_PROJECTION_IR",
+   "subject_id": "CAP_SURFACE_PROJECTION_IR",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "positive fixture for CAP_SURFACE_PROJECTION_IR",
+   "negative_fixture": "negative/mutation fixture for CAP_SURFACE_PROJECTION_IR",
+   "recovery_fixture": "recovery fixture for CAP_SURFACE_PROJECTION_IR",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_PD_LATE_BINDING",
+   "subject_id": "CAP_PD_LATE_BINDING",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "positive fixture for CAP_PD_LATE_BINDING",
+   "negative_fixture": "negative/mutation fixture for CAP_PD_LATE_BINDING",
+   "recovery_fixture": "recovery fixture for CAP_PD_LATE_BINDING",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_TECHNOLOGY_ADMISSION_22",
+   "subject_id": "CAP_TECHNOLOGY_ADMISSION_22",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "positive fixture for CAP_TECHNOLOGY_ADMISSION_22",
+   "negative_fixture": "negative/mutation fixture for CAP_TECHNOLOGY_ADMISSION_22",
+   "recovery_fixture": "recovery fixture for CAP_TECHNOLOGY_ADMISSION_22",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_GOLDEN_PILOTS_AND_CLI_13",
+   "subject_id": "CAP_GOLDEN_PILOTS_AND_CLI_13",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "positive fixture for CAP_GOLDEN_PILOTS_AND_CLI_13",
+   "negative_fixture": "negative/mutation fixture for CAP_GOLDEN_PILOTS_AND_CLI_13",
+   "recovery_fixture": "recovery fixture for CAP_GOLDEN_PILOTS_AND_CLI_13",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_KNOWLEDGE_QUARANTINE_DISPOSITION",
+   "subject_id": "CAP_KNOWLEDGE_QUARANTINE_DISPOSITION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "positive fixture for CAP_KNOWLEDGE_QUARANTINE_DISPOSITION",
+   "negative_fixture": "negative/mutation fixture for CAP_KNOWLEDGE_QUARANTINE_DISPOSITION",
+   "recovery_fixture": "recovery fixture for CAP_KNOWLEDGE_QUARANTINE_DISPOSITION",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_EVIDENCE_MANIFEST_SEAL",
+   "subject_id": "CAP_EVIDENCE_MANIFEST_SEAL",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "positive fixture for CAP_EVIDENCE_MANIFEST_SEAL",
+   "negative_fixture": "negative/mutation fixture for CAP_EVIDENCE_MANIFEST_SEAL",
+   "recovery_fixture": "recovery fixture for CAP_EVIDENCE_MANIFEST_SEAL",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_CI_STATUS_HISTORICAL_PROJECTION",
+   "subject_id": "CAP_CI_STATUS_HISTORICAL_PROJECTION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "positive fixture for CAP_CI_STATUS_HISTORICAL_PROJECTION",
+   "negative_fixture": "negative/mutation fixture for CAP_CI_STATUS_HISTORICAL_PROJECTION",
+   "recovery_fixture": "recovery fixture for CAP_CI_STATUS_HISTORICAL_PROJECTION",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_AUDIT_FINDING_LEDGER",
+   "subject_id": "CAP_AUDIT_FINDING_LEDGER",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "positive fixture for CAP_AUDIT_FINDING_LEDGER",
+   "negative_fixture": "negative/mutation fixture for CAP_AUDIT_FINDING_LEDGER",
+   "recovery_fixture": "recovery fixture for CAP_AUDIT_FINDING_LEDGER",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_INDEPENDENT_ACCEPTANCE_OFFICER",
+   "subject_id": "CAP_INDEPENDENT_ACCEPTANCE_OFFICER",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "positive fixture for CAP_INDEPENDENT_ACCEPTANCE_OFFICER",
+   "negative_fixture": "negative/mutation fixture for CAP_INDEPENDENT_ACCEPTANCE_OFFICER",
+   "recovery_fixture": "recovery fixture for CAP_INDEPENDENT_ACCEPTANCE_OFFICER",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S5_S8_TYPED_SEAMS",
+   "subject_id": "CAP_S5_S8_TYPED_SEAMS",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §4"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "the declared seam/fixture exists",
+   "negative_fixture": "an attempt to activate or promote this capability is rejected",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_PRE_W3_CROSS_PROJECT",
+   "subject_id": "CAP_PRE_W3_CROSS_PROJECT",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §4"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "the declared seam/fixture exists",
+   "negative_fixture": "an attempt to activate or promote this capability is rejected",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_UI_SITE_PACK_AS_WEB_DENOMINATOR",
+   "subject_id": "CAP_UI_SITE_PACK_AS_WEB_DENOMINATOR",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §4"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "the declared seam/fixture exists",
+   "negative_fixture": "an attempt to activate or promote this capability is rejected",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_PRODUCTION_DEPLOY",
+   "subject_id": "CAP_PRODUCTION_DEPLOY",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §4"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "the declared seam/fixture exists",
+   "negative_fixture": "an attempt to activate or promote this capability is rejected",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_SECOND_CONTROL_PLANE",
+   "subject_id": "CAP_SECOND_CONTROL_PLANE",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §4"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "the declared seam/fixture exists",
+   "negative_fixture": "an attempt to activate or promote this capability is rejected",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_FABRIC_SEALED_CONTROL_MUTATION",
+   "subject_id": "CAP_FABRIC_SEALED_CONTROL_MUTATION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §4"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "the declared seam/fixture exists",
+   "negative_fixture": "an attempt to activate or promote this capability is rejected",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_MAKER_SELF_ACCEPTANCE",
+   "subject_id": "CAP_MAKER_SELF_ACCEPTANCE",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §4"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "the declared seam/fixture exists",
+   "negative_fixture": "an attempt to activate or promote this capability is rejected",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J1_NL_COMPOSITE_REQUIREMENT",
+   "subject_id": "J1_NL_COMPOSITE_REQUIREMENT",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §3"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixture driving J1_NL_COMPOSITE_REQUIREMENT",
+   "negative_fixture": "negative behaviour fixture for J1_NL_COMPOSITE_REQUIREMENT",
+   "recovery_fixture": "failure-recovery fixture for J1_NL_COMPOSITE_REQUIREMENT",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J2_NEW_PROJECT_LITE",
+   "subject_id": "J2_NEW_PROJECT_LITE",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §3"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixture driving J2_NEW_PROJECT_LITE",
+   "negative_fixture": "negative behaviour fixture for J2_NEW_PROJECT_LITE",
+   "recovery_fixture": "failure-recovery fixture for J2_NEW_PROJECT_LITE",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J3_BROWNFIELD_STANDARD_LATEBIND",
+   "subject_id": "J3_BROWNFIELD_STANDARD_LATEBIND",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §3"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixture driving J3_BROWNFIELD_STANDARD_LATEBIND",
+   "negative_fixture": "negative behaviour fixture for J3_BROWNFIELD_STANDARD_LATEBIND",
+   "recovery_fixture": "failure-recovery fixture for J3_BROWNFIELD_STANDARD_LATEBIND",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J4_ASSURED_FAILURE_RECOVERY",
+   "subject_id": "J4_ASSURED_FAILURE_RECOVERY",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §3"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixture driving J4_ASSURED_FAILURE_RECOVERY",
+   "negative_fixture": "negative behaviour fixture for J4_ASSURED_FAILURE_RECOVERY",
+   "recovery_fixture": "failure-recovery fixture for J4_ASSURED_FAILURE_RECOVERY",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J5_SKILL_ROUTING_NON_TRIGGER",
+   "subject_id": "J5_SKILL_ROUTING_NON_TRIGGER",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §3"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixture driving J5_SKILL_ROUTING_NON_TRIGGER",
+   "negative_fixture": "negative behaviour fixture for J5_SKILL_ROUTING_NON_TRIGGER",
+   "recovery_fixture": "failure-recovery fixture for J5_SKILL_ROUTING_NON_TRIGGER",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J6_PORTABLE_WEB_HOST_PROJECTION",
+   "subject_id": "J6_PORTABLE_WEB_HOST_PROJECTION",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §3"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixture driving J6_PORTABLE_WEB_HOST_PROJECTION",
+   "negative_fixture": "negative behaviour fixture for J6_PORTABLE_WEB_HOST_PROJECTION",
+   "recovery_fixture": "failure-recovery fixture for J6_PORTABLE_WEB_HOST_PROJECTION",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J7_ERROR_DIAGNOSIS_LOCAL_REPAIR",
+   "subject_id": "J7_ERROR_DIAGNOSIS_LOCAL_REPAIR",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §3"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixture driving J7_ERROR_DIAGNOSIS_LOCAL_REPAIR",
+   "negative_fixture": "negative behaviour fixture for J7_ERROR_DIAGNOSIS_LOCAL_REPAIR",
+   "recovery_fixture": "failure-recovery fixture for J7_ERROR_DIAGNOSIS_LOCAL_REPAIR",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J8_PUBLIC_ARTIFACT_EXTERNAL_ACCEPTANCE",
+   "subject_id": "J8_PUBLIC_ARTIFACT_EXTERNAL_ACCEPTANCE",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §3"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "fixture driving J8_PUBLIC_ARTIFACT_EXTERNAL_ACCEPTANCE",
+   "negative_fixture": "negative behaviour fixture for J8_PUBLIC_ARTIFACT_EXTERNAL_ACCEPTANCE",
+   "recovery_fixture": "failure-recovery fixture for J8_PUBLIC_ARTIFACT_EXTERNAL_ACCEPTANCE",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-AUD-001",
+   "subject_id": "REQ-PIPD-R3-AUD-001",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-AUD-001",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-AUD-001",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-AUD-002",
+   "subject_id": "REQ-PIPD-R3-AUD-002",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-AUD-002",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-AUD-002",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-AUD-003",
+   "subject_id": "REQ-PIPD-R3-AUD-003",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-AUD-003",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-AUD-003",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-AUD-004",
+   "subject_id": "REQ-PIPD-R3-AUD-004",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-AUD-004",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-AUD-004",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-AUD-005",
+   "subject_id": "REQ-PIPD-R3-AUD-005",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-AUD-005",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-AUD-005",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-AUD-006",
+   "subject_id": "REQ-PIPD-R3-AUD-006",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-AUD-006",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-AUD-006",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-AUD-007",
+   "subject_id": "REQ-PIPD-R3-AUD-007",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-AUD-007",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-AUD-007",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-AUD-008",
+   "subject_id": "REQ-PIPD-R3-AUD-008",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-AUD-008",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-AUD-008",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-AUD-009",
+   "subject_id": "REQ-PIPD-R3-AUD-009",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-AUD-009",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-AUD-009",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-AUD-010",
+   "subject_id": "REQ-PIPD-R3-AUD-010",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-AUD-010",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-AUD-010",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-AUD-011",
+   "subject_id": "REQ-PIPD-R3-AUD-011",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-AUD-011",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-AUD-011",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-AUD-012",
+   "subject_id": "REQ-PIPD-R3-AUD-012",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-AUD-012",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-AUD-012",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-AUD-013",
+   "subject_id": "REQ-PIPD-R3-AUD-013",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-AUD-013",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-AUD-013",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-AUD-014",
+   "subject_id": "REQ-PIPD-R3-AUD-014",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-AUD-014",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-AUD-014",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-AUD-015",
+   "subject_id": "REQ-PIPD-R3-AUD-015",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-AUD-015",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-AUD-015",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-FW-01",
+   "subject_id": "REQ-PIPD-R3-FW-01",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-FW-01",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-FW-01",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-FW-02",
+   "subject_id": "REQ-PIPD-R3-FW-02",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-FW-02",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-FW-02",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-FW-03",
+   "subject_id": "REQ-PIPD-R3-FW-03",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-FW-03",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-FW-03",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-FW-04",
+   "subject_id": "REQ-PIPD-R3-FW-04",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-FW-04",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-FW-04",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-FW-05",
+   "subject_id": "REQ-PIPD-R3-FW-05",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-FW-05",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-FW-05",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-FW-06",
+   "subject_id": "REQ-PIPD-R3-FW-06",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-FW-06",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-FW-06",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-FW-07",
+   "subject_id": "REQ-PIPD-R3-FW-07",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-FW-07",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-FW-07",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-FW-08",
+   "subject_id": "REQ-PIPD-R3-FW-08",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-FW-08",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-FW-08",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-FW-09",
+   "subject_id": "REQ-PIPD-R3-FW-09",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-FW-09",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-FW-09",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-FW-10",
+   "subject_id": "REQ-PIPD-R3-FW-10",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-FW-10",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-FW-10",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-FW-11",
+   "subject_id": "REQ-PIPD-R3-FW-11",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-FW-11",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-FW-11",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PIPD-R3-FW-12",
+   "subject_id": "REQ-PIPD-R3-FW-12",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "AUDIT §3",
+    "REPAIR §6"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "fixture for REQ-PIPD-R3-FW-12",
+   "negative_fixture": "negative fixture for REQ-PIPD-R3-FW-12",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_PIPD_S0_S4_REPAIRED_TREE",
+   "subject_id": "DEL_PIPD_S0_S4_REPAIRED_TREE",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "REPAIR §9"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "producer run emits DEL_PIPD_S0_S4_REPAIRED_TREE",
+   "negative_fixture": "missing or stale DEL_PIPD_S0_S4_REPAIRED_TREE is rejected",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_AUDIT_REPAIR_EVIDENCE_SINGLE_MD",
+   "subject_id": "DEL_AUDIT_REPAIR_EVIDENCE_SINGLE_MD",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "REPAIR §9"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "producer run emits DEL_AUDIT_REPAIR_EVIDENCE_SINGLE_MD",
+   "negative_fixture": "missing or stale DEL_AUDIT_REPAIR_EVIDENCE_SINGLE_MD is rejected",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_HGK_ADMISSION_AND_WORKORDER_RECEIPTS",
+   "subject_id": "DEL_HGK_ADMISSION_AND_WORKORDER_RECEIPTS",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "REPAIR §9"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "producer run emits DEL_HGK_ADMISSION_AND_WORKORDER_RECEIPTS",
+   "negative_fixture": "missing or stale DEL_HGK_ADMISSION_AND_WORKORDER_RECEIPTS is rejected",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_PROMPT_COMPILER_RECEIPTS",
+   "subject_id": "DEL_PROMPT_COMPILER_RECEIPTS",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "REPAIR §9"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "producer run emits DEL_PROMPT_COMPILER_RECEIPTS",
+   "negative_fixture": "missing or stale DEL_PROMPT_COMPILER_RECEIPTS is rejected",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_INDEPENDENT_OFFICER_VERDICT",
+   "subject_id": "DEL_INDEPENDENT_OFFICER_VERDICT",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "REPAIR §9"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "producer run emits DEL_INDEPENDENT_OFFICER_VERDICT",
+   "negative_fixture": "missing or stale DEL_INDEPENDENT_OFFICER_VERDICT is rejected",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_FW_CLOSURE_TABLE",
+   "subject_id": "DEL_FW_CLOSURE_TABLE",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "REPAIR §9"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "producer run emits DEL_FW_CLOSURE_TABLE",
+   "negative_fixture": "missing or stale DEL_FW_CLOSURE_TABLE is rejected",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_PUBLIC_REPO_READBACK",
+   "subject_id": "DEL_PUBLIC_REPO_READBACK",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "REPAIR §9"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "producer run emits DEL_PUBLIC_REPO_READBACK",
+   "negative_fixture": "missing or stale DEL_PUBLIC_REPO_READBACK is rejected",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL_KANBAN_AND_LANE_RECEIPTS",
+   "subject_id": "DEL_KANBAN_AND_LANE_RECEIPTS",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "REPAIR §9"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "producer run emits DEL_KANBAN_AND_LANE_RECEIPTS",
+   "negative_fixture": "missing or stale DEL_KANBAN_AND_LANE_RECEIPTS is rejected",
+   "recovery_fixture": "",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL"
+   ]
+  }
+ ],
+ "evidence": [
+  {
+   "gate_id": "G-SOURCE",
+   "predicate": "every required source family resolves with a hash",
+   "expected": "7/7 families resolved",
+   "command_or_probe": "python tools/knowledge_ready_probe.py --verify",
+   "raw_receipt_required": true,
+   "producer": "HGK_KNOWLEDGE_LAYER",
+   "independent_checker": "GLM-5.3-FLASH_INDEPENDENT_OFFICER",
+   "candidate_binding": {
+    "head": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "package_sha256": "SEE_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0",
+     "F1",
+     "F2",
+     "F3",
+     "F5",
+     "F6",
+     "F7"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  },
+  {
+   "gate_id": "G-KNOWLEDGE-READY",
+   "predicate": "knowledge quarantine disposition complete",
+   "expected": "clean_coverage=true or owner-approved redaction",
+   "command_or_probe": "python tools/quarantine_review.py --report",
+   "raw_receipt_required": true,
+   "producer": "HGK_KNOWLEDGE_OWNER",
+   "independent_checker": "GLM-5.3-FLASH_INDEPENDENT_OFFICER",
+   "candidate_binding": {
+    "head": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "package_sha256": "SEE_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0",
+     "F1",
+     "F2",
+     "F3",
+     "F5",
+     "F6",
+     "F7"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  },
+  {
+   "gate_id": "G-S0-OBJECTS",
+   "predicate": "19/19 contracts exact",
+   "expected": "required_fields==schema.required and $id/version/owner invariants",
+   "command_or_probe": "python -m pytest tests/test_s0_contracts.py -q",
+   "raw_receipt_required": true,
+   "producer": "PIPD_BOUNDED_WRITER",
+   "independent_checker": "GLM-5.3-FLASH_INDEPENDENT_OFFICER",
+   "candidate_binding": {
+    "head": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "package_sha256": "SEE_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0",
+     "F1",
+     "F2",
+     "F3",
+     "F5",
+     "F6",
+     "F7"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  },
+  {
+   "gate_id": "G-S1-SKILLS",
+   "predicate": "8/8 SkillContracts discoverable and loadable",
+   "expected": "8/8 discover->effective-load->route",
+   "command_or_probe": "python tools/skill_pack_check.py --all",
+   "raw_receipt_required": true,
+   "producer": "PIPD_BOUNDED_WRITER",
+   "independent_checker": "GLM-5.3-FLASH_INDEPENDENT_OFFICER",
+   "candidate_binding": {
+    "head": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "package_sha256": "SEE_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0",
+     "F1",
+     "F2",
+     "F3",
+     "F5",
+     "F6",
+     "F7"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  },
+  {
+   "gate_id": "G-PI-READY",
+   "predicate": "atomic requirement trace has no orphan",
+   "expected": "zero orphan SRC->REQ->SPEC->ACC->VER->EVD->DEL->GATE",
+   "command_or_probe": "python -m pipd_ls_sp compile-pi --self-check",
+   "raw_receipt_required": true,
+   "producer": "PIPD_BOUNDED_WRITER",
+   "independent_checker": "GLM-5.3-FLASH_INDEPENDENT_OFFICER",
+   "candidate_binding": {
+    "head": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "package_sha256": "SEE_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0",
+     "F1",
+     "F2",
+     "F3",
+     "F5",
+     "F6",
+     "F7"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  },
+  {
+   "gate_id": "G-S2-LOCAL",
+   "predicate": "GP-01/02/03 pass with raw receipts",
+   "expected": "3/3 pilots with POS/NEG/EDGE/SEC and rollback",
+   "command_or_probe": "python tools/run_golden_pilots.py --all --raw",
+   "raw_receipt_required": true,
+   "producer": "PIPD_BOUNDED_WRITER",
+   "independent_checker": "GLM-5.3-FLASH_INDEPENDENT_OFFICER",
+   "candidate_binding": {
+    "head": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "package_sha256": "SEE_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0",
+     "F1",
+     "F2",
+     "F3",
+     "F5",
+     "F6",
+     "F7"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  },
+  {
+   "gate_id": "G-S3-WEB",
+   "predicate": "exact five PIPD Web documents",
+   "expected": "5/5 with source hash and capability-loss",
+   "command_or_probe": "python tools/web_pack_check.py --strict",
+   "raw_receipt_required": true,
+   "producer": "PIPD_BOUNDED_WRITER",
+   "independent_checker": "GLM-5.3-FLASH_INDEPENDENT_OFFICER",
+   "candidate_binding": {
+    "head": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "package_sha256": "SEE_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0",
+     "F1",
+     "F2",
+     "F3",
+     "F5",
+     "F6",
+     "F7"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  },
+  {
+   "gate_id": "G-S3-HOST",
+   "predicate": "3 real host adapters effective-load",
+   "expected": "3/3 with parity/loss and stub negatives rejected",
+   "command_or_probe": "python tools/host_projection_check.py --strict",
+   "raw_receipt_required": true,
+   "producer": "PIPD_BOUNDED_WRITER",
+   "independent_checker": "GLM-5.3-FLASH_INDEPENDENT_OFFICER",
+   "candidate_binding": {
+    "head": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "package_sha256": "SEE_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0",
+     "F1",
+     "F2",
+     "F3",
+     "F5",
+     "F6",
+     "F7"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  },
+  {
+   "gate_id": "G-S4-CLI",
+   "predicate": "13 commands full contract",
+   "expected": "13/13 purpose/input/output/state/failure/idempotency",
+   "command_or_probe": "python tools/cli_surface_check.py --strict",
+   "raw_receipt_required": true,
+   "producer": "PIPD_BOUNDED_WRITER",
+   "independent_checker": "GLM-5.3-FLASH_INDEPENDENT_OFFICER",
+   "candidate_binding": {
+    "head": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "package_sha256": "SEE_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0",
+     "F1",
+     "F2",
+     "F3",
+     "F5",
+     "F6",
+     "F7"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  },
+  {
+   "gate_id": "G-S4-REPLAY",
+   "predicate": "byte-identical replay on same input lock",
+   "expected": "identical bytes and rebound identity",
+   "command_or_probe": "python tools/replay_check.py --strict",
+   "raw_receipt_required": true,
+   "producer": "PIPD_BOUNDED_WRITER",
+   "independent_checker": "GLM-5.3-FLASH_INDEPENDENT_OFFICER",
+   "candidate_binding": {
+    "head": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "package_sha256": "SEE_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0",
+     "F1",
+     "F2",
+     "F3",
+     "F5",
+     "F6",
+     "F7"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  },
+  {
+   "gate_id": "G-TECH-SOURCE-PIN",
+   "predicate": "22 rows accurate pin/licence disposition",
+   "expected": "0 unqualified ADOPT-bound enabled; G-TECH-SOURCE-PIN not masked",
+   "command_or_probe": "python tools/admit_technologies.py --report",
+   "raw_receipt_required": true,
+   "producer": "PIPD_BOUNDED_WRITER",
+   "independent_checker": "GLM-5.3-FLASH_INDEPENDENT_OFFICER",
+   "candidate_binding": {
+    "head": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "package_sha256": "SEE_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0",
+     "F1",
+     "F2",
+     "F3",
+     "F5",
+     "F6",
+     "F7"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  },
+  {
+   "gate_id": "G-EVIDENCE-SEAL",
+   "predicate": "manifest self-exclusion plus outer seal",
+   "expected": "self-hash-cycle negative rejected, byte readback",
+   "command_or_probe": "python tools/build_evidence_manifest.py --seal",
+   "raw_receipt_required": true,
+   "producer": "PIPD_BOUNDED_WRITER",
+   "independent_checker": "GLM-5.3-FLASH_INDEPENDENT_OFFICER",
+   "candidate_binding": {
+    "head": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "package_sha256": "SEE_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0",
+     "F1",
+     "F2",
+     "F3",
+     "F5",
+     "F6",
+     "F7"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  },
+  {
+   "gate_id": "G-INDEPENDENT",
+   "predicate": "non-maker clean-room officer verdict on the frozen candidate",
+   "expected": "verdict bound to one candidate tuple",
+   "command_or_probe": "one-shot VERIFY_ONLY lane on the frozen candidate",
+   "raw_receipt_required": true,
+   "producer": "PIPD_BOUNDED_WRITER",
+   "independent_checker": "GLM-5.3-FLASH_INDEPENDENT_OFFICER",
+   "candidate_binding": {
+    "head": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "package_sha256": "SEE_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0",
+     "F1",
+     "F2",
+     "F3",
+     "F5",
+     "F6",
+     "F7"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  },
+  {
+   "gate_id": "G-RELEASE-PUBLICATION",
+   "predicate": "publication and release remain owner-gated",
+   "expected": "PUBLICATION_APPROVED NOT CLAIMED without owner",
+   "command_or_probe": "anonymous readback of the public repo",
+   "raw_receipt_required": true,
+   "producer": "PIPD_BOUNDED_WRITER",
+   "independent_checker": "GLM-5.3-FLASH_INDEPENDENT_OFFICER",
+   "candidate_binding": {
+    "head": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+    "package_sha256": "SEE_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0",
+     "F1",
+     "F2",
+     "F3",
+     "F5",
+     "F6",
+     "F7"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "EXTERNAL_ACCEPTANCE"
+  }
+ ],
+ "termination": {
+  "terminal_states": [
+   "S0_S4_REPAIR_DELIVERED",
+   "FAIL",
+   "TEMP_CLOSED_PRE_W3",
+   "BLOCKED_HITL",
+   "BLOCKED_EXTERNAL"
+  ],
+  "non_terminal_pause": [
+   "ITERATION_BUDGET_PAUSE",
+   "SESSION_BOUNDARY",
+   "AWAITING_STEER",
+   "SCOPE_EXPANSION_HITL"
+  ],
+  "checkpoint_required": true,
+  "checkpoint_fields": [
+   "task_id",
+   "source_hashes",
+   "current_candidate",
+   "completed_gates",
+   "open_gates",
+   "next_work_order",
+   "rollback_pointer",
+   "workorder_ids",
+   "tt_delta"
+  ],
+  "retry_budget": 3,
+  "rollback_pointer_required": true
+ },
+ "render_policy": {
+  "control_corpus_restatement": false,
+  "embedded_control_bodies": [],
+  "max_prompt_chars": 30000,
+  "output_language": "zh-Hant-TW"
+ }
+}

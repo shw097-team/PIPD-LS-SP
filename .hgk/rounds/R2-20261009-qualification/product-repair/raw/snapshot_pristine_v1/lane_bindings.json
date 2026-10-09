@@ -1,0 +1,38 @@
+{
+ "planning_intelligence": {
+  "role": "HG-KSEOS lifecycle / admission (Planning intelligence)",
+  "primary": {
+   "provider": "openai-codex",
+   "model": "gpt-6.1-sol",
+   "auth": "OPENAI_OAUTH"
+  },
+  "fallback": {
+   "provider": "opencode-go",
+   "model": "glm-5.3"
+  },
+  "rule": "If the planning model's usage is exhausted / rate-limited (HTTP 429), the planning lane MUST switch to the fallback GLM-5.3 on OPENCODE GO. Configured as fallback_providers[0] so the chain lands on it first.",
+  "configured_at": "fallback_providers[0] = opencode-go/glm-5.3 (verified via `hermes fallback list`)"
+ },
+ "sod_matrix": [
+  {
+   "role": "PLANNING (HGK lifecycle/admission)",
+   "lane": "gpt-6.1-sol (fallback glm-5.3/opencode-go)"
+  },
+  {
+   "role": "EXECUTE (bounded writer)",
+   "lane": "Hermes orchestration / deepseek-v4.1-flash (opencode-go)"
+  },
+  {
+   "role": "VERIFY / SECURITY (independent acceptance officer)",
+   "lane": "glm-5.3-flash (opencode-go)"
+  }
+ ],
+ "sod_limitations": [
+  "When the planning fallback is ACTIVE, PLANNING and VERIFY both run on OPENCODE GO in the GLM-5.3 family. They remain distinct roles with distinct artifacts, but they are NOT model-independent. Declared, not hidden.",
+  "The maker lane (deepseek-v4.1-flash) and the checker lane (glm-5.3-flash) are different models, which is the separation that matters for the acceptance verdict."
+ ],
+ "verified_reasoning_lanes": {
+  "planning": "gpt-6.1-sol (429 on 2026-10-08 22:59, reset 00:26)",
+  "planning_fallback_verified": "glm-5.3 (opencode-go) returned OK on a live probe"
+ }
+}

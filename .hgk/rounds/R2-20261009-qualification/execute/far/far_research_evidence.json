@@ -1,0 +1,26 @@
+{
+  "schema": "PIPD-R2-FAR-RESEARCH-EVIDENCE/1",
+  "candidate_sha": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+  "far_root": "C:/Projects/Agent_Workspace/Fabric/fabric-autonomous-research",
+  "route_module": "far_router.py",
+  "route_check": "FAR_ROUTE_CHECK.yaml (gstack_registry_state=ACTIVE_SELECTED; openspec_registry_state=CERTIFIED_ACTIVE_BROWNFIELD)",
+  "capability_matrix": "CLASS_ROUTES (9 task classes)",
+  "actual_calls": "far/far_route_calls.json",
+  "route_results": {
+    "RESEARCH_GENERAL": {"decision": "NATIVE", "primary": "fabric-autoresearch-native", "reason_code": "FAR_ROUTE_NATIVE_DEFAULT", "providers_eligible": ["native", "prime"]},
+    "RESEARCH_ADVERSARIAL_CHALLENGE": {"decision": "BLOCK", "reason_code": "FAR_BLOCK_REQUIRED_CHALLENGE_UNAVAILABLE", "challenger": "aris", "final_acceptance": false},
+    "RESEARCH_ADVERSARIAL_CHALLENGE(aris_qualified)": {"decision": "ARIS_SELECTED_CHALLENGE", "reason_code": "FAR_CHALLENGE_ARIS", "challenger": "aris", "final_acceptance": false}
+  },
+  "templates_read": "research-product/RESEARCH_ARTIFACT_CONTRACTS.yaml + templates/ (ResearchRequest/ResearchPlan/Hypothesis/Query/Contradiction/Disagreement/RejectedAlternative/FitGap/ProposedEvolution/ResearchHandoff/SourceDisposition/ResearchSourceDenominator/ResearchRunReceipt)",
+  "research_products": {
+    "ResearchRequest": {"request": "Which quarantine/promotion migration path closes G-KNOWLEDGE-READY without a second control plane?", "class": "RESEARCH_GENERAL"},
+    "ResearchPlan": {"reuse": "tools/quarantine_review.py review path", "narrow_fix": "distinguish documented-pattern from live-secret at ingest", "adapter": "None", "proven_gate_defer": "TT-PIPD-KNOWLEDGE-QUARANTINE owner decision"},
+    "IntegratedFindings": {"finding_1": "wrong_authority NRTV cannot be demonstrated at assertion level; authority rank is enforced at ingest (ingest_text(authority_rank=...)). Owner defect in HG-KSEOS knowledge layer, NOT PIPD product.", "finding_2": "7 quarantined sources are required standard docs whose prose contains pattern strings; this is an owner-controlled HGK sanitation policy gap, not a PIPD repair.", "finding_3": "E2 tracked_files oracle assumes a git checkout; PIPD uses the correct git-ls-files definition. Test-side ORACLE mismatch (product test), smallest-repair candidate in product test, not exercised here."},
+    "RootCause": "Both blocking knowledge findings originate in the HG-KSEOS SharedSpine knowledge layer (owner-controlled), not in the PIPD candidate.",
+    "Challenge": {"route": "RESEARCH_ADVERSARIAL_CHALLENGE", "result": "BLOCK (aris unqualified)", "note": "bounded challenge requested; BLOCK is the honest FAR result, not synthesized PASS"},
+    "ProposedEvolution": {"reuse_existing": "yes, quarantine review path", "narrow_fix": "ingest-time documented-pattern exemption with owner decision", "adapter": "n/a", "proven_gate_defer": "yes"},
+    "Handoff": {"to": "HG-KSEOS knowledge owner + PIPD-EC", "carry_forward": ["TT-PIPD-KNOWLEDGE-QUARANTINE", "TT-PIPD-AUTHORITY-ASSERT"], "authority_license": "owner-only; FAR research is NOT HGK Admission and NOT Independent PASS"}
+  },
+  "boundary": "FAR research output is candidate decision support; it is NOT admission, NOT acceptance, NOT a PASS receipt. No Gate-1 independent-acceptance API was executed; its PASS is NOT synthesized.",
+  "verdict": "NOT_RUN_FOR_GATE1; route API executed and recorded"
+}

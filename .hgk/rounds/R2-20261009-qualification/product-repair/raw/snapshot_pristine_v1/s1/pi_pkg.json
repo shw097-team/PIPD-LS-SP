@@ -1,0 +1,160 @@
+{
+ "subject_id": "PI-71aa8bc3d90589f5",
+ "version": "1",
+ "content_hash": "71aa8bc3d90589f5e2dc5bfce21adf7f12bf19461cdec2427e9d315c8369e0fa",
+ "schema_version": "PI-PKG@1",
+ "stable_semantic_contract": {
+  "contract": "stable",
+  "profile_binding": {
+   "subject_id": "PB-60deb1e72df3b31b",
+   "version": "1",
+   "content_hash": "60deb1e72df3b31bf39243defba28a7e95c57a45606b30386d77acc752451f60",
+   "schema_version": "ProfileBinding@1",
+   "profile": "ASSURED",
+   "axes": [
+    "intent",
+    "knowledge",
+    "release",
+    "trust_boundary",
+    "verification"
+   ],
+   "vetoes": [],
+   "artifact_depth": "L4_FAILURE_RECOVERY",
+   "assurance": [
+    "deterministic_validator",
+    "negative_security",
+    "adversarial",
+    "independent_checker"
+   ]
+  },
+  "atoms": [
+   {
+    "subject_id": "ATOM-b736f3018716d988",
+    "version": "1",
+    "content_hash": "b736f3018716d9889add9c9c57a170aacb74c7ae5f8a95b7db92240b44ac2a8f",
+    "schema_version": "RequirementAtom@1",
+    "req_id": "REQ-INTENT",
+    "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification\\product-repair\\semcheck",
+    "owner": "PIPD-EC",
+    "acceptance_cue": "REQ-INTENT has an oracle and a negative fixture",
+    "risk_guard": "REQ-INTENT cannot self-accept"
+   },
+   {
+    "subject_id": "ATOM-aff16d34b14175a1",
+    "version": "1",
+    "content_hash": "aff16d34b14175a1deb1de0f14175953ad5b767d217181009788902a6de63db8",
+    "schema_version": "RequirementAtom@1",
+    "req_id": "REQ-KNOWLEDGE",
+    "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification\\product-repair\\semcheck",
+    "owner": "PIPD-EC",
+    "acceptance_cue": "REQ-KNOWLEDGE has an oracle and a negative fixture",
+    "risk_guard": "REQ-KNOWLEDGE cannot self-accept"
+   },
+   {
+    "subject_id": "ATOM-38844df5237724c4",
+    "version": "1",
+    "content_hash": "38844df5237724c4f447c5b7176838aad1a9be3e95a6383ed113dfd1cb2de9d6",
+    "schema_version": "RequirementAtom@1",
+    "req_id": "REQ-VERIFY",
+    "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification\\product-repair\\semcheck",
+    "owner": "PIPD-EC",
+    "acceptance_cue": "REQ-VERIFY has an oracle and a negative fixture",
+    "risk_guard": "REQ-VERIFY cannot self-accept"
+   },
+   {
+    "subject_id": "ATOM-ab80058dbfb933e7",
+    "version": "1",
+    "content_hash": "ab80058dbfb933e7e66c3aa7a0c6bd3b2ccf6529285189868c8e531ad77dbce6",
+    "schema_version": "RequirementAtom@1",
+    "req_id": "REQ-DELIVER",
+    "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification\\product-repair\\semcheck",
+    "owner": "PIPD-EC",
+    "acceptance_cue": "REQ-DELIVER has an oracle and a negative fixture",
+    "risk_guard": "REQ-DELIVER cannot self-accept"
+   },
+   {
+    "subject_id": "ATOM-0a2ccaf83c12d198",
+    "version": "1",
+    "content_hash": "0a2ccaf83c12d1980d32c381261e5194b0e93477155c0f73c7ef6b6f516d1eec",
+    "schema_version": "RequirementAtom@1",
+    "req_id": "REQ-GOVERN",
+    "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R2-20261009-qualification\\product-repair\\semcheck",
+    "owner": "PIPD-EC",
+    "acceptance_cue": "REQ-GOVERN has an oracle and a negative fixture",
+    "risk_guard": "REQ-GOVERN cannot self-accept"
+   }
+  ],
+  "goal": "以 HG-KSEOS 治理控制平面實作 PIPD-LS-SP 規格包編譯系統，完成知識來源編譯、測試驗收與公開交付。"
+ },
+ "acceptance": {
+  "mode": "bound",
+  "oracle_source": "DOC-03 DOMAIN_ORACLES"
+ },
+ "trace": [
+  {
+   "subject_id": "TL-fea835fa86546af6",
+   "version": "1",
+   "content_hash": "fea835fa86546af64c3acf682ae0a30023ec3dd8057eca7e72b78da6af8a0cfa",
+   "schema_version": "TraceLink@1",
+   "from_type": "PI-PKG",
+   "from_id": "PI-71aa8bc3d90589f5",
+   "from_hash": "71aa8bc3d90589f5e2dc5bfce21adf7f12bf19461cdec2427e9d315c8369e0fa",
+   "to_type": "RequirementAtom",
+   "to_id": "ATOM-b736f3018716d988",
+   "to_hash": "b736f3018716d9889add9c9c57a170aacb74c7ae5f8a95b7db92240b44ac2a8f",
+   "rationale": "PI derives this atom from the frozen intent"
+  },
+  {
+   "subject_id": "TL-9a8cac32e4140c50",
+   "version": "1",
+   "content_hash": "9a8cac32e4140c503f76b055d3a9334b6d916af6187b8cd42bedc60a93101fd4",
+   "schema_version": "TraceLink@1",
+   "from_type": "PI-PKG",
+   "from_id": "PI-71aa8bc3d90589f5",
+   "from_hash": "71aa8bc3d90589f5e2dc5bfce21adf7f12bf19461cdec2427e9d315c8369e0fa",
+   "to_type": "RequirementAtom",
+   "to_id": "ATOM-aff16d34b14175a1",
+   "to_hash": "aff16d34b14175a1deb1de0f14175953ad5b767d217181009788902a6de63db8",
+   "rationale": "PI derives this atom from the frozen intent"
+  },
+  {
+   "subject_id": "TL-63ed7affedc2e1e2",
+   "version": "1",
+   "content_hash": "63ed7affedc2e1e27f00b1b7c71ce352f34c06bd578e0f5a5e8b50bcbc308a0b",
+   "schema_version": "TraceLink@1",
+   "from_type": "PI-PKG",
+   "from_id": "PI-71aa8bc3d90589f5",
+   "from_hash": "71aa8bc3d90589f5e2dc5bfce21adf7f12bf19461cdec2427e9d315c8369e0fa",
+   "to_type": "RequirementAtom",
+   "to_id": "ATOM-38844df5237724c4",
+   "to_hash": "38844df5237724c4f447c5b7176838aad1a9be3e95a6383ed113dfd1cb2de9d6",
+   "rationale": "PI derives this atom from the frozen intent"
+  },
+  {
+   "subject_id": "TL-557c1b25696d3d58",
+   "version": "1",
+   "content_hash": "557c1b25696d3d58be192f21abe6fdabd4c42208a5195b9f6e9f0fbbd8af71be",
+   "schema_version": "TraceLink@1",
+   "from_type": "PI-PKG",
+   "from_id": "PI-71aa8bc3d90589f5",
+   "from_hash": "71aa8bc3d90589f5e2dc5bfce21adf7f12bf19461cdec2427e9d315c8369e0fa",
+   "to_type": "RequirementAtom",
+   "to_id": "ATOM-ab80058dbfb933e7",
+   "to_hash": "ab80058dbfb933e7e66c3aa7a0c6bd3b2ccf6529285189868c8e531ad77dbce6",
+   "rationale": "PI derives this atom from the frozen intent"
+  },
+  {
+   "subject_id": "TL-8c86ad802cfef7fa",
+   "version": "1",
+   "content_hash": "8c86ad802cfef7fa85c4075d1068b8193197a999d84227b230dd27fbec14cfd0",
+   "schema_version": "TraceLink@1",
+   "from_type": "PI-PKG",
+   "from_id": "PI-71aa8bc3d90589f5",
+   "from_hash": "71aa8bc3d90589f5e2dc5bfce21adf7f12bf19461cdec2427e9d315c8369e0fa",
+   "to_type": "RequirementAtom",
+   "to_id": "ATOM-0a2ccaf83c12d198",
+   "to_hash": "0a2ccaf83c12d1980d32c381261e5194b0e93477155c0f73c7ef6b6f516d1eec",
+   "rationale": "PI derives this atom from the frozen intent"
+  }
+ ]
+}

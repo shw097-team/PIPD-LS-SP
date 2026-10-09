@@ -1,22 +1,110 @@
 {
+ "schema": "PIPD-WEB-PACK-CHECK/1",
+ "surface": "web",
+ "verdict": "PASS",
  "expected": [
-  "README.md",
-  "app.js",
-  "index.html",
-  "manifest.webmanifest",
-  "styles.css"
+  "PIPD_ARTIFACT_SCHEMAS.md",
+  "PIPD_BOOTSTRAP.md",
+  "PIPD_CANONICAL_CORE.md",
+  "PIPD_EVAL_HANDOFF.md",
+  "PIPD_ROUTER_PROFILES.md"
  ],
- "present": [
-  "README.md",
-  "app.js",
-  "index.html",
-  "manifest.webmanifest",
-  "styles.css"
+ "denominator": {
+  "expected": 5,
+  "present": 5,
+  "ratio": "5/5",
+  "optional_site_ui_excluded": 5,
+  "note": "exact-set equality over the five PIPD documents; OPTIONAL_SITE_UI is excluded from the denominator and can never pass"
+ },
+ "rows": [
+  {
+   "doc_id": "PIPD_BOOTSTRAP",
+   "path": "PIPD_BOOTSTRAP.md",
+   "source_hash": "6c2f263e8b918d5499a9bbe1caff6dc6a154fa39516a8bcbbdbcd78e759057b7",
+   "source_objects": 26,
+   "capability_loss": 1,
+   "nack": 2,
+   "denominator": true,
+   "fresh": true,
+   "derived": true
+  },
+  {
+   "doc_id": "PIPD_CANONICAL_CORE",
+   "path": "PIPD_CANONICAL_CORE.md",
+   "source_hash": "92c311edf883527e573a2dd5c7942ae1279ccf2dc1ad77bab3ac8b5f25d8244c",
+   "source_objects": 20,
+   "capability_loss": 1,
+   "nack": 2,
+   "denominator": true,
+   "fresh": true,
+   "derived": true
+  },
+  {
+   "doc_id": "PIPD_ROUTER_PROFILES",
+   "path": "PIPD_ROUTER_PROFILES.md",
+   "source_hash": "4fb12beb1f804700e9ae751d3ca3b657115258996f4a71524dc3480ecbdb434c",
+   "source_objects": 2,
+   "capability_loss": 1,
+   "nack": 2,
+   "denominator": true,
+   "fresh": true,
+   "derived": true
+  },
+  {
+   "doc_id": "PIPD_ARTIFACT_SCHEMAS",
+   "path": "PIPD_ARTIFACT_SCHEMAS.md",
+   "source_hash": "0ad0967c367decf715755cbd26a229f8bdec54a8a54483b8a1465d0c7d006ae8",
+   "source_objects": 19,
+   "capability_loss": 1,
+   "nack": 2,
+   "denominator": true,
+   "fresh": true,
+   "derived": true
+  },
+  {
+   "doc_id": "PIPD_EVAL_HANDOFF",
+   "path": "PIPD_EVAL_HANDOFF.md",
+   "source_hash": "a6c9b737e756d891ef0c73b7faa65bdaf6e7b1c20499d3e59868ae6ec83865ca",
+   "source_objects": 9,
+   "capability_loss": 1,
+   "nack": 2,
+   "denominator": true,
+   "fresh": true,
+   "derived": true
+  }
  ],
- "exact_set_match": true,
- "all_non_empty": true,
- "manifest_ok": true,
- "note": "exact-set equality, not a superset check: an extra file is a projection leak",
- "candidate_head": "5c197cd51f2fc7cfc0e840173ee3c8b7f1ecb996",
- "verdict": "PASS"
+ "capability_loss": [
+  {
+   "record_type": "CapabilityLoss",
+   "loss_id": "LOSS-WEB-01",
+   "capability": "runtime authority",
+   "reason": "the Web pack is a read-only semantic surface; it executes nothing",
+   "severity": "DECLARED"
+  }
+ ],
+ "nack": [
+  {
+   "record_type": "NACK",
+   "nack_id": "NACK-WEB-01",
+   "statement": "this document carries contracts and provenance only; it has no runtime effect",
+   "basis": "claim ceiling: DESIGN/FILE_PRESENT/SCHEMA_VALID only"
+  },
+  {
+   "record_type": "NACK",
+   "nack_id": "NACK-WEB-02",
+   "statement": "no live HGK/GENIE integration PASS is claimed; S5/S6 seams are fixture/mock only",
+   "basis": "S5/S6 NOT_AUTHORISED"
+  }
+ ],
+ "claims": {
+  "live_hgk_genie_integration": "NOT_CLAIMED",
+  "s5_s6": "NOT_AUTHORISED",
+  "adapter_checks": "FIXTURE_MOCK_ONLY",
+  "live_status": "NOT_RUN"
+ },
+ "projection_parity_sha256": "37f14491038f1249f2e073e414d12bc5dcf146afdcbe6af3abe5a7a9bc5f9ce5",
+ "failures": [],
+ "first_failing_invariant": "",
+ "mode": "REGENERATE_THEN_CHECK",
+ "candidate_head": "10cb3d31fcbd54fffe64152f4b17085866d0d75e"
 }

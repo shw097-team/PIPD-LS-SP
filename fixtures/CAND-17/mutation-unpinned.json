@@ -44,14 +44,35 @@
  "capability_need": "UI projection protocol",
  "candidate": "AG-UI",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "CONDITIONAL_UI",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "headless projection",
+  "exit_criterion": "UI events mistaken for canonical state",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "headless projection",
+  "disposition": "ADOPT",
+  "design_disposition": "ADOPT_WITH_TRANSLATION",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
   "independently_verified": false
  },
  "fallback_exit": "headless projection",
  "subject_id": "subset-tech-ca627ae2fc48508da5eb800ffc52ce70",
  "version": "protocol version pin",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "1491edc66d7e5bf0c3364b5c03bae67365f5ee17c0f704b99dfdb423eb32548c"
+ "content_hash": "ba00b00df200c25ff48b71f83a6197561d8edda70877c14fa5ceadf5c6ae28b1"
 }

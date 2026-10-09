@@ -8,13 +8,13 @@
    "edge": "E1",
    "verdict": "PASS",
    "command": "python -m unittest discover -s tests -t .",
-   "observed": "................................\n----------------------------------------------------------------------\nRan 32 tests in <elapsed>\n\nOK"
+   "observed": "............................................................\n----------------------------------------------------------------------\nRan 138 tests in <elapsed>\n\nOK"
   },
   {
    "edge": "E2",
    "verdict": "FAIL",
    "command": "fresh copy w/o .git: python -m unittest discover -s tests -t .",
-   "observed": "Error: 178 != 0 : tracked_files must equal `git ls-files`, not rglob('*')\n\n----------------------------------------------------------------------\nRan 32 tests in <elapsed>\n\nFAILED (failures=1, skipped=1)"
+   "observed": "didate head 10cb3d31fcbd54fffe64152f4b17085866d0d75e != current head '}\n\n----------------------------------------------------------------------\nRan 138 tests in <elapsed>\n\nFAILED (failures=2, skipped=1)"
   },
   {
    "edge": "E3",
@@ -78,9 +78,9 @@
   },
   {
    "edge": "E12",
-   "verdict": "PASS",
+   "verdict": "FAIL",
    "command": "tracked-file + git object sweep (excludes __pycache__)",
-   "observed": "source_hits=0 object_hits=0 stray_bytecode_dirs=0"
+   "observed": "source_hits=0 object_hits=0 stray_bytecode_dirs=1"
   }
  ],
  "verdict": "FAIL"

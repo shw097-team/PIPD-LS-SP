@@ -11,8 +11,10 @@ from pathlib import Path
 from typing import Any
 
 from .errors import (AuthorityUnknown, EffectUnknown, IntakeInvalid, PiSemanticFail,
-                     RepoContextMissing, TqOracleFail, TqSodFail, TqTraceFail)
+                     RepoContextMissing, StaleProvider, TqOracleFail, TqSodFail, TqTraceFail)  # noqa: F401
 from .profiles import compute_profile
+from . import repo_context as repo_probe
+from . import requirements as req_compile
 from .util import canonical_json, content_id, sha256_text  # noqa: F401
 
 CLAIM_LADDER = ["PROMPT_COMPILE_PASS", "HGK_ADMITTED", "RUNTIME_READY", "LOCAL_QUALIFIED",
@@ -64,17 +66,14 @@ def freeze_authority(manifest: dict[str, Any]) -> dict[str, Any]:
 
 
 # ---------------------------------------------------------------- intake
-ATOM_RULES = [
-    ("REQ-INTENT", "intent", r"(?i)(implement|build|實作|建置|開發|施工)"),
-    ("REQ-KNOWLEDGE", "knowledge", r"(?i)(knowledge|source|知識|來源|規格|spec)"),
-    ("REQ-VERIFY", "verification", r"(?i)(test|verify|accept|測試|驗收|驗證)"),
-    ("REQ-DELIVER", "release", r"(?i)(deliver|publish|release|交付|發佈|發布|公開)"),
-    ("REQ-GOVERN", "trust_boundary", r"(?i)(govern|admission|workorder|治理|准入|裁決)"),
-]
-
-
 def intake(goal: str, *, sources: list[str] | None = None,
            constraints: list[str] | None = None, non_goals: list[str] | None = None) -> dict[str, Any]:
+    """Intake compiles clause-bound atomic requirements (R-AUD-005).
+
+    The old five-keyword axis route is NO LONGER an authoritative path: atoms come from source
+    clauses via req_compile.compile_requirements, so compound / negated / no-keyword requirements
+    survive as distinct atoms instead of collapsing into keyword buckets.
+    """
     if not goal or not goal.strip():
         raise IntakeInvalid("empty goal")
     sources = list(sources or [])
@@ -89,10 +88,7 @@ def intake(goal: str, *, sources: list[str] | None = None,
     card["subject_id"] = content_id("INTENT", payload)
     card["content_hash"] = sha256_text(canonical_json(payload))
     card["schema_version"] = "IntentCard@1"
-    atoms = [{"req_id": rid, "axis": ax} for rid, ax, pat in ATOM_RULES if re.search(pat, goal)]
-    if not atoms:
-        raise IntakeInvalid("goal produced zero requirement atoms")
-    card["atoms"] = atoms
+    card["atoms"] = req_compile.compile_requirements(goal.strip(), sources)
     return card
 
 
@@ -109,15 +105,34 @@ def profile_record(profile_name: str, axes: list[str]) -> tuple[dict[str, Any], 
 
 # ---------------------------------------------------------------- PI
 def compile_pi(card: dict[str, Any], profile_name: str = "LITE") -> dict[str, Any]:
-    pb, profile_meta = profile_record(profile_name, [a["axis"] for a in card["atoms"]])
+    """Compile the clause-bound atoms of an IntentCard into a PI package.
+
+    The card's `atoms` field is a CLAIM, not an authority: the atom set is re-derived from the
+    card's source clauses. A clause-bound claim must match the re-derivation exactly (tamper /
+    collapse detection, refused otherwise); a legacy five-axis keyword claim is ignored outright -
+    that shape is no longer an authoritative route into a RequirementAtom record.
+    """
+    compiled = req_compile.compile_requirements(str(card.get("goal") or "").strip(),
+                                                list(card.get("sources") or []))
+    claimed = list(card.get("atoms") or [])
+    if claimed:
+        try:
+            req_compile.validate_atoms(claimed)
+        except PiSemanticFail:
+            claimed = []  # legacy keyword shape: an unverified claim, never an authority
+        if claimed and claimed != compiled:
+            raise PiSemanticFail("semantic collapse: claimed atoms diverge from their source clauses")
+    src_atoms = compiled
+    axes = sorted({a.get("axis") or "intent" for a in src_atoms})
+    pb, profile_meta = profile_record(profile_name, axes)
     atoms = []
-    for a in card["atoms"]:
+    for a in src_atoms:
         atoms.append(_rec("RequirementAtom", "ATOM",
                           {"req": a["req_id"], "goal": card["content_hash"]},
-                          req_id=a["req_id"], source_clause=card["sources"][0],
-                          owner="PIPD-EC",
-                          acceptance_cue=f"{a['req_id']} has an oracle and a negative fixture",
-                          risk_guard=f"{a['req_id']} cannot self-accept"))
+                          req_id=a["req_id"], source_clause=a["source_clause"],
+                          owner=a.get("owner", "PIPD-EC"),
+                          acceptance_cue=a["acceptance_cue"],
+                          risk_guard=a["risk_guard"]))
     if not atoms:
         raise PiSemanticFail("PI compiled zero atoms")
     payload = {"intent": card["subject_id"], "atoms": [a["req_id"] for a in atoms],
@@ -162,20 +177,47 @@ def strip_sidecar(record: dict[str, Any]) -> dict[str, Any]:
 
 # ---------------------------------------------------------------- PD
 def bind_pd(pi: dict[str, Any], repo_context: dict[str, Any] | None) -> dict[str, Any]:
+    """Late-bind PD against a REAL repository context (R-AUD-009).
+
+    head / branch / dirty / tracked_files / manifest / currentness are DERIVED from the host by
+    git/filesystem probes at bind time. Caller-supplied values are unverified claims: recorded,
+    never trusted. A stale or spoofed freshness claim is REFUSED (StaleProvider); a missing
+    RepoContext is REFUSED (RepoContextMissing) so no PREDEV_READY is ever emitted without one.
+    """
     if not repo_context:
-        raise RepoContextMissing("PD late-binding requires a RepoContext")
+        raise RepoContextMissing("PD late-binding requires a RepoContext (no PREDEV_READY without one)")
+    if not str(repo_context.get("root") or "").strip():
+        raise RepoContextMissing("RepoContext has no root to probe (no PREDEV_READY without one)")
     root = Path(repo_context["root"])
     if not root.exists():
         raise RepoContextMissing(f"RepoContext root missing: {root}")
-    ctx = {"root": str(root), "head": repo_context.get("head", ""),
-           "tracked_files": int(repo_context.get("tracked_files", 0))}
+    derived = repo_probe.derive_repo_context(root)
+    claims, evidence = repo_probe.claims_of(repo_context)
+    verified = repo_probe.verify_freshness_claims(claims, derived, evidence)
+    scope_check = repo_probe.resolve_writable_scope(
+        repo_context.get("writable_scope") or "src/**")
+    caller_claims = {k: {"value": v, "verified": bool(verified.get(k)),
+                         "matches_host": v == derived.get(k)}
+                     for k, v in claims.items()}
+    ctx = {"root": derived["root"], "probe": derived["probe"],
+           "degraded": derived["degraded"], "degraded_reason": derived["degraded_reason"],
+           "head": derived["head"], "branch": derived["branch"],
+           "dirty": derived["dirty"], "dirty_tracked": derived["dirty_tracked"],
+           "tracked_files": derived["tracked_files"],
+           "manifest_sha256": derived["manifest_sha256"],
+           "currentness_epoch": derived["currentness_epoch"],
+           "readiness": "PREDEV_READY",
+           "caller_claims": caller_claims}
     payload = {"pi": pi["subject_id"], "repo": ctx}
     pd = _rec("PD-PKG", "PD", payload)
     pd["RepoContext"] = ctx
-    pd["currentness"] = repo_context.get("currentness", "FRESH")
+    pd["currentness"] = {"state": "FRESH", "epoch": derived["currentness_epoch"],
+                         "derived_from": f"{derived['probe']}-probes at bind time",
+                         "claims_verified": sorted(verified)}
     pd["late_bound_construction_binding"] = {
         "bound_at": "PD", "binding_scope": "affected_only",
-        "writable_scope": repo_context.get("writable_scope", "src/**")}
+        "writable_scope": repo_context.get("writable_scope") or "src/**",
+        "writable_scope_check": scope_check}
     return _seal(pd, "PD")
 
 

@@ -1,0 +1,72 @@
+schema: FAR-VERIFY-CONTRACT/1
+contract_id: VERIFY-PIPD-R2-FAR-RCA-20261009
+round: R2-FAR-RCA-20261009
+officer: Independent Acceptance Officer (VERIFY / SECURITY)
+officer_model: glm-5.3-flash
+officer_provider: opencode-go
+officer_reasoning_effort: medium
+subject: FAR research conclusion for round R2-FAR-RCA-20261009
+subject_digest_note: >
+  The officer must compute and report the sha256 of each artifact it reads, so the verdict is bound
+  to the exact bytes reviewed. Any subsequent byte change invalidates this verdict (SUPERSEDED).
+
+authority:
+  may: [read, compute digests, run read-only reproduce commands, write ONLY the verdict file]
+  may_not: [modify any reviewed artifact, mutate DB/policy/config/credentials, apply the remediation,
+            admit anything, treat this as an HGK admission, commit or push]
+
+claims_under_review:
+  - id: Q1
+    statement: >
+      Deviation 1 root cause = the checked dispatch chain has no obligatory EXECUTE-complete ->
+      independent-VERIFY handoff; model-SoD policy is a supply choice, not a mandatory workflow edge.
+    required_check: >
+      Confirm each cited locator actually shows the claim (launcher Write exits without an AO;
+      lifecycle permits EXECUTING->EVOLUTION_REVIEW; kanban completion only promotes existing
+      children; the closure rule is a skill instruction). Confirm the report does NOT overclaim
+      "no enforcement" (record gates + hgk-lane-guard exist).
+  - id: Q2
+    statement: >
+      Deviation 2 root cause = three layers named PLAN; only the real authoring worker selects a model;
+      lifecycle.plan()/admit* make no model call; named_methods.route('plan') is a method route;
+      actor is a lease string, not model proof.
+    required_check: >
+      Confirm lifecycle.plan() has no model call site; confirm route('plan') returns a method route with
+      no model field; confirm the admission event carries no model/provider field. Confirm the report
+      separates skeleton / authorship / submission and does not claim the specific admission is proven
+      DeepSeek-authored.
+  - id: CHALLENGE
+    statement: >
+      LANE_C adjustments are folded, not discarded: C1 reworded to exists-but-not-wired; C2 split into
+      three layers with counterexample recorded.
+    required_check: Confirm the report keeps the counterexamples and confounds and does not silently drop them.
+  - id: REMEDIATION
+    statement: >
+      Minimal-resistance uplift = reuse existing runtime + narrow fail-closed gate at the sealed Write
+      boundary + forced pinned GLM VERIFY, with blast radius, rollback and a fail-closed sod_self_check
+      predicate.
+    required_check: >
+      Confirm the plan adds no new scheduler/DB/reducer; confirm the predicate is fail-closed (missing /
+      unknown / superseded => not PASS; exists-before-all to avoid a vacuous empty-set PASS).
+
+verdict_scale:
+  PASS: every claim verified against the cited locators; challenge folded; remediation internally
+        consistent and fail-closed; no overclaim.
+  PARTIAL: claims largely hold but >=1 material overclaim or unverifiable assertion remains.
+  FAIL: a root-cause claim is contradicted by the cited source, or the report overclaims authority.
+  ABSTAIN: evidence insufficient to decide a specific claim.
+
+fail_closed_rule: >
+  Absence of evidence is NOT a PASS. If a cited locator cannot be read or does not show the claim, the
+  officer must say so and mark that claim PARTIAL/FAIL rather than defaulting to PASS.
+
+output:
+  path: C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R2-FAR-RCA-20261009/verify/GLM_VERDICT.json
+  shape:
+    contract_id: VERIFY-PIPD-R2-FAR-RCA-20261009
+    officer_identity: {requested: 'opencode-go/glm-5.3-flash', observed: '<what the runtime reports>'}
+    subject_digests: {<artifact>: '<sha256>'}
+    per_claim: [{id, verdict, evidence, locator_ok: true|false, note}]
+    overall_verdict: PASS|PARTIAL|FAIL|ABSTAIN
+    claim_ceiling: independent VERIFY verdict only; not admission, not a release
+    residual_uncertainty: []

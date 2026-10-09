@@ -1,0 +1,113 @@
+test_committed_disposition_report_has_a_decision_for_every_source (tests.test_quarantine_review.QuarantineDispositionR3.test_committed_disposition_report_has_a_decision_for_every_source) ... ok
+test_edge_undecided_item_stays_quarantined (tests.test_quarantine_review.QuarantineDispositionR3.test_edge_undecided_item_stays_quarantined) ... ok
+test_loss_record_covers_the_necessary_sources (tests.test_quarantine_review.QuarantineDispositionR3.test_loss_record_covers_the_necessary_sources) ... ok
+test_negative_malicious_sample_is_not_released (tests.test_quarantine_review.QuarantineDispositionR3.test_negative_malicious_sample_is_not_released) ... ok
+test_no_false_positive_release_proof_is_recorded (tests.test_quarantine_review.QuarantineDispositionR3.test_no_false_positive_release_proof_is_recorded) ... ok
+test_positive_harmless_example_is_released_with_a_safe_clean_record (tests.test_quarantine_review.QuarantineDispositionR3.test_positive_harmless_example_is_released_with_a_safe_clean_record) ... ok
+test_every_quarantined_source_is_covered (tests.test_quarantine_review.QuarantineReview.test_every_quarantined_source_is_covered) ... ok
+test_no_live_secret_suspect_is_waved_through (tests.test_quarantine_review.QuarantineReview.test_no_live_secret_suspect_is_waved_through) ... ok
+test_review_does_not_disable_any_control (tests.test_quarantine_review.QuarantineReview.test_review_does_not_disable_any_control) ... ok
+test_unanchored_key_pattern_really_matches_an_identifier_tail (tests.test_quarantine_review.QuarantineReview.test_unanchored_key_pattern_really_matches_an_identifier_tail) ... ok
+test_calibration_negative_keeps_a_genuine_prohibition (tests.test_oracle_disagreement.OracleDisagreementR3.test_calibration_negative_keeps_a_genuine_prohibition) ... ok
+test_entry_records_both_positions_with_locators (tests.test_oracle_disagreement.OracleDisagreementR3.test_entry_records_both_positions_with_locators) ... ok
+test_resolved_by_the_authorised_source_without_rewriting (tests.test_oracle_disagreement.OracleDisagreementR3.test_resolved_by_the_authorised_source_without_rewriting) ... ok
+test_tt_row_registered_with_owner_state_and_close_criterion (tests.test_oracle_disagreement.OracleDisagreementR3.test_tt_row_registered_with_owner_state_and_close_criterion) ... ok
+test_refuses_pass_when_a_hard_gate_row_is_fail (tests.test_evidence_md_guards.EvidenceMdHardGateRefusal.test_refuses_pass_when_a_hard_gate_row_is_fail) ... ok
+test_test_counts_are_real_and_failures_are_named (tests.test_evidence_md_guards.EvidenceMdHardGateRefusal.test_test_counts_are_real_and_failures_are_named) ... ok
+test_writes_only_when_every_hard_gate_passes (tests.test_evidence_md_guards.EvidenceMdHardGateRefusal.test_writes_only_when_every_hard_gate_passes) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.017s
+
+OK
+{
+ "error": "HARD_GATE_FAIL",
+ "verdict": "FAIL",
+ "refusal": "the acceptance evidence MD is NOT generated: a hard gate row is FAIL and this tool refuses to print PASS (or bury a hard FAIL behind a percentage). The failing rows are listed verbatim below.",
+ "hard_gates": [
+  {
+   "id": "G-TESTS-UNIT-SUITE",
+   "state": "FAIL",
+   "evidence": "unittest discover: Ran 47 tests, failures 2, errors 1; failing: tests.test_alpha.TestAlpha.test_one, tests.test_s0_contracts.TestS0Contracts.test_two, tests.test_beta.TestBeta.test_three"
+  },
+  {
+   "id": "G-S0-CONTRACTS-19",
+   "state": "FAIL",
+   "evidence": "failing S0 tests: tests.test_s0_contracts.TestS0Contracts.test_two"
+  },
+  {
+   "id": "G-S1-LITE-SLICE",
+   "state": "PASS",
+   "evidence": "trace_verdict=PASS, artifact_validation=PASS"
+  },
+  {
+   "id": "G-CLI-SMOKE-13",
+   "state": "PASS",
+   "evidence": "13/13 commands, nonzero_exit=0, verdicts={'init': 'PASS'}"
+  },
+  {
+   "id": "G-KNOWLEDGE-READY",
+   "state": "PASS",
+   "evidence": "KNOWLEDGE_READY_REPORT verdict=PASS, clean_coverage=True"
+  },
+  {
+   "id": "G-EVIDENCE-MANIFEST",
+   "state": "PASS",
+   "evidence": "evidence_manifest sha256=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+ ],
+ "failing_rows": [
+  "G-TESTS-UNIT-SUITE",
+  "G-S0-CONTRACTS-19"
+ ]
+}
+{
+ "out": "C:\\Users\\user\\AppData\\Local\\Temp\\tmpx5y9dkqm\\EVIDENCE.md",
+ "bytes": 8410,
+ "sha256": "b260d9b3ca76abef92dd7e95c8997016214dda7e6c7f307d26d9a9e8afa4e82c",
+ "head": "0000000000000000000000000000000000000000",
+ "verdict": "PASS",
+ "hard_gates": [
+  "G-TESTS-UNIT-SUITE",
+  "G-S0-CONTRACTS-19",
+  "G-S1-LITE-SLICE",
+  "G-CLI-SMOKE-13",
+  "G-KNOWLEDGE-READY",
+  "G-EVIDENCE-MANIFEST"
+ ]
+}
+{
+ "verdict": "PASS",
+ "hard_gates": [
+  {
+   "id": "G-TESTS-UNIT-SUITE",
+   "state": "PASS",
+   "evidence": "unittest discover: Ran 47 tests, failures 0, errors 0"
+  },
+  {
+   "id": "G-S0-CONTRACTS-19",
+   "state": "PASS",
+   "evidence": "tests/test_s0_contracts.py green in the recorded run"
+  },
+  {
+   "id": "G-S1-LITE-SLICE",
+   "state": "PASS",
+   "evidence": "trace_verdict=PASS, artifact_validation=PASS"
+  },
+  {
+   "id": "G-CLI-SMOKE-13",
+   "state": "PASS",
+   "evidence": "13/13 commands, nonzero_exit=0, verdicts={'init': 'PASS'}"
+  },
+  {
+   "id": "G-KNOWLEDGE-READY",
+   "state": "PASS",
+   "evidence": "KNOWLEDGE_READY_REPORT verdict=PASS, clean_coverage=True"
+  },
+  {
+   "id": "G-EVIDENCE-MANIFEST",
+   "state": "PASS",
+   "evidence": "evidence_manifest sha256=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+ ]
+}

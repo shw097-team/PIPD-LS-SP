@@ -48,20 +48,62 @@
    "payload": {
     "atoms": [
      {
+      "acceptance_cue": "MUST: 以治理控制平面實作 PIPD-LS-SP 系統並完成測試驗收",
       "axis": "intent",
-      "req_id": "REQ-INTENT"
+      "owner": "PIPD-EC",
+      "req_id": "REQ-98ee67660b2d727e0852",
+      "risk_guard": {
+       "failure_condition": "violate MUST: 以治理控制平面實作 PIPD-LS-SP 系統並完成測試驗收",
+       "negative_fixture": "fixtures/REQ-98ee67660b2d727e0852/negative",
+       "oracle": {
+        "expected": "required",
+        "id": "ORACLE-REQ-98ee67660b2d727e0852",
+        "predicate": "以治理控制平面實作 PIPD-LS-SP 系統並完成測試驗收"
+       },
+       "polarity": "MUST"
+      },
+      "source_clause": {
+       "child": 0,
+       "clause_id": "clause-0-35",
+       "file": "C:\\Projects\\Agent_Workspace\\PIPD",
+       "kind": "inline-goal",
+       "source_sha256": "258c5f1af32a21f97a6f08f7aa01262e07fe1c37280e3f9cf04654b71bf1fbd6",
+       "source_text": "以治理控制平面實作 PIPD-LS-SP 系統並完成測試驗收與公開交付",
+       "span": [
+        0,
+        35
+       ],
+       "text": "以治理控制平面實作 PIPD-LS-SP 系統並完成測試驗收"
+      }
      },
      {
-      "axis": "verification",
-      "req_id": "REQ-VERIFY"
-     },
-     {
+      "acceptance_cue": "MUST: 公開交付",
       "axis": "release",
-      "req_id": "REQ-DELIVER"
-     },
-     {
-      "axis": "trust_boundary",
-      "req_id": "REQ-GOVERN"
+      "owner": "PIPD-EC",
+      "req_id": "REQ-13c926e9a97192ea571b",
+      "risk_guard": {
+       "failure_condition": "violate MUST: 公開交付",
+       "negative_fixture": "fixtures/REQ-13c926e9a97192ea571b/negative",
+       "oracle": {
+        "expected": "required",
+        "id": "ORACLE-REQ-13c926e9a97192ea571b",
+        "predicate": "公開交付"
+       },
+       "polarity": "MUST"
+      },
+      "source_clause": {
+       "child": 1,
+       "clause_id": "clause-0-35",
+       "file": "C:\\Projects\\Agent_Workspace\\PIPD",
+       "kind": "inline-goal",
+       "source_sha256": "258c5f1af32a21f97a6f08f7aa01262e07fe1c37280e3f9cf04654b71bf1fbd6",
+       "source_text": "以治理控制平面實作 PIPD-LS-SP 系統並完成測試驗收與公開交付",
+       "span": [
+        0,
+        35
+       ],
+       "text": "公開交付"
+      }
      }
     ],
     "constraints": [
@@ -119,24 +161,19 @@
    "exit": 0,
    "payload": {
     "_profile_meta": {
-     "artifact_depth": "L4_FAILURE_RECOVERY",
+     "artifact_depth": "L1_SCHEMA_CONTRACT",
      "assurance": [
-      "deterministic_validator",
-      "negative_security",
-      "adversarial",
-      "independent_checker"
+      "deterministic_validator"
      ],
      "axes": [
       "intent",
       "knowledge",
-      "verification",
-      "release",
-      "trust_boundary"
+      "release"
      ],
      "canonical_truth": "single",
-     "escalated": true,
-     "escalation_reason": "axis_complexity",
-     "profile": "ASSURED",
+     "escalated": false,
+     "escalation_reason": null,
+     "profile": "LITE",
      "requested_profile": "LITE",
      "vetoes": []
     },
@@ -144,155 +181,165 @@
      "mode": "bound",
      "oracle_source": "DOC-03 DOMAIN_ORACLES"
     },
-    "content_hash": "f2a1efae69154bb1fc29478d53f827e1eb71b05959945a902fb847f47da4780e",
+    "content_hash": "95db489bd1a0fcc0459ffa79b0918597effde48c837d077404c4af43b35006dd",
     "schema_version": "PI-PKG@1",
     "stable_semantic_contract": {
      "atoms": [
       {
-       "acceptance_cue": "REQ-INTENT has an oracle and a negative fixture",
-       "content_hash": "502e56ca8e7cada59a2aeacda62f439c30f480d57a88d7a9c71f6e1aab1a4c4b",
+       "acceptance_cue": "MUST: 以 HG-KSEOS 治理控制平面實作 PIPD-LS-SP 規格包編譯系統",
+       "content_hash": "85972721cbb2e6b80aa09f09d73f9c7a957ffbda95a7f257f2619a48390236ec",
        "owner": "PIPD-EC",
-       "req_id": "REQ-INTENT",
-       "risk_guard": "REQ-INTENT cannot self-accept",
+       "req_id": "REQ-a1231c4cc06ccbed1bbf",
+       "risk_guard": {
+        "failure_condition": "violate MUST: 以 HG-KSEOS 治理控制平面實作 PIPD-LS-SP 規格包編譯系統",
+        "negative_fixture": "fixtures/REQ-a1231c4cc06ccbed1bbf/negative",
+        "oracle": {
+         "expected": "required",
+         "id": "ORACLE-REQ-a1231c4cc06ccbed1bbf",
+         "predicate": "以 HG-KSEOS 治理控制平面實作 PIPD-LS-SP 規格包編譯系統"
+        },
+        "polarity": "MUST"
+       },
        "schema_version": "RequirementAtom@1",
-       "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD",
-       "subject_id": "ATOM-502e56ca8e7cada5",
+       "source_clause": {
+        "child": 0,
+        "clause_id": "clause-0-57",
+        "file": "C:\\Projects\\Agent_Workspace\\PIPD",
+        "kind": "inline-goal",
+        "source_sha256": "a707f18a7f834615053069355763fcb77d551ec88148b1ec7c2849aecdb32bc6",
+        "source_text": "以 HG-KSEOS 治理控制平面實作 PIPD-LS-SP 規格包編譯系統，完成知識來源編譯、測試驗收與公開交付",
+        "span": [
+         0,
+         57
+        ],
+        "text": "以 HG-KSEOS 治理控制平面實作 PIPD-LS-SP 規格包編譯系統"
+       },
+       "subject_id": "ATOM-85972721cbb2e6b8",
        "version": "1"
       },
       {
-       "acceptance_cue": "REQ-KNOWLEDGE has an oracle and a negative fixture",
-       "content_hash": "8558dcf88acd56191a11339db721f4a9db45c5b7be01a45c75244663f02f24e5",
+       "acceptance_cue": "MUST: 完成知識來源編譯、測試驗收",
+       "content_hash": "ce6807c799a4fedfcc3871500295ed7f88fc92fc5fef893aa6950efe797ec9a3",
        "owner": "PIPD-EC",
-       "req_id": "REQ-KNOWLEDGE",
-       "risk_guard": "REQ-KNOWLEDGE cannot self-accept",
+       "req_id": "REQ-8f7ac33799e785b579e5",
+       "risk_guard": {
+        "failure_condition": "violate MUST: 完成知識來源編譯、測試驗收",
+        "negative_fixture": "fixtures/REQ-8f7ac33799e785b579e5/negative",
+        "oracle": {
+         "expected": "required",
+         "id": "ORACLE-REQ-8f7ac33799e785b579e5",
+         "predicate": "完成知識來源編譯、測試驗收"
+        },
+        "polarity": "MUST"
+       },
        "schema_version": "RequirementAtom@1",
-       "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD",
-       "subject_id": "ATOM-8558dcf88acd5619",
+       "source_clause": {
+        "child": 1,
+        "clause_id": "clause-0-57",
+        "file": "C:\\Projects\\Agent_Workspace\\PIPD",
+        "kind": "inline-goal",
+        "source_sha256": "a707f18a7f834615053069355763fcb77d551ec88148b1ec7c2849aecdb32bc6",
+        "source_text": "以 HG-KSEOS 治理控制平面實作 PIPD-LS-SP 規格包編譯系統，完成知識來源編譯、測試驗收與公開交付",
+        "span": [
+         0,
+         57
+        ],
+        "text": "完成知識來源編譯、測試驗收"
+       },
+       "subject_id": "ATOM-ce6807c799a4fedf",
        "version": "1"
       },
       {
-       "acceptance_cue": "REQ-VERIFY has an oracle and a negative fixture",
-       "content_hash": "8fcbd31645bd4a34e30f0a593f59babe6bc0912ea215244fb140f20e58ce4e58",
+       "acceptance_cue": "MUST: 公開交付",
+       "content_hash": "cef2f413e5683474a3fd87423ae8e36a5ab0fe6b3e294645eb6ca3ee54798303",
        "owner": "PIPD-EC",
-       "req_id": "REQ-VERIFY",
-       "risk_guard": "REQ-VERIFY cannot self-accept",
+       "req_id": "REQ-6963b27b6bdac1c85a42",
+       "risk_guard": {
+        "failure_condition": "violate MUST: 公開交付",
+        "negative_fixture": "fixtures/REQ-6963b27b6bdac1c85a42/negative",
+        "oracle": {
+         "expected": "required",
+         "id": "ORACLE-REQ-6963b27b6bdac1c85a42",
+         "predicate": "公開交付"
+        },
+        "polarity": "MUST"
+       },
        "schema_version": "RequirementAtom@1",
-       "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD",
-       "subject_id": "ATOM-8fcbd31645bd4a34",
-       "version": "1"
-      },
-      {
-       "acceptance_cue": "REQ-DELIVER has an oracle and a negative fixture",
-       "content_hash": "08a45ba691f168eba066d0bb264b023d3549fa3e6fb8d4c62055124619134ee3",
-       "owner": "PIPD-EC",
-       "req_id": "REQ-DELIVER",
-       "risk_guard": "REQ-DELIVER cannot self-accept",
-       "schema_version": "RequirementAtom@1",
-       "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD",
-       "subject_id": "ATOM-08a45ba691f168eb",
-       "version": "1"
-      },
-      {
-       "acceptance_cue": "REQ-GOVERN has an oracle and a negative fixture",
-       "content_hash": "b8918824ec57d54eb42ff924ffab89f9c4947a151927320c465ba04c1558332a",
-       "owner": "PIPD-EC",
-       "req_id": "REQ-GOVERN",
-       "risk_guard": "REQ-GOVERN cannot self-accept",
-       "schema_version": "RequirementAtom@1",
-       "source_clause": "C:\\Projects\\Agent_Workspace\\PIPD",
-       "subject_id": "ATOM-b8918824ec57d54e",
+       "source_clause": {
+        "child": 2,
+        "clause_id": "clause-0-57",
+        "file": "C:\\Projects\\Agent_Workspace\\PIPD",
+        "kind": "inline-goal",
+        "source_sha256": "a707f18a7f834615053069355763fcb77d551ec88148b1ec7c2849aecdb32bc6",
+        "source_text": "以 HG-KSEOS 治理控制平面實作 PIPD-LS-SP 規格包編譯系統，完成知識來源編譯、測試驗收與公開交付",
+        "span": [
+         0,
+         57
+        ],
+        "text": "公開交付"
+       },
+       "subject_id": "ATOM-cef2f413e5683474",
        "version": "1"
       }
      ],
      "contract": "stable",
      "goal": "以 HG-KSEOS 治理控制平面實作 PIPD-LS-SP 規格包編譯系統，完成知識來源編譯、測試驗收與公開交付。",
      "profile_binding": {
-      "artifact_depth": "L4_FAILURE_RECOVERY",
+      "artifact_depth": "L1_SCHEMA_CONTRACT",
       "assurance": [
-       "deterministic_validator",
-       "negative_security",
-       "adversarial",
-       "independent_checker"
+       "deterministic_validator"
       ],
       "axes": [
        "intent",
        "knowledge",
-       "release",
-       "trust_boundary",
-       "verification"
+       "release"
       ],
-      "content_hash": "60deb1e72df3b31bf39243defba28a7e95c57a45606b30386d77acc752451f60",
-      "profile": "ASSURED",
+      "content_hash": "2b7f9cdc3611f77c8fdf6f0a83b2c62af8c364bd288b902aad8bba34c0206290",
+      "profile": "LITE",
       "schema_version": "ProfileBinding@1",
-      "subject_id": "PB-60deb1e72df3b31b",
+      "subject_id": "PB-2b7f9cdc3611f77c",
       "version": "1",
       "vetoes": []
      }
     },
-    "subject_id": "PI-f2a1efae69154bb1",
+    "subject_id": "PI-95db489bd1a0fcc0",
     "trace": [
      {
-      "content_hash": "8740024a38bd7556ebcce1e400b66f374be89095ba0b7a14e614a44993f69ef7",
-      "from_hash": "f2a1efae69154bb1fc29478d53f827e1eb71b05959945a902fb847f47da4780e",
-      "from_id": "PI-f2a1efae69154bb1",
+      "content_hash": "c886076c344204166d3ddaccbbd9f5c30eaa732cd3960d76b4d0d817146c3974",
+      "from_hash": "95db489bd1a0fcc0459ffa79b0918597effde48c837d077404c4af43b35006dd",
+      "from_id": "PI-95db489bd1a0fcc0",
       "from_type": "PI-PKG",
       "rationale": "PI derives this atom from the frozen intent",
       "schema_version": "TraceLink@1",
-      "subject_id": "TL-8740024a38bd7556",
-      "to_hash": "502e56ca8e7cada59a2aeacda62f439c30f480d57a88d7a9c71f6e1aab1a4c4b",
-      "to_id": "ATOM-502e56ca8e7cada5",
+      "subject_id": "TL-c886076c34420416",
+      "to_hash": "85972721cbb2e6b80aa09f09d73f9c7a957ffbda95a7f257f2619a48390236ec",
+      "to_id": "ATOM-85972721cbb2e6b8",
       "to_type": "RequirementAtom",
       "version": "1"
      },
      {
-      "content_hash": "3b97b0c5a0a81bb7b6c341923af691f7e5e20fdd165171bdd960dd4e6feaacc3",
-      "from_hash": "f2a1efae69154bb1fc29478d53f827e1eb71b05959945a902fb847f47da4780e",
-      "from_id": "PI-f2a1efae69154bb1",
+      "content_hash": "43e200dc52878fd702d608ab957deb1efb8384b1b0c79e7ec68d9e389ad8a14c",
+      "from_hash": "95db489bd1a0fcc0459ffa79b0918597effde48c837d077404c4af43b35006dd",
+      "from_id": "PI-95db489bd1a0fcc0",
       "from_type": "PI-PKG",
       "rationale": "PI derives this atom from the frozen intent",
       "schema_version": "TraceLink@1",
-      "subject_id": "TL-3b97b0c5a0a81bb7",
-      "to_hash": "8558dcf88acd56191a11339db721f4a9db45c5b7be01a45c75244663f02f24e5",
-      "to_id": "ATOM-8558dcf88acd5619",
+      "subject_id": "TL-43e200dc52878fd7",
+      "to_hash": "ce6807c799a4fedfcc3871500295ed7f88fc92fc5fef893aa6950efe797ec9a3",
+      "to_id": "ATOM-ce6807c799a4fedf",
       "to_type": "RequirementAtom",
       "version": "1"
      },
      {
-      "content_hash": "650e8b53f3691d11dfccec7dd519f43a471117a20ab352c45db7d7c67ea6db7b",
-      "from_hash": "f2a1efae69154bb1fc29478d53f827e1eb71b05959945a902fb847f47da4780e",
-      "from_id": "PI-f2a1efae69154bb1",
+      "content_hash": "ac961a605c7bca32742d555fc0005dae65037bf3393225a1d413d921965b0079",
+      "from_hash": "95db489bd1a0fcc0459ffa79b0918597effde48c837d077404c4af43b35006dd",
+      "from_id": "PI-95db489bd1a0fcc0",
       "from_type": "PI-PKG",
       "rationale": "PI derives this atom from the frozen intent",
       "schema_version": "TraceLink@1",
-      "subject_id": "TL-650e8b53f3691d11",
-      "to_hash": "8fcbd31645bd4a34e30f0a593f59babe6bc0912ea215244fb140f20e58ce4e58",
-      "to_id": "ATOM-8fcbd31645bd4a34",
-      "to_type": "RequirementAtom",
-      "version": "1"
-     },
-     {
-      "content_hash": "257cce908914ba03d376651b0e03ba00d2567e8851e6b6a4f4f2b3aa817fc18e",
-      "from_hash": "f2a1efae69154bb1fc29478d53f827e1eb71b05959945a902fb847f47da4780e",
-      "from_id": "PI-f2a1efae69154bb1",
-      "from_type": "PI-PKG",
-      "rationale": "PI derives this atom from the frozen intent",
-      "schema_version": "TraceLink@1",
-      "subject_id": "TL-257cce908914ba03",
-      "to_hash": "08a45ba691f168eba066d0bb264b023d3549fa3e6fb8d4c62055124619134ee3",
-      "to_id": "ATOM-08a45ba691f168eb",
-      "to_type": "RequirementAtom",
-      "version": "1"
-     },
-     {
-      "content_hash": "820ecc22e3bfc816911a3b7e91549072724cbf1c81b94ebe1b8d6826eb14b160",
-      "from_hash": "f2a1efae69154bb1fc29478d53f827e1eb71b05959945a902fb847f47da4780e",
-      "from_id": "PI-f2a1efae69154bb1",
-      "from_type": "PI-PKG",
-      "rationale": "PI derives this atom from the frozen intent",
-      "schema_version": "TraceLink@1",
-      "subject_id": "TL-820ecc22e3bfc816",
-      "to_hash": "b8918824ec57d54eb42ff924ffab89f9c4947a151927320c465ba04c1558332a",
-      "to_id": "ATOM-b8918824ec57d54e",
+      "subject_id": "TL-ac961a605c7bca32",
+      "to_hash": "cef2f413e5683474a3fd87423ae8e36a5ab0fe6b3e294645eb6ca3ee54798303",
+      "to_id": "ATOM-cef2f413e5683474",
       "to_type": "RequirementAtom",
       "version": "1"
      }
@@ -313,19 +360,173 @@
    "exit": 0,
    "payload": {
     "RepoContext": {
-     "head": "HEAD",
+     "branch": "master",
+     "caller_claims": {
+      "branch": {
+       "matches_host": true,
+       "value": "master",
+       "verified": true
+      },
+      "currentness": {
+       "matches_host": true,
+       "value": "FRESH",
+       "verified": true
+      },
+      "currentness_epoch": {
+       "matches_host": true,
+       "value": "6ad0faefee5d1017d3302edb9284ca0a33d7ea3bf0d579454c86eb972438812a",
+       "verified": true
+      },
+      "dirty": {
+       "matches_host": true,
+       "value": true,
+       "verified": true
+      },
+      "head": {
+       "matches_host": false,
+       "value": "HEAD",
+       "verified": true
+      },
+      "manifest_sha256": {
+       "matches_host": true,
+       "value": "2155d5fa0f91f25de967efaaf96577ded972a553ad451176b00b9beaef615aab",
+       "verified": true
+      },
+      "tracked_files": {
+       "matches_host": true,
+       "value": 399,
+       "verified": true
+      },
+      "writable_scope": {
+       "matches_host": true,
+       "value": "src/**",
+       "verified": false
+      }
+     },
+     "currentness_epoch": "6ad0faefee5d1017d3302edb9284ca0a33d7ea3bf0d579454c86eb972438812a",
+     "degraded": false,
+     "degraded_reason": null,
+     "dirty": true,
+     "dirty_tracked": [
+      " D dist/web/README.md",
+      " D dist/web/app.js",
+      " D dist/web/index.html",
+      " D dist/web/manifest.webmanifest",
+      " D dist/web/styles.css",
+      " M .hgk/artifacts/TT_REGISTER.json",
+      " M .hgk/artifacts/cli/CLI_SMOKE.json",
+      " M .hgk/artifacts/evidence_manifest.json",
+      " M .hgk/artifacts/history_secret_scan.json",
+      " M .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json",
+      " M .hgk/rounds/R2-20261009-qualification/execute/candidate",
+      " M .hgk/rounds/R2-20261009-qualification/product-repair/pristine-candidate",
+      " M .hgk/rounds/R2-20261009-qualification/product-repair/regression-candidate",
+      " M .hgk/rounds/R2-20261009-qualification/product-repair/semcheck",
+      " M .hgk/rounds/R2-FAR-RCA-20261009/far/launcher-receipt.log",
+      " M README.md",
+      " M dist/web/host_generic-skills/SKILL.md",
+      " M dist/web/host_genie-adapter/object-crosswalk.json",
+      " M dist/web/host_hgk-receiver/receiver-map.json",
+      " M docs/ROUND3_DISCLOSURE.md",
+      " M docs/S0_CONTRACT_SPEC.md",
+      " M fixtures/CAND-01/mutation-unpinned.json",
+      " M fixtures/CAND-02/mutation-unpinned.json",
+      " M fixtures/CAND-03/mutation-unpinned.json",
+      " M fixtures/CAND-04/mutation-unpinned.json",
+      " M fixtures/CAND-05/mutation-unpinned.json",
+      " M fixtures/CAND-06/mutation-unpinned.json",
+      " M fixtures/CAND-07/mutation-unpinned.json",
+      " M fixtures/CAND-08/mutation-unpinned.json",
+      " M fixtures/CAND-09/mutation-unpinned.json",
+      " M fixtures/CAND-10/mutation-unpinned.json",
+      " M fixtures/CAND-11/mutation-unpinned.json",
+      " M fixtures/CAND-12/mutation-unpinned.json",
+      " M fixtures/CAND-13/mutation-unpinned.json",
+      " M fixtures/CAND-14/mutation-unpinned.json",
+      " M fixtures/CAND-15/mutation-unpinned.json",
+      " M fixtures/CAND-16/mutation-unpinned.json",
+      " M fixtures/CAND-17/mutation-unpinned.json",
+      " M fixtures/CAND-18/mutation-unpinned.json",
+      " M fixtures/CAND-19/mutation-unpinned.json",
+      " M fixtures/CAND-20/mutation-unpinned.json",
+      " M fixtures/CAND-21/mutation-unpinned.json",
+      " M fixtures/CAND-22/mutation-unpinned.json",
+      " M schemas/ArtifactIdentity.schema.json",
+      " M schemas/AuthorityBinding.schema.json",
+      " M schemas/ClaimCeiling.schema.json",
+      " M schemas/ConstructionContract.schema.json",
+      " M schemas/ECP.schema.json",
+      " M schemas/EvidenceExpectation.schema.json",
+      " M schemas/ExecutionBindingRef.schema.json",
+      " M schemas/ExecutionHandoff.schema.json",
+      " M schemas/GENIEProjectionRef.schema.json",
+      " M schemas/PD-PKG.schema.json",
+      " M schemas/PI-PKG.schema.json",
+      " M schemas/ProfileBinding.schema.json",
+      " M schemas/RequirementAtom.schema.json",
+      " M schemas/SurfaceProjectionManifest.schema.json",
+      " M schemas/TQAEP.schema.json",
+      " M schemas/TaskSpecSeed.schema.json",
+      " M schemas/TechnologyAdmission.schema.json",
+      " M schemas/TraceLink.schema.json",
+      " M schemas/WorkOrderCandidate.schema.json",
+      " M schemas/registry.json",
+      " M src/pipd_ls_sp/cli.py",
+      " M src/pipd_ls_sp/pipeline.py",
+      " M tests/test_quarantine_review.py",
+      " M tests/test_s0_contracts.py",
+      " M tests/test_technology_admission.py",
+      " M tools/admit_technologies.py",
+      " M tools/build_evidence_manifest.py",
+      " M tools/build_evidence_md.py",
+      " M tools/history_secret_scan.py",
+      " M tools/host_projection_check.py",
+      " M tools/quarantine_review.py",
+      " M tools/web_pack_check.py"
+     ],
+     "head": "db2299118c791c5b251ed90d1d8d40171ce82aca",
+     "manifest_sha256": "2155d5fa0f91f25de967efaaf96577ded972a553ad451176b00b9beaef615aab",
+     "probe": "git",
+     "readiness": "PREDEV_READY",
      "root": "C:\\Projects\\Agent_Workspace\\PIPD",
-     "tracked_files": 171
+     "tracked_files": 399
     },
-    "content_hash": "5317ee9feaf7da1fd2c32be381f1ac47281da354836cb7c7896c8d138dec131d",
-    "currentness": "FRESH",
+    "content_hash": "75652be7ed9cd59a0ac3f4678f6f74a517a835585c23e6d96bc6b1b5bc51e631",
+    "currentness": {
+     "claims_verified": [
+      "branch",
+      "currentness",
+      "currentness_epoch",
+      "dirty",
+      "head",
+      "manifest_sha256",
+      "tracked_files"
+     ],
+     "derived_from": "git-probes at bind time",
+     "epoch": "6ad0faefee5d1017d3302edb9284ca0a33d7ea3bf0d579454c86eb972438812a",
+     "state": "FRESH"
+    },
     "late_bound_construction_binding": {
      "binding_scope": "affected_only",
      "bound_at": "PD",
-     "writable_scope": "src/**"
+     "writable_scope": "src/**",
+     "writable_scope_check": {
+      "authorized": [
+       "src/**",
+       "tests/**",
+       "tools/**",
+       "fixtures/**"
+      ],
+      "findings": [],
+      "requested": [
+       "src/**"
+      ],
+      "subset": true,
+      "verdict": "PASS"
+     }
     },
     "schema_version": "PD-PKG@1",
-    "subject_id": "PD-5317ee9feaf7da1f",
+    "subject_id": "PD-75652be7ed9cd59a",
     "version": "1"
    }
   },
@@ -475,7 +676,15 @@
    "payload": {
     "families": 19,
     "findings": [],
-    "skill_drift": [],
+    "skill_drift": [
+     "duplicate Skill name host_generic-skills x4 inside surface .hgk",
+     "duplicate Skill name openspec-apply-change x8 inside surface .hgk",
+     "duplicate Skill name openspec-archive-change x8 inside surface .hgk",
+     "duplicate Skill name openspec-explore x8 inside surface .hgk",
+     "duplicate Skill name openspec-propose x8 inside surface .hgk",
+     "duplicate Skill name openspec-sync-specs x8 inside surface .hgk",
+     "duplicate Skill name openspec-update-change x8 inside surface .hgk"
+    ],
     "verdict": "PASS"
    }
   },
@@ -528,12 +737,12 @@
    ],
    "exit": 0,
    "payload": {
-    "file_count": 39,
+    "file_count": 55,
     "files": [
      {
       "rel": "docs/ROUND3_DISCLOSURE.md",
-      "sha256": "0bb55f6013d329248f9baac257fd091ee28d8bde21039c26a0ebfacc90df3a68",
-      "size": 15228
+      "sha256": "c49bc0e254ac6d9500f234e70c03cbc11f3a4b15217bdb67032d53bc79c542e2",
+      "size": 19448
      },
      {
       "rel": "docs/ROUND_DISCLOSURE.md",
@@ -542,8 +751,8 @@
      },
      {
       "rel": "docs/S0_CONTRACT_SPEC.md",
-      "sha256": "5902f620df2840a6ed00f984af96d3e1cfbe5275a4f6458a9e7a5eb4a5e933f9",
-      "size": 4731
+      "sha256": "dfd67710920aa9b04f68c5e46cfb1e15b58cf713d3c5634bc2276d1c61a35788",
+      "size": 6714
      },
      {
       "rel": "pyproject.toml",
@@ -552,103 +761,103 @@
      },
      {
       "rel": "schemas/ArtifactIdentity.schema.json",
-      "sha256": "5bba4c153d5753307e9de147cdf745afd1f36fb3c487d00793f6bae02a8ca4ab",
-      "size": 505
+      "sha256": "67d26f18d26307410bf0be5369949eb525d477e053ee3a7091e54b97f6d4ad4c",
+      "size": 669
      },
      {
       "rel": "schemas/AuthorityBinding.schema.json",
-      "sha256": "50c7007a3f5ff3323db38044e00616717477fc9d83e3de6170ac04b85a7ea1aa",
-      "size": 647
+      "sha256": "66f1b3ce91d7f12ad6a6350a6628afd6c600e3e7ff62408b714c6fa0f1898ded",
+      "size": 823
      },
      {
       "rel": "schemas/ClaimCeiling.schema.json",
-      "sha256": "b5e798346c4f5210d483f90276a5aab0643317c486b529af114a114016ba12d2",
-      "size": 579
+      "sha256": "dbb2ce4dd322da99ca3b3067274b85928b995aba59ca3f04802d5e8ba253ab85",
+      "size": 739
      },
      {
       "rel": "schemas/ConstructionContract.schema.json",
-      "sha256": "72fc5adb6c96360ba50df188aba58b5466a979ee503194afa1b4be3cae8aef4b",
-      "size": 690
-     },
-     {
-      "rel": "schemas/ECP.schema.json",
-      "sha256": "4ffbd800fac29ad54ee555393899784c7314cd69a4e51dd65e2053b605aca3f3",
-      "size": 657
-     },
-     {
-      "rel": "schemas/EvidenceExpectation.schema.json",
-      "sha256": "c8f3b984cd6931da5aa55693d8419e8815ed7547066fa79eccfe46cdb7a7f056",
-      "size": 665
-     },
-     {
-      "rel": "schemas/ExecutionBindingRef.schema.json",
-      "sha256": "19d3cc9b434901346bef92827d7e5c67371776e3816c71932ae77e4867e782a9",
+      "sha256": "1c56f15abd6e30d06f914f021b0b813f441689f9d47989ef48c7d7325557f0f2",
       "size": 859
      },
      {
+      "rel": "schemas/ECP.schema.json",
+      "sha256": "7ecd9e92e6d43dba9675bb93ff0dddd178a0a17c8c3bc3f143696594dc945505",
+      "size": 821
+     },
+     {
+      "rel": "schemas/EvidenceExpectation.schema.json",
+      "sha256": "02327839c21d5ba24d08dd52f9caa31a07616965c6235cece58487a810b99b7f",
+      "size": 843
+     },
+     {
+      "rel": "schemas/ExecutionBindingRef.schema.json",
+      "sha256": "7c98cebfee30d9719cb8fd2d565c44120ce8d1be5b231071c19528cae1e95f50",
+      "size": 1039
+     },
+     {
       "rel": "schemas/ExecutionHandoff.schema.json",
-      "sha256": "9cf3bf8cea6384e5c35573376bbab5dd9b5b4a5be3ed59eed91dc990925d7231",
-      "size": 601
+      "sha256": "7fa36d3e7fe6e7416111b975381a42f3f5ad46cc81d97b610f317548815bd77b",
+      "size": 773
      },
      {
       "rel": "schemas/GENIEProjectionRef.schema.json",
-      "sha256": "86824e4f91e24e317d0a24513004eb301163f7ea80b549e25aa0406ae3b7bf15",
-      "size": 976
+      "sha256": "22c88a0f9ec4ea4747967546f9a5ea7f19f0285be60ac42567fae2ca0b1c36ed",
+      "size": 1168
      },
      {
       "rel": "schemas/PD-PKG.schema.json",
-      "sha256": "12334694f6ba8217936c5c506795676b52fdb2a576c80a679d8cef7e3bb53f21",
-      "size": 586
+      "sha256": "37291e8790e03839308a7c36125f9576d14da725a27480c9759ef5362d255541",
+      "size": 747
      },
      {
       "rel": "schemas/PI-PKG.schema.json",
-      "sha256": "02e23f8c6f7cec25bd5ef3562c5c7882229c92e8db30335905efd636b0ba14aa",
-      "size": 604
+      "sha256": "3e797d4eac04a04fee65add1ca6cb196154490ccd848b9b1cc561f24feaefb57",
+      "size": 757
      },
      {
       "rel": "schemas/ProfileBinding.schema.json",
-      "sha256": "05a06bc6c9f1a2167ea571846f796fced26bd27ae25da9ca1864288e8b9977fd",
-      "size": 605
+      "sha256": "b559fb70bb6ceb9d491c989cb5ec031f44d15bcad5b40e75d6649aa059a93556",
+      "size": 771
      },
      {
       "rel": "schemas/RequirementAtom.schema.json",
-      "sha256": "c398e6a835932985790f5fc345a35941c412509a9a1a74453923f7ea65fb0d10",
-      "size": 625
+      "sha256": "021f6a30cf178190281176138686447e492640cf97b125f9c21a0aa2fa31c684",
+      "size": 795
      },
      {
       "rel": "schemas/SurfaceProjectionManifest.schema.json",
-      "sha256": "9f15d4b3df927ff3f2e87bfb172c10d3ca0fc996b34e38a359198ded48515960",
-      "size": 650
+      "sha256": "87f8057e8dac68f304ed4e9c2dd118a26c69428015769ab09d39398d34dcb57d",
+      "size": 829
      },
      {
       "rel": "schemas/TQAEP.schema.json",
-      "sha256": "42b0dcb7dc82779c2304343565cf959b241f22e4c74944629f75091d030a0e99",
-      "size": 635
+      "sha256": "d14092817befb5e81c470449b9ac5160b6fba7e3fcde450ec00d1cadc21820cd",
+      "size": 821
      },
      {
       "rel": "schemas/TaskSpecSeed.schema.json",
-      "sha256": "2c8bb18c377ed95f10a37023982584bc9f3c1dc50c9497b8ffee356acc3a2618",
-      "size": 707
+      "sha256": "c6e086aef0e4f21179cba52c5187c33a3873b18732c669c4d03bcad057e9b6cc",
+      "size": 873
      },
      {
       "rel": "schemas/TechnologyAdmission.schema.json",
-      "sha256": "952b7b91bb3c095c08aa2a217707bd48fef2120660874bea2f4f0779c4d951c9",
-      "size": 680
+      "sha256": "40703552af4fb14c7aa87dd68ead6eac1cf7d272541fda273cf22b8fb109c4d6",
+      "size": 3035
      },
      {
       "rel": "schemas/TraceLink.schema.json",
-      "sha256": "65048af6188461e3a3703baec44058b7dfd833174155adfd69f04ff099522ecd",
-      "size": 677
+      "sha256": "ff6ef713b95a1a2812bd31d2b10cdcc064671c986d29d0e69318dc5a9f54e5e4",
+      "size": 849
      },
      {
       "rel": "schemas/WorkOrderCandidate.schema.json",
-      "sha256": "f83f0df6b1bf79d9f215f5243d5dd74bd21cc77ab44d0bb1c55561afe845f062",
-      "size": 614
+      "sha256": "03a8692f183f106ec7e4739b925c980ba07d68551627ca6af315fa9f9e2caf54",
+      "size": 796
      },
      {
       "rel": "schemas/registry.json",
-      "sha256": "293371d34a365103b48551cbcb71945f6f85bdd1c77e55f7ae90d06d8ae87727",
-      "size": 9207
+      "sha256": "85100a8e5ba6320f6648d33a14099fb999b2c452a94aff1652854d2550065e9d",
+      "size": 9328
      },
      {
       "rel": "src/pipd_ls_sp/__init__.py",
@@ -657,18 +866,18 @@
      },
      {
       "rel": "src/pipd_ls_sp/cli.py",
-      "sha256": "c517d3a7e2a9629e9ffe290447648f97651034bafc39265130c05ebef3ed665e",
-      "size": 7061
+      "sha256": "b7ca28deeecd77eea3eeb72fb3f34355f5a20f695bb70188fc42af3e59c57df0",
+      "size": 13153
      },
      {
       "rel": "src/pipd_ls_sp/errors.py",
-      "sha256": "174daca762ee6bb73d5f0318f94fdb9ffe95b434801b7cd0c3c5d6ce447a1e16",
-      "size": 1960
+      "sha256": "b7bce3ffe5877b327d38c8318bf5741625c45b025bc6e3e7d8491b5bea522247",
+      "size": 2537
      },
      {
       "rel": "src/pipd_ls_sp/pipeline.py",
-      "sha256": "c614a93b547bc0cd50f19aacc86a32d671fb6048ce57b1aa7f4eae1476bf8fa2",
-      "size": 15653
+      "sha256": "da8b209e2ee2565d27d7a683bdd5f128b858ac331ea9380729a6cc45d851ea08",
+      "size": 18284
      },
      {
       "rel": "src/pipd_ls_sp/profiles.py",
@@ -676,9 +885,24 @@
       "size": 2341
      },
      {
+      "rel": "src/pipd_ls_sp/projection.py",
+      "sha256": "8b02bc9b13b31e0a79d03bfab1e7ca4638505c30cc42f97d8dcda7ce0fd13e96",
+      "size": 73484
+     },
+     {
       "rel": "src/pipd_ls_sp/registry.py",
       "sha256": "960f27d8944abf55a0b6019ec103a77b1b4301e49060dbc5d753b1bcaa1ca6cf",
       "size": 2042
+     },
+     {
+      "rel": "src/pipd_ls_sp/repo_context.py",
+      "sha256": "21940e5984867c7d9829f719bec47e09b8ee083061bae54f79962d7c603b3e03",
+      "size": 11444
+     },
+     {
+      "rel": "src/pipd_ls_sp/requirements.py",
+      "sha256": "f01ac1ac4e5fb5be29e2ced434ac2528f94f3bd2b8288244e318516d496818f6",
+      "size": 10689
      },
      {
       "rel": "src/pipd_ls_sp/util.py",
@@ -692,8 +916,8 @@
      },
      {
       "rel": "src/pipd_ls_sp/workspace.py",
-      "sha256": "6d1fb85a768e1c4e9ab08ec09afbfb07976b12426bba815b95630355b451f805",
-      "size": 10852
+      "sha256": "1918efa38b8875e5c6697550af7dca59190fb8ce8618596fe04fff01181dd4ab",
+      "size": 11842
      },
      {
       "rel": "tests/__init__.py",
@@ -701,14 +925,64 @@
       "size": 0
      },
      {
+      "rel": "tests/fixtures/quarantine_corpus/documented_injection_example.md",
+      "sha256": "691a9acbde51c80572b07cc2454301bcf2ad00206e797e56183d7f294751ed50",
+      "size": 625
+     },
+     {
+      "rel": "tests/fixtures/quarantine_corpus/identifier_tail.md",
+      "sha256": "e979c57c5c7cddd062eb21b37a8096a9dd83485755653c44ad3ee4fb970c62ec",
+      "size": 1001
+     },
+     {
+      "rel": "tests/fixtures/quarantine_corpus/malicious_poison.md",
+      "sha256": "b9efd7eca2a07b8985a6a4bcb667c2800169d5675ff9563c00802e28211063d0",
+      "size": 589
+     },
+     {
+      "rel": "tests/test_atomic_requirements.py",
+      "sha256": "0732efc46557a6aafe6c3bff53ad3e43fdb707ddc4ade57c1adf54c780a05e70",
+      "size": 22198
+     },
+     {
+      "rel": "tests/test_cli_typed_errors.py",
+      "sha256": "d3faa3f30b1129252df564d4bd2fcf467ff0e63f98f3f6863e812e5a0e2092e6",
+      "size": 2672
+     },
+     {
+      "rel": "tests/test_evidence_manifest.py",
+      "sha256": "4061fd943928a5a6d25e97fb2d1c72d271521bb42c05b830de926ecc8404658b",
+      "size": 7903
+     },
+     {
+      "rel": "tests/test_evidence_md_guards.py",
+      "sha256": "31b4e114e10c5018e4235fb333aea93948be7ba2a1d6cd2995412cc3277d3168",
+      "size": 5936
+     },
+     {
+      "rel": "tests/test_host_projection.py",
+      "sha256": "649518da921115be81741f13b61a3a994c48a8ea42ccea71d5a315de96ef001f",
+      "size": 13073
+     },
+     {
       "rel": "tests/test_negative_and_rollback.py",
-      "sha256": "61a3a3f11bc522126d6c4cd3cbeaa58b41f418947cde930c163458898f810707",
-      "size": 4434
+      "sha256": "b2664ca12cd9fa182cb8f1a17da6486d9278b59e305854bec3a9697b94686c18",
+      "size": 5565
+     },
+     {
+      "rel": "tests/test_oracle_disagreement.py",
+      "sha256": "9f8af9206e9a0316509b1b26980cffd9553b3b9af2648c6dd6b4218f546b45ab",
+      "size": 4480
+     },
+     {
+      "rel": "tests/test_quarantine_review.py",
+      "sha256": "05ae2d78af254248763c71994f7e4d48741dcab0b668026fafe0815f6474cbdf",
+      "size": 10818
      },
      {
       "rel": "tests/test_s0_contracts.py",
-      "sha256": "ed8b0538323c08be8167206f3385dece4f919708222d3c0bed164b41e6aee935",
-      "size": 3141
+      "sha256": "04f3b5bbcaf5db5a74821d0b6a7efa0204f5c424702acc779ce4bb7a298dd5ad",
+      "size": 6402
      },
      {
       "rel": "tests/test_s1_lite_slice.py",
@@ -721,13 +995,28 @@
       "size": 3561
      },
      {
+      "rel": "tests/test_skill_contracts.py",
+      "sha256": "35788657cfc0843de458768b46662acdcadbf7753cebef8dcfea182b9fbd6379",
+      "size": 4994
+     },
+     {
+      "rel": "tests/test_technology_admission.py",
+      "sha256": "b790e281e27960a30e304b382dd71346b6084984eeddeb5f8184f32c519084d9",
+      "size": 7777
+     },
+     {
       "rel": "tests/test_tooling_executes.py",
-      "sha256": "c427d367d47c121b2d610991c6f01df25de5ae13fa5b273165a683ef6b9b0f0b",
-      "size": 5543
+      "sha256": "6463960288cb1a47eab326d065164ed9ce0d779d5bb27cdf2c670ce5b4102712",
+      "size": 10194
+     },
+     {
+      "rel": "tests/test_web_pack.py",
+      "sha256": "06e8409e97b5ef5b4dd215ad3837d580e5d3de8505f43c76bbca96b340db76ca",
+      "size": 13496
      }
     ],
-    "generated_at": "2026-10-08T16:17:26.263597+00:00",
-    "manifest_sha256": "724601df4c0329c0f075f8c71ae0cf0b5e404a093025bcd438511c123cca4f06",
+    "generated_at": "2026-10-09T01:09:32.658405+00:00",
+    "manifest_sha256": "f8e69d1a814de376674d285c5d7a549f4e82a6d173131bcb00ca4e59e3b38d75",
     "schema": "PIPD-EXPORT-FREEZE/1",
     "secret_scan": "PASS"
    }

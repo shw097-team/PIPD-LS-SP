@@ -79,19 +79,80 @@ class TestToolingExecutes(unittest.TestCase):
 
 
     def test_tracked_file_metric_excludes_vcs_internals(self) -> None:
-        """Pin the other class a checker caught: a file-count metric that counted .git objects.
+        """Pin the oracle for `_tracked_file_count` in BOTH subjects it must serve (R2-E2).
 
-        `tracked_files` used to be `rglob('*')` over the whole root, so it moved on every git repack
-        and reported hundreds of version-control internals as project files.
+        The shipped probe in `src/pipd_ls_sp/cli.py::_tracked_file_count` is the authoritative
+        definition: it returns `git ls-files` when the subject IS a git checkout, and otherwise the
+        count of files in the tree EXCLUDING `.git/` and `__pycache__/`. The old test asserted only
+        the first branch against an unconditional `git ls-files` literal. That made the oracle
+        subject-incorrect: in a non-git fresh copy the walk branch runs, git prints 0, and the test
+        FAILED (R2-E2). The oracle is rebound to the probe's own defined behavior for the subject at
+        hand, so it holds in both environments. It is not relaxed: each branch is pinned EXACTLY to
+        the authoritative count (equality, not inequality), the walk branch is additionally pinned
+        to exclude `.git/` internals and `__pycache__/` on a synthetic tree, and no magic constant
+        is used.
         """
+        import os as _os
+        import shutil as _sh
         import subprocess as sp
+        import tempfile as _tf
         from pipd_ls_sp.cli import _tracked_file_count
 
-        n = _tracked_file_count(ROOT)
-        tracked = [l for l in sp.run(["git", "-C", str(ROOT), "ls-files"],
-                                     capture_output=True, text=True).stdout.splitlines() if l.strip()]
-        self.assertEqual(n, len(tracked), "tracked_files must equal `git ls-files`, not rglob('*')")
-        self.assertLess(n, 1000, "tracked_files looks like it is counting .git internals again")
+        def _walk_count(root: Path) -> int:
+            # The probe's non-git branch, stated independently of the implementation.
+            return sum(1 for p in root.rglob("*") if p.is_file()
+                       and ".git" not in p.parts and "__pycache__" not in p.parts)
+
+        def _git_tracked(root: Path, *, ceiling: str | None = None) -> tuple[int, int]:
+            env = dict(_os.environ)
+            if ceiling is not None:
+                env["GIT_CEILING_DIRECTORIES"] = ceiling
+            r = sp.run(["git", "-C", str(root), "ls-files"], capture_output=True, text=True, env=env)
+            return r.returncode, len([l for l in r.stdout.splitlines() if l.strip()])
+
+        # (a) On a real git checkout the probe must report EXACTLY the git-tracked count, never
+        #     rglob (which would also sweep .git). This is the branch the old test covered.
+        rc, tracked = _git_tracked(ROOT)
+        if rc == 0:
+            n = _tracked_file_count(ROOT)
+            self.assertEqual(n, tracked,
+                             "on a git checkout tracked_files must equal `git ls-files` exactly")
+            self.assertLess(n, 1000, "tracked_files looks like it is counting .git internals again")
+
+        # (b) A non-git copy (no .git at all) is the exact condition that broke the old oracle.
+        #     GIT_CEILING_DIRECTORIES stops git from climbing to an enclosing repo, so the subject is
+        #     genuinely non-git even when the temp dir sits inside a checkout; the ignore list drops
+        #     any nested scratch so the copy cannot recurse into itself.
+        with _tf.TemporaryDirectory() as td:
+            dst = Path(td) / "PIPD"
+            _sh.copytree(ROOT, dst,
+                         ignore=_sh.ignore_patterns(".git", "__pycache__", "*.db"))
+            self.assertFalse((dst / ".git").exists(), "the fresh copy must exclude .git")
+            rc2, tracked2 = _git_tracked(dst, ceiling=str(Path(td).resolve()))
+            self.assertNotEqual(rc2, 0, "the fresh copy must not resolve to a git checkout")
+            self.assertEqual(tracked2, 0, "git must report no tracked files in the fresh copy")
+            probe2 = _tracked_file_count(dst)
+            self.assertEqual(probe2, _walk_count(dst),
+                             "in a non-git copy tracked_files must equal the filesystem walk "
+                             "excluding .git/ and __pycache__/")
+
+        # (c) Pin that exclusion on a SYNTHETIC tree that actually carries `.git/` internals and a
+        #     `__pycache__/`, proving the walk branch is non-trivial and really excludes them. The
+        #     authoritative source is the probe's own defined behavior above; we only read it here.
+        with _tf.TemporaryDirectory() as td:
+            syn = Path(td) / "syn"
+            (syn / "src").mkdir(parents=True)
+            (syn / "src" / "a.py").write_text("x = 1\n", encoding="utf-8")
+            (syn / "README.md").write_text("# syn\n", encoding="utf-8")
+            (syn / ".git" / "objects" / "aa").mkdir(parents=True)
+            (syn / ".git" / "objects" / "aa" / "blob").write_text("pack\n", encoding="utf-8")
+            (syn / "__pycache__").mkdir()
+            (syn / "__pycache__" / "m.pyc").write_text("bytecode\n", encoding="utf-8")
+            rc3, _ = _git_tracked(syn, ceiling=str(Path(td).resolve()))
+            self.assertNotEqual(rc3, 0, "the synthetic tree must not resolve to a git checkout")
+            self.assertEqual(_walk_count(syn), 2, "walk must see exactly the 2 real project files")
+            self.assertEqual(_tracked_file_count(syn), 2,
+                             "tracked_files must exclude .git/ internals and __pycache__/")
 
     def test_export_manifest_has_no_vcs_paths(self) -> None:
         from pipd_ls_sp import workspace

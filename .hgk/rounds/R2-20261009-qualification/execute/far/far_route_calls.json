@@ -1,0 +1,68 @@
+{
+ "module": "C:\\Projects\\Agent_Workspace\\Fabric\\fabric-autonomous-research\\far_router.py",
+ "classes": [
+  "RESEARCH_ADVERSARIAL_CHALLENGE",
+  "RESEARCH_FINANCIAL_METHOD",
+  "RESEARCH_GENERAL",
+  "RESEARCH_LITERATURE_REPO",
+  "RESEARCH_LONG_HORIZON",
+  "RESEARCH_SCIENTIFIC_EXPERIMENT",
+  "RESEARCH_TRAJECTORY_MINING",
+  "RESEARCH_WORKFLOW_OPTIMIZATION",
+  "RLM_CONTEXT_HEAVY"
+ ],
+ "route_RESEARCH_GENERAL": {
+  "task_class": "RESEARCH_GENERAL",
+  "decision": "NATIVE",
+  "reason_code": "FAR_ROUTE_NATIVE_DEFAULT",
+  "primary": "fabric-autoresearch-native",
+  "challenger": null,
+  "providers_eligible": [
+   "native",
+   "prime"
+  ],
+  "block_reason": null,
+  "degrade_note": null
+ },
+ "route_RESEARCH_GENERAL_netallow": {
+  "task_class": "RESEARCH_GENERAL",
+  "decision": "NATIVE",
+  "reason_code": "FAR_ROUTE_NATIVE_DEFAULT",
+  "primary": "fabric-autoresearch-native",
+  "challenger": null,
+  "providers_eligible": [
+   "native",
+   "prime"
+  ],
+  "block_reason": null,
+  "degrade_note": null
+ },
+ "route_RESEARCH_ADVERSARIAL_CHALLENGE": {
+  "task_class": "RESEARCH_ADVERSARIAL_CHALLENGE",
+  "decision": "BLOCK",
+  "reason_code": "FAR_BLOCK_REQUIRED_CHALLENGE_UNAVAILABLE",
+  "primary": null,
+  "challenger": "aris",
+  "providers_eligible": [
+   "native",
+   "prime"
+  ],
+  "block_reason": "FAR_BLOCK_REQUIRED_CHALLENGE_UNAVAILABLE",
+  "degrade_note": null,
+  "final_acceptance": false
+ },
+ "route_RESEARCH_ADVERSARIAL_CHALLENGE_qualified": {
+  "task_class": "RESEARCH_ADVERSARIAL_CHALLENGE",
+  "decision": "ARIS_SELECTED_CHALLENGE",
+  "reason_code": "FAR_CHALLENGE_ARIS",
+  "primary": "fabric-autoresearch-native",
+  "challenger": "aris",
+  "providers_eligible": [
+   "native",
+   "prime"
+  ],
+  "block_reason": null,
+  "degrade_note": null,
+  "final_acceptance": false
+ }
+}

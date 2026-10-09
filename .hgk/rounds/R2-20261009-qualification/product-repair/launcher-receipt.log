@@ -1,0 +1,58 @@
+{
+  "task_id": "HGK_CODEX_DESKTOP_HERMES_CLI_PROVIDER_LANE_ISOLATION_ONLY",
+  "action": "Write",
+  "human_config": "C:\\Users\\user\\.codex\\config.toml",
+  "human_config_sha256": "E78E6EF7D9AEDBBBF37F9CC9C3A1D64507D761ED376959CFDF871949243561E1",
+  "codex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+  "opencodex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes",
+  "codex_executable": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\runtime\\codex-0.147.0-alpha.6.5\\codex.exe",
+  "codex_version_readback": "codex-cli 0.147.0-alpha.6.5",
+  "codex_sha256": "FB5C760E14CF8FE86E12E49E8A3E7F237AF06082D6B9FE1E411E463B7229C916",
+  "opencodex_root": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\runtime\\opencodex-2.11.0",
+  "opencodex_version_readback": "opencodex 2.11.0",
+  "opencodex_port": 10101,
+  "hermes_executable": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\hermes.exe",
+  "hermes_python": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+  "hermes_source": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent",
+  "hermes_home": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes",
+  "provider": "opencode-go",
+  "model": "deepseek-v4.1-flash",
+  "openai_fallback": false,
+  "process_scoped": true,
+  "credential_source": "canonical-hermes-profile-env",
+  "write_action": "Write",
+  "write_prompt": "Read C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R2-20261009-qualification/prod...",
+  "write_chain": [
+    "opencode-go/deepseek-v4.1-flash"
+  ],
+  "write_attempts": [
+    {
+      "index": 0,
+      "model": "opencode-go/deepseek-v4.1-flash",
+      "exit": 15,
+      "log": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\logs\\codex-write-20261008T232824966Z-m0.log",
+      "stderr_log": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\logs\\codex-write-20261008T232824966Z-m0.stderr.log"
+    }
+  ],
+  "write_model_used": "",
+  "write_chain_exhausted": true,
+  "execution_gateway": {
+    "url": "http://127.0.0.1:10100/v1",
+    "host": "127.0.0.1",
+    "port": 10100,
+    "upstream": "http://127.0.0.1:10101",
+    "sanctioned_provider": "opencode-go",
+    "sanctioned_model": "deepseek-v4.1-flash",
+    "frontdoor_source_sha256": "6d94d07cd37b76b16a4fb11fc080b83abd478da85aaac04f1d24844244414ab1",
+    "process_env_openai_base_url": "http://127.0.0.1:10100/v1",
+    "codex_arg_openai_base_url": "openai_base_url=http://127.0.0.1:10100/v1",
+    "request_compression": "disabled (features.enable_request_compression=false)"
+  },
+  "transported_model": "opencode-go/",
+  "transported_model_is_backend_weights_proof": false
+}
+[31;1mException: [0mC:\Projects\Agent_Workspace\HG-KSEOS\scripts\start-hgk-hermes.ps1:351[0m
+[31;1m[0m[36;1mLine |[0m
+[31;1m[0m[36;1m[36;1m 351 | [0m ¡K  | ConvertTo-Json -Depth 8; [36;1mthrow "ERR_CODEX_WRITE_CHAIN_EXHAUSTED"[0m }[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mERR_CODEX_WRITE_CHAIN_EXHAUSTED[0m

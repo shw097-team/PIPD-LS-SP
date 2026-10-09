@@ -1,0 +1,90 @@
+{
+  "lane": "LaneE_Challenge",
+  "research_id": "FAR-PIPD-R2-SOD-RCA-20261009",
+  "round": "R2-FAR-RCA-20261009",
+  "mode": "fresh_context_adversarial_read_only",
+  "source": "LANE_C (adversarial challenge of LANE_A/B) + aggregation-layer re-check of the corrected claims",
+  "claim_ceiling": "FAR research conclusion only; NOT HGK admission and NOT independent PASS.",
+  "challenges": [
+    {
+      "id": "CH-01",
+      "challenge": "'There is no independent-VERIFY enforcement' is too strong; the round may simply have skipped it in one instance.",
+      "resolution": "PARTIALLY CONCEDED (C1) — enforcement constructs DO exist (completion rule AGENTS.md:12,106-111; writer!=checker guard spine.py:332; delivery gate; hgk-lane-guard.py). The defensible claim is 'rules and a candidate guard exist but are NOT mandatorily wired into the independent-lane dispatch on this path'. The conclusion states 'exists but not wired', not 'absent'.",
+      "severity": "high",
+      "status": "ADJUSTED"
+    },
+    {
+      "id": "CH-02",
+      "challenge": "'VERIFY never ran this round' may be confounded by cases where a lane was dispatched but did not land a verdict.",
+      "resolution": "CLOSED WITH RESIDUAL — FAR_LANE_SOD_005 evidence records dispatches that hit user_stop / long search / guard retries with no landed verdict; 'no verdict' != 'lane never fired'. The Q1 finding therefore asserts 'no independent VERIFY lane nor 8-pack execution is a given fact of this round' but abstains on the full transcript, so it does not overclaim.",
+      "severity": "medium",
+      "status": "CLOSED_WITH_RESIDUAL"
+    },
+    {
+      "id": "CH-03",
+      "challenge": "Even if the guard were wired, it could still refuse for a version-count reason, so 'not wired' may be the wrong diagnosis.",
+      "resolution": "PARTIALLY CONCEDED — the guard in this run reports registry_epoch=13 vs live_epoch=15 (epoch_current=false) and arm 'ADMITTED string is not admissible; pass a probe receipt'. So wiring alone is insufficient; a legitimate admission path and epoch reconciliation are also required. This is recorded as a confound, not the root cause.",
+      "severity": "medium",
+      "status": "CONCEDED_AS_CONFOUND"
+    },
+    {
+      "id": "CH-04",
+      "challenge": "A cross-round counterexample exists: FAR-LANE-VERIFY-002 DID have a fresh GLM subagent with a PARTIAL verdict.",
+      "resolution": "CLOSED — confirmed as a real counterexample (R/logs/agent.log:12915-12947; FAR_LANE_VERIFY_002_EVIDENCE). It refutes a global 'VERIFY never runs' claim but does NOT refute the specific Q1 miss; the difference is a deliberate delegation-route dispatch, showing separation is possible without kanban dispatch.",
+      "severity": "high",
+      "status": "CLOSED"
+    },
+    {
+      "id": "CH-05",
+      "challenge": "The Q2 wording treats 'PLAN' as one thing, so 'PLAN did not run GPT' could be a category error.",
+      "resolution": "PARTIALLY CONCEDED (C2) — split into three layers: skeleton generation (deterministic, no model, HIGH), plan authorship (LOW confidence for this specific admission), admission submission (typed API persistence). The corrected claim is about authorship/attribution, not about whether a skeleton exists.",
+      "severity": "high",
+      "status": "ADJUSTED"
+    },
+    {
+      "id": "CH-06",
+      "challenge": "'GPT only ever does delegate/FAR work' implies no GPT-authored plan; is that true?",
+      "resolution": "CLOSED AS FALSE — the adoption-design counterexample (deleg_b78efec7, recorded gpt-6.1-sol PLAN lane, preimage-backed design with candidate diffs) is a GPT-authored substantive plan artifact. It is still a subagent plan, so it does not imply the lifecycle skeleton or admission body was GPT-authored; but the strong form of the claim is refuted.",
+      "severity": "medium",
+      "status": "CLOSED"
+    },
+    {
+      "id": "CH-07",
+      "challenge": "actor='hermes-planner' on the FROZEN admission event may itself be adequate planner-model evidence.",
+      "resolution": "CLOSED AS FALSE — actor is a lease-validated STRING identity, not a model proof; the FROZEN event payload_json={} carries no model/provider/session field (spine.py:191-254; admission.json:56-70). Embedding a model name in the actor cannot raise evidence strength.",
+      "severity": "medium",
+      "status": "CLOSED"
+    },
+    {
+      "id": "CH-08",
+      "challenge": "A weaker reducer (meta_gates.evidence_reducer) could have passed an empty acceptance, so the absence-detection blind spot might be the direct cause of Q1.",
+      "resolution": "CLOSED WITH RESIDUAL — the blind spot is real and reproduced: evidence_reducer(capsules=[]) returns verdict=PASS with independent_receipt_missing=0. But there is no evidence it was invoked this round, so its direct causality is ABSTAIN; it is recorded as a contributing weakness, not the proven root cause.",
+      "severity": "low",
+      "status": "CLOSED_WITH_RESIDUAL"
+    }
+  ],
+  "verdict": "PASS_CHALLENGE_ADJUSTED",
+  "conditions_raised": 8,
+  "conditions_closed": 4,
+  "conditions_adjusted": 2,
+  "conditions_conceded_as_confound": 1,
+  "conditions_closed_with_residual": 2,
+  "adjustments_mandated": {
+    "C1": "Replace 'no enforcement / rules absent' with 'rules and candidate guard exist but are not mandatorily wired into the independent-lane dispatch on this path'.",
+    "C2": "Split 'PLAN' into skeleton generation vs plan authorship vs admission submission; downgrade the specific-admission-authorship claim to LOW; acknowledge the GPT-authored plan counterexample."
+  },
+  "what_would_refute": [
+    "the failed round's full transcript showing an independent VERIFY was spawned and completed",
+    "an un-bypassable EXECUTE-complete -> independent-VERIFY spawn hook on the round's actual call chain",
+    "a source/call trace of lifecycle.plan invoking GPT, or a target admission traced to a GPT plan artifact with full author lineage",
+    "evidence that GPT never did substantive planning (already refuted)"
+  ],
+  "reproduce_commands": [
+    "python scripts/hgk-lane-guard.py --lane VERIFY_SECURITY --maker-engine codex-cli --maker-model glm-5.3-flash --target-engine hermes --target-model glm-5.3-flash --target-provider opencode-go --admission ADMITTED   # -> REFUSE exit 2 ERR_LANE_SOD_VIOLATION",
+    "python -B -c \"from hg_kseos import meta_gates as m; print(m.evidence_reducer(capsules=[]))\"   # -> verdict PASS, independent_receipt_missing 0",
+    "rg -n \"def plan|_derive_tasks|no external LLM\" src/hg_kseos/lifecycle.py   # -> no model call on the plan path",
+    "Get-Content config/verify-lane-contract.json   # -> enforcement_wiring.actual_hgk_consumer=null"
+  ],
+  "note": "LANE_C adjustments are folded, not discarded; 'exists but not wired' and the three-layer PLAN split are load-bearing in IntegratedFindings.yaml and the report.",
+  "limitations": "Read-only search with source/artifact/runtime-log cross-check and a real run of the guard without a receipt. No DB/policy/credential was written; no new model lane was started. The specific Q2 target admission identity and author lineage were not obtained."
+}

@@ -1,0 +1,54 @@
+{
+  "lane": "C",
+  "role": "PLAN/THREAT (adversarial challenge)",
+  "model": "gpt-6.1-sol",
+  "provider": "openai-codex",
+  "delegation_id": "deleg_cce353b6",
+  "subagent_id": "sa-2-2b1f0e9d",
+  "persisted_by": "orchestrator (verbatim child output)",
+  "summary": {
+    "outcome": "C1 必須改為『規則與候選 guard 存在，但未強制接入獨立 lane dispatch』；C2 必須拆開 skeleton generation、plan authorship、admission submission 三層。",
+    "limitations": "唯讀搜尋、source／artifact／runtime log 交叉檢查，另實跑不帶 receipt 的 guard；未寫 DB、政策或憑證，未啟動新模型 lane。C2 缺目標 admission 識別與作者 lineage。"
+  },
+  "results": [
+    {
+      "claim": "C1",
+      "verdict": {"confidence": "medium", "status": "INCOMPLETE", "conclusion": "未找到自動 spawn 獨立 VERIFY 的強制轉換；但『沒有任何 enforcement』過強：已有 completion 規則、writer/checker guard、delivery gate 與可執行的 pre-dispatch guard。較可信根因是既有規則未被消費、guard 未接入該執行路徑，且 main-loop 自行驗證不會因 lane pin 而換模型。"},
+      "evidence": [
+        {"citation": "H/AGENTS.md:12,106-111", "finding": "Completion 明定須有 independent checker；maker/writer/orchestrator 不得 final self-accept，AO 必須 fresh-session VERIFY_ONLY。這是實際存在的流程義務，不是自動 dispatch。"},
+        {"citation": "H/src/hg_kseos/spine.py:324-345；H/src/hg_kseos/lifecycle.py:58-59,163-182", "finding": "record_workorder_result 拒絕 writer==checker；DELIVERED 拒絕未終結 WorkOrder。但 checker 是 caller 字串，沒有模型身分證明；EXECUTING 亦可直接進 EVOLUTION_REVIEW。因此有 closure guard，沒有獨立模型 lane 的自動 spawn 保證。"},
+        {"citation": "H/scripts/hgk-lane-guard.py:113-141；H/evidence/review/FAR_LANE_SOD_004_ADOPTION_EVIDENCE_2026-10-07.md:40-53,86-93", "finding": "SoD guard 確實存在且能拒絕同模型；歷史 adoption 明確記錄 dispatcher/delegation guard integration 未套用。不能把『存在但未接入』說成『不存在』。", "observed": "REFUSE；exit_code=2；ERR_LANE_SOD_VIOLATION"},
+        {"citation": "R/logs/agent.log:11270,11333；H/var/far-lane-verify-002/lanes/lane_a_routing_facts.json:103-125", "finding": "R13/R14 證據將自行 terminal 驗證綁到 session 20261007_004622_88f655；本次直接查得 API #138/#139 都是 deepseek-v4.1-flash/opencode-go。支持 main-loop 模型塌縮，但單靠這兩筆不能證明整個 session 從未派出任何 checker。"}
+      ],
+      "counterexample_or_none": {"citation": "R/logs/agent.log:12915-12947；H/var/far-lane-verify-002/lanes/lane_v1d_challenge.json:2-12；H/evidence/review/FAR_LANE_VERIFY_002_EVIDENCE_2026-10-07.md:26-30", "finding": "FAR-LANE-VERIFY-002 的 session 20261007_133742_33767d 確有 fresh subagent，API 呼叫使用 glm-5.3-flash/opencode-go，並留下 PARTIAL verdict。差異是 deliberate delegation route dispatch；不必只經 kanban dispatch 才能完成模型分離。這推翻跨回合的『VERIFY 永遠沒跑』，不推翻特定 R13/R14 的缺失。"},
+      "confounds": [
+        {"citation": "H/evidence/review/FAR_LANE_SOD_005_RESEARCH_EVIDENCE_2026-10-07.md:44-62", "finding": "有已 dispatch 但遭 user_stop、長時間搜尋、guard 重試及 verdict 未及落地的案例；『沒有 verdict』不等於『lane 沒 fired』。"},
+        {"citation": "H/scripts/hgk-lane-guard.py:92-109；H/config/lane-routing-registry.yaml:34,46", "finding": "本次 guard 同時報 registry_epoch=13、live_epoch=15、epoch_current=false。即使接入，也可能另因版本計數域不一致而拒絕。尚未以合法 admission 測通 ADMIT。"},
+        {"citation": "H/scripts/probe-hgk-lane.py:125-145,170-177", "finding": "live probe 明確未實作 genuine dispatch，而且 CLI 即使 dry-run 亦會寫 receipt。"}
+      ],
+      "what_would_refute": [
+        "特定失敗回合的完整 transcript/runtime log 顯示 independent VERIFY 已 spawn 並完成。",
+        "該回合實際走過的 call chain 存在不可繞過的 EXECUTE-complete→independent-VERIFY spawn hook。",
+        "『沒有任何 enforcement』已被 AGENTS、Spine、delivery gate 與實跑 guard 反駁，應縮限措辭。"
+      ]
+    },
+    {
+      "claim": "C2",
+      "verdict": {"confidence": "medium", "status": "PARTIALLY_SUPPORTED", "conclusion": "lifecycle.plan() 為 deterministic keyword skeleton、沒有模型 call site：high。特定 admission 由 DeepSeek 主迴圈 authored：low，缺該 admission 的完整作者／工具 payload／來源綁定。『GPT 只做 delegate/FAR』若意指沒有 GPT-authored plan，則已有反例。"},
+      "evidence": [
+        {"citation": "H/src/hg_kseos/lifecycle.py:259-296", "finding": "plan() 讀 intent，呼叫 _derive_tasks，組 TaskSpec skeleton 並更新 PLAN_READY；沒有 GPT 或其他 LLM invocation。這只證明 skeleton generation，不證明上游 intent/design 或 admission 文件的作者。"},
+        {"citation": "H/config/lane-routing-registry.yaml:52-70；H/src/hg_kseos/spine.py:296-321", "finding": "PLAN 宣告為 openai-codex/gpt-6.1-sol；create_workorder 的 admission 只檢查 writer、base_head 與 TaskSpec state，沒有 planner model attestation。因此存在 GPT routing 義務，但此 API 不強制 GPT authorship。"}
+      ],
+      "counterexample_or_none": {"citation": "H/evidence/review/FAR_LANE_SOD_004_ADOPTION_EVIDENCE_2026-10-07.md:13-17；H/var/far-lane-sod-004/lanes/laneP_adoption_design.json:5,34-41", "finding": "deleg_b78efec7 被記錄為 gpt-6.1-sol PLAN lane，產出 preimage-backed adoption design 與具體候選 diff/proof commands。故 GPT-authored substantive planning 確有文件反例；仍是 subagent plan，不能據此推定 lifecycle skeleton 或 admission 本體由 GPT authored。模型權重身分未獨立 attested。"},
+      "confounds": [
+        {"citation": "H/config/model-lane-assignment.json:120；R/hermes-agent/hermes_cli/kanban_db_dispatch.py:2694-2703；R/hermes-agent/tools/delegate_tool_config.py:482-507", "finding": "kanban card pins 與 delegate_task routing 是不同 surface；card 存在 GPT pin 不證明 delegate 或 main-loop 已消費它。"},
+        {"citation": "H/scripts/start-hgk-hermes.ps1:255-281,347-350", "finding": "sealed EXECUTE front door 限制單一 sanctioned model；transported model 收據也明確不是 backend weights 證明。"}
+      ],
+      "what_would_refute": [
+        "lifecycle.plan() 實際呼叫 GPT 的 source/call trace：未找到。",
+        "目標 admission payload 可追溯到 GPT plan artifact，且作者 lineage 完整：本次未取得。",
+        "GPT 從未做 substantive planning：已找到 adoption design 反例。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "brownfield continuation": {
+    "flow": "brownfield continuation",
+    "provider": "openspec",
+    "state": "CERTIFIED_ACTIVE_BROWNFIELD",
+    "fallback": "hgk_native_prw",
+    "final_authority": true,
+    "route": "OPENSPEC"
+  },
+  "plan": {
+    "flow": "plan",
+    "provider": "gstack.plan-eng-review",
+    "state": "CERTIFIED",
+    "fallback": "hgk_native_plan_review",
+    "final_authority": true,
+    "route": "GSTACK"
+  },
+  "review": {
+    "flow": "review",
+    "provider": "gstack.review",
+    "state": "CERTIFIED",
+    "fallback": "hgk_native_review",
+    "final_authority": true,
+    "route": "GSTACK"
+  },
+  "qa": {
+    "flow": "qa",
+    "provider": "gstack.qa",
+    "state": "CERTIFIED",
+    "fallback": "hgk_native_qa",
+    "final_authority": true,
+    "route": "GSTACK"
+  },
+  "security": {
+    "flow": "security",
+    "provider": "gstack.cso",
+    "state": "CERTIFIED",
+    "fallback": "hgk_native_security",
+    "final_authority": true,
+    "route": "GSTACK"
+  }
+}

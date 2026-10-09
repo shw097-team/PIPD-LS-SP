@@ -58,3 +58,34 @@ Also write `schemas/registry.json`:
 - `registry.json` must list all 19 in index order 01..19 and must agree byte-for-byte with the schema files on `required_fields`.
 - Do not invent a 20th family, do not rename a family, do not reorder.
 - Do not write anything outside `schemas/`.
+
+## Single-source reconciliation (FW-02 / R-AUD-001)
+
+**Single-source rule.** Each `schemas/<Contract>.schema.json` is the *sole source of
+truth* for its own contract: its `required` array, its `$id`, and its `x-s0` metadata
+block (`index`, `contract`, `materialization`, `owner`, `consumers`). The
+`schemas/registry.json` file is a **derived view**: every family row
+(`index`, `contract`, `materialization`, `owner`, `consumers`, `required_fields`,
+`schema_file`) is recomputed *from* the schemas, and for every family
+`registry.required_fields == schema.required` as exact sets (and as identical lists).
+Hand-editing the registry is drift, never an input. The §7.3 table above remains the
+canonical floor: the exact 19/19 set, order, materialization, owner/consumer
+metadata, and minimum required fields are checked against it.
+
+**Version scheme.** Every schema carries exactly
+`"$id": "urn:pipd:s0:<Contract>:1"` — one v1-consistent scheme for all 19 families.
+No family may carry a different version suffix in `$id` (the R-AUD-001 defect was
+`TechnologyAdmission` advertising `:2` while the S0 contract requires v1); schema
+evolution is expressed by tightening `required`/`properties` in place, not by
+version drift in the `$id`.
+
+**Enforcement.** `tools/registry_reconcile.py` implements the rule:
+`--check` recomputes the registry from the schemas and fails (exit 1, offending
+family and field/key named on stderr) on any drift; `--write` regenerates
+`registry.json` from the schemas. Both modes refuse (a) a `required` field removal —
+the registered set is a monotone ratchet: adding fields is tightening, deleting one
+is weakening and is never accepted — (b) an `$id` that breaks the `:1` scheme,
+(c) owner/consumer/materialization metadata that diverges from the canonical §7.3
+table (seam-only families stay `SCHEMA_SEAM_ONLY_UNTIL_S5`/`_S6`), (d) any 20th
+`*.schema.json` family, and (e) any loss of Draft 2020-12 /
+`additionalProperties: false` / `type: object`.

@@ -1,0 +1,43 @@
+{
+  "schema": "PIPD-R2-OPENSPEC-EVIDENCE/1",
+  "candidate_sha": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+  "cli": "openspec 1.8.0 (C:\\Users\\user\\AppData\\Roaming\\npm\\openspec.ps1)",
+  "discovery": {
+    "command": "openspec validate --help",
+    "cwd": "execute/candidate",
+    "exit": 0,
+    "observed": "options: --all --changes --specs --type --strict --json --concurrency --no-interactive --store"
+  },
+  "validate_strict": {
+    "command": "openspec validate pipd-ls-sp-s0-s1 --strict",
+    "cwd": "execute/candidate",
+    "exit": 0,
+    "stdout": "Change 'pipd-ls-sp-s0-s1' is valid"
+  },
+  "list": {"command": "openspec list", "exit": 0, "stdout": "Changes: pipd-ls-sp-s0-s1  5/11 tasks"},
+  "named_method_route": {
+    "brownfield_continuation": {"provider": "openspec", "state": "CERTIFIED_ACTIVE_BROWNFIELD", "route": "OPENSPEC"},
+    "review": {"provider": "gstack.review", "state": "CERTIFIED", "route": "GSTACK"},
+    "qa": {"provider": "gstack.qa", "state": "CERTIFIED", "route": "GSTACK"},
+    "security": {"provider": "gstack.cso", "state": "CERTIFIED", "route": "GSTACK"},
+    "source": "../named-method-routes.json"
+  },
+  "native_substitution": "none; openspec CLI executed natively",
+  "product_spec_edits": "none (validate-only, read-only against snapshot)",
+  "wheel": {
+    "file": "candidate/dist/pipd_ls_sp-0.1.0-py3-none-any.whl",
+    "sha256_computed": "ba84115dfc5efa0f7c2240d137c2868a9469a9b5680cbd6cff833c1943630dfa",
+    "sha256_shipped": "ba84115dfc5efa0f7c2240d137c2868a9469a9b5680cbd6cff833c1943630dfa",
+    "match": true
+  },
+  "license": {
+    "current_position": "LicenseRef-PIPD-Proprietary (all rights reserved)",
+    "decision": "UNSET",
+    "meaning": "not a grant; publication likewise not approved",
+    "agent_action": "none (owner-only; UNSET cannot be granted by the agent)",
+    "file": "candidate/OWNER_LICENSE_DECISION.yaml"
+  },
+  "publication": "NOT_PERFORMED",
+  "finding": "dist/WHEEL_MANIFEST.json declares candidate_head=5c197cd51f2fc7cfc0e840173ee3c8b7f1ecb996 (stale vs candidate 829c17e...); wheel member hashes still match the current src.",
+  "verdict": "OPENSPEC_VALIDATED"
+}

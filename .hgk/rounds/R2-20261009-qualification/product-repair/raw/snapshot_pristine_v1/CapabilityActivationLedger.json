@@ -1,0 +1,186 @@
+{
+ "schema": "PIPD-CAPABILITY-ACTIVATION-LEDGER/1",
+ "project_id": "PIPD-LS-SP-20261008",
+ "claim_ceiling": "LOCAL_QUALIFIED",
+ "stages_reached": [
+  "S0",
+  "S1"
+ ],
+ "owner": {
+  "control_plane": "HG-KSEOS",
+  "orchestrator": "Hermes",
+  "bounded_writer": "codex-cli 0.147.0-alpha.6.5 / admitted Hermes writer",
+  "independent_checker": "glm-5.3-flash (opencode-go)"
+ },
+ "active": [
+  {
+   "capability": "Source/Authority Freeze",
+   "stage": "S0",
+   "current_execution_disposition": "HARDENED_ROUND2",
+   "evidence_or_gap": "freeze_authority now verifies each family locator resolves on disk and each manifest digest is a real sha256"
+  },
+  {
+   "capability": "Intent / RequirementAtom",
+   "stage": "S1",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "pipeline.intake() emits schema-exact RequirementAtom records"
+  },
+  {
+   "capability": "Profile LITE/STANDARD/ASSURED",
+   "stage": "S1",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "profiles.compute_profile + schema-exact ProfileBinding; escalation veto works"
+  },
+  {
+   "capability": "Search-Before-Build / TechnologyAdmission",
+   "stage": "S0",
+   "current_execution_disposition": "PARTIAL",
+   "evidence_or_gap": "22 named technology rows inventoried from source; no admission ledger rows written yet"
+  },
+  {
+   "capability": "PI Compiler",
+   "stage": "S1",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "pipeline.compile_pi() -> PI-PKG, schema+semantic clean"
+  },
+  {
+   "capability": "PD Binder / RepoContext",
+   "stage": "S1",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "pipeline.bind_pd() refuses a missing RepoContext (late binding)"
+  },
+  {
+   "capability": "TaskSpecSeed / ConstructionContract",
+   "stage": "S1",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "pipeline.compile_construction_contract()"
+  },
+  {
+   "capability": "ECP / TQAEP",
+   "stage": "S1",
+   "current_execution_disposition": "HARDENED_ROUND2",
+   "evidence_or_gap": "SoD is persisted inside TQAEP.acceptance (maker_identity, checker_identity, distinct, checker_execution_receipt); alias/self-attested/short-circuit probes are refused"
+  },
+  {
+   "capability": "Trace / Evidence / Claim",
+   "stage": "S1",
+   "current_execution_disposition": "HARDENED_ROUND2",
+   "evidence_or_gap": "trace_closure recomputes both endpoint hashes and fails on mismatch/absent endpoints; claim_ceiling refuses any claim above LOCAL_QUALIFIED without a bound approval receipt AND a checker identity; validate_bundle fails on an empty denominator"
+  },
+  {
+   "capability": "8 logical Skills",
+   "stage": "S1",
+   "current_execution_disposition": "NOT_IMPLEMENTED",
+   "evidence_or_gap": "donors inventoried and retained as source; no skill split built yet"
+  },
+  {
+   "capability": "19 machine-contract families",
+   "stage": "S0",
+   "current_execution_disposition": "IMPLEMENTED",
+   "evidence_or_gap": "schemas/ 19/19 + registry.json, verified by tests"
+  },
+  {
+   "capability": "deterministic validators",
+   "stage": "S0",
+   "current_execution_disposition": "HARDENED_ROUND2",
+   "evidence_or_gap": "identity fields must be non-empty; content_hash must be a 64-hex digest recomputed from the record body (body tamper is now detected); empty bundle FAIL; schemas + semantics"
+  },
+  {
+   "capability": "3 Golden Pilots (GP-01..03)",
+   "stage": "S2",
+   "current_execution_disposition": "NOT_IMPLEMENTED",
+   "evidence_or_gap": "stage not reached"
+  },
+  {
+   "capability": "5-file Web Pack / Host projections",
+   "stage": "S3",
+   "current_execution_disposition": "PARTIAL",
+   "evidence_or_gap": "dist/web 5/5 + 3 host projections generated; external install not authorised"
+  },
+  {
+   "capability": "13 CLI/SDK commands",
+   "stage": "S4",
+   "current_execution_disposition": "PARTIAL",
+   "evidence_or_gap": "13/13 commands execute (exit 0) and are smoke-frozen; explain/dry-run and replay suites not built"
+  },
+  {
+   "capability": "named HGK Shadow / Canary receiver",
+   "stage": "S5",
+   "current_execution_disposition": "NOT_IMPLEMENTED",
+   "evidence_or_gap": "stage not reached"
+  },
+  {
+   "capability": "GENIE object projection",
+   "stage": "S6",
+   "current_execution_disposition": "NOT_IMPLEMENTED",
+   "evidence_or_gap": "stage not reached"
+  },
+  {
+   "capability": "JIT teaming / requalification",
+   "stage": "S7",
+   "current_execution_disposition": "NOT_IMPLEMENTED",
+   "evidence_or_gap": "stage not reached"
+  },
+  {
+   "capability": "bounded repair / rollback",
+   "stage": "S1",
+   "current_execution_disposition": "HARDENED_ROUND2",
+   "evidence_or_gap": "repair refuses '**', absolute paths, '../' escapes and any scope outside an explicit authorized_root; rollback drill now has a bound raw receipt (.hgk/artifacts/rollback_drill.json)"
+  },
+  {
+   "capability": "public deliverable + acceptance evidence",
+   "stage": "S1",
+   "current_execution_disposition": "IN_PROGRESS",
+   "evidence_or_gap": "local candidate committed; publication pending the independent release gate"
+  }
+ ],
+ "deferred_profile_gated": [
+  "external SaaS",
+  "extra vector DB / KG",
+  "MCP",
+  "remote execution",
+  "tool/model/provider switching",
+  "SGM cutover"
+ ],
+ "forbidden": [
+  "unauthorised production deployment",
+  "Fabric SQP1 / Stage-3 self-upgrade",
+  "credential leakage",
+  "modifying sealed authority",
+  "dual-writing task truth",
+  "unbounded self-repair",
+  "maker signing an Independent/Human PASS",
+  "publishing the private knowledge corpus or raw local sensitive evidence"
+ ],
+ "closure_rule": "a capability missing a stage row blocks that capability; no capability may be declared usable before its tests exist",
+ "round2_dispositions_note": "Round-2 independent lanes proved the round-1 dispositions overstated enforcement strength (SoD compared caller strings only; a null/forged record passed; an empty bundle passed; repair accepted '../HG-KSEOS/**'). Every one of those holes is now closed and re-tested; dispositions were downgraded from IMPLEMENTED to HARDENED_ROUND2 until an independent lane re-verifies the hardened code.",
+ "independent_verdicts": [
+  {
+   "checker_identity": "glm-5.3-flash/opencode-go",
+   "candidate": "a2fb27b7479ac519b823023ff0982b55c4954772",
+   "verdict": "PASS",
+   "checks": "10/10 PASS",
+   "blocking_findings": 0,
+   "claim_ceiling_recommended": "LOCAL_QUALIFIED",
+   "status": "SUPERSEDED - the candidate moved to 1cf60ac, so this verdict is not valid for the current HEAD"
+  },
+  {
+   "checker_identity": "swarm lanes deleg_5a26d6d5 (3)",
+   "candidate": "pre-repair snapshot",
+   "verdict": "1 PASS / 2 FAIL",
+   "status": "ACTED_ON - produced 6 repairs"
+  },
+  {
+   "checker_identity": "swarm lanes deleg_1e6aaacf (3)",
+   "candidate": "a47cd07",
+   "verdict": "0 PASS / 3 FAIL",
+   "status": "ACTED_ON - produced 14 repairs (validator/pipeline/workspace hardening, fixtures, LF canonicalization)"
+  },
+  {
+   "checker_identity": "lane deleg_c8cfecc7",
+   "candidate": "1cf60ac804ae02af753341df35f5705647a16ae5",
+   "verdict": "PENDING",
+   "status": "running - affected-edge re-verification"
+  }
+ ]
+}

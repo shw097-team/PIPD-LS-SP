@@ -44,14 +44,35 @@
  "capability_need": "long-task assurance pattern",
  "candidate": "LongHorizon-Harness research",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "REFERENCE_RESEARCH",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "PIPD/HGK native long-run control",
+  "exit_criterion": "research not implementation",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "PIPD/HGK native long-run control",
+  "disposition": "REFERENCE",
+  "design_disposition": "REFERENCE",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "disposition REFERENCE never activates",
   "independently_verified": false
  },
  "fallback_exit": "PIPD/HGK native long-run control",
  "subject_id": "subset-tech-b4aadfb05fb6a4ff8146087549d29be3",
  "version": "paper/research snapshot",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "1721d38e9a3bacca4c817c6921adb3c6be5c7ad430868d9996a0998c5b7878df"
+ "content_hash": "33db429b291520e2625ea511c8def6f33355f92d386538d9687de0a6af7ed242"
 }

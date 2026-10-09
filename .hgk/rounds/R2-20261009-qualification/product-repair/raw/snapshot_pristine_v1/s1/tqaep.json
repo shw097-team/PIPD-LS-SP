@@ -1,0 +1,72 @@
+{
+ "subject_id": "TQAEP-d9ef848f18f74222",
+ "version": "1",
+ "content_hash": "d9ef848f18f742228d8befb46a7b2d0a46061cd062ca55df6d7e10463e35fe00",
+ "schema_version": "TQAEP@1",
+ "tests": [
+  {
+   "test_id": "TEST-REQ-INTENT",
+   "requirement": "REQ-INTENT",
+   "oracle": "deterministic assertion on the bound artifact",
+   "positive_fixture": "fixtures/REQ-INTENT/positive",
+   "negative_fixture": "fixtures/REQ-INTENT/negative",
+   "evidence_expectation": "EVD-REQ-INTENT"
+  },
+  {
+   "test_id": "TEST-REQ-KNOWLEDGE",
+   "requirement": "REQ-KNOWLEDGE",
+   "oracle": "deterministic assertion on the bound artifact",
+   "positive_fixture": "fixtures/REQ-KNOWLEDGE/positive",
+   "negative_fixture": "fixtures/REQ-KNOWLEDGE/negative",
+   "evidence_expectation": "EVD-REQ-KNOWLEDGE"
+  },
+  {
+   "test_id": "TEST-REQ-VERIFY",
+   "requirement": "REQ-VERIFY",
+   "oracle": "deterministic assertion on the bound artifact",
+   "positive_fixture": "fixtures/REQ-VERIFY/positive",
+   "negative_fixture": "fixtures/REQ-VERIFY/negative",
+   "evidence_expectation": "EVD-REQ-VERIFY"
+  },
+  {
+   "test_id": "TEST-REQ-DELIVER",
+   "requirement": "REQ-DELIVER",
+   "oracle": "deterministic assertion on the bound artifact",
+   "positive_fixture": "fixtures/REQ-DELIVER/positive",
+   "negative_fixture": "fixtures/REQ-DELIVER/negative",
+   "evidence_expectation": "EVD-REQ-DELIVER"
+  },
+  {
+   "test_id": "TEST-REQ-GOVERN",
+   "requirement": "REQ-GOVERN",
+   "oracle": "deterministic assertion on the bound artifact",
+   "positive_fixture": "fixtures/REQ-GOVERN/positive",
+   "negative_fixture": "fixtures/REQ-GOVERN/negative",
+   "evidence_expectation": "EVD-REQ-GOVERN"
+  }
+ ],
+ "oracles": [
+  "TEST-REQ-INTENT: deterministic assertion on the bound artifact",
+  "TEST-REQ-KNOWLEDGE: deterministic assertion on the bound artifact",
+  "TEST-REQ-VERIFY: deterministic assertion on the bound artifact",
+  "TEST-REQ-DELIVER: deterministic assertion on the bound artifact",
+  "TEST-REQ-GOVERN: deterministic assertion on the bound artifact"
+ ],
+ "fixtures": [
+  "fixtures/REQ-INTENT/positive",
+  "fixtures/REQ-KNOWLEDGE/positive",
+  "fixtures/REQ-VERIFY/positive",
+  "fixtures/REQ-DELIVER/positive",
+  "fixtures/REQ-GOVERN/positive"
+ ],
+ "acceptance": [
+  {
+   "case": "INDEPENDENT_CASE_PASS",
+   "maker_identity": "HERMES-MAKER",
+   "checker_identity": "glm-5.3-flash/opencode-go",
+   "distinct": true,
+   "checker_execution_receipt": ".hgk/ao/verdict_edge_12of12.log (lane edge-reverify-glm, glm-5.3-flash/opencode-go)"
+  }
+ ],
+ "requalification": "affected-only"
+}

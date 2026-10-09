@@ -1,6 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:pipd:s0:WorkOrderCandidate:1",
+  "x-s0": {
+    "index": "11",
+    "contract": "WorkOrderCandidate",
+    "materialization": "REQUIRED_NOW_NONAUTHORITY",
+    "owner": "PIPD",
+    "consumers": ["HGK admission"]
+  },
   "type": "object",
   "description": "Owner: PIPD. Consumer: HGK admission. Candidate only; never runtime authority.",
   "additionalProperties": false,

@@ -1,0 +1,56 @@
+{
+  "lane": "LaneD_RootCause",
+  "research_id": "FAR-PIPD-R2-SOD-RCA-20261009",
+  "round": "R2-FAR-RCA-20261009",
+  "role": "PLAN/EVOLUTION (root cause synthesis over LANE_A, LANE_B, LANE_C)",
+  "claim_ceiling": "FAR research conclusion only; NOT HGK admission and NOT independent PASS.",
+  "root_causes": {
+    "Q1_no_independent_verify": {
+      "statement": "Why did the round run an EXECUTE leg but never start an independent VERIFY / Acceptance-Officer lane (only a one-line GLM tool smoke), so no 8-pack acceptance ran?",
+      "root_cause": "The checked dispatch chain has no obligatory EXECUTE-complete -> independent-VERIFY handoff. Model-SoD policy is a supply choice, not a mandatory workflow edge.",
+      "mechanism": "The sealed Write launcher consumes its binding, runs codex.exe --model, prints a write receipt and exits 0 without starting an Acceptance Officer (start-hgk-hermes.ps1:328-361). The lifecycle FORWARD map allows EXECUTING -> EVOLUTION_REVIEW, so VERIFYING is skippable (lifecycle.py:58). Kanban complete_task only recomputes readiness for already-existing children and never spawns a missing VERIFY card (kanban_db.py:2819-2827). The per-round closure duty is an orchestrator work instruction, not an auto-dispatch edge (SKILL.md:196-207; named_methods.route returns a decision only). Hence 'EXECUTE ran' does not imply 'VERIFY started'.",
+      "evidence": ["A4", "A5", "A7", "A6", "A9", "A8"],
+      "challenge_adjustment": "C1 - LANE_A's stronger framing 'there is no enforcement' is corrected: rules, a writer!=checker guard, a delivery gate and a runnable pre-dispatch guard DO exist, but they are NOT mandatorily wired into the independent-lane dispatch on this path. Record 'exists but not wired', not 'absent'.",
+      "not_the_cause": [
+        "a missing rule (the completion rule exists, AGENTS.md:12,106-111)",
+        "a missing guard script (hgk-lane-guard.py exists and refuses same-model, exit 2)",
+        "a GLM provider outage (tool smoke and full acceptance are different tasks)",
+        "absence of ANY enforcement (SoD/release gates exist conditionally)"
+      ],
+      "blast_radius": "every governed round's acceptance closure: a round can reach DELIVERED / EVOLUTION_REVIEW with no independent verdict and no 8-pack execution",
+      "minimal_fix_that_addresses_cause": "add a synchronous, fail-closed VERIFY handoff at the existing sealed Write success exit plus a receipt gate; do NOT add a scheduler, DB or executor",
+      "confidence": "HIGH (within checked source scope)",
+      "abstain": [
+        "whether this round actually called the release/SoD reducers",
+        "this round's project_id, acceptance rows and Kanban dependencies (no DB read)"
+      ]
+    },
+    "Q2_plan_model_absent": {
+      "statement": "Why was the PLANNING intelligence gpt-6.1-sol (openai-codex, OAuth, reasoning medium) only present at the delegate/FAR subagent layer, and not at the HGK lifecycle plan step nor the admission authoring layer (which ran on the deepseek main loop)?",
+      "root_cause": "Three distinct layers were all named 'PLAN': the owner's PLANNING model policy, HGK's deterministic plan/admission state operation, and the actual Hermes authoring worker. The first two do not resolve a model policy, start GPT, or verify content authorship; the Hermes main loop and ordinary delegation carry their own model settings.",
+      "mechanism": "lifecycle.plan() reads intent and calls _derive_tasks(goal, source_count), a keyword-derived fixed skeleton with no model call (lifecycle.py:260-329). admit_requirement() and register_requirement -> FROZEN -> create_taskspec -> create_workorder make no model call and resolve no PLAN policy; wording/objective are caller inputs (lifecycle.py:555-609; spine.py:151-322). named_methods.route('plan') returns a METHOD route (gstack.plan-eng-review), not an LLM provider (named_methods.py:151-192). Model choice is split by entry: ordinary delegate_task reads delegation settings (openai-codex/gpt-6.1-sol); only the Kanban dispatcher converts card pins to worker argv (delegate_tool.py:481-524; kanban_db_dispatch.py:2676-2707). Therefore a GPT subagent plan does not make a main-loop-submitted admission GPT-authored; the deterministic skeleton and orchestrator persistence are by design.",
+      "evidence": ["B1", "B2", "B3", "B4", "B5", "B6", "B7"],
+      "challenge_adjustment": "C2 - split into three layers: (1) skeleton generation = deterministic, no model, HIGH; (2) plan authorship = who wrote the intent/design/admission, LOW confidence for this specific admission (no author lineage obtained); (3) admission submission = typed API persistence. The strong form 'GPT only does delegate/FAR' is REFUTED: a GPT-authored substantive plan artifact exists (deleg_b78efec7).",
+      "not_the_cause": [
+        "a GPT provider fault (no error/fallback evidence obtained -> ABSTAIN)",
+        "lifecycle.plan secretly calling DeepSeek (refuted: no model call on that path)",
+        "named_methods.route('plan').provider deciding the OpenAI model (refuted: it is a method route)",
+        "a PLAN card pin or gpt actor string auto-switching the author (refuted: pins act only on dispatcher argv; actor is a lease string)"
+      ],
+      "blast_radius": "the model-SoD claim over the planning step: a PLAN lane can be declared and promised while the artifact is authored by the deepseek main loop, with no attestation on the API or the FROZEN event",
+      "minimal_fix_that_addresses_cause": "enforce a PLAN provider-binding receipt at the sealed Write pre-gate and record MODEL_NOT_INVOKED for the deterministic admission; do NOT inject an LLM into _derive_tasks nor rewrite the admission state machine",
+      "confidence": "skeleton=HIGH; this-admission-authored-by-deepseek=LOW; GPT-authored plan artifact exists=HIGH",
+      "abstain": [
+        "the raw main-agent transcript for the admission turn",
+        "whether each GPT subagent actually ran at effort=medium (reasoning_effort inherits when unset)"
+      ]
+    }
+  },
+  "shared_mechanism": "field/name conflation. Q1 conflates 'an EXECUTE artifact exists' with 'acceptance ran'; Q2 conflates three layers all called 'PLAN' (policy declaration, deterministic state op, real author). In both, a NAME (Write, actor=hermes-planner, lane=PLAN) is treated as if it carried a verifiable model/workflow proof it does not carry.",
+  "not_the_cause": [
+    "the two deviations are not a user error: the deterministic skeleton and orchestrator persistence are intentional design",
+    "not a single root cause: Q1 is a missing mandatory handoff edge, Q2 is a missing author-attribution entry point"
+  ],
+  "blast_radius": "the owner's PLAN->EXECUTE->VERIFY model-SoD and the 'every governed round closes with independent acceptance' rule; without them the round's verdicts cannot be trusted as independently checked",
+  "minimal_fix_that_addresses_cause": "one fail-closed uplift at the existing sealed Write boundary that (i) requires a PLAN provider-binding receipt and (ii) synchronously starts a fresh-context pinned GLM VERIFY and gates on its receipt, recording MODEL_NOT_INVOKED for deterministic admission"
+}

@@ -44,14 +44,35 @@
  "capability_need": "runtime extension donor",
  "candidate": "Cordis",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "REFERENCE_ONLY",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "no Cordis dependency",
+  "exit_criterion": "DSH coupling/version drift",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "no Cordis dependency",
+  "disposition": "REFERENCE",
+  "design_disposition": "REFERENCE",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "disposition REFERENCE never activates",
   "independently_verified": false
  },
  "fallback_exit": "no Cordis dependency",
  "subject_id": "subset-tech-c2b9be15c546163f7bbafe360e276284",
  "version": "exact version/commit only if DSH pilot",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "9d00ea5a08b5dfabb17b798b57ea1df10a569527e01d943e7e1f8a462b81488c"
+ "content_hash": "defb9e5e015def5738e49474c08d0d26a38e1119f6d9c93dfe9d369e650a66c3"
 }

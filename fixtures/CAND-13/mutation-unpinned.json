@@ -44,14 +44,35 @@
  "capability_need": "workflow + cross-runtime installer donor",
  "candidate": "Open GSD / GSD Redux",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "REFERENCE_PATTERN",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "PIPD installer",
+  "exit_criterion": "permission philosophy conflicts",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "PIPD installer",
+  "disposition": "REFERENCE",
+  "design_disposition": "REFERENCE",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "disposition REFERENCE never activates",
   "independently_verified": false
  },
  "fallback_exit": "PIPD installer",
  "subject_id": "subset-tech-941bfe635cfd4746ea0b2c943df91555",
  "version": "release/commit pin; MIT",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "56bbe7b4cb3f39f2798aa606c963c006b3f34c12cce1c6aba85cb1430660d456"
+ "content_hash": "4c201579857f7093908ade692ec0d3678086b7f72f9c54056636dcfbceab3bed"
 }

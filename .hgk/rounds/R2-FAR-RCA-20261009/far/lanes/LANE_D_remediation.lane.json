@@ -1,0 +1,76 @@
+{
+  "lane": "D",
+  "role": "PLAN/EVOLUTION (remediation design)",
+  "model": "gpt-6.1-sol",
+  "provider": "openai-codex",
+  "delegation_id": "deleg_cce353b6",
+  "subagent_id": "sa-3-77c2a1ee",
+  "persisted_by": "orchestrator (verbatim child output)",
+  "options_matrix": [
+    {
+      "defect": "D1_VERIFY_NOT_FORCED_AND_DELEGATION_PIN_IGNORED",
+      "Reuse existing": "重用 pinned Hermes one-shot 或 kanban dispatch；可解決 GLM 路由，但單靠卡片與 skill 無法保證 EXECUTE 後必定啟動。",
+      "Narrow fix": "選用：在既有 Write 成功出口加入同步 VERIFY handoff 與 fail-closed receipt gate；不新增 scheduler。",
+      "Adapter": "另建 orchestration wrapper 可行，但容易留下直接呼叫 Write 的繞過路徑；不優先。",
+      "Defer-with-gate": "無法啟動 GLM、缺 receipt 或驗證失敗時維持未驗收；禁止把 EXECUTE exit=0 當成 acceptance PASS。",
+      "basis": ["HGK/config/model-lane-assignment.json:118-125,162-163", "HGK/scripts/start-hgk-hermes.ps1:351-361"]
+    },
+    {
+      "defect": "D2_PLAN_MODEL_NOT_INVOKED",
+      "Reuse existing": "選用：將模型 PLAN 作者步驟放在既有 pinned Hermes runtime；lifecycle 僅做 deterministic admission，兩者分別記錄。",
+      "Narrow fix": "在 Write 前置 gate 檢查 PLAN provider-binding receipt；不要把 LLM 接入 _derive_tasks 或改寫 admission state machine。",
+      "Adapter": "把 LLM planner 注入 lifecycle 會改變 deterministic re-derive 與重跑語義，阻力較高；不選。",
+      "Defer-with-gate": "無 invocation evidence 就記 MODEL_NOT_INVOKED；若 WorkOrder 要求模型 PLAN，阻擋 EXECUTE，而非用 actor 字串補證。",
+      "basis": ["HGK/src/hg_kseos/lifecycle.py:260-329,332-388,555-609", "HGK/src/hg_kseos/named_methods.py:151-192"]
+    }
+  ],
+  "recommended_minimum": {
+    "choice": "Reuse existing runtime + narrow fix at sealed Write boundary + explicit prompt-protocol",
+    "change_surface": [
+      {"target": "HGK/scripts/start-hgk-hermes.ps1:1-12,235-260", "proposal": "新增必要的 WorkOrder/ExecutionBinding、PLAN receipt、frozen subject manifest 與 VERIFY contract locator 參數。Write spawn 前驗證 admitted lineage、receipt digest、PLAN 實際 provider/model、medium 設定及計畫與 admitted artifact 的綁定。缺失即拒絕。", "preserve": "保留 singleton sanctioned chain、process-scoped isolation、frontdoor health 與 credential guards。"},
+      {"target": "HGK/scripts/start-hgk-hermes.ps1:318-361", "proposal": "Codex 成功後凍結 candidate，使用既有 hermes_python/hermes_source/hermes_home 啟動 fresh-context pinned GLM one-shot，等待結束並驗證 receipt；缺失、timeout、served identity drift 或非 PASS 一律非零退出。", "receipt": "區分 execute_exit、verify_invoked、verify_exit、verify_verdict、requested_identity、observed_identity、subject_digest、session/request linkage；launcher 不自行寫 acceptance PASS。", "adjacent_issue": "347-350 行先使用 $usedToken、354 行才賦值；目前 transported_model 不可當成可靠 binding receipt。若納入同一授權 write-set，只做賦值順序修正。"},
+      {"target": "hgk-governed-execution/SKILL.md:165-167,196-207,214-220", "proposal": "將 acceptance 的 delegate_task VERIFY_ONLY 指定改為 pinned GLM kanban worker 或 scoped one-shot；保留其他 Swarm leaves。要求每個 EXECUTE candidate 具有獨立 verdict，maker 只能提交候選。"},
+      {"target": "HGK/src/hg_kseos/spine.py:324-346,376-512", "proposal": "重用既有 typed APIs、lease、version、idempotency 與 registered evidence guards；由獨立 checker 提供 verdict。最小方案不更動此檔，但不得把現有 writer!=checker 字串檢查宣稱為模型身分驗證。"},
+      {"target": "HGK/src/hg_kseos/lifecycle.py:260-329,332-388,555-609", "proposal": "不改 deterministic planner；prompt-protocol 強制分列 MODEL_PLAN_AUTHORING 與 DETERMINISTIC_ADMISSION，後者固定 model_invoked=false、status=MODEL_NOT_INVOKED。"},
+      {"target": "HGK/config/model-lane-assignment.json:24-28,41-45,54-97; config/lane-routing-registry.yaml:52-139", "proposal": "保持路由、fallbacks=[]、arm A default、arm B 不自動選取，不改 shared delegation 或全域 config。registry 仍標 CANDIDATE。"}
+    ],
+    "sufficiency": "在 sanctioned Write 呼叫邊界，成功返回必須經過真實 GLM VERIFY 與 receipt gate；模型 PLAN 作者證據與無模型 admission 不再混稱。此方案保證 scoped handoff 與 fail-closed closure，不保證程序被殺死後自動續跑，也不保證任意直接 typed API caller 都受同一 receipt gate 約束。",
+    "blast_radius": "一個既有 HGK launcher 的 Write 分支、授權合約與 skill 規則；無 Hermes core/delegate 修改、無第二 DB/scheduler/reducer、無路由或 credential 變更。",
+    "rollback": "實作前在 WorkOrder 指定的 evidence 範圍保存 launcher/skill/contract preimage digest；回滾指向該實作 commit 與 preimages。回滾時停止新 Write、保留未驗收狀態及全部 receipts；不得刪除 canonical history 或回滾成 acceptance PASS。",
+    "verification": [
+      "由獨立 GLM checker 測試真實 sealed Write → frozen candidate → pinned VERIFY → typed verdict/readback 全鏈。",
+      "負例：缺 PLAN receipt、假 actor label、GLM timeout、錯 provider/model、驗證失敗、候選在驗證期間變動、重用別個 WorkOrder 的 receipt，均不得成功閉合。",
+      "以 test-only spawn seam 檢查每個成功 EXECUTE 都觸發 VERIFY；另做真實 provider canary。",
+      "讀回精確 WorkOrder、acceptance、evidence locator/digest 與 session/request 記錄；對 candidate、canonical config 和三個 roots 做 before/after boundary digest。",
+      "本次已以 python -B 實跑 check_sod controls：PLAN→GLM、EXECUTE→GLM 通過；PLAN→PLAN、空 maker 拒絕。輸出 SOD_CONTROLS_PASS；未開啟 DB。"
+    ]
+  },
+  "verify_lane_route": {
+    "selected": "scoped synchronous Hermes one-shot",
+    "invocation_shape": "<hermes_python> -B -m hermes_cli.main -m glm-5.3-flash --provider opencode-go --reasoning medium --cli chat -q '<讀取 frozen VERIFY contract；僅允許 evidence write-set；輸出 verdict>'",
+    "reason": "避免 delegate_task 共用 gpt-6.1-sol 路由，也避免 board-wide dispatch 啟動其他 ready cards。",
+    "kanban_alternative": "沿用既有 board，以 tasks.model_override=glm-5.3-flash、provider_override=opencode-go、reasoning_effort=medium 建 VERIFY card，依賴 EXECUTE candidate-ready card；以 hermes kanban dispatch 啟動。",
+    "failure_policy": "無 GLM 證據即 NOT_VERIFIED；不自動切 arm B、不繼承 shared delegation，不以 launcher exit=0 代替 officer verdict。"
+  },
+  "plan_model_provability": {
+    "authoring": "先由 pinned openai-codex/gpt-6.1-sol、reasoning medium 的 fresh session 作者或重新審定計畫；receipt 必須綁定實際輸入、模型輸出及最终 admitted artifact digest。若 deepseek 之後改動計畫，原 receipt 不再覆蓋新 bytes，必須重新 PLAN。",
+    "receipt_requirements": ["WorkOrder/ExecutionBinding 與 plan artifact digest", "requested provider/model/effort、resolved transport/auth 類型（OAuth；不含秘密）", "session_id、可取得的 request/usage linkage、completed model calls", "觀測到的 provider/model 與輸出 digest；未知欄位保持 UNKNOWN，禁止由 actor label 填補"],
+    "admission": "lifecycle.plan()/admit* 與 named_methods.route() 是 deterministic bookkeeping/routing；記 MODEL_NOT_INVOKED。gstack provider 欄位是方法選擇，不是 LLM provider-binding receipt。",
+    "schema_limit": "現有 evidence_refs 無 subject/requirement 欄位，resolve_acceptance 只能證明 evidence 已註冊，不能原生排除 foreign evidence；見 spine.py:413-417。最小方案以外部 receipt checker 綁定 subject。若要求所有 typed callers 強制不可偽造的模型來源，須另行授權 durable provenance schema 與可信 receipt ingest。"
+  },
+  "sod_self_check_predicate": {
+    "scope": "每個 required EXECUTE candidate 與其實際 maker 集合，不只檢查 registry declarations",
+    "predicate": "PASS iff admitted_lineage_valid AND route_activation_authorized AND plan_author_receipt_valid AND admission.model_invoked == false AND execute.engine == 'codex-cli-sealed' AND execute.observed_identity == 'opencode-go/deepseek-v4.1-flash' AND exists(completed_VERIFY_after_candidate_freeze) AND verify.observed_identity == 'opencode-go/glm-5.3-flash' AND verify.requested_effort == 'medium' AND verify.session_id not in maker_session_ids AND all(check_sod(maker.observed_model, verify.observed_model).ok for maker in actual_makers) AND subject_digest_matches_every_receipt AND candidate_unchanged_during_verify AND verify.verdict == 'PASS' AND typed_acceptance_readback_matches_verdict AND no_required_open_denominator_edges",
+    "fail_closed": "缺欄位、無調用、未知 identity、不同 subject、SUPERSEDED candidate、缺獨立 verdict 均非 PASS；先要求 exists，再做 all，避免空集合 vacuous PASS。",
+    "basis": ["HGK/src/hg_kseos/lane_policy.py:148-159,216-236", "HGK/src/hg_kseos/lifecycle.py:485-552,612-643", "HGK/src/hg_kseos/spine.py:324-346,421-512"]
+  },
+  "not_claimed": [
+    "本次僅唯讀設計與 deterministic controls；未建立或修改任何檔案、DB、policy、credential 或 skill。",
+    "未執行真實 PLAN/EXECUTE/GLM VERIFY、未完成 acceptance、未部署修補。",
+    "未證明 provider 背後模型權重、供應商彼此獨立，或 medium 推理深度被後端確實採用。",
+    "未保證任意直接 Spine caller 無法繞過 scoped launcher；現有 actor/writer/checker token 不是 authenticated model identity。",
+    "未保證 crash recovery 或 eventual VERIFY execution。",
+    "未改 schema；未宣稱原生 foreign-evidence rejection。",
+    "未以 registry CANDIDATE、宣告路由或 card pins 單獨證明 activation、served identity 或獨立驗收。"
+  ]
+}

@@ -1,0 +1,65 @@
+schema: FAR-RESEARCH-HANDOFF/1
+research_id: FAR-PIPD-R2-SOD-RCA-20261009
+round: R2-FAR-RCA-20261009
+work_order: WO-REQ-PIPD-R2-FAR-RCA-20261009
+handed_to: HGK_CURRENT_ROUTER (product PIPD)
+status: CANDIDATE — not authority
+terminal: RESEARCH_PARTIAL_CANDIDATE
+claim_ceiling: FAR research conclusion only; NOT HGK admission and NOT independent PASS.
+
+products:
+  - CandidateResearch (IntegratedFindings.yaml)
+  - RootCause (LaneD_RootCause.json)
+  - Challenge (LaneE_Challenge.json)
+  - ProposedEvolution (PE-PIPD-R2-SOD-RCA-20261009, ProposedEvolution.yaml)
+  - ResearchConclusionGate (Gate1_Receipt.json)
+  - Report (FAR_RCA_REPORT.md)
+
+durable_change_route: >
+  HGK Governed Evolution: a separate authorized WorkOrder carries the write-set for the sealed Write
+  pre-gate and VERIFY handoff; then candidate -> sandbox -> eval (incl. negative/security/holdout) ->
+  independent verification -> owner promotion gate (COV-11-06) -> canary -> rollback. FAR Gate-1 does
+  not itself authorize any of these steps.
+
+next_actions:
+  - id: N1
+    action: "Open an implementation WorkOrder for the two narrow-fix change surfaces (start-hgk-hermes.ps1 pre-gate + synchronous VERIFY handoff; skill VERIFY_ONLY designation)."
+    owner: HGK (admission) then owner (promotion)
+  - id: N2
+    action: "Author or re-audit the plan in a fresh pinned openai-codex/gpt-6.1-sol session and bind a PLAN provider-binding receipt to the admitted artifact digest."
+    owner: PLAN lane (gpt-6.1-sol)
+  - id: N3
+    action: "Relaunch the affected round with the required surfaces enabled (KANBAN/SWARM/GSTACK/OPENSPEC/CODEX) and a genuinely independent pinned-GLM VERIFY lane; enforce the sod_self_check_predicate before any acceptance."
+    owner: HGK orchestrator
+  - id: N4
+    action: "Reconcile lane-policy epoch (registry epoch 13 vs live revision 15) so a legitimate admission can reach ADMIT rather than REFUSE on a version mismatch."
+    owner: HGK control plane
+  - id: N5
+    action: "Decide whether provider-axis separation (currently PARTIAL: EXECUTE and VERIFY arm A share opencode-go; model axis HOLDS) is required."
+    owner: owner
+
+open_questions:
+  - id: OQ-01
+    question: "This round's raw main-agent transcript for the admission turn was not obtained; is a per-turn author-attribution record required?"
+    required_for_decision: true
+  - id: OQ-02
+    question: "Is a durable provenance schema required so all typed API callers must prove a non-forgeable model origin (current evidence_refs has no subject field)?"
+    required_for_decision: false
+  - id: OQ-03
+    question: "Is the socket-level fabrication risk in the launcher receipt (transported_model assigned before $usedToken at ps1:347-354) in scope for the same write-set?"
+    required_for_decision: true
+
+nonclaims:
+  - NOT_ACCEPTANCE_PASS
+  - NOT_PRODUCTION_AUTHORIZATION
+  - NOT_HGK_ADMISSION
+  - NOT_INDEPENDENT_VERIFY
+  - "No canonical apply, commit, push, policy, credential or profile change was made."
+
+evidence_refs:
+  - IntegratedFindings.yaml
+  - LaneD_RootCause.json
+  - LaneE_Challenge.json
+  - ProposedEvolution.yaml
+  - Gate1_Receipt.json
+  - FAR_RCA_REPORT.md

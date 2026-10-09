@@ -44,14 +44,35 @@
  "capability_need": "observability plane",
  "candidate": "OpenTelemetry GenAI semantic conventions",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "DEVELOPMENT_ADAPTER_ONLY",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "PIPD/HGK native evidence envelope",
+  "exit_criterion": "semconv version drift",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "PIPD/HGK native evidence envelope",
+  "disposition": "ADOPT",
+  "design_disposition": "ADOPT_WITH_TRANSLATION",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
   "independently_verified": false
  },
  "fallback_exit": "PIPD/HGK native evidence envelope",
  "subject_id": "subset-tech-302cf604286031a1236bd27eeb7128d3",
  "version": "version-selected semconv; currently Development",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "540f2ace23b40c25b3b00b2ba8d8739b437ff90b4a95febc5c65f0598fc5b00a"
+ "content_hash": "48aa417d1d3620e35a353e80d6f187dbaba7c8da5ef9646dee2b07cc3b3c6d2d"
 }

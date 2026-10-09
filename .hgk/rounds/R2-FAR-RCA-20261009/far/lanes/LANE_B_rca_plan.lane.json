@@ -1,0 +1,37 @@
+{
+  "lane": "B",
+  "role": "PLAN/RESEARCH",
+  "model": "gpt-6.1-sol",
+  "provider": "openai-codex",
+  "delegation_id": "deleg_cce353b6",
+  "subagent_id": "sa-1-d6cc4ad3",
+  "persisted_by": "orchestrator (verbatim child output)",
+  "verdict": "已確認 lifecycle 與 admission API 沒有模型呼叫；PLAN 政策沒有自動接管 admission 撰寫者。主代理實際以 DeepSeek 撰寫本輪 admission 的判定，仍須逐回合 runtime 證據；effective_wiring 或 actor 字串本身不足以證明。",
+  "root_cause": "根因是將三個不同層次都稱為 PLAN：owner 的 PLANNING 模型政策、HGK 的確定性 plan/admission 狀態操作，以及 Hermes 的實際作者 worker。HGK 前兩個 API 不解析模型政策、不啟動 GPT、也不驗證內容作者；Hermes 主循環與 ordinary delegation 又有獨立模型設定，因此 GPT 子代理執行不會自動使主代理先前構思並提交的 admission 變成 GPT-authored。確定性骨架與 orchestrator 持久化本身是設計；欠缺 GPT 作者到凍結 admission 的可驗證交接與強制入口，才是題示 GPT-only 規劃要求的執行缺口。",
+  "findings": [
+    {"id": "B1", "status": "CONFIRMED", "claim": "plan() 不是 GPT 或 DeepSeek 規劃呼叫。它讀取 intent，呼叫 _derive_tasks(goal, source_count)，以關鍵字產生固定骨架，再更新 PLAN_READY。", "locators": ["HGK/src/hg_kseos/lifecycle.py:260-292", "HGK/src/hg_kseos/lifecycle.py:295-329"], "observed": "token_scan 的 LLM 命中是第296行否定外部 LLM 的 docstring；AST 顯示 _derive_tasks 只有 any、lower、append、insert 等呼叫。以『研究系統驗收』及 source_count=2 得到六個固定任務族。"},
+    {"id": "B2", "status": "CONFIRMED", "claim": "admit_requirement() 與其 register_requirement → FROZEN → create_taskspec → create_workorder 路徑沒有模型呼叫，也沒有解析 PLAN 模型政策。wording/objective 是呼叫者輸入。", "locators": ["HGK/src/hg_kseos/lifecycle.py:555-609", "HGK/src/hg_kseos/spine.py:151-322", "HGK/src/hg_kseos/spine.py:53-89"], "causal_effect": "主代理若自行構思 wording、oracle、tests 再呼叫 typed API，內容作者仍是主代理；API 不會因步驟名稱或 actor 名稱而另啟 GPT worker。"},
+    {"id": "B3", "status": "CONFIRMED", "claim": "named_methods.route 的 provider 指方法供應者，不是 LLM provider。它選 GSTACK／OPENSPEC／NATIVE，沒有決定 gpt-6.1-sol 或 DeepSeek 的欄位，也不執行模型。", "locators": ["HGK/src/hg_kseos/named_methods.py:151-192", "HGK/AGENTS.md:28-32"], "observed": "route('plan') 回 GSTACK／gstack.plan-eng-review；route('admission') 回 NATIVE／provider=null。兩者皆沒有 model 欄位。"},
+    {"id": "B4", "status": "CONFIRMED", "claim": "模型選擇依執行入口分流，並非一個全域 PLAN 路由：ordinary delegate_task 讀 delegation 設定或內部 credentials_cfg；Kanban dispatcher 才把卡片 model_override/provider_override/reasoning_effort 轉成 worker argv。兩者都不能回溯更換已在主代理完成的 admission 撰寫。", "locators": ["Hermes/tools/delegate_tool.py:481-524", "Hermes/tools/delegate_tool_config.py:416-435", "Hermes/tools/delegate_tool_config.py:482-587", "Hermes/hermes_cli/kanban_db_dispatch.py:2676-2707", "Hermes/config.yaml:9-10,165-168"], "observed": "main default=opencode-go/deepseek-v4.1-flash；delegation=openai-codex/gpt-6.1-sol；delegation.reasoning_effort 未設定，因此子代理 effort 按程式繼承父代理，而非自動讀 PLAN.medium。"},
+    {"id": "B5", "status": "CONFIRMED_WITH_SCOPE", "claim": "PLAN 已宣告為 engine=hermes 的模型 lane，但在所檢查的 lifecycle/admission 執行鏈中不是自動 MODEL WORKER。lane_policy.route_for_lane 只回傳字典；政策與檢查工具不等於 dispatch 接線。", "locators": ["HGK/config/model-lane-assignment.json:14-28,112-124", "HGK/config/lane-routing-registry.yaml:32-42,51-70", "HGK/src/hg_kseos/lane_policy.py:156-177", "HGK/scripts/probe-hgk-lane.py:125-144"], "qualification": "registry 明列 CANDIDATE、activation 需 generation binding、PLAN.admission_status=UNPROVEN；候選 probe 的 live dispatch 亦明列 NOT_IMPLEMENTED。"},
+    {"id": "B6", "status": "CAUSAL_RULING", "claim": "確定性 lifecycle 與 Hermes 擔任 orchestrator 是既有設計；但把主代理自行產生的規劃內容宣稱為已遵守 GPT-only PLANNING，屬政策覆蓋／作者歸因缺口，而不是已證實的 GPT provider 故障。", "locators": ["HGK/src/hg_kseos/lifecycle.py:7-14,260-273", "Fabric/AGENTS.md:23-27", "HGK/config/model-lane-assignment.json:14-28,112-120"]},
+    {"id": "B7", "status": "CONFIRMED", "claim": "actor 是受 lease 驗證的字串身份，不是模型證明。已讀 admission 的 FROZEN event 使用 actor=hermes-planner、payload_json={}，沒有模型／provider／session 欄位。名稱即使嵌入 gpt-6.1-sol，也不能提高證據強度。", "locators": ["HGK/src/hg_kseos/spine.py:191-254", "HGK/var/far-plan-enforcement-011/coordination/admission.json:56-70", "HGK/src/hg_kseos/lane_admission.py:113-135", "HGK/scripts/probe-hgk-lane.py:45-77"]}
+  ],
+  "PLAN_definition": {
+    "as_declared": "PLAN 是 ARCH、HARD WORK、THREAT、EFFECT PLANNING、RESEARCH、SYNTHESIS、EVOLUTION 的模型路由群組；指定 Hermes engine、openai-codex/gpt-6.1-sol、OpenAI OAuth、reasoning medium。",
+    "as_implemented": "在本次檢查範圍，PLAN 是可供查詢／檢查的路由資料，不是 lifecycle.plan 或 admission API 自動啟動的 worker。真正模型 worker 由 delegate_task 的設定解析，或 Kanban dispatcher 的卡片 pins 啟動；planning/admission 內容若在主循環生成，作者模型由該主循環當時的 runtime 決定。",
+    "governs_admission_authoring": "目前沒有在所檢查 admission 路徑中發現強制 PLAN 作者模型的入口。"
+  },
+  "alternatives_considered": [
+    {"hypothesis": "lifecycle.plan 暗中呼叫 DeepSeek", "ruling": "REFUTED：完整函式及 AST call-site 顯示此路徑未呼叫任何模型。"},
+    {"hypothesis": "named_methods.route('plan') 的 provider 決定 OpenAI 模型", "ruling": "REFUTED：實際回傳的是 gstack.plan-eng-review 方法路由。"},
+    {"hypothesis": "PLAN 卡片 pin 或 gpt actor 字串會使主代理 admission 自動轉至 GPT", "ruling": "REFUTED：卡片 pins 只在 dispatcher worker argv 生效，actor 僅為事件／lease 身份。"},
+    {"hypothesis": "OAuth 不可用或 GPT fallback 導致本輪 admission 由 DeepSeek 撰寫", "ruling": "ABSTAIN：沒有取得對應 admission 回合的錯誤、fallback 或 provider transport 證據。"}
+  ],
+  "residual_uncertainty": [
+    "『本輪 admission 由 DeepSeek 主代理撰寫』視為委派輸入；未取得該回合主代理 raw transcript。effective_wiring 不是逐回合證明。",
+    "未證明每個 GPT 子代理實際 effort=medium；delegation.reasoning_effort 缺省時會繼承父代理設定。",
+    "未窮盡所有外部 wrapper／歷史 ExecutionBinding。",
+    "一次跨 var 的廣域文字掃描逾時；已改以具名目錄與檔案讀取。"
+  ]
+}

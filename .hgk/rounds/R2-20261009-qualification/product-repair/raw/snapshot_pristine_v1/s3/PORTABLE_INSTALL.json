@@ -1,0 +1,66 @@
+{
+ "wheel": "pipd_ls_sp-0.1.0-py3-none-any.whl",
+ "wheel_sha256": "ba84115dfc5efa0f7c2240d137c2868a9469a9b5680cbd6cff833c1943630dfa",
+ "isolated_env": "fresh venv, no system site-packages",
+ "rows": [
+  {
+   "step": "create_isolated_venv",
+   "verdict": "PASS",
+   "detail": ""
+  },
+  {
+   "step": "install_wheel_no_index_no_deps",
+   "verdict": "PASS",
+   "detail": "Successfully installed pipd-ls-sp-0.1.0"
+  },
+  {
+   "step": "sdk_import_in_clean_env",
+   "verdict": "PASS",
+   "detail": "import OK pipd_ls_sp.cli"
+  },
+  {
+   "step": "console_script_entry_point",
+   "verdict": "PASS",
+   "detail": "exit=0"
+  },
+  {
+   "step": "cli_command_runs_in_clean_env",
+   "verdict": "PASS",
+   "detail": "exit=0 {\n \"atoms\": [\n  {\n   \"axis\": \"intent\",\n   \"req_id\": \"REQ-INTENT\"\n  }\n ],\n \"constraints\": [],\n \"content_hash\": \"68bc6c2a4"
+  },
+  {
+   "step": "declared_dependency_absent_is_graceful",
+   "verdict": "PASS",
+   "detail": "exit=0 [\"PI-PKG: missing universal identity field subject_id\", \"PI-PKG: missing universal identity field version\", \"PI-PKG: mis"
+  },
+  {
+   "step": "uninstall",
+   "verdict": "PASS",
+   "detail": "  Successfully uninstalled pipd-ls-sp-0.1.0"
+  },
+  {
+   "step": "no_residue_after_uninstall",
+   "verdict": "PASS",
+   "detail": "residue=[]"
+  },
+  {
+   "step": "import_fails_after_uninstall",
+   "verdict": "PASS",
+   "detail": "exit=1"
+  },
+  {
+   "step": "reinstall_same_wheel",
+   "verdict": "PASS",
+   "detail": "reinstalled"
+  },
+  {
+   "step": "wheel_bytes_unchanged_by_install",
+   "verdict": "PASS",
+   "detail": "ba84115dfc5efa0f == ba84115dfc5efa0f"
+  }
+ ],
+ "passed": "11/11",
+ "known_offline_limitation": "jsonschema is declared in Requires-Dist and is not present in the isolated env; validity paths raise a typed ValidationFail rather than crashing, and the declaration is what a resolver would satisfy",
+ "candidate_head": "5c197cd51f2fc7cfc0e840173ee3c8b7f1ecb996",
+ "verdict": "PASS"
+}

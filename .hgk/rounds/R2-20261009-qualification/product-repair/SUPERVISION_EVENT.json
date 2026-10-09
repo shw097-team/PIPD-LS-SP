@@ -1,0 +1,22 @@
+{
+  "schema": "PIPD-R2-SUPERVISION-EVENT/1",
+  "observed_at": "2026-10-09T07:44:00+08:00",
+  "lane": "product-repair",
+  "invocation": "proc_0e366c9088c8",
+  "codex_pid": 19396,
+  "event_class": "COMMAND_POLICY_REFUSAL_DESTRUCTIVE_VERB",
+  "refused_event_ids": ["product-lane item with Remove-Item -Recurse -Force on _redact_probe_tmp"],
+  "refused_operation": "Remove-Item -LiteralPath <PIPD>/_redact_probe_tmp -Recurse -Force",
+  "exit_code": -1,
+  "policy_message": "rejected: blocked by policy",
+  "target_class": "worker_own_scratch_directory_inside_authorized_product_root",
+  "protected_state_touched": false,
+  "count_in_class": 1,
+  "user_threshold": "intervene only when one error class exceeds 4 repeats; a genuine security refusal is an immediate stop",
+  "intervention_decision": "CONTINUE_WITH_WATCH",
+  "rationale": "The refused deletion targeted only the worker's own temporary probe directory inside its authorized product root; no canonical or protected state was touched and the sealed policy held. Count (1) is far below the >4 same-class threshold. This is not a protected-state destructive attempt.",
+  "hard_stop_condition": "Any second destructive-verb refusal, or any refusal naming canonical HG-KSEOS/Fabric/credential/shared-spine paths, ends the invocation immediately.",
+  "no_bypass": "The assistant will not retry deletion, substitute another utility, or relax policy. The residue directory is left in place for out-of-band operator cleanup and is disclosed.",
+  "residue_out_of_band_cleanup": "PIPD/_redact_probe_tmp",
+  "claim_ceiling": "supervision observation only; not acceptance, promotion or release"
+}

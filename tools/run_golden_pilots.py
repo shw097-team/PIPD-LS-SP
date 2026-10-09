@@ -53,8 +53,16 @@ def _tracked(root: Path) -> int:
 
 
 def _repo_context(root: Path, *, writable: str) -> dict:
-    return {"root": str(root), "head": _git("-C", str(root), "rev-parse", "HEAD") or _git("rev-parse", "HEAD"),
-            "tracked_files": _tracked(root), "currentness": "FRESH", "writable_scope": writable}
+    """Derive the RepoContext from the host (R-AUD-009).
+
+    The pilot used to hand-assert ``currentness: FRESH`` with no epoch. The strengthened binder
+    correctly refuses an unverifiable freshness claim, so the pilot must exercise the real
+    derivation path instead of asserting host state itself — and the pilot now fails for the same
+    reason a caller would, which is the point of the repair.
+    """
+    from pipd_ls_sp import repo_context as RC
+
+    return RC.derive_repo_context(root, writable_scope=writable)
 
 
 def _validate_all(artifacts: dict) -> dict:
@@ -68,7 +76,7 @@ def _validate_all(artifacts: dict) -> dict:
 
 
 def _chain(goal: str, profile: str, repo_ctx: dict | None, *, maker: str, checker: str,
-           checker_receipt: str) -> tuple[dict, list[dict]]:
+           checker_receipt: str, source: Path | None = None) -> tuple[dict, list[dict]]:
     """Run the real pipeline. Returns (artefact set, ordered step log)."""
     log: list[dict] = []
 
@@ -82,7 +90,11 @@ def _chain(goal: str, profile: str, repo_ctx: dict | None, *, maker: str, checke
                         "detail": str(exc)[:200]})
             raise
 
-    card = step("intake", lambda: P.intake(goal, sources=[str(ROOT / "docs" / "S0_CONTRACT_SPEC.md")],
+    # R-AUD-005: the clause source decides the atom count, and the atom count drives the profile.
+    # A LITE pilot must be given a LITE-sized clause source, otherwise a 17 KB spec legitimately
+    # compiles into hundreds of atoms and the product escalates the profile away from LITE.
+    clause_source = source or (ROOT / "docs" / "S0_CONTRACT_SPEC.md")
+    card = step("intake", lambda: P.intake(goal, sources=[str(clause_source)],
                                            constraints=["HG-KSEOS is the sole control plane"],
                                            non_goals=["no second control plane"]))
     pi = step(f"compile_pi[{profile}]", lambda: P.compile_pi(card, profile))
@@ -131,7 +143,8 @@ def gp01() -> dict:
     ctx = _repo_context(ROOT, writable="src/**")
     arts, log = _chain(GOAL_LITE, "LITE", ctx, maker="HERMES-MAKER",
                        checker="glm-5.3-flash/opencode-go",
-                       checker_receipt=".hgk/ao/verdict_clean_G1-G5.log")
+                       checker_receipt=".hgk/ao/verdict_clean_G1-G5.log",
+                       source=ROOT / "fixtures" / "gp01_lite_need.txt")
     # The profile must be genuinely LITE here (one axis), and the two escalation paths must fire on
     # their own triggers -- a LITE run that silently became ASSURED would not be a LITE test at all.
     eff = arts["pi"]["stable_semantic_contract"]["profile_binding"]["profile"]

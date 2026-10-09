@@ -44,14 +44,35 @@
  "capability_need": "TDD/planning/review skill donor",
  "candidate": "Superpowers",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "RECHECK_RELEASE",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "PIPD native methods",
+  "exit_criterion": "method semantic/permission drift",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "PIPD native methods",
+  "disposition": "ADOPT",
+  "design_disposition": "ADOPT_WITH_TRANSLATION",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
   "independently_verified": false
  },
  "fallback_exit": "PIPD native methods",
  "subject_id": "subset-tech-4c00bd0aa66db6b5e36c400ee3beddaf",
  "version": "release/commit pin; latest support finding v6.4.2 2026-09-25",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "29f421f52361ddbadea06794f4ea5916c836428f0d2454a2cbf17c9b9623894a"
+ "content_hash": "362bff4fc694c7ad695290b13e0351a48e49ff04309ef83910300bdbc0b710a6"
 }

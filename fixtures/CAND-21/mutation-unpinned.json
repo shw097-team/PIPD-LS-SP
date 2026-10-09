@@ -44,14 +44,35 @@
  "capability_need": "skill qualification oracle",
  "candidate": "Skill-Use benchmark",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "REFERENCE_EVAL",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "PIPD eval suite",
+  "exit_criterion": "benchmark mismatch",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "PIPD eval suite",
+  "disposition": "REFERENCE",
+  "design_disposition": "REFERENCE",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "disposition REFERENCE never activates",
   "independently_verified": false
  },
  "fallback_exit": "PIPD eval suite",
  "subject_id": "subset-tech-f92536f747ea15ba0d5a48e69312b19f",
  "version": "benchmark version/snapshot",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "447b652d4f352b2c28ded5026d83524f6c6e87ca81594eed20a24ac8bfa6725e"
+ "content_hash": "e8bac39842c8a6ce6b7fce4ee647898585a61440e940d3e73907fcd345ef5d88"
 }

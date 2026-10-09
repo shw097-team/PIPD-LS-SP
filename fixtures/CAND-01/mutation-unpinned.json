@@ -44,14 +44,35 @@
  "capability_need": "semantic judgment / research / design compiler",
  "candidate": "GPT-5.6 Sol",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "SUPPORT_PIN_AT_RUNTIME",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "fallback model tier via ModelProvider interface",
+  "exit_criterion": "model/version availability drift",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "fallback model tier via ModelProvider interface",
+  "disposition": "ADOPT",
+  "design_disposition": "ADOPT",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
   "independently_verified": false
  },
  "fallback_exit": "fallback model tier via ModelProvider interface",
  "subject_id": "subset-tech-b33db717c9c249d82d35db832a558bb7",
  "version": "workspace-available model / no hard-coded availability",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "c8803146c85e59c893e3a51434deda9fcdc0bb1956fdf438f428058722ae22ad"
+ "content_hash": "f588ca51966dec7d3f9d151e4d4afe6ab1c856cafd90e9eba903b99d53e26d1f"
 }

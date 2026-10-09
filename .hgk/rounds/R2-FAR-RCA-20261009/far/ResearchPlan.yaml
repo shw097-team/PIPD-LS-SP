@@ -1,0 +1,72 @@
+schema: FAR-RESEARCH-PLAN/1
+research_id: FAR-PIPD-R2-SOD-RCA-20261009
+method: governed autonomous research (FAR), read-only
+route:
+  task_class: RESEARCH_GENERAL
+  decision: NATIVE
+  reason_code: FAR_ROUTE_NATIVE_DEFAULT
+  primary: fabric-autoresearch-native
+  note: >
+    Bound from the live router (Fabric/fabric-autoresearch/far_router.py) — not invented. FAR is a
+    governed autonomous-research method layer, not final acceptance and not meta-apply.
+
+lanes:
+  - id: LANE_A
+    name: RCA of Q1 (no independent VERIFY lane)
+    model: gpt-6.1-sol
+    provider: openai-codex
+    reasoning_effort: medium
+    role: PLAN/RESEARCH
+    scope: dispatch surfaces, enforcement of EXECUTE->VERIFY, gate/reducer requirements
+  - id: LANE_B
+    name: RCA of Q2 (PLAN not GPT at plan/admission)
+    model: gpt-6.1-sol
+    provider: openai-codex
+    reasoning_effort: medium
+    role: PLAN/RESEARCH
+    scope: lifecycle.plan() model call site, admission authorship, lane vs step model binding
+  - id: LANE_C
+    name: Adversarial challenge of LANE_A/B
+    model: gpt-6.1-sol
+    provider: openai-codex
+    reasoning_effort: medium
+    role: PLAN/THREAT
+    scope: refutation, counterexamples, confounds, confidence grades
+  - id: LANE_D
+    name: Minimal-resistance remediation design
+    model: gpt-6.1-sol
+    provider: openai-codex
+    reasoning_effort: medium
+    role: PLAN/EVOLUTION
+    scope: reuse/narrow-fix/adapter/defer matrix, change surface, rollback, verification
+
+aggregation:
+  executor: CODEX CLI sealed lane
+  model: deepseek-v4.1-flash
+  provider: opencode-go
+  role: EXECUTE (bounded writer of the FAR artifact set)
+  work_order: WO-REQ-PIPD-R2-FAR-RCA-20261009
+
+verification:
+  officer_model: glm-5.3-flash
+  officer_provider: opencode-go
+  role: VERIFY/SECURITY (independent, fresh context, read-only)
+  note: >
+    Delegate children default to the delegation model (gpt-6.1-sol) and cannot carry a per-lane GLM
+    pin; the VERIFY lane is therefore routed through a GLM-pinned one-shot, NOT delegate_task. This is
+    itself a finding to be checked by LANE_A.
+
+gate1:
+  owner: FAR decision (research conclusion only)
+  not_authority_for: [HGK admission, independent PASS, mutation]
+
+budget:
+  bounded: true
+  per_lane_tool_calls: 12-15
+  retry_policy: report ABSTAIN rather than retry the same path
+
+evidence_policy:
+  - raw command/stdout/stderr/exit per lane
+  - path:line for every causal claim
+  - reproduce command for every finding
+  - preserve FAIL and ABSTAIN results

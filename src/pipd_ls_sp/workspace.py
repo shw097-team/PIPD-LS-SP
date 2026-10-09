@@ -91,32 +91,18 @@ def export_manifest(root: Path, *, include: list[str] | None = None) -> dict[str
 
 
 def project_surfaces(root: Path, out: Path) -> dict[str, Any]:
-    """Build the 5-file web pack + 3 host projections; assert 5/5 + parity."""
-    out.mkdir(parents=True, exist_ok=True)
-    (out / "index.html").write_text("<!doctype html><meta charset=utf-8><title>PIPD-LS-SP</title>"
-                                    "<div id=app></div><script src=app.js></script>", encoding="utf-8", newline="")
-    (out / "app.js").write_text("fetch('manifest.webmanifest').then(r=>r.json()).then(m=>{"
-                                "document.getElementById('app').textContent='PIPD-LS-SP '+m.version;});", encoding="utf-8", newline="")
-    (out / "styles.css").write_text("body{font-family:system-ui;margin:2rem}", encoding="utf-8", newline="")
-    (out / "manifest.webmanifest").write_text(json.dumps({"name": "PIPD-LS-SP", "version": "0.1.0"}), encoding="utf-8", newline="")
-    (out / "README.md").write_text("# PIPD-LS-SP web projection\n", encoding="utf-8", newline="")
-    present = [f for f in WEB_PACK_5 if (out / f).is_file()]
-    if len(present) != 5:
-        raise ProjectionLoss(f"web pack {len(present)}/5")
-    hosts = {"host:generic-skills": {"files": ["SKILL.md"], "capability_loss": []},
-             "host:hgk-receiver": {"files": ["receiver-map.json"], "capability_loss": ["no runtime authority"]},
-             "host:genie-adapter": {"files": ["object-crosswalk.json"], "capability_loss": ["no truth writeback"]}}
-    for name, spec in hosts.items():
-        d = out / name.replace(":", "_")
-        d.mkdir(parents=True, exist_ok=True)
-        for f in spec["files"]:
-            (d / f).write_text(json.dumps({"surface": name}, indent=1), encoding="utf-8", newline="")
-    if len(hosts) < 3:
-        raise ProjectionLoss("fewer than three host projections")
-    payload = {"web": sorted(present), "hosts": sorted(hosts)}
-    return {"verdict": "PASS", "out": str(out), "web_pack": present, "web_count": f"{len(present)}/5",
-            "hosts": hosts, "projection_parity_sha256": sha256_text(canonical_json(payload))}
+    """R-AUD-015 repair: delegate to the typed projection IR.
 
+    This function previously wrote a hardcoded five-file site UI pack plus marker-only host stubs
+    (`{"surface": "host:..."}`), i.e. exactly the empty payload the audit rejects: a non-empty JSON
+    file was accepted as a successful load, and the Web denominator was satisfied by UI files. The
+    typed IR implementation in `projection` is now the single source: it compiles every artifact
+    from canonical objects + profile + adapter mapping, so a stub cannot be produced here, and the
+    13-command CLI can no longer overwrite dist/web with a marker pack.
+    """
+    from . import projection as _projection
+
+    return _projection.project_surfaces(root, out)
 
 def doctor(root: Path) -> dict[str, Any]:
     findings = []

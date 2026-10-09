@@ -1,0 +1,324 @@
+### IntegratedFindings.yaml
+### FAR-RCA round R2-FAR-RCA-20261009 — aggregation of LANE_A, LANE_B, LANE_C, LANE_D
+### Merge rule: keep per-claim confidence and every locator verbatim; fold LANE_C adjustments
+### (C1, C2) as explicit mutations of the LANE_A/LANE_B claims they correct. Nothing is dropped.
+schema: FAR-INTEGRATED-FINDINGS/1
+research_id: FAR-PIPD-R2-SOD-RCA-20261009
+round: R2-FAR-RCA-20261009
+work_order: WO-REQ-PIPD-R2-FAR-RCA-20261009
+aggregation_executor: {role: EXECUTE, model: deepseek-v4.1-flash, provider: opencode-go, lane: codex-cli-sealed}
+source_lanes:
+  - LANE_A (RCA of Q1)          -> lanes/LANE_A_rca_verify.lane.json
+  - LANE_B (RCA of Q2)          -> lanes/LANE_B_rca_plan.lane.json
+  - LANE_C (adversarial)        -> lanes/LANE_C_challenge.lane.json
+  - LANE_D (remediation design) -> lanes/LANE_D_remediation.lane.json
+claim_ceiling: FAR research conclusion only; NOT HGK admission and NOT independent PASS.
+
+verdict: CONFIRMS_TWO_DEVIATIONS_WITH_SCOPE_LIMITS
+
+summary: >
+  Two model-SoD deviations are confirmed. Q1: the round ran an EXECUTE leg but never started an
+  independent VERIFY / Acceptance-Officer lane, so no 8-pack acceptance ran. The confirmed root cause
+  is that no dispatch surface in the checked chain carries an obligatory EXECUTE-complete ->
+  independent-VERIFY handoff: the sealed Write launcher consumes its binding, runs codex.exe, prints a
+  write receipt and exits 0 (start-hgk-hermes.ps1:328-361); the lifecycle permits EXECUTING ->
+  EVOLUTION_REVIEW without passing through VERIFYING (lifecycle.py:58); Kanban completion only promotes
+  already-existing children (kanban_db.py:2819-2827). Q2: the GPT-only PLANNING intent was present only
+  at the delegate/FAR subagent layer; lifecycle.plan() and the admission API make no model call and do
+  not enforce a GPT author, so the deepseek main loop remained the author of the admission. Both
+  deviations break the owner's PLAN->EXECUTE->VERIFY model-SoD and the "every governed round closes
+  with independent acceptance" rule. LANE_C corrects the framing of both: it is NOT "no enforcement
+  exists" (rules, a writer!=checker guard, a delivery gate and a runnable pre-dispatch guard DO exist)
+  and it is NOT a single "PLAN" fault (skeleton generation, plan authorship, and admission submission
+  are three layers). LANE_D supplies a minimal-resistance uplift that adds a fail-closed VERIFY handoff
+  at the sealed Write boundary without a second scheduler, DB, or control plane.
+
+# ---------------------------------------------------------------------------
+# Deviation 1 — Q1: EXECUTE ran, no independent VERIFY / AO lane (no 8-pack)
+# ---------------------------------------------------------------------------
+deviation_q1:
+  statement: >
+    Why did the round run an EXECUTE leg but never start an independent VERIFY / Acceptance-Officer
+    lane (only a one-line GLM tool smoke), so that no 8-pack acceptance ever ran?
+  root_cause: >
+    The checked dispatch chain has no obligatory EXECUTE-complete -> independent-VERIFY handoff. Model
+    policy is a SUPPLY CHOICE, not a mandatory workflow edge: the sealed Write branch produces its
+    receipt and exits without spawning a checker; the lifecycle allows EXECUTING -> EVOLUTION_REVIEW
+    (VERIFYING is skippable); Kanban completion promotes only pre-existing children. Therefore
+    "EXECUTE ran" does not imply "VERIFY started".
+  structural_causes:
+    - id: A4
+      what: sealed Write launcher is EXECUTE-only and exits after the write receipt (no AO follow-on)
+      locators: ["HG-KSEOS/scripts/start-hgk-hermes.ps1:15-17", "HG-KSEOS/scripts/start-hgk-hermes.ps1:204-207", "HG-KSEOS/scripts/start-hgk-hermes.ps1:235-260", "HG-KSEOS/scripts/start-hgk-hermes.ps1:308-323", "HG-KSEOS/scripts/start-hgk-hermes.ps1:328-361"]
+      confidence: HIGH
+    - id: A5
+      what: lifecycle does not force EXECUTING to pass through VERIFYING
+      locators: ["HG-KSEOS/src/hg_kseos/lifecycle.py:12-14", "HG-KSEOS/src/hg_kseos/lifecycle.py:49-62", "HG-KSEOS/src/hg_kseos/lifecycle.py:163-194"]
+      confidence: HIGH
+    - id: A7
+      what: Kanban completion promotes existing children only; it never spawns a missing VERIFY card
+      locators: ["HG-KSEOS/Hermes/hermes_cli/kanban_db.py:2128-2187", "HG-KSEOS/Hermes/hermes_cli/kanban_db.py:2723-2766", "HG-KSEOS/Hermes/hermes_cli/kanban_db.py:2819-2827", "HG-KSEOS/Hermes/hermes_cli/kanban_pr_acceptance_store.py:13-32"]
+      confidence: HIGH
+    - id: A6
+      what: per-round acceptance closure is an orchestrator work instruction, not an auto-dispatch edge
+      locators: ["HG-KSEOS/.hermes/skills/software-development/hgk-governed-execution/SKILL.md:196-207", "HG-KSEOS/src/hg_kseos/named_methods.py:151-192", "Fabric/fabric-autonomous-research/far_router.py:1-10", "HG-KSEOS/AGENTS.md:104-111", "Fabric/AGENTS.md:86-95"]
+      confidence: "HIGH (within checked scope)"
+  supporting_claims:
+    - id: A1
+      claim: >
+        Ordinary delegate_task does not read Kanban card pins and does not switch model by
+        EXECUTE/VERIFY business lane; every child uses the same credentials' model/provider (currently
+        openai-codex/gpt-6.1-sol). Creating a GLM VERIFY card therefore does not by itself make a plain
+        delegate_task become a GLM checker.
+      locators: ["HG-KSEOS/config/model-lane-assignment.json:106-125", "HG-KSEOS/Hermes/tools/delegate_tool.py:374-394", "HG-KSEOS/Hermes/tools/delegate_tool_config.py:416-422", "HG-KSEOS/Hermes/tools/delegate_tool_config.py:482-506"]
+      confidence: HIGH
+    - id: A2
+      claim: >
+        hermes kanban create supports --model/--provider, and only the real kanban dispatch converts
+        card.model_override/provider_override/reasoning_effort into worker argv -m/--provider/--reasoning.
+        With no pins set, that argv carries no lane model selection, so a registry declaration must not
+        be treated as a consumed pin.
+      locators: ["HG-KSEOS/Hermes/hermes_cli/kanban_parser.py:199-207", "HG-KSEOS/Hermes/hermes_cli/kanban.py:371-372", "HG-KSEOS/Hermes/hermes_cli/kanban_db_dispatch.py:2676-2709"]
+      confidence: HIGH
+    - id: A3
+      claim: >
+        The terminal one-shot is a separate, explicitly pinnable dispatch surface
+        (hermes_cli.main -m glm-5.3-flash --provider opencode-go --reasoning medium -z <prompt>). These
+        flags are invocation overrides needing no canonical config change; the orchestrator must still
+        explicitly start the process and hand over the full acceptance contract. A model tool smoke is
+        not acceptance execution.
+      locators: ["HG-KSEOS/Hermes/hermes_cli/_parser.py:130-157", "HG-KSEOS/Hermes/hermes_cli/cli_init_mixin.py:156-180", "HG-KSEOS/AGENTS.md:106-111"]
+      confidence: HIGH
+    - id: A8
+      claim: >
+        completion_sweep, if called, classifies registered-but-unPASSed acceptance rows as auto_local,
+        but it only returns a classification: it does not raise, does not dispatch, and does not itself
+        detect whether an independent VERIFY lane existed. The denominator JOINs existing acceptance
+        rows, so an unregistered acceptance obligation cannot be discovered by the sweep. Actual
+        invocation/rows this round: ABSTAIN.
+      locators: ["HG-KSEOS/src/hg_kseos/lifecycle.py:498-517", "HG-KSEOS/src/hg_kseos/lifecycle.py:537-550", "HG-KSEOS/src/hg_kseos/lifecycle.py:612-643"]
+      confidence: "HIGH (actual invocation ABSTAIN)"
+    - id: A9
+      claim: >
+        It is wrong to say "there is no enforcement": record_workorder_result refuses writer==checker;
+        ReleaseReducer raises INDEPENDENT_ACCEPTANCE_MISSING/FAIL_CLOSED when independent_passed=false or
+        the checker is empty; the UserExperience reducer also checks independent_project_acceptance. But
+        they are result gates at call time, not a scheduler that starts VERIFY; the first two trust the
+        caller-supplied identity/boolean and do not prove an independent process or 8-pack execution.
+        Actual entry this round: ABSTAIN.
+      locators: ["HG-KSEOS/src/hg_kseos/spine.py:324-345", "HG-KSEOS/src/hg_kseos/release.py:44-64", "HG-KSEOS/src/hg_kseos/release.py:624-625", "HG-KSEOS/src/hg_kseos/spine.py:389-417"]
+      confidence: "HIGH (actual invocation ABSTAIN)"
+    - id: A10
+      claim: >
+        A weaKer reducer: meta_gates.evidence_reducer hardcodes independent_receipt_missing = 0 with no
+        required capsule denominator. Running the real function AST in memory with capsules=[] actually
+        yields verdict=PASS, independent_receipt_missing=0; a capsule present but with an empty checker is
+        rejected by validate_proof_capsule. This is an absence-detection blind spot, but there is no
+        evidence it was the direct cause of this round's stop.
+      locators: ["HG-KSEOS/src/hg_kseos/meta_gates.py:95-126"]
+      confidence: "HIGH (direct causality ABSTAIN)"
+  cases_concluded:
+    counterexample_or_none:
+      locators: ["R/logs/agent.log:12915-12947", "HG-KSEOS/var/far-lane-verify-002/lanes/lane_v1d_challenge.json:2-12", "HG-KSEOS/evidence/review/FAR_LANE_VERIFY_002_EVIDENCE_2026-10-07.md:26-30"]
+      finding: >
+        FAR-LANE-VERIFY-002 session 20261007_133742_33767d DID have a fresh subagent whose API calls
+        used glm-5.3-flash/opencode-go and left a PARTIAL verdict. The difference is a deliberate
+        delegation-route dispatch; model separation need not go only through kanban dispatch. This
+        refutes a cross-round "VERIFY never ran", not the specific Q1 miss.
+  alternatives_considered:
+    - alternative: GLM provider unavailable, so VERIFY could not start
+      disposition: "Cannot explain the fixed fact that there was no dispatch at all; tool smoke and full acceptance are different tasks. Whether full acceptance would hit transport failure: ABSTAIN."
+    - alternative: VERIFY_SECURITY is configured, so EXECUTE auto-hands-off
+      disposition: "Refuted. Model declaration, card pins, ready promotion and process spawn are different surfaces; the launcher Write exit returns directly."
+    - alternative: the system has no independent acceptance enforcement at all
+      disposition: "Refuted as over-generalization. Conditional SoD/release gates exist; what is missing is enforced handoff and absence detection in the checked dispatch chain."
+    - alternative: one-shot delegation budget exhausted
+      disposition: "ABSTAIN; not listed as root cause. The two MAKERs are terminal sealed launchers, not children proven to consume delegate budget."
+  residual_uncertainty:
+    - "This round's two MAKERs, GLM smoke, missing VERIFY dispatch and missing 8-pack execution are taken as given from delegation context; the round transcript was not re-attested."
+    - "No DB was read or modified, so this round's project_id, acceptance rows, Kanban dependencies and reducer receipts were not confirmed."
+    - "Not all gateways, cron, profile hooks or dynamic plugin routes were audited; 'no auto handoff' is limited to checked source surfaces."
+    - "HG-KSEOS/config/verify-lane-contract.json:117-120 actual_hgk_consumer=null applies only to FAR-LANE-SOD-007."
+    - "No new model process started; no dispatch --dry-run; no acceptance runner executed."
+
+# ---------------------------------------------------------------------------
+# Deviation 2 — Q2: GPT-only PLANNING present only at delegate/FAR subagent layer
+# ---------------------------------------------------------------------------
+deviation_q2:
+  statement: >
+    Why was the PLANNING intelligence gpt-6.1-sol (openai-codex, OAuth, reasoning medium) only present
+    at the delegate/FAR subagent layer, and not at the HGK lifecycle plan step nor the admission
+    authoring layer (which ran on the deepseek main loop)?
+  root_cause: >
+    Three different things are all called "PLAN": the owner's PLANNING model policy, HGK's deterministic
+    plan/admission state operation, and Hermes's actual authoring worker. The first two do not resolve a
+    model policy, do not start GPT, and do not verify the content author; the Hermes main loop and
+    ordinary delegation have their own model settings. GPT subagent execution therefore does not make a
+    previously-conceived, main-loop-submitted admission become GPT-authored. The deterministic skeleton
+    and orchestrator persistence are by design; what is missing is a verifiable GPT-author -> frozen
+    admission handoff with an enforced entry point.
+  supporting_claims:
+    - id: B1
+      status: CONFIRMED
+      claim: plan() is not a GPT/DeepSeek planning call; it reads intent, calls _derive_tasks(goal, source_count) to build a fixed skeleton from keywords, then sets PLAN_READY.
+      locators: ["HG-KSEOS/src/hg_kseos/lifecycle.py:260-292", "HG-KSEOS/src/hg_kseos/lifecycle.py:295-329"]
+      observed: "The token_scan LLM hit is the line-296 docstring that NEGATES an external LLM; AST shows _derive_tasks calls only any, lower, append, insert. With 'research system acceptance' and source_count=2 it returns six fixed task families."
+      confidence: HIGH
+    - id: B2
+      status: CONFIRMED
+      claim: admit_requirement() and its register_requirement -> FROZEN -> create_taskspec -> create_workorder path make no model call and do not resolve a PLAN model policy; wording/objective are caller inputs.
+      locators: ["HG-KSEOS/src/hg_kseos/lifecycle.py:555-609", "HG-KSEOS/src/hg_kseos/spine.py:151-322", "HG-KSEOS/src/hg_kseos/spine.py:53-89"]
+      causal_effect: "If the main agent conceives the wording, oracle and tests and then calls the typed API, the author is still the main agent; the API does not start a GPT worker by step or actor name."
+      confidence: HIGH
+    - id: B3
+      status: CONFIRMED
+      claim: named_methods.route's provider means the METHOD supplier, not an LLM provider; it selects GSTACK/OPENSPEC/NATIVE, has no gpt-6.1-sol or deepseek field, and executes no model.
+      locators: ["HG-KSEOS/src/hg_kseos/named_methods.py:151-192", "HG-KSEOS/AGENTS.md:28-32"]
+      observed: "route('plan') returns GSTACK/gstack.plan-eng-review; route('admission') returns NATIVE/provider=null. Neither has a model field."
+      confidence: HIGH
+    - id: B4
+      status: CONFIRMED
+      claim: "Model choice is split by execution entry, not by one global PLAN route: ordinary delegate_task reads delegation settings or internal credentials_cfg; only the Kanban dispatcher converts card model_override/provider_override/reasoning_effort into worker argv. Neither can retroactively change an admission already authored in the main loop."
+      locators: ["HG-KSEOS/Hermes/tools/delegate_tool.py:481-524", "HG-KSEOS/Hermes/tools/delegate_tool_config.py:416-435", "HG-KSEOS/Hermes/tools/delegate_tool_config.py:482-587", "HG-KSEOS/Hermes/hermes_cli/kanban_db_dispatch.py:2676-2707", "HG-KSEOS/Hermes/config.yaml:9-10,165-168"]
+      observed: "main default=opencode-go/deepseek-v4.1-flash; delegation=openai-codex/gpt-6.1-sol; delegation.reasoning_effort unset, so child effort inherits the parent rather than auto-reading PLAN.medium."
+      confidence: HIGH
+    - id: B5
+      status: CONFIRMED_WITH_SCOPE
+      claim: PLAN is declared as an engine=hermes model lane, but in the checked lifecycle/admission chain it is not an automatic MODEL WORKER; lane_policy.route_for_lane only returns a dict; policy and probe tools are not dispatch wiring.
+      locators: ["HG-KSEOS/config/model-lane-assignment.json:14-28,112-124", "HG-KSEOS/config/lane-routing-registry.yaml:32-42,51-70", "HG-KSEOS/src/hg_kseos/lane_policy.py:156-177", "HG-KSEOS/scripts/probe-hgk-lane.py:125-144"]
+      qualification: "Registry marks CANDIDATE; activation needs a generation binding; PLAN.admission_status=UNPROVEN; the candidate probe's live dispatch is explicitly NOT_IMPLEMENTED."
+      confidence: "HIGH (within checked scope)"
+    - id: B6
+      status: CAUSAL_RULING
+      claim: The deterministic lifecycle and Hermes-as-orchestrator are existing design; claiming a main-agent-authored plan as satisfying GPT-only PLANNING is a policy-coverage/author-attribution gap, not a proven GPT provider fault.
+      locators: ["HG-KSEOS/src/hg_kseos/lifecycle.py:7-14,260-273", "Fabric/AGENTS.md:23-27", "HG-KSEOS/config/model-lane-assignment.json:14-28,112-120"]
+      confidence: HIGH
+    - id: B7
+      status: CONFIRMED
+      claim: actor is a lease-validated STRING identity, not a model proof. The admission FROZEN event read uses actor=hermes-planner, payload_json={} with no model/provider/session field; embedding gpt-6.1-sol in the name cannot raise evidence strength.
+      locators: ["HG-KSEOS/src/hg_kseos/spine.py:191-254", "HG-KSEOS/var/far-plan-enforcement-011/coordination/admission.json:56-70", "HG-KSEOS/src/hg_kseos/lane_admission.py:113-135", "HG-KSEOS/scripts/probe-hgk-lane.py:45-77"]
+      confidence: HIGH
+  PLAN_definition:
+    as_declared: "PLAN is the model-route group for ARCH, HARD WORK, THREAT, EFFECT PLANNING, RESEARCH, SYNTHESIS, EVOLUTION; engine Hermes, openai-codex/gpt-6.1-sol, OpenAI OAuth, reasoning medium."
+    as_implemented: "In this checked scope, PLAN is queryable/inspectable route DATA, not a worker auto-started by lifecycle.plan or the admission API. The real model worker is started by delegate_task settings or Kanban dispatcher card pins; if planning/admission content is generated in the main loop, the author model is whatever the main loop ran."
+    governs_admission_authoring: "No enforced PLAN-author-model entry point was found in the checked admission path."
+  alternatives_considered:
+    - hypothesis: lifecycle.plan secretly calls DeepSeek
+      ruling: "REFUTED: full function and AST call-site show no model call on this path."
+    - hypothesis: named_methods.route('plan') provider decides the OpenAI model
+      ruling: "REFUTED: it returns the gstack.plan-eng-review method route."
+    - hypothesis: a PLAN card pin or gpt actor string auto-switches main-agent admission to GPT
+      ruling: "REFUTED: card pins act only on dispatcher worker argv; actor is only an event/lease identity."
+    - hypothesis: OAuth unavailable / GPT fallback made this round's admission deepseek-authored
+      ruling: "ABSTAIN: no error, fallback or provider-transport evidence for the corresponding admission turn was obtained."
+  residual_uncertainty:
+    - "'This round's admission was deepseek-main-loop authored' is taken as a delegation input; the raw main-agent transcript for that turn was not obtained. effective_wiring is not a per-turn proof."
+    - "Not proven that every GPT subagent actually ran at effort=medium; when delegation.reasoning_effort is unset it inherits the parent."
+    - "Not exhaustive over all external wrappers / historical ExecutionBindings."
+    - "A broad var-wide text scan timed out; the check was redone with named directories and file reads."
+
+# ---------------------------------------------------------------------------
+# LANE_C challenge adjustments — folded into the two deviations above
+# ---------------------------------------------------------------------------
+challenge_adjustments:
+  - id: C1
+    target: deviation_q1
+    adjustment: >
+      Change "no independent VERIFY enforcement exists" to "rules and a candidate guard EXIST but are
+      NOT mandatorily wired into the independent-lane dispatch on this path". It is NOT that enforcement
+      is absent.
+    evidence:
+      - {citation: "HG-KSEOS/AGENTS.md:12,106-111", finding: "Completion requires an independent checker; maker/writer/orchestrator must not final self-accept; AO must be fresh-session VERIFY_ONLY. This is an existing process obligation, not an auto dispatch."}
+      - {citation: "HG-KSEOS/src/hg_kseos/spine.py:324-345; HG-KSEOS/src/hg_kseos/lifecycle.py:58-59,163-182", finding: "record_workorder_result refuses writer==checker and DELIVERED refuses open WorkOrders, but the checker is a caller STRING with no model identity; EXECUTING may also go straight to EVOLUTION_REVIEW. So there is a closure guard, not an auto-spawned independent model lane."}
+      - {citation: "HG-KSEOS/scripts/hgk-lane-guard.py:113-141; HG-KSEOS/evidence/review/FAR_LANE_SOD_004_ADOPTION_EVIDENCE_2026-10-07.md:40-53,86-93", finding: "The SoD guard exists and can refuse a same-model dispatch; the historical adoption record explicitly notes dispatcher/delegation guard integration was NOT applied. 'Exists but not wired' must not be stated as 'absent'.", observed: "REFUSE; exit_code=2; ERR_LANE_SOD_VIOLATION"}
+      - {citation: "R/logs/agent.log:11270,11333; HG-KSEOS/var/far-lane-verify-002/lanes/lane_a_routing_facts.json:103-125", finding: "R13/R14 evidence ties terminal self-verification to session 20261007_004622_88f655; API #138/#139 were both deepseek-v4.1-flash/opencode-go. Supports main-loop model collapse, but these two records alone do not prove the whole session never dispatched any checker."}
+    verdict: {confidence: medium, status: INCOMPLETE}
+    confounds:
+      - {citation: "HG-KSEOS/evidence/review/FAR_LANE_SOD_005_RESEARCH_EVIDENCE_2026-10-07.md:44-62", finding: "Cases exist where a lane was dispatched but hit user_stop, long search, guard retries, and its verdict never landed; 'no verdict' != 'lane never fired'."}
+      - {citation: "HG-KSEOS/scripts/hgk-lane-guard.py:92-109; HG-KSEOS/config/lane-routing-registry.yaml:34,46", finding: "This run's guard reported registry_epoch=13, live_epoch=15, epoch_current=false. Even if wired, it could still refuse on a version-count mismatch; ADMIT was not reached with a legitimate admission."}
+      - {citation: "HG-KSEOS/scripts/probe-hgk-lane.py:125-145,170-177", finding: "The live probe explicitly does not implement genuine dispatch, and the CLI writes a receipt even in dry-run."}
+  - id: C2
+    target: deviation_q2
+    adjustment: >
+      Split the single "PLAN" claim into three layers: (1) skeleton generation (lifecycle.plan ->
+      _derive_tasks, HIGH confidence, no model), (2) plan AUTHORSHIP (which model wrote the intent /
+      design / admission content), and (3) admission SUBMISSION (typed API persistence). The claim that
+      this specific admission was deepseek-authored is LOW confidence: the target admission identity and
+      the author lineage were not obtained. "GPT only does delegate/FAR" is REFUTED in the strong form,
+      because a GPT-authored substantive plan artifact exists.
+    evidence:
+      - {citation: "HG-KSEOS/src/hg_kseos/lifecycle.py:259-296", finding: "plan() reads intent, calls _derive_tasks, assembles a TaskSpec skeleton and sets PLAN_READY; no GPT or other LLM invocation. This proves skeleton generation only, not the author of the upstream intent/design or the admission document."}
+      - {citation: "HG-KSEOS/config/lane-routing-registry.yaml:52-70; HG-KSEOS/src/hg_kseos/spine.py:296-321", finding: "PLAN is declared openai-codex/gpt-6.1-sol; create_workorder only checks writer, base_head and TaskSpec state - there is no planner-model attestation. So a GPT routing obligation exists, but this API does not enforce GPT authorship."}
+    counterexample_or_none:
+      citation: "HG-KSEOS/evidence/review/FAR_LANE_SOD_004_ADOPTION_EVIDENCE_2026-10-07.md:13-17; HG-KSEOS/var/far-lane-sod-004/lanes/laneP_adoption_design.json:5,34-41"
+      finding: >
+        deleg_b78efec7 is recorded as a gpt-6.1-sol PLAN lane that produced a preimage-backed adoption
+        design with concrete candidate diffs/proof commands. GPT-authored substantive planning therefore
+        HAS a documentary counterexample - still a subagent plan, so it does not imply the lifecycle
+        skeleton or the admission body was GPT-authored. Model-weight identity was not independently
+        attested.
+    verdict: {confidence: medium, status: PARTIALLY_SUPPORTED}
+    confounds:
+      - {citation: "HG-KSEOS/config/model-lane-assignment.json:120; R/hermes-agent/hermes_cli/kanban_db_dispatch.py:2694-2703; R/hermes-agent/tools/delegate_tool_config.py:482-507", finding: "Kanban card pins and delegate_task routing are different surfaces; a card bearing a GPT pin does not prove delegate or the main loop consumed it."}
+      - {citation: "HG-KSEOS/scripts/start-hgk-hermes.ps1:255-281,347-350", finding: "The sealed EXECUTE front door limits the single sanctioned model; the transported_model receipt is explicitly NOT proof of the backend weights."}
+    what_would_refute:
+      - "A specific failed round's full transcript/runtime log showing an independent VERIFY was spawned and completed."
+      - "An EXECUTE-complete -> independent-VERIFY spawn hook that is un-bypassable on the round's actual call chain."
+      - "Source/call trace of lifecycle.plan actually invoking GPT (not found), or a target admission payload traceable to a GPT plan artifact with full author lineage (not obtained)."
+      - "Evidence that GPT never did substantive planning (already refuted by the adoption-design counterexample)."
+
+# ---------------------------------------------------------------------------
+# Reproduce receipts (raw commands actually run during aggregation, read-only)
+# ---------------------------------------------------------------------------
+reproduce_receipts:
+  interpretation: >
+    Locators above are preserved verbatim from the lanes (H/ = HG-KSEOS repo root, R/ = live Hermes
+    home, HGK/ mirror, Hermes/ agent tree). Reproduce commands below were re-run read-only during
+    aggregation; relative paths are taken from the stated root.
+  receipts:
+    - id: RCP-01
+      root: HG-KSEOS
+      command: "rg -n \"def plan|_derive_tasks|no external LLM\" src/hg_kseos/lifecycle.py"
+      observed: "260: def plan(...); 273: tasks = self._derive_tasks(goal, source_count); 295: _derive_tasks; 296: docstring '... no external LLM needed for the skeleton.'"
+      supports: [B1]
+    - id: RCP-02
+      root: HG-KSEOS
+      command: "rg -n \"EXECUTING|EVOLUTION_REVIEW|VERIFYING|DELIVERED\" src/hg_kseos/lifecycle.py"
+      observed: "58: \"EXECUTING\": (\"VERIFYING\", \"EVOLUTION_REVIEW\") — VERIFYING is skippable."
+      supports: [A5]
+    - id: RCP-03
+      root: HG-KSEOS
+      command: "rg -n \"writer|checker|INDEPENDENT\" src/hg_kseos/spine.py"
+      observed: "332: if writer == checker: raise InvariantViolation(ERR_WORKORDER_SELF_REVIEW)."
+      supports: [A9, C1]
+    - id: RCP-04
+      root: HG-KSEOS
+      command: "rg -n \"VERIFY|Write|exit|Action\" scripts/start-hgk-hermes.ps1"
+      observed: "204 Verify branch -> exit 0; 235 if Write; 361 exit 0 (write receipt printed, no AO follow-on)."
+      supports: [A4]
+    - id: RCP-05
+      root: HG-KSEOS
+      command: "python scripts/hgk-lane-guard.py --lane VERIFY_SECURITY --maker-engine codex-cli --maker-model glm-5.3-flash --target-engine hermes --target-model glm-5.3-flash --target-provider opencode-go --admission ADMITTED"
+      observed: "decision=REFUSE; exit_code=2; code=ERR_LANE_SOD_VIOLATION (same-model maker/checker refused)."
+      supports: [C1, A9]
+    - id: RCP-06
+      root: HG-KSEOS
+      command: "python -B -c \"from hg_kseos import lane_policy as lp; print(lp.check_sod('deepseek-v4.1-flash','glm-5.3-flash'))\""
+      observed: "(True, 'SOD_OK deepseek-v4.1-flash != glm-5.3-flash'); ('','glm-5.3-flash') -> SOD_UNDETERMINED."
+      supports: [A9]
+    - id: RCP-07
+      root: HG-KSEOS
+      command: "python -B -c \"from hg_kseos import meta_gates as m; print(m.evidence_reducer(capsules=[]))\""
+      observed: "{'missing_capsules': 0, 'independent_receipt_missing': 0, ..., 'verdict': 'PASS'} — empty denominator PASSes."
+      supports: [A10]
+    - id: RCP-08
+      root: HG-KSEOS
+      command: "Get-Content config/verify-lane-contract.json"
+      observed: "enforcement_wiring.actual_hgk_consumer=null; three static subcommands enforced, temporal discipline BLOCKED (no authorized controller hook)."
+      supports: [A6, C1]
+    - id: RCP-09
+      root: HG-KSEOS
+      command: "Get-Content var/far-plan-enforcement-011/coordination/admission.json (lines 56-70)"
+      observed: "FROZEN event actor=hermes-planner, payload_json={} — no model/provider/session field."
+      supports: [B7]
+  note: "All receipts are read-only. No DB, policy, credential or profile was written."

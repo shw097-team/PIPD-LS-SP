@@ -1,0 +1,35 @@
+{
+  "lane": "A",
+  "role": "PLAN/RESEARCH",
+  "model": "gpt-6.1-sol",
+  "provider": "openai-codex",
+  "delegation_id": "deleg_cce353b6",
+  "subagent_id": "sa-0-4a57035d",
+  "persisted_by": "orchestrator (verbatim child output)",
+  "root_cause": "依給定執行事實與已查 source，直接根因是 orchestrator 在 EXECUTE 完成後沒有發出第二個、明確 pin 並攜帶完整 acceptance contract 的獨立 VERIFY/AO dispatch。結構性原因是模型政策只是供應選擇，不是必經工作流：sealed Write 產生 receipt 後退出（start-hgk-hermes.ps1:328-361），lifecycle 允許跳過 VERIFYING（lifecycle.py:58），Kanban 完成只促進既有 children（kanban_db.py:2822），skill 的每輪 AO 要求則依賴 orchestrator 遵守（SKILL.md:196-207）。因此『EXECUTE 有跑』不會自動推出『VERIFY 已啟動』。已有 release/SoD gates 可以在被呼叫且輸入誠實時阻止錯誤 PASS，但不是 verifier scheduler；本輪是否漏呼叫這些 gates，證據不足，ABSTAIN。調查僅做 source reads 與記憶體內函式驗證，未建立或修改任何任務檔案、DB、政策、profile 或憑證。",
+  "findings": [
+    {"claim": "普通 delegate_task 不讀 Kanban card pins，也不依 EXECUTE/VERIFY 業務 lane 切換模型。每個 child 都使用同一份 creds 的 model/provider；目前宣告的 delegation 是 openai-codex/gpt-6.1-sol。因此建立 GLM VERIFY card，不會讓普通 delegate_task 自動變成 GLM checker。", "evidence": ["HGK/config/model-lane-assignment.json:106-125", "Hermes/tools/delegate_tool.py:374-394", "Hermes/tools/delegate_tool_config.py:416-422", "Hermes/tools/delegate_tool_config.py:482-506"], "confidence": "HIGH"},
+    {"claim": "hermes kanban create 支援 --model/--provider；真正的 kanban dispatch 才把 card.model_override/provider_override/reasoning_effort 轉為 worker argv 的 -m/--provider/--reasoning。未設 pins 時，該 argv 不含 lane 模型選擇，不能把 registry 宣告當成已消費的 pin。", "evidence": ["Hermes/hermes_cli/kanban_parser.py:199-207", "Hermes/hermes_cli/kanban.py:371-372", "Hermes/hermes_cli/kanban_db_dispatch.py:2676-2709"], "confidence": "HIGH"},
+    {"claim": "terminal one-shot 是另一個可明確 pin 的 dispatch surface：hermes_cli.main -m glm-5.3-flash --provider opencode-go --reasoning medium -z <prompt>。這些 flags 是 invocation overrides，不需修改 canonical config；但仍需要 orchestrator 明確啟動 process 並交付完整 acceptance contract。模型 tool smoke 本身不是 acceptance execution。", "evidence": ["Hermes/hermes_cli/_parser.py:130-157", "Hermes/hermes_cli/cli_init_mixin.py:156-180", "HGK/AGENTS.md:106-111"], "confidence": "HIGH"},
+    {"claim": "sealed launcher 的 -Action Write 是 EXECUTE-only 路徑：從 hermes-codex-lane.json 消費 binding，檢查 sanctioned model，執行 codex.exe --model，最後輸出 write receipt 並 exit 0；沒有接續啟動 Acceptance Officer。-Action Verify 也不是獨立 VERIFY lane，而是輸出 launcher/runtime binding receipt 後直接退出。不能用 action 名稱或 writer exit zero 代替驗收。", "evidence": ["HGK/scripts/start-hgk-hermes.ps1:15-17", "HGK/scripts/start-hgk-hermes.ps1:204-207", "HGK/scripts/start-hgk-hermes.ps1:254-260", "HGK/scripts/start-hgk-hermes.ps1:308-323", "HGK/scripts/start-hgk-hermes.ps1:328-361", "HGK/AGENTS.md:129-132"], "confidence": "HIGH"},
+    {"claim": "已查 lifecycle 並不強制 EXECUTING 必經 VERIFYING：FORWARD 明確允許 EXECUTING→EVOLUTION_REVIEW。transition() 驗證合法 edge 並記錄狀態，沒有 spawn verifier；DELIVERED 的額外拒絕條件只查未終結 WorkOrders，不查 verifier session、8 packs 或 acceptance denominator。", "evidence": ["HGK/src/hg_kseos/lifecycle.py:12-14", "HGK/src/hg_kseos/lifecycle.py:49-62", "HGK/src/hg_kseos/lifecycle.py:163-194"], "confidence": "HIGH"},
+    {"claim": "每輪必須關閉 acceptance 的要求確實存在，但在已查路徑是 orchestrator 工作指引，不是自動派工 edge。skill 明文要求 fresh-context VERIFY_ONLY leaf；named_methods.route() 只回傳方法決策，Fabric far_router 明文不 schedules/executes。對 HGK src/scripts/tools 與 Hermes hermes_cli/tools 的 scoped search，沒有 hgk-governed-execution 引用或 completion_sweep 呼叫點；不能據此擴大宣稱全系統沒有任何 hook。", "evidence": ["Skills/software-development/hgk-governed-execution/SKILL.md:196-207", "HGK/src/hg_kseos/named_methods.py:151-192", "Fabric/fabric-autonomous-research/far_router.py:1-10", "HGK/AGENTS.md:104-111", "Fabric/AGENTS.md:86-95"], "confidence": "HIGH，限已查範圍"},
+    {"claim": "Kanban completion/child promotion 不會自動補出缺失的 VERIFY card。complete_task() 對既有 parent dependencies、非空 result/summary、claim 與可選 PR contract 設 gate；完成後只 recompute_ready()，使已存在且 parents 終結的 children ready，不等同 spawn。local-only completion contract 直接略過 PR acceptance。沒有建模為 dependency 的 VERIFY，不會因 lane 缺席而被這些 gate 拒絕。", "evidence": ["Hermes/hermes_cli/kanban_db.py:2128-2187", "Hermes/hermes_cli/kanban_db.py:2723-2766", "Hermes/hermes_cli/kanban_db.py:2819-2827", "Hermes/hermes_cli/kanban_pr_acceptance_store.py:13-32"], "confidence": "HIGH"},
+    {"claim": "completion_sweep 若被呼叫，會把已登記、尚未 PASS 的 acceptance 列為 auto_local；但它只回傳分類，不 raise、不派工，也不直接偵測獨立 VERIFY lane 是否存在。denominator 從 project requirements JOIN 既有 acceptance rows，所以未登記的驗收義務不能靠這個 sweep 憑空發現。本輪是否有呼叫、是否存在對應 acceptance rows：ABSTAIN。", "evidence": ["HGK/src/hg_kseos/lifecycle.py:498-517", "HGK/src/hg_kseos/lifecycle.py:537-550", "HGK/src/hg_kseos/lifecycle.py:612-643"], "confidence": "HIGH，實際 invocation 為 ABSTAIN"},
+    {"claim": "不能說『沒有 enforcement』：record_workorder_result 拒絕 writer==checker；ReleaseReducer 在 independent_passed=false 或 checker 空值時會給 INDEPENDENT_ACCEPTANCE_MISSING/FAIL_CLOSED；UserExperience reducer 也檢查 independent_project_acceptance。但它們是被呼叫時的結果 gate，不是啟動 VERIFY 的 scheduler，且前兩者主要信任呼叫者提供的 identity/boolean，未證明獨立 process 或 8-pack 執行。本輪是否真正進入這些 reducers：ABSTAIN。", "evidence": ["HGK/src/hg_kseos/spine.py:324-345", "HGK/src/hg_kseos/release.py:44-64", "HGK/src/hg_kseos/release.py:624-625", "HGK/src/hg_kseos/spine.py:389-417"], "confidence": "HIGH，實際 invocation 為 ABSTAIN"},
+    {"claim": "另有較弱 reducer：meta_gates.evidence_reducer 把 independent_receipt_missing 固定為 0，沒有必需 capsule denominator。以真實函式 AST 在記憶體中執行 capsules=[]，實際得到 verdict=PASS、independent_receipt_missing=0；有 capsule 但 checker 空值則 validate_proof_capsule 拒絕。這是缺席偵測盲點，但沒有證據證明它是本輪停止的直接原因。", "evidence": ["HGK/src/hg_kseos/meta_gates.py:95-126"], "confidence": "HIGH，直接因果為 ABSTAIN"}
+  ],
+  "alternatives_considered": [
+    {"alternative": "GLM provider 不可用，導致 VERIFY 無法啟動", "disposition": "不能解釋已固定的『根本沒有 dispatch』；tool smoke 與完整 acceptance 是不同任務。完整驗收是否會遭遇 transport failure：ABSTAIN。"},
+    {"alternative": "設定已有 VERIFY_SECURITY，所以 EXECUTE 結束會自動接棒", "disposition": "排除。模型宣告、card pins、ready promotion 與 process spawn 是不同 surface；launcher Write 的出口直接退出。"},
+    {"alternative": "系統完全沒有獨立驗收 enforcement", "disposition": "排除此過度概括。已有條件式 SoD/release gates；缺的是已查 dispatch chain 的強制接棒及缺席檢查。"},
+    {"alternative": "one-shot delegation budget 已耗盡", "disposition": "ABSTAIN，不列根因。兩 MAKER 是 terminal sealed launcher，非已證明消耗 delegate budget 的 children。"}
+  ],
+  "residual_uncertainty": [
+    "本輪兩個 MAKER、GLM smoke、沒有 VERIFY dispatch 與沒有 8-pack execution，採用委派上下文給定事實；未重新鑑證該輪 transcript。",
+    "未讀取或修改 DB，因此本輪 project_id、acceptance rows、Kanban dependencies 與 reducer receipts 未確認。",
+    "未完整稽核所有 gateway、cron、profile hooks 或動態 plugin routes；『沒有自動接棒』限定已查 source surfaces。",
+    "HGK/config/verify-lane-contract.json:117-120 的 actual_hgk_consumer=null 僅適用 FAR-LANE-SOD-007。",
+    "未啟動新模型 process、未執行 dispatch --dry-run、未執行 acceptance runner。"
+  ]
+}

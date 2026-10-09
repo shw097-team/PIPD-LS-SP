@@ -1,0 +1,168 @@
+{
+ "workstream": "FW-05-FW-06",
+ "state": "DONE",
+ "files_changed": [
+  {
+   "path": "src/pipd_ls_sp/projection.py",
+   "sha256": "8b02bc9b13b31e0a79d03bfab1e7ca4638505c30cc42f97d8dcda7ce0fd13e96"
+  },
+  {
+   "path": "tools/web_pack_check.py",
+   "sha256": "8c78937990a8a7a74fc5098d716e6f231fa1c1d42f4308c9b5a627a208e1b04c"
+  },
+  {
+   "path": "tools/host_projection_check.py",
+   "sha256": "ecb2c4743b9bead7ddb9bbeab3faae5d34536cb025cb7747015dc697c8d1c7a6"
+  },
+  {
+   "path": "tests/test_web_pack.py",
+   "sha256": "06e8409e97b5ef5b4dd215ad3837d580e5d3de8505f43c76bbca96b340db76ca"
+  },
+  {
+   "path": "tests/test_host_projection.py",
+   "sha256": "649518da921115be81741f13b61a3a994c48a8ea42ccea71d5a315de96ef001f"
+  },
+  {
+   "path": "dist/web/PIPD_BOOTSTRAP.md",
+   "sha256": "50f8f60450314472db660c306f9877c8f36ca2662ad8b7c72a83a649507724e5"
+  },
+  {
+   "path": "dist/web/PIPD_CANONICAL_CORE.md",
+   "sha256": "8660d4174d0a7bf38a148e563fa36cf81316ed8970cafc603492bff1dd2b63fc"
+  },
+  {
+   "path": "dist/web/PIPD_ROUTER_PROFILES.md",
+   "sha256": "5616ba661873eb0906e6c772530e5aa9ccd74e29da47ea9fe5aaa71b80031188"
+  },
+  {
+   "path": "dist/web/PIPD_ARTIFACT_SCHEMAS.md",
+   "sha256": "a6b08541e96b84c6fbcb8701f525cfdd615dceeb39395e2fa97d94d2aac286a0"
+  },
+  {
+   "path": "dist/web/PIPD_EVAL_HANDOFF.md",
+   "sha256": "da2180459a52647eaa4cc14adb26f9f224f3efe8bf3dba4721d762232eaf3570"
+  },
+  {
+   "path": "dist/web/PROJECTION_IR.json",
+   "sha256": "0143ce2e160e744a65ccddc47e5012d37cc301b91f60a74e2520d9f00051df1c"
+  },
+  {
+   "path": "dist/web/host_generic-skills/SKILL.md",
+   "sha256": "e691970932ed27293b4073223b665957272026f3b39cc85bc318985bbce74127"
+  },
+  {
+   "path": "dist/web/host_hgk-receiver/receiver-map.json",
+   "sha256": "682cb92264b3016ad134d710cab5b371cf39b5f746b8bc85071add4613d1af4d"
+  },
+  {
+   "path": "dist/web/host_genie-adapter/object-crosswalk.json",
+   "sha256": "1f942342b9ea6af587e3b1153bee2ccf33529eaee65786530b87dbe7a12307b7"
+  },
+  {
+   "path": "dist/web/OPTIONAL_SITE_UI/index.html",
+   "sha256": "227647f8e0e7c2f4aef262cf8ad362249c1754e333f289a1dcbd20d7c4c3aedd"
+  },
+  {
+   "path": "dist/web/OPTIONAL_SITE_UI/app.js",
+   "sha256": "f297adb657e233cd7c17288f10110a4a2878f8eb788a251c038bf8a268376c84"
+  },
+  {
+   "path": "dist/web/OPTIONAL_SITE_UI/styles.css",
+   "sha256": "a86b3f6965a46b61cd5c6e864e67d9c05933c95bfbf6f6bd0d36559185585823"
+  },
+  {
+   "path": "dist/web/OPTIONAL_SITE_UI/manifest.webmanifest",
+   "sha256": "77f801d3f2b793b67bc3b04814363e5bf0415cb10f9fa0a80124a971ed18bfdf"
+  },
+  {
+   "path": "dist/web/OPTIONAL_SITE_UI/README.md",
+   "sha256": "971a89d34b8f03cad5f40f22eca9cfa6b67c9035843448f9751b214bf083e709"
+  }
+ ],
+ "deleted_files": [
+  "dist/web/index.html",
+  "dist/web/app.js",
+  "dist/web/styles.css",
+  "dist/web/manifest.webmanifest",
+  "dist/web/README.md"
+ ],
+ "commands": [
+  {
+   "cmd": "python -m unittest tests.test_web_pack tests.test_host_projection -v",
+   "exit": 0,
+   "raw_log": "unittest_workstream.log"
+  },
+  {
+   "cmd": "python -m unittest discover -s tests -t . -v",
+   "exit": 1,
+   "raw_log": "unittest_full_AFTER.txt"
+  },
+  {
+   "cmd": "python tools/web_pack_check.py --receipt <rcpt>/WEB_PACK.regen.json",
+   "exit": 0,
+   "raw_log": "web_pack_regen.log"
+  },
+  {
+   "cmd": "python tools/host_projection_check.py --receipt <rcpt>/HOST_PROJECTIONS.regen.json",
+   "exit": 0,
+   "raw_log": "host_projection_regen.log"
+  },
+  {
+   "cmd": "python tools/web_pack_check.py --strict --receipt <rcpt>/WEB_PACK.strict.json",
+   "exit": 0,
+   "raw_log": "web_pack_strict.log"
+  },
+  {
+   "cmd": "python tools/host_projection_check.py --strict --receipt <rcpt>/HOST_PROJECTIONS.strict.json",
+   "exit": 0,
+   "raw_log": "host_projection_strict.log"
+  },
+  {
+   "cmd": "python -c '<compile-pi on legacy intent_card.json>' (foreign-lane first-fail capture)",
+   "exit": 2,
+   "raw_log": "foreign_compile_pi_failure.log"
+  },
+  {
+   "cmd": "python -m unittest tests.test_tooling_executes.TestToolingExecutes.test_cli_smoke_runs -v (negative control: FW-04 lane's uncommitted pipeline.py/cli.py reverted to git HEAD, all FW-05/FW-06 files present)",
+   "exit": 0,
+   "raw_log": "negctl_compiler_lane_reverted.log"
+  },
+  {
+   "cmd": "python -m unittest discover -s tests -t . -v (pre-change baseline snapshot)",
+   "exit": 1,
+   "raw_log": "unittest_full_BEFORE.txt"
+  }
+ ],
+ "tests_run": 31,
+ "tests_passed": 31,
+ "first_failing_invariant": "NONE inside FW-05/FW-06 (31/31 targeted tests PASS). Full-suite first failing invariant (foreign lane, disclosed): PI_SEMANTIC 'legacy keyword atoms are not clause-bound' via `compile-pi` in tests.test_tooling_executes.test_cli_smoke_runs — caused by the FW-04 requirement-compiler lane's uncommitted src/pipd_ls_sp/pipeline.py + cli.py changes; negative control (those two files reverted to git HEAD, all FW-05/FW-06 files present) passes that test, and no CLI/pipeline/compiler module imports pipd_ls_sp.projection.",
+ "blockers": [
+  "NOT BLOCKING this workstream (disclosure): full suite 102 run / 101 pass / 1 fail = tests.test_tooling_executes.test_cli_smoke_runs (compile-pi -> PI_SEMANTIC legacy keyword atoms), owned by the concurrent FW-04 requirement-compiler lane; see negctl_compiler_lane_reverted.log for the negative control. S5/S6 remain NOT_AUTHORISED: all adapter checks ran as fixture/mock contracts and nothing reports a live HGK/GENIE integration PASS."
+ ],
+ "full_suite": {
+  "run": 102,
+  "passed": 101,
+  "failed": 1,
+  "failed_test": "tests.test_tooling_executes.test_cli_smoke_runs",
+  "owner": "FW-04 requirement-compiler lane (uncommitted pipeline.py/cli.py)"
+ },
+ "mutations_refused": {
+  "MUT-WEB-WRONGSET": "WRONG_WEB_SET (site UI five as the web pack / missing / extra doc)",
+  "MUT-HOST-STUB": "MARKER_ONLY_STUB (no field contract / source refs -> no effective load)",
+  "MUT-HOST-PROVIDER-OFF": "PROVIDER_OFF (live/active claim while provider is off)",
+  "MUT-HOST-UNSUPPORTED": "UNSUPPORTED_HOST (unknown host dir or surface)",
+  "MUT-HOST-PERMISSION-WIDENING": "PERMISSION_WIDENING (permission outside host contract)",
+  "MUT-HOST-MISSING-MAPPING": "MISSING_REQUIRED_MAPPING (target/receiver mapping dropped)",
+  "MUT-EMPTY-PAYLOAD": "EMPTY_PAYLOAD (doc/entry/record list emptied)",
+  "MUT-MISSING-FIELD": "MISSING_FIELD (meta/record/source-ref field removed)",
+  "MUT-SCOPE-WIDENING": "SCOPE_WIDENING (scope beyond dist/web/**)",
+  "MUT-STALE-SOURCE": "STALE_SOURCE (artifact not matching live sources; regenerated)",
+  "MUT-NOT-DERIVED": "NOT_DERIVED (free-text content)"
+ },
+ "claim_ceiling": {
+  "live_hgk_genie_integration": "NOT_CLAIMED",
+  "s5_s6": "NOT_AUTHORISED",
+  "adapter_checks": "FIXTURE_MOCK_ONLY",
+  "live_status": "NOT_RUN"
+ }
+}

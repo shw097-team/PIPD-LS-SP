@@ -1,0 +1,127 @@
+{
+ "workstream": "FW-10-FW-12",
+ "state": "DONE",
+ "round": "R3-20261009-audit-repair",
+ "workorders": [
+  "WO-TS-req-pipd-r3-fw-10",
+  "WO-TS-req-pipd-r3-fw-12",
+  "WO-TS-req-pipd-r3-aud-008",
+  "WO-TS-req-pipd-r3-aud-012",
+  "WO-TS-req-pipd-r3-aud-013"
+ ],
+ "frozen_candidate": "db2299118c791c5b251ed90d1d8d40171ce82aca",
+ "files_changed": [
+  {
+   "path": "tools/quarantine_review.py",
+   "sha256": "c34477f48db9d79f30868bb0ded9533d149f4005a21b6540b47c67c74bc9f549"
+  },
+  {
+   "path": "tools/build_evidence_md.py",
+   "sha256": "47651876d563e57062fc8503a690cf8b91ea417be04e80e5b53313844cae1090"
+  },
+  {
+   "path": "tests/test_quarantine_review.py",
+   "sha256": "05ae2d78af254248763c71994f7e4d48741dcab0b668026fafe0815f6474cbdf"
+  },
+  {
+   "path": "tests/test_oracle_disagreement.py",
+   "sha256": "9f8af9206e9a0316509b1b26980cffd9553b3b9af2648c6dd6b4218f546b45ab"
+  },
+  {
+   "path": "tests/test_evidence_md_guards.py",
+   "sha256": "31b4e114e10c5018e4235fb333aea93948be7ba2a1d6cd2995412cc3277d3168"
+  },
+  {
+   "path": "tests/fixtures/quarantine_corpus/documented_injection_example.md",
+   "sha256": "691a9acbde51c80572b07cc2454301bcf2ad00206e797e56183d7f294751ed50"
+  },
+  {
+   "path": "tests/fixtures/quarantine_corpus/malicious_poison.md",
+   "sha256": "b9efd7eca2a07b8985a6a4bcb667c2800169d5675ff9563c00802e28211063d0"
+  },
+  {
+   "path": ".hgk/knowledge/QUARANTINE_DISPOSITION_R3.json",
+   "sha256": "5fc9d808bd12ca7c8434ff76597e0a59d65541b4be2d27d630fd479dba3b7111"
+  },
+  {
+   "path": ".hgk/knowledge/ORACLE_DISAGREEMENT_R3.json",
+   "sha256": "e519cb72a714d9e18fa845b8c788f00e996a79c5758f808ee7ef78fdeb7350c5"
+  },
+  {
+   "path": ".hgk/artifacts/TT_REGISTER.json",
+   "sha256": "b0eccaf2523e5a321cde5f171b3961951e9b54f75dd1aac4c93b7f2a40cea855"
+  },
+  {
+   "path": ".hgk/artifacts/STATUS_R3.json",
+   "sha256": "527e04c307f8c380bfc5965e6664004800cdb50ad336f3fb1cfa2f5ff18d4238"
+  },
+  {
+   "path": ".hgk/artifacts/cli/CLI_SMOKE.json",
+   "sha256": "3363ee02e564034a88e2fb92b72675a4f9e1770d6e4132cdaa6c586d2ed2bee9"
+  },
+  {
+   "path": "README.md",
+   "sha256": "570655665f1bfac29e54a90451834c3886b20c2637f796a93b2eb8d98e66f459"
+  },
+  {
+   "path": "docs/ROUND3_DISCLOSURE.md",
+   "sha256": "c49bc0e254ac6d9500f234e70c03cbc11f3a4b15217bdb67032d53bc79c542e2"
+  }
+ ],
+ "commands": [
+  {
+   "cmd": "python -B tools/quarantine_review.py --report",
+   "exit": 0,
+   "raw_log": "quarantine_report_raw.json",
+   "note": "7/7 owner-dispositioned; 2 safe-clean, 5 safe-reference, 0 undecided, 0 retained; calibration negative holds"
+  },
+  {
+   "cmd": "python -B tools/quarantine_review.py --check",
+   "exit": 0,
+   "raw_log": "quarantine_check_raw.json",
+   "note": "re-derivation from the corpus files matches the committed report (drift=false)"
+  },
+  {
+   "cmd": "python -B -m unittest discover -s tests -t .",
+   "exit": 0,
+   "raw_log": "unittest_raw_r3.txt",
+   "note": "Ran 138 tests, failures 0, errors 0 (baseline was 47 green; grown, no gate weakened)"
+  },
+  {
+   "cmd": "python -B -m unittest tests.test_quarantine_review tests.test_oracle_disagreement tests.test_evidence_md_guards -v",
+   "exit": 0,
+   "raw_log": "unittest_inscope_raw.txt",
+   "note": "17 in-scope tests OK: tests/test_quarantine_review.py 10 (4 legacy guards + 6 R3 disposition incl. POS safe-clean / NEG malicious-not-released / EDGE undecided), tests/test_oracle_disagreement.py 4, tests/test_evidence_md_guards.py 3"
+  },
+  {
+   "cmd": "python -B tools/cli_smoke.py",
+   "exit": 0,
+   "raw_log": "cli_smoke_fresh_raw.json",
+   "note": "fresh 13/13 nonzero_exit=0; refreshed .hgk/artifacts/cli/CLI_SMOKE.json which held a stale failing receipt (nonzero_exit=2, compile-pi/bind-pd FAIL from a mid-repair state) — stale receipt preserved as cli_smoke_stale_receipt.json and disclosed, not overwritten silently"
+  },
+  {
+   "cmd": "python -B tools/build_evidence_md.py --check",
+   "exit": 2,
+   "raw_log": "build_evidence_md_check_stale_refusal_raw.json",
+   "note": "refusal DEMONSTRATED on real data: while the stale CLI_SMOKE receipt was failing, the generator emitted typed HARD_GATE_FAIL naming G-CLI-SMOKE-13 and wrote no document"
+  },
+  {
+   "cmd": "python -B tools/build_evidence_md.py --check",
+   "exit": 0,
+   "raw_log": "build_evidence_md_check_raw.json",
+   "note": "after the fresh CLI smoke: 5 hard gates PASS, G-KNOWLEDGE-READY stays PARTIAL and visible (never promoted to PASS)"
+  }
+ ],
+ "tests_run": 138,
+ "tests_passed": 138,
+ "tests_in_scope_run": 17,
+ "tests_in_scope_passed": 17,
+ "first_failing_invariant": "",
+ "blockers": [
+  "OPEN (out-of-scope owner write): the physical knowledge index stays 153/160 because the HG-KSEOS sanitizer's unanchored key pattern still quarantines the 7 dispositioned sources; resolution is routed to the HG-KSEOS knowledge/sanitizer owner (TT-HGK-SANITIZER-UNANCHORED-KEY-PATTERN) and the probe re-read to unique=160/160 follows that fix. Not padded.",
+  "OPEN (owner ratification): KP02-R04/KP11-R04/KP12-R04 polarity correction awaits the Knowledge/Policy owner in the authorised KP source (TT-ORACLE-DISAGREEMENT-KP-R04); until then the upper Raw Evidence Gate is operative and the KP rows carry POLARITY_DISPUTED_NORMALIZATION_DEFECT. KP/upper files were NOT edited.",
+  "TEMP_CLOSED (HITL, own owner): PRE-W3 cross-project acceptance (TT-PRE-W3-CROSS-PROJECT) — SWOF GENIE PRE-W3 owner must supply the sealed pack; never derived from S0-S4 evidence.",
+  "OPEN_OWNER_GATE: TT-PIPD-LICENSE-001 (owner license decision UNSET) and TT-PIPD-PUBLICATION-GATE remain human gates.",
+  "DISCLOSURE: TT-PIPD-TOOLING-UNTESTED re-opened CLOSED->PARTIAL after fresh verification failed its own close criterion (most tools/*.py still unpinned)."
+ ]
+}

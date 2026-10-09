@@ -1,0 +1,87 @@
+{
+ "schema": "PIPD-EDGE-SELFCHECK/1",
+ "note": "MAKER SELF-CHECK - not independent acceptance",
+ "candidate_of_record": "frozen-SHA file outside the repo + the external acceptance evidence file",
+ "edges_cover": "unittest / fresh-copy skip / empty-bundle / forged identity / body tamper / SoD / repair scope / claim ceiling / PAT pattern / LF+receipt digest / trace closure / secret sweep",
+ "edges": [
+  {
+   "edge": "E1",
+   "verdict": "PASS",
+   "command": "python -m unittest discover -s tests -t .",
+   "observed": "...............................................\n----------------------------------------------------------------------\nRan 47 tests in <elapsed>\n\nOK"
+  },
+  {
+   "edge": "E2",
+   "verdict": "FAIL",
+   "command": "fresh copy w/o .git: python -m unittest discover -s tests -t .",
+   "observed": "Error: 555 != 0 : tracked_files must equal `git ls-files`, not rglob('*')\n\n----------------------------------------------------------------------\nRan 47 tests in <elapsed>\n\nFAILED (failures=1, skipped=2)"
+  },
+  {
+   "edge": "E3",
+   "verdict": "PASS",
+   "command": "validate.validate_bundle({})",
+   "observed": "{\"verdict\": \"FAIL\", \"checked\": 0, \"findings\": [{\"contract\": \"*\", \"kind\": \"DENOMINATOR\", \"detail\": \"empty bundle: zero records checked cannot be a PASS\"}]}"
+  },
+  {
+   "edge": "E4",
+   "verdict": "PASS",
+   "command": "semantic_invariants(\"PI-PKG\", forged)",
+   "observed": "[\"PI-PKG: identity field subject_id must be a non-empty string\", \"PI-PKG: identity field version must be a non-empty string\", \"PI-PKG: content_hash must be a 64-char lowercase sha256 hex digest\"]"
+  },
+  {
+   "edge": "E5",
+   "verdict": "PASS",
+   "command": "tamper stable_semantic_contract then semantic_invariants",
+   "observed": "[\"PI-PKG: content_hash does not match the record body (body edited without re-issuing identity)\"]"
+  },
+  {
+   "edge": "E6",
+   "verdict": "PASS",
+   "command": "compile_tqaep alias / SELF_ATTESTED / proper",
+   "observed": "alias=TqSodFail self=TqSodFail fields=['case', 'checker_execution_receipt', 'checker_identity', 'distinct', 'maker_identity']"
+  },
+  {
+   "edge": "E7",
+   "verdict": "PASS",
+   "command": "repair_candidate scope probes",
+   "observed": "[\"RepairScopeFail\", \"RepairScopeFail\", \"RepairScopeFail\", \"RepairScopeFail\"]"
+  },
+  {
+   "edge": "E7b",
+   "verdict": "PASS",
+   "command": "repair_candidate scope ['src/**'] with authorized_root",
+   "observed": "accepted"
+  },
+  {
+   "edge": "E8",
+   "verdict": "PASS",
+   "command": "semantic_invariants ClaimCeiling INDEPENDENT_PASS",
+   "observed": "[\"ClaimCeiling: claims above LOCAL_QUALIFIED require a bound approval receipt AND a checker identity; a maker cannot mint them unilaterally\"]"
+  },
+  {
+   "edge": "E9",
+   "verdict": "PASS",
+   "command": "all six SECRET_PATTERNS vs synthetic samples",
+   "observed": "patterns=6 unmatched=[]"
+  },
+  {
+   "edge": "E10",
+   "verdict": "PASS",
+   "command": "git show HEAD:<receipt>.contract_sha256 vs sha256(blob)",
+   "observed": "receipt=6c08dd57af2b7dc4 blob=6c08dd57af2b7dc4"
+  },
+  {
+   "edge": "E11",
+   "verdict": "PASS",
+   "command": "pipeline.trace_closure(bundle)",
+   "observed": "{\"verdict\": \"PASS\", \"orphans\": [], \"bad_hashes\": []}"
+  },
+  {
+   "edge": "E12",
+   "verdict": "FAIL",
+   "command": "tracked-file + git object sweep (excludes __pycache__)",
+   "observed": "source_hits=0 object_hits=0 stray_bytecode_dirs=1"
+  }
+ ],
+ "verdict": "FAIL"
+}

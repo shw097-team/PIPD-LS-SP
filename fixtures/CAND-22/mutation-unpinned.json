@@ -44,14 +44,35 @@
  "capability_need": "harness adversarial test lane",
  "candidate": "HarnessRisk benchmark",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "REFERENCE_EVAL",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "PIPD security fixtures",
+  "exit_criterion": "benchmark taxonomy drift",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "PIPD security fixtures",
+  "disposition": "REFERENCE",
+  "design_disposition": "REFERENCE",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "disposition REFERENCE never activates",
   "independently_verified": false
  },
  "fallback_exit": "PIPD security fixtures",
  "subject_id": "subset-tech-ecc0c59cdd71d958e6c188428e12b420",
  "version": "benchmark version/snapshot",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "3e1a5a543559c952b0259b3fec1825a4adfaf58d54f7ead2392b5d79dd1f4438"
+ "content_hash": "2ea93b575e54cbbe5106cf5ff88d50e1e5d14c57a77f58ac9d18a85a3a71df0f"
 }

@@ -1,0 +1,88 @@
+{
+ "schema": "HGK-R3-SUPERVISION-CHECK/1",
+ "checked_at": "2026-10-09T08:50:40+08:00",
+ "rule_applied": "tasks running >10 min are inspected; a same-CLASS abnormal block repeated >4 times triggers immediate remediation or pause",
+ "units": [
+  {
+   "unit": "FW-02 (deleg_677b46ea/task-0)",
+   "elapsed_min": 13,
+   "state": "COMPLETED",
+   "receipt": ".hgk/rounds/R3-20261009-audit-repair/FW-02/RECEIPT.json",
+   "independent_check": "python tools/registry_reconcile.py --check -> exit 0, 'OK 19/19 families field-exact'",
+   "block_classes": {
+    "429": 0,
+    "timeout": 0,
+    "stall": 0
+   }
+  },
+  {
+   "unit": "FW-03 (task-2)",
+   "elapsed_min": 26,
+   "state": "COMPLETED",
+   "independent_check": "python tools/skill_pack_check.py --all -> exit 0, 8/8 packs routes_verified=true",
+   "block_classes": {
+    "429": 0,
+    "stall": 0
+   }
+  },
+  {
+   "unit": "FW-04+FW-07 (task-1)",
+   "elapsed_min": 36,
+   "state": "RUNNING",
+   "last_activity_age_min": 0.1,
+   "stalled": false,
+   "block_classes": {
+    "real_429": 0,
+    "transport": 0
+   },
+   "progress": "write_file/replace continuing"
+  },
+  {
+   "unit": "FW-05+FW-06 (task-3)",
+   "elapsed_min": 36,
+   "state": "RUNNING",
+   "last_activity_age_min": 1.2,
+   "stalled": false,
+   "block_classes": {
+    "real_429": 0
+   }
+  },
+  {
+   "unit": "FW-10+FW-12 (task-4)",
+   "elapsed_min": 36,
+   "state": "RUNNING",
+   "last_activity_age_min": 2.7,
+   "stalled": false,
+   "block_classes": {
+    "real_429": 0
+   }
+  },
+  {
+   "unit": "FW-08+FW-11 (CODEX CLI, proc_2bcf08eff167)",
+   "elapsed_min": 28,
+   "state": "RUNNING",
+   "stalled": false,
+   "block_classes": {
+    "real_rate_limit": 0,
+    "websocket_reconnect": 5,
+    "blocked_by_policy": 0
+   },
+   "progress": "2.3 MB log, apply_patch markers landing"
+  }
+ ],
+ "threshold_breaches": [
+  {
+   "class": "WEBSOCKET_RECONNECT (codex lane)",
+   "count": 5,
+   "threshold": 4,
+   "classification": "SELF_HEALING_TRANSPORT_WARNING — codex retries 2/5..5/5 then falls back to HTTPS and the turn completes; no request is lost and no worker is blocked.",
+   "decision": "NOT PAUSED; no remediation applied. Tripwire set: pause/steer if the count exceeds 10 within the lane, or if the log stops growing for >5 consecutive minutes."
+  }
+ ],
+ "classes_below_threshold": {
+  "HTTP_429_PROVIDER_QUOTA (this round, current batch)": 0,
+  "HTTP_429_PROVIDER_QUOTA (previous batch, already remediated)": 6
+ },
+ "suite_state_note": "the shared suite is currently RED only on the in-flight lanes' own tests (test_atomic_requirements=FW-04, test_web_pack=FW-05); both lanes are still writing. FW-02/FW-03 verified their own gates green in isolation.",
+ "claim_ceiling": "CANDIDATE_ONLY"
+}

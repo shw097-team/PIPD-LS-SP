@@ -44,14 +44,35 @@
  "capability_need": "harness architecture donor / host",
  "candidate": "DeepSeek Harness / DSH",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "EXPERIMENTAL",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "Hermes/Codex/HGK",
+  "exit_criterion": "breaking compatibility promised upstream",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "Hermes/Codex/HGK",
+  "disposition": "EVAL_ONLY",
+  "design_disposition": "EVAL_ONLY",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "disposition EVAL_ONLY never activates",
   "independently_verified": false
  },
  "fallback_exit": "Hermes/Codex/HGK",
  "subject_id": "subset-tech-c940d3cceaa507c6e4c20fc5cafcdefe",
  "version": "release/commit pin; Developer Preview",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "2659ed0e169719356df083137ab4f5f4395368c53176bb99e8c568384e640349"
+ "content_hash": "5de4f269836ff5c12a9c1865ec4276ba1388e1af257f82f6261de2e171f2dce0"
 }

@@ -1,0 +1,17 @@
+test_no_keyword_requirement_is_preserved (tests.test_atomic_requirements.AtomicRequirements.test_no_keyword_requirement_is_preserved) ... ERROR
+
+======================================================================
+ERROR: test_no_keyword_requirement_is_preserved (tests.test_atomic_requirements.AtomicRequirements.test_no_keyword_requirement_is_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\tests\test_atomic_requirements.py", line 11, in test_no_keyword_requirement_is_preserved
+    card = pipeline.intake('每頁保留三列。', sources=[str(ROOT)])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\src\pipd_ls_sp\pipeline.py", line 94, in intake
+    raise IntakeInvalid("goal produced zero requirement atoms")
+pipd_ls_sp.errors.IntakeInvalid: goal produced zero requirement atoms
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+FAILED (errors=1)

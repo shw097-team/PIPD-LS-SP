@@ -52,7 +52,9 @@ def main() -> int:
          "--checker-receipt", "deleg_5a26d6d5/lane-C"],
         ["validate", "--bundle", str(ART / "bundle.json")],
         ["doctor"],
-        ["project"],
+        # R-AUD-015 guard: never let the smoke write the delivered tree; the product
+        # projection goes to a scratch dir so the real dist/web stays canonical.
+        ["project", "--out", str(ART / "web_projection")],
         ["export"],
         ["diff", "--a", str(ART / "claim_ceiling.json"), "--b", str(ART / "claim_ceiling.json")],
         ["repair", "--subject", "PI-PKG", "--scope", "src/**", "--maker", "HERMES-MAKER",

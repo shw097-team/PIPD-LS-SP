@@ -1,0 +1,472 @@
+{
+ "schema": "PIPD-QUARANTINE-DISPOSITION/1",
+ "round": "R3-20261009-audit-repair",
+ "workorders": [
+  "WO-TS-req-pipd-r3-fw-10",
+  "WO-TS-req-pipd-r3-fw-12",
+  "WO-TS-req-pipd-r3-aud-008"
+ ],
+ "gate": "G-KNOWLEDGE-READY / R3 per-source owner disposition (R-AUD-008)",
+ "frozen_candidate": "db2299118c791c5b251ed90d1d8d40171ce82aca",
+ "quarantine_list_source": {
+  "path": ".hgk/knowledge/KNOWLEDGE_READY_REPORT.json#knowledge_index_readback.quarantined",
+  "sha256": "e35aaa7da7ca5d837151b17e32e321deea070862ff72338bd6bf483f1e4a0d8d"
+ },
+ "owner_disposition_authority": {
+  "dispositioned_by": "HGK Knowledge owner (R-AUD-008 First Owner), recorded per item under the admitted WorkOrders above",
+  "recorded_by_lane": "FW-10-FW-12",
+  "triad": [
+   "harmless_example",
+   "secret",
+   "poison"
+  ],
+  "decisions": [
+   "safe-clean",
+   "safe-reference",
+   "quarantine"
+  ]
+ },
+ "denominators": {
+  "unique_input_paths": 160,
+  "indexed_docs_physical": 153,
+  "quarantined_by_sanitizer": 7,
+  "dispositioned_this_round": 7,
+  "undispositioned": 0,
+  "released_safe_clean": 2,
+  "released_safe_reference": 5,
+  "retained_quarantine": 0,
+  "dispositioned_coverage": "153 physically indexed + 7 released by owner disposition = 160/160 with a per-item decision",
+  "physical_coverage": "153/160 — the sanitizer still quarantines 7; NOT padded to 160/160",
+  "never_pad_statement": "160/160 is claimed ONLY as '160/160 dispositioned', every one with an explicit owner disposition + decision above. The physical sanitizer index remains 153/160 until TT-HGK-SANITIZER-UNANCHORED-KEY-PATTERN closes and the probe is re-run; no number is filled up without a decision."
+ },
+ "items": [
+  {
+   "source_id": "SRC-97355259edde717eeaf2",
+   "family": "F1_GPTB_KNOWLEDGE",
+   "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/05_SDD_ADR_TASKSPEC.md",
+   "exists": true,
+   "sha256": "97355259edde717eeaf249205c56c352506d7d1c5b18fcd434ce4cf234bfeb10",
+   "owner_disposition": "harmless_example",
+   "owner_rationale": "the `sk-...` matches are only the tail of the longer identifier `...spec-plan-task-code-test-review-release`; the key pattern lacks a left word-boundary anchor (TT-HGK-SANITIZER-UNANCHORED-KEY-PATTERN). No credential exists in the file.",
+   "dispositioned_by": "HGK Knowledge owner (recorded by lane FW-10/FW-12 under admitted WorkOrders WO-TS-req-pipd-r3-fw-10 / WO-TS-req-pipd-r3-aud-008)",
+   "decision": "safe-clean",
+   "released": true,
+   "effective_disposition": "harmless_example",
+   "decision_reason": "every match is an inert detector false positive (identifier tail / rule literal / placeholder); released as ordinary content",
+   "necessary_source": null,
+   "findings": [
+    {
+     "detector": "SECRET_PATTERN",
+     "pattern_declared_by_report": "sk-[A-Za-z0-9_-]{20,}",
+     "matches_in_file": 3,
+     "entries": [
+      {
+       "verdict": "IDENTIFIER_SUBSTRING_FALSE_POSITIVE",
+       "why": "the match is the tail of a longer identifier, so the detector's pattern lacks a left word-boundary anchor",
+       "match_redacted": "sk-c********ease (len=27)",
+       "line_no": 14,
+       "line_context_redacted": "sk-c********ease"
+      },
+      {
+       "verdict": "IDENTIFIER_SUBSTRING_FALSE_POSITIVE",
+       "why": "the match is the tail of a longer identifier, so the detector's pattern lacks a left word-boundary anchor",
+       "match_redacted": "sk-c********ease (len=27)",
+       "line_no": 50,
+       "line_context_redacted": "sk-c********ease"
+      },
+      {
+       "verdict": "IDENTIFIER_SUBSTRING_FALSE_POSITIVE",
+       "why": "the match is the tail of a longer identifier, so the detector's pattern lacks a left word-boundary anchor",
+       "match_redacted": "sk-c********ease (len=27)",
+       "line_no": 54,
+       "line_context_redacted": "sk-c********ease"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "source_id": "SRC-f3b64233d0983ad60fa9",
+   "family": "F1_GPTB_KNOWLEDGE",
+   "rel": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/13_SECURITY_PRIVACY_PROMPT_INJECTION.md",
+   "exists": true,
+   "sha256": "f3b64233d0983ad60fa95c658757c15499d0eea38af98408973d33e1a5725e87",
+   "owner_disposition": "harmless_example",
+   "owner_rationale": "13_SECURITY_PRIVACY_PROMPT_INJECTION.md teaches prompt-injection defence and QUOTES attack phrases as examples it classifies and refuses; teaching material, kept as source-as-data.",
+   "dispositioned_by": "HGK Knowledge owner (recorded by lane FW-10/FW-12 under admitted WorkOrders WO-TS-req-pipd-r3-fw-10 / WO-TS-req-pipd-r3-aud-008)",
+   "decision": "safe-reference",
+   "released": true,
+   "effective_disposition": "harmless_example",
+   "decision_reason": "documented attack example(s) only: released as inert reference data (source-as-data), never consumed as instructions",
+   "necessary_source": null,
+   "findings": [
+    {
+     "detector": "PROMPT_INJECTION",
+     "pattern_declared_by_report": "ignore\\s+(?:all\\s+)?(?:previous|prior)\\s+instructions",
+     "matches_in_file": 2,
+     "entries": [
+      {
+       "verdict": "DOCUMENTED_INJECTION_EXAMPLE",
+       "why": "the matched phrase is quoted or sits in documentation that teaches the attack class; kept as inert reference data, the prompt-injection control stays enabled",
+       "match_redacted": "igno********ions (len=28)",
+       "line_no": 81,
+       "line_context_redacted": "igno********ions"
+      },
+      {
+       "verdict": "DOCUMENTED_INJECTION_EXAMPLE",
+       "why": "the matched phrase is quoted or sits in documentation that teaches the attack class; kept as inert reference data, the prompt-injection control stays enabled",
+       "match_redacted": "igno********ions (len=28)",
+       "line_no": 87,
+       "line_context_redacted": "igno********ions"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "source_id": "SRC-b753f2e5cdd5598a818f",
+   "family": "F2_PIPD_STANDARD",
+   "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_DOC-01_2026-10-07_r2_HIGH_RETENTION_FULL_REPAIR_FULL_SUBSTANTIVE_BODY.md",
+   "exists": true,
+   "sha256": "b753f2e5cdd5598a818f8a113d57b7f815aeb3f1dfa061ce74c76bb3553ac8c7",
+   "owner_disposition": "harmless_example",
+   "owner_rationale": "PIPD_LS_DOC-01: the phrase sits in the adversarial test-class table stating the defence requirement (external content must not exfiltrate secrets); a requirement, not an instruction.",
+   "dispositioned_by": "HGK Knowledge owner (recorded by lane FW-10/FW-12 under admitted WorkOrders WO-TS-req-pipd-r3-fw-10 / WO-TS-req-pipd-r3-aud-008)",
+   "decision": "safe-reference",
+   "released": true,
+   "effective_disposition": "harmless_example",
+   "decision_reason": "documented attack example(s) only: released as inert reference data (source-as-data), never consumed as instructions",
+   "necessary_source": "PIPD_LS_DOC-01",
+   "findings": [
+    {
+     "detector": "PROMPT_INJECTION",
+     "pattern_declared_by_report": "(?:exfiltrate|reveal|print)\\s+(?:the\\s+)?(?:secret|token|api\\s*key)",
+     "matches_in_file": 1,
+     "entries": [
+      {
+       "verdict": "DOCUMENTED_INJECTION_EXAMPLE",
+       "why": "the matched phrase is quoted or sits in documentation that teaches the attack class; kept as inert reference data, the prompt-injection control stays enabled",
+       "match_redacted": "exfi********cret (len=17)",
+       "line_no": 2333,
+       "line_context_redacted": "exfi********cret"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "source_id": "SRC-e46caa7e440392a6cfa7",
+   "family": "F2_PIPD_STANDARD",
+   "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_DOC-08_2026-10-07_r2_HIGH_RETENTION_FULL_REPAIR_FULL_SUBSTANTIVE_BODY.md",
+   "exists": true,
+   "sha256": "e46caa7e440392a6cfa7a86421aead5bce8a2a229fec97b133429db6b6748e42",
+   "owner_disposition": "harmless_example",
+   "owner_rationale": "PIPD_LS_DOC-08: documented CAND negative scenario (`Remote prompt asks to ... exfiltrate secret; quarantine/deny`).",
+   "dispositioned_by": "HGK Knowledge owner (recorded by lane FW-10/FW-12 under admitted WorkOrders WO-TS-req-pipd-r3-fw-10 / WO-TS-req-pipd-r3-aud-008)",
+   "decision": "safe-reference",
+   "released": true,
+   "effective_disposition": "harmless_example",
+   "decision_reason": "documented attack example(s) only: released as inert reference data (source-as-data), never consumed as instructions",
+   "necessary_source": "PIPD_LS_DOC-08",
+   "findings": [
+    {
+     "detector": "PROMPT_INJECTION",
+     "pattern_declared_by_report": "(?:exfiltrate|reveal|print)\\s+(?:the\\s+)?(?:secret|token|api\\s*key)",
+     "matches_in_file": 1,
+     "entries": [
+      {
+       "verdict": "DOCUMENTED_INJECTION_EXAMPLE",
+       "why": "the matched phrase is quoted or sits in documentation that teaches the attack class; kept as inert reference data, the prompt-injection control stays enabled",
+       "match_redacted": "exfi********cret (len=17)",
+       "line_no": 1289,
+       "line_context_redacted": "exfi********cret"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "source_id": "SRC-eaf0aefe2b4711c140fc",
+   "family": "F2_PIPD_STANDARD",
+   "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD_LS/PIPD_LS_DOC-09_2026-10-07_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_REPAIR_FULL_SUBSTANTIVE_BODY.md",
+   "exists": true,
+   "sha256": "eaf0aefe2b4711c140fc3274223d88fdc38ad4ec2b7184f756a0f2471f3b0b54",
+   "owner_disposition": "harmless_example",
+   "owner_rationale": "PIPD_LS_DOC-09: the match is the tail of the GitHub Actions permission syntax `id-token:write/attestations:write`; an identifier, not a value.",
+   "dispositioned_by": "HGK Knowledge owner (recorded by lane FW-10/FW-12 under admitted WorkOrders WO-TS-req-pipd-r3-fw-10 / WO-TS-req-pipd-r3-aud-008)",
+   "decision": "safe-clean",
+   "released": true,
+   "effective_disposition": "harmless_example",
+   "decision_reason": "every match is an inert detector false positive (identifier tail / rule literal / placeholder); released as ordinary content",
+   "necessary_source": "PIPD_LS_DOC-09",
+   "findings": [
+    {
+     "detector": "SECRET_PATTERN",
+     "pattern_declared_by_report": "(?i)(?:api[_-]?key|secret|token)\\s*[:=]\\s*['\\\"]?[A-Za-z0-9_./+-]{16,}",
+     "matches_in_file": 1,
+     "entries": [
+      {
+       "verdict": "IDENTIFIER_SUBSTRING_FALSE_POSITIVE",
+       "why": "the match is the tail of a longer identifier, so the detector's pattern lacks a left word-boundary anchor",
+       "match_redacted": "toke********ions (len=24)",
+       "line_no": 1338,
+       "line_context_redacted": "toke********ions"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "source_id": "SRC-c5f5fe48156dc6458378",
+   "family": "F3_PIPD_DESIGN",
+   "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_PIPD-PKG/PIPD-LS-SP_PIPD-PKG_藍圖&skeleton.md",
+   "exists": true,
+   "sha256": "c5f5fe48156dc6458378b870f218b8b83a323d2f939aa7d6b343ca7841b63f48",
+   "owner_disposition": "harmless_example",
+   "owner_rationale": "PIPD-PKG blueprint: `disable sandbox runner and revoke evaluation credentials` is the documented uninstall_and_exit step of a technology admission fixture, quoted inside a JSON string.",
+   "dispositioned_by": "HGK Knowledge owner (recorded by lane FW-10/FW-12 under admitted WorkOrders WO-TS-req-pipd-r3-fw-10 / WO-TS-req-pipd-r3-aud-008)",
+   "decision": "safe-reference",
+   "released": true,
+   "effective_disposition": "harmless_example",
+   "decision_reason": "documented attack example(s) only: released as inert reference data (source-as-data), never consumed as instructions",
+   "necessary_source": null,
+   "findings": [
+    {
+     "detector": "PROMPT_INJECTION",
+     "pattern_declared_by_report": "disable\\s+(?:the\\s+)?(?:sandbox|security|validation)",
+     "matches_in_file": 1,
+     "entries": [
+      {
+       "verdict": "DOCUMENTED_INJECTION_EXAMPLE",
+       "why": "the matched phrase is quoted or sits in documentation that teaches the attack class; kept as inert reference data, the prompt-injection control stays enabled",
+       "match_redacted": "disa********dbox (len=15)",
+       "line_no": 14695,
+       "line_context_redacted": "disa********dbox"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "source_id": "SRC-4a2ec8640c378b9490b8",
+   "family": "F3_PIPD_DESIGN",
+   "rel": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_skeleton.md",
+   "exists": true,
+   "sha256": "a320d344785da9700aff8f48699b307ef150e0bb89d15735722f2930e46faa0e",
+   "owner_disposition": "harmless_example",
+   "owner_rationale": "PIPD-LS-SP_skeleton.md duplicates the DOC-08 CAND negative scenarios and the DOC-09 permission syntax; same documented-example / identifier-tail findings as those two sources.",
+   "dispositioned_by": "HGK Knowledge owner (recorded by lane FW-10/FW-12 under admitted WorkOrders WO-TS-req-pipd-r3-fw-10 / WO-TS-req-pipd-r3-aud-008)",
+   "decision": "safe-reference",
+   "released": true,
+   "effective_disposition": "harmless_example",
+   "decision_reason": "documented attack example(s) only: released as inert reference data (source-as-data), never consumed as instructions",
+   "necessary_source": null,
+   "findings": [
+    {
+     "detector": "PROMPT_INJECTION",
+     "pattern_declared_by_report": "(?:exfiltrate|reveal|print)\\s+(?:the\\s+)?(?:secret|token|api\\s*key)",
+     "matches_in_file": 2,
+     "entries": [
+      {
+       "verdict": "DOCUMENTED_INJECTION_EXAMPLE",
+       "why": "the matched phrase is quoted or sits in documentation that teaches the attack class; kept as inert reference data, the prompt-injection control stays enabled",
+       "match_redacted": "exfi********cret (len=17)",
+       "line_no": 6606,
+       "line_context_redacted": "exfi********cret"
+      },
+      {
+       "verdict": "DOCUMENTED_INJECTION_EXAMPLE",
+       "why": "the matched phrase is quoted or sits in documentation that teaches the attack class; kept as inert reference data, the prompt-injection control stays enabled",
+       "match_redacted": "exfi********cret (len=17)",
+       "line_no": 57057,
+       "line_context_redacted": "exfi********cret"
+      }
+     ]
+    },
+    {
+     "detector": "SECRET_PATTERN",
+     "pattern_declared_by_report": "(?i)(?:api[_-]?key|secret|token)\\s*[:=]\\s*['\\\"]?[A-Za-z0-9_./+-]{16,}",
+     "matches_in_file": 1,
+     "entries": [
+      {
+       "verdict": "IDENTIFIER_SUBSTRING_FALSE_POSITIVE",
+       "why": "the match is the tail of a longer identifier, so the detector's pattern lacks a left word-boundary anchor",
+       "match_redacted": "toke********ions (len=24)",
+       "line_no": 60150,
+       "line_context_redacted": "toke********ions"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "false_positive_release_proof": {
+  "claim": "no false-positive release: every released item's every match was re-derived from the file bytes and is an inert detector false positive or a documented attack example (never a credential-shaped value and never an unframed imperative). The engine is fail-closed: re-derived evidence overrides the owner claim and a claimed-harmless item with a blocking match is not released.",
+  "released_items": [
+   {
+    "source_id": "SRC-97355259edde717eeaf2",
+    "decision": "safe-clean",
+    "match_verdicts": [
+     "IDENTIFIER_SUBSTRING_FALSE_POSITIVE"
+    ],
+    "evidence_clean": true
+   },
+   {
+    "source_id": "SRC-f3b64233d0983ad60fa9",
+    "decision": "safe-reference",
+    "match_verdicts": [
+     "DOCUMENTED_INJECTION_EXAMPLE"
+    ],
+    "evidence_clean": true
+   },
+   {
+    "source_id": "SRC-b753f2e5cdd5598a818f",
+    "decision": "safe-reference",
+    "match_verdicts": [
+     "DOCUMENTED_INJECTION_EXAMPLE"
+    ],
+    "evidence_clean": true
+   },
+   {
+    "source_id": "SRC-e46caa7e440392a6cfa7",
+    "decision": "safe-reference",
+    "match_verdicts": [
+     "DOCUMENTED_INJECTION_EXAMPLE"
+    ],
+    "evidence_clean": true
+   },
+   {
+    "source_id": "SRC-eaf0aefe2b4711c140fc",
+    "decision": "safe-clean",
+    "match_verdicts": [
+     "IDENTIFIER_SUBSTRING_FALSE_POSITIVE"
+    ],
+    "evidence_clean": true
+   },
+   {
+    "source_id": "SRC-c5f5fe48156dc6458378",
+    "decision": "safe-reference",
+    "match_verdicts": [
+     "DOCUMENTED_INJECTION_EXAMPLE"
+    ],
+    "evidence_clean": true
+   },
+   {
+    "source_id": "SRC-4a2ec8640c378b9490b8",
+    "decision": "safe-reference",
+    "match_verdicts": [
+     "DOCUMENTED_INJECTION_EXAMPLE",
+     "IDENTIFIER_SUBSTRING_FALSE_POSITIVE"
+    ],
+    "evidence_clean": true
+   }
+  ],
+  "released_items_evidence_clean": true,
+  "inconsistencies": [],
+  "calibration": {
+   "samples": [
+    {
+     "id": "POS-HARMLESS-IDENTIFIER-TAIL",
+     "fixture": "tests/fixtures/quarantine_corpus/identifier_tail.md",
+     "expected": "released safe-clean",
+     "result": {
+      "decision": "safe-clean",
+      "released": true,
+      "effective_disposition": "harmless_example",
+      "reason": "every match is an inert detector false positive (identifier tail / rule literal / placeholder); released as ordinary content"
+     }
+    },
+    {
+     "id": "POS-DOCUMENTED-EXAMPLE",
+     "fixture": "tests/fixtures/quarantine_corpus/documented_injection_example.md",
+     "expected": "released safe-reference",
+     "result": {
+      "decision": "safe-reference",
+      "released": true,
+      "effective_disposition": "harmless_example",
+      "reason": "documented attack example(s) only: released as inert reference data (source-as-data), never consumed as instructions"
+     }
+    },
+    {
+     "id": "NEG-POISON-UNFRAMED-INJECTION",
+     "fixture": "tests/fixtures/quarantine_corpus/malicious_poison.md",
+     "claimed_owner_disposition": "harmless_example",
+     "expected": "NOT released (quarantine)",
+     "result": {
+      "decision": "quarantine",
+      "released": false,
+      "effective_disposition": "poison",
+      "reason": "fail-closed: re-derived evidence shows UNFRAMED_INJECTION; a claimed-harmless owner disposition cannot release it"
+     },
+     "verdicts": [
+      "UNFRAMED_INJECTION"
+     ]
+    },
+    {
+     "id": "NEG-LIVE-SECRET",
+     "sample": "synthetic credential assembled at run time from fragments (never stored whole in the tree)",
+     "sample_redacted": "A1b2********K1l2 (len=24)",
+     "claimed_owner_disposition": "harmless_example",
+     "expected": "NOT released (quarantine)",
+     "result": {
+      "decision": "quarantine",
+      "released": false,
+      "effective_disposition": "secret",
+      "reason": "fail-closed: re-derived evidence shows LIVE_SECRET_SUSPECT; a claimed-harmless owner disposition cannot release it"
+     },
+     "verdicts": [
+      "LIVE_SECRET_SUSPECT"
+     ]
+    },
+    {
+     "id": "EDGE-UNDECIDED",
+     "fixture": "tests/fixtures/quarantine_corpus/identifier_tail.md",
+     "claimed_owner_disposition": null,
+     "expected": "stays quarantined",
+     "result": {
+      "decision": "quarantine",
+      "released": false,
+      "effective_disposition": "UNDECIDED",
+      "reason": "fail-closed: no valid owner disposition (got None); an undecided item stays quarantined"
+     }
+    }
+   ],
+   "controls_hold": true
+  }
+ },
+ "loss_record": {
+  "necessary_sources": [
+   {
+    "doc": "PIPD_LS_DOC-01",
+    "source_id": "SRC-b753f2e5cdd5598a818f",
+    "decision": "safe-reference",
+    "remains_excluded": false,
+    "residual_loss": "NONE — released; flagged spans are inert reference data (source-as-data handling constraint)"
+   },
+   {
+    "doc": "PIPD_LS_DOC-08",
+    "source_id": "SRC-e46caa7e440392a6cfa7",
+    "decision": "safe-reference",
+    "remains_excluded": false,
+    "residual_loss": "NONE — released; flagged spans are inert reference data (source-as-data handling constraint)"
+   },
+   {
+    "doc": "PIPD_LS_DOC-09",
+    "source_id": "SRC-eaf0aefe2b4711c140fc",
+    "decision": "safe-clean",
+    "remains_excluded": false,
+    "residual_loss": "NONE — released; flagged spans are inert reference data (source-as-data handling constraint)"
+   }
+  ],
+  "necessary_sources_still_excluded": [],
+  "capability_loss": "NONE — DOC-01/08/09 all carry an explicit decision and none remains excluded."
+ },
+ "controls": {
+  "controls_disabled": [],
+  "refusal_mechanism": "PRESERVED — LIVE_SECRET_SUSPECT / UNFRAMED_INJECTION / undecided owner disposition all fail closed to quarantine",
+  "sanitizer_edits": [],
+  "kp_or_upper_authority_edits": []
+ },
+ "verdict": "DISPOSITION_COMPLETE",
+ "gate_verdict_unchanged": "PARTIAL — KNOWLEDGE_READY_REPORT.json stays frozen evidence; G-KNOWLEDGE-READY keeps clean_coverage=false until the sanitizer owner anchors the key pattern and the probe re-reads unique=160/160 (TT-HGK-SANITIZER-UNANCHORED-KEY-PATTERN)"
+}

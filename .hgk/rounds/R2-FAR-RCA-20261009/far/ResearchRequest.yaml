@@ -1,0 +1,52 @@
+schema: FAR-RESEARCH-REQUEST/1
+research_id: FAR-PIPD-R2-SOD-RCA-20261009
+round: R2-FAR-RCA-20261009
+requested_by: human-user (USER-ORDER 2026-10-09)
+control_plane: HG-KSEOS (sole)
+admission: WO-REQ-PIPD-R2-FAR-RCA-20261009 / TS-REQ-PIPD-R2-FAR-RCA-20261009 / REQ-PIPD-R2-FAR-RCA-20261009 (FROZEN)
+authorization_basis: >
+  User instruction to run FAR research on the root cause of two observed deviations plus a
+  minimal-resistance remediation plan. Research only; no silent mutation.
+
+questions:
+  - id: Q1
+    statement: >
+      Why did the round run an EXECUTE leg but never start an independent VERIFY / Acceptance-Officer
+      lane (only a one-line GLM tool smoke), so that no 8-pack acceptance ever ran?
+    type: SOURCE_GAP
+  - id: Q2
+    statement: >
+      Why was the PLANNING intelligence gpt-6.1-sol (openai-codex, OAuth, reasoning medium) only present
+      at the delegate/FAR subagent layer, and not at the HGK lifecycle plan step nor the admission
+      authoring layer (which ran on the deepseek main loop)?
+    type: SOURCE_GAP
+
+requirement_impact: >
+  Both deviations break the owner's model-SoD (PLAN->EXECUTE->VERIFY separation) and the
+  "every governed round closes with independent acceptance" rule; without them the round's verdicts
+  cannot be trusted as independently checked.
+
+decision_authority: >
+  FAR proposes; HGK admits; owner keeps licence/publication and any policy-level gate. FAR Gate-1 is
+  research, NOT admission and NOT independent PASS.
+
+constraints:
+  - read_only_investigation
+  - no_canonical_mutation
+  - no_policy_credential_or_profile_change
+  - every_claim_needs_locator_and_reproduce_command
+  - abstain_when_evidence_insufficient
+
+deliverable: >
+  Root cause for Q1 and Q2, a bounded challenge of those conclusions, and a minimal-resistance,
+  reversible uplift plan with an independent self-check predicate.
+
+environment:
+  hgk_root: 'C:\Projects\Agent_Workspace\HG-KSEOS'
+  fabric_root: 'C:\Projects\Agent_Workspace\Fabric'
+  product_root: 'C:\Projects\Agent_Workspace\PIPD'
+  lane_policy: 'HG-KSEOS/config/model-lane-assignment.json (revision 15)'
+  routes_checked:
+    gstack: [plan, review, qa, security]
+    openspec: [brownfield continuation]
+    far: {task_class: RESEARCH_GENERAL, decision: NATIVE, primary: fabric-autoresearch-native}

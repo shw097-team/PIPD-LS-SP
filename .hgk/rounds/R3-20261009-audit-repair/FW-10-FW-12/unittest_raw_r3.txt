@@ -1,0 +1,98 @@
+{
+ "error": "HARD_GATE_FAIL",
+ "verdict": "FAIL",
+ "refusal": "the acceptance evidence MD is NOT generated: a hard gate row is FAIL and this tool refuses to print PASS (or bury a hard FAIL behind a percentage). The failing rows are listed verbatim below.",
+ "hard_gates": [
+  {
+   "id": "G-TESTS-UNIT-SUITE",
+   "state": "FAIL",
+   "evidence": "unittest discover: Ran 47 tests, failures 2, errors 1; failing: tests.test_alpha.TestAlpha.test_one, tests.test_s0_contracts.TestS0Contracts.test_two, tests.test_beta.TestBeta.test_three"
+  },
+  {
+   "id": "G-S0-CONTRACTS-19",
+   "state": "FAIL",
+   "evidence": "failing S0 tests: tests.test_s0_contracts.TestS0Contracts.test_two"
+  },
+  {
+   "id": "G-S1-LITE-SLICE",
+   "state": "PASS",
+   "evidence": "trace_verdict=PASS, artifact_validation=PASS"
+  },
+  {
+   "id": "G-CLI-SMOKE-13",
+   "state": "PASS",
+   "evidence": "13/13 commands, nonzero_exit=0, verdicts={'init': 'PASS'}"
+  },
+  {
+   "id": "G-KNOWLEDGE-READY",
+   "state": "PASS",
+   "evidence": "KNOWLEDGE_READY_REPORT verdict=PASS, clean_coverage=True"
+  },
+  {
+   "id": "G-EVIDENCE-MANIFEST",
+   "state": "PASS",
+   "evidence": "evidence_manifest sha256=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+ ],
+ "failing_rows": [
+  "G-TESTS-UNIT-SUITE",
+  "G-S0-CONTRACTS-19"
+ ]
+}
+{
+ "out": "C:\\Users\\user\\AppData\\Local\\Temp\\tmpj2rxryc3\\EVIDENCE.md",
+ "bytes": 8410,
+ "sha256": "b260d9b3ca76abef92dd7e95c8997016214dda7e6c7f307d26d9a9e8afa4e82c",
+ "head": "0000000000000000000000000000000000000000",
+ "verdict": "PASS",
+ "hard_gates": [
+  "G-TESTS-UNIT-SUITE",
+  "G-S0-CONTRACTS-19",
+  "G-S1-LITE-SLICE",
+  "G-CLI-SMOKE-13",
+  "G-KNOWLEDGE-READY",
+  "G-EVIDENCE-MANIFEST"
+ ]
+}
+{
+ "verdict": "PASS",
+ "hard_gates": [
+  {
+   "id": "G-TESTS-UNIT-SUITE",
+   "state": "PASS",
+   "evidence": "unittest discover: Ran 47 tests, failures 0, errors 0"
+  },
+  {
+   "id": "G-S0-CONTRACTS-19",
+   "state": "PASS",
+   "evidence": "tests/test_s0_contracts.py green in the recorded run"
+  },
+  {
+   "id": "G-S1-LITE-SLICE",
+   "state": "PASS",
+   "evidence": "trace_verdict=PASS, artifact_validation=PASS"
+  },
+  {
+   "id": "G-CLI-SMOKE-13",
+   "state": "PASS",
+   "evidence": "13/13 commands, nonzero_exit=0, verdicts={'init': 'PASS'}"
+  },
+  {
+   "id": "G-KNOWLEDGE-READY",
+   "state": "PASS",
+   "evidence": "KNOWLEDGE_READY_REPORT verdict=PASS, clean_coverage=True"
+  },
+  {
+   "id": "G-EVIDENCE-MANIFEST",
+   "state": "PASS",
+   "evidence": "evidence_manifest sha256=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+ ]
+}
+
+--- STDERR ---
+..........................................................................................................................................
+----------------------------------------------------------------------
+Ran 138 tests in 36.699s
+
+OK

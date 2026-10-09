@@ -1,0 +1,103 @@
+{
+ "schema": "PIPD-ORACLE-DISAGREEMENT/1",
+ "round": "R3-20261009-audit-repair",
+ "workorders": ["WO-TS-req-pipd-r3-fw-10", "WO-TS-req-pipd-r3-fw-12", "WO-TS-req-pipd-r3-aud-013"],
+ "trigger": {
+  "finding": "R-AUD-013",
+  "audit_class": "ORACLE_DISAGREEMENT",
+  "audit_locator": {
+   "file": "知識庫/實作相關DOC/PIPD/驗收報告/PIPD_LS_SP_S0_S4_FULL_DESTRUCTIVE_ACCEPTANCE_AUDIT_2026-10-09.md",
+   "lines": "125-129",
+   "sha256": "69fdf8990c4f911a232f3229bd6b8214d715cea1dd59bc28ce94ae064208ee3c"
+  },
+  "audit_verbatim": "KP02-R04/KP11-R04/KP12-R04 與上位 Raw Evidence Gate ... `MUST NOT Include missing evidence table` / `MUST NOT Tie evidence to acceptance criteria` / `MUST NOT Track regression baseline` 與同套 evidence/acceptance/regr gate 邏輯衝突。First Owner／最小修補： Knowledge/Policy owner；來源規則極性糾紛建 TT；上位有效契約優先、不靜默改寫。"
+ },
+ "entries": [
+  {
+   "id": "OD-R3-001",
+   "subject": "KP rule polarity (GPTB-KP02-R04 / GPTB-KP11-R04 / GPTB-KP12-R04) contradicts the upper Evidence/Regression requirement",
+   "class": "ORACLE_DISAGREEMENT",
+   "status": "RESOLVED_BY_AUTHORISED_SOURCE_PENDING_KP_CORRECTION",
+   "position_a_lower_authority_normalized_kp_rows": {
+    "what": "the normalized Builder-ready KP rule tables state these obligations as MUST NOT",
+    "self_declared_rank": "not_direct_copy_of: \"raw upstream files; this KP is normalized Builder-ready Knowledge\" (02_OUTPUT_CONTRACT.md:15, 11_EVIDENCE_REQUIREMENT_MATRIX.md:15, 12_EVAL_REGRESSION_LLM_JUDGE.md:15) — a DERIVED normalization, not the raw source clause",
+    "clause_instances": [
+     {
+      "kp_rule_id": "GPTB-KP02-R04",
+      "locator": {"file": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/02_OUTPUT_CONTRACT.md", "line": 50, "file_sha256": "302b9eb2876fd92b090eb02b0e1c3ab22077cac18fc83381e30b2923ed2d8a0f"},
+      "row_verbatim": "| GPTB-KP02-R04 | MUST NOT | Include missing evidence table | AUDIT#body-depth | TT-KP02-04 when include missing evidence table is violated |",
+      "claimed_polarity": "MUST NOT",
+      "claimed_obligation": "Include missing evidence table",
+      "source_locator_cited_by_row": "AUDIT#body-depth",
+      "conflict": "forbids the missing-evidence table that the same file's workflow step 5 and KP11-R08 require"
+     },
+     {
+      "kp_rule_id": "GPTB-KP11-R04",
+      "locator": {"file": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/11_EVIDENCE_REQUIREMENT_MATRIX.md", "line": 50, "file_sha256": "577e1de7ff15f4d66aefcb8cb8ccfad678ecb68b4eb3592d2536549055be6559"},
+      "row_verbatim": "| GPTB-KP11-R04 | MUST NOT | Tie evidence to acceptance criteria | AUDIT#F-OROCHI-SCHEMA-004 | TT-KP11-04 when tie evidence to acceptance criteria is violated |",
+      "claimed_polarity": "MUST NOT",
+      "claimed_obligation": "Tie evidence to acceptance criteria",
+      "source_locator_cited_by_row": "AUDIT#F-OROCHI-SCHEMA-004",
+      "conflict": "forbids binding evidence to acceptance criteria while KP11-R01 requires raw evidence for every PASS and the acceptance schema binds evidence_ids to the decision"
+     },
+     {
+      "kp_rule_id": "GPTB-KP12-R04",
+      "locator": {"file": "知識庫/工程基座/GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2/KnowledgePack/12_EVAL_REGRESSION_LLM_JUDGE.md", "line": 50, "file_sha256": "ef8601f057f6b6a764410910257964607bd3e6baa735481a8b06dbcde7000cca"},
+      "row_verbatim": "| GPTB-KP12-R04 | MUST NOT | Track regression baseline | WEB-OAI-EVAL-007 | TT-KP12-04 when track regression baseline is violated |",
+      "claimed_polarity": "MUST NOT",
+      "claimed_obligation": "Track regression baseline",
+      "source_locator_cited_by_row": "WEB-OAI-EVAL-007",
+      "conflict": "forbids regression-baseline tracking while KP12-R01 requires a golden set before release and KP12-R08 requires opening a TT on judge disagreement"
+     }
+    ]
+   },
+   "position_b_upper_effective_contract": {
+    "what": "the upper Evidence/Regression requirement — the raw-evidence gate these rows were extracted FROM (GPTB-DOC10#evidence-requirement-matrix / GPTB-DOC11#eval-regression-llm-judge) plus the same KP set's own positive rules",
+    "locators": [
+     {"rule_id": "GPTB-KP11-R01", "locator": "11_EVIDENCE_REQUIREMENT_MATRIX.md:47", "verbatim": "| GPTB-KP11-R01 | MUST | Require raw evidence for every PASS | GPTB-DOC10#evidence-requirement-matrix | TT-KP11-01 when require raw evidence for every PASS is violated |"},
+     {"rule_id": "GPTB-KP02-R02", "locator": "02_OUTPUT_CONTRACT.md:48", "verbatim": "| GPTB-KP02-R02 | MUST | Emit PASS/PARTIAL/FAIL/TEMP_CLOSED only with evidence | GPTB-DOC10#evidence-requirement-matrix | TT-KP02-02 when emit PASS/PARTIAL/FAIL/TEMP_CLOSED only with evidence is violated |"},
+     {"rule_id": "GPTB-KP02-R06", "locator": "02_OUTPUT_CONTRACT.md:52", "verbatim": "| GPTB-KP02-R06 | MUST | Never bury blockers | GPTB-DOC10#evidence-requirement-matrix | TT-KP02-06 when never bury blockers is violated |"},
+     {"rule_id": "KP02 workflow step 5", "locator": "02_OUTPUT_CONTRACT.md:64", "verbatim": "5. Record any missing source, preview, evidence, security or release item in `18_TT_CR_DRIFT_REGISTER.md`."},
+     {"rule_id": "GPTB-KP11-R08", "locator": "11_EVIDENCE_REQUIREMENT_MATRIX.md:54", "verbatim": "| GPTB-KP11-R08 | MUST | Store missing evidence as TT | AUDIT#F-OROCHI-SCHEMA-004 | TT-KP11-08 when store missing evidence as TT is violated |"},
+     {"rule_id": "GPTB-KP12-R01", "locator": "12_EVAL_REGRESSION_LLM_JUDGE.md:47", "verbatim": "| GPTB-KP12-R01 | MUST | Build golden set before release | GPTB-DOC11#eval-regression-llm-judge | TT-KP12-01 when build golden set before release is violated |"},
+     {"rule_id": "GPTB-KP12-R08", "locator": "12_EVAL_REGRESSION_LLM_JUDGE.md:54", "verbatim": "| GPTB-KP12-R08 | MUST | Open TT on judge disagreement | PRW-KP10#gptprw-kp10-cover | TT-KP12-08 when open TT on judge disagreement is violated |"},
+     {"rule_id": "shared expected-behavior clause", "locator": "02_OUTPUT_CONTRACT.md:81 / 11_EVIDENCE_REQUIREMENT_MATRIX.md:83 / 12_EVAL_REGRESSION_LLM_JUDGE.md:83", "verbatim": "**Expected GPT B behavior.** Produce the relevant artefact, bind it to source locators and evidence requirements, and refuse to claim external completion without returned raw evidence."}
+    ],
+    "raw_upstream_anchors": ["GPTB-DOC10#evidence-requirement-matrix", "GPTB-DOC11#eval-regression-llm-judge"]
+   },
+   "deciding_authority": {
+    "decided_by": "the authorised source named by the row locators and the upper effective contract: GPTB-DOC10#evidence-requirement-matrix (Evidence) and GPTB-DOC11#eval-regression-llm-judge (Regression), i.e. the 上位 Raw Evidence Gate / 上位有效契約 of R-AUD-013",
+    "authority_stack": [
+     "01_AUTHORITY_BOUNDARY.md:47 — GPTB-KP01-R01 MUST Apply system/developer first (GPTB-DOC00#authority-version-freeze)",
+     "01_AUTHORITY_BOUNDARY.md:54 — GPTB-KP01-R08 MUST Fail closed on missing authority (AUDIT#source-locator-granularity)"
+    ],
+    "ratification_owner": "Knowledge/Policy owner (KP Builder ReleasePack owner) — R-AUD-013 First Owner; HITL not required for recording the disposition, required for editing the KP corpus",
+    "rule_applied": "上位有效契約優先、不靜默改寫 (R-AUD-013 minimal-repair instruction: the upper effective contract prevails; no silent rewriting)"
+   },
+   "resolution": {
+    "upper_effective_contract_prevails": true,
+    "operative_requirement": "the raw-evidence requirement stands in full: missing-evidence tables MUST be included (02_OUTPUT_CONTRACT.md:64 workflow step 5, KP11-R08), evidence MUST be tied to acceptance criteria (KP11-R01 + acceptance schema evidence_ids), and the regression baseline MUST be tracked (KP12-R01 golden set). The three MUST NOT readings are recorded as a normalization polarity defect and are NOT operative.",
+    "kp_files_edited": [],
+    "upper_authority_files_edited": [],
+    "lower_authority_override": "REJECTED — the normalized KP row is a derived document (02/11/12:15 `not_direct_copy_of: raw upstream files`) and cannot override or narrow the raw-evidence requirement it was extracted from; no PIPD gate is weakened to accommodate it.",
+    "disposition_per_row": [
+     {"kp_rule_id": "GPTB-KP02-R04", "disposition": "POLARITY_DISPUTED_NORMALIZATION_DEFECT", "operative_polarity": "MUST (include the missing evidence table)"},
+     {"kp_rule_id": "GPTB-KP11-R04", "disposition": "POLARITY_DISPUTED_NORMALIZATION_DEFECT", "operative_polarity": "MUST (tie evidence to acceptance criteria)"},
+     {"kp_rule_id": "GPTB-KP12-R04", "disposition": "POLARITY_DISPUTED_NORMALIZATION_DEFECT", "operative_polarity": "MUST (track regression baseline)"}
+    ],
+    "pending": "KP owner ratifies the corrected polarity in the authorised KP source (or produces the raw upstream clause that genuinely supports the MUST NOT reading). The KP files themselves were NOT touched by this lane — disposition-only, per the write boundary.",
+    "tt_ref": "TT-ORACLE-DISAGREEMENT-KP-R04"
+   },
+   "calibration_negative_case": {
+    "why": "prove the polarity-dispute resolution is scoped to the three disputed rows and does NOT flip genuine prohibitions",
+    "case": "the operative prohibition MUST NOT claim external execution/completion without returned raw evidence",
+    "locator": "02_OUTPUT_CONTRACT.md:87 (negative case: 使用者要求 GPT B 直接執行外部 repo / browser / deploy；本 KP 應改為 route-out、evidence contract 或 human approval，而非冒稱執行) and 02_OUTPUT_CONTRACT.md:40 (non-goals) / 02_OUTPUT_CONTRACT.md:110 (self_attestation -> QUARANTINE-EVIDENCE-02)",
+    "claimed_polarity": "MUST NOT (genuine prohibition)",
+    "expected": "MUST NOT preserved — the row is NOT in the disputed set and is never flipped to MUST",
+    "observed": "preserved — disputed_set is exactly [GPTB-KP02-R04, GPTB-KP11-R04, GPTB-KP12-R04]; the prohibition above remains MUST NOT and PIPD gates keep refusing self-attested completion without raw evidence",
+    "cross_check": "openspec/changes/pipd-ls-sp-r3-audit-repair/specs/pipd-s0-s4-audit-repair/spec.md:52-54 'Scenario: a negation is not dropped — WHEN a clause states a prohibition THEN the atom records a MUST NOT polarity rather than the opposite positive requirement.'"
+   }
+  }
+ ],
+ "controls": {"kp_files_edited": [], "upper_authority_files_edited": [], "controls_disabled": []}
+}

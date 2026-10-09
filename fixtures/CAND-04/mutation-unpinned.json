@@ -44,14 +44,35 @@
  "capability_need": "spec/predev change adapter",
  "candidate": "OpenSpec",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "MIT_AT_UNPINNED_MAIN",
+  "pin": {
+   "value": "LATEST",
+   "repository": "https://github.com/Fission-AI/OpenSpec",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "RECHECK_RELEASE",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "PIPD native change contract",
+  "exit_criterion": "breaking schema/command drift",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "PIPD native change contract",
+  "disposition": "ADOPT",
+  "design_disposition": "ADOPT_WITH_WRAPPER",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
   "independently_verified": false
  },
  "fallback_exit": "PIPD native change contract",
  "subject_id": "subset-tech-cc5625e446960a9ff4ba8a5ac4f82624",
  "version": "implementation-time immutable release/commit pin",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "1d9a405a0ce665b730008921e495a070c56bac4e251dd473bb6a0cfcd857e403"
+ "content_hash": "1fd9cfc0f98f8f78b8f0ecf3e6e148e56d42cb19cfa1da08f7b2dbe3a06f7fe9"
 }

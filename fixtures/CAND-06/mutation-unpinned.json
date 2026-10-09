@@ -44,14 +44,35 @@
  "capability_need": "external tool connector ABI",
  "candidate": "MCP",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "https://github.com/modelcontextprotocol/specification",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "OPTIONAL_LATE_BIND",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "existing local/tool interface",
+  "exit_criterion": "auth/effect/capability mismatch",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "existing local/tool interface",
+  "disposition": "ADOPT",
+  "design_disposition": "ADOPT_WITH_TRANSLATION",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
   "independently_verified": false
  },
  "fallback_exit": "existing local/tool interface",
  "subject_id": "subset-tech-3e74224d14284f6e23653febb1c25696",
  "version": "protocol/server pin per provider",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "c017ba87cc36ba0e24d734e13af4629f841269c84129ad7d17d102e029cc5e50"
+ "content_hash": "c0b60f5ce6162417d741704db9b84a41b8b6f328a78fd45c3172eb46fbed8991"
 }

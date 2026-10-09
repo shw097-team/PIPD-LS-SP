@@ -1,0 +1,82 @@
+{
+ "why": "S5..S8 are explicitly out of this round's gate; only the typed seam, its compatibility fixture and this ledger are delivered.",
+ "stages": [
+  {
+   "stage": "S5",
+   "title": "HGK Receiver Shadow / Canary",
+   "typed_seam_schemas": {
+    "ExecutionHandoff": true,
+    "ExecutionBindingRef": true,
+    "ArtifactIdentity": true
+   },
+   "all_seams_present": true,
+   "compatibility_fixture": "fixtures/s5_s8/s5_compat.json",
+   "fixture_sha256": "5aa6aa3e4f360ab6e898e5034ec3871e731ec48137ae8af50fc2138871faf3ec",
+   "live_effect": "NOT_RUN",
+   "delivery_gate": false,
+   "claim": "DESIGN_ONLY_FOR_NEXT_PHASE",
+   "blocking_preconditions": [
+    "real HGK Receiver ACK + canary budget",
+    "independent shadow-mode acceptance"
+   ]
+  },
+  {
+   "stage": "S6",
+   "title": "GENIE Product Compiler",
+   "typed_seam_schemas": {
+    "GENIEProjectionRef": true,
+    "SurfaceProjectionManifest": true
+   },
+   "all_seams_present": true,
+   "compatibility_fixture": "fixtures/s5_s8/s6_compat.json",
+   "fixture_sha256": "a2541b4b73f054d5557dcaeaca1544a3665fb9e5ddcd7264be383b59c4c39b37",
+   "live_effect": "NOT_RUN",
+   "delivery_gate": false,
+   "claim": "DESIGN_ONLY_FOR_NEXT_PHASE",
+   "blocking_preconditions": [
+    "GENIE compiler admission",
+    "SurfaceProjectionManifest producer"
+   ]
+  },
+  {
+   "stage": "S7",
+   "title": "JIT runtime world-effect factory",
+   "typed_seam_schemas": {
+    "SurfaceProjectionManifest": true,
+    "ProfileBinding": true
+   },
+   "all_seams_present": true,
+   "compatibility_fixture": "fixtures/s5_s8/s7_compat.json",
+   "fixture_sha256": "185c160092e751e66c075222326378124e7c55f569d725fb64392cebb224b515",
+   "live_effect": "NOT_RUN",
+   "delivery_gate": false,
+   "claim": "DESIGN_ONLY_FOR_NEXT_PHASE",
+   "blocking_preconditions": [
+    "world-effect sandbox admission",
+    "JIT budget policy"
+   ]
+  },
+  {
+   "stage": "S8",
+   "title": "SGM authority cutover",
+   "typed_seam_schemas": {
+    "AuthorityBinding": true,
+    "WorkOrderCandidate": true,
+    "TaskSpecSeed": true
+   },
+   "all_seams_present": true,
+   "compatibility_fixture": "fixtures/s5_s8/s8_compat.json",
+   "fixture_sha256": "53492fe85d88aff6e837572ba90d5b3ccba0fccd6d11375928f307fb072a2ffe",
+   "live_effect": "NOT_RUN",
+   "delivery_gate": false,
+   "claim": "DESIGN_ONLY_FOR_NEXT_PHASE",
+   "blocking_preconditions": [
+    "SGM authority grant",
+    "cutover rollback plan approved by owner"
+   ]
+  }
+ ],
+ "live_effects_claimed": 0,
+ "candidate_head": "5c197cd51f2fc7cfc0e840173ee3c8b7f1ecb996",
+ "verdict": "PASS"
+}

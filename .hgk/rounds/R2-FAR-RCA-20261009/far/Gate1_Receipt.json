@@ -1,0 +1,85 @@
+{
+  "gate": "FAR-GATE-1",
+  "gate_name": "FAR research-conclusion gate (Gate-1)",
+  "research_id": "FAR-PIPD-R2-SOD-RCA-20261009",
+  "round": "R2-FAR-RCA-20261009",
+  "work_order": "WO-REQ-PIPD-R2-FAR-RCA-20261009",
+  "claim_ceiling": "RESEARCH CONCLUSION ONLY",
+  "explicit_non_claims": [
+    "NOT HGK admission: this receipt does not admit any requirement, task, WorkOrder or artifact into the control plane.",
+    "NOT an independent PASS: this is the FAR aggregation writer's research conclusion; it is neither the independent VERIFY verdict nor an Acceptance-Officer result.",
+    "NOT authorization for any mutation: no canonical apply, no commit, no push, no policy/credential/profile change, no production/release."
+  ],
+  "proposal": "PE-PIPD-R2-SOD-RCA-20261009: add a fail-closed PLAN-receipt pre-gate and a synchronous fresh-context pinned-GLM VERIFY handoff at the existing sealed Write boundary; record MODEL_NOT_INVOKED for the deterministic admission; reuse existing runtime, no new scheduler/DB/control plane.",
+  "research_verdict": "CONFIRMS_TWO_DEVIATIONS_WITH_SCOPE_LIMITS",
+  "three_source_check": {
+    "source1_on_disk_assets": {
+      "status": "INVESTIGATED",
+      "detail": "Read-only source inspection of the HGK control plane and live Hermes tree: lifecycle.py, spine.py, start-hgk-hermes.ps1, model-lane-assignment.json, lane-routing-registry.yaml, hgk-lane-guard.py, meta_gates.py, verify-lane-contract.json; plus Fabric contracts and round lane inputs."
+    },
+    "source2_callable_skills": {
+      "status": "INVESTIGATED",
+      "detail": "FAR route bound from Fabric/fabric-autonomous-research (far_router.py; ResearchPlan route NATIVE/fabric-autoresearch-native). Artifact contracts checked against RESEARCH_ARTIFACT_CONTRACTS.yaml. Deterministic lane controls re-run: hgk-lane-guard.py and lane_policy.check_sod."
+    },
+    "source3_fresh_context": {
+      "status": "INVESTIGATED",
+      "detail": "LANE_C adversarial lane present; 8 challenges raised, 4 closed, 2 adjusted, 1 conceded as confound, 2 closed with residual; adjustments C1 and C2 folded into the findings."
+    }
+  },
+  "challenge_lane": {
+    "present": true,
+    "record": "LaneE_Challenge.json",
+    "verdict": "PASS_CHALLENGE_ADJUSTED",
+    "conditions_raised": 8,
+    "conditions_closed": 4,
+    "conditions_adjusted": 2,
+    "conditions_conceded_as_confound": 1,
+    "conditions_closed_with_residual": 2
+  },
+  "evidence_refs": [
+    "ResearchRequest.yaml",
+    "ResearchPlan.yaml",
+    "lanes/LANE_A_rca_verify.lane.json",
+    "lanes/LANE_B_rca_plan.lane.json",
+    "lanes/LANE_C_challenge.lane.json",
+    "lanes/LANE_D_remediation.lane.json",
+    "IntegratedFindings.yaml",
+    "LaneD_RootCause.json",
+    "LaneE_Challenge.json",
+    "ProposedEvolution.yaml",
+    "ResearchHandoff.yaml",
+    "FAR_RCA_REPORT.md"
+  ],
+  "reproduce_commands": [
+    "python scripts/hgk-lane-guard.py --lane VERIFY_SECURITY --maker-engine codex-cli --maker-model glm-5.3-flash --target-engine hermes --target-model glm-5.3-flash --target-provider opencode-go --admission ADMITTED   # REFUSE exit 2 ERR_LANE_SOD_VIOLATION (rules exist but are not mandatorily wired)",
+    "python -B -c \"from hg_kseos import lane_policy as lp; print(lp.check_sod('deepseek-v4.1-flash','glm-5.3-flash'))\"   # (True, SOD_OK ...)",
+    "python -B -c \"from hg_kseos import meta_gates as m; print(m.evidence_reducer(capsules=[]))\"   # verdict PASS on an empty denominator (blind spot)",
+    "rg -n \"def plan|_derive_tasks|no external LLM\" src/hg_kseos/lifecycle.py   # plan path has no model call",
+    "rg -n \"EXECUTING|EVOLUTION_REVIEW\" src/hg_kseos/lifecycle.py   # VERIFYING is skippable",
+    "Get-Content scripts/start-hgk-hermes.ps1 | Select-Object -Skip 322 -First 40   # Write branch prints receipt then exit 0, no AO follow-on",
+    "Get-Content config/verify-lane-contract.json   # enforcement_wiring.actual_hgk_consumer=null"
+  ],
+  "executable_within_delegated_scope": [],
+  "executable_within_delegated_scope_note": "None. This round is research + a plan only; the uplift requires its own authorized WorkOrder (write-set) and owner promotion gate.",
+  "gate2_owner_submission_allowed": true,
+  "gate2_note": "The owner may take up PE-PIPD-R2-SOD-RCA-20261009 through the HGK Governed Evolution route (sepall workorder, sandbox, eval, independent verification, promotion gate COV-11-06). Gate-1 does not itself authorize any of that.",
+  "far_substitution": "none - FAR route discovered and bound natively (Fabric/fabric-autonomous-research/far_router.py; NATIVE)",
+  "ordering_oracle_note": "Any ordering use must rely on the implicit rowid (monotonic insertion order), never wall-clock created_at; guarded by tests/test_ordering_oracle.py.",
+  "mutation_receipt": {
+    "files_written": [
+      "IntegratedFindings.yaml",
+      "LaneD_RootCause.json",
+      "LaneE_Challenge.json",
+      "ProposedEvolution.yaml",
+      "Gate1_Receipt.json",
+      "ResearchHandoff.yaml",
+      "FAR_RCA_REPORT.md"
+    ],
+    "write_scope": "PIPD/.hgk/rounds/R2-FAR-RCA-20261009/far/ only",
+    "db_written": false,
+    "policy_credential_profile_changed": false,
+    "commit_or_push": false,
+    "canonical_apply": false
+  },
+  "timestamp_utc": "2026-10-09T08:11:15+08:00"
+}

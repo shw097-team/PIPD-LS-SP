@@ -44,14 +44,35 @@
  "capability_need": "federation / cross-agent protocol",
  "candidate": "A2A",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "https://github.com/a2aproject/A2A",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "CONDITIONAL",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "local/federated handoff envelope",
+  "exit_criterion": "identity/trust/cancel/version mismatch",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "local/federated handoff envelope",
+  "disposition": "ADOPT",
+  "design_disposition": "ADOPT_WITH_TRANSLATION",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
   "independently_verified": false
  },
  "fallback_exit": "local/federated handoff envelope",
  "subject_id": "subset-tech-ec5e240c5e34fffbbfcac4417196a3f5",
  "version": "protocol implementation pin",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "c50290d7db64d473a2c487c5d5bc330d677682e9a2cb958efe6dee2c9f5781c2"
+ "content_hash": "6c2df8463ebe9f25400cd0b807b8da1f18d1a3ff3ec09cc97cbf2a77efe837d0"
 }

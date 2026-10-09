@@ -1,0 +1,141 @@
+### ProposedEvolution.yaml — the minimal-resistance uplift from LANE_D (remediation design)
+schema: FAR-PROPOSED-EVOLUTION/1
+proposal_id: PE-PIPD-R2-SOD-RCA-20261009
+research_id: FAR-PIPD-R2-SOD-RCA-20261009
+round: R2-FAR-RCA-20261009
+status: CANDIDATE_ONLY (HGK Governed Evolution intake; NOT admission and NOT independent PASS)
+title: >
+  Make the sealed Write boundary carry a fail-closed PLAN-receipt pre-gate and a synchronous,
+  fresh-context pinned-GLM VERIFY handoff, so an EXECUTE return can never be read as acceptance.
+
+gap_ref: [Q1_no_independent_verify, Q2_plan_model_absent]
+producer: {lane: LANE_D, role: PLAN/EVOLUTION, model: gpt-6.1-sol, provider: openai-codex}
+delta_classes: [launcher_gate, verify_handoff, receipt_schema, skill_rule, prompt_protocol]
+acceptance_predicate_modified: true
+
+selected_option: REUSE_EXISTING_RUNTIME_PLUS_NARROW_FIX_AT_SEALED_WRITE_BOUNDARY
+choice: >
+  Reuse the existing pinned Hermes runtime + a narrow fix at the sealed Write boundary + an explicit
+  prompt-protocol. Do not add a scheduler, DB, reducer, second control plane, or routing/credential change.
+
+decision_matrix:
+  - defect: D1_VERIFY_NOT_FORCED_AND_DELEGATION_PIN_IGNORED
+    reuse_existing: "Reuse the pinned Hermes one-shot or kanban dispatch; solves GLM routing, but cards + skill alone cannot guarantee VERIFY starts after EXECUTE."
+    narrow_fix: "CHOSEN — at the existing Write success exit add a synchronous VERIFY handoff and a fail-closed receipt gate; no new scheduler."
+    adapter: "A separate orchestration wrapper is possible but leaves a bypass path that calls Write directly; not preferred."
+    defer_with_gate: "If GLM cannot start, a receipt is missing, or verification fails, keep it unaccepted; forbid treating EXECUTE exit=0 as an acceptance PASS."
+    basis: ["HG-KSEOS/config/model-lane-assignment.json:118-125,162-163", "HG-KSEOS/scripts/start-hgk-hermes.ps1:351-361"]
+  - defect: D2_PLAN_MODEL_NOT_INVOKED
+    reuse_existing: "CHOSEN — put the model PLAN authoring step in the existing pinned Hermes runtime; lifecycle does only deterministic admission; record the two separately."
+    narrow_fix: "At the Write pre-gate, check a PLAN provider-binding receipt; do NOT wire an LLM into _derive_tasks or rewrite the admission state machine."
+    adapter: "Injecting an LLM planner into lifecycle changes deterministic re-derive and replay semantics; higher resistance; not chosen."
+    defer_with_gate: "With no invocation evidence, record MODEL_NOT_INVOKED; if a WorkOrder requires a model PLAN, block EXECUTE rather than back-filling the proof with an actor string."
+    basis: ["HG-KSEOS/src/hg_kseos/lifecycle.py:260-329,332-388,555-609", "HG-KSEOS/src/hg_kseos/named_methods.py:151-192"]
+
+recommended_minimum:
+  change_surface:
+    - target: "HG-KSEOS/scripts/start-hgk-hermes.ps1:1-12,235-260"
+      proposal: >
+        Add required params for the WorkOrder/ExecutionBinding, PLAN receipt, frozen subject manifest and
+        VERIFY contract locator. Before the Write spawn, verify admitted lineage, receipt digest, actual
+        PLAN provider/model, medium effort, and the binding between the plan and the admitted artifact.
+        Missing anything => refuse.
+      preserve: "Keep the singleton sanctioned chain, process-scoped isolation, frontdoor health and credential guards."
+    - target: "HG-KSEOS/scripts/start-hgk-hermes.ps1:318-361"
+      proposal: >
+        After Codex success, freeze the candidate, start a fresh-context pinned GLM one-shot using the
+        existing hermes_python/hermes_source/hermes_home, wait for completion and verify the receipt;
+        missing / timeout / served-identity drift / non-PASS => non-zero exit.
+      receipt: >
+        Separate execute_exit, verify_invoked, verify_exit, verify_verdict, requested_identity,
+        observed_identity, subject_digest and session/request linkage; the launcher must NOT itself write
+        an acceptance PASS.
+      adjacent_issue: >
+        Line 347-350 uses $usedToken at line 347 before it is assigned at line 354, so transported_model
+        cannot currently serve as a reliable binding receipt. If included in the same authorized write-set,
+        only fix the assignment order.
+    - target: "HG-KSEOS/.hermes/skills/software-development/hgk-governed-execution/SKILL.md:165-167,196-207,214-220"
+      proposal: >
+        Change the acceptance delegate_task VERIFY_ONLY designation to a pinned GLM kanban worker or a
+        scoped one-shot; keep the other Swarm leaves. Require every EXECUTE candidate to have an
+        independent verdict; the maker may only submit a candidate.
+    - target: "HG-KSEOS/src/hg_kseos/spine.py:324-346,376-512"
+      proposal: >
+        Reuse the existing typed APIs, lease, version, idempotency and registered-evidence guards; the
+        independent checker supplies the verdict. The minimum plan does not modify this file, but must not
+        present the existing writer!=checker STRING check as model-identity verification.
+    - target: "HG-KSEOS/src/hg_kseos/lifecycle.py:260-329,332-388,555-609"
+      proposal: >
+        Do NOT change the deterministic planner; the prompt-protocol forces MODEL_PLAN_AUTHORING and
+        DETERMINISTIC_ADMISSION to be listed separately, the latter fixed at model_invoked=false,
+        status=MODEL_NOT_INVOKED.
+    - target: "HG-KSEOS/config/model-lane-assignment.json:24-28,41-45,54-97; HG-KSEOS/config/lane-routing-registry.yaml:52-139"
+      proposal: >
+        Keep routing, fallbacks=[], arm A default, arm B never auto-selected; do not change shared
+        delegation or global config. Registry stays marked CANDIDATE.
+  sufficiency: >
+    At the sanctioned Write call boundary, a successful return must pass a real GLM VERIFY and a receipt
+    gate; model PLAN authoring evidence and the no-model admission are no longer conflated. This
+    guarantees a scoped handoff and fail-closed closure. It does NOT guarantee automatic continuation
+    after the process is killed, nor that any arbitrary direct typed-API caller is bound by the same
+    receipt gate.
+  blast_radius: >
+    One existing HGK launcher Write branch, an authorization contract and a skill rule. No Hermes
+    core/delegate change, no second DB/scheduler/reducer, no routing or credential change.
+  rollback: >
+    Before implementation, save launcher/skill/contract preimage digests within the WorkOrder's evidence
+    scope; rollback points at that implementation commit and the preimages. On rollback, stop new Writes,
+    preserve the unaccepted state and all receipts; never delete canonical history and never roll back to
+    an acceptance PASS.
+  verification:
+    - "Independent GLM checker tests the real chain: sealed Write -> frozen candidate -> pinned VERIFY -> typed verdict/readback."
+    - "Negative cases: missing PLAN receipt, fake actor label, GLM timeout, wrong provider/model, failed verification, candidate changed during verification, reuse of another WorkOrder's receipt - none may close successfully."
+    - "A test-only spawn seam checks every successful EXECUTE triggers VERIFY; plus a real provider canary."
+    - "Read back the exact WorkOrder, acceptance, evidence locator/digest and session/request records; before/after boundary digest on candidate, canonical config and the three roots."
+    - "Deterministic controls already run: python -B of check_sod shows PLAN->GLM and EXECUTE->GLM pass; PLAN->PLAN and empty maker are refused. Output SOD_CONTROLS_PASS; no DB opened."
+
+verify_lane_route:
+  selected: scoped synchronous Hermes one-shot
+  invocation_shape: "<hermes_python> -B -m hermes_cli.main -m glm-5.3-flash --provider opencode-go --reasoning medium --cli chat -q '<read frozen VERIFY contract; evidence write-set only; output verdict>'"
+  reason: "Avoids the delegate_task shared gpt-6.1-sol route and avoids a board-wide dispatch starting other ready cards."
+  kanban_alternative: "Reuse the existing board: create a VERIFY card with tasks.model_override=glm-5.3-flash, provider_override=opencode-go, reasoning_effort=medium, depending on the EXECUTE candidate-ready card; start via hermes kanban dispatch."
+  failure_policy: "No GLM evidence => NOT_VERIFIED; do not auto-switch arm B, do not inherit shared delegation, do not substitute launcher exit=0 for an officer verdict."
+
+plan_model_provability:
+  authoring: >
+    A fresh pinned openai-codex/gpt-6.1-sol session at reasoning medium authors or re-audits the plan; the
+    receipt must bind the actual input, the model output, and the final admitted artifact digest. If
+    deepseek later alters the plan, the earlier receipt no longer covers the new bytes and a re-PLAN is required.
+  receipt_requirements:
+    - "WorkOrder/ExecutionBinding and plan artifact digest"
+    - "requested provider/model/effort, resolved transport/auth type (OAuth; no secrets)"
+    - "session_id, obtainable request/usage linkage, completed model calls"
+    - "observed provider/model and output digest; unknown fields stay UNKNOWN and must not be filled from an actor label"
+  admission: "lifecycle.plan()/admit* and named_methods.route() are deterministic bookkeeping/routing; record MODEL_NOT_INVOKED. The gstack provider field is a method choice, not an LLM provider-binding receipt."
+  schema_limit: "The existing evidence_refs has no subject/requirement field, so resolve_acceptance can only prove evidence is registered, not natively exclude foreign evidence (spine.py:413-417). The minimum plan binds subject via an external receipt checker. Requiring every typed caller to prove a non-forgeable model origin needs separately-authorized durable provenance schema and trusted receipt ingest."
+
+sod_self_check_predicate:
+  scope: "Per required EXECUTE candidate and its actual maker set, not just registry declarations."
+  predicate: "PASS iff admitted_lineage_valid AND route_activation_authorized AND plan_author_receipt_valid AND admission.model_invoked == false AND execute.engine == 'codex-cli-sealed' AND execute.observed_identity == 'opencode-go/deepseek-v4.1-flash' AND exists(completed_VERIFY_after_candidate_freeze) AND verify.observed_identity == 'opencode-go/glm-5.3-flash' AND verify.requested_effort == 'medium' AND verify.session_id not in maker_session_ids AND all(check_sod(maker.observed_model, verify.observed_model).ok for maker in actual_makers) AND subject_digest_matches_every_receipt AND candidate_unchanged_during_verify AND verify.verdict == 'PASS' AND typed_acceptance_readback_matches_verdict AND no_required_open_denominator_edges"
+  fail_closed: "A missing field, no invocation, unknown identity, different subject, SUPERSEDED candidate or a missing independent verdict is never PASS; require exists first, then all, to avoid a vacuous empty-set PASS."
+  basis: ["HG-KSEOS/src/hg_kseos/lane_policy.py:148-159,216-236", "HG-KSEOS/src/hg_kseos/lifecycle.py:485-552,612-643", "HG-KSEOS/src/hg_kseos/spine.py:324-346,421-512"]
+  observed_controls: "python -B check_sod controls run read-only: PLAN->GLM PASS, EXECUTE->GLM PASS, PLAN->PLAN REFUSE, empty maker REFUSE."
+
+full_before_digest: TO_BE_CAPTURED_AT_IMPLEMENTATION (preimage digests recorded under the WorkOrder's evidence scope; nothing was mutated in this design round)
+full_after_candidate_digest: NOT_YET_MATERIALIZED (this round produces research + a plan, not an implemented patch)
+
+owner_only_residue:
+  - "authorize the implementation WorkOrder (write-set) and the promotion/quarantine gate"
+  - "decide whether provider separation (currently PARTIAL, model-axis only) is required"
+  - "any policy-level gate on the relaunch of the affected round"
+
+not_claimed:
+  - "This is read-only design plus deterministic controls; no file, DB, policy, credential or skill was created or modified."
+  - "No real PLAN/EXECUTE/GLM VERIFY was run, no acceptance completed, no patch deployed."
+  - "No proof of the backend model weights, mutual provider independence, or that medium reasoning depth was actually used."
+  - "No guarantee that an arbitrary direct Spine caller cannot bypass the scoped launcher; existing actor/writer/checker tokens are not authenticated model identities."
+  - "No crash-recovery or eventual-VERIFY-execution guarantee."
+  - "No schema change; no native foreign-evidence rejection."
+  - "Registry CANDIDATE, declared routes or card pins alone do not prove activation, served identity or independent acceptance."
+
+claim_ceiling: FAR candidate harness delta for HGK Governed Evolution intake; NOT an acceptance verdict

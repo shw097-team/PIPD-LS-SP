@@ -44,14 +44,35 @@
  "capability_need": "bounded coding/execution route-out",
  "candidate": "OpenAI Codex / Agents SDK",
  "pin_license_currentness": {
-  "pin": "PIN_REVALIDATION_REQUIRED",
-  "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+  "pin": {
+   "value": "LATEST",
+   "repository": "https://github.com/openai/openai-agents-python",
+   "reason_code": "MUT_TECH_PIN",
+   "reason": "mutation: mutable pin contradicts an active claim"
+  },
+  "license": {
+   "value": "UNKNOWN",
+   "known": false,
+   "blocks_activation": true,
+   "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+  },
   "currentness": "CURRENTNESS_RECHECK_REQUIRED",
+  "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+  "fallback": "HGK native admitted executor alternative",
+  "exit_criterion": "provider/API/security/version drift",
+  "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+  "provider_off_behaviour": "HGK native admitted executor alternative",
+  "disposition": "ADOPT",
+  "design_disposition": "ADOPT_WITH_WRAPPER",
+  "pin_verified": false,
+  "licence_known": false,
+  "reported_active": true,
+  "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
   "independently_verified": false
  },
  "fallback_exit": "HGK native admitted executor alternative",
  "subject_id": "subset-tech-daf989e4f840246082d93187bbdc19db",
  "version": "current provider/version at implementation",
  "schema_version": "TechnologyAdmission@2",
- "content_hash": "83e1189006134435ba69eeaac041d3e1c0f70be92b65bf9553e77c73b1eab5ac"
+ "content_hash": "1f030f4db6fe8810a1894b15881df298e39bfffb05c8d99976c4bd064a388f61"
 }

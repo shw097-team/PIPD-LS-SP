@@ -1,0 +1,54 @@
+{
+  "schema": "PIPD-R2-STAGE-GATES/1",
+  "candidate_sha": "829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e",
+  "max_local_claim": "LOCAL_QUALIFIED",
+  "independence_note": "This is a maker/writer (codex) evidence run. It is NOT an independent PASS. Historical checker verdicts are superseded, not transferable. Independent acceptance requires a fresh VERIFY_ONLY officer session.",
+  "stages": {
+    "S0_contract_foundation": {
+      "verdict": "CLOSED_ON_CANDIDATE",
+      "evidence": ["tests/test_s0_contracts.py (7 tests OK)", "tools/edge_selfcheck E3/E4/E5", "registry.load_registry enforces exact 19/19 order"],
+      "clause_refs": ["19/19 contract families", "SEAM_ONLY GENIEProjectionRef/ExecutionBindingRef"],
+      "negative": ["test_a_twentieth_family_is_rejected", "test_negative_missing_schema_file_is_rejected"],
+      "oracle": "exact 19 identity+order + draft-2020-12 closed schemas",
+      "binding": "829c17e"
+    },
+    "S1_lite_vertical_slice": {
+      "verdict": "CLOSED_ON_CANDIDATE",
+      "evidence": ["tools/run_s1_slice.py (13 CLI commands executed)", "tests/test_s1_lite_slice.py (7 OK)", "assignment-1 slice evidence trace_verdict=PASS orphans=[]"],
+      "clause_refs": ["intent->PI->PD->CC/ECP/TQAEP->evidence->trace"],
+      "negative": ["test_pd_without_repo_context_fails_closed", "test_maker_cannot_be_checker", "test_claim_ceiling_blocks_escalation"],
+      "oracle": "schema validation + trace closure + replay determinism",
+      "binding": "829c17e"
+    },
+    "S2_runtime_closure": {
+      "verdict": "PARTIAL",
+      "evidence": ["run_golden_pilots 3/3 + 7/7 negatives", "run_nrtv_judge 10/10 14/14 4/4", "perf_budget 3 budgets PASS"],
+      "clause_refs": ["CAP_THREE_GOLDEN_PILOTS", "CAP_NRTV_JUDGE_CALIBRATION", "CAP_PERF_CONTEXT_BUDGET"],
+      "negative": ["N1..N7 refusal types all reproduced", "sec_pass 4/4"],
+      "oracle": "deterministic oracle + negative/boundary sets",
+      "binding": "829c17e",
+      "open": ["NRTV wrong_authority cannot be demonstrated at assertion level (owner HG-KSEOS defect) -> TT-PIPD-AUTHORITY-ASSERT"]
+    },
+    "S3_install_host_projection": {
+      "verdict": "CLOSED_ON_CANDIDATE",
+      "evidence": ["portable_install_check 11/11 PASS", "host_projection_check 3/3 effective-load PASS", "own-probes/host_effective_load_independent.json PASS", "web_pack_check exact-set PASS"],
+      "clause_refs": ["CAP_PORTABLE_RELEASE_INSTALL", "CAP_WEB_PACK_5", "CAP_HOST_PROJECTIONS_3"],
+      "negative": ["web_pack exact-set equality (extra file = projection leak)"],
+      "oracle": "install/upgrade/uninstall residue readback; independent structural effective-load oracle",
+      "binding": "829c17e",
+      "note": "shipped host oracle was presence/non-empty only -> re-derived with an independent oracle in own evidence dir (no product change, no oracle lowering)"
+    },
+    "S4_product_delivery": {
+      "verdict": "PARTIAL",
+      "evidence": ["cli_surface_check 13/13 + explain/dry-run/diff/replay PASS", "replay_check PASS", "wheel sha256 match", "openspec validate --strict valid"],
+      "clause_refs": ["CAP_CLI_13_COMMANDS_SDK", "CAP_EXPLAIN_DRYRUN_REPLAY", "CAP_PUBLIC_ARTIFACT_ACCEPTANCE_EVIDENCE", "CAP_KNOWLEDGE_READY_GATE"],
+      "negative": ["edge probes E6 SoD / E7 repair-scope / E8 claim-ceiling"],
+      "oracle": "13-command exact set + replay byte-identity + wheel checksum",
+      "binding": "829c17e",
+      "open": ["G-KNOWLEDGE-READY BLOCKED (7/160 quarantined)", "license UNSET (no publication)", "E1 skip + E2 oracle mismatch"]
+    }
+  },
+  "global_verdict": "PARTIAL",
+  "global_reason": "R2 conjunction NOT fully closed: G-KNOWLEDGE-READY BLOCKED; publication not authorized; two snapshot-resident edge findings (E1 skip, E2 oracle mismatch) remain. Local claim ceiling = LOCAL_QUALIFIED (max). No self-issued Independent PASS.",
+  "preserved_fails": ["E1", "E2", "G-KNOWLEDGE-READY", "quarantine_review PARTIAL", "G-TECH-SOURCE-PIN 0/22"]
+}
