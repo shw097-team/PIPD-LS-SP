@@ -1,0 +1,27 @@
+{
+ "schema": "PIPD-DELTA-BASELINE/1",
+ "subject": "H2-DEFECT-01 repair to tools/round_envelope.py",
+ "accepted_revision": {
+  "path": "C:\\v3\\tools\\round_envelope.py",
+  "sha256": "0901ac0ef94ba61ff955e37c47c03754c7b98ced356cf6201c1fe0fff04efd0b",
+  "bytes": 13464,
+  "note": "this is the revision the W8-VERIFY-3 checker exercised (V6 PASS)"
+ },
+ "accepted_test_revision": {
+  "sha256": "6c1facfec6a28f71e39e7e0c6583fc42aba141b179202af90e14b96689c38f55"
+ },
+ "repaired_revision_observed_at": "recorded while the repair subagent was still running; may be intermediate",
+ "repaired_observed": {
+  "sha256": "fca4c8300d9ccff4028f585792225ab50d2cad63fb5acc5701e029bfa33cc3fa",
+  "bytes": 15240,
+  "test_sha256": "a5d879e0622c5b0ec8b11596cb914840467dbcb56742a1b6ba7175da92cee57a"
+ },
+ "delta_verify_must_check": [
+  "path arguments normalised (MSYS /c/... -> C:/...)",
+  "fail-closed on uncreatable destination (clean refusal, non-zero exit, no traceback)",
+  "the three pre-existing refusals still fire (dst in src, src in dst, scratch inside either)",
+  "classification CLEAN/DRIFT/MODIFIED/REMOVED/ADDED unchanged vs the accepted revision",
+  "no weakening: every existing guard still present"
+ ],
+ "claim_ceiling": "CANDIDATE_ONLY"
+}

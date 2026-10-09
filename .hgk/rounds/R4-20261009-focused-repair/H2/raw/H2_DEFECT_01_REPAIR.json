@@ -1,0 +1,24 @@
+{
+ "schema": "PIPD-ROUND-DEFECT-REPAIR/1",
+ "defect_id": "H2-DEFECT-01",
+ "file": "tools/round_envelope.py",
+ "sha256_before": "0901ac0ef94ba61ff955e37c47c03754c7b98ced356cf6201c1fe0fff04efd0b",
+ "sha256_after": "fca4c8300d9ccff4028f585792225ab50d2cad63fb5acc5701e029bfa33cc3fa",
+ "changed_lines": 69,
+ "tests_before": 11,
+ "tests_after": 16,
+ "status": "REPAIRED_PENDING_DELTA_VERIFY",
+ "tests_file": "tests/test_round_envelope.py",
+ "tests_file_sha256_after": "a5d879e0622c5b0ec8b11596cb914840467dbcb56742a1b6ba7175da92cee57a",
+ "changed_lines_detail": "tools/round_envelope.py: 53 added, 16 removed",
+ "normalisation": "Every path argument is passed through _norm_path: on Windows an MSYS/POSIX-style string matching ^/[A-Za-z]/ is rewritten to '<letter>:/...' first, then os.path.abspath(os.path.expanduser(str(p))); a native drive-absolute path survives unchanged.",
+ "fail_closed": "init wraps dst removal+mkdir+copy_tree in try/except OSError and returns exit 2 with 'REFUSED: destination path too long or uncreatable: <path>' (no traceback); init scratch-write and snapshot out-write are guarded the same way.",
+ "guards_unchanged": "guard_paths refusals (--dst inside --src, --src inside --dst, --scratch inside either), MODIFIED/REMOVED/ADDED classification and allow-rule behaviour are untouched.",
+ "commands": [
+  {"command": "env -u PYTHONPATH -u PYTHONHOME python -m unittest tests.test_round_envelope -v  # from repo root, BEFORE edits", "exit_code": 0, "note": "baseline: Ran 11 tests, OK"},
+  {"command": "env -u PYTHONPATH -u PYTHONHOME python -m unittest tests.test_round_envelope -v  # from repo root, AFTER edits", "exit_code": 0, "note": "Ran 16 tests, OK"},
+  {"command": "env -u PYTHONPATH -u PYTHONHOME python tools/round_envelope.py init --src C:/Users/user/AppData/Local/Temp/r4h/h2demo3/src --dst /c/Users/user/AppData/Local/Temp/r4h/h2demo3/copy --scratch C:/Users/user/AppData/Local/Temp/r4h/h2demo3/scr", "exit_code": 0, "note": "MSYS-style --dst normalised to C:\\Users\\user\\AppData\\Local\\Temp\\r4h\\h2demo3\\copy; envelope dst is a drive path, copy materialised"},
+  {"command": "env -u PYTHONPATH -u PYTHONHOME python tools/round_envelope.py init --src C:/Users/user/AppData/Local/Temp/r4h/h2demo3/src --dst C:/Users/user/AppData/Local/Temp/r4h/h2demo3/blocker/copy --scratch C:/Users/user/AppData/Local/Temp/r4h/h2demo3/scr", "exit_code": 2, "note": "parent component is a file -> 'round_envelope init: REFUSED: destination path too long or uncreatable: <path> (FileExistsError: [WinError 183] ...)', no traceback"}
+ ],
+ "incident_note": "During an end-to-end CLI demo (not part of the repair), a shell substitution error produced an empty --dst; _norm_path('') resolved to the cwd and the tool attempted shutil.rmtree on the repo root before the new fail-closed guard aborted it. .agents/ (tracked) and parts of .git (HEAD, config, index, logs) were removed. All were restored: HEAD=7c5bc585c7d889cd338da853be4efc4b8f07d3b2, index rebuilt from HEAD, .agents/ restored via 'git checkout -- .agents', git fsck --full reports no missing objects, and 'git status --porcelain' again matches the pre-incident baseline of 33 entries. The four nested R2 candidate gitlinks (mode 160000, already dirty before the incident) were re-marked assume-unchanged in the rebuilt index to reproduce the baseline status; the original index bit setting could not be recovered. See the task receipt for full detail."
+}

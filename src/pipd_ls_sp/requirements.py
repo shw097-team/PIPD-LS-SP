@@ -176,6 +176,61 @@ def validate_atoms(atoms: list[dict[str, Any]]) -> None:
         raise PiSemanticFail('semantic collapse: shared negative fixture')
 
 
+def source_id_for(file: str, clause_id: str, source_sha256: str) -> str:
+    """Stable hash reference to a normalized source clause (one entry per source clause)."""
+    return 'SRC-' + sha256_text(canonical_json(
+        {'file': file, 'clause_id': clause_id, 'sha256': source_sha256}))[:20]
+
+
+def source_table(atoms: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Normalized source table: ONE entry per source clause (payload economy).
+
+    An atom used to embed its clause twice - `text` (the derived statement) plus a byte-identical
+    `source_text` copy - and repeat `source_sha256` on every atom bound to the same clause. Here
+    each distinct clause is stored once (`source_id`, `sha256`, single `text`) and each atom carries
+    only a stable `source_ref` into this table. Nothing semantic is dropped: the statement, the
+    locator span/child and the polarity/oracle stay on the atom.
+    """
+    table: list[dict[str, Any]] = []
+    seen: set[tuple[Any, Any]] = set()
+    for a in atoms:
+        sc = a['source_clause']
+        key = (sc.get('file'), sc.get('clause_id'))
+        if key in seen:
+            continue
+        seen.add(key)
+        sha = sc.get('source_sha256', '')
+        table.append({'source_id': source_id_for(sc.get('file', ''), sc.get('clause_id', ''), sha),
+                      'sha256': sha, 'text': sc.get('source_text', '')})
+    return table
+
+
+def normalized_locator(sc: dict[str, Any]) -> dict[str, Any]:
+    """Atom-side locator after de-duplication: span/child + a stable `source_ref` hash pointer.
+
+    The duplicated `source_text` (the whole clause copied onto every atom bound to it) and the
+    per-atom `source_sha256` are removed; both are recoverable from the normalized source table via
+    `source_ref`. The atom keeps its own derived `text` (the statement it binds) - that is per-atom
+    content, not a copy of the clause.
+    """
+    ref = source_id_for(sc.get('file', ''), sc.get('clause_id', ''), sc.get('source_sha256', ''))
+    return {'file': sc.get('file'), 'kind': sc.get('kind'), 'clause_id': sc.get('clause_id'),
+            'span': sc.get('span'), 'child': sc.get('child'), 'text': sc.get('text'),
+            'source_ref': ref}
+
+
+def resolve_source_clause(atom: dict[str, Any], table: list[dict[str, Any]]) -> dict[str, Any]:
+    """Resolve an atom's locator against the normalized table -> the pre-dedupe locator shape."""
+    sc = dict(atom['source_clause'])
+    entry = next((e for e in table if e['source_id'] == sc.get('source_ref')), None)
+    if entry is not None:
+        sc['source_text'] = entry['text']
+        sc['source_sha256'] = entry['sha256']
+        if 'text' not in sc:
+            sc['text'] = entry['text']
+    return sc
+
+
 def obligation_trace(atoms: list[dict[str, Any]]) -> dict[str, Any]:
     """SRC -> REQ/Child -> SPEC -> ACC -> VER -> EVD -> DEL -> GATE per atom, no orphans."""
     nodes, edges = [], []

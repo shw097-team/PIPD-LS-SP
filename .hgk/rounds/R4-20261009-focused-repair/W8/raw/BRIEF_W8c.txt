@@ -1,0 +1,56 @@
+# W8c — THIRD independent round: re-challenge the four W10 repairs
+
+Same role and rules as your round 2: independent, adversarial, different model from the maker, no rounding up.
+Work in the **current directory** (a fresh byte-copy of the repaired candidate; writable, disposable).
+Never touch `C:\Projects\Agent_Workspace\PIPD`. `git` is available; `python` 3.11 with `-B`; `unittest`, no pytest.
+Time-box ~20 minutes. Recompute everything; unverifiable ⇒ `UNVERIFIED` with the reason.
+
+## What was repaired after your round 2 (verify each; try to falsify)
+
+F1 (was C7'). `tools/perf_budget.py` no longer rounds before deciding: the `exceeded` comparison uses the raw
+    measurement. Falsify attempt: reproduce a raw value a hair over its budget (e.g. 2000.04 vs 2000) via a
+    temporary copy and confirm it now yields `exceeded: true` / `FAIL` / non-zero exit; also confirm the four
+    shipped numeric budgets are byte-identical to `git show HEAD:tools/perf_budget.py`.
+F2 (was C6'). `tools/pi_dedup_check.py` now compiles the **real HEAD** version of
+    `src/pipd_ls_sp/{pipeline,requirements}.py` for the baseline and reports `baseline_source` plus the sha256 of
+    what it compiled; with git absent it must report `baseline_source: "SYNTHETIC_FROM_CURRENT"` and
+    `shrinkage_claimed: false`. Verify which branch you observe here, and whether the size claim now agrees with an
+    independent measurement of the same two HEAD files.
+F3 (was C9'). `tools/deny_list_scan.py` must classify as `WRITER_USAGE`: a quoted `--config`/`-c` argument whose
+    sandbox mode is the forbidden value, and a TOML/INI setting for it (with or without a trailing comment).
+    Falsify attempt: plant each form in a temp copy under `.hgk/rounds/R4-20261009-focused-repair/` and show a
+    non-zero exit; then plant the same form as *forbidding prose* and show it stays `POLICY_MENTION`.
+F4 (was FROZEN_DIGESTS). Running the publication tests must no longer rewrite the repository artifacts
+    `.hgk/ao/pub/PUBLICATION_PROJECTION_MANIFEST.json` and `..._SUBJECT_ATTESTATION.json`. Verify: hash both,
+    run the publication tests, hash again, and report whether the bytes are stable.
+
+## Also re-run (raw command + exit code)
+1. `python -B -m unittest discover -s tests -q`  — the maker claims **188 tests / OK**
+2. `python -B tools/perf_budget.py --check`  3. `python -B tools/pi_dedup_check.py --check`
+4. `python -B tools/deny_list_scan.py`       5. `python -B tools/build_publication_manifest.py --check`
+6. `python -B tools/build_publication_manifest.py --check --current`
+7. `python -B tools/build_spec_del_crosswalk.py --check`  8. `python -B tools/tt_summary_check.py --assert`
+9. `python -B tools/admit_technologies.py --report`
+10. `python -B -c "import sys,pathlib;sys.path.insert(0,'src');from pipd_ls_sp import workspace as W;print(W.secret_scan(pathlib.Path('.'))['verdict'])"
+
+## Verify these digests (first 16 hex of sha256) and sizes
+
+```json
+{"tools/perf_budget.py":"379f2606561ea08a/8039","tools/pi_dedup_check.py":"04e2504ab9d85d91/19072",
+ "tools/deny_list_scan.py":"723f896660b175ff/6565","tests/test_perf_budget.py":"e3f1893c271c1cc1/2966",
+ "tests/test_pi_dedup.py":"9487a71c8da57b01/6628","tests/test_deny_list_scan.py":"ddc4d3bb8c6279e8/4500",
+ "tests/test_publication_projection.py":"7e6ca39d48bdd6e7/13680",
+ ".hgk/ao/pub/PUBLICATION_PROJECTION_MANIFEST.json":"5b9f480d28c8f558/860770",
+ ".hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION.json":"e3b1be44b7936ebe/1333"}
+```
+
+## Deliver (print last)
+
+```json
+{"schema":"R4-INDEPENDENT-VERDICT/3","verdict":"PASS_CHALLENGE|PARTIAL_CHALLENGE|FAIL_CHALLENGE",
+ "items":[{"id":"F1","method":"...","observed":"...","status":"VERIFIED|FALSIFIED|UNVERIFIED|ENVIRONMENT_BLOCKED","evidence":"..."}],
+ "still_falsified":[],"newly_found":[],"residual_risks":[],
+ "rounding_check":"state whether anything was rounded up to PASS"}
+```
+Then ≤12 lines of prose. `FALSIFIED` on the first counterexample. Never state `INDEPENDENT_PASS`, `RELEASED` or
+`PRODUCTION_VERIFIED`.

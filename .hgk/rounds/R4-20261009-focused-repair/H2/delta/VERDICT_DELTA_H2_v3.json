@@ -1,0 +1,138 @@
+{
+  "schema": "PIPD-DELTA-VERDICT/1",
+  "delta_id": "H2-DEFECT-01+02",
+  "checker_model_declared": "OpenAI Codex (exact model identifier unavailable)",
+  "verdict": "FAIL",
+  "checks": [
+    {
+      "id": "D1",
+      "status": "PASS",
+      "evidence": "Subject SHA256 matches d8a24cb565ff51122cc5ecbd0f5fa814f3359da95c22f41023dedd7c7494dbd5. Both harness outputs have 12 non-equal SequenceMatcher edit blocks, 337/443 lines. Independent Git diff has 8 unified hunks; all changes fit the two repairs.",
+      "note": "Finding: harness calls edit blocks hunks. Counts 12 and 8 use different grouping, not different code. Semantic review, not keyword labels, supports scope."
+    },
+    {
+      "id": "D2",
+      "status": "FAIL",
+      "evidence": "Both runs: exit 0, correct drive destination created, C:\\c root mtime unchanged. Recursive before/after audit: 1277 directory metadata differences; no added/removed entries or file metadata differences.",
+      "note": "Cannot certify C:\\c untouched. Root-mtime-only harness check can falsely imply untouched descendants. Differences are not attributed to this harness; content hashes were not taken."
+    },
+    {
+      "id": "D3",
+      "status": "PASS",
+      "evidence": "Both runs: exit 2, one named destination refusal, no traceback, file-as-parent failure.",
+      "note": "Supports this uncreatable-path case only, not comprehensive fail-closed coverage."
+    },
+    {
+      "id": "D4",
+      "status": "PASS",
+      "evidence": "Both runs: three containment cases exit 2; accepted baseline 11 tests, exit 0, OK.",
+      "note": "Baseline timing differs: 0.910s -> 1.032s. Suite execution verified; test contents not independently reviewed."
+    },
+    {
+      "id": "D5",
+      "status": "PASS",
+      "evidence": "Both runs: 23 tests, exit 0, OK, no reported failures.",
+      "note": "Timing differs: 1.715s -> 1.621s. Passing tests alone cannot rule out test weakening."
+    },
+    {
+      "id": "D6",
+      "status": "FAIL",
+      "evidence": "Independent blank CLI probe exits 2 with REFUSED, no traceback, and identical 47-entry throwaway manifest. Harness refusal codes and positive control repeat with a disposable home.",
+      "note": "Acceptance safety failure, not a reproduced blank-guard failure: original dst_home probe targets the real home and is not regression-contained by changing cwd. Unsafe original probe not run; substituted disposable home. No drive-root probe exists."
+    }
+  ],
+  "harness_reviewed": {
+    "trusted_as_acceptance_oracle": false,
+    "could_destroy_real_data": true,
+    "reason": "Original D6 passes Path.home() as --dst; a guard regression can reach the real home, particularly if nonempty-destination protection is also missing. Imports and test subprocesses have no deletion confinement. D2 can also write under pre-existing C:\\c on normalization regression. Its PID-named destination is not a proven fresh tempfile.",
+    "false_pass_risks": [
+      "D1 substring classification can hide unrelated changes; guard names need not execute.",
+      "D2 watches only C:\\c root mtime, not descendants.",
+      "D3 names_path checks REFUSED only, though actual output names the path.",
+      "D4/D6 aggregate refusal decisions check exit codes, not diagnostics or no deletion/recreation.",
+      "D6 is_dir cannot prove tree preservation; drive-root refusal untested; fixture Git commands ignore failures."
+    ],
+    "rerun_command": "python -B scratch/harness_d1_d6.py > scratch/D1_D6_RESULT_v3_recheck.json",
+    "environment": "PYTHONPATH/PYTHONHOME cleared; USERPROFILE/HOME temporarily set to a new disposable scratch directory for the unsafe home case, then restored.",
+    "comparison": {
+      "hashes_and_behavioral_numbers_match": true,
+      "differing_rows": [
+        "D2: PID and temporary path strings differ.",
+        "D3: temporary paths differ.",
+        "D4: elapsed test time differs.",
+        "D5: elapsed test time differs.",
+        "D6: temporary paths differ; home path intentionally differs for safety."
+      ],
+      "d1_count_finding": "12 edit blocks versus 8 independent unified hunks; all 8 semantically accounted for."
+    },
+    "safety_audit": {
+      "pipd_head_before": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+      "pipd_head_after": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+      "porcelain_before": 33,
+      "porcelain_after": 33,
+      "porcelain_identical": true,
+      "c_root_mtime_unchanged": true,
+      "c_entries_before": 10961,
+      "c_entries_after": 10961,
+      "c_directory_metadata_differences": 1277,
+      "c_file_metadata_differences": 0,
+      "c_added_or_removed_entries": 0,
+      "conclusion": "No destruction demonstrated; expected PIPD HEAD/status preserved. C:\\c untouched cannot be certified; unexplained directory timestamps differ. No causal attribution, full repository integrity claim, or restoration attempted.",
+      "raw_evidence": "C:\\w8v3delta\\scratch\\acceptance_safety_snapshot.json"
+    }
+  },
+  "own_probes": [
+    {
+      "id": "i",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\w8v3delta\\repo\\tools\\round_envelope.py init --src C:\\w8v3delta\\scratch\\independent_blank__leelzne\\src --dst \"\" --scratch C:\\w8v3delta\\scratch\\independent_blank__leelzne\\scratch",
+      "cwd": "C:\\w8v3delta\\scratch\\independent_blank__leelzne\\cwd",
+      "output": {
+        "exit": 2,
+        "stdout": "",
+        "stderr": "round_envelope init: REFUSED - --dst '' is blank: an empty path is never a valid destination\n",
+        "manifest_identical": true,
+        "manifest_entries": 47
+      },
+      "note": "Source is a separately committed throwaway sibling; blank argument preserved using subprocess argv, not shell substitution. No cleanup deletion run; identical manifests demonstrate no persistent loss or alteration, not absence of transient deletion/recreation."
+    },
+    {
+      "id": "ii",
+      "command": "git diff --no-index --no-ext-diff --no-textconv --unified=3 -- C:\\w8v3delta\\frozen\\round_envelope_ACCEPTED.py C:\\w8v3delta\\repo\\tools\\round_envelope.py",
+      "output": {
+        "exit": 1,
+        "raw_hunk_headers": [
+          "@@ -24,6 +24,12 @@ Three subcommands:",
+          "@@ -64,6 +70,26 @@ def _within(child: Path, ancestor: Path) -> bool:",
+          "@@ -82,6 +108,47 @@ def guard_paths(src: Path, dst: Path, scratch: Path) -> list[str]:",
+          "@@ -199,25 +266,52 @@ def _print_named(label: str, items: list[str]) -> None:",
+          "@@ -244,9 +338,14 @@ def cmd_init(args: argparse.Namespace) -> int:",
+          "@@ -258,14 +357,19 @@ def cmd_init(args: argparse.Namespace) -> int:",
+          "@@ -273,8 +377,8 @@ def cmd_snapshot(args: argparse.Namespace) -> int:",
+          "@@ -312,6 +416,8 @@ def _build_parser() -> argparse.ArgumentParser:"
+        ],
+        "printed_count_line": "PROBE ii HUNK COUNT: 8",
+        "stderr": "warning: in the working copy of 'C:\\w8v3delta\\frozen\\round_envelope_ACCEPTED.py', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'C:\\w8v3delta\\repo\\tools\\round_envelope.py', LF will be replaced by CRLF the next time Git touches it\n"
+      },
+      "raw_output_extent": "Hunk headers/count and stderr reproduced here; full raw diff stdout retained in C:\\w8v3delta\\scratch\\acceptance_own_probes.json, field diff.stdout.",
+      "hunk_review": [
+        "Destruction-guard documentation: repair (b).",
+        "MSYS conversion and expanded absolute paths: repair (a).",
+        "Blank, cwd, home, filesystem-root, and source-equality guards: repair (b).",
+        "Init normalization, pre-deletion refusals, explicit nonempty-destination opt-in, deletion announcement, and OSError refusal: repairs (a)+(b).",
+        "Scratch creation/write OSError refusal: repair (a).",
+        "Snapshot input/output normalization and output OSError refusal: repair (a).",
+        "Verify before/after path normalization: repair (a).",
+        "--allow-destroy parser option: repair (b)."
+      ],
+      "note": "Git --no-index exit 1 means differences, not failure. No unexplained source changes found."
+    }
+  ],
+  "undisclosed_scope": [],
+  "weakening_found": false,
+  "unfinished": [
+    "Real-home destructive probe intentionally not run; safety-substituted home probe is not an exact environment replay.",
+    "C:\\c untouched/content integrity is unestablished; directory metadata discrepancies remain unexplained.",
+    "Test-source weakening audit is outside the authorized three-file review."
+  ],
+  "claim_ceiling": "CANDIDATE_ONLY"
+}

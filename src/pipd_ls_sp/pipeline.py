@@ -129,7 +129,8 @@ def compile_pi(card: dict[str, Any], profile_name: str = "LITE") -> dict[str, An
     for a in src_atoms:
         atoms.append(_rec("RequirementAtom", "ATOM",
                           {"req": a["req_id"], "goal": card["content_hash"]},
-                          req_id=a["req_id"], source_clause=a["source_clause"],
+                          req_id=a["req_id"],
+                          source_clause=req_compile.normalized_locator(a["source_clause"]),
                           owner=a.get("owner", "PIPD-EC"),
                           acceptance_cue=a["acceptance_cue"],
                           risk_guard=a["risk_guard"]))
@@ -139,7 +140,10 @@ def compile_pi(card: dict[str, Any], profile_name: str = "LITE") -> dict[str, An
                "profile": pb["profile"]}
     pi = _rec("PI-PKG", "PI", payload)
     pi["stable_semantic_contract"] = {"contract": "stable", "profile_binding": pb,
-                                      "atoms": atoms, "goal": card["goal"]}
+                                      "atoms": atoms, "goal": card["goal"],
+                                      # normalized source table: one entry per source clause, so no
+                                      # atom has to embed a full copy of its clause (payload economy)
+                                      "sources": req_compile.source_table(src_atoms)}
     pi["acceptance"] = {"mode": "bound", "oracle_source": "DOC-03 DOMAIN_ORACLES"}
     _seal(pi, "PI")
     pi["trace"] = [_rec("TraceLink", "TL", {"f": pi["subject_id"], "t": a["subject_id"]},

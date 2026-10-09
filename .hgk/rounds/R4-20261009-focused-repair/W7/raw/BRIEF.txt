@@ -1,0 +1,45 @@
+# LANE W7 (tight) — 32 SPEC + 25 DEL crosswalk from live objects
+
+Work only in `/w`. A read-only copy of the upstream documents is at `/src-ro`.
+Environment: unittest (no pytest), no `git` binary. **Do not run `unittest discover`** (it takes >12 min here).
+Time-box: ~15 minutes. Do not explore beyond the files named below.
+
+## Step 1 — locate the normative text (one grep, then read the two ranges)
+```
+grep -rl "PIPD-SP-SPEC-001" /src-ro | head
+```
+That file is the blueprint. Read about 60 lines around `PIPD-SP-SPEC-001` (the SPEC table) and about 60 lines
+around `DEL-001` (the deliverable table). Those tables give the 32 requirement ids and 25 deliverable ids.
+
+## Step 2 — write `tools/build_spec_del_crosswalk.py`
+Generate `docs/SPEC_DEL_CROSSWALK.json` with **exactly 32 rows for `PIPD-SP-SPEC-001..032` and exactly 25 rows for
+`DEL-001..025`**. Each row: `id`, `source_locator` ("<blueprint file> §<section> L<line>"), `normative_summary`
+(one line, copied/condensed from the blueprint — never invented), `owner`, `stage`, `requirement_refs`,
+`evidence_refs`, `gate`, `oracle`, `negative_mutation`, `status`, `first_fail`, `tt_refs`.
+Modes: `--write`, `--check` (non-zero on violation), `--row <ID>`.
+
+Invent nothing. Where a link cannot be established from objects that exist in the repo, set
+`status = "EVIDENCE_GAP"` (or `DESIGN_ONLY` for the S5/S6 seams) and put the reason in `first_fail`. That is the
+correct outcome, not a failure of your work.
+
+`--check` must fail when: an `evidence_ref` path does not exist; an `EVIDENCED` row has no oracle; a
+`source_locator` cannot be resolved in the blueprint; the counts are not exactly 32/25.
+
+## Step 3 — write `tests/test_spec_del_crosswalk.py`
+Exactly four tests: (1) counts 32 and 25; (2) every `evidence_ref` exists and every `EVIDENCED` row has an oracle;
+(3) one mutation test proving `--check` fails when an `EVIDENCED` row is given a non-existent evidence path;
+(4) `DESIGN_ONLY` rows are never reported as PASS.
+
+## Step 4 — verify and capture
+```
+cd /w; R=.hgk/rounds/R4-20261009-focused-repair/W7/raw; mkdir -p $R
+python3 tools/build_spec_del_crosswalk.py --write --check > $R/crosswalk_check.txt 2>&1; echo "exit=$?" >> $R/crosswalk_check.txt
+python3 -m unittest tests.test_spec_del_crosswalk -v > $R/unittest_w7.txt 2>&1; echo "exit=$?" >> $R/unittest_w7.txt
+cp docs/SPEC_DEL_CROSSWALK.json $R/ ; cp /briefs/W7b.md $R/BRIEF.txt
+```
+Reply in ≤10 lines: counts, how many rows per status, and the exit codes. Then stop.
+
+## Forbidden
+- Do not modify `src/pipd_ls_sp/**`, existing tests, `TT_REGISTER.json`, `fixtures/**`, `.hgk/artifacts/**`.
+- Do not invent line numbers, oracles or evidence paths.
+- Do not run the full suite.
