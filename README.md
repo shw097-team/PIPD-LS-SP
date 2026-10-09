@@ -93,6 +93,12 @@ from a frozen copy (HEAD, index flags, `.git/config`, `.git/logs/HEAD`, porcelai
 independently. The event is recorded (`PIPD-LS-SP_R4_INCIDENT01_DESTRUCTIVE_DST_2026-10-09.md`) and repaired as
 `H2-DEFECT-02` — the STOP-1..STOP-6 destination guards above exist because of it.
 
+**A second instance of the same defect class occurred on the orchestration side during this publication**: a native
+`git` received an MSYS-style `/c/...` path, which this host does not translate, and created a clone under `C:\c\`.
+It is disclosed in `.hgk/rounds/R4-20261009-focused-repair/H2/raw/INCIDENT02.json`; it caused no product or repository
+damage, nothing was pushed from it, and the only credential material it held (a tokenised remote URL in its own
+`.git/config`) was deleted with it. It is direct evidence that this defect class is real rather than hypothetical.
+
 ### Independent verification of that repair (separate lane, three rounds)
 
 | round | verdict | what it found |
