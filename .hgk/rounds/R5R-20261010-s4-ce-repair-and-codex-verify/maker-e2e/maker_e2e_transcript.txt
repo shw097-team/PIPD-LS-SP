@@ -1,6 +1,6 @@
 wheel   : C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\dist\pipd_ls_sp-0.1.0-py3-none-any.whl
 exists  : True
-sha256  : dcb3049403c14ae63cf4e1c73714be81f5063343c0461fe75ef8ed5201ed0188
+sha256  : ca1f64e551d336164254a4acbdb32a6a8cafb505d5447b7a00fcc76449024a85
 
 $ C:\Users\user\.local\bin\uv.EXE venv C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv --python 3.11   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e)
   exit=0
@@ -10,9 +10,8 @@ Activate with: venv\Scripts\activate
 $ C:\Users\user\.local\bin\uv.EXE pip install --python C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\python.exe C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\dist\pipd_ls_sp-0.1.0-py3-none-any.whl   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e)
   exit=0
   stderr: Using Python 3.11.9 environment at: venv
-Resolved 7 packages in 603ms
-Prepared 1 package in 62ms
-Installed 7 packages in 117ms
+Resolved 7 packages in 8ms
+Installed 7 packages in 74ms
  + attrs==26.1.0
  + jsonschema==4.26.0
  + jsonschema-specifications==2025.9.1
@@ -32,7 +31,7 @@ $ git add -A   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\repo)
   exit=0
 $ git -c user.email=r5r@local -c user.name=r5r commit -q -m init   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\repo)
   exit=0
-scratch repo head: 581203a5557e5152ee2f6b02f97802c3092fef82
+scratch repo head: 298fa801e5e9a644a9740226e3e3e2e385b33a39
 
 === 1. doctor (from the schemas-less cwd, no --root) ===
 $ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\pipd.exe doctor   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\run)
@@ -53,37 +52,17 @@ $ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\pipd.exe doctor   
 
 === 2. chain ===
 $ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\pipd.exe init   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\run)
-  exit=2
+  exit=0
   stdout: {
- "code": "VALIDATION_FAIL",
- "message": "registry missing: C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\run\\schemas\\registry.json",
- "verdict": "FAIL"
-}
-$ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\pipd.exe intake --goal R5R maker E2E: prove the installed distribution runs the full design chain   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\run)
-  exit=2
-  stdout: {
- "code": "AUTHORITY_UNKNOWN",
- "message": "intake requires at least one source locator",
- "verdict": "FAIL"
-}
-
-files under run/ after intake:
-intent candidate: None
-
-=== 3. CE-2: bundle assembled from the compilers' own stdout, unedited ===
-  bundle contracts: []
-  PI-PKG still carries _profile_meta: False
-$ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\pipd.exe validate --bundle C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\.hgk\rounds\R5R-20261010-s4-ce-repair-and-codex-verify\maker-e2e\bundle_raw.json   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\run)
-  exit=1
-  stdout: {
- "checked": 0,
- "findings": [
-  {
-   "contract": "*",
-   "detail": "empty bundle: zero records checked cannot be a PASS",
-   "kind": "DENOMINATOR"
-  }
+ "contract_families": 19,
+ "created": [
+  "docs",
+  "schemas",
+  "src",
+  "tests",
+  "dist"
  ],
+ "root": "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\run",
  "schema_source": {
   "mode": "INSTALLED",
   "path": "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas",
@@ -92,7 +71,261 @@ $ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\pipd.exe validate 
    "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas"
   ]
  },
- "verdict": "FAIL"
+ "verdict": "PASS"
 }
-  VERDICT=FAIL  checked=0  findings=[{'contract': '*', 'detail': 'empty bundle: zero records checked cannot be a PASS', 'kind': 'DENOMINATOR'}]
+$ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\pipd.exe intake --goal R5R maker E2E: prove the installed distribution runs the full design chain --source C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\run\source_clause.md   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\run)
+  exit=0
+  stdout: {
+ "atoms": [
+  {
+   "acceptance_cue": "MUST: # R5R maker E2E source clause",
+   "axis": "knowledge",
+   "owner": "PIPD-EC",
+   "req_id": "REQ-cfb7f31514c89479686f",
+   "risk_guard": {
+    "failure_condition": "violate MUST: # R5R maker E2E source clause",
+    "negative_fixture": "fixtures/REQ-cfb7f31514c89479686f/negative",
+    "oracle": {
+     "expected": "required",
+     "id": "ORACLE-REQ-cfb7f31514c89479686f",
+     "predicate": "# R5R maker E2E source clause"
+    },
+    "polarity": "MUST"
+   },
+   "source_clause": {
+    "child": 0,
+    "clause_id": "clause-0-29",
+    "file": "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\run\\source_clause.md",
+    "kind": "file",
+    "source_sha256": "bbccda40febb9b3f905c134b18fe0d14eea2f1cbb54139f05e51b85d6ca40535",
+    "source_text": "# R5R maker E2E source clause",
+    "span": [
+     0,
+     29
+    ],
+    "text": "# R5R maker E2E source clause"
+   }
+  },
+  {
+   "acceptance_cue": "MUST: The installed distribution must expose doctor",
+   "axis": "intent",
+   "owner": "PIPD-EC",
+   "req_id": "REQ-31375139b38ffc76cefe",
+   "risk_guard": {
+    "failure_condition": "violate MUST: The installed distribution must expose doctor",
+    "negative_fixture": "fixtures/REQ-31375139b38ffc76cefe/negative",
+    "oracle": {
+     "expected": "required",
+     "id": "ORACLE-REQ-31375139b38ffc76cefe",
+     "predicate": "The installed distribution must expose doctor"
+    },
+    "polarity": "MUST"
+   },
+   "source_clause": {
+    "child": 0,
+    "claus
+intent card written: C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\.hgk\rounds\R5R-20261010-s4-ce-repair-and-codex-verify\maker-e2e\intent.json
+$ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\pipd.exe compile-pi --intent C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\.hgk\rounds\R5R-20261010-s4-ce-repair-and-codex-verify\maker-e2e\intent.json   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\run)
+  exit=0
+  stdout: {
+ "_profile_meta": {
+  "artifact_depth": "L1_SCHEMA_CONTRACT",
+  "assurance": [
+   "deterministic_validator"
+  ],
+  "axes": [
+   "intent",
+   "knowledge"
+  ],
+  "canonical_truth": "single",
+  "escalated": false,
+  "escalation_reason": null,
+  "profile": "LITE",
+  "requested_profile": "LITE",
+  "vetoes": []
+ },
+ "acceptance": {
+  "mode": "bound",
+  "oracle_source": "DOC-03 DOMAIN_ORACLES"
+ },
+ "content_hash": "b121bdf139d20073c89ad6e8afb7a7246ff09f30a81871e12612ae3fd4b9b809",
+ "schema_version": "PI-PKG@1",
+ "stable_semantic_contract": {
+  "atoms": [
+   {
+    "acceptance_cue": "MUST: # R5R maker E2E source clause",
+    "content_hash": "a05fc1f7d9c5d27d6b5dfcb52bbaa46c7c844349ff74ef9341916d15df5432d9",
+    "owner": "PIPD-EC",
+    "req_id": "REQ-cfb7f31514c89479686f",
+    "risk_guard": {
+     "failure_condition": "violate MUST: # R5R maker E2E source clause",
+     "negative_fixture": "fixtures/REQ-cfb7f31514c89479686f/negative",
+     "oracle": {
+      "expected": "required",
+      "id": "ORACLE-REQ-cfb7f31514c89479686f",
+      "predicate": "# R5R maker E2E source clause"
+     },
+     "polarity": "MUST"
+    },
+    "schema_version": "RequirementAtom@1",
+    "source_clause": {
+     "child": 0,
+     "clause_id": "clause-0-29",
+     "file": "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\run\\source_clause.md",
+     "kind": "file",
+     "source_ref": "SRC-316990252509f2a02106",
+     "span": [
+      0,
+      29
+     ],
+     "text": "# R5R maker E2E source clause"
+    },
+    "su
+$ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\pipd.exe bind-pd --pi C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\.hgk\rounds\R5R-20261010-s4-ce-repair-and-codex-verify\maker-e2e\pi.json --repo-root C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\repo --head 298fa801e5e9a644a9740226e3e3e2e385b33a39   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\run)
+  exit=0
+  stdout: {
+ "RepoContext": {
+  "branch": "master",
+  "caller_claims": {
+   "branch": {
+    "matches_host": true,
+    "value": "master",
+    "verified": true
+   },
+   "currentness": {
+    "matches_host": true,
+    "value": "FRESH",
+    "verified": true
+   },
+   "currentness_epoch": {
+    "matches_host": true,
+    "value": "e77d0143cc327a2b1983797dee4ecaa1cef1f6dd0f87ce1d74ab355cb2110dd9",
+    "verified": true
+   },
+   "dirty": {
+    "matches_host": true,
+    "value": false,
+    "verified": true
+   },
+   "head": {
+    "matches_host": true,
+    "value": "298fa801e5e9a644a9740226e3e3e2e385b33a39",
+    "verified": true
+   },
+   "manifest_sha256": {
+    "matches_host": true,
+    "value": "369c4d47687175faebbcad69d7bef3e2550b5d816f4d5d974f2b57163f4390a8",
+    "verified": true
+   },
+   "tracked_files": {
+    "matches_host": true,
+    "value": 1,
+    "verified": true
+   },
+   "writable_scope": {
+    "matches_host": true,
+    "value": "src/**",
+    "verified": false
+   }
+  },
+  "currentness_epoch": "e77d0143cc327a2b1983797dee4ecaa1cef1f6dd0f87ce1d74ab355cb2110dd9",
+  "degraded": false,
+  "degraded_reason": null,
+  "dirty": false,
+  "dirty_tracked": [],
+  "head": "298fa801e5e9a644a9740226e3e3e2e385b33a39",
+  "manifest_sha256": "369c4d47687175faebbcad69d7bef3e2550b5d816f4d5d974f2b57163f4390a8",
+  "probe": "git",
+  "readiness": "PREDEV_READY",
+  "root": "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\repo",
+  "tracked_files": 1
+ },
+ "content_hash": "8c4c1bf9ddc30e036b0ac584d170d701080bec4c8
+$ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\pipd.exe compile-ecp --pd C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\.hgk\rounds\R5R-20261010-s4-ce-repair-and-codex-verify\maker-e2e\pd.json --pi C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\.hgk\rounds\R5R-20261010-s4-ce-repair-and-codex-verify\maker-e2e\pi.json   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\run)
+  exit=0
+  stdout: {
+ "content_hash": "2329e0a154c29046c3528c702366c9e6d44bf23bc8d12552c943e029c75e5011",
+ "effect_intent": "apply bounded edits inside the writable scope",
+ "idempotency": {
+  "guarantee": "at_most_once",
+  "key": "IDEM-a5582c19ea4d7438"
+ },
+ "permission": {
+  "scope": "src/**",
+  "token_required": true
+ },
+ "readback": {
+  "kind": "residue_scan",
+  "required": true
+ },
+ "retries": {
+  "backoff": "none",
+  "max": 1
+ },
+ "rollback": {
+  "pointer": "baseline_commit",
+  "required": true
+ },
+ "schema_version": "ECP@1",
+ "subject_id": "ECP-2329e0a154c29046",
+ "version": "1"
+}
+$ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\pipd.exe compile-tqaep --pi C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\.hgk\rounds\R5R-20261010-s4-ce-repair-and-codex-verify\maker-e2e\pi.json --ecp C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\.hgk\rounds\R5R-20261010-s4-ce-repair-and-codex-verify\maker-e2e\ecp.json --maker R5R-E2E-MAKER-SMOKE --checker R5R-E2E-SMOKE-CHECKER --checker-receipt E2E-SMOKE-PLACEHOLDER-NOT-INDEPENDENT-VERIFICATION   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\run)
+  exit=0
+  stdout: {
+ "acceptance": [
+  {
+   "case": "TQAEP_DESIGN_CANDIDATE",
+   "checker_execution_receipt": "E2E-SMOKE-PLACEHOLDER-NOT-INDEPENDENT-VERIFICATION",
+   "checker_identity": "R5R-E2E-SMOKE-CHECKER",
+   "claim_ceiling": "TQAEP_DESIGNED",
+   "design_time_status": "DISTINCT_CHECKER_IDENTITY_RECORDED",
+   "distinct": true,
+   "independent_acceptance": "NOT_GRANTED",
+   "independent_proof_requires": "S5_LIVE_RUNTIME_CHECKER",
+   "maker_identity": "R5R-E2E-MAKER-SMOKE",
+   "note": "design-time candidate only: the checker receipt is a recorded string, not independent verification; a live runtime checker must re-run it before any independent acceptance can be claimed"
+  }
+ ],
+ "content_hash": "6d1bc01cf5c9db9f413d1c6ed505495444d79380b53fcddffcff1c5b5b1e848a",
+ "fixtures": [
+  "fixtures/REQ-cfb7f31514c89479686f/positive",
+  "fixtures/REQ-31375139b38ffc76cefe/positive",
+  "fixtures/REQ-89dcd6f049fb6f37a230/positive",
+  "fixtures/REQ-463d26059c1f6635ac98/positive",
+  "fixtures/REQ-c9e4a97adf98f504a8db/positive",
+  "fixtures/REQ-55866aaba5b909c69a6b/positive",
+  "fixtures/REQ-34202c11096aca92da3b/positive",
+  "fixtures/REQ-aad444b8194e32901f5c/positive",
+  "fixtures/REQ-2b255da5b8f832756738/positive",
+  "fixtures/REQ-31d55a2155901e59583b/positive"
+ ],
+ "oracles": [
+  "TEST-REQ-cfb7f31514c89479686f: deterministic assertion on the bound artifact",
+  "TEST-REQ-31375139b38ffc76cefe: deterministic assertion on the bound artifact",
+  "TEST-REQ-89dcd6f049fb6f37a230: deterministic assertion on the bo
+
+=== 3. CE-2: bundle assembled from the compilers' own stdout, unedited ===
+  pi: keys=['_profile_meta', 'acceptance', 'content_hash', 'schema_version', 'stable_semantic_contract', 'subject_id']  _profile_meta present=True
+  pd: keys=['RepoContext', 'content_hash', 'currentness', 'late_bound_construction_binding', 'schema_version', 'subject_id']  _profile_meta present=False
+  ecp: keys=['content_hash', 'effect_intent', 'idempotency', 'permission', 'readback', 'retries']  _profile_meta present=False
+  tqaep: keys=['acceptance', 'content_hash', 'fixtures', 'oracles', 'requalification', 'schema_version']  _profile_meta present=False
+  bundle contracts: ['ECP', 'PD-PKG', 'PI-PKG', 'TQAEP']
+  PI-PKG still carries _profile_meta: True
+$ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\pipd.exe validate --bundle C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\.hgk\rounds\R5R-20261010-s4-ce-repair-and-codex-verify\maker-e2e\bundle_raw.json   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\run)
+  exit=0
+  stdout: {
+ "checked": 4,
+ "findings": [],
+ "schema_source": {
+  "mode": "INSTALLED",
+  "path": "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\run\\schemas",
+   "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+  ]
+ },
+ "verdict": "PASS"
+}
+  VERDICT=PASS  checked=4  findings=[]
   schema_source={"mode": "INSTALLED", "path": "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas", "tried": ["C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\run\\schemas", "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas"]}

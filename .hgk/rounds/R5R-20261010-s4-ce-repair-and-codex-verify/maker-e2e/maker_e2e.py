@@ -129,7 +129,11 @@ if intent is not None:
                 (WORK / "ecp.json").write_text(json.dumps(ecp, ensure_ascii=False, indent=1),
                                                encoding="utf-8")
                 rc, tq = emit("compile-tqaep", ["compile-tqaep", "--pi", str(WORK / "pi.json"),
-                                                "--ecp", str(WORK / "ecp.json")])
+                                                "--ecp", str(WORK / "ecp.json"),
+                                                "--maker", "R5R-E2E-MAKER-SMOKE",
+                                                "--checker", "R5R-E2E-SMOKE-CHECKER",
+                                                "--checker-receipt",
+                                                "E2E-SMOKE-PLACEHOLDER-NOT-INDEPENDENT-VERIFICATION"])
                 if isinstance(tq, dict):
                     (WORK / "tqaep.json").write_text(json.dumps(tq, ensure_ascii=False, indent=1),
                                                      encoding="utf-8")
