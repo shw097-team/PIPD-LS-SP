@@ -1,3 +1,17 @@
+> **R5P (2026-10-10) — this file describes the BASELINE round, not the current subject.**
+> Independent checker `AO-R5P-INDEPENDENT-V2` flagged that the receipt below still names branch
+> `r5-s4-packreader` and round `R5-20261009-s4-user-operability` (D1), and must not be read as current
+> acceptance. The branch **under review now** is **`r5p-post-challenge-repair`**, cut from
+> `r5-s4-packreader` @ `0f06eec96386b7349db8b41ac6cf9c7455d326f1`; the post-challenge repair subject is
+> commit `812af79422c087f0ef5a07188fbec061df6b47e0` (tree `d3b79d2bc7aba08368a02a9f34204d14c9b06bbd`),
+> wheel sha256 `bb070a6f525382edc521bcf7fe127579e1e329024113ab4fe2881eeeea7b0a76`, bound product digest
+> `4ee712e899e9f4aa14d46ba1d3f879eb6b45ad0ae4a8b02bf1d9847b5f8cc579` (288 files). Its round evidence is
+> `.hgk/rounds/R5P-20261010-s4-post-challenge/` (`evidence/EVIDENCE_RETURN_PACK.json`,
+> `evidence/DIGEST_BINDING.json`, `ao/out/AO_VERDICT.json`, `ao/out/AO_VERDICT_V2.json`,
+> `evidence/FINDING_DISPOSITION.json`). Claim ceiling for both: **`CANDIDATE_ONLY`**, licence
+> **`LicenseRef-PIPD-Proprietary` with no public-use grant**; nothing below or above is promoted. The
+> R5/D1 text below is retained as history and was not rewritten.
+
 # External acceptance entry point — R5 S4 repair round (2026-10-10)
 
 This branch was published so that an **independent verifier** can accept it. Everything here is written
