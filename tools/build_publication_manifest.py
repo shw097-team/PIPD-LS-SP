@@ -54,14 +54,19 @@ EVIDENCE_MANIFEST = ROOT / ".hgk" / "artifacts" / "evidence_manifest.json"
 EVIDENCE_SEAL = ROOT / ".hgk" / "artifacts" / "evidence_manifest.seal.json"
 
 SCHEMA = "PIPD-PUBLICATION-PROJECTION/1"
-# Inherited from the frozen candidate tuple (FROZEN_CANDIDATE_R3.json / ROUND_STATE.json).
 POLICY_VERSION = "CAPC-PROMPT-CONTRACT/1"
 
-PUBLISHED_COMMIT = "3aebbbce948871c07b875ab92acf263d298ecf38"
-PUBLISHED_TREE = "1a7dc57f9403202c32d1bc01deb1925ac1f6412e"
-LOCAL_CANDIDATE_COMMIT = "10cb3d31fcbd54fffe64152f4b17085866d0d75e"
-LOCAL_CANDIDATE_TREE = "bba26ad0634e46169270e81109f9db22c967602a"
-PUBLISHED_REF = "r3-candidate"
+# The tuple the SHIPPED projection declares (it is the artifact, not the branch tip: the shipped
+# .hgk/ao/pub/PUBLICATION_PROJECTION_MANIFEST.json was bound to f4f0a02 when it was written, and the
+# publication commit 5094939 only carries it). Superseded tuples stay in this comment so the pin
+# history remains auditable: R3 was published=3aebbbc/tree 1a7dc57f, frozen=10cb3d3/tree bba26ad0 —
+# the R3 frozen candidate was local-only and never pushed, which is why the R3-pinned tests cannot
+# run from a clone (see tests/test_publication_projection.py::setUpModule).
+PUBLISHED_COMMIT = "f4f0a02ca71a5a6e2c77c9dad1b961ccea4487df"
+PUBLISHED_TREE = "49082394d1e895e7eb5ca46a94fe217468f0a6ab"
+LOCAL_CANDIDATE_COMMIT = "818157b19f6661b0e80e1686b08ad6d76267d465"
+LOCAL_CANDIDATE_TREE = "19d26c75f1c3b78b795519d416a8c242446881c8"
+PUBLISHED_REF = "r5-s4-candidate"
 
 # The product tree: the paths whose byte-identity is claimed across the two subjects.
 PRODUCT_PREFIXES = ("src/", "tools/", "tests/", "schemas/", "skills/", "docs/", "dist/", "fixtures")
@@ -91,21 +96,205 @@ def _loose_path(sha: str) -> Path:
     return GIT_DIR / "objects" / sha[:2] / sha[2:]
 
 
+def _pack_dir() -> Path:
+    # Derived on every call (not at import) so a caller - a test, or a different checkout - can
+    # repoint GIT_DIR and have the pack index follow.
+    return GIT_DIR / "objects" / "pack"
+
+
+# --------------------------------------------------------------------------------------------------
+# Packed objects.  A normal `git clone` stores everything in one pack, so a loose-only reader makes
+# this whole tool unusable outside an authoring tree that happens to have exploded objects.  The
+# original restriction was "no `git` binary in the writer image", i.e. no subprocess - that does NOT
+# require loose objects: an .idx and its .pack can be parsed in pure Python.  So packed support below
+# keeps every property the loose path had (read-only, offline, no subprocess, no writes).
+# --------------------------------------------------------------------------------------------------
+_PACK_INDEX: dict[str, tuple[Path, int]] | None = None
+_PACK_BYTES: dict[Path, bytes] = {}
+_OBJECT_CACHE: dict[str, tuple[str, bytes]] = {}
+
+_PACK_TYPES = {1: "commit", 2: "tree", 3: "blob", 4: "tag"}
+
+
+def _u32(data: bytes, i: int) -> int:
+    return int.from_bytes(data[i : i + 4], "big")
+
+
+def _parse_idx(path: Path) -> dict[str, tuple[Path, int]]:
+    """Return ``{sha_hex: (pack_path, offset)}`` for one ``.idx`` (version 1 or 2)."""
+    data = path.read_bytes()
+    pack = path.with_suffix(".pack")
+    out: dict[str, tuple[Path, int]] = {}
+    if data[:4] == b"\xfftOc":
+        version = _u32(data, 4)
+        if version != 2:
+            raise GitObjectUnavailable(f"unsupported pack index version {version} in {path.name}")
+        n = _u32(data, 8 + 4 * 255)
+        sha_base = 8 + 1024
+        off_base = sha_base + 20 * n + 4 * n
+        large_base = off_base + 4 * n
+        for i in range(n):
+            sha = data[sha_base + 20 * i : sha_base + 20 * (i + 1)].hex()
+            raw = _u32(data, off_base + 4 * i)
+            if raw & 0x80000000:
+                slot = raw & 0x7FFFFFFF
+                off = int.from_bytes(data[large_base + 8 * slot : large_base + 8 * slot + 8], "big")
+            else:
+                off = raw
+            out[sha] = (pack, off)
+        return out
+    # version 1: fanout[256] then n * (4-byte pack offset, 20-byte sha)
+    n = _u32(data, 4 * 255)
+    base = 1024
+    for i in range(n):
+        off = _u32(data, base + 24 * i)
+        sha = data[base + 24 * i + 4 : base + 24 * i + 24].hex()
+        out[sha] = (pack, off)
+    return out
+
+
+def _pack_index() -> dict[str, tuple[Path, int]]:
+    global _PACK_INDEX
+    if _PACK_INDEX is None:
+        index: dict[str, tuple[Path, int]] = {}
+        d = _pack_dir()
+        if d.is_dir():
+            for idx in sorted(d.glob("*.idx")):
+                try:
+                    index.update(_parse_idx(idx))
+                except GitObjectUnavailable:
+                    raise
+                except Exception:
+                    continue
+        _PACK_INDEX = index
+    return _PACK_INDEX
+
+
+def reset_object_caches() -> None:
+    """Drop every cached index/object. Read-only; used when GIT_DIR is repointed (tests)."""
+    global _PACK_INDEX
+    _PACK_INDEX = None
+    _PACK_BYTES.clear()
+    _OBJECT_CACHE.clear()
+
+
+def _pack_data(path: Path) -> bytes:
+    if path not in _PACK_BYTES:
+        _PACK_BYTES[path] = path.read_bytes()
+    return _PACK_BYTES[path]
+
+
+def _apply_delta(base: bytes, delta: bytes) -> bytes:
+    i = 0
+
+    def varint() -> int:
+        nonlocal i
+        value = shift = 0
+        while True:
+            b = delta[i]
+            i += 1
+            value |= (b & 0x7F) << shift
+            shift += 7
+            if not b & 0x80:
+                return value
+
+    base_size = varint()
+    if base_size != len(base):
+        raise GitObjectUnavailable(f"delta base size {base_size} does not match base of {len(base)}")
+    varint()  # result size; the copy/insert stream below reproduces it exactly
+    out = bytearray()
+    while i < len(delta):
+        op = delta[i]
+        i += 1
+        if op & 0x80:  # copy a run from the base
+            offset = size = 0
+            for bit, shift in ((0x01, 0), (0x02, 8), (0x04, 16), (0x08, 24)):
+                if op & bit:
+                    offset |= delta[i] << shift
+                    i += 1
+            for bit, shift in ((0x10, 0), (0x20, 8), (0x40, 16)):
+                if op & bit:
+                    size |= delta[i] << shift
+                    i += 1
+            if size == 0:
+                size = 0x10000
+            out += base[offset : offset + size]
+        elif op:
+            out += delta[i : i + op]
+            i += op
+        else:
+            raise GitObjectUnavailable("delta opcode 0 is reserved")
+    return bytes(out)
+
+
+def _read_packed(sha: str, pack: Path, offset: int, depth: int = 0) -> tuple[str, bytes]:
+    if depth > 64:
+        raise GitObjectUnavailable(f"delta chain deeper than 64 while resolving {sha}")
+    data = _pack_data(pack)
+    entry_offset = offset  # the OFS_DELTA base distance is measured from the entry START, not from
+    b = data[offset]       # the end of the header - subtracting from the post-header position
+    offset += 1            # walks the base offset backwards by the header length and lands mid-stream
+    type_code = (b >> 4) & 0x07
+    size = b & 0x0F
+    shift = 4
+    while b & 0x80:
+        b = data[offset]
+        offset += 1
+        size |= (b & 0x7F) << shift
+        shift += 7
+    if type_code == 6:  # OFS_DELTA: base is behind this entry in the same pack
+        b = data[offset]
+        offset += 1
+        back = b & 0x7F
+        while b & 0x80:
+            b = data[offset]
+            offset += 1
+            back = ((back + 1) << 7) | (b & 0x7F)
+        base_offset = entry_offset - back
+        if base_offset < 0:
+            raise GitObjectUnavailable(f"bad OFS_DELTA base offset while resolving {sha}")
+        base_type, base_body = _read_packed(sha, pack, base_offset, depth + 1)
+        body = _apply_delta(base_body, zlib.decompressobj().decompress(data[offset:]))
+        return base_type, body
+    if type_code == 7:  # REF_DELTA: base is named by sha, anywhere in the store
+        base_sha = data[offset : offset + 20].hex()
+        offset += 20
+        base_type, base_body = read_object(base_sha)
+        body = _apply_delta(base_body, zlib.decompressobj().decompress(data[offset:]))
+        return base_type, body
+    obj_type = _PACK_TYPES.get(type_code)
+    if obj_type is None:
+        raise GitObjectUnavailable(f"unknown pack entry type {type_code} for {sha} in {pack.name}")
+    body = zlib.decompressobj().decompress(data[offset:])
+    if len(body) != size:
+        raise GitObjectUnavailable(f"{sha}: pack size {len(body)} does not match header {size}")
+    return obj_type, body
+
+
 def read_object(sha: str) -> tuple[str, bytes]:
-    """Return ``(type, body)`` for a loose object. Read-only; never writes."""
+    """Return ``(type, body)`` for one object. Read-only; never writes, never spawns a process."""
+    cached = _OBJECT_CACHE.get(sha)
+    if cached is not None:
+        return cached
     p = _loose_path(sha)
-    if not p.exists():
+    if p.exists():
+        raw = zlib.decompress(p.read_bytes())
+        header, _, body = raw.partition(b"\x00")
+        obj_type = header.split(b" ", 1)[0].decode("ascii")
+        _OBJECT_CACHE[sha] = (obj_type, body)
+        return obj_type, body
+    loc = _pack_index().get(sha)
+    if loc is None:
         raise GitObjectUnavailable(
-            f"object {sha} is not a loose object in {GIT_DIR} and no pack index is consulted offline"
+            f"object {sha} is neither loose nor indexed in {_pack_dir()} of {GIT_DIR}"
         )
-    raw = zlib.decompress(p.read_bytes())
-    header, _, body = raw.partition(b"\x00")
-    obj_type = header.split(b" ", 1)[0].decode("ascii")
+    obj_type, body = _read_packed(sha, loc[0], loc[1])
+    _OBJECT_CACHE[sha] = (obj_type, body)
     return obj_type, body
 
 
 def object_exists(sha: str) -> bool:
-    return _loose_path(sha).exists()
+    return _loose_path(sha).exists() or sha in _pack_index()
 
 
 def resolve_ref(ref: str) -> str:

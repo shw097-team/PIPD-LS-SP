@@ -13,6 +13,7 @@ subject must FAIL. Concretely:
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -28,12 +29,33 @@ import publication_attestation as A  # noqa: E402
 
 PUB_COMMIT = "3aebbbce948871c07b875ab92acf263d298ecf38"
 PUB_TREE = "1a7dc57f9403202c32d1bc01deb1925ac1f6412e"
-FROZEN_COMMIT = "10cb3d31fcbd54fffe64152f4b17085866d0d75e"
-FROZEN_TREE = "bba26ad0634e46169270e81109f9db22c967602a"
+# The R3 frozen candidate was a *local-only* commit: it is the pre-publication state of the authoring
+# repository and was never pushed, so it does not exist in any clone. These tests assert properties of
+# that tuple (the two subjects must be distinct yet product-equal), so they can only run where such a
+# pair is actually present. Both are overridable so an operator can point them at a real equivalent.
+FROZEN_COMMIT = os.environ.get("PIPD_FROZEN_COMMIT") or "10cb3d31fcbd54fffe64152f4b17085866d0d75e"
+FROZEN_TREE = os.environ.get("PIPD_FROZEN_TREE") or "bba26ad0634e46169270e81109f9db22c967602a"
 
 MANIFEST = ROOT / ".hgk" / "artifacts" / "evidence_manifest.json"
 PROJECTION = ROOT / ".hgk" / "ao" / "pub" / "PUBLICATION_PROJECTION_MANIFEST.json"
 ATTESTATION = ROOT / ".hgk" / "ao" / "pub" / "PUBLICATION_SUBJECT_ATTESTATION.json"
+
+
+def setUpModule() -> None:
+    """Skip -- with the offending object named -- when the tuple under test is not in this store.
+
+    An error here would say "the tool is broken". The truth is narrower and worth stating exactly:
+    the tool is fine, the *fixture* is absent, because the R3 frozen candidate was never published.
+    """
+    missing = [s for s in (PUB_COMMIT, PUB_TREE, FROZEN_COMMIT, FROZEN_TREE) if not B.object_exists(s)]
+    if missing:
+        raise unittest.SkipTest(
+            "these tests assert properties of a two-subject publication tuple; "
+            + ", ".join(missing)
+            + " is not in this object store. The R3 frozen candidate was local-only and never "
+            "published, so it is absent from every clone. Run them in the authoring repository, or "
+            "set PIPD_FROZEN_COMMIT/PIPD_FROZEN_TREE to an equivalent pair that is present."
+        )
 
 
 class ProductPathEquality(unittest.TestCase):
@@ -117,16 +139,24 @@ class PrivatePathMustNotBePublic(unittest.TestCase):
 
     def test_checker_flags_a_seal_named_as_the_published_subject(self) -> None:
         # Brief rule 4: a seal/manifest that names a *different* candidate must not assert the
-        # published subject. Here the seal is (wrongly) bound to the published commit/tree.
+        # published subject. The published subject is read from the projection itself, so this test
+        # does not hard-code one round's tuple (the shipped projection moved from R3 to R5 and the
+        # R3 constants would silently stop asserting anything).
         projection = json.loads(PROJECTION.read_text(encoding="utf-8"))
+        published = projection["published_subject"]
         manifest, _ = B.load_evidence_manifest()
-        foreign_seal = {"candidate": {"repo_commit_sha": PUB_COMMIT, "candidate_tree_sha": PUB_TREE}}
+        foreign_seal = {
+            "candidate": {
+                "repo_commit_sha": published["commit"],
+                "candidate_tree_sha": published["tree"],
+            }
+        }
         violations = B.check_projection(
             projection,
             manifest=manifest,
             seal=foreign_seal,
-            published_tree_map=B.walk_tree(PUB_TREE),
-            frozen_tree_map=B.walk_tree(FROZEN_TREE),
+            published_tree_map=B.walk_tree(published["tree"]),
+            frozen_tree_map=B.walk_tree(published["tree"]),
         )
         self.assertTrue(any("SEAL_SUBJECT_CONFLATION" in v for v in violations), violations)
 

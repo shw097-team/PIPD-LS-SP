@@ -15,6 +15,7 @@ credential-shaped literal into a source file makes the environment's secret reda
 from __future__ import annotations
 
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -99,6 +100,21 @@ class EvidenceManifestSelfExclusion(unittest.TestCase):
         # Recomputed byte-level sha256 must equal the value recorded in the outer seal.
         self.assertEqual(M._sha256_bytes(data), seal_doc["manifest"]["sha256"])
         self.assertEqual(seal_doc["seal_algorithm"], "sha256")
+        # verify() reads the seal against the CURRENT head, so its verdict is only meaningful where
+        # head still is the commit the seal was made at. In a clone it is not: the seal pins the
+        # candidate commit and later publication commits moved the tip. That is the tool working
+        # (typed REFUSED_STALE_OR_FOREIGN_MANIFEST), not the tool failing - so do not assert PASS
+        # here; the refusal mechanism is covered hermetically by the neighbouring test. The
+        # byte-level assertions above hold everywhere and are kept.
+        sealed_head = (seal_doc.get("candidate") or {}).get("repo_commit_sha")
+        head = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True
+        ).stdout.strip()
+        if sealed_head and head and sealed_head != head:
+            self.skipTest(
+                f"seal was made at {sealed_head[:12]} but HEAD is {head[:12]}; "
+                "re-run tools/build_evidence_manifest.py --seal at this commit to assert the read-back"
+            )
         res = M.verify()
         self.assertEqual(res["status"], "PASS", res)
         self.assertEqual(res["manifest_sha256"], seal_doc["manifest"]["sha256"])
