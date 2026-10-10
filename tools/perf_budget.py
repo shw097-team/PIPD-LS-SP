@@ -30,7 +30,10 @@ OUT = ROOT / ".hgk" / "artifacts"
 # re-specified the budget as a scale-invariant RATE (`bytes_per_atom`) and demoted the original
 # absolute row plus the three timing rows to ADVISORY: they stay measured, stay printed, and keep
 # their historical verdicts, but they no longer vote on the overall verdict. The historical
-# 343,547 > 20,000 FAIL is preserved verbatim and is still emitted in the `historical` block.
+# block reports the RECORDED value that the frozen BYTES_PER_ATOM_BASELINE.json supplies for a
+# metric (`pi_bytes` = 343,547 for `context_bytes_per_artefact`), so the 343,547 > 20,000 FAIL is
+# host-stable; the live reading is kept beside it as `measured_now`, and every row marks whether
+# its `value` is `recorded`.
 # No threshold was raised or lowered by this change; only which rows vote changed.
 PROVENANCE = {
     "compile_chain_ms": {
@@ -89,6 +92,16 @@ BUDGET = {k: v["budget"] for k, v in PROVENANCE.items()}
 BASELINE_FILE = "BYTES_PER_ATOM_BASELINE.json"
 REGRESSION_TOLERANCE_PCT = 10.0
 
+# Advisory (historical) metrics whose `value` must come from a FROZEN recording, not from a fresh
+# measurement on this host: a recorded verdict that moves with the machine is not a record. Only
+# metrics listed here are recorded; everything else keeps its live measurement (recorded: false).
+RECORDED_BASELINE = {
+    "context_bytes_per_artefact": {
+        "file": Path(".hgk", "artifacts", "s2", BASELINE_FILE).as_posix(),
+        "field": "pi_bytes",
+    },
+}
+
 
 def _verdict(value: float, budget: float, source_of_truth: str) -> str:
     """Decide one threshold's verdict, fail-closed.
@@ -144,6 +157,38 @@ def exit_code(verdict: str) -> int:
     """Non-zero iff the overall verdict is FAIL; UNDECIDABLE without any exceeded row is not a
     hard failure."""
     return 1 if verdict == "FAIL" else 0
+
+
+def _recorded_value(metric: str, baseline: dict | None) -> tuple[object, dict | None]:
+    """The RECORDED value for an advisory metric, read from a frozen baseline.
+
+    Returns `(value, origin)` when a recorded baseline supplies the metric, else `(None, None)`.
+    Never invents a number: an absent, unreadable, or field-less baseline yields `(None, None)`
+    and the caller must fall back to the live measurement *and say so*.
+    """
+    spec = RECORDED_BASELINE.get(metric)
+    if not spec or not baseline or spec["field"] not in baseline:
+        return None, None
+    return baseline[spec["field"]], {"file": spec["file"], "field": spec["field"]}
+
+
+def _historical_row(row: dict, baseline: dict | None) -> dict:
+    """One `historical` row: the RECORDED value when the baseline supplies one, else the live
+    measurement (marked `recorded: false` with a note, never a fabricated record)."""
+    metric = row["metric"]
+    measured_now = row["value"]
+    recorded, origin = _recorded_value(metric, baseline)
+    value = measured_now if recorded is None else recorded
+    out = {"metric": metric, "value": value, "measured_now": measured_now,
+           "recorded": recorded is not None, "origin": origin,
+           "budget": row["budget"],
+           "verdict": _verdict(value, row["budget"], row["source_of_truth"]),
+           "exceeded": value > row["budget"],
+           "source_of_truth": row["source_of_truth"]}
+    if recorded is None:
+        out["note"] = ("no recorded value was available for this metric; `value` is the live "
+                       "measurement, not a recorded one")
+    return out
 
 
 def candidate_head(repo: Path | None = None) -> str:
@@ -232,7 +277,8 @@ def main(argv: list[str] | None = None) -> int:
 
     voting = [r for r in rows if r.get("voting", True)]
     advisory = [r for r in rows if not r.get("voting", True)]
-    preserved = [r for r in advisory if r.get("preserved")]
+    historical_rows = [_historical_row(r, baseline) for r in advisory]
+    preserved_metrics = {r["metric"] for r in advisory if r.get("preserved")}
     undecidable = [r["metric"] for r in voting if r["verdict"] == "UNDECIDABLE"]
     fails = [r["metric"] for r in voting if r["verdict"] == "FAIL"]
     exceeded = [r["metric"] for r in voting if r.get("exceeded")]
@@ -242,12 +288,14 @@ def main(argv: list[str] | None = None) -> int:
            "advisory_metrics": [r["metric"] for r in advisory],
            "undecidable": undecidable, "failed": fails, "exceeded": exceeded,
            "historical": {
-               "note": "measured and printed but non-voting; the recorded verdicts are preserved "
-                       "verbatim and must never be rewritten",
-               "rows": [{"metric": r["metric"], "value": r["value"], "budget": r["budget"],
-                         "verdict": r["verdict"], "exceeded": r["exceeded"],
-                         "source_of_truth": r["source_of_truth"]} for r in advisory],
-               "preserved_fails": [r["metric"] for r in preserved if r["verdict"] == "FAIL"],
+               "note": "measured and printed but non-voting. Where a recorded baseline supplies "
+                       "the value for a metric (see that row's `origin`), `value` is the RECORDED "
+                       "number and the live reading is kept as `measured_now`; a metric with no "
+                       "recorded baseline keeps its live measurement and is marked "
+                       "`recorded: false`.",
+               "rows": historical_rows,
+               "preserved_fails": [r["metric"] for r in historical_rows
+                                   if r["metric"] in preserved_metrics and r["verdict"] == "FAIL"],
            },
            "adjudication": {
                "authority": "docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json",

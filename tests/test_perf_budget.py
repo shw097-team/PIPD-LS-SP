@@ -112,5 +112,77 @@ class AdvisoryAndVotingRows(unittest.TestCase):
         self.assertEqual(res["verdict"], "PASS")
 
 
+class HistoricalRecordedValue(unittest.TestCase):
+    """D1 repair: the `historical` block must report the RECORDED value, not a live host reading.
+
+    The historical 343,547 > 20,000 row is a record; a record that changes with the machine that
+    happens to run it is not a record. `value` is read from the frozen baseline at test time (never
+    hard-coded here) and the live measurement is carried beside it as `measured_now`.
+    """
+
+    def _baseline(self):
+        path = ROOT / ".hgk" / "artifacts" / "s2" / "BYTES_PER_ATOM_BASELINE.json"
+        self.assertTrue(path.exists(), f"baseline artefact must exist: {path}")
+        return json.loads(path.read_text(encoding="utf-8"))
+
+    def _historical_row(self, metric):
+        import contextlib
+        import io
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = PB.main(["--check"])
+        self.assertEqual(rc, 0)
+        res = json.loads(buf.getvalue())
+        rows = {r["metric"]: r for r in res["historical"]["rows"]}
+        self.assertIn(metric, rows)
+        return rows[metric]
+
+    def test_historical_value_is_the_recorded_baseline_not_the_measurement(self):
+        baseline = self._baseline()
+        expected = baseline["pi_bytes"]  # 343547, read from the artefact - never hard-coded
+        row = self._historical_row("context_bytes_per_artefact")
+        self.assertEqual(row["value"], expected)
+        self.assertTrue(row["recorded"])
+        self.assertEqual(row["origin"],
+                         {"file": ".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json",
+                          "field": "pi_bytes"})
+        # The verdict is decided from the RECORDED value against the UNCHANGED budget.
+        self.assertEqual(row["verdict"], "FAIL")
+        self.assertEqual(row["budget"], 20000)
+        self.assertTrue(row["exceeded"])
+
+    def test_historical_value_is_stable_across_live_measurements(self):
+        baseline = self._baseline()
+        expected = baseline["pi_bytes"]
+        first = self._historical_row("context_bytes_per_artefact")
+        second = self._historical_row("context_bytes_per_artefact")
+        # `measured_now` is present and honest; `value` never follows it.
+        self.assertIn("measured_now", first)
+        self.assertIn("measured_now", second)
+        self.assertEqual(first["value"], expected)
+        self.assertEqual(second["value"], expected)
+        # Sanity: if the live reading ever differed, `value` would still be the record.
+        if first["measured_now"] != first["value"]:
+            self.assertEqual(first["value"], expected)
+
+    def test_unrecorded_advisory_metric_says_so_instead_of_fabricating(self):
+        row = self._historical_row("compile_chain_ms")
+        self.assertFalse(row["recorded"])
+        self.assertIsNone(row["origin"])
+        self.assertEqual(row["value"], row["measured_now"])
+        self.assertEqual(row["budget"], 2000)
+        self.assertIn("note", row)
+        self.assertIn("no recorded value", row["note"])
+
+    def test_no_source_comment_claims_verbatim_preservation_of_the_live_value(self):
+        # Targeted, not a broad grep: the two corrected strings must describe what the code does.
+        source = (ROOT / "tools" / "perf_budget.py").read_text(encoding="utf-8")
+        self.assertNotIn("343,547 > 20,000 FAIL is preserved verbatim", source)
+        self.assertNotIn("preserved verbatim and must never be rewritten", source)
+        # The correction is present rather than the claim merely deleted.
+        self.assertIn("RECORDED", source)
+        self.assertIn("measured_now", source)
+
+
 if __name__ == "__main__":
     unittest.main()
