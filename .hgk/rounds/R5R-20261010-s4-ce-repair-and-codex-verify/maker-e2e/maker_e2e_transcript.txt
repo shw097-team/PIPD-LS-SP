@@ -1,0 +1,98 @@
+wheel   : C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\dist\pipd_ls_sp-0.1.0-py3-none-any.whl
+exists  : True
+sha256  : dcb3049403c14ae63cf4e1c73714be81f5063343c0461fe75ef8ed5201ed0188
+
+$ C:\Users\user\.local\bin\uv.EXE venv C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv --python 3.11   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e)
+  exit=0
+  stderr: Using CPython 3.11.9 interpreter at: C:\Users\user\AppData\Local\Programs\Python\Python311\python.exe
+Creating virtual environment at: venv
+Activate with: venv\Scripts\activate
+$ C:\Users\user\.local\bin\uv.EXE pip install --python C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\python.exe C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\dist\pipd_ls_sp-0.1.0-py3-none-any.whl   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e)
+  exit=0
+  stderr: Using Python 3.11.9 environment at: venv
+Resolved 7 packages in 603ms
+Prepared 1 package in 62ms
+Installed 7 packages in 117ms
+ + attrs==26.1.0
+ + jsonschema==4.26.0
+ + jsonschema-specifications==2025.9.1
+ + pipd-ls-sp==0.1.0 (from file:///C:/Projects/Agent_Workspace/PIPD-r5r-repair-wt/dist/pipd_ls_sp-0.1.0-py3-none-any.whl)
+ + referencing==0.37.0
+ + rpds-py==2026.9.1
+ + typing-extensions==4.16.0
+$ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\python.exe -c import pipd_ls_sp,sys;print('import ok', pipd_ls_sp.__file__)   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e)
+  exit=0
+  stdout: import ok C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Lib\site-packages\pipd_ls_sp\__init__.py
+
+run dir : C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\run
+has schemas/ ? False   (must be False for CE-1)
+$ git init -q   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\repo)
+  exit=0
+$ git add -A   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\repo)
+  exit=0
+$ git -c user.email=r5r@local -c user.name=r5r commit -q -m init   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\repo)
+  exit=0
+scratch repo head: 581203a5557e5152ee2f6b02f97802c3092fef82
+
+=== 1. doctor (from the schemas-less cwd, no --root) ===
+$ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\pipd.exe doctor   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\run)
+  exit=0
+  stdout: {
+ "families": 19,
+ "findings": [],
+ "schema_source": {
+  "mode": "INSTALLED",
+  "path": "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+  ]
+ },
+ "skill_drift": [],
+ "verdict": "PASS"
+}
+
+=== 2. chain ===
+$ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\pipd.exe init   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\run)
+  exit=2
+  stdout: {
+ "code": "VALIDATION_FAIL",
+ "message": "registry missing: C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\run\\schemas\\registry.json",
+ "verdict": "FAIL"
+}
+$ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\pipd.exe intake --goal R5R maker E2E: prove the installed distribution runs the full design chain   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\run)
+  exit=2
+  stdout: {
+ "code": "AUTHORITY_UNKNOWN",
+ "message": "intake requires at least one source locator",
+ "verdict": "FAIL"
+}
+
+files under run/ after intake:
+intent candidate: None
+
+=== 3. CE-2: bundle assembled from the compilers' own stdout, unedited ===
+  bundle contracts: []
+  PI-PKG still carries _profile_meta: False
+$ C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\venv\Scripts\pipd.exe validate --bundle C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\.hgk\rounds\R5R-20261010-s4-ce-repair-and-codex-verify\maker-e2e\bundle_raw.json   (cwd=C:\Users\user\AppData\Local\Temp\r5r-maker-e2e\run)
+  exit=1
+  stdout: {
+ "checked": 0,
+ "findings": [
+  {
+   "contract": "*",
+   "detail": "empty bundle: zero records checked cannot be a PASS",
+   "kind": "DENOMINATOR"
+  }
+ ],
+ "schema_source": {
+  "mode": "INSTALLED",
+  "path": "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\run\\schemas",
+   "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+  ]
+ },
+ "verdict": "FAIL"
+}
+  VERDICT=FAIL  checked=0  findings=[{'contract': '*', 'detail': 'empty bundle: zero records checked cannot be a PASS', 'kind': 'DENOMINATOR'}]
+  schema_source={"mode": "INSTALLED", "path": "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas", "tried": ["C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\run\\schemas", "C:\\Users\\user\\AppData\\Local\\Temp\\r5r-maker-e2e\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas"]}

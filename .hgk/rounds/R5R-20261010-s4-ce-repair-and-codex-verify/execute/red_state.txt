@@ -73,3 +73,41 @@ Ran 5 tests in 1.533s
 
 FAILED (failures=3, errors=2)
 
+--- init (second CE-1-class site) ---
+# RED on the pre-repair workspace.init_workspace: it read the registry from the
+# ``<root>/schemas`` dir it had JUST created empty, so ``pipd init`` could never succeed
+# on a fresh/installed root. command: python -m unittest tests.test_ce_repair_regression.CE1InitSecondSiteSchemaResolutionTests -v
+# (the fix was temporarily reverted to capture this; the raw error is the reported one)
+# result: FAILED (errors=2)
+# ---------------------------------------------------------------------------
+test_init_reports_workspace_local_schemas_when_present (tests.test_ce_repair_regression.CE1InitSecondSiteSchemaResolutionTests.test_init_reports_workspace_local_schemas_when_present) ... ERROR
+test_init_succeeds_on_fresh_root_without_schemas (tests.test_ce_repair_regression.CE1InitSecondSiteSchemaResolutionTests.test_init_succeeds_on_fresh_root_without_schemas) ... ERROR
+
+======================================================================
+ERROR: test_init_reports_workspace_local_schemas_when_present (tests.test_ce_repair_regression.CE1InitSecondSiteSchemaResolutionTests.test_init_reports_workspace_local_schemas_when_present)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\tests\test_ce_repair_regression.py", line 203, in test_init_reports_workspace_local_schemas_when_present
+    self.assertEqual(out["schema_source"]["mode"], "WORKSPACE")
+                     ~~~^^^^^^^^^^^^^^^^^
+KeyError: 'schema_source'
+
+======================================================================
+ERROR: test_init_succeeds_on_fresh_root_without_schemas (tests.test_ce_repair_regression.CE1InitSecondSiteSchemaResolutionTests.test_init_succeeds_on_fresh_root_without_schemas)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\tests\test_ce_repair_regression.py", line 180, in test_init_succeeds_on_fresh_root_without_schemas
+    out = workspace.init_workspace(root)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\src\pipd_ls_sp\workspace.py", line 52, in init_workspace
+    reg = registry.load_registry(root / "schemas")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\src\pipd_ls_sp\registry.py", line 180, in load_registry
+    raise ValidationFail(f"registry missing: {reg_path}")
+pipd_ls_sp.errors.ValidationFail: registry missing: C:\Users\user\AppData\Local\Temp\tmp2b0fflyn\fresh\schemas\registry.json
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.038s
+
+FAILED (errors=2)
+

@@ -49,9 +49,26 @@ def init_workspace(root: Path) -> dict[str, Any]:
         if not d.exists():
             d.mkdir(parents=True, exist_ok=True)
             created.append(rel)
-    reg = registry.load_registry(root / "schemas")
+    # CE-1 (second site): this function's job is "create the skeleton and report how many
+    # contract families exist", so the family count must come from wherever the registry
+    # actually is - the SAME shared chain ``doctor``/``validate`` consume - not from the
+    # ``<root>/schemas`` directory this function has just created empty. Passing
+    # ``root / "schemas"`` unconditionally made ``init`` fail on any fresh or installed root
+    # (a cwd without a registry-carrying ``schemas/``). ``resolve_for_validate`` reuses the
+    # exact OVERRIDE -> INSTALLED -> SOURCE order with a workspace-local ``<root>/schemas``
+    # winning ONLY when it actually carries ``registry.json``, so an initialised workspace
+    # that owns a real copy still reads its own. No second lookup scheme is hand-rolled here.
+    schemas_dir, mode, tried = registry.resolve_for_validate(root)
+    source = {"mode": mode, "path": str(schemas_dir) if schemas_dir is not None else "",
+              "tried": tried}
+    if schemas_dir is None:
+        # Fail closed with the SAME typed posture ``validate`` uses: a named code and a message
+        # that names every surface that was tried, never a bare FileNotFoundError/traceback.
+        raise ValidationFail(
+            "no schemas directory containing registry.json; tried: " + "; ".join(tried))
+    reg = registry.load_registry(schemas_dir)
     return {"verdict": "PASS", "root": str(root), "created": created,
-            "contract_families": len(reg["families"])}
+            "contract_families": len(reg["families"]), "schema_source": source}
 
 
 def secret_scan(root: Path) -> dict[str, Any]:

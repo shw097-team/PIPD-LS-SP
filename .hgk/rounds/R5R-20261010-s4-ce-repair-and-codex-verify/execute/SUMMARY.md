@@ -120,3 +120,87 @@ above red→green is measured against.
   release. Those are other lanes / the owner's publication decision per the FAR §6 and the
   work order.
 - Did not close `DEL-018` and did not advance any claim ceiling.
+
+## Follow-up (bounded writer): the SECOND CE-1-class site — `workspace.init_workspace`
+
+A real end-to-end check against an actual wheel install (cwd without a `schemas/`, no `--root`)
+found a THIRD instance of the CE-1 class that the first repair did not cover:
+
+```
+$ python -m pipd_ls_sp.cli init        # cwd = a directory with no schemas/
+exit=2
+{"code": "VALIDATION_FAIL",
+ "message": "registry missing: <cwd>\\schemas\\registry.json",
+ "verdict": "FAIL"}
+```
+
+### Why it is the same class
+
+`workspace.init_workspace(root)` creates the skeleton dirs (`docs`, `schemas`, `src`, `tests`,
+`dist`) and then called `registry.load_registry(root / "schemas")` — the `<root>/schemas`
+directory it had *just created empty*. Passing the workspace-local path unconditionally means
+`init` can never succeed on a fresh or installed root. The function's stated job is "create the
+skeleton and report how many contract families exist", so the count must come from wherever the
+registry actually is, exactly as `doctor`/`validate` now do.
+
+### What changed
+
+`src/pipd_ls_sp/workspace.py` — `init_workspace`
+
+- Resolves the schemas surface through the SAME shared resolver (`registry.resolve_for_validate`)
+  the rest of the CLI uses — no second, hand-rolled lookup. That resolver owns the single order
+  of preference (`OVERRIDE -> INSTALLED -> SOURCE`), with a workspace-local `<root>/schemas`
+  winning when it carries `registry.json` (reported `WORKSPACE`).
+- Reports the chosen surface in the same `{mode, path, tried}` shape the other commands use, as a
+  new `schema_source` key. The pre-existing keys `verdict`, `root`, `created`, `contract_families`
+  all survive.
+- If no surface resolves it fails closed with the typed `VALIDATION_FAIL` and a message naming
+  every surface tried — the same posture `validate` uses — never a bare `FileNotFoundError`.
+- A workspace-local `<root>/schemas` that genuinely carries `registry.json` still wins, so an
+  initialised workspace keeps reading its own copy (pinned by a test).
+
+`tests/test_ce_repair_regression.py` — new class `CE1InitSecondSiteSchemaResolutionTests` (2 tests,
+same style): `init_workspace` on a fresh temp root with no `schemas/` succeeds, reports the 19
+families and names the resolved surface; and a workspace-local `schemas/` copy still wins
+(`mode == WORKSPACE`).
+
+### Explicitly out of scope — left alone
+
+`src/pipd_ls_sp/projection.py` also reads `root / "schemas" / "registry.json"`. That is NOT the
+same class: its contract is to load the canonical objects out of ONE specified canonical tree, so
+requiring that tree to carry its registry is correct. It was not touched.
+
+### Red → green for this site
+
+```
+python -m unittest tests.test_ce_repair_regression.CE1InitSecondSiteSchemaResolutionTests -v
+```
+
+- Pre-repair (temporarily reverted to capture): `Ran 2 tests … FAILED (errors=2)` — the raw error
+  is `ValidationFail: registry missing: …\\fresh\\schemas\\registry.json`, matching the report.
+- Repaired: `Ran 2 tests … OK`; whole file `Ran 7 tests … OK`.
+
+### Full suite — and an honest disclosure about it
+
+```
+python -m unittest discover -s tests -t .
+```
+
+Result: `Ran 318 tests … FAILED (failures=1, skipped=3)`. The count rose by the 2 tests I added
+(316 → 318). The one failure is **NOT** in this change:
+
+`tests.test_tooling_executes.TestToolingExecutes.test_tracked_file_metric_excludes_vcs_internals`
+asserts the tracked-file count is `< 1000`; this checkout now has 1015 tracked files. I verified it
+is pre-existing and independent of my edits: it reproduces identically on a pristine detached
+worktree of the committed HEAD `a503efe` with no modifications, and it did not occur at the prior
+commit `9bd33a1` because that tree had only 996 tracked files.
+
+Root cause (not introduced by me): the previous commit `a503efe` committed 212 lines into the
+tracked `.../execute/full_suite.txt` (plus other round evidence), and this round's `maker-e2e/`
+adds many untracked-but-present files — together they pushed the checkout past the test's 1000-file
+heuristic. The heuristic is a self-estimate guard, not a correctness oracle: `_tracked_file_count`
+returns exactly `git ls-files` here (1015), which is correct behaviour. I did NOT edit that test or
+the heuristic, did NOT delete the round evidence, and did NOT commit anything.
+
+So the suite is green **except** for that one pre-existing baseline failure, which is outside the
+scope of this bounded-writer order. I am reporting it rather than redefining "green".

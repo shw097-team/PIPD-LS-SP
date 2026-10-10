@@ -28,7 +28,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT / "src") not in sys.path:
     sys.path.insert(0, str(ROOT / "src"))
 
-from pipd_ls_sp import pipeline, validate  # noqa: E402
+from pipd_ls_sp import pipeline, validate, workspace  # noqa: E402
 
 GOAL = "以 HG-KSEOS 治理控制平面實作 PIPD-LS-SP 規格包編譯系統，完成測試驗收與公開交付。"
 MAKER, CHECKER = "HERMES-MAKER", "GLM-5.3-FLASH-AO-LANE"
@@ -159,6 +159,50 @@ class CE1ValidateSchemaResolutionTests(unittest.TestCase):
             src = payload["schema_source"]
             self.assertEqual(set(src), {"mode", "path", "tried"})
             self.assertIn(src["mode"], {"SOURCE", "INSTALLED", "OVERRIDE", "WORKSPACE"})
+
+
+class CE1InitSecondSiteSchemaResolutionTests(unittest.TestCase):
+    """CE-1, second site: ``init_workspace`` reports the family count from the resolved chain.
+
+    ``init_workspace`` creates the skeleton (``schemas`` among it) and then read the registry from
+    ``<root>/schemas`` - the empty directory it had just created - so ``init`` failed on any fresh
+    or installed root. It must resolve through the SAME shared chain ``doctor``/``validate`` use,
+    report which surface produced the count, and still let a workspace-local ``<root>/schemas``
+    carrying a real ``registry.json`` win.
+    """
+
+    def test_init_succeeds_on_fresh_root_without_schemas(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td) / "fresh"
+            root.mkdir()
+            self.assertFalse((root / "schemas").exists(),
+                             "precondition: the root must have no schemas/ tree")
+            out = workspace.init_workspace(root)
+            self.assertEqual(out["verdict"], "PASS", out)
+            self.assertEqual(out["contract_families"], 19,
+                             "init must report the real family count from the resolved chain")
+            # every pre-existing field survives
+            for field in ("verdict", "root", "created", "contract_families"):
+                self.assertIn(field, out)
+            src = out["schema_source"]
+            self.assertEqual(set(src), {"mode", "path", "tried"})
+            self.assertIn(src["mode"], {"SOURCE", "INSTALLED", "OVERRIDE"})
+            self.assertTrue(src["path"], "the resolved surface must be named")
+            self.assertTrue(Path(src["path"]).is_dir())
+
+    def test_init_reports_workspace_local_schemas_when_present(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td) / "ws"
+            (root / "schemas").mkdir(parents=True)
+            for p in (ROOT / "schemas").rglob("*"):
+                if p.is_file():
+                    shutil.copy2(p, root / "schemas" / p.name)
+            out = workspace.init_workspace(root)
+            self.assertEqual(out["verdict"], "PASS", out)
+            self.assertEqual(out["contract_families"], 19)
+            self.assertEqual(out["schema_source"]["mode"], "WORKSPACE")
+            self.assertEqual(Path(out["schema_source"]["path"]).resolve(),
+                             (root / "schemas").resolve())
 
 
 if __name__ == "__main__":
