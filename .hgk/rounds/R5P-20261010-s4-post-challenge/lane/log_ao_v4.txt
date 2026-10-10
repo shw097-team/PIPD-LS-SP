@@ -1,0 +1,1103 @@
+[checker] start 2026-10-10T12:56:37Z brief=brief_ao_checker_v4.md model=gpt-6.1-sol image=pipd-r4-writer:4 port=10111 timeout=900
+[checker] read-only product mount: C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r5p-final2-tree
+[checker] ao_out=C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R5P-20261010-s4-post-challenge/ao/out (outside the product write set)
+iptables v1.8.9 (nf_tables): Could not fetch rule set generation id: Permission denied (you must be root)
+iptables v1.8.9 (nf_tables): Could not fetch rule set generation id: Permission denied (you must be root)
+iptables v1.8.9 (nf_tables): Could not fetch rule set generation id: Permission denied (you must be root)
+iptables v1.8.9 (nf_tables): Could not fetch rule set generation id: Permission denied (you must be root)
+[egress] admission ACTIVE — loopback + gateway 192.168.65.254 ALLOW; all other egress DROP
+[egress] state=locked:192.168.65.254 
+Reading additional input from stdin...
+OpenAI Codex v0.162.0
+--------
+workdir: /ao
+model: gpt-6.1-sol
+provider: hgk_verify_door
+approval: never
+sandbox: danger-full-access
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a125e3-08f5-7642-9a00-5f4344ca15bd
+--------
+user
+# INDEPENDENT CHECKER BRIEF — R5P terminal pass (attempt 4, C6 only) — PIPD-LS-SP
+
+Attempt 3: `C2 PASS`, `C8 PASS`, `C6 FAIL (EVIDENCE_GAP)`. C6 was repaired on the strength of your own
+wording. **This is the terminal pass of the round**: judge C6 on the new frozen subject, and if anything
+remains imperfect, record it as a named residual limitation with your scope instead of asking for another
+cycle. Do not re-open C1/C2/C4/C5/C7/C8 — they are settled.
+
+## Subject
+
+| role | value |
+|---|---|
+| baseline (immutable) | `r5-s4-packreader` @ `0f06eec96386b7349db8b41ac6cf9c7455d326f1` |
+| **subject under review now** | **`194f1774e8e852f954d141c48389a74b0f0e302a`** (tree `b1ec0abf4799fdc917aaa23dc75885b302407ee5`) |
+| attempt-3 subject | `9caef8ec…` — superseded by this commit |
+| only change since attempt 3 | `ACCEPTANCE.md` first-screen banner |
+
+Mounts: `/w` = pristine export of the new subject (read-only, no `.git`), `/round` = round evidence
+(read-only), `/briefs` (read-only), `/ao` = your only writable place.
+
+## C6 question, precisely
+
+Your attempt-3 note asked for two things: (1) mark attempt-2's commit/tree/digest as superseded rather
+than current, and (2) give an external binding entry point for the current subject — **and you stated that
+the file must not be required to self-reference its own digest.**
+
+Verify, on `/w/ACCEPTANCE.md` lines 1–34 and `/w/README.md` first screen:
+
+1. Does the first screen now identify the branch under review, the licence position and the claim ceiling?
+2. Are the attempt-2 values explicitly labelled as superseded history, or are they still presented as the
+   current subject?
+3. Does it give a reproducible external entry point for the current subject's identity — i.e. a path in
+   `.hgk/rounds/R5P-20261010-s4-post-challenge/` (which the bound product digest excludes) — and does that
+   entry point actually contain the current commit/tree/wheel/digest when you read it?
+4. Is the banner stable under further commits to this branch, i.e. does it avoid asserting a digest that a
+   subsequent commit would invalidate?
+
+## Deliverable
+
+`AO_VERDICT_V4.json` in `/ao`: `checker_id`, `subject_commit`, `subject_tree`, `checks` (C6 only, with
+`verdict`, `evidence` paths, `commands` with exit codes, `note`), `overall`, `classification`,
+`residual_limitations` (named, each with scope), `independent_of_maker`, `human_ratification: PENDING`,
+`claim_ceiling: CANDIDATE_ONLY`. Log in 繁體中文. If C6 passes, say plainly that the round's document
+binding is closed for this subject and name anything you still cannot confirm from a read-only mount.
+codex
+我會只核驗 C6，讀取新 subject 的首屏及外部綁定證據，並把裁決與具名殘餘限制寫入 `/ao/AO_VERDICT_V4.json`；不重開已結案的檢查。
+exec
+/bin/bash -lc "pwd; rg --files -g AGENTS.md -g '*194f1774*' -g '*V3*' -g '*binding*' /ao /round /briefs /w" in /ao
+ succeeded in 993ms:
+/ao
+/ao/v3/raw/c8_binding.stdout
+/ao/v3/raw/c8_binding.stderr
+/ao/v3/raw/c8_binding.command.json
+/ao/AO_VERDICT_V3.json
+/round/lane/writer-home/plugins/cache/openai-curated-remote/sites/1.0.0/skills/sites/templates/vinext-starter/scripts/connector-preview/host-binding.mjs
+/briefs/writer-home/plugins/cache/openai-curated-remote/sites/1.0.0/skills/sites/templates/vinext-starter/scripts/connector-preview/host-binding.mjs
+/briefs/checker-home/plugins/cache/openai-curated-remote/sites/1.0.0/skills/sites/templates/vinext-starter/scripts/connector-preview/host-binding.mjs
+/round/lane/checker-home/plugins/cache/openai-curated-remote/sites/1.0.0/skills/sites/templates/vinext-starter/scripts/connector-preview/host-binding.mjs
+/round/ao/out/venv_unchanged_record/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/__pycache__/bindings.cpython-311.pyc
+/round/ao/out/venv_unchanged_record/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/bindings.py
+/ao/venv_unchanged_record/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/__pycache__/bindings.cpython-311.pyc
+/ao/venv_unchanged_record/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/bindings.py
+/round/ao/out/v2/venv_unchanged_record/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/__pycache__/bindings.cpython-311.pyc
+/round/ao/out/v2/venv_unchanged_record/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/bindings.py
+/ao/v2/venv_unchanged_record/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/__pycache__/bindings.cpython-311.pyc
+/ao/v2/venv_unchanged_record/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/bindings.py
+/ao/venv_adjusted_record/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/__pycache__/bindings.cpython-311.pyc
+/ao/venv_adjusted_record/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/bindings.py
+/round/ao/out/AO_VERDICT_V3.json
+/ao/venv_control/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/__pycache__/bindings.cpython-311.pyc
+/ao/venv_control/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/bindings.py
+/round/ao/out/v2/venv_adjusted_record/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/__pycache__/bindings.cpython-311.pyc
+/round/ao/out/v2/venv_adjusted_record/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/bindings.py
+/ao/v2/venv_control/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/__pycache__/bindings.cpython-311.pyc
+/ao/v2/venv_control/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/bindings.py
+/round/ao/out/v2/venv_control/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/bindings.py
+/round/ao/out/v2/venv_control/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/__pycache__/bindings.cpython-311.pyc
+/round/ao/out/v3/raw/c8_binding.stdout
+/round/ao/out/v3/raw/c8_binding.stderr
+/round/ao/out/v3/raw/c8_binding.command.json
+/round/ao/out/venv_adjusted_record/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/__pycache__/bindings.cpython-311.pyc
+/round/ao/out/venv_adjusted_record/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/bindings.py
+/round/ao/out/venv_control/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/__pycache__/bindings.cpython-311.pyc
+/round/ao/out/venv_control/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/bindings.py
+/ao/v2/venv_adjusted_record/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/bindings.py
+/ao/v2/venv_adjusted_record/lib/python3.11/site-packages/pip/_vendor/urllib3/contrib/_securetransport/__pycache__/bindings.cpython-311.pyc
+
+exec
+/bin/bash -lc 'nl -ba /w/ACCEPTANCE.md | head -n 55; nl -ba /w/README.md | head -n 65; ls -la /round /briefs /ao' in /ao
+ succeeded in 38ms:
+     1	> **R5P (2026-10-10) — read this banner before the receipt below.**
+     2	>
+     3	> This file describes the **BASELINE** round (`r5-s4-packreader` @
+     4	> `0f06eec96386b7349db8b41ac6cf9c7455d326f1`). It is retained verbatim as history and was not rewritten.
+     5	> The branch under review now is **`r5p-post-challenge-repair`**, carrying the post-challenge repair for
+     6	> the external 2026-10-10 challenge.
+     7	>
+     8	> **The current subject's commit, tree, wheel hash and product digest are deliberately NOT quoted in this
+     9	> file.** This file sits inside the measured product surface, so committing a digest here would change the
+    10	> very subject that digest describes (the independent checker confirmed this and required an external
+    11	> binding entry point rather than self-reference). The authority for the branch's current subject is the
+    12	> round evidence directory, which the product digest excludes:
+    13	>
+    14	> - `.hgk/rounds/R5P-20261010-s4-post-challenge/CHECKPOINT_R5P.json` — current subject commit / tree /
+    15	>   wheel sha256 / bound product digest
+    16	> - `.hgk/rounds/R5P-20261010-s4-post-challenge/evidence/DIGEST_BINDING.json` — the round's single bound
+    17	>   product-digest definition, plus the rejected narrower alternative; reproduce with
+    18	>   `python .hgk/rounds/R5P-20261010-s4-post-challenge/ops/bound_digest.py <pristine-root>`
+    19	> - `.hgk/rounds/R5P-20261010-s4-post-challenge/evidence/host_fullsuite_repair_bound.txt` — host suite
+    20	>   receipt carrying its own command line, exit code and subject binding
+    21	> - `.hgk/rounds/R5P-20261010-s4-post-challenge/ao/out/AO_VERDICT.json`, `AO_VERDICT_V2.json`,
+    22	>   `AO_VERDICT_V3.json` — the independent checker's passes; never the Maker's own summary
+    23	>
+    24	> **Superseded attempt, kept as history only:** an earlier attempt of this round quoted attempt-2's
+    25	> identity (`812af79422c087f0ef5a07188fbec061df6b47e0`, tree `d3b79d2bc7aba08368a02a9f34204d14c9b06bbd`,
+    26	> wheel `bb070a6f525382edc521bcf7fe127579e1e329024113ab4fe2881eeeea7b0a76`, product digest
+    27	> `4ee712e899e9f4aa14d46ba1d3f879eb6b45ad0ae4a8b02bf1d9847b5f8cc579`) as though it were current. Those
+    28	> values belong to that superseded attempt only.
+    29	>
+    30	> Claim ceiling for every subject named above: **`CANDIDATE_ONLY`**; licence
+    31	> **`LicenseRef-PIPD-Proprietary`, no public-use grant**; no downstream stage inherits any PASS.
+    32	
+    33	# External acceptance entry point — R5 S4 repair round (2026-10-10)
+    34	
+    35	This branch was published so that an **independent verifier** can accept it. Everything here is written
+    36	for that reader. **Nothing in this repository is a claim of acceptance** — see the claim ceiling below.
+    37	
+    38	| item | value |
+    39	|---|---|
+    40	| branch to accept | `r5-s4-packreader` |
+    41	| subject commit | the tip of branch `r5-s4-packreader`. Two bindings pin it, and neither depends on where a later commit sits: (a) the **sha256 of both subject files** (table below) — stable across any commit, and the same digests the independent checker verified; (b) `.hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION_R5S4_PACKREADER.json`, which carries top-level `commit` and `tree` naming the exact subject it was computed over, seals the product and manifest digests, and adds a `payload_digest` so tampering is detectable. Evidence-only commits were added after that binding to deliver the acceptance-officer re-runs; they change no product file, and the digests in (a) are unaffected. The repository's older `.hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION.json` attests the earlier R3 published subject and is deliberately left untouched. |
+    42	| previous public state (parent) | `7f13b90dc06354a0c6b7bd013f83a8cc244bf93d`; its tree is `git rev-parse 7f13b90^{tree}` |
+    43	| round | `R5-20261009-s4-user-operability` |
+    44	| scope | exactly one confirmed defect (**D1**) repaired, then independently checked |
+    45	| independent verdict | `.hgk/rounds/R5-20261009-s4-user-operability/d1repair/D1_INDEPENDENT_VERDICT_V2.json` |
+    46	| the contract that checker executed | `.hgk/rounds/R5-20261009-s4-user-operability/d1repair/CONTRACT-verify-D1.v2.md` |
+    47	| superseded first contract (kept deliberately) | `.hgk/rounds/R5-20261009-s4-user-operability/d1repair/CONTRACT-verify-D1.v1.md` |
+    48	| writer order | `.hgk/rounds/R5-20261009-s4-user-operability/d1repair/WO-WS-A-codex-writer.md` |
+    49	| provenance audit of the defect class | `.hgk/rounds/R5-20261009-s4-user-operability/far/D1_PROVENANCE_AUDIT.md` |
+    50	| evidence manifest — every round artifact, delivered or withheld, each with a hash | `.hgk/rounds/R5-20261009-s4-user-operability/EVIDENCE_MANIFEST.json` |
+    51	
+    52	## The defect (D1)
+    53	
+    54	`tools/perf_budget.py` prints a `historical` block, commented as the recorded verdicts of earlier stages.
+    55	That block read **no stored value at all**: it re-measured the live corpus and printed the result as if it
+     1	# PIPD-LS-SP — Pre-Implementation / Pre-Dev Lifecycle Skills Plugin (review candidate)
+     2	
+     3	Candidate artifact of a governed implementation round. Control plane: **HG-KSEOS**
+     4	(project `PIPD-LS-SP-20261008`). Runtime / orchestration plane: **Hermes** under HGK admission.
+     5	Contract surface: **Fabric**.
+     6	
+     7	> **External acceptance entry point:** see [`ACCEPTANCE.md`](ACCEPTANCE.md). It names the branch under
+     8	> acceptance, the subject commit, the one defect repaired in the R5 S4 round, the independent verdict and
+     9	> the exact commands an external verifier runs — and what is explicitly **not** claimed.
+    10	
+    11	## What is in this tree
+    12	
+    13	| path | what it is |
+    14	|---|---|
+    15	| `docs/S0_CONTRACT_SPEC.md` | the frozen S0 contract spec that drives the schema set |
+    16	| `schemas/` | 19 canonical machine-contract families + `registry.json`, written by the Codex bounded writer |
+    17	| `src/pipd_ls_sp/` | the plugin runtime: intake, profile binding, PI→PD→ConstructionContract→ECP/TQAEP pipeline, deterministic validators, 13-command CLI |
+    18	| `tests/` | deterministic tests: S0 contract set, LITE vertical slice, negative/adversarial, rollback, secret patterns, tooling guards, quarantine disposition (POS/NEG/EDGE), oracle-disagreement, evidence-MD hard-gate refusal — live count below, never a stale number |
+    19	| `tools/` | governed round tooling (knowledge probe, HGK admission driver, kanban receipts, CLI smoke) |
+    20	| `LICENSE`, `PROVENANCE.md`, `SBOM.cdx.json` | release-gate artifacts |
+    21	
+    22	## Claim ceiling — read this before believing anything
+    23	
+    24	This repository is a **review candidate**. Status words are kept separate on purpose:
+    25	
+    26	| claim | state |
+    27	|---|---|
+    28	| `PROMPT_COMPILE_PASS` | claimed locally, evidence in `.hgk/preflight/` |
+    29	| `HGK_ADMITTED` | claimed locally (HGK lifecycle reached `EXECUTING`) |
+    30	| `RUNTIME_READY` | **NOT claimed** |
+    31	| `LOCAL_QUALIFIED` | claimed locally (deterministic tests + CLI smoke), scoped to S0/S1 |
+    32	| `INDEPENDENT_PASS` | **NOT CLAIMED by the maker** — pending an independent acceptance officer receipt |
+    33	| `PUBLICATION_APPROVED` | **NOT claimed** — no license is declared in the source corpus |
+    34	| `RELEASED` | **NOT claimed** |
+    35	| `PRODUCTION_VERIFIED` | **NOT claimed** |
+    36	
+    37	**Historical R3 snapshot (kept as history, not the current product state):** `S0` and `S1` are the only stages reached. S2–S8 are not implemented.
+    38	
+    39	> The sentence above is the **R3** snapshot. The branch **current for review** is **`r5p-post-challenge-repair`** (baseline `r5-s4-packreader` @ `0f06eec96386b7349db8b41ac6cf9c7455d326f1`; `main` is still the R3 state). The current acceptance entry point is [`ACCEPTANCE.md`](ACCEPTANCE.md), which names the candidate ceiling: an **`S4` candidate, internal evaluation**, licensed **`LicenseRef-PIPD-Proprietary`** with **no public-use grant**. This note upgrades no claim level.
+    40	
+    41	**R4 (2026-10-09) keeps every one of those ceilings — nothing below was promoted.**
+    42	`INDEPENDENT_PASS`, `PUBLICATION_APPROVED`, `RELEASED` and `PRODUCTION_VERIFIED` remain **NOT CLAIMED**. One repair
+    43	delta (the `round_envelope` destination guards) was independently verified by a separate lane whose verdict is **PASS at
+    44	the delta level**, with the ceiling still `CANDIDATE_ONLY`; the *round's* acceptance stays **PARTIAL** (V7 `NOT_RUN`).
+    45	
+    46	## R3 audit-repair status — R3 snapshot (2026-10-09, FW-10 / FW-12 / R-AUD-008 / R-AUD-012 / R-AUD-013)
+    47	
+    48	> The counts in this section are the **R3** snapshot and are deliberately left as history. The current register is
+    49	> **22 rows / 18 blocking** — see the R4 section below, which supersedes the "17 rows" figure quoted here.
+    50	
+    51	True denominators, failures named — no percentage ever hides a hard FAIL:
+    52	
+    53	| area | state | denominator |
+    54	|---|---|---|
+    55	| unit suite | see `.hgk/artifacts/STATUS_R3.json#tests` | `python -B -m unittest discover -s tests -t .` — real counts + named failing tests, raw log in the round receipt |
+    56	| knowledge readiness (`G-KNOWLEDGE-READY`) | **PARTIAL** | 160 unique sources / 153 physically indexed / 7 quarantined by the sanitizer; the 7 are now **owner-dispositioned** (2 `safe-clean`, 5 `safe-reference`, 0 undecided) in `.hgk/knowledge/QUARANTINE_DISPOSITION_R3.json`. The physical number stays 153/160 — it is NOT padded to 160/160 — until `TT-HGK-SANITIZER-UNANCHORED-KEY-PATTERN` closes |
+    57	| quarantine negative controls | PASS | a live credential and an unframed injection are **not** released even when claimed harmless; an undecided item stays quarantined (`python tools/quarantine_review.py --report`) |
+    58	| TT / CR register | 17 rows | 1 CLOSED (fresh-verified) · 4 PARTIAL · 9 OPEN · 2 OPEN_OWNER_GATE · 1 TEMP_CLOSED — every row carries owner, current state, raw-evidence pointer and explicit close criterion (`.hgk/artifacts/TT_REGISTER.json`) |
+    59	| KP rule-polarity (`R-AUD-013`) | OPEN, resolved by the authorised source | `ORACLE_DISAGREEMENT` entry `OD-R3-001`: upper Evidence/Regression requirement prevails over the KP02/KP11/KP12 `MUST NOT` rows; KP files not edited; calibration negative keeps a genuine `MUST NOT` prohibition (`TT-ORACLE-DISAGREEMENT-KP-R04`) |
+    60	| PRE-W3 cross-project | **TEMP_CLOSED** | independently closed; never derived from S0–S4 evidence (`TT-PRE-W3-CROSS-PROJECT`, HITL owner required) |
+    61	| evidence-MD generator | refusal-protected | `tools/build_evidence_md.py` refuses to print PASS when any hard gate row is FAIL (typed `HARD_GATE_FAIL`, exit 2, no document written) |
+    62	
+    63	## R4 focused-repair status (2026-10-09) — `PIPD-LS-SP-HERMES-R4-FOCUSED-REPAIR-20261009`
+    64	
+    65	Task nature **`NARROW_REPAIR`** (scope `S0-S4_FOCUSED_REPAIR_PLUS_PUBLICATION_EVIDENCE`); R3 functionality is preserved —
+/ao:
+total 7368
+drwxrwxrwx 1 root root     512 Oct 10 12:47 .
+drwxr-xr-x 1 root root    4096 Oct 10 12:56 ..
+-rw-r--r-- 1 root root    6030 Oct 10 12:22 AO_LOG.ndjson
+-rw-r--r-- 1 root root   34849 Oct 10 12:44 AO_V2.log
+-rw-r--r-- 1 root root    5773 Oct 10 12:22 AO_VERDICT.json
+-rw-r--r-- 1 root root   10411 Oct 10 12:44 AO_VERDICT_V2.json
+-rw-r--r-- 1 root root   10390 Oct 10 12:47 AO_VERDICT_V3.json
+-rw-r--r-- 1 root root       0 Oct 10 12:15 BINDING_AND_MOUNTS.stderr
+-rw-r--r-- 1 root root    3421 Oct 10 12:15 BINDING_AND_MOUNTS.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:20 BOUND_PRODUCT_DIGEST.stderr
+-rw-r--r-- 1 root root     130 Oct 10 12:20 BOUND_PRODUCT_DIGEST.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:14 BUILD_MUTATIONS.stderr
+-rw-r--r-- 1 root root    5136 Oct 10 12:14 BUILD_MUTATIONS.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:18 CANDIDATE_DIGEST.stderr
+-rw-r--r-- 1 root root     181 Oct 10 12:18 CANDIDATE_DIGEST.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:18 DIGEST_SCOPE_DETAILS.stderr
+-rw-r--r-- 1 root root    1630 Oct 10 12:18 DIGEST_SCOPE_DETAILS.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:17 DOCTOR_SOURCE.stderr
+-rw-r--r-- 1 root root     178 Oct 10 12:17 DOCTOR_SOURCE.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:17 DOCTOR_adjusted_record.stderr
+-rw-r--r-- 1 root root     474 Oct 10 12:17 DOCTOR_adjusted_record.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 DOCTOR_control.stderr
+-rw-r--r-- 1 root root     289 Oct 10 12:16 DOCTOR_control.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 DOCTOR_unchanged_record.stderr
+-rw-r--r-- 1 root root     477 Oct 10 12:16 DOCTOR_unchanged_record.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:22 FINALIZE.stderr
+-rw-r--r-- 1 root root     363 Oct 10 12:22 FINALIZE.stdout
+-rw-r--r-- 1 root root     568 Oct 10 12:16 FOLLOWUP_FUNCTIONAL.stderr
+-rw-r--r-- 1 root root       0 Oct 10 12:16 FOLLOWUP_FUNCTIONAL.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 FOLLOWUP_FUNCTIONAL_RETRY.stderr
+-rw-r--r-- 1 root root    1634 Oct 10 12:16 FOLLOWUP_FUNCTIONAL_RETRY.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:17 INSTALL_adjusted_record.stderr
+-rw-r--r-- 1 root root     154 Oct 10 12:17 INSTALL_adjusted_record.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 INSTALL_control.stderr
+-rw-r--r-- 1 root root     146 Oct 10 12:16 INSTALL_control.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 INSTALL_unchanged_record.stderr
+-rw-r--r-- 1 root root     155 Oct 10 12:16 INSTALL_unchanged_record.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 OWN_DILUTION.stderr
+-rw-r--r-- 1 root root   13456 Oct 10 12:16 OWN_DILUTION.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 PERF.stderr
+-rw-r--r-- 1 root root   11339 Oct 10 12:15 PERF.stdout
+-rw-r--r-- 1 root root     552 Oct 10 12:16 PROCESS_STATUS.stderr
+-rw-r--r-- 1 root root       0 Oct 10 12:16 PROCESS_STATUS.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:17 PROCESS_STATUS_PY.stderr
+-rw-r--r-- 1 root root   23890 Oct 10 12:17 PROCESS_STATUS_PY.stdout
+-rw-r--r-- 1 root root  388003 Oct 10 12:22 RAW_RUNS.jsonl
+-rw-r--r-- 1 root root       0 Oct 10 12:18 READ_BOUND_DIGEST_SCOPE.stderr
+-rw-r--r-- 1 root root    4175 Oct 10 12:18 READ_BOUND_DIGEST_SCOPE.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:14 READ_DETAILS.stderr
+-rw-r--r-- 1 root root   27322 Oct 10 12:14 READ_DETAILS.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:17 READ_DIGEST_DEFINITION.stderr
+-rw-r--r-- 1 root root    1533 Oct 10 12:17 READ_DIGEST_DEFINITION.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:14 READ_FOCUSED.stderr
+-rw-r--r-- 1 root root   28992 Oct 10 12:14 READ_FOCUSED.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 READ_INIT.stderr
+-rw-r--r-- 1 root root    8591 Oct 10 12:16 READ_INIT.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:14 READ_INITIAL.stderr
+-rw-r--r-- 1 root root   75646 Oct 10 12:14 READ_INITIAL.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 READ_MORE.stderr
+-rw-r--r-- 1 root root   26767 Oct 10 12:15 READ_MORE.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:17 READ_PRODUCT_HASH.stderr
+-rw-r--r-- 1 root root    6804 Oct 10 12:17 READ_PRODUCT_HASH.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:19 READ_SNAPSHOT_ALGORITHM.stderr
+-rw-r--r-- 1 root root    3140 Oct 10 12:19 READ_SNAPSHOT_ALGORITHM.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:19 READ_SNAPSHOT_DEFINITION.stderr
+-rw-r--r-- 1 root root   18226 Oct 10 12:19 READ_SNAPSHOT_DEFINITION.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:18 ROUTE_CONFIGURATION.stderr
+-rw-r--r-- 1 root root     435 Oct 10 12:18 ROUTE_CONFIGURATION.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 SECURITY_SWEEP.stderr
+-rw-r--r-- 1 root root    1424 Oct 10 12:16 SECURITY_SWEEP.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 SEC_HOME.stderr
+-rw-r--r-- 1 root root     222 Oct 10 12:16 SEC_HOME.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 SEC_REPAIR.stderr
+-rw-r--r-- 1 root root     126 Oct 10 12:16 SEC_REPAIR.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 SEC_ROOT.stderr
+-rw-r--r-- 1 root root     212 Oct 10 12:16 SEC_ROOT.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 SEC_SUBJECT.stderr
+-rw-r--r-- 1 root root     131 Oct 10 12:16 SEC_SUBJECT.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 SEC_TRAVERSAL.stderr
+-rw-r--r-- 1 root root     175 Oct 10 12:16 SEC_TRAVERSAL.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:19 SEC_WINDOWS_SUBJECT.stderr
+-rw-r--r-- 1 root root     297 Oct 10 12:19 SEC_WINDOWS_SUBJECT.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 STATUS_READ.stderr
+-rw-r--r-- 1 root root   13826 Oct 10 12:16 STATUS_READ.stdout
+-rw-r--r-- 1 root root   22312 Oct 10 12:19 SUITE.stderr
+-rw-r--r-- 1 root root    5054 Oct 10 12:19 SUITE.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:20 SUMMARIZE.stderr
+-rw-r--r-- 1 root root    3451 Oct 10 12:20 SUMMARIZE.stdout
+-rw-r--r-- 1 root root    5943 Oct 10 12:20 SURFACE_MATRIX.json
+-rw-r--r-- 1 root root       0 Oct 10 12:15 SURFACE_bind_pd.stderr
+-rw-r--r-- 1 root root    2206 Oct 10 12:15 SURFACE_bind_pd.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 SURFACE_compile_ecp.stderr
+-rw-r--r-- 1 root root     576 Oct 10 12:15 SURFACE_compile_ecp.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 SURFACE_compile_pi.stderr
+-rw-r--r-- 1 root root  383771 Oct 10 12:15 SURFACE_compile_pi.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 SURFACE_compile_tqaep.stderr
+-rw-r--r-- 1 root root  117008 Oct 10 12:15 SURFACE_compile_tqaep.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 SURFACE_diff.stderr
+-rw-r--r-- 1 root root      59 Oct 10 12:15 SURFACE_diff.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 SURFACE_export.stderr
+-rw-r--r-- 1 root root     697 Oct 10 12:15 SURFACE_export.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 SURFACE_init.stderr
+-rw-r--r-- 1 root root     120 Oct 10 12:15 SURFACE_init.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 SURFACE_init_valid.stderr
+-rw-r--r-- 1 root root      91 Oct 10 12:16 SURFACE_init_valid.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 SURFACE_intake.stderr
+-rw-r--r-- 1 root root  214796 Oct 10 12:15 SURFACE_intake.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 SURFACE_profile.stderr
+-rw-r--r-- 1 root root     297 Oct 10 12:15 SURFACE_profile.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 SURFACE_project.stderr
+-rw-r--r-- 1 root root     901 Oct 10 12:15 SURFACE_project.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 SURFACE_repair.stderr
+-rw-r--r-- 1 root root     299 Oct 10 12:15 SURFACE_repair.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 SURFACE_validate.stderr
+-rw-r--r-- 1 root root     154 Oct 10 12:15 SURFACE_validate.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:18 SURFACE_validate_stripped.stderr
+-rw-r--r-- 1 root root      55 Oct 10 12:18 SURFACE_validate_stripped.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 SURFACE_validate_valid.stderr
+-rw-r--r-- 1 root root     206 Oct 10 12:16 SURFACE_validate_valid.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 TQ_MISSING.stderr
+-rw-r--r-- 1 root root     161 Oct 10 12:15 TQ_MISSING.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 TQ_SAME.stderr
+-rw-r--r-- 1 root root     129 Oct 10 12:15 TQ_SAME.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 TQ_SELF.stderr
+-rw-r--r-- 1 root root     161 Oct 10 12:15 TQ_SELF.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 TQ_TOKEN.stderr
+-rw-r--r-- 1 root root  117027 Oct 10 12:15 TQ_TOKEN.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:17 VALIDATE_STRIPPED.stderr
+-rw-r--r-- 1 root root      55 Oct 10 12:17 VALIDATE_STRIPPED.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:17 VENV_adjusted_record.stderr
+-rw-r--r-- 1 root root       0 Oct 10 12:17 VENV_adjusted_record.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:15 VENV_control.stderr
+-rw-r--r-- 1 root root       0 Oct 10 12:15 VENV_control.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:16 VENV_unchanged_record.stderr
+-rw-r--r-- 1 root root       0 Oct 10 12:16 VENV_unchanged_record.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:22 VERIFY_OUTPUTS.stderr
+-rw-r--r-- 1 root root     191 Oct 10 12:22 VERIFY_OUTPUTS.stdout
+-rw-r--r-- 1 root root       0 Oct 10 12:18 WRITE_REASONING.stderr
+-rw-r--r-- 1 root root      21 Oct 10 12:18 WRITE_REASONING.stdout
+-rw-r--r-- 1 root root    1254 Oct 10 12:14 build_matrix.py
+-rw-r--r-- 1 root root  447888 Oct 10 12:17 bundle-stripped.json
+-rw-r--r-- 1 root root  448238 Oct 10 12:16 bundle-valid.json
+-rw-r--r-- 1 root root  448230 Oct 10 12:15 bundle.json
+-rw-r--r-- 1 root root  214796 Oct 10 12:15 card.json
+-rw-r--r-- 1 root root 1654357 Oct 10 12:16 diluted-pi.json
+-rw-r--r-- 1 root root   13478 Oct 10 12:16 dilution-driver.stdout
+-rw-r--r-- 1 root root    1443 Oct 10 12:16 dilution.py
+-rw-r--r-- 1 root root     576 Oct 10 12:15 ecp.json
+drwxr-xr-x 1 root root     512 Oct 10 12:15 export-output
+-rw-r--r-- 1 root root    6101 Oct 10 12:22 finalize.py
+-rw-r--r-- 1 root root    1102 Oct 10 12:16 followup.py
+-rw-r--r-- 1 root root     638 Oct 10 12:15 matrix.py
+-rw-r--r-- 1 root root  335467 Oct 10 12:16 measured-pi.json
+-rw-r--r-- 1 root root    2206 Oct 10 12:15 pd.json
+-rw-r--r-- 1 root root  383771 Oct 10 12:15 pi.json
+-rw-r--r-- 1 root root   31457 Oct 10 12:20 product-file-hashes.json
+drwxr-xr-x 1 root root     512 Oct 10 12:15 project-output
+-rw-r--r-- 1 root root    4036 Oct 10 12:18 reason.py
+-rw-r--r-- 1 root root    1025 Oct 10 12:22 run.py
+drwxr-xr-x 1 root root     512 Oct 10 12:15 scratch
+-rw-r--r-- 1 root root  413074 Oct 10 12:16 security-after.json
+-rw-r--r-- 1 root root  412750 Oct 10 12:16 security-before.json
+-rw-r--r-- 1 root root    1588 Oct 10 12:16 security.py
+-rw-r--r-- 1 root root    3034 Oct 10 12:20 summarize.py
+-rw-r--r-- 1 root root       0 Oct 10 12:15 surface-driver.stderr
+-rw-r--r-- 1 root root  840204 Oct 10 12:15 surface-driver.stdout
+-rw-r--r-- 1 root root    2066 Oct 10 12:15 surface.py
+-rw-r--r-- 1 root root  117008 Oct 10 12:15 tqaep.json
+drwxr-xr-x 1 root root     512 Oct 10 12:44 v2
+drwxr-xr-x 1 root root     512 Oct 10 12:47 v3
+drwxr-xr-x 1 root root     512 Oct 10 12:16 venv_adjusted_record
+drwxr-xr-x 1 root root     512 Oct 10 12:15 venv_control
+drwxr-xr-x 1 root root     512 Oct 10 12:16 venv_unchanged_record
+drwxr-xr-x 1 root root     512 Oct 10 12:14 wheels
+drwxr-xr-x 1 root root     512 Oct 10 12:15 workspace
+
+/briefs:
+total 1380
+drwxrwxrwx 1 root root    512 Oct 10 12:56 .
+drwxr-xr-x 1 root root   4096 Oct 10 12:56 ..
+-rwxrwxrwx 1 root root   3603 Oct 10 10:39 bridge2.py
+-rwxrwxrwx 1 root root   7074 Oct 10 12:13 brief_ao_checker.md
+-rwxrwxrwx 1 root root   7221 Oct 10 12:31 brief_ao_checker_v2.md
+-rwxrwxrwx 1 root root   2898 Oct 10 12:45 brief_ao_checker_v3.md
+-rwxrwxrwx 1 root root   2627 Oct 10 12:56 brief_ao_checker_v4.md
+-rwxrwxrwx 1 root root   6990 Oct 10 10:40 brief_wo1_diag.md
+-rwxrwxrwx 1 root root   8500 Oct 10 11:21 brief_wo2_cal_tqaep_doc.md
+drwxrwxrwx 1 root root    512 Oct 10 10:30 checker-home
+-rwxrwxrwx 1 root root 295871 Oct 10 12:22 log_ao.txt
+-rwxrwxrwx 1 root root 427171 Oct 10 12:44 log_ao_v2.txt
+-rwxrwxrwx 1 root root  83055 Oct 10 12:48 log_ao_v3.txt
+-rwxrwxrwx 1 root root   8273 Oct 10 12:56 log_ao_v4.txt
+-rwxrwxrwx 1 root root 130491 Oct 10 11:20 log_wo1_diag.txt
+-rwxrwxrwx 1 root root 383841 Oct 10 12:02 log_wo2_caltqaepdoc.txt
+-rwxrwxrwx 1 root root   2810 Oct 10 12:13 run_checker.sh
+-rwxrwxrwx 1 root root   2218 Oct 10 10:39 run_writer.sh
+-rwxrwxrwx 1 root root     28 Oct 10 10:39 smoke.md
+-rwxrwxrwx 1 root root   2327 Oct 10 11:09 symlink_negative.sh
+drwxrwxrwx 1 root root    512 Oct 10 10:37 writer-home
+
+/round:
+total 48
+drwxrwxrwx 1 root root   512 Oct 10 12:41 .
+drwxr-xr-x 1 root root  4096 Oct 10 12:56 ..
+-rwxrwxrwx 1 root root  5886 Oct 10 12:56 CHECKPOINT_R5P.json
+-rwxrwxrwx 1 root root 26544 Oct 10 10:31 R5P_CONTRACT_BUILD.py
+drwxrwxrwx 1 root root   512 Oct 10 10:33 admission
+drwxrwxrwx 1 root root   512 Oct 10 12:32 ao
+drwxrwxrwx 1 root root   512 Oct 10 10:32 compiler
+drwxrwxrwx 1 root root   512 Oct 10 12:42 evidence
+drwxrwxrwx 1 root root   512 Oct 10 10:36 gstack
+-rwxrwxrwx 1 root root  4385 Oct 10 10:33 hgk_r5p_admission.py
+drwxrwxrwx 1 root root   512 Oct 10 12:56 lane
+drwxrwxrwx 1 root root   512 Oct 10 12:56 ops
+drwxrwxrwx 1 root root   512 Oct 10 12:35 uat
+
+exec
+/bin/bash -lc 'cat /round/CHECKPOINT_R5P.json /round/evidence/DIGEST_BINDING.json; cat /round/ops/bound_digest.py' in /ao
+ succeeded in 0ms:
+{
+  "schema": "HGK-PROJECT-CHECKPOINT/1",
+  "checkpoint_id": "R5P-CKPT-20261010-1332Z",
+  "round": "R5P-20261010-s4-post-challenge",
+  "created_at": "2026-10-10T14:35:00Z",
+  "frozen_subject": {
+    "baseline": {
+      "branch": "r5-s4-packreader",
+      "commit": "0f06eec96386b7349db8b41ac6cf9c7455d326f1",
+      "tree": "1f7564282fd708fab2ddeadbbbe4e424a3c564be"
+    },
+    "candidate_branch": "r5p-post-challenge-repair",
+    "code_commit": "b3d08b7d651a548ae74dc45453224fe393c41269",
+    "packaging_commit": "0f64d1f8f84ca3f5815254353abcc039589d457d",
+    "repair_commit": "812af79422c087f0ef5a07188fbec061df6b47e0",
+    "openspec_commit": "2f28dd419bcbc684e25f17ec13ed59eff34ac414",
+    "head": "194f1774e8e852f954d141c48389a74b0f0e302a",
+    "head_tree": "b1ec0abf4799fdc917aaa23dc75885b302407ee5",
+    "wheel_sha256": "bb070a6f525382edc521bcf7fe127579e1e329024113ab4fe2881eeeea7b0a76",
+    "bound_product_digest": "6120cf3775ae522fbabb550f12b39bb6b682d88d8dabc8b247ec093f41775c0e",
+    "note": "supersedes 812af79 (attempt 2) and 9caef8ec (attempt 3); only ACCEPTANCE.md changed each time"
+  },
+  "working_tree": {
+    "dirty_product_paths": [],
+    "note": "clean; every source/test/doc change is committed on r5p-post-challenge-repair"
+  },
+  "work_orders": [
+    {
+      "id": "WO-S4-DIAG-001",
+      "owner": "CLI/PKG08 via bounded Codex lane",
+      "status": "DONE_CANDIDATE",
+      "artifact": "workspace.py / registry.py schema-surface truth",
+      "verification": "maker targeted tests + independent lane C1_DOCTOR_TRUTH PASS on the pristine export"
+    },
+    {
+      "id": "WO-S4-AO-002",
+      "owner": "independent checker lane (non-maker, read-only pristine export, gpt-6.1-sol)",
+      "status": "ATTEMPT1_FAIL_5of8__ATTEMPT2_PARTIAL__ATTEMPT3_PARTIAL_C2C8_PASS__ATTEMPT4_RUNNING_C6_ONLY",
+      "artifact": "ao/out/AO_VERDICT.json, ao/out2/* (in flight)"
+    },
+    {
+      "id": "WO-S4-CAL-003",
+      "owner": "PIPD Eval + Owner",
+      "status": "DONE_CANDIDATE_HARDENED",
+      "artifact": "tools/perf_budget.py content-addressed valid-obligation denominator",
+      "verification": "29 unit tests OK; live check PASS; C4 attack now measured and defeated"
+    },
+    {
+      "id": "WO-S4-TQAEP-004",
+      "owner": "PIPD-EC/TQAEP",
+      "status": "DONE_CANDIDATE",
+      "artifact": "pipeline.compile_tqaep design ceiling TQAEP_DESIGNED",
+      "verification": "UAT-03 source+install design-positive + 3 SoD negatives"
+    },
+    {
+      "id": "WO-DOC-STATUS-005",
+      "owner": "Docs owner",
+      "status": "DONE_CANDIDATE_REPAIRED_AFTER_C6",
+      "artifact": "README.md first screen"
+    }
+  ],
+  "evidence_state": {
+    "suite_clean_worktree_812af79": "Ran 311 tests, OK (skipped=6)",
+    "uat_matrix_bound_to_wheel_bb070a6f": "source+install 27 PASS / 2 INFO (run 2)",
+    "uat_matrix_run3": "5 FAIL - ALL are round-scratch-induced: --root <polluted repo> walks the container-created dangling symlinks under .hgk/rounds/.../ao/out*/venv_*/lib64 (finding F-R5P-01, pre-existing walk at baseline workspace.py:150)",
+    "evidence_return_pack": "evidence/EVIDENCE_RETURN_PACK.json (353 raw artefacts, bound digest, change set)",
+    "digest_binding": "evidence/DIGEST_BINDING.json",
+    "incidents": "evidence/INCIDENT_LEDGER.json",
+    "ao_verdict_v2": "ao/out/AO_VERDICT_V2.json",
+    "host_suite_bound_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "ao_verdict_v3": "ao/out/AO_VERDICT_V3.json",
+    "ao_verdict_v4": "ao/out/AO_VERDICT_V4.json (in flight)",
+    "uart_run3_note": "5 FAIL were round-scratch induced (dangling symlink under the repo root); superseded, not a product regression"
+  },
+  "open_items": [
+    {
+      "id": "F-R5P-01",
+      "class": "PRE_EXISTING_OBSERVATION",
+      "owner": "CLI/packaging owner (TT)",
+      "summary": "doctor/export abort with unhandled OSError on a dangling symlink inside the walked root"
+    },
+    {
+      "id": "F-R5-03",
+      "class": "PARTIAL__DISCLOSED",
+      "owner": "PKG08 (TT)",
+      "summary": "no install-time cryptographic readback beyond the doctor truth fix"
+    },
+    {
+      "id": "F-R5-06",
+      "class": "PARTIAL__S4_ACTIVE_SUBSET_ONLY",
+      "owner": "PIPD Core + Contract/QA (TT)",
+      "summary": "no per-row executable oracle for the 57-row crosswalk"
+    },
+    {
+      "id": "F-R5-10",
+      "class": "HUMAN_OWNER_GATE",
+      "owner": "human rights owner",
+      "summary": "licence/public redistribution"
+    }
+  ],
+  "resume_commands": [
+    "cd C:/Projects/Agent_Workspace/PIPD && git log --oneline -5",
+    "python .hgk/rounds/R5P-20261010-s4-post-challenge/ops/pack_evidence.py",
+    "python .hgk/rounds/R5P-20261010-s4-post-challenge/ops/bound_digest.py <pristine_root>",
+    "cd .hgk/rounds/R5P-20261010-s4-post-challenge/uat && PYTHONPATH=../../../../src python -B uat_matrix.py --out out4 --mode both --wheel ../../../../dist/pipd_ls_sp-0.1.0-py3-none-any.whl   # run with a CLEAN --root: no round scratch inside the product tree"
+  ],
+  "claim_ceiling": "CANDIDATE_ONLY",
+  "independent_acceptance": "NOT_GRANTED (attempt 2 in flight)",
+  "release": "NOT_GRANTED",
+  "pre_w3": "TEMP_CLOSED",
+  "accepted_limitations": [
+    "F-R5P-01 dangling symlink inside the walked root aborts doctor/export (pre-existing behaviour at the baseline)",
+    "F-R5-03 no install-time cryptographic readback beyond the FAIL-truth repair",
+    "F-R5-06 no per-row executable oracle for the 57-row crosswalk",
+    "Linux cannot reject every foreign Windows absolute spelling; no native Windows security verdict was independently executed",
+    "the wheel is member-identical but not bit-reproducible across ZIP creators",
+    "the host suite receipt is an external artefact the checker read and hashed, not a run the checker itself performed"
+  ]
+}{
+  "schema": "PIPD-R5P-DIGEST-BINDING/1",
+  "candidate_root": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r5p-final2-tree",
+  "bound_definition": "product_digest = sha256 of canonical JSON (separators ',',':', ensure_ascii=False, keys n/a) of the sorted rows [[posix_relative_path, sha256_file], ...] over PRODUCT_ROOTS=[\"src\", \"tests\", \"tools\", \"schemas\", \"dist\", \"docs\", \"skills\", \"fixtures\", \"pyproject.toml\", \"README.md\", \"ACCEPTANCE.md\", \"LICENSE\", \"PROVENANCE.md\", \"SBOM.cdx.json\", \"OWNER_LICENSE_DECISION.yaml\", \"openspec\"], excluding any path with a part in EXCLUDE_DIRS=[\".agents\", \".git\", \".hermes\", \".hgk\", \".venv\", \"__pycache__\", \"node_modules\"] or a suffix in EXCLUDE_SUFFIX=[\".pyc\", \".pyo\"].",
+  "bound_product_digest": "6120cf3775ae522fbabb550f12b39bb6b682d88d8dabc8b247ec093f41775c0e",
+  "bound_file_count": 288,
+  "rejected_alternative": {
+    "definition": "equivalence.py product digest over PRODUCT_PREFIXES=[\"src\", \"tools\", \"tests\", \"schemas\", \"skills\", \"docs\", \"dist\", \"fixtures\"]",
+    "product_digest": "d2a90ad3500e7681dcf9c8e097480adc847f218b7293aabd8369d6d50223b672",
+    "file_count": 251,
+    "why_rejected": "narrower scope: omits packaging/legal/openspec roots, so two of the round's own scripts published different numbers for the same subject (challenge C8)"
+  },
+  "checker_reproduction": "python ops/bound_digest.py <pristine_root> then compare bound_product_digest"
+}#!/usr/bin/env python3
+"""The round's ONE bound product-digest definition, plus the rejected alternative.
+
+Independent challenge C8 (2026-10-10) reported `f2b288ad... (283 files)` from this round's
+`product_snapshot.walk` scope while the AO brief published `4a039259...` from `equivalence.py`'s
+narrower prefix scope. Both numbers were the round's own; the ambiguity was the round's defect.
+
+This tool fixes the definition: it is `product_snapshot.walk` (PRODUCT_ROOTS, EXCLUDE_DIRS,
+EXCLUDE_SUFFIX), rows = [rel_posix, sha256_file] sorted, digest = sha256 of canonical JSON of the
+rows. It emits the bound digest for a candidate root together with the rejected alternative, and
+states verbatim what a checker must reproduce.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+EXCLUDE_DIRS = {".git", "__pycache__", ".hgk", ".agents", ".hermes", ".venv", "node_modules"}
+EXCLUDE_SUFFIX = {".pyc", ".pyo"}
+PRODUCT_ROOTS = ["src", "tests", "tools", "schemas", "dist", "docs", "skills", "fixtures",
+                 "pyproject.toml", "README.md", "ACCEPTANCE.md", "LICENSE", "PROVENANCE.md",
+                 "SBOM.cdx.json", "OWNER_LICENSE_DECISION.yaml", "openspec"]
+# The definition `equivalence.py` used for the subject-binding line in the AO brief. REJECTED as the
+# bound digest (it silently omits packaging metadata, LICENSE, openspec and other roots).
+ALT_ROOTS = ["src", "tools", "tests", "schemas", "skills", "docs", "dist", "fixtures"]
+
+BOUND_DEFINITION = ("product_digest = sha256 of canonical JSON (separators ',',':', ensure_ascii=False, "
+                    "keys n/a) of the sorted rows [[posix_relative_path, sha256_file], ...] over "
+                    "PRODUCT_ROOTS=" + json.dumps(PRODUCT_ROOTS) + ", excluding any path with a part in "
+                    "EXCLUDE_DIRS=" + json.dumps(sorted(EXCLUDE_DIRS)) + " or a suffix in "
+                    "EXCLUDE_SUFFIX=" + json.dumps(sorted(EXCLUDE_SUFFIX)) + ".")
+
+
+def sha256_file(p: Path) -> str:
+    h = hashlib.sha256()
+    with p.open("rb") as fh:
+        for b in iter(lambda: fh.read(1 << 20), b""):
+            h.update(b)
+    return h.hexdigest()
+
+
+def walk(root: Path, roots: list[str]) -> list[Path]:
+    out: list[Path] = []
+    for rel in roots:
+        t = root / rel
+        if t.is_file():
+            out.append(t)
+        elif t.is_dir():
+            for f in sorted(t.rglob("*")):
+                if not f.is_file():
+                    continue
+                if any(part in EXCLUDE_DIRS for part in f.parts):
+                    continue
+                if f.suffix in EXCLUDE_SUFFIX:
+                    continue
+                out.append(f)
+    return out
+
+
+def digest(root: Path, roots=None) -> dict:
+    files = walk(root, roots or PRODUCT_ROOTS)
+    rows = [[str(f.relative_to(root)).replace("\\", "/"), sha256_file(f)] for f in files]
+    rows.sort()
+    return {"file_count": len(rows),
+            "digest": hashlib.sha256(
+                json.dumps(rows, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest(),
+            "roots": roots or PRODUCT_ROOTS}
+
+
+if __name__ == "__main__":
+    root = Path(sys.argv[1])
+    out_path = Path(sys.argv[2]) if len(sys.argv) > 2 else None
+    bound = digest(root)
+    alt = digest(root, ALT_ROOTS)
+    receipt = {
+        "schema": "PIPD-R5P-DIGEST-BINDING/1",
+        "candidate_root": str(root).replace("\\", "/"),
+        "bound_definition": BOUND_DEFINITION,
+        "bound_product_digest": bound["digest"],
+        "bound_file_count": bound["file_count"],
+        "rejected_alternative": {
+            "definition": "equivalence.py product digest over PRODUCT_PREFIXES=" + json.dumps(ALT_ROOTS),
+            "product_digest": alt["digest"], "file_count": alt["file_count"],
+            "why_rejected": ("narrower scope: omits packaging/legal/openspec roots, so two of the round's "
+                             "own scripts published different numbers for the same subject (challenge C8)")},
+        "checker_reproduction": ("python ops/bound_digest.py <pristine_root> then compare "
+                                 "bound_product_digest"),
+    }
+    print(json.dumps(receipt, indent=2, ensure_ascii=False))
+    if out_path:
+        out_path.write_text(json.dumps(receipt, indent=2, ensure_ascii=False), encoding="utf-8")
+
+exec
+/bin/bash -lc 'cat /ao/AO_VERDICT_V3.json; ls -ld /w/.hgk/rounds/R5P-20261010-s4-post-challenge; rg --files --hidden /w -g AGENTS.md; ls -l /round/evidence/*bound* /round/evidence/*whl*' in /ao
+ exited 2 in 0ms:
+{
+  "checker_id": "AO-R5P-INDEPENDENT-V3",
+  "subject_commit": "9caef8ec36017b4c3ca55b9a672da1fa625fff07",
+  "subject_tree": "910f94127ee6367a6f5adff995321b353f4a6f10",
+  "subject_identity_basis": "commit/tree 取自凍結 brief；無 .git 的 /w 以本輪 bound digest 獨立重算驗證檔案範圍，未聲稱自行 rev-parse。",
+  "checks": [
+    {
+      "id": "C2",
+      "verdict": "PASS",
+      "evidence": [
+        "/round/evidence/host_fullsuite_repair_bound.txt",
+        "/briefs/brief_ao_checker_v3.md",
+        "/ao/v3/raw/brief_read.stdout",
+        "/ao/v3/raw/c2_hash.stdout",
+        "/ao/v3/raw/c2_read.stdout",
+        "/ao/v3/raw/c2_write_context.stdout",
+        "/ao/v3/raw/c8_script.stdout",
+        "/ao/v3/raw/previous.stdout"
+      ],
+      "commands": [
+        {
+          "command": [
+            "cat",
+            "/briefs/brief_ao_checker_v3.md"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/brief_read.stdout",
+          "stderr": "/ao/v3/raw/brief_read.stderr"
+        },
+        {
+          "command": [
+            "sha256sum",
+            "/round/evidence/host_fullsuite_repair_bound.txt"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c2_hash.stdout",
+          "stderr": "/ao/v3/raw/c2_hash.stderr"
+        },
+        {
+          "command": [
+            "cat",
+            "/round/evidence/host_fullsuite_repair_bound.txt"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c2_read.stdout",
+          "stderr": "/ao/v3/raw/c2_read.stderr"
+        },
+        {
+          "command": [
+            "python3",
+            "-c",
+            "from pathlib import Path\nfor f,a,b in [('/w/tests/test_technology_admission.py',135,159),('/w/tools/admit_technologies.py',510,526),('/w/tests/test_tqaep_design_positive.py',40,65)]:\n print(f)\n for i,l in enumerate(Path(f).read_text().splitlines(),1):\n  if a<=i<=b: print(f'{i}: {l}')"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c2_write_context.stdout",
+          "stderr": "/ao/v3/raw/c2_write_context.stderr"
+        },
+        {
+          "command": [
+            "cat",
+            "/round/ops/bound_digest.py"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c8_script.stdout",
+          "stderr": "/ao/v3/raw/c8_script.stderr"
+        },
+        {
+          "command": [
+            "cat",
+            "/ao/AO_VERDICT_V2.json"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/previous.stdout",
+          "stderr": "/ao/v3/raw/previous.stderr"
+        }
+      ],
+      "note": "PASS（收據證據足夠，限定承接 attempt 2 的測試主體）。自行讀取與 SHA-256 雜湊均退出 0；收據 SHA-256 為 a21ce57638c78a627b343ef69203e7279d6f86aada4ef0599461516e44de12cb，與 attempt 2 已保存的值相同，故不聲稱原始收據本輪有所更新。內文完整記錄命令 python -B -m unittest discover -s tests -t .（PYTHONPATH=src）、Windows cwd、HEAD 812af79422c087f0ef5a07188fbec061df6b47e0／tree d3b79d2bc7aba08368a02a9f34204d14c9b06bbd、Python 3.11.17、開始 2026-10-10T12:42:16Z／結束 2026-10-10T12:43:14Z；Ran 311 tests in 57.621s、OK (skipped=6) 後有 # exit_code: 0。具名 SKIP 行為 test_installed_doctor_diagnoses_installed_schema_surface 與 test_installed_package_is_self_sufficient，理由為該解譯器無 pip；不推論六項全部執行。收據自身只寫 status 為 2 lines；本輪 brief 才補明 .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json modified 與 .hgk/artifacts/tqaep_design_tmp/ untracked，並說明是 suite 產物。已讀原始測試／工具確認這兩條寫入路徑，且 bound scope 排除 .hgk；因此接受 brief 的路徑／處置說明，原未命名工作樹變更缺口可關閉，不要求非產品產物 hash。主機 status 未在此獨立重跑；此收據不是 9caef8ec 的重跑。依凍結 brief，本次僅 ACCEPTANCE.md 橫幅有變，故在本次窄範圍沿用上次測試證據；不提升為新主體全套測試或 Windows 獨立執行宣稱。"
+    },
+    {
+      "id": "C6",
+      "verdict": "FAIL",
+      "evidence": [
+        "/w/README.md",
+        "/w/ACCEPTANCE.md",
+        "/briefs/brief_ao_checker_v3.md",
+        "/ao/v3/raw/brief_read.stdout",
+        "/ao/v3/raw/c6_read.stdout",
+        "/ao/v3/raw/c8_run.stdout"
+      ],
+      "commands": [
+        {
+          "command": [
+            "cat",
+            "/briefs/brief_ao_checker_v3.md"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/brief_read.stdout",
+          "stderr": "/ao/v3/raw/brief_read.stderr"
+        },
+        {
+          "command": [
+            "bash",
+            "-c",
+            "nl -ba /w/README.md | head -n 100; nl -ba /w/ACCEPTANCE.md | head -n 100"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c6_read.stdout",
+          "stderr": "/ao/v3/raw/c6_read.stderr"
+        },
+        {
+          "command": [
+            "python3",
+            "-B",
+            "/round/ops/bound_digest.py",
+            "/w"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c8_run.stdout",
+          "stderr": "/ao/v3/raw/c8_run.stderr"
+        }
+      ],
+      "note": "FAIL（目前凍結主體的文件綁定仍不一致）。README 第 39 行清楚標明 r5p-post-challenge-repair、基線、S4 internal evaluation、LicenseRef-PIPD-Proprietary／no public-use grant，且第 7、39 行連至 ACCEPTANCE.md。ACCEPTANCE.md 第 1–13 行的新橫幅清楚將下方 R5/D1 標為基線歷史，並提供 R5P round evidence 位置；這關閉原先基線／R5P 混淆的註記。但第 6–8 行仍以「post-challenge repair subject」標記舊 commit 812af79422c087f0ef5a07188fbec061df6b47e0、舊 tree d3b79d2bc7aba08368a02a9f34204d14c9b06bbd、舊 digest 4ee712e899e9f4aa14d46ba1d3f879eb6b45ad0ae4a8b02bf1d9847b5f8cc579，未說明它們是 attempt 2 身分。因此首屏可辨識分支、授權限制及驗收位置，卻不能辨識本輪 9caef8ec36017b4c3ca55b9a672da1fa625fff07／910f94127ee6367a6f5adff995321b353f4a6f10 的確切主體。尚需明示 attempt 2 與目前凍結主體的關係，並提供目前主體的外部綁定入口；不要求文件在自身 commit 內自指雜湊。此為文件主體綁定缺口，未判定 runtime 產品缺陷。"
+    },
+    {
+      "id": "C8",
+      "verdict": "PASS",
+      "evidence": [
+        "/round/ops/bound_digest.py",
+        "/round/evidence/DIGEST_BINDING.json",
+        "/ao/v3/raw/c8_run.stdout",
+        "/ao/v3/raw/c8_binding.stdout",
+        "/ao/v3/raw/c8_compare.stdout",
+        "/ao/v3/raw/previous.stdout",
+        "/ao/v3/raw/brief_read.stdout"
+      ],
+      "commands": [
+        {
+          "command": [
+            "python3",
+            "-B",
+            "/round/ops/bound_digest.py",
+            "/w"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c8_run.stdout",
+          "stderr": "/ao/v3/raw/c8_run.stderr"
+        },
+        {
+          "command": [
+            "cat",
+            "/round/evidence/DIGEST_BINDING.json"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c8_binding.stdout",
+          "stderr": "/ao/v3/raw/c8_binding.stderr"
+        },
+        {
+          "command": [
+            "python3",
+            "-c",
+            "import json\nfrom pathlib import Path\na=json.loads(Path('/ao/v3/raw/c8_run.stdout').read_text());b=json.loads(Path('/round/evidence/DIGEST_BINDING.json').read_text())\nfor k in ['schema','bound_definition','bound_product_digest','bound_file_count','rejected_alternative']:\n assert a[k]==b[k],k\n print(k+': MATCH')\nassert a['rejected_alternative']['why_rejected']\nprint('narrower definition: REJECTED; candidate_root differs only by execution location')"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c8_compare.stdout",
+          "stderr": "/ao/v3/raw/c8_compare.stderr"
+        },
+        {
+          "command": [
+            "cat",
+            "/ao/AO_VERDICT_V2.json"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/previous.stdout",
+          "stderr": "/ao/v3/raw/previous.stderr"
+        },
+        {
+          "command": [
+            "cat",
+            "/briefs/brief_ao_checker_v3.md"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/brief_read.stdout",
+          "stderr": "/ao/v3/raw/brief_read.stderr"
+        }
+      ],
+      "note": "PASS。執行 python3 -B /round/ops/bound_digest.py /w，退出 0；逐欄比較命令亦退出 0。新 bound_product_digest = 4f5e2310766699d064a402291be2c4803c977e39fda7b65086a98a1b4793338d，288 files；schema、bound_definition、digest、file_count 與 rejected_alternative 全部符合 /round/evidence/DIGEST_BINDING.json，candidate_root 僅執行位置不同。較窄 251-file 定義仍置於 rejected_alternative，保留 why_rejected，digest 為 d2a90ad3500e7681dcf9c8e097480adc847f218b7293aabd8369d6d50223b672；它沒有取代綁定定義。相較 attempt 2 的 4ee712e8…，綁定值已改變；變更只涉及 ACCEPTANCE.md 的說明依據為凍結 brief，本輪未重做完整版本差異審查。"
+    }
+  ],
+  "overall": "PARTIAL",
+  "classification": {
+    "C2": "NON_BLOCKING_OBSERVATION",
+    "C6": "EVIDENCE_GAP",
+    "C8": "NON_BLOCKING_OBSERVATION"
+  },
+  "independent_of_maker": true,
+  "independence_scope": "本 checker 獨立讀檔、計算雜湊、執行綁定腳本及比較；host full suite 為外部收據，非本 checker 重跑。非產品 status 路徑及唯一文件變更的判斷明示依賴凍結 brief。",
+  "human_ratification": "PENDING",
+  "claim_ceiling": "CANDIDATE_ONLY",
+  "bound_product_digest": "4f5e2310766699d064a402291be2c4803c977e39fda7b65086a98a1b4793338d",
+  "bound_file_count": 288,
+  "host_bound_suite_raw_sha256": "a21ce57638c78a627b343ef69203e7279d6f86aada4ef0599461516e44de12cb",
+  "commands_index": "/ao/v3/commands.jsonl",
+  "log": "/ao/v3/審查紀錄.md",
+  "scope": "僅 C2／C6／C8；C1／C4／C5／C7 不重審。"
+}
+ls: cannot access '/w/.hgk/rounds/R5P-20261010-s4-post-challenge': No such file or directory
+ls: cannot access '/round/evidence/*whl*': No such file or directory
+-rwxrwxrwx 1 root root 7803 Oct 10 12:43 /round/evidence/host_fullsuite_repair_bound.txt
+
+codex
+新橫幅已把 attempt-2 身分明示為歷史，並將目前身分導向外部 `CHECKPOINT_R5P.json`；該檔列出的 commit/tree 與本次 brief 一致。接著會重算產品 digest 及 wheel 雜湊，核對外部入口。`/w` 沒有 `.git` 或 round 目錄，因此 Git 身分與原始路徑的核驗界限會具名記錄。
+exec
+/bin/bash -lc "cat /briefs/brief_ao_checker_v4.md; sed -n '1,145p' /briefs/run_checker.sh; ls -l /w/dist; cat /proc/self/mountinfo | rg ' /w | /round | /briefs | /ao '" in /ao
+ succeeded in 0ms:
+# INDEPENDENT CHECKER BRIEF — R5P terminal pass (attempt 4, C6 only) — PIPD-LS-SP
+
+Attempt 3: `C2 PASS`, `C8 PASS`, `C6 FAIL (EVIDENCE_GAP)`. C6 was repaired on the strength of your own
+wording. **This is the terminal pass of the round**: judge C6 on the new frozen subject, and if anything
+remains imperfect, record it as a named residual limitation with your scope instead of asking for another
+cycle. Do not re-open C1/C2/C4/C5/C7/C8 — they are settled.
+
+## Subject
+
+| role | value |
+|---|---|
+| baseline (immutable) | `r5-s4-packreader` @ `0f06eec96386b7349db8b41ac6cf9c7455d326f1` |
+| **subject under review now** | **`194f1774e8e852f954d141c48389a74b0f0e302a`** (tree `b1ec0abf4799fdc917aaa23dc75885b302407ee5`) |
+| attempt-3 subject | `9caef8ec…` — superseded by this commit |
+| only change since attempt 3 | `ACCEPTANCE.md` first-screen banner |
+
+Mounts: `/w` = pristine export of the new subject (read-only, no `.git`), `/round` = round evidence
+(read-only), `/briefs` (read-only), `/ao` = your only writable place.
+
+## C6 question, precisely
+
+Your attempt-3 note asked for two things: (1) mark attempt-2's commit/tree/digest as superseded rather
+than current, and (2) give an external binding entry point for the current subject — **and you stated that
+the file must not be required to self-reference its own digest.**
+
+Verify, on `/w/ACCEPTANCE.md` lines 1–34 and `/w/README.md` first screen:
+
+1. Does the first screen now identify the branch under review, the licence position and the claim ceiling?
+2. Are the attempt-2 values explicitly labelled as superseded history, or are they still presented as the
+   current subject?
+3. Does it give a reproducible external entry point for the current subject's identity — i.e. a path in
+   `.hgk/rounds/R5P-20261010-s4-post-challenge/` (which the bound product digest excludes) — and does that
+   entry point actually contain the current commit/tree/wheel/digest when you read it?
+4. Is the banner stable under further commits to this branch, i.e. does it avoid asserting a digest that a
+   subsequent commit would invalidate?
+
+## Deliverable
+
+`AO_VERDICT_V4.json` in `/ao`: `checker_id`, `subject_commit`, `subject_tree`, `checks` (C6 only, with
+`verdict`, `evidence` paths, `commands` with exit codes, `note`), `overall`, `classification`,
+`residual_limitations` (named, each with scope), `independent_of_maker`, `human_ratification: PENDING`,
+`claim_ceiling: CANDIDATE_ONLY`. Log in 繁體中文. If C6 passes, say plainly that the round's document
+binding is closed for this subject and name anything you still cannot confirm from a read-only mount.
+#!/usr/bin/env bash
+# Host-side launcher for the R5P INDEPENDENT CHECKER lane (non-Maker, read-only on the product).
+#   usage: run_checker.sh <brief-name.md> <log-name.txt> [timeout_seconds]
+#
+# Differences from run_writer.sh (the Maker lane):
+#   * /w is mounted READ-ONLY: the checker physically cannot modify the product tree, which is what
+#     makes its verdict independent of the Maker's write authority.
+#   * a dedicated host scratch (AO_OUT) outside the product tree is mounted rw at /ao, so the
+#     checker's venv/scratch can never be walked by the product's own commands.
+#   * the model route is the sanctioned sealed VERIFY front door (127.0.0.1:10103) carrying
+#     gpt-6.1-sol at medium effort, reached through bridge2.py on the host gateway.
+set -uo pipefail
+BRIEF="${1:?brief name required}"
+LOG="${2:?log name required}"
+TMO="${3:-2400}"
+LANE="/c/Projects/Agent_Workspace/PIPD/.hgk/rounds/R5P-20261010-s4-post-challenge/lane"
+PRODUCT="${CHECK_TREE:-C:/Projects/Agent_Workspace/PIPD}"
+AO_OUT="${AO_OUT:-C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R5P-20261010-s4-post-challenge/ao/out}"
+MODEL_PORT="${MODEL_PORT:-10111}"
+cd "$LANE" || exit 1
+case "$(echo "$AO_OUT" | tr '\\' '/')" in
+  "C:/Projects/Agent_Workspace/PIPD"/*) : ;;  # round scratch under the repo .hgk is allowed
+  "C:/Projects/Agent_Workspace/PIPD") echo "[checker] REFUSING: AO_OUT equals the product tree" >&2; exit 4 ;;
+esac
+mkdir -p "$AO_OUT"
+echo "[checker] start $(date -u +%FT%TZ) brief=$BRIEF model=gpt-6.1-sol image=pipd-r4-writer:4 port=$MODEL_PORT timeout=$TMO" | tee "$LOG"
+echo "[checker] read-only product mount: $PRODUCT" | tee -a "$LOG"
+echo "[checker] ao_out=$AO_OUT (outside the product write set)" | tee -a "$LOG"
+docker run --rm \
+  --add-host=host.docker.internal:host-gateway \
+  -v "$PRODUCT:/w:ro" \
+  -v "$LANE:/briefs:ro" \
+  -v "C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R5P-20261010-s4-post-challenge:/round:ro" \
+  -v "$AO_OUT:/ao" \
+  -e MODEL_HOST_PORT="$MODEL_PORT" -e LANE_TIMEOUT="$TMO" \
+  pipd-r4-writer:4 bash -lc '
+    set -u
+    mkdir -p /root/.codex
+    printf "model = \"gpt-6.1-sol\"\nmodel_provider = \"hgk_verify_door\"\napproval_policy = \"never\"\nmodel_reasoning_effort = \"medium\"\nsandbox_mode = \"read-only\"\n\n[model_providers.hgk_verify_door]\nname = \"HGK-VERIFY-Door\"\nbase_url = \"http://host.docker.internal:%s/v1\"\nwire_api = \"responses\"\nrequires_openai_auth = false\nrequest_max_retries = 0\nstream_max_retries = 0\n" "$MODEL_HOST_PORT" > /root/.codex/config.toml
+    cd /ao || exit 3
+    timeout "$LANE_TIMEOUT" codex exec -s danger-full-access -c approval_policy=never --skip-git-repo-check "$(cat /briefs/'"'"$BRIEF"'"')"
+    echo "[checker] codex_exit=$?"
+  ' 2>&1 | tee -a "$LOG" | tail -120
+echo "[checker] done $(date -u +%FT%TZ)" | tee -a "$LOG"
+total 236
+-rwxrwxrwx 1 root root   4726 Oct 10 12:56 WHEEL_MANIFEST.json
+-rwxrwxrwx 1 root root 231852 Oct 10 12:56 pipd_ls_sp-0.1.0-py3-none-any.whl
+-rwxrwxrwx 1 root root    100 Oct 10 12:56 pipd_ls_sp-0.1.0-py3-none-any.whl.sha256
+drwxrwxrwx 1 root root    512 Oct 10 12:56 web
+472 463 0:68 /Projects/Agent_Workspace/PIPD/.hgk/rounds/R5P-20261010-s4-post-challenge/ao/out /ao rw,noatime - 9p C:\134 rw,aname=drvfs;path=C:\;uid=0;gid=0;metadata;symlinkroot=/mnt/host/,cache=5,access=client,msize=65536,trans=fd,rfd=5,wfd=5
+473 463 0:68 /Projects/Agent_Workspace/PIPD/.hgk/rounds/R5P-20261010-s4-post-challenge/lane /briefs ro,noatime - 9p C:\134 rw,aname=drvfs;path=C:\;uid=0;gid=0;metadata;symlinkroot=/mnt/host/,cache=5,access=client,msize=65536,trans=fd,rfd=5,wfd=5
+474 463 0:68 /Projects/Agent_Workspace/PIPD/.hgk/rounds/R5P-20261010-s4-post-challenge /round ro,noatime - 9p C:\134 rw,aname=drvfs;path=C:\;uid=0;gid=0;metadata;symlinkroot=/mnt/host/,cache=5,access=client,msize=65536,trans=fd,rfd=5,wfd=5
+475 463 0:68 /Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r5p-final2-tree /w ro,noatime - 9p C:\134 rw,aname=drvfs;path=C:\;uid=0;gid=0;metadata;symlinkroot=/mnt/host/,cache=5,access=client,msize=65536,trans=fd,rfd=5,wfd=5
+
+exec
+/bin/bash -lc "mkdir -p /ao/v4/raw
+cat > /ao/v4/check_c6.py <<'PY'
+import subprocess,json,hashlib
+from pathlib import Path
+out=Path('/ao/v4'); commands=[]
+def run(name,args):
+ p=subprocess.run(args,cwd='/ao',capture_output=True,text=True)
+ for ext,val in [('stdout',p.stdout),('stderr',p.stderr)]: (out/'raw'/f'{name}.{ext}').write_text(val,encoding='utf-8')
+ c={'command':args,'cwd':'/ao','exit_code':p.returncode,'stdout':str(out/'raw'/f'{name}.stdout'),'stderr':str(out/'raw'/f'{name}.stderr')};commands.append(c)
+ print(f'{name}：退出碼 {p.returncode}')
+ assert p.returncode==0,(name,p.stderr)
+ return p.stdout
+run('brief',['cat','/briefs/brief_ao_checker_v4.md'])
+run('first_screen',['python3','-B','-c',\"from pathlib import Path\\nfor f,n in [('/w/ACCEPTANCE.md',34),('/w/README.md',44)]:\\n print(f)\\n for i,l in enumerate(Path(f).read_text().splitlines()[:n],1): print(f'{i}: {l}')\"])
+run('external_entry',['cat','/round/CHECKPOINT_R5P.json','/round/evidence/DIGEST_BINDING.json'])
+run('definition',['cat','/round/ops/bound_digest.py'])
+run('mount_mapping',['python3','-B','-c',\"from pathlib import Path\\nfor l in Path('/proc/self/mountinfo').read_text().splitlines():\\n if l.split()[4] in ['/w','/round','/briefs','/ao']: print(l)\\nprint('export_git_exists:',Path('/w/.git').exists())\\nprint('export_round_exists:',Path('/w/.hgk/rounds/R5P-20261010-s4-post-challenge').exists())\"])
+run('bound_reproduction',['python3','-B','/round/ops/bound_digest.py','/w'])
+run('wheel_hash',['sha256sum','/w/dist/pipd_ls_sp-0.1.0-py3-none-any.whl'])
+run('binding_comparison',['python3','-B','-c',\"import json,hashlib\\nfrom pathlib import Path\\nf=json.loads(Path('/round/CHECKPOINT_R5P.json').read_text())['frozen_subject'];b=json.loads(Path('/round/evidence/DIGEST_BINDING.json').read_text());r=json.loads(Path('/ao/v4/raw/bound_reproduction.stdout').read_text())\\nassert f['head']=='194f1774e8e852f954d141c48389a74b0f0e302a'\\nassert f['head_tree']=='b1ec0abf4799fdc917aaa23dc75885b302407ee5'\\nassert f['bound_product_digest']==b['bound_product_digest']==r['bound_product_digest']\\nassert b['bound_file_count']==r['bound_file_count']==288\\nassert b['bound_definition']==r['bound_definition']\\nassert '\\\".hgk\\\"' in b['bound_definition']\\nassert f['wheel_sha256']==hashlib.sha256(Path('/w/dist/pipd_ls_sp-0.1.0-py3-none-any.whl').read_bytes()).hexdigest()\\nfor k in ['head','head_tree','wheel_sha256','bound_product_digest']: print(k+': '+f[k])\\nprint('外部身分符合凍結 brief；產品 digest 與 wheel 雜湊重算一致；.hgk 排除於綁定範圍。')\"])
+(out/'commands.jsonl').write_text(''.join(json.dumps(c,ensure_ascii=False)+'\\n' for c in commands),encoding='utf-8')
+PY
+python3 -B /ao/v4/check_c6.py" in /ao
+ succeeded in 2591ms:
+brief：退出碼 0
+first_screen：退出碼 0
+external_entry：退出碼 0
+definition：退出碼 0
+mount_mapping：退出碼 0
+bound_reproduction：退出碼 0
+wheel_hash：退出碼 0
+binding_comparison：退出碼 0
+
+codex
+產品 digest 與 wheel 雜湊均重算一致，核對命令全部退出 0。C6 判定 PASS：本 subject 的本輪文件綁定已關閉。橫幅沒有內嵌目前 digest；後續提交仍須更新外部 checkpoint。Git 物件、未來更新流程及歷史措辭的限制會寫入裁決，不再要求修復循環。
+exec
+/bin/bash -lc "cat > /ao/v4/finalize.py <<'PY'
+import json
+from pathlib import Path
+p=Path('/ao/v4')
+commands=[json.loads(l) for l in (p/'commands.jsonl').read_text().splitlines()]
+limitations=[
+ {'name':'RL-C6-GIT-IDENTITY-READONLY','scope':'本次 subject 的 Git commit/tree、分支 tip、工作樹潔淨及 attempt-3→4 唯一變更。','note':'/w 是無 .git 的唯讀 export；commit/tree 由凍結 brief 與外部 checkpoint 交叉核對，未自行 rev-parse 或重建完整 Git tree。產品 digest 與 wheel 雜湊已独立重算；唯一文件變更依據為 brief。'.replace('独','獨')},
+ {'name':'RL-C6-EXTERNAL-ENTRY-MOUNT','scope':'原 repository 相對路徑及後續提交的外部身分維護。','note':'/w 不含 .hgk/rounds；已由 mountinfo 確認 /round 掛載原 round 目錄並讀取其 checkpoint。未在原 host checkout 直接執行相對路徑命令，亦不能確認未來提交後 checkpoint 會被更新。橫幅避免當前 digest 自指，穩定性僅指此設計；每個新 subject 仍須更新外部綁定。'},
+ {'name':'RL-C6-HISTORICAL-WORDING','scope':'首屏導讀及外部 checkpoint 的周邊歷史敘述；不影響 frozen_subject 身分四元組。','note':'README 第 8 行仍以舊 R5 S4 導讀敘述 acceptance 內容，後續表格亦保留歷史說法；第 39 行已明示目前分支、S4 candidate 及授權，ACCEPTANCE 新橫幅明示下方為基線歷史。Checkpoint 周邊仍有 attempt-2 in flight 等舊流程文字；本次採用明確 frozen_subject 與新版 brief，不將舊文字視為目前裁決。'},
+ {'name':'RL-C6-RECEIPT-AND-RATIFICATION','scope':'橫幅連結的過往 checker / host suite 收據及人工核准。','note':'橫幅所列 V1–V3 是歷次裁決，其中 V3 的 C6 曾 FAIL；host suite 收據綁定舊 subject。它們不構成本 subject 的全套重跑或整輪新 PASS。本次只關閉 C6 文件綁定；既有其他檢查不重開，人工核准仍 PENDING，宣稱上限仍 CANDIDATE_ONLY。'}]
+v={
+ 'checker_id':'AO-R5P-INDEPENDENT-V4',
+ 'subject_commit':'194f1774e8e852f954d141c48389a74b0f0e302a',
+ 'subject_tree':'b1ec0abf4799fdc917aaa23dc75885b302407ee5',
+ 'checks':[{'id':'C6','verdict':'PASS','evidence':['/w/ACCEPTANCE.md','/w/README.md','/briefs/brief_ao_checker_v4.md','/round/CHECKPOINT_R5P.json','/round/evidence/DIGEST_BINDING.json','/round/ops/bound_digest.py','/w/dist/pipd_ls_sp-0.1.0-py3-none-any.whl']+[c['stdout'] for c in commands], 'commands':commands,
+ 'note':'PASS。本 subject 的本輪文件綁定已關閉。ACCEPTANCE 第 3–6 行區分基線歷史及目前 r5p-post-challenge-repair 分支，第 30–31 行明示 CANDIDATE_ONLY、LicenseRef-PIPD-Proprietary、no public-use grant；README 第 7 行導向入口，第 39 行重申目前分支及授權／候選上限。ACCEPTANCE 第 24–28 行明示 attempt-2 commit/tree/wheel/digest 為 superseded history，不再當作目前身分。第 14–18 行提供排除於產品 digest 的外部 checkpoint、digest 定義及重現命令。讀取 /round/CHECKPOINT_R5P.json 的 frozen_subject，head/tree 符合本次 brief；wheel_sha256 為 bb070a6f525382edc521bcf7fe127579e1e329024113ab4fe2881eeeea7b0a76，bound_product_digest 為 6120cf3775ae522fbabb550f12b39bb6b682d88d8dabc8b247ec093f41775c0e。獨立執行 bound_digest.py /w 得 288 files 並符合外部定義／綁定值，wheel SHA-256 亦符合。此重算僅佐證 C6 外部入口，不重審 C8。第 8–12 行明示目前身分不內嵌，第 24–28 行的固定 digest 僅為歷史，因此後續提交不使橫幅的當前 digest 斷言失效；不要求自指其 digest。全部記錄命令退出 0。殘餘限制具名列出，終端裁決不要求另一循環。'}],
+ 'overall':'PASS','classification':{'C6':'NON_BLOCKING_OBSERVATION'},
+ 'residual_limitations':limitations,'independent_of_maker':True,
+ 'independence_scope':'本 checker 以唯讀產品／證據 mount 獨立讀檔、重算產品及 wheel 雜湊並交叉核對；未修改產品或外部證據。commit/tree 依 brief/checkpoint，不宣稱獨立 Git 物件驗證。',
+ 'human_ratification':'PENDING','claim_ceiling':'CANDIDATE_ONLY',
+ 'scope':'終端 pass 僅 C6；overall PASS 限於本次 C6 文件綁定，C1/C2/C4/C5/C7/C8 維持既有裁決，不重開。',
+ 'bound_product_digest':'6120cf3775ae522fbabb550f12b39bb6b682d88d8dabc8b247ec093f41775c0e','bound_file_count':288,
+ 'commands_index':'/ao/v4/commands.jsonl','log':'/ao/v4/審查紀錄.md'
+}
+Path('/ao/AO_VERDICT_V4.json').write_text(json.dumps(v,ensure_ascii=False,indent=2)+'\\n',encoding='utf-8')
+log='本輪終端獨立審查紀錄（繁體中文）\\n\\n範圍：僅 C6；不重開 C1/C2/C4/C5/C7/C8。\\n主體：'+v['subject_commit']+'；tree：'+v['subject_tree']+'。\\n\\n'
+for c in commands: log+='命令：'+json.dumps(c['command'],ensure_ascii=False)+'\\n退出碼：'+str(c['exit_code'])+'；輸出：'+c['stdout']+'；錯誤輸出：'+c['stderr']+'。\\n\\n'
+log+=v['checks'][0]['note']+'\\n\\n'
+for r in limitations: log+=r['name']+'\\n範圍：'+r['scope']+'\\n'+r['note']+'\\n\\n'
+log+='裁決：C6 PASS。本 subject 的本輪文件綁定已關閉。人工核准 PENDING；宣稱上限 CANDIDATE_ONLY。\\n'
+(p/'審查紀錄.md').write_text(log,encoding='utf-8')
+loaded=json.loads(Path('/ao/AO_VERDICT_V4.json').read_text())
+assert len(loaded['checks'])==1 and loaded['checks'][0]['id']=='C6'
+assert all(c['exit_code']==0 for c in loaded['checks'][0]['commands'])
+assert all(r['name'] and r['scope'] for r in loaded['residual_limitations'])
+print('AO_VERDICT_V4.json 已寫入並通過 JSON／必要欄位檢查；C6 PASS。')
+PY
+python3 -B /ao/v4/finalize.py" in /ao
+ succeeded in 0ms:
+AO_VERDICT_V4.json 已寫入並通過 JSON／必要欄位檢查；C6 PASS。
+
+codex
+C6 **PASS**。本 subject 的本輪文件綁定已關閉；外部 commit/tree 符合 brief，產品 digest 與 wheel 雜湊重算一致。
+
+已寫入 [AO_VERDICT_V4.json](/ao/AO_VERDICT_V4.json) 及[繁體中文審查紀錄](/ao/v4/審查紀錄.md)。
+
+具名殘餘限制涵蓋：無 `.git`，無法獨立驗證 Git 物件；原 host 路徑與未來 checkpoint 更新未直接驗證；部分歷史措辭仍保留。其他檢查未重開。
+
+人工核准：**PENDING**；宣稱上限：**CANDIDATE_ONLY**。
+C6 **PASS**。本 subject 的本輪文件綁定已關閉；外部 commit/tree 符合 brief，產品 digest 與 wheel 雜湊重算一致。
+
+已寫入 [AO_VERDICT_V4.json](/ao/AO_VERDICT_V4.json) 及[繁體中文審查紀錄](/ao/v4/審查紀錄.md)。
+
+具名殘餘限制涵蓋：無 `.git`，無法獨立驗證 Git 物件；原 host 路徑與未來 checkpoint 更新未直接驗證；部分歷史措辭仍保留。其他檢查未重開。
+
+人工核准：**PENDING**；宣稱上限：**CANDIDATE_ONLY**。
+tokens used
+113,137
+[checker] codex_exit=0
+[checker] done 2026-10-10T12:58:32Z

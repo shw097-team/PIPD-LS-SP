@@ -1,0 +1,83 @@
+{
+  "round": "R5P-20261010-s4-post-challenge",
+  "verifier_model_and_provider": "gpt-6.1-sol via sealed VERIFY front door (container, read-only product)",
+  "verdict": "FAIL",
+  "checks": [
+    {
+      "id": "C1_DOCTOR_TRUTH",
+      "claim": "Doctor checks the runtime-resolved schemas surface and fails on either missing-member wheel mutation.",
+      "evidence": "python -B -m pipd_ls_sp.cli doctor: source/control exit 0 PASS/19; unchanged/adjusted RECORD mutations install exit 0, doctor exit 1 FAIL, missing ArtifactIdentity, schema_source INSTALLED. RAW_RUNS: DOCTOR_*.",
+      "holds": true,
+      "status": "PASS"
+    },
+    {
+      "id": "C2_DETERMINISTIC_SUITE",
+      "claim": "The full deterministic suite passes in the specified read-only, no-git environment.",
+      "evidence": "PYTHONPATH=/w/src python3 -B -m unittest discover -s tests -t .: exit 1; Ran 301 tests in 263.797s; failures=10, errors=15, skipped=15. Full stderr: SUITE.stderr.",
+      "holds": false,
+      "status": "FAIL"
+    },
+    {
+      "id": "C3_COMMAND_SURFACE",
+      "claim": "All 13 CLI commands execute real functions in source mode; project/export write only to authorized scratch outputs.",
+      "evidence": "SURFACE_MATRIX.json records 13 argv/exit/stdout-SHA256 rows; all exit 0. project/export use --out /ao/*-output --allow-root /ao. validate checks 4 records after stripping PI sidecar; doctor PASS/19.",
+      "holds": true,
+      "status": "PASS"
+    },
+    {
+      "id": "C4_PER_ATOM_GATE",
+      "claim": "Unique validated obligations resist filler dilution; historical FAIL persists and advisory rows never vote.",
+      "evidence": "python -B tools/perf_budget.py --check: exit 0 PASS; historical 343547>20000 FAIL. OWN_DILUTION exit 0: identical filler 5316.2 FAIL; same filler with forged distinct subject_id values 161.6 PASS. Advisory budgets zero still PASS.",
+      "holds": false,
+      "status": "FAIL"
+    },
+    {
+      "id": "C5_TQAEP",
+      "claim": "Legal TQAEP has design-time ceiling only; missing/self-attested/same-checker receipts fail; receipt strings grant no independent pass.",
+      "evidence": "compile-tqaep legal exit 0: TQAEP_DESIGNED/NOT_GRANTED, no INDEPENDENT_CASE_PASS. TQ_MISSING/TQ_SELF/TQ_SAME exit 2 TQ_SOD. TQ_TOKEN exit 0 echoes token only in checker_execution_receipt; fixed acceptance fields stay design-time.",
+      "holds": true,
+      "status": "PASS"
+    },
+    {
+      "id": "C6_DOCS",
+      "claim": "README first screen and ACCEPTANCE head identify the current candidate branch and claim no public-use grant.",
+      "evidence": "READ_DETAILS exit 0: README first 40 lines says current=r5-s4-packreader; ACCEPTANCE first 35 lines repeats it. Brief binds r5p-post-challenge-repair. No public-use grant is stated. Current-branch identification FAIL.",
+      "holds": false,
+      "status": "FAIL"
+    },
+    {
+      "id": "C7_SECURITY_FAIL_CLOSED",
+      "claim": "Dangerous project destinations and repair scope/subject escapes are refused without filesystem effects.",
+      "evidence": "SEC_ROOT/HOME/TRAVERSAL exit 2 UNSAFE_DESTINATION; SEC_REPAIR/SUBJECT exit 2 REPAIR_SCOPE; snapshots unchanged. SEC_WINDOWS_SUBJECT: repair --subject C:/Windows/system32/x.dll --authorized-root /w exits 0 CANDIDATE (FAIL).",
+      "holds": false,
+      "status": "FAIL"
+    },
+    {
+      "id": "C8_SUBJECT_BINDING",
+      "claim": "Exported wheel and round-snapshot product digest match the supplied candidate bindings.",
+      "evidence": "Wheel SHA256 matches bb070a6f... . BOUND_PRODUCT_DIGEST exit 0, 283 files: f2b288ad49985a99f659d8b59218ecf6ee02eef7a712d80e4f14edaa17906822 differs from brief 4a039259... . Original commit/tree cannot be checked without git metadata.",
+      "holds": false,
+      "status": "FAIL"
+    }
+  ],
+  "caveats": [
+    "Candidate-only advisory; no canonical acceptance, release, production or public-use grant.",
+    "Live config names gpt-6.1-sol, medium, hgk_verify_door via port 10111. Product read-only mount independently observed; front-door internals not attested.",
+    "Full suite depends on absent git and attempts writes under /w. Mount refused those writes; all product hashes remained unchanged.",
+    "Mandated suite used inherited /tmp for its own temporary fixtures. Checker scripts and persistent outputs are under /ao.",
+    "Dilution uses an edited measured PI and actual rate/verdict functions. It shows unvalidated denominator gaming; normal CLI generation of forged identities was not demonstrated.",
+    "Rebuilt archive hash differs from shipped wheel, but every member name and byte matches. Wheel-member and publication line digests are distinct from the round snapshot digest.",
+    "Initial blank-root init refused; seeded scratch init passed. Raw compiled PI has _profile_meta, which validation rejects; documented sidecar stripping produced PASS.",
+    "Token-text receipt is echoed as data only; no independent-pass case/status is generated. Static fixed dictionary construction supports the any-receipt conclusion.",
+    "Contract hash uses the mounted brief_ao_checker.md bytes. Required /w baseline snapshot is absent; manifest_sha256 is UNAVAILABLE.",
+    "Product digest was re-derived using the located round product_snapshot.py scope and canonical JSON encoding; its mismatch is unresolved."
+  ],
+  "unfinished": [
+    "Independent original commit/tree cryptographic binding is unavailable in the pristine export; supplied product-digest mismatch remains unresolved."
+  ],
+  "phase": "WO-S4-AO-002",
+  "matrix_sha256": "88bcb33b427b01f758ccdaf4f7a8050e571cded256563430201a64ce56c6c75f",
+  "contract_sha256": "fd61979d0627ab5685cdde3321c466ae42a288ce8e7daced67d7719665e44c74",
+  "manifest_sha256": "UNAVAILABLE",
+  "claim_ceiling": "CANDIDATE_ONLY_ADVISORY"
+}

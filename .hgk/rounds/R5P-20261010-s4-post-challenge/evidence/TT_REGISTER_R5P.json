@@ -1,0 +1,109 @@
+{
+  "schema": "PIPD-R5P-TT-REGISTER/1",
+  "as_of": "2026-10-10T15:35:00Z",
+  "claim_ceiling": "CANDIDATE_ONLY",
+  "open": [
+    {
+      "id": "TT-R5P-01",
+      "finding": "F-R5P-01",
+      "owner": "CLI/packaging owner",
+      "title": "doctor/export abort on a dangling symlink inside the walked root (pre-existing at the baseline)",
+      "next": "decide typed refusal vs skip-and-report for non-resolvable entries in the root walk"
+    },
+    {
+      "id": "TT-R5P-02",
+      "finding": "F-R5-03",
+      "owner": "PKG08 packager",
+      "title": "no install-time/startup cryptographic checksum readback",
+      "next": "define the typing of a preflight refusal for a tampered wheel"
+    },
+    {
+      "id": "TT-R5P-03",
+      "finding": "F-R5-06",
+      "owner": "PIPD Core + Contract/QA",
+      "title": "no per-row executable oracle for the 57-row SPEC/DEL crosswalk",
+      "next": "S4-active subset only; defer the rest by stage"
+    },
+    {
+      "id": "TT-R5P-04",
+      "finding": "INC-R5P-06",
+      "owner": "PIPD Core",
+      "title": "compile-receipt claim_ceiling vocabulary mismatch",
+      "next": "align at the next contract build"
+    },
+    {
+      "id": "TT-R5P-08",
+      "finding": "RL-C6-HISTORICAL-WORDING",
+      "owner": "Docs owner",
+      "title": "README first screen still carries the old R5 S4 framing beyond the corrected entry lines",
+      "next": "optional wording pass; do not rewrite historical receipts"
+    },
+    {
+      "id": "TT-R5P-05",
+      "finding": "INC-R5P-07",
+      "owner": "PKG08 packager",
+      "title": "WHEEL_MANIFEST candidate_head names the frozen module source, not the tip",
+      "next": "record the build tree/commit or rebind the tip elsewhere"
+    },
+    {
+      "id": "TT-R5P-06",
+      "finding": "F-R5-08 residual",
+      "owner": "Cross-platform QA",
+      "title": "no native Windows security verdict (only the disposable Linux container ran the symlink negatives)",
+      "next": "elevated Windows runner if the product claims general Windows use"
+    },
+    {
+      "id": "TT-R5P-07",
+      "finding": "F-R5-10",
+      "owner": "human rights owner",
+      "title": "licence / public redistribution",
+      "next": "human gate only; no AI promotion"
+    },
+    {
+      "id": "TT-R5P-09",
+      "finding": "AO v4 independence scope",
+      "owner": "Release/verify owner",
+      "title": "checker could not rev-parse the subject (read-only export without .git) and did not verify future checkpoint refresh",
+      "next": "for the next subject, ship a commit/tree attestation the checker can verify without a git checkout"
+    },
+    {
+      "id": "TT-R5P-12",
+      "finding": "INC-R5P-09",
+      "owner": "lane orchestration",
+      "title": "per-attempt immutable lane log paths",
+      "next": "stop reusing log file names across lane attempts"
+    },
+    {
+      "id": "TT-R5P-13",
+      "finding": "projection coverage",
+      "owner": "PKG08 packaging",
+      "title": "tools/build_publication_manifest.py --check --current is red on the pushed branch",
+      "next": "extend .hgk/artifacts/evidence_manifest.json for tests/test_doctor_schema_truth.py, tests/test_tqaep_design_positive.py and the pre-existing tests/test_git_object_reader.py, reseal, regenerate the projection, then rebuild the R5P sidecar so its source_manifest_seal reference matches."
+    },
+    {
+      "id": "TT-R5P-14",
+      "finding": "publication_attestation defaults",
+      "owner": "PKG08 packaging",
+      "title": "--build and --verify resolve different published defaults (ref vs constant)",
+      "next": "decide the intended default: same resolution for both, or keep the constant and pin the test to explicit expectations."
+    }
+  ],
+  "deferred_stages": [
+    "S5 HGK live receiver / SharedSpine",
+    "S6 GENIE adapter + host parity",
+    "S7 JIT tool/model/verifier routing",
+    "S8 release/promotion/HITL"
+  ],
+  "closed": [
+    {
+      "id": "TT-R5P-10",
+      "closed_at": "2026-10-10T15:35:00Z",
+      "evidence": "evidence/PUBLICATION_BINDING_R5P.json + .hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION_R5P_POSTCHALLENGE.json"
+    },
+    {
+      "id": "TT-R5P-11",
+      "closed_at": "2026-10-10T15:35:00Z",
+      "evidence": "TCP: ref-dependent skip, root cause in tools/publication_attestation.py defaults; evidence/host_fullsuite.txt + baseline worktree run"
+    }
+  ]
+}

@@ -1,0 +1,233 @@
+.................................s...s......................................................................................................................................s......F...........................................................................................................................................ss....
+======================================================================
+FAIL: test_attestation_build_then_verify_exits_zero (tests.test_publication_projection.CurrentTreeCoverage.test_attestation_build_then_verify_exits_zero)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\tests\test_publication_projection.py", line 284, in test_attestation_build_then_verify_exits_zero
+    self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+AssertionError: 1 != 0 : wrote C:\Users\user\AppData\Local\Temp\tmp1tmp2w99\PUBLICATION_SUBJECT_ATTESTATION.json (payload_digest=14c518c8d854ea36fc4668a8be77084c08fbed2f9055dedaa1a4a5a6db4f949b)
+{
+ "verdict": "FAIL",
+ "attested": {
+  "commit": "5094939606ba9331ed768743eb5b806ad159e639",
+  "tree": "b480182ca3c9c45fffb6d0d04cd81580d5b67c72"
+ },
+ "expected": {
+  "commit": "f4f0a02ca71a5a6e2c77c9dad1b961ccea4487df",
+  "tree": "49082394d1e895e7eb5ca46a94fe217468f0a6ab"
+ },
+ "product_digest": "454cf0623eabea20e6637ef2fa0cf2c065528c2b1fdad4c12e4635aed80beb4a",
+ "manifest_digest": "8eb66c4770a5064f3cf126213c3cb06c713ed314adf70a99b2cb785972599fd1",
+ "payload_digest": "14c518c8d854ea36fc4668a8be77084c08fbed2f9055dedaa1a4a5a6db4f949b",
+ "violations": [
+  "SUBJECT_COMMIT_MISMATCH: attestation commit 5094939606ba9331ed768743eb5b806ad159e639 != expected f4f0a02ca71a5a6e2c77c9dad1b961ccea4487df",
+  "SUBJECT_TREE_MISMATCH: attestation tree b480182ca3c9c45fffb6d0d04cd81580d5b67c72 != expected 49082394d1e895e7eb5ca46a94fe217468f0a6ab"
+ ]
+}
+
+
+----------------------------------------------------------------------
+Ran 325 tests in 77.813s
+
+FAILED (failures=1, skipped=5)
+{
+ "occurrences_total": 1,
+ "policy_mention_count": 1,
+ "writer_usage_count": 0,
+ "policy_mention_files": [
+  "prompt.md"
+ ],
+ "writer_usage_files": [],
+ "r4_writer_usage": [],
+ "r4_scope": ".hgk/",
+ "verdict": "PASS"
+}
+{
+ "occurrences_total": 3,
+ "policy_mention_count": 1,
+ "writer_usage_count": 2,
+ "policy_mention_files": [
+  "contract/R4.CONTRACT.json"
+ ],
+ "writer_usage_files": [
+  ".hgk/codex/writer.log",
+  "logs/run.log"
+ ],
+ "r4_writer_usage": [
+  {
+   "path": ".hgk/codex/writer.log",
+   "line": 1,
+   "classification": "WRITER_USAGE"
+  }
+ ],
+ "r4_scope": ".hgk/",
+ "verdict": "FAIL"
+}
+SKIP test_b4_wheel_mutation_installed_doctor_fails: pip unavailable in test interpreter: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\venv\Scripts\python
+{
+ "error": "HARD_GATE_FAIL",
+ "verdict": "FAIL",
+ "refusal": "the acceptance evidence MD is NOT generated: a hard gate row is FAIL and this tool refuses to print PASS (or bury a hard FAIL behind a percentage). The failing rows are listed verbatim below.",
+ "hard_gates": [
+  {
+   "id": "G-TESTS-UNIT-SUITE",
+   "state": "FAIL",
+   "evidence": "unittest discover: Ran 47 tests, failures 2, errors 1; failing: tests.test_alpha.TestAlpha.test_one, tests.test_s0_contracts.TestS0Contracts.test_two, tests.test_beta.TestBeta.test_three"
+  },
+  {
+   "id": "G-S0-CONTRACTS-19",
+   "state": "FAIL",
+   "evidence": "failing S0 tests: tests.test_s0_contracts.TestS0Contracts.test_two"
+  },
+  {
+   "id": "G-S1-LITE-SLICE",
+   "state": "PASS",
+   "evidence": "trace_verdict=PASS, artifact_validation=PASS"
+  },
+  {
+   "id": "G-CLI-SMOKE-13",
+   "state": "PASS",
+   "evidence": "13/13 commands, nonzero_exit=0, verdicts={'init': 'PASS'}"
+  },
+  {
+   "id": "G-KNOWLEDGE-READY",
+   "state": "PASS",
+   "evidence": "KNOWLEDGE_READY_REPORT verdict=PASS, clean_coverage=True"
+  },
+  {
+   "id": "G-EVIDENCE-MANIFEST",
+   "state": "PASS",
+   "evidence": "evidence_manifest sha256=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+ ],
+ "failing_rows": [
+  "G-TESTS-UNIT-SUITE",
+  "G-S0-CONTRACTS-19"
+ ]
+}
+{
+ "out": "C:\\Users\\user\\AppData\\Local\\Temp\\tmpzq5gtgbd\\EVIDENCE.md",
+ "bytes": 8410,
+ "sha256": "b260d9b3ca76abef92dd7e95c8997016214dda7e6c7f307d26d9a9e8afa4e82c",
+ "head": "0000000000000000000000000000000000000000",
+ "verdict": "PASS",
+ "hard_gates": [
+  "G-TESTS-UNIT-SUITE",
+  "G-S0-CONTRACTS-19",
+  "G-S1-LITE-SLICE",
+  "G-CLI-SMOKE-13",
+  "G-KNOWLEDGE-READY",
+  "G-EVIDENCE-MANIFEST"
+ ]
+}
+{
+ "verdict": "PASS",
+ "hard_gates": [
+  {
+   "id": "G-TESTS-UNIT-SUITE",
+   "state": "PASS",
+   "evidence": "unittest discover: Ran 47 tests, failures 0, errors 0"
+  },
+  {
+   "id": "G-S0-CONTRACTS-19",
+   "state": "PASS",
+   "evidence": "tests/test_s0_contracts.py green in the recorded run"
+  },
+  {
+   "id": "G-S1-LITE-SLICE",
+   "state": "PASS",
+   "evidence": "trace_verdict=PASS, artifact_validation=PASS"
+  },
+  {
+   "id": "G-CLI-SMOKE-13",
+   "state": "PASS",
+   "evidence": "13/13 commands, nonzero_exit=0, verdicts={'init': 'PASS'}"
+  },
+  {
+   "id": "G-KNOWLEDGE-READY",
+   "state": "PASS",
+   "evidence": "KNOWLEDGE_READY_REPORT verdict=PASS, clean_coverage=True"
+  },
+  {
+   "id": "G-EVIDENCE-MANIFEST",
+   "state": "PASS",
+   "evidence": "evidence_manifest sha256=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+ ]
+}
+{
+ "mode": "check",
+ "first_fail": "atom REQ-17aaa2060430cfc8016f still carries source_text",
+ "fails": [
+  "atom REQ-17aaa2060430cfc8016f still carries source_text",
+  "duplicated source_text bytes remain: 24"
+ ],
+ "residual_duplicate_atoms": 10,
+ "residual_duplicated_bytes": 249,
+ "baseline_source": "HEAD",
+ "baseline_bytes": 24013,
+ "baseline_head_sha256": {
+  "src/pipd_ls_sp/pipeline.py": "183b213d575413004ed7b3966176561f7eff106a6391c69eab5385bbc9e49379",
+  "src/pipd_ls_sp/requirements.py": "1ac3a64c655d93e02e2511456d08972801a89b788eec635289b51e0e7de88121"
+ },
+ "shrinkage_claimed": false,
+ "pre_change_pi_bytes": 24659,
+ "current_pi_bytes": 24648,
+ "current_resolved_materialized_bytes": 26752,
+ "serialized_delta_bytes": -11,
+ "resolved_delta_bytes": 2093,
+ "current_tree_larger": true,
+ "verdict": "FAIL"
+}
+{
+ "mode": "check",
+ "first_fail": "atoms lost vs baseline: 1 requirement id(s) absent, e.g. ['REQ-17aaa2060430cfc8016f']",
+ "fails": [
+  "atoms lost vs baseline: 1 requirement id(s) absent, e.g. ['REQ-17aaa2060430cfc8016f']"
+ ],
+ "residual_duplicate_atoms": 9,
+ "residual_duplicated_bytes": 225,
+ "baseline_source": "HEAD",
+ "baseline_bytes": 24013,
+ "baseline_head_sha256": {
+  "src/pipd_ls_sp/pipeline.py": "183b213d575413004ed7b3966176561f7eff106a6391c69eab5385bbc9e49379",
+  "src/pipd_ls_sp/requirements.py": "1ac3a64c655d93e02e2511456d08972801a89b788eec635289b51e0e7de88121"
+ },
+ "shrinkage_claimed": false,
+ "pre_change_pi_bytes": 23698,
+ "current_pi_bytes": 23772,
+ "current_resolved_materialized_bytes": 25791,
+ "serialized_delta_bytes": 74,
+ "resolved_delta_bytes": 2093,
+ "current_tree_larger": true,
+ "verdict": "FAIL"
+}
+deny_scan exit=0
+verdict: PASS (0 hits, 2 files scanned)
+{
+ "schema": "PIPD-ROUND-SELFSCAN/1",
+ "as_of": "2026-10-10T12:04:11.255591+00:00",
+ "scanned_paths": [
+  "C:\\Users\\user\\AppData\\Local\\Temp\\tmpjm49jlaq"
+ ],
+ "files_scanned": 2,
+ "hits": [],
+ "counts": {
+  "by_kind": {},
+  "total": 0
+ },
+ "deny_scan": {
+  "ran": true,
+  "exit_code": 1,
+  "tail": "stub deny hit"
+ },
+ "verdict": "HIT"
+}
+deny_scan exit=1
+verdict: HIT (0 hits, 2 files scanned)
+VIOLATION: PIPD-SP-SPEC-001: evidence_ref missing: does/not/exist/mutation.json
+check failed: 1 violation(s)
+VIOLATION: PIPD-SP-SPEC-001: EVIDENCED oracle file missing: tests/ORACLE_DOES_NOT_EXIST.py
+check failed: 1 violation(s)
+SKIP test_installed_doctor_diagnoses_installed_schema_surface: pip unavailable in test interpreter: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\venv\Scripts\python
+SKIP test_installed_package_is_self_sufficient: pip unavailable in test interpreter: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\venv\Scripts\python

@@ -1,0 +1,1040 @@
+[checker] start 2026-10-10T12:45:27Z brief=brief_ao_checker_v3.md model=gpt-6.1-sol image=pipd-r4-writer:4 port=10111 timeout=1200
+[checker] read-only product mount: C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r5p-final-tree
+[checker] ao_out=C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R5P-20261010-s4-post-challenge/ao/out (outside the product write set)
+iptables v1.8.9 (nf_tables): Could not fetch rule set generation id: Permission denied (you must be root)
+iptables v1.8.9 (nf_tables): Could not fetch rule set generation id: Permission denied (you must be root)
+iptables v1.8.9 (nf_tables): Could not fetch rule set generation id: Permission denied (you must be root)
+iptables v1.8.9 (nf_tables): Could not fetch rule set generation id: Permission denied (you must be root)
+[egress] admission ACTIVE — loopback + gateway 192.168.65.254 ALLOW; all other egress DROP
+[egress] state=locked:192.168.65.254 
+Reading additional input from stdin...
+OpenAI Codex v0.162.0
+--------
+workdir: /ao
+model: gpt-6.1-sol
+provider: hgk_verify_door
+approval: never
+sandbox: danger-full-access
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a125d8-d349-7b60-8628-413ddcfa5f1a
+--------
+user
+# INDEPENDENT CHECKER BRIEF — R5P narrow closure (attempt 3) — PIPD-LS-SP
+
+Attempt 2 returned `PARTIAL`: `C1/C4/C6/C7/C8 PASS`, `C2 FAIL = EVIDENCE_GAP`. Two of your own notes
+became repairs. This pass closes exactly those two, **nothing else**, and must stay small.
+
+## Subject (new, frozen)
+
+| role | value |
+|---|---|
+| baseline | `r5-s4-packreader` @ `0f06eec96386b7349db8b41ac6cf9c7455d326f1` |
+| **subject under review now** | **`9caef8ec36017b4c3ca55b9a672da1fa625fff07`** (tree `910f94127ee6367a6f5adff995321b353f4a6f10`) |
+| previous subject (attempt 2) | `812af79422c087f0ef5a07188fbec061df6b47e0` |
+| only change since attempt 2 | `ACCEPTANCE.md` — a banner naming the R5P subject (closes your C6 note) |
+| wheel | sha256 `bb070a6f525382edc521bcf7fe127579e1e329024113ab4fe2881eeeea7b0a76` (unchanged; the wheel packages `src/` only) |
+
+Mounts: `/w` = pristine export of `9caef8ec…` (read-only, no `.git`), `/round` = round evidence
+(read-only), `/briefs` (read-only), `/ao` = your only writable place.
+
+## What to do (three things)
+
+1. **C2 close/re-fail on the bound receipt.** `/round/evidence/host_fullsuite_repair_bound.txt` is a
+   re-emitted host run that now carries, in the file itself: the exact command line, cwd, `rev-parse
+   HEAD`, `rev-parse HEAD^{tree}`, interpreter version, start/finish timestamps and an explicit
+   `# exit_code: 0` line after `Ran 311 tests ... OK (skipped=6)`, with the named SKIP lines present.
+   Verify the pairing by hashing the file yourself and reading it; state whether C2 can now close as
+   `PASS` (evidence sufficient) or still `EVIDENCE_GAP`, and say precisely what is still missing if so.
+   Note honestly: in that worktree `git status` shows two non-product entries
+   (`.hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json` modified and `.hgk/artifacts/tqaep_design_tmp/`
+   untracked) written by the suite's own tests; judge whether that changes your verdict.
+2. **C8 re-bind for the new subject.** Run `/round/ops/bound_digest.py /w` and compare with
+   `/round/evidence/DIGEST_BINDING.json`. The bound digest moved because `ACCEPTANCE.md` changed —
+   confirm the new value and that the rejected narrower definition is still labelled rejected.
+3. **C6 re-read.** `/w/README.md` line ~39 and `/w/ACCEPTANCE.md` banner: can a first-screen reader
+   tell which branch/subject is under review, what the licence grants, and where acceptance lives?
+
+Do **not** re-litigate C1, C4, C5, C7 — they are settled on the previous subject and unchanged here.
+
+## Deliverable
+
+`AO_VERDICT_V3.json` in `/ao` with, for each of C2/C6/C8: `verdict`, `evidence` (raw paths), `note`;
+plus `subject_commit`/`subject_tree`, `overall`, `classification`, `independent_of_maker`,
+`human_ratification: PENDING`, `claim_ceiling: CANDIDATE_ONLY`. Log in 繁體中文. Every claim needs a
+command, an exit code and a raw file. Do not promote any claim level.
+codex
+我會只檢查 C2、C6、C8，將命令、退出碼及原始輸出存入 `/ao`，並維持 `CANDIDATE_ONLY` 宣稱上限。
+
+exec
+/bin/bash -lc "pwd; rg --files -g AGENTS.md -g '*DIGEST*' -g '*bound*' -g '*VERDICT*' /ao /round /briefs /w" in /ao
+ succeeded in 1339ms:
+/ao
+/round/evidence/host_fullsuite_repair_bound.txt
+/round/evidence/DIGEST_BINDING.json
+/ao/READ_BOUND_DIGEST_SCOPE.stdout
+/ao/READ_BOUND_DIGEST_SCOPE.stderr
+/round/ops/__pycache__/bound_digest.cpython-311.pyc
+/round/ops/bound_digest.py
+/round/ao/out/READ_BOUND_DIGEST_SCOPE.stderr
+/ao/DIGEST_SCOPE_DETAILS.stdout
+/ao/DIGEST_SCOPE_DETAILS.stderr
+/ao/CANDIDATE_DIGEST.stdout
+/ao/CANDIDATE_DIGEST.stderr
+/ao/BOUND_PRODUCT_DIGEST.stdout
+/ao/BOUND_PRODUCT_DIGEST.stderr
+/ao/AO_VERDICT_V2.json
+/ao/AO_VERDICT.json
+/round/ao/out/DIGEST_SCOPE_DETAILS.stdout
+/round/ao/out/DIGEST_SCOPE_DETAILS.stderr
+/round/ao/out/CANDIDATE_DIGEST.stdout
+/round/ao/out/CANDIDATE_DIGEST.stderr
+/round/ao/out/BOUND_PRODUCT_DIGEST.stdout
+/round/ao/out/BOUND_PRODUCT_DIGEST.stderr
+/round/ao/out/AO_VERDICT_V2.json
+/round/ao/out/AO_VERDICT.json
+/round/ao/out/READ_DIGEST_DEFINITION.stdout
+/round/ao/out/READ_DIGEST_DEFINITION.stderr
+/round/ao/out/READ_BOUND_DIGEST_SCOPE.stdout
+/ao/v2/raw/C7_native_boundary.stdout
+/ao/v2/raw/C7_native_boundary.stderr
+/ao/v2/raw/C2_bound_receipt_context.stdout
+/ao/v2/raw/C2_bound_receipt_context.stderr
+/ao/v2/raw/C2_bound_host_update.stdout
+/ao/v2/raw/C2_bound_host_update.stderr
+/ao/v2/raw/C2_bound_host_raw.stdout
+/ao/v2/raw/C2_bound_host_raw.stderr
+/ao/READ_DIGEST_DEFINITION.stdout
+/ao/READ_DIGEST_DEFINITION.stderr
+/round/ao/out/v2/raw/C7_native_boundary.stdout
+/round/ao/out/v2/raw/C7_native_boundary.stderr
+/round/ao/out/v2/raw/C2_bound_receipt_context.stdout
+/round/ao/out/v2/raw/C2_bound_receipt_context.stderr
+/round/ao/out/v2/raw/C2_bound_host_update.stdout
+/round/ao/out/v2/raw/C2_bound_host_update.stderr
+/round/ao/out/v2/raw/C2_bound_host_raw.stdout
+/round/ao/out/v2/raw/C2_bound_host_raw.stderr
+
+exec
+/bin/bash -lc "python - <<'PY'
+from pathlib import Path
+import subprocess,json
+root=Path('/ao/v3/raw'); root.mkdir(parents=True,exist_ok=True)
+checks={
+'context':['bash','-c','for p in /AGENTS.md /ao/AGENTS.md /round/AGENTS.md /w/AGENTS.md; do if test -f \""'$p"; then cat "$p"; fi; done'"'],
+'previous':['cat','/ao/AO_VERDICT_V2.json'],
+'c2_hash':['sha256sum','/round/evidence/host_fullsuite_repair_bound.txt'],
+'c2_read':['cat','/round/evidence/host_fullsuite_repair_bound.txt'],
+'c8_script':['cat','/round/ops/bound_digest.py'],
+'c8_binding':['cat','/round/evidence/DIGEST_BINDING.json'],
+'c6_read':['bash','-c','nl -ba /w/README.md | head -n 100; nl -ba /w/ACCEPTANCE.md | head -n 100'],
+}
+for name,cmd in checks.items():
+ p=subprocess.run(cmd,cwd='/ao',capture_output=True)
+ (root/(name+'.stdout')).write_bytes(p.stdout); (root/(name+'.stderr')).write_bytes(p.stderr)
+ record={'command':cmd,'cwd':'/ao','exit_code':p.returncode,'stdout':str(root/(name+'.stdout')),'stderr':str(root/(name+'.stderr'))}
+ (root/(name+'.command.json')).write_text(json.dumps(record,ensure_ascii=False,indent=2)+'\\n')
+ print(json.dumps(record,ensure_ascii=False))
+ if name"'!='"'c2_read': print(p.stdout.decode())
+ else:
+  lines=p.stdout.decode().splitlines(); print('\\n'.join(lines[:45]+lines[-55:]))
+PY" in /ao
+ exited 127 in 0ms:
+/bin/bash: line 1: python: command not found
+
+exec
+/bin/bash -lc "python3 - <<'PY'
+from pathlib import Path
+import subprocess,json
+root=Path('/ao/v3/raw'); root.mkdir(parents=True,exist_ok=True)
+checks={
+'context':['bash','-c','for p in /AGENTS.md /ao/AGENTS.md /round/AGENTS.md /w/AGENTS.md; do if test -f \""'$p"; then cat "$p"; fi; done'"'],
+'previous':['cat','/ao/AO_VERDICT_V2.json'],
+'c2_hash':['sha256sum','/round/evidence/host_fullsuite_repair_bound.txt'],
+'c2_read':['cat','/round/evidence/host_fullsuite_repair_bound.txt'],
+'c8_script':['cat','/round/ops/bound_digest.py'],
+'c8_binding':['cat','/round/evidence/DIGEST_BINDING.json'],
+'c6_read':['bash','-c','nl -ba /w/README.md | head -n 100; nl -ba /w/ACCEPTANCE.md | head -n 100'],
+}
+for name,cmd in checks.items():
+ p=subprocess.run(cmd,cwd='/ao',capture_output=True)
+ (root/(name+'.stdout')).write_bytes(p.stdout); (root/(name+'.stderr')).write_bytes(p.stderr)
+ record={'command':cmd,'cwd':'/ao','exit_code':p.returncode,'stdout':str(root/(name+'.stdout')),'stderr':str(root/(name+'.stderr'))}
+ (root/(name+'.command.json')).write_text(json.dumps(record,ensure_ascii=False,indent=2)+'\\n')
+ print(json.dumps(record,ensure_ascii=False))
+ if name"'!='"'c2_read': print(p.stdout.decode())
+ else:
+  lines=p.stdout.decode().splitlines(); print('\\n'.join(lines[:45]+lines[-55:]))
+PY" in /ao
+ succeeded in 0ms:
+{"command": ["bash", "-c", "for p in /AGENTS.md /ao/AGENTS.md /round/AGENTS.md /w/AGENTS.md; do if test -f \"$p\"; then cat \"$p\"; fi; done"], "cwd": "/ao", "exit_code": 0, "stdout": "/ao/v3/raw/context.stdout", "stderr": "/ao/v3/raw/context.stderr"}
+
+{"command": ["cat", "/ao/AO_VERDICT_V2.json"], "cwd": "/ao", "exit_code": 0, "stdout": "/ao/v3/raw/previous.stdout", "stderr": "/ao/v3/raw/previous.stderr"}
+{
+  "checker_id": "AO-R5P-INDEPENDENT-V2",
+  "subject_commit": "812af79422c087f0ef5a07188fbec061df6b47e0",
+  "subject_tree": "d3b79d2bc7aba08368a02a9f34204d14c9b06bbd",
+  "subject_identity_basis": "Commit/tree identifiers supplied by frozen-subject brief; no git state used. File identity independently re-derived using the declared bound scope.",
+  "wheel_sha256": "bb070a6f525382edc521bcf7fe127579e1e329024113ab4fe2881eeeea7b0a76",
+  "rebuilt_wheel_sha256": "1d04e2badb980bbfd8a727d0209e0882a3fd14e74e3af3ced0695517411edb55",
+  "wheel_bytes": 231852,
+  "checks": [
+    {
+      "id": "C1",
+      "verdict": "PASS",
+      "evidence": "/ao/v2/C1.json",
+      "note": "PASS independently confirmed: three local wheel installations exit 0; health doctor exit 0 with 19 families; both missing-ArtifactIdentity mutations exit 1 with JSON FAIL naming ArtifactIdentity, including from healthy /w. Fresh venvs use system-site-packages solely for existing offline jsonschema dependencies; product origins are in the new venvs. Rebuilt and exported wheels have identical 38 payloads; SHA difference is entirely ZIP creator-system metadata."
+    },
+    {
+      "id": "C4",
+      "verdict": "PASS",
+      "evidence": "/ao/v2/C4.json",
+      "note": "PASS repair confirmed: voting bytes_per_atom denominator stays 237, 10000 unvalidated fillers never vote. Identical filler 5338.616033755275 FAIL; exact attempt-1 subject_id restamping 6979.502109704641 FAIL; both subject_id/req_id restamping 6890.430379746836 FAIL; budget 2000. Rejected identity rates 5316.18487394958 / 161.5846439386539 / 159.5225163622155. Historical 343547 > 20000 FAIL remains recorded and non-voting. Gate --check exit 0 for healthy input; only git metadata callback bypassed to obey no-git-state rule."
+    },
+    {
+      "id": "C6",
+      "verdict": "PASS",
+      "evidence": "/ao/v2/C6.json",
+      "note": "PASS for the specified README first-screen check: line 39 names r5p-post-challenge-repair and exact baseline; states S4 internal evaluation / LicenseRef-PIPD-Proprietary / no public-use grant; lines 7 and 39 point to ACCEPTANCE.md. Non-blocking scoped limitation: ACCEPTANCE.md itself still describes the baseline r5-s4-packreader D1 round, not this R5P subject; do not treat that baseline receipt as current acceptance."
+    },
+    {
+      "id": "C7",
+      "verdict": "PASS",
+      "evidence": "/ao/v2/C7.json",
+      "note": "PASS for native-platform resolved-path containment; attempt-1 security-defect oracle withdrawn. Exact argv and cwd=/w still exit 0 CANDIDATE on Linux; exact test fails 1 subtest at line 88. Linux resolves C:/Windows/system32/x.dll to /w/C:/Windows/system32/x.dll, inside the authorised root. From cwd=/ao, the same drive-prefixed spelling is rejected (exit 2); /etc/passwd and ../../escape.py rejected with REPAIR_SCOPE (exit 2). Windows spelling is absolute and outside a normal repository root; native Windows execution not independently run here. Product code recognises a drive prefix but uses native Path.resolve; thus rejection of all foreign Windows absolute spellings on Linux is NOT established and cannot be claimed. No outside-root write or actual native-path escape demonstrated."
+    },
+    {
+      "id": "C8",
+      "verdict": "PASS",
+      "evidence": "/ao/v2/C8.json",
+      "note": "PASS independently recomputed: one explicit product_snapshot.walk definition, 288 files, 4ee712e899e9f4aa14d46ba1d3f879eb6b45ad0ae4a8b02bf1d9847b5f8cc579. Round script and independent AO implementation both match DIGEST_BINDING.json. Narrow 251-file digest d2a90ad3500e7681dcf9c8e097480adc847f218b7293aabd8369d6d50223b672 explicitly rejected."
+    },
+    {
+      "id": "C2",
+      "verdict": "FAIL",
+      "evidence": "/ao/v2/C2.json",
+      "note": "FAIL / EVIDENCE_GAP, not a confirmed product defect. Container is not a valid full-suite environment (no git/.git, read-only /w, inaccessible Windows fixture locator); full suite deliberately not rerun. Original required host raw reports 311 tests in 59.608s, OK (skipped=6). A new host_fullsuite_repair_bound.txt appeared during the AO turn and completed: command and interpreter disclosed, supplied subject commit/tree stated, 311 tests in 57.621s, OK (skipped=6), reported process exit 0. This resolves the original missing command/exit metadata gap. However line 6 explicitly records a non-clean pre-run worktree (2 status lines), without naming the paths or hashing the executed working files. Therefore correspondence of the executed host working tree to the frozen /w snapshot is still unestablished. Require the two status paths plus their disposition/file hashes, or a clean pre-run product-snapshot-bound host receipt, alongside the raw file. No confirmed product defects from the 25 attempt-1 failure/error events: missing git/writes/Windows fixture locator explain 24, and C7 is platform oracle disagreement. Six skips remain scoped omissions; no independently executed Windows/full-suite claim."
+    }
+  ],
+  "attempt1_recheck": [
+    {
+      "id": "C1",
+      "attempt1": "PASS",
+      "now": "PASS",
+      "why": "PASS independently confirmed: three local wheel installations exit 0; health doctor exit 0 with 19 families; both missing-ArtifactIdentity mutations exit 1 with JSON FAIL naming ArtifactIdentity, including from healthy /w. Fresh venvs use system-site-packages solely for existing offline jsonschema dependencies; product origins are in the new venvs. Rebuilt and exported wheels have identical 38 payloads; SHA difference is entirely ZIP creator-system metadata."
+    },
+    {
+      "id": "C4",
+      "attempt1": "FAIL",
+      "now": "PASS",
+      "why": "PASS repair confirmed: voting bytes_per_atom denominator stays 237, 10000 unvalidated fillers never vote. Identical filler 5338.616033755275 FAIL; exact attempt-1 subject_id restamping 6979.502109704641 FAIL; both subject_id/req_id restamping 6890.430379746836 FAIL; budget 2000. Rejected identity rates 5316.18487394958 / 161.5846439386539 / 159.5225163622155. Historical 343547 > 20000 FAIL remains recorded and non-voting. Gate --check exit 0 for healthy input; only git metadata callback bypassed to obey no-git-state rule."
+    },
+    {
+      "id": "C6",
+      "attempt1": "FAIL",
+      "now": "PASS",
+      "why": "PASS for the specified README first-screen check: line 39 names r5p-post-challenge-repair and exact baseline; states S4 internal evaluation / LicenseRef-PIPD-Proprietary / no public-use grant; lines 7 and 39 point to ACCEPTANCE.md. Non-blocking scoped limitation: ACCEPTANCE.md itself still describes the baseline r5-s4-packreader D1 round, not this R5P subject; do not treat that baseline receipt as current acceptance."
+    },
+    {
+      "id": "C7",
+      "attempt1": "FAIL",
+      "now": "PASS",
+      "why": "PASS for native-platform resolved-path containment; attempt-1 security-defect oracle withdrawn. Exact argv and cwd=/w still exit 0 CANDIDATE on Linux; exact test fails 1 subtest at line 88. Linux resolves C:/Windows/system32/x.dll to /w/C:/Windows/system32/x.dll, inside the authorised root. From cwd=/ao, the same drive-prefixed spelling is rejected (exit 2); /etc/passwd and ../../escape.py rejected with REPAIR_SCOPE (exit 2). Windows spelling is absolute and outside a normal repository root; native Windows execution not independently run here. Product code recognises a drive prefix but uses native Path.resolve; thus rejection of all foreign Windows absolute spellings on Linux is NOT established and cannot be claimed. No outside-root write or actual native-path escape demonstrated."
+    },
+    {
+      "id": "C8",
+      "attempt1": "FAIL",
+      "now": "PASS",
+      "why": "PASS independently recomputed: one explicit product_snapshot.walk definition, 288 files, 4ee712e899e9f4aa14d46ba1d3f879eb6b45ad0ae4a8b02bf1d9847b5f8cc579. Round script and independent AO implementation both match DIGEST_BINDING.json. Narrow 251-file digest d2a90ad3500e7681dcf9c8e097480adc847f218b7293aabd8369d6d50223b672 explicitly rejected."
+    },
+    {
+      "id": "C2",
+      "attempt1": "FAIL",
+      "now": "FAIL",
+      "why": "FAIL / EVIDENCE_GAP, not a confirmed product defect. Container is not a valid full-suite environment (no git/.git, read-only /w, inaccessible Windows fixture locator); full suite deliberately not rerun. Original required host raw reports 311 tests in 59.608s, OK (skipped=6). A new host_fullsuite_repair_bound.txt appeared during the AO turn and completed: command and interpreter disclosed, supplied subject commit/tree stated, 311 tests in 57.621s, OK (skipped=6), reported process exit 0. This resolves the original missing command/exit metadata gap. However line 6 explicitly records a non-clean pre-run worktree (2 status lines), without naming the paths or hashing the executed working files. Therefore correspondence of the executed host working tree to the frozen /w snapshot is still unestablished. Require the two status paths plus their disposition/file hashes, or a clean pre-run product-snapshot-bound host receipt, alongside the raw file. No confirmed product defects from the 25 attempt-1 failure/error events: missing git/writes/Windows fixture locator explain 24, and C7 is platform oracle disagreement. Six skips remain scoped omissions; no independently executed Windows/full-suite claim."
+    }
+  ],
+  "classification": {
+    "C1": "NON_BLOCKING_OBSERVATION",
+    "C2": "EVIDENCE_GAP",
+    "C4": "NON_BLOCKING_OBSERVATION",
+    "C6": "NON_BLOCKING_OBSERVATION",
+    "C7": "ORACLE_DISAGREEMENT",
+    "C8": "NON_BLOCKING_OBSERVATION"
+  },
+  "excluded_checks": {
+    "C3": "OUT_OF_SCOPE: attempt-1 PASS, not rerun on repair subject",
+    "C5": "OUT_OF_SCOPE: attempt-1 PASS, not rerun on repair subject"
+  },
+  "overall": "PARTIAL",
+  "independent_of_maker": true,
+  "independence_scope": "All focused measurements independently run against /w. Host full-suite raw file was read, not independently executed; it remains candidate evidence and C2 is not accepted.",
+  "human_ratification": "PENDING",
+  "claim_ceiling": "CANDIDATE_ONLY",
+  "bound_product_digest": "4ee712e899e9f4aa14d46ba1d3f879eb6b45ad0ae4a8b02bf1d9847b5f8cc579",
+  "bound_file_count": 288,
+  "host_suite_raw_sha256": "46091621d18c747da67848fd83c8e392dccf8c8e00d579f8b3d357bd93e894d9",
+  "commands_index": "/ao/v2/commands.jsonl",
+  "host_bound_suite_raw_sha256": "a21ce57638c78a627b343ef69203e7279d6f86aada4ef0599461516e44de12cb"
+}
+
+{"command": ["sha256sum", "/round/evidence/host_fullsuite_repair_bound.txt"], "cwd": "/ao", "exit_code": 0, "stdout": "/ao/v3/raw/c2_hash.stdout", "stderr": "/ao/v3/raw/c2_hash.stderr"}
+a21ce57638c78a627b343ef69203e7279d6f86aada4ef0599461516e44de12cb  /round/evidence/host_fullsuite_repair_bound.txt
+
+{"command": ["cat", "/round/evidence/host_fullsuite_repair_bound.txt"], "cwd": "/ao", "exit_code": 0, "stdout": "/ao/v3/raw/c2_read.stdout", "stderr": "/ao/v3/raw/c2_read.stderr"}
+# HOST SUITE RECEIPT (independent re-emission after AO attempt-2 C2 note)
+# command: python -B -m unittest discover -s tests -t .   (PYTHONPATH=src)
+# cwd: C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r5p-repair-wt
+# git -C C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r5p-repair-wt rev-parse HEAD: 812af79422c087f0ef5a07188fbec061df6b47e0
+# git -C C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r5p-repair-wt rev-parse HEAD^{tree}: d3b79d2bc7aba08368a02a9f34204d14c9b06bbd
+# git -C C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r5p-repair-wt status --porcelain (empty=clean): 2 lines
+# interpreter: 3.11.17 C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\venv\Scripts\python.exe
+# started: 2026-10-10T12:42:16Z
+.................................s...s.........................................................................................................................................s.s................................................................................................................................ss....
+----------------------------------------------------------------------
+Ran 311 tests in 57.621s
+
+OK (skipped=6)
+{
+ "occurrences_total": 1,
+ "policy_mention_count": 1,
+ "writer_usage_count": 0,
+ "policy_mention_files": [
+  "prompt.md"
+ ],
+ "writer_usage_files": [],
+ "r4_writer_usage": [],
+ "r4_scope": ".hgk/",
+ "verdict": "PASS"
+}
+{
+ "occurrences_total": 3,
+ "policy_mention_count": 1,
+ "writer_usage_count": 2,
+ "policy_mention_files": [
+  "contract/R4.CONTRACT.json"
+ ],
+ "writer_usage_files": [
+  ".hgk/codex/writer.log",
+  "logs/run.log"
+ ],
+ "r4_writer_usage": [
+  {
+   "path": ".hgk/codex/writer.log",
+   "line": 1,
+   "classification": "WRITER_USAGE"
+  }
+ ],
+ "r4_scope": ".hgk/",
+ "verdict": "FAIL"
+}
+{
+ "mode": "check",
+ "first_fail": "atoms lost vs baseline: 1 requirement id(s) absent, e.g. ['REQ-22e825b09314d34b7865']",
+ "fails": [
+  "atoms lost vs baseline: 1 requirement id(s) absent, e.g. ['REQ-22e825b09314d34b7865']"
+ ],
+ "residual_duplicate_atoms": 9,
+ "residual_duplicated_bytes": 225,
+ "baseline_source": "HEAD",
+ "baseline_bytes": 24013,
+ "baseline_head_sha256": {
+  "src/pipd_ls_sp/pipeline.py": "620a5f4f03458697d2af20d75632488df44b0f6a375741d84baf59d2b8c7be44",
+  "src/pipd_ls_sp/requirements.py": "1ac3a64c655d93e02e2511456d08972801a89b788eec635289b51e0e7de88121"
+ },
+ "shrinkage_claimed": false,
+ "pre_change_pi_bytes": 25078,
+ "current_pi_bytes": 25152,
+ "current_resolved_materialized_bytes": 27171,
+ "serialized_delta_bytes": 74,
+ "resolved_delta_bytes": 2093,
+ "current_tree_larger": true,
+ "verdict": "FAIL"
+}
+deny_scan exit=0
+verdict: PASS (0 hits, 2 files scanned)
+{
+ "schema": "PIPD-ROUND-SELFSCAN/1",
+ "as_of": "2026-10-10T12:42:51.362675+00:00",
+ "scanned_paths": [
+  "C:\\Users\\user\\AppData\\Local\\Temp\\tmpiu6z1_yh"
+ ],
+ "files_scanned": 2,
+ "hits": [],
+ "counts": {
+  "by_kind": {},
+  "total": 0
+ },
+ "deny_scan": {
+  "ran": true,
+  "exit_code": 1,
+  "tail": "stub deny hit"
+ },
+ "verdict": "HIT"
+}
+deny_scan exit=1
+verdict: HIT (0 hits, 2 files scanned)
+VIOLATION: PIPD-SP-SPEC-001: evidence_ref missing: does/not/exist/mutation.json
+check failed: 1 violation(s)
+VIOLATION: PIPD-SP-SPEC-001: EVIDENCED oracle file missing: tests/ORACLE_DOES_NOT_EXIST.py
+check failed: 1 violation(s)
+SKIP test_installed_doctor_diagnoses_installed_schema_surface: pip unavailable in test interpreter: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\venv\Scripts\python
+SKIP test_installed_package_is_self_sufficient: pip unavailable in test interpreter: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\venv\Scripts\python
+# exit_code: 0
+# finished: 2026-10-10T12:43:14Z
+{"command": ["cat", "/round/ops/bound_digest.py"], "cwd": "/ao", "exit_code": 0, "stdout": "/ao/v3/raw/c8_script.stdout", "stderr": "/ao/v3/raw/c8_script.stderr"}
+#!/usr/bin/env python3
+"""The round's ONE bound product-digest definition, plus the rejected alternative.
+
+Independent challenge C8 (2026-10-10) reported `f2b288ad... (283 files)` from this round's
+`product_snapshot.walk` scope while the AO brief published `4a039259...` from `equivalence.py`'s
+narrower prefix scope. Both numbers were the round's own; the ambiguity was the round's defect.
+
+This tool fixes the definition: it is `product_snapshot.walk` (PRODUCT_ROOTS, EXCLUDE_DIRS,
+EXCLUDE_SUFFIX), rows = [rel_posix, sha256_file] sorted, digest = sha256 of canonical JSON of the
+rows. It emits the bound digest for a candidate root together with the rejected alternative, and
+states verbatim what a checker must reproduce.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+EXCLUDE_DIRS = {".git", "__pycache__", ".hgk", ".agents", ".hermes", ".venv", "node_modules"}
+EXCLUDE_SUFFIX = {".pyc", ".pyo"}
+PRODUCT_ROOTS = ["src", "tests", "tools", "schemas", "dist", "docs", "skills", "fixtures",
+                 "pyproject.toml", "README.md", "ACCEPTANCE.md", "LICENSE", "PROVENANCE.md",
+                 "SBOM.cdx.json", "OWNER_LICENSE_DECISION.yaml", "openspec"]
+# The definition `equivalence.py` used for the subject-binding line in the AO brief. REJECTED as the
+# bound digest (it silently omits packaging metadata, LICENSE, openspec and other roots).
+ALT_ROOTS = ["src", "tools", "tests", "schemas", "skills", "docs", "dist", "fixtures"]
+
+BOUND_DEFINITION = ("product_digest = sha256 of canonical JSON (separators ',',':', ensure_ascii=False, "
+                    "keys n/a) of the sorted rows [[posix_relative_path, sha256_file], ...] over "
+                    "PRODUCT_ROOTS=" + json.dumps(PRODUCT_ROOTS) + ", excluding any path with a part in "
+                    "EXCLUDE_DIRS=" + json.dumps(sorted(EXCLUDE_DIRS)) + " or a suffix in "
+                    "EXCLUDE_SUFFIX=" + json.dumps(sorted(EXCLUDE_SUFFIX)) + ".")
+
+
+def sha256_file(p: Path) -> str:
+    h = hashlib.sha256()
+    with p.open("rb") as fh:
+        for b in iter(lambda: fh.read(1 << 20), b""):
+            h.update(b)
+    return h.hexdigest()
+
+
+def walk(root: Path, roots: list[str]) -> list[Path]:
+    out: list[Path] = []
+    for rel in roots:
+        t = root / rel
+        if t.is_file():
+            out.append(t)
+        elif t.is_dir():
+            for f in sorted(t.rglob("*")):
+                if not f.is_file():
+                    continue
+                if any(part in EXCLUDE_DIRS for part in f.parts):
+                    continue
+                if f.suffix in EXCLUDE_SUFFIX:
+                    continue
+                out.append(f)
+    return out
+
+
+def digest(root: Path, roots=None) -> dict:
+    files = walk(root, roots or PRODUCT_ROOTS)
+    rows = [[str(f.relative_to(root)).replace("\\", "/"), sha256_file(f)] for f in files]
+    rows.sort()
+    return {"file_count": len(rows),
+            "digest": hashlib.sha256(
+                json.dumps(rows, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest(),
+            "roots": roots or PRODUCT_ROOTS}
+
+
+if __name__ == "__main__":
+    root = Path(sys.argv[1])
+    out_path = Path(sys.argv[2]) if len(sys.argv) > 2 else None
+    bound = digest(root)
+    alt = digest(root, ALT_ROOTS)
+    receipt = {
+        "schema": "PIPD-R5P-DIGEST-BINDING/1",
+        "candidate_root": str(root).replace("\\", "/"),
+        "bound_definition": BOUND_DEFINITION,
+        "bound_product_digest": bound["digest"],
+        "bound_file_count": bound["file_count"],
+        "rejected_alternative": {
+            "definition": "equivalence.py product digest over PRODUCT_PREFIXES=" + json.dumps(ALT_ROOTS),
+            "product_digest": alt["digest"], "file_count": alt["file_count"],
+            "why_rejected": ("narrower scope: omits packaging/legal/openspec roots, so two of the round's "
+                             "own scripts published different numbers for the same subject (challenge C8)")},
+        "checker_reproduction": ("python ops/bound_digest.py <pristine_root> then compare "
+                                 "bound_product_digest"),
+    }
+    print(json.dumps(receipt, indent=2, ensure_ascii=False))
+    if out_path:
+        out_path.write_text(json.dumps(receipt, indent=2, ensure_ascii=False), encoding="utf-8")
+
+{"command": ["cat", "/round/evidence/DIGEST_BINDING.json"], "cwd": "/ao", "exit_code": 0, "stdout": "/ao/v3/raw/c8_binding.stdout", "stderr": "/ao/v3/raw/c8_binding.stderr"}
+{
+  "schema": "PIPD-R5P-DIGEST-BINDING/1",
+  "candidate_root": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r5p-final-tree",
+  "bound_definition": "product_digest = sha256 of canonical JSON (separators ',',':', ensure_ascii=False, keys n/a) of the sorted rows [[posix_relative_path, sha256_file], ...] over PRODUCT_ROOTS=[\"src\", \"tests\", \"tools\", \"schemas\", \"dist\", \"docs\", \"skills\", \"fixtures\", \"pyproject.toml\", \"README.md\", \"ACCEPTANCE.md\", \"LICENSE\", \"PROVENANCE.md\", \"SBOM.cdx.json\", \"OWNER_LICENSE_DECISION.yaml\", \"openspec\"], excluding any path with a part in EXCLUDE_DIRS=[\".agents\", \".git\", \".hermes\", \".hgk\", \".venv\", \"__pycache__\", \"node_modules\"] or a suffix in EXCLUDE_SUFFIX=[\".pyc\", \".pyo\"].",
+  "bound_product_digest": "4f5e2310766699d064a402291be2c4803c977e39fda7b65086a98a1b4793338d",
+  "bound_file_count": 288,
+  "rejected_alternative": {
+    "definition": "equivalence.py product digest over PRODUCT_PREFIXES=[\"src\", \"tools\", \"tests\", \"schemas\", \"skills\", \"docs\", \"dist\", \"fixtures\"]",
+    "product_digest": "d2a90ad3500e7681dcf9c8e097480adc847f218b7293aabd8369d6d50223b672",
+    "file_count": 251,
+    "why_rejected": "narrower scope: omits packaging/legal/openspec roots, so two of the round's own scripts published different numbers for the same subject (challenge C8)"
+  },
+  "checker_reproduction": "python ops/bound_digest.py <pristine_root> then compare bound_product_digest"
+}
+{"command": ["bash", "-c", "nl -ba /w/README.md | head -n 100; nl -ba /w/ACCEPTANCE.md | head -n 100"], "cwd": "/ao", "exit_code": 0, "stdout": "/ao/v3/raw/c6_read.stdout", "stderr": "/ao/v3/raw/c6_read.stderr"}
+     1	# PIPD-LS-SP — Pre-Implementation / Pre-Dev Lifecycle Skills Plugin (review candidate)
+     2	
+     3	Candidate artifact of a governed implementation round. Control plane: **HG-KSEOS**
+     4	(project `PIPD-LS-SP-20261008`). Runtime / orchestration plane: **Hermes** under HGK admission.
+     5	Contract surface: **Fabric**.
+     6	
+     7	> **External acceptance entry point:** see [`ACCEPTANCE.md`](ACCEPTANCE.md). It names the branch under
+     8	> acceptance, the subject commit, the one defect repaired in the R5 S4 round, the independent verdict and
+     9	> the exact commands an external verifier runs — and what is explicitly **not** claimed.
+    10	
+    11	## What is in this tree
+    12	
+    13	| path | what it is |
+    14	|---|---|
+    15	| `docs/S0_CONTRACT_SPEC.md` | the frozen S0 contract spec that drives the schema set |
+    16	| `schemas/` | 19 canonical machine-contract families + `registry.json`, written by the Codex bounded writer |
+    17	| `src/pipd_ls_sp/` | the plugin runtime: intake, profile binding, PI→PD→ConstructionContract→ECP/TQAEP pipeline, deterministic validators, 13-command CLI |
+    18	| `tests/` | deterministic tests: S0 contract set, LITE vertical slice, negative/adversarial, rollback, secret patterns, tooling guards, quarantine disposition (POS/NEG/EDGE), oracle-disagreement, evidence-MD hard-gate refusal — live count below, never a stale number |
+    19	| `tools/` | governed round tooling (knowledge probe, HGK admission driver, kanban receipts, CLI smoke) |
+    20	| `LICENSE`, `PROVENANCE.md`, `SBOM.cdx.json` | release-gate artifacts |
+    21	
+    22	## Claim ceiling — read this before believing anything
+    23	
+    24	This repository is a **review candidate**. Status words are kept separate on purpose:
+    25	
+    26	| claim | state |
+    27	|---|---|
+    28	| `PROMPT_COMPILE_PASS` | claimed locally, evidence in `.hgk/preflight/` |
+    29	| `HGK_ADMITTED` | claimed locally (HGK lifecycle reached `EXECUTING`) |
+    30	| `RUNTIME_READY` | **NOT claimed** |
+    31	| `LOCAL_QUALIFIED` | claimed locally (deterministic tests + CLI smoke), scoped to S0/S1 |
+    32	| `INDEPENDENT_PASS` | **NOT CLAIMED by the maker** — pending an independent acceptance officer receipt |
+    33	| `PUBLICATION_APPROVED` | **NOT claimed** — no license is declared in the source corpus |
+    34	| `RELEASED` | **NOT claimed** |
+    35	| `PRODUCTION_VERIFIED` | **NOT claimed** |
+    36	
+    37	**Historical R3 snapshot (kept as history, not the current product state):** `S0` and `S1` are the only stages reached. S2–S8 are not implemented.
+    38	
+    39	> The sentence above is the **R3** snapshot. The branch **current for review** is **`r5p-post-challenge-repair`** (baseline `r5-s4-packreader` @ `0f06eec96386b7349db8b41ac6cf9c7455d326f1`; `main` is still the R3 state). The current acceptance entry point is [`ACCEPTANCE.md`](ACCEPTANCE.md), which names the candidate ceiling: an **`S4` candidate, internal evaluation**, licensed **`LicenseRef-PIPD-Proprietary`** with **no public-use grant**. This note upgrades no claim level.
+    40	
+    41	**R4 (2026-10-09) keeps every one of those ceilings — nothing below was promoted.**
+    42	`INDEPENDENT_PASS`, `PUBLICATION_APPROVED`, `RELEASED` and `PRODUCTION_VERIFIED` remain **NOT CLAIMED**. One repair
+    43	delta (the `round_envelope` destination guards) was independently verified by a separate lane whose verdict is **PASS at
+    44	the delta level**, with the ceiling still `CANDIDATE_ONLY`; the *round's* acceptance stays **PARTIAL** (V7 `NOT_RUN`).
+    45	
+    46	## R3 audit-repair status — R3 snapshot (2026-10-09, FW-10 / FW-12 / R-AUD-008 / R-AUD-012 / R-AUD-013)
+    47	
+    48	> The counts in this section are the **R3** snapshot and are deliberately left as history. The current register is
+    49	> **22 rows / 18 blocking** — see the R4 section below, which supersedes the "17 rows" figure quoted here.
+    50	
+    51	True denominators, failures named — no percentage ever hides a hard FAIL:
+    52	
+    53	| area | state | denominator |
+    54	|---|---|---|
+    55	| unit suite | see `.hgk/artifacts/STATUS_R3.json#tests` | `python -B -m unittest discover -s tests -t .` — real counts + named failing tests, raw log in the round receipt |
+    56	| knowledge readiness (`G-KNOWLEDGE-READY`) | **PARTIAL** | 160 unique sources / 153 physically indexed / 7 quarantined by the sanitizer; the 7 are now **owner-dispositioned** (2 `safe-clean`, 5 `safe-reference`, 0 undecided) in `.hgk/knowledge/QUARANTINE_DISPOSITION_R3.json`. The physical number stays 153/160 — it is NOT padded to 160/160 — until `TT-HGK-SANITIZER-UNANCHORED-KEY-PATTERN` closes |
+    57	| quarantine negative controls | PASS | a live credential and an unframed injection are **not** released even when claimed harmless; an undecided item stays quarantined (`python tools/quarantine_review.py --report`) |
+    58	| TT / CR register | 17 rows | 1 CLOSED (fresh-verified) · 4 PARTIAL · 9 OPEN · 2 OPEN_OWNER_GATE · 1 TEMP_CLOSED — every row carries owner, current state, raw-evidence pointer and explicit close criterion (`.hgk/artifacts/TT_REGISTER.json`) |
+    59	| KP rule-polarity (`R-AUD-013`) | OPEN, resolved by the authorised source | `ORACLE_DISAGREEMENT` entry `OD-R3-001`: upper Evidence/Regression requirement prevails over the KP02/KP11/KP12 `MUST NOT` rows; KP files not edited; calibration negative keeps a genuine `MUST NOT` prohibition (`TT-ORACLE-DISAGREEMENT-KP-R04`) |
+    60	| PRE-W3 cross-project | **TEMP_CLOSED** | independently closed; never derived from S0–S4 evidence (`TT-PRE-W3-CROSS-PROJECT`, HITL owner required) |
+    61	| evidence-MD generator | refusal-protected | `tools/build_evidence_md.py` refuses to print PASS when any hard gate row is FAIL (typed `HARD_GATE_FAIL`, exit 2, no document written) |
+    62	
+    63	## R4 focused-repair status (2026-10-09) — `PIPD-LS-SP-HERMES-R4-FOCUSED-REPAIR-20261009`
+    64	
+    65	Task nature **`NARROW_REPAIR`** (scope `S0-S4_FOCUSED_REPAIR_PLUS_PUBLICATION_EVIDENCE`); R3 functionality is preserved —
+    66	the round adds hardening tooling and its evidence, it does not rewrite the pipeline.
+    67	
+    68	### The hard gate that is FAILING — stated here at the top, not buried
+    69	
+    70	`python -B tools/perf_budget.py --check` → **FAIL**. `context_bytes_per_artefact` measures **343,547** against a
+    71	**20,000** budget (other runs: 336,674 / 355,119 — the exceedance is stable, it is not noise). All four thresholds carry
+    72	`source_of_truth: UNPROVENANCED`, so the three timing rows are `UNDECIDABLE`. Fail-closed behaviour was deliberately
+    73	retained and **no threshold was raised** — widening 20,000 to make the gate green would be weakening a gate.
+    74	The budget's derivation row is still missing (`TT-PIPD-PERF-CONTEXT-BUDGET-PROVENANCE`).
+    75	
+    76	### Hardening tools added this round (each with its own tests)
+    77	
+    78	| tool | what it enforces |
+    79	|---|---|
+    80	| `tools/preflight_check.py` | pre-admission preflight over the round's declared scope |
+    81	| `tools/round_envelope.py` | freeze/envelope a candidate; destination guards **STOP-1..STOP-6** refuse a blank, empty, cwd, `$HOME`, drive-root, equal-to-source or ancestor destination **before any deletion** |
+    82	| `tools/round_selfscan.py` | in-round self-scan of a round's own artifacts |
+    83	| `tools/deny_list_scan.py` | deny-list scan of a scope; non-zero exit on a hit |
+    84	| `tools/pi_dedup_check.py` | PI duplication check |
+    85	| `tools/tt_summary_check.py` | recomputes the TT summary from `tts[]` only (`--assert` / `--write`) |
+    86	| `tools/build_spec_del_crosswalk.py`, `tools/build_publication_manifest.py`, `tools/publication_attestation.py` | crosswalk, publication projection and attestation |
+    87	
+    88	### Tests
+    89	
+    90	`python -B -m unittest discover -s tests -q` in a clean environment (with `PYTHONPATH` and `PYTHONHOME` unset) →
+    91	**`Ran 256 tests … OK`** (baseline 188 + 68 new). New-surface counts: `test_preflight_check` 35,
+    92	`test_round_envelope` **23**, `test_round_selfscan` 10.
+    93	
+    94	### A destructive incident and its long-term repair — disclosed in full
+    95	
+    96	A repair subagent passed an **empty `--dst`**, which normalised to the working directory, and `shutil.rmtree` deleted
+    97	tracked files in the repository root before it was caught. The round restored **every** affected artifact byte-identically
+    98	from a frozen copy (HEAD, index flags, `.git/config`, `.git/logs/HEAD`, porcelain state) and verified each one
+    99	independently. The event is recorded (`PIPD-LS-SP_R4_INCIDENT01_DESTRUCTIVE_DST_2026-10-09.md`) and repaired as
+   100	`H2-DEFECT-02` — the STOP-1..STOP-6 destination guards above exist because of it.
+     1	> **R5P (2026-10-10) — this file describes the BASELINE round, not the current subject.**
+     2	> Independent checker `AO-R5P-INDEPENDENT-V2` flagged that the receipt below still names branch
+     3	> `r5-s4-packreader` and round `R5-20261009-s4-user-operability` (D1), and must not be read as current
+     4	> acceptance. The branch **under review now** is **`r5p-post-challenge-repair`**, cut from
+     5	> `r5-s4-packreader` @ `0f06eec96386b7349db8b41ac6cf9c7455d326f1`; the post-challenge repair subject is
+     6	> commit `812af79422c087f0ef5a07188fbec061df6b47e0` (tree `d3b79d2bc7aba08368a02a9f34204d14c9b06bbd`),
+     7	> wheel sha256 `bb070a6f525382edc521bcf7fe127579e1e329024113ab4fe2881eeeea7b0a76`, bound product digest
+     8	> `4ee712e899e9f4aa14d46ba1d3f879eb6b45ad0ae4a8b02bf1d9847b5f8cc579` (288 files). Its round evidence is
+     9	> `.hgk/rounds/R5P-20261010-s4-post-challenge/` (`evidence/EVIDENCE_RETURN_PACK.json`,
+    10	> `evidence/DIGEST_BINDING.json`, `ao/out/AO_VERDICT.json`, `ao/out/AO_VERDICT_V2.json`,
+    11	> `evidence/FINDING_DISPOSITION.json`). Claim ceiling for both: **`CANDIDATE_ONLY`**, licence
+    12	> **`LicenseRef-PIPD-Proprietary` with no public-use grant**; nothing below or above is promoted. The
+    13	> R5/D1 text below is retained as history and was not rewritten.
+    14	
+    15	# External acceptance entry point — R5 S4 repair round (2026-10-10)
+    16	
+    17	This branch was published so that an **independent verifier** can accept it. Everything here is written
+    18	for that reader. **Nothing in this repository is a claim of acceptance** — see the claim ceiling below.
+    19	
+    20	| item | value |
+    21	|---|---|
+    22	| branch to accept | `r5-s4-packreader` |
+    23	| subject commit | the tip of branch `r5-s4-packreader`. Two bindings pin it, and neither depends on where a later commit sits: (a) the **sha256 of both subject files** (table below) — stable across any commit, and the same digests the independent checker verified; (b) `.hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION_R5S4_PACKREADER.json`, which carries top-level `commit` and `tree` naming the exact subject it was computed over, seals the product and manifest digests, and adds a `payload_digest` so tampering is detectable. Evidence-only commits were added after that binding to deliver the acceptance-officer re-runs; they change no product file, and the digests in (a) are unaffected. The repository's older `.hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION.json` attests the earlier R3 published subject and is deliberately left untouched. |
+    24	| previous public state (parent) | `7f13b90dc06354a0c6b7bd013f83a8cc244bf93d`; its tree is `git rev-parse 7f13b90^{tree}` |
+    25	| round | `R5-20261009-s4-user-operability` |
+    26	| scope | exactly one confirmed defect (**D1**) repaired, then independently checked |
+    27	| independent verdict | `.hgk/rounds/R5-20261009-s4-user-operability/d1repair/D1_INDEPENDENT_VERDICT_V2.json` |
+    28	| the contract that checker executed | `.hgk/rounds/R5-20261009-s4-user-operability/d1repair/CONTRACT-verify-D1.v2.md` |
+    29	| superseded first contract (kept deliberately) | `.hgk/rounds/R5-20261009-s4-user-operability/d1repair/CONTRACT-verify-D1.v1.md` |
+    30	| writer order | `.hgk/rounds/R5-20261009-s4-user-operability/d1repair/WO-WS-A-codex-writer.md` |
+    31	| provenance audit of the defect class | `.hgk/rounds/R5-20261009-s4-user-operability/far/D1_PROVENANCE_AUDIT.md` |
+    32	| evidence manifest — every round artifact, delivered or withheld, each with a hash | `.hgk/rounds/R5-20261009-s4-user-operability/EVIDENCE_MANIFEST.json` |
+    33	
+    34	## The defect (D1)
+    35	
+    36	`tools/perf_budget.py` prints a `historical` block, commented as the recorded verdicts of earlier stages.
+    37	That block read **no stored value at all**: it re-measured the live corpus and printed the result as if it
+    38	were the record. The same field therefore took different values in different checkouts — observed live
+    39	readings `343547 / 368432 / 370091 / 372224 / 372935 / 375068` against a committed record of `343547` —
+    40	while the adjacent comment claimed the number was *preserved verbatim*. That contradicts the owner ruling
+    41	`S2_HISTORICAL_FAIL: PRESERVE` and the committed artifact `.hgk/artifacts/s2/PERF_BUDGET.json`
+    42	(`context_bytes_per_artefact = 343547`, verdict `FAIL`). `tests/test_perf_budget.py` could not catch it:
+    43	it hard-coded the expected number and asserted only the metric name.
+    44	
+    45	## What changed
+    46	
+    47	1. A `historical` row's `value` is now the **recorded** number, read at run time from the file its
+    48	   `origin {file, field}` names, with `recorded: true`. The live reading is **kept separately** in
+    49	   `measured_now`, so the drift is visible instead of disguised.
+    50	2. A row with no recorded counterpart sets `recorded: false` and states in plain text that its value is a
+    51	   live measurement, not a recorded one. No record is fabricated.
+    52	3. **No threshold, budget or voting metric changed** — verified byte-identical against the parent.
+    53	4. Four regression tests were added; the expectation is read from the recorded file at test time and is
+    54	   never hard-coded.
+    55	
+    56	## Subject files, pinned by digest
+    57	
+    58	| file | sha256 |
+    59	|---|---|
+    60	| `tools/perf_budget.py` | `f90c3d8d6061f55b9807c2e8740998f98124b56fbcb5c42397f459c4368ff015` |
+    61	| `tests/test_perf_budget.py` | `6c0d21fa8ce6c0a047539d2333973b88a75eea68c82ce031a96381749791d270` |
+    62	
+    63	## Acceptance criteria — run these yourself, do not trust this file
+    64	
+    65	```bash
+    66	git clone --branch r5-s4-packreader https://github.com/shw097-team/PIPD-LS-SP.git pipd-accept
+    67	cd pipd-accept
+    68	
+    69	# A1 the digests above match
+    70	python -c "import hashlib,pathlib;[print(f,hashlib.sha256(pathlib.Path(f).read_bytes()).hexdigest()) for f in ['tools/perf_budget.py','tests/test_perf_budget.py']]"
+    71	
+    72	# A2 the recorded value is invariant, and the live reading is disclosed separately
+    73	python tools/perf_budget.py --check
+    74	#   historical row must read: value=343547 recorded=true origin={file,field} measured_now=<this checkout's own reading>
+    75	
+    76	# A3 the record really is read from the file it names (perturb a COPY, never the repo)
+    77	cp -r . /tmp/pipd-perturb && cd /tmp/pipd-perturb
+    78	python - <<'PY'
+    79	import json,pathlib
+    80	p=pathlib.Path('.hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json')
+    81	d=json.loads(p.read_text()); d['pi_bytes']=1
+    82	p.write_text(json.dumps(d))
+    83	PY
+    84	python -m unittest tests.test_perf_budget
+    85	#   must go RED; a green suite here means the test is inert
+    86	cd - && rm -rf /tmp/pipd-perturb
+    87	
+    88	# A4 no regression, and the branch is green where the parent is green
+    89	python -m unittest discover -s tests
+    90	#   expect: Ran 283 tests ... OK (skipped=4)
+    91	
+    92	# A5 no threshold moved against the parent
+    93	git diff 7f13b90 HEAD -- tools/perf_budget.py
+    94	#   budgets and voting_metrics must be untouched
+    95	
+    96	# A6 the repository's own spec and projection gates
+    97	npx openspec validate --changes --strict
+    98	python tools/build_publication_manifest.py --check --commit "$(git rev-parse HEAD)" --tree "$(git rev-parse HEAD^{tree})"
+    99	#   expect: violations: []
+   100	```
+
+
+exec
+/bin/bash -lc "python3 - <<'PY'
+from pathlib import Path
+import subprocess,json
+root=Path('/ao/v3/raw')
+checks={
+'c8_run':['python3','-B','/round/ops/bound_digest.py','/w'],
+'c2_disposition_search':['rg','-n','TECHNOLOGY_ADMISSIONS|tqaep_design_tmp|host_fullsuite_repair_bound|a21ce576','/round/evidence','/briefs'],
+'c2_test_writes':['rg','-n','TECHNOLOGY_ADMISSIONS|tqaep_design_tmp','/w/tests','/w/tools'],
+}
+for name,cmd in checks.items():
+ p=subprocess.run(cmd,cwd='/ao',capture_output=True)
+ for ext,data in [('stdout',p.stdout),('stderr',p.stderr)]: (root/(name+'.'+ext)).write_bytes(data)
+ r={'command':cmd,'cwd':'/ao','exit_code':p.returncode,'stdout':str(root/(name+'.stdout')),'stderr':str(root/(name+'.stderr'))}
+ (root/(name+'.command.json')).write_text(json.dumps(r,ensure_ascii=False,indent=2)+'\\n'); print(json.dumps(r)); print(p.stdout.decode())
+PY" in /ao
+ succeeded in 3481ms:
+{"command": ["python3", "-B", "/round/ops/bound_digest.py", "/w"], "cwd": "/ao", "exit_code": 0, "stdout": "/ao/v3/raw/c8_run.stdout", "stderr": "/ao/v3/raw/c8_run.stderr"}
+{
+  "schema": "PIPD-R5P-DIGEST-BINDING/1",
+  "candidate_root": "/w",
+  "bound_definition": "product_digest = sha256 of canonical JSON (separators ',',':', ensure_ascii=False, keys n/a) of the sorted rows [[posix_relative_path, sha256_file], ...] over PRODUCT_ROOTS=[\"src\", \"tests\", \"tools\", \"schemas\", \"dist\", \"docs\", \"skills\", \"fixtures\", \"pyproject.toml\", \"README.md\", \"ACCEPTANCE.md\", \"LICENSE\", \"PROVENANCE.md\", \"SBOM.cdx.json\", \"OWNER_LICENSE_DECISION.yaml\", \"openspec\"], excluding any path with a part in EXCLUDE_DIRS=[\".agents\", \".git\", \".hermes\", \".hgk\", \".venv\", \"__pycache__\", \"node_modules\"] or a suffix in EXCLUDE_SUFFIX=[\".pyc\", \".pyo\"].",
+  "bound_product_digest": "4f5e2310766699d064a402291be2c4803c977e39fda7b65086a98a1b4793338d",
+  "bound_file_count": 288,
+  "rejected_alternative": {
+    "definition": "equivalence.py product digest over PRODUCT_PREFIXES=[\"src\", \"tools\", \"tests\", \"schemas\", \"skills\", \"docs\", \"dist\", \"fixtures\"]",
+    "product_digest": "d2a90ad3500e7681dcf9c8e097480adc847f218b7293aabd8369d6d50223b672",
+    "file_count": 251,
+    "why_rejected": "narrower scope: omits packaging/legal/openspec roots, so two of the round's own scripts published different numbers for the same subject (challenge C8)"
+  },
+  "checker_reproduction": "python ops/bound_digest.py <pristine_root> then compare bound_product_digest"
+}
+
+{"command": ["rg", "-n", "TECHNOLOGY_ADMISSIONS|tqaep_design_tmp|host_fullsuite_repair_bound|a21ce576", "/round/evidence", "/briefs"], "cwd": "/ao", "exit_code": 0, "stdout": "/ao/v3/raw/c2_disposition_search.stdout", "stderr": "/ao/v3/raw/c2_disposition_search.stderr"}
+/briefs/brief_ao_checker_v3.md:21:1. **C2 close/re-fail on the bound receipt.** `/round/evidence/host_fullsuite_repair_bound.txt` is a
+/briefs/brief_ao_checker_v3.md:28:   (`.hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json` modified and `.hgk/artifacts/tqaep_design_tmp/`
+/briefs/log_ao.txt:3678:OSError: [Errno 30] Read-only file system: '/w/.hgk/artifacts/tqaep_design_tmp'
+/briefs/log_ao.txt:3799:  "M .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json",
+/briefs/log_ao_v2.txt:4328:OSError: [Errno 30] Read-only file system: '/w/.hgk/artifacts/tqaep_design_tmp'
+/briefs/log_ao_v2.txt:4697:50:         cls.tmp = ROOT / ".hgk" / "artifacts" / "tqaep_design_tmp"
+/briefs/log_ao_v2.txt:5042:50:         cls.tmp = ROOT / ".hgk" / "artifacts" / "tqaep_design_tmp"
+/briefs/log_ao_v2.txt:5436:520:     (out_dir / "TECHNOLOGY_ADMISSIONS.json").write_text(
+/briefs/log_ao_v2.txt:5621:/w/tools/admit_technologies.py:77:    cached = OUT / "TECHNOLOGY_ADMISSIONS.json"
+/briefs/log_ao_v2.txt:5643:/w/tools/admit_technologies.py:520:    (out_dir / "TECHNOLOGY_ADMISSIONS.json").write_text(
+/briefs/log_ao_v2.txt:5759:520:     (out_dir / "TECHNOLOGY_ADMISSIONS.json").write_text(
+/briefs/log_ao_v2.txt:6270:/round/evidence/host_fullsuite_repair_bound.txt
+/briefs/log_ao_v2.txt:6282:/bin/bash -lc "python3 /ao/v2/run.py C2_bound_host_raw python3 -c 'from pathlib import Path;import hashlib;p=Path(\"/round/evidence/host_fullsuite_repair_bound.txt\");print(\"sha256\",hashlib.sha256(p.read_bytes()).hexdigest());print(\"\\n\".join(f\"{i}: {l}\" for i,l in enumerate(p.read_text(errors=\"replace\").splitlines(),1)))'" in /ao
+/briefs/log_ao_v2.txt:6284:{"name": "C2_bound_host_raw", "command": ["python3", "-c", "from pathlib import Path;import hashlib;p=Path(\"/round/evidence/host_fullsuite_repair_bound.txt\");print(\"sha256\",hashlib.sha256(p.read_bytes()).hexdigest());print(\"\\n\".join(f\"{i}: {l}\" for i,l in enumerate(p.read_text(errors=\"replace\").splitlines(),1)))"], "cwd": "/ao", "exit": 0, "stdout": "/ao/v2/raw/C2_bound_host_raw.stdout", "stderr": "/ao/v2/raw/C2_bound_host_raw.stderr"}
+/briefs/log_ao_v2.txt:6301:/bin/bash -lc "python3 /ao/v2/run.py C2_bound_host_update python3 -c 'from pathlib import Path;import hashlib;p=Path(\"/round/evidence/host_fullsuite_repair_bound.txt\");print(\"sha256\",hashlib.sha256(p.read_bytes()).hexdigest());print(\"\\n\".join(f\"{i}: {l}\" for i,l in enumerate(p.read_text(errors=\"replace\").splitlines(),1)))'" in /ao
+/briefs/log_ao_v2.txt:6303:{"name": "C2_bound_host_update", "command": ["python3", "-c", "from pathlib import Path;import hashlib;p=Path(\"/round/evidence/host_fullsuite_repair_bound.txt\");print(\"sha256\",hashlib.sha256(p.read_bytes()).hexdigest());print(\"\\n\".join(f\"{i}: {l}\" for i,l in enumerate(p.read_text(errors=\"replace\").splitlines(),1)))"], "cwd": "/ao", "exit": 0, "stdout": "/ao/v2/raw/C2_bound_host_update.stdout", "stderr": "/ao/v2/raw/C2_bound_host_update.stderr"}
+/briefs/log_ao_v2.txt:6304:sha256 a21ce57638c78a627b343ef69203e7279d6f86aada4ef0599461516e44de12cb
+/briefs/log_ao_v2.txt:6551:R=Path('/ao/v2');p=Path('/round/evidence/host_fullsuite_repair_bound.txt');h=hashlib.sha256(p.read_bytes()).hexdigest()
+/briefs/log_ao_v2.txt:6553:note='FAIL / EVIDENCE_GAP, not a confirmed product defect. Container is not a valid full-suite environment (no git/.git, read-only /w, inaccessible Windows fixture locator); full suite deliberately not rerun. Original required host raw reports 311 tests in 59.608s, OK (skipped=6). A new host_fullsuite_repair_bound.txt appeared during the AO turn and completed: command and interpreter disclosed, supplied subject commit/tree stated, 311 tests in 57.621s, OK (skipped=6), reported process exit 0. This resolves the original missing command/exit metadata gap. However line 6 explicitly records a non-clean pre-run worktree (2 status lines), without naming the paths or hashing the executed working files. Therefore correspondence of the executed host working tree to the frozen /w snapshot is still unestablished. Require the two status paths plus their disposition/file hashes, or a clean pre-run product-snapshot-bound host receipt, alongside the raw file. No confirmed product defects from the 25 attempt-1 failure/error events: missing git/writes/Windows fixture locator explain 24, and C7 is platform oracle disagreement. Six skips remain scoped omissions; no independently executed Windows/full-suite claim.'
+/briefs/log_ao_v2.txt:6569:s += '檔案 /round/evidence/host_fullsuite_repair_bound.txt；sha256='+h+'。\\n第 2 行 command=python -B -m unittest discover -s tests -t .，PYTHONPATH=src；第 4–5 行聲稱本次 commit/tree；第 7 行解譯器 3.11.17。\\n第 11–13 行：Ran 311 tests in 57.621s，OK (skipped=6)；第 215 行：原 suite 報告 exit_code=0。\\n第 6 行：pre-run status 為 2 lines，並非 clean；未列出路徑、變更內容或執行工作檔案的 hash。HEAD 名稱本身不能排除兩項變更影響測試主體。因此只剩這個主體對應缺口，C2 仍 FAIL/EVIDENCE_GAP，整體 PARTIAL。\\n沒有從這份新增檔案的標題「independent re-emission」推論獨立性；它是外部提供的主機 raw，AO 的獨立行為限於讀取、雜湊及評估。\\n結案所需：列出這兩個 status paths，證明其不改產品或交付對應 hash；或提供 run 前 clean 且產品 snapshot digest 等於本次 4ee712e8… 的 host receipt。\\n'
+/briefs/log_wo2_caltqaepdoc.txt:3402:        self.tmp = ROOT / ".hgk" / "artifacts" / "tqaep_design_tmp"
+/briefs/log_wo2_caltqaepdoc.txt:3572:        self.tmp = ROOT / \".hgk\" / \"artifacts\" / \"tqaep_design_tmp\"
+/briefs/log_wo2_caltqaepdoc.txt:3711:        self.tmp = ROOT / \".hgk\" / \"artifacts\" / \"tqaep_design_tmp\"
+/briefs/log_wo2_caltqaepdoc.txt:3727:        cls.tmp = ROOT / ".hgk" / "artifacts" / "tqaep_design_tmp"
+/round/evidence/INCIDENT_LEDGER.json:29:      "observed": "After the host full-suite run, .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json showed a one-line diff: candidate_head 7c5bc585c7d889cd338da853be4efc4b8f07d3b2 -> 0f06eec96386b7349db8b41ac6cf9c7455d326f1.",
+/round/evidence/INCIDENT_LEDGER.json:30:      "root_cause": "tests/test_technology_admission.py invokes tools/admit_technologies.py through subprocess (line ~156); that tool regenerates .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json in place as a side effect, stamping candidate_head from the current HEAD.",
+/round/evidence/INCIDENT_LEDGER.json:31:      "disposition": "REVERTED to HEAD by the orchestrator (git checkout -- .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json) so that the round's candidate diff contains authorised paths only. Reported here so the revert is not mistaken for a hidden edit. Routed as TT-OPEN (test hygiene: a read-only assertion should not rewrite a tracked ledger)."
+/briefs/log_ao_v3.txt:43:1. **C2 close/re-fail on the bound receipt.** `/round/evidence/host_fullsuite_repair_bound.txt` is a
+/briefs/log_ao_v3.txt:50:   (`.hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json` modified and `.hgk/artifacts/tqaep_design_tmp/`
+/briefs/log_ao_v3.txt:73:/round/evidence/host_fullsuite_repair_bound.txt
+/briefs/log_ao_v3.txt:126:'c2_hash':['sha256sum','/round/evidence/host_fullsuite_repair_bound.txt'],
+/briefs/log_ao_v3.txt:127:'c2_read':['cat','/round/evidence/host_fullsuite_repair_bound.txt'],
+/briefs/log_ao_v3.txt:153:'c2_hash':['sha256sum','/round/evidence/host_fullsuite_repair_bound.txt'],
+/briefs/log_ao_v3.txt:154:'c2_read':['cat','/round/evidence/host_fullsuite_repair_bound.txt'],
+/briefs/log_ao_v3.txt:216:      "note": "FAIL / EVIDENCE_GAP, not a confirmed product defect. Container is not a valid full-suite environment (no git/.git, read-only /w, inaccessible Windows fixture locator); full suite deliberately not rerun. Original required host raw reports 311 tests in 59.608s, OK (skipped=6). A new host_fullsuite_repair_bound.txt appeared during the AO turn and completed: command and interpreter disclosed, supplied subject commit/tree stated, 311 tests in 57.621s, OK (skipped=6), reported process exit 0. This resolves the original missing command/exit metadata gap. However line 6 explicitly records a non-clean pre-run worktree (2 status lines), without naming the paths or hashing the executed working files. Therefore correspondence of the executed host working tree to the frozen /w snapshot is still unestablished. Require the two status paths plus their disposition/file hashes, or a clean pre-run product-snapshot-bound host receipt, alongside the raw file. No confirmed product defects from the 25 attempt-1 failure/error events: missing git/writes/Windows fixture locator explain 24, and C7 is platform oracle disagreement. Six skips remain scoped omissions; no independently executed Windows/full-suite claim."
+/briefs/log_ao_v3.txt:254:      "why": "FAIL / EVIDENCE_GAP, not a confirmed product defect. Container is not a valid full-suite environment (no git/.git, read-only /w, inaccessible Windows fixture locator); full suite deliberately not rerun. Original required host raw reports 311 tests in 59.608s, OK (skipped=6). A new host_fullsuite_repair_bound.txt appeared during the AO turn and completed: command and interpreter disclosed, supplied subject commit/tree stated, 311 tests in 57.621s, OK (skipped=6), reported process exit 0. This resolves the original missing command/exit metadata gap. However line 6 explicitly records a non-clean pre-run worktree (2 status lines), without naming the paths or hashing the executed working files. Therefore correspondence of the executed host working tree to the frozen /w snapshot is still unestablished. Require the two status paths plus their disposition/file hashes, or a clean pre-run product-snapshot-bound host receipt, alongside the raw file. No confirmed product defects from the 25 attempt-1 failure/error events: missing git/writes/Windows fixture locator explain 24, and C7 is platform oracle disagreement. Six skips remain scoped omissions; no independently executed Windows/full-suite claim."
+/briefs/log_ao_v3.txt:278:  "host_bound_suite_raw_sha256": "a21ce57638c78a627b343ef69203e7279d6f86aada4ef0599461516e44de12cb"
+/briefs/log_ao_v3.txt:281:{"command": ["sha256sum", "/round/evidence/host_fullsuite_repair_bound.txt"], "cwd": "/ao", "exit_code": 0, "stdout": "/ao/v3/raw/c2_hash.stdout", "stderr": "/ao/v3/raw/c2_hash.stderr"}
+/briefs/log_ao_v3.txt:282:a21ce57638c78a627b343ef69203e7279d6f86aada4ef0599461516e44de12cb  /round/evidence/host_fullsuite_repair_bound.txt
+/briefs/log_ao_v3.txt:284:{"command": ["cat", "/round/evidence/host_fullsuite_repair_bound.txt"], "cwd": "/ao", "exit_code": 0, "stdout": "/ao/v3/raw/c2_read.stdout", "stderr": "/ao/v3/raw/c2_read.stderr"}
+/briefs/log_ao_v3.txt:706:'c2_disposition_search':['rg','-n','TECHNOLOGY_ADMISSIONS|tqaep_design_tmp|host_fullsuite_repair_bound|a21ce576','/round/evidence','/briefs'],
+/briefs/log_ao_v3.txt:707:'c2_test_writes':['rg','-n','TECHNOLOGY_ADMISSIONS|tqaep_design_tmp','/w/tests','/w/tools'],
+/round/evidence/BASELINE_SNAPSHOT.json:7:  "M .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json",
+/round/evidence/FINDING_DISPOSITION.json:139:        ".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json (left exactly at HEAD; a rebuild side effect was reverted)"
+
+{"command": ["rg", "-n", "TECHNOLOGY_ADMISSIONS|tqaep_design_tmp", "/w/tests", "/w/tools"], "cwd": "/ao", "exit_code": 0, "stdout": "/ao/v3/raw/c2_test_writes.stdout", "stderr": "/ao/v3/raw/c2_test_writes.stderr"}
+/w/tools/build_evidence_md_r2.py:56:    tech = rd("s1/TECHNOLOGY_ADMISSIONS.json") or {}
+/w/tools/build_spec_del_crosswalk.py:192:    L["005"] = e([".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json"], "tests/test_technology_admission.py")
+/w/tools/build_spec_del_crosswalk.py:254:    L["005"] = e([".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json"], "tests/test_technology_admission.py")
+/w/tools/admit_technologies.py:77:    cached = OUT / "TECHNOLOGY_ADMISSIONS.json"
+/w/tools/admit_technologies.py:520:    (out_dir / "TECHNOLOGY_ADMISSIONS.json").write_text(
+/w/tests/test_tqaep_design_positive.py:50:        cls.tmp = ROOT / ".hgk" / "artifacts" / "tqaep_design_tmp"
+/w/tests/test_technology_admission.py:34:        self.adm = json.loads((ROOT / ".hgk" / "artifacts" / "s1" / "TECHNOLOGY_ADMISSIONS.json")
+/w/tests/test_technology_admission.py:77:        self.adm = json.loads((ROOT / ".hgk" / "artifacts" / "s1" / "TECHNOLOGY_ADMISSIONS.json")
+/w/tests/test_technology_admission.py:172:    shutil.copy(str(saved_out / "TECHNOLOGY_ADMISSIONS.json"),
+/w/tests/test_technology_admission.py:173:                str(sandbox / "TECHNOLOGY_ADMISSIONS.json"))
+/w/tests/test_technology_admission.py:207:        adm = json.loads((ROOT / ".hgk" / "artifacts" / "s1" / "TECHNOLOGY_ADMISSIONS.json")
+/w/tests/test_technology_admission.py:230:            tmp_artifact = sandbox / "TECHNOLOGY_ADMISSIONS.json"
+
+
+codex
+C8 已重算並與綁定檔一致。C2 收據仍綁定 attempt 2 的 commit/tree；本輪 brief 補明了兩個狀態路徑及其測試產物性質，可據此關閉原缺口，但不能稱為新 commit 的重跑。C6 橫幅已區分 R5P 與基線，卻仍將舊 commit 與舊 digest 標為受審主體；我會在判定中明確記錄這個不一致。
+
+exec
+/bin/bash -lc "python3 - <<'PY'
+from pathlib import Path
+import subprocess,json
+root=Path('/ao/v3/raw')
+checks={
+'brief_read':['cat','/briefs/brief_ao_checker_v3.md'],
+'c2_write_context':['python3','-c',\"from pathlib import Path\\nfor f,a,b in [('/w/tests/test_technology_admission.py',135,159),('/w/tools/admit_technologies.py',510,526),('/w/tests/test_tqaep_design_positive.py',40,65)]:\\n print(f)\\n for i,l in enumerate(Path(f).read_text().splitlines(),1):\\n  if a<=i<=b: print(f'{i}: {l}')\"],
+'c8_compare':['python3','-c',\"import json\\nfrom pathlib import Path\\na=json.loads(Path('/ao/v3/raw/c8_run.stdout').read_text());b=json.loads(Path('/round/evidence/DIGEST_BINDING.json').read_text())\\nfor k in ['schema','bound_definition','bound_product_digest','bound_file_count','rejected_alternative']:\\n assert a[k]==b[k],k\\n print(k+': MATCH')\\nassert a['rejected_alternative']['why_rejected']\\nprint('narrower definition: REJECTED; candidate_root differs only by execution location')\"],
+}
+for name,cmd in checks.items():
+ p=subprocess.run(cmd,cwd='/ao',capture_output=True)
+ for ext,data in [('stdout',p.stdout),('stderr',p.stderr)]: (root/(name+'.'+ext)).write_bytes(data)
+ r={'command':cmd,'cwd':'/ao','exit_code':p.returncode,'stdout':str(root/(name+'.stdout')),'stderr':str(root/(name+'.stderr'))}
+ (root/(name+'.command.json')).write_text(json.dumps(r,ensure_ascii=False,indent=2)+'\\n'); print(json.dumps(r)); print(p.stdout.decode())
+PY" in /ao
+ succeeded in 0ms:
+{"command": ["cat", "/briefs/brief_ao_checker_v3.md"], "cwd": "/ao", "exit_code": 0, "stdout": "/ao/v3/raw/brief_read.stdout", "stderr": "/ao/v3/raw/brief_read.stderr"}
+# INDEPENDENT CHECKER BRIEF — R5P narrow closure (attempt 3) — PIPD-LS-SP
+
+Attempt 2 returned `PARTIAL`: `C1/C4/C6/C7/C8 PASS`, `C2 FAIL = EVIDENCE_GAP`. Two of your own notes
+became repairs. This pass closes exactly those two, **nothing else**, and must stay small.
+
+## Subject (new, frozen)
+
+| role | value |
+|---|---|
+| baseline | `r5-s4-packreader` @ `0f06eec96386b7349db8b41ac6cf9c7455d326f1` |
+| **subject under review now** | **`9caef8ec36017b4c3ca55b9a672da1fa625fff07`** (tree `910f94127ee6367a6f5adff995321b353f4a6f10`) |
+| previous subject (attempt 2) | `812af79422c087f0ef5a07188fbec061df6b47e0` |
+| only change since attempt 2 | `ACCEPTANCE.md` — a banner naming the R5P subject (closes your C6 note) |
+| wheel | sha256 `bb070a6f525382edc521bcf7fe127579e1e329024113ab4fe2881eeeea7b0a76` (unchanged; the wheel packages `src/` only) |
+
+Mounts: `/w` = pristine export of `9caef8ec…` (read-only, no `.git`), `/round` = round evidence
+(read-only), `/briefs` (read-only), `/ao` = your only writable place.
+
+## What to do (three things)
+
+1. **C2 close/re-fail on the bound receipt.** `/round/evidence/host_fullsuite_repair_bound.txt` is a
+   re-emitted host run that now carries, in the file itself: the exact command line, cwd, `rev-parse
+   HEAD`, `rev-parse HEAD^{tree}`, interpreter version, start/finish timestamps and an explicit
+   `# exit_code: 0` line after `Ran 311 tests ... OK (skipped=6)`, with the named SKIP lines present.
+   Verify the pairing by hashing the file yourself and reading it; state whether C2 can now close as
+   `PASS` (evidence sufficient) or still `EVIDENCE_GAP`, and say precisely what is still missing if so.
+   Note honestly: in that worktree `git status` shows two non-product entries
+   (`.hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json` modified and `.hgk/artifacts/tqaep_design_tmp/`
+   untracked) written by the suite's own tests; judge whether that changes your verdict.
+2. **C8 re-bind for the new subject.** Run `/round/ops/bound_digest.py /w` and compare with
+   `/round/evidence/DIGEST_BINDING.json`. The bound digest moved because `ACCEPTANCE.md` changed —
+   confirm the new value and that the rejected narrower definition is still labelled rejected.
+3. **C6 re-read.** `/w/README.md` line ~39 and `/w/ACCEPTANCE.md` banner: can a first-screen reader
+   tell which branch/subject is under review, what the licence grants, and where acceptance lives?
+
+Do **not** re-litigate C1, C4, C5, C7 — they are settled on the previous subject and unchanged here.
+
+## Deliverable
+
+`AO_VERDICT_V3.json` in `/ao` with, for each of C2/C6/C8: `verdict`, `evidence` (raw paths), `note`;
+plus `subject_commit`/`subject_tree`, `overall`, `classification`, `independent_of_maker`,
+`human_ratification: PENDING`, `claim_ceiling: CANDIDATE_ONLY`. Log in 繁體中文. Every claim needs a
+command, an exit code and a raw file. Do not promote any claim level.
+
+{"command": ["python3", "-c", "from pathlib import Path\nfor f,a,b in [('/w/tests/test_technology_admission.py',135,159),('/w/tools/admit_technologies.py',510,526),('/w/tests/test_tqaep_design_positive.py',40,65)]:\n print(f)\n for i,l in enumerate(Path(f).read_text().splitlines(),1):\n  if a<=i<=b: print(f'{i}: {l}')"], "cwd": "/ao", "exit_code": 0, "stdout": "/ao/v3/raw/c2_write_context.stdout", "stderr": "/ao/v3/raw/c2_write_context.stderr"}
+/w/tests/test_technology_admission.py
+135:     def test_unknown_licence_activation_is_blocked(self) -> None:
+136:         rec = self._pinned_adopt()
+137:         rec["pin_license_currentness"]["license"] = {
+138:             "value": "UNKNOWN", "known": False, "blocks_activation": True,
+139:             "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"}
+140:         v = A.row_verdict(rec)
+141:         self.assertTrue(v["pin_verified"])
+142:         self.assertFalse(v["licence_known"])
+143:         self.assertTrue(v["active_refused"], "activation under an unknown licence was allowed")
+144: 
+145:     def test_non_adopt_row_reported_active_is_refused(self) -> None:
+146:         rec = self._pinned_adopt()
+147:         rec["pin_license_currentness"]["disposition"] = "REFERENCE"
+148:         v = A.row_verdict(rec)
+149:         self.assertEqual(v["disposition"], "REFERENCE")
+150:         self.assertTrue(v["active_refused"],
+151:                         "a non-ADOPT (REFERENCE) row reported active was not refused")
+152: 
+153: 
+154: def _run_report() -> tuple[int, dict]:
+155:     """Run the tool end-to-end via subprocess and parse the JSON it prints to stdout."""
+156:     proc = subprocess.run([sys.executable, str(ROOT / "tools" / "admit_technologies.py"),
+157:                            "--report"], capture_output=True, text=True)
+158:     return proc.returncode, json.loads(proc.stdout)
+159: 
+/w/tools/admit_technologies.py
+510:                          "the source/repo artefact; output is written next to the copy and the repo "
+511:                          "artefact is left untouched")
+512:     args = ap.parse_args(argv)
+513: 
+514:     out_dir = OUT
+515:     if args.artifact:
+516:         ARTIFACT = Path(args.artifact)
+517:         out_dir = ARTIFACT.parent
+518:     out_dir.mkdir(parents=True, exist_ok=True)
+519:     payload = build_payload()
+520:     (out_dir / "TECHNOLOGY_ADMISSIONS.json").write_text(
+521:         json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8", newline="")
+522: 
+523:     report = {
+524:         "records": payload["records"],
+525:         "schema_valid": payload["schema_valid"],
+526:         "gate_summary": payload["gate_summary"],
+/w/tests/test_tqaep_design_positive.py
+40: 
+41: class TqaepDesignTime(unittest.TestCase):
+42:     @classmethod
+43:     def setUpClass(cls) -> None:
+44:         # The PI->PD->ECP fixture chain is built once: `bind_pd` runs a live repo probe
+45:         # (52s on this bind mount), so per-test setup would dominate the module.
+46:         card = pipeline.intake(GOAL, sources=[str(ROOT / "docs" / "S0_CONTRACT_SPEC.md")])
+47:         cls.pi = pipeline.compile_pi(card, "STANDARD")
+48:         pd = pipeline.bind_pd(cls.pi, {"root": str(ROOT), "writable_scope": "src/**"})
+49:         cls.ecp = pipeline.compile_ecp(pd, cls.pi)
+50:         cls.tmp = ROOT / ".hgk" / "artifacts" / "tqaep_design_tmp"
+51:         cls.tmp.mkdir(parents=True, exist_ok=True)
+52:         cls.pi_p = cls.tmp / "pi.json"
+53:         cls.ecp_p = cls.tmp / "ecp.json"
+54:         cls.pi_p.write_text(json.dumps(cls.pi, ensure_ascii=False), encoding="utf-8")
+55:         cls.ecp_p.write_text(json.dumps(cls.ecp, ensure_ascii=False), encoding="utf-8")
+56: 
+57:     # (a) a legal design-time call exits 0 and is honest about what it established.
+58:     def test_legal_design_time_call_exits_zero_and_declares_design_ceiling(self) -> None:
+59:         rc, art = _run_cli("compile-tqaep", "--pi", str(self.pi_p), "--ecp", str(self.ecp_p),
+60:                            "--maker", "A", "--checker", "B",
+61:                            "--checker-receipt", "lane-B/live.log")
+62:         self.assertEqual(rc, 0)
+63:         acc = art["acceptance"]
+64:         self.assertEqual(art["subject_id"].split("-")[0], "TQAEP")
+65:         # The design-time ceiling is carried, and it is not an independence claim.
+
+{"command": ["python3", "-c", "import json\nfrom pathlib import Path\na=json.loads(Path('/ao/v3/raw/c8_run.stdout').read_text());b=json.loads(Path('/round/evidence/DIGEST_BINDING.json').read_text())\nfor k in ['schema','bound_definition','bound_product_digest','bound_file_count','rejected_alternative']:\n assert a[k]==b[k],k\n print(k+': MATCH')\nassert a['rejected_alternative']['why_rejected']\nprint('narrower definition: REJECTED; candidate_root differs only by execution location')"], "cwd": "/ao", "exit_code": 0, "stdout": "/ao/v3/raw/c8_compare.stdout", "stderr": "/ao/v3/raw/c8_compare.stderr"}
+schema: MATCH
+bound_definition: MATCH
+bound_product_digest: MATCH
+bound_file_count: MATCH
+rejected_alternative: MATCH
+narrower definition: REJECTED; candidate_root differs only by execution location
+
+
+exec
+/bin/bash -lc "cat > /ao/v3/write_verdict.py <<'PY'
+from pathlib import Path
+import json
+base=Path('/ao/v3'); raw=base/'raw'
+records={p.name.removesuffix('.command.json'):json.loads(p.read_text()) for p in raw.glob('*.command.json')}
+(base/'commands.jsonl').write_text(''.join(json.dumps(records[k],ensure_ascii=False)+'\\n' for k in sorted(records)))
+def check(cid,verdict,names,sources,note):
+    return {'id':cid,'verdict':verdict,'evidence':sources+[records[n]['stdout'] for n in names],
+            'commands':[records[n] for n in names],'note':note}
+c2_note=('PASS（收據證據足夠，限定承接 attempt 2 的測試主體）。自行讀取與 SHA-256 雜湊均退出 0；'
+'收據 SHA-256 為 a21ce57638c78a627b343ef69203e7279d6f86aada4ef0599461516e44de12cb，與 attempt 2 已保存的值相同，故不聲稱原始收據本輪有所更新。'
+'內文完整記錄命令 python -B -m unittest discover -s tests -t .（PYTHONPATH=src）、Windows cwd、HEAD 812af79422c087f0ef5a07188fbec061df6b47e0／tree d3b79d2bc7aba08368a02a9f34204d14c9b06bbd、Python 3.11.17、開始 2026-10-10T12:42:16Z／結束 2026-10-10T12:43:14Z；Ran 311 tests in 57.621s、OK (skipped=6) 後有 # exit_code: 0。'
+'具名 SKIP 行為 test_installed_doctor_diagnoses_installed_schema_surface 與 test_installed_package_is_self_sufficient，理由為該解譯器無 pip；不推論六項全部執行。'
+'收據自身只寫 status 為 2 lines；本輪 brief 才補明 .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json modified 與 .hgk/artifacts/tqaep_design_tmp/ untracked，並說明是 suite 產物。'
+'已讀原始測試／工具確認這兩條寫入路徑，且 bound scope 排除 .hgk；因此接受 brief 的路徑／處置說明，原未命名工作樹變更缺口可關閉，不要求非產品產物 hash。'
+'主機 status 未在此獨立重跑；此收據不是 9caef8ec 的重跑。依凍結 brief，本次僅 ACCEPTANCE.md 橫幅有變，故在本次窄範圍沿用上次測試證據；不提升為新主體全套測試或 Windows 獨立執行宣稱。')
+c6_note=('FAIL（目前凍結主體的文件綁定仍不一致）。README 第 39 行清楚標明 r5p-post-challenge-repair、基線、S4 internal evaluation、LicenseRef-PIPD-Proprietary／no public-use grant，且第 7、39 行連至 ACCEPTANCE.md。'
+'ACCEPTANCE.md 第 1–13 行的新橫幅清楚將下方 R5/D1 標為基線歷史，並提供 R5P round evidence 位置；這關閉原先基線／R5P 混淆的註記。'
+'但第 6–8 行仍以「post-challenge repair subject」標記舊 commit 812af79422c087f0ef5a07188fbec061df6b47e0、舊 tree d3b79d2bc7aba08368a02a9f34204d14c9b06bbd、舊 digest 4ee712e899e9f4aa14d46ba1d3f879eb6b45ad0ae4a8b02bf1d9847b5f8cc579，未說明它們是 attempt 2 身分。'
+'因此首屏可辨識分支、授權限制及驗收位置，卻不能辨識本輪 9caef8ec36017b4c3ca55b9a672da1fa625fff07／910f94127ee6367a6f5adff995321b353f4a6f10 的確切主體。'
+'尚需明示 attempt 2 與目前凍結主體的關係，並提供目前主體的外部綁定入口；不要求文件在自身 commit 內自指雜湊。此為文件主體綁定缺口，未判定 runtime 產品缺陷。')
+c8_note=('PASS。執行 python3 -B /round/ops/bound_digest.py /w，退出 0；逐欄比較命令亦退出 0。'
+'新 bound_product_digest = 4f5e2310766699d064a402291be2c4803c977e39fda7b65086a98a1b4793338d，288 files；schema、bound_definition、digest、file_count 與 rejected_alternative 全部符合 /round/evidence/DIGEST_BINDING.json，candidate_root 僅執行位置不同。'
+'較窄 251-file 定義仍置於 rejected_alternative，保留 why_rejected，digest 為 d2a90ad3500e7681dcf9c8e097480adc847f218b7293aabd8369d6d50223b672；它沒有取代綁定定義。'
+'相較 attempt 2 的 4ee712e8…，綁定值已改變；變更只涉及 ACCEPTANCE.md 的說明依據為凍結 brief，本輪未重做完整版本差異審查。')
+verdict={
+'checker_id':'AO-R5P-INDEPENDENT-V3',
+'subject_commit':'9caef8ec36017b4c3ca55b9a672da1fa625fff07',
+'subject_tree':'910f94127ee6367a6f5adff995321b353f4a6f10',
+'subject_identity_basis':'commit/tree 取自凍結 brief；無 .git 的 /w 以本輪 bound digest 獨立重算驗證檔案範圍，未聲稱自行 rev-parse。',
+'checks':[
+check('C2','PASS',['brief_read','c2_hash','c2_read','c2_write_context','c8_script','previous'],['/round/evidence/host_fullsuite_repair_bound.txt','/briefs/brief_ao_checker_v3.md'],c2_note),
+check('C6','FAIL',['brief_read','c6_read','c8_run'],['/w/README.md','/w/ACCEPTANCE.md','/briefs/brief_ao_checker_v3.md'],c6_note),
+check('C8','PASS',['c8_run','c8_binding','c8_compare','previous','brief_read'],['/round/ops/bound_digest.py','/round/evidence/DIGEST_BINDING.json'],c8_note)],
+'overall':'PARTIAL',
+'classification':{'C2':'NON_BLOCKING_OBSERVATION','C6':'EVIDENCE_GAP','C8':'NON_BLOCKING_OBSERVATION'},
+'independent_of_maker':True,
+'independence_scope':'本 checker 獨立讀檔、計算雜湊、执行綁定脚本及比較；host full suite 為外部收據，非本 checker 重跑。非產品 status 路徑及唯一文件變更的判斷明示依賴凍結 brief。',
+'human_ratification':'PENDING','claim_ceiling':'CANDIDATE_ONLY',
+'bound_product_digest':'4f5e2310766699d064a402291be2c4803c977e39fda7b65086a98a1b4793338d',
+'bound_file_count':288,
+'host_bound_suite_raw_sha256':'a21ce57638c78a627b343ef69203e7279d6f86aada4ef0599461516e44de12cb',
+'commands_index':'/ao/v3/commands.jsonl',
+'log':'/ao/v3/審查紀錄.md',
+'scope':'僅 C2／C6／C8；C1／C4／C5／C7 不重審。'}
+Path('/ao/AO_VERDICT_V3.json').write_text(json.dumps(verdict,ensure_ascii=False,indent=2)+'\\n')
+lines=['本輪窄範圍審查：C2 PASS、C6 FAIL／EVIDENCE_GAP、C8 PASS；整體 PARTIAL。人類核定 PENDING，宣稱上限 CANDIDATE_ONLY。','']
+for c in verdict['checks']:
+ lines.extend([c['id']+'：'+c['note'],''])
+lines.extend(['命令、退出碼及原始檔索引（以下為實際檢查命令；host suite 退出碼 0 僅引述收據）：',''])
+for k in sorted(records):
+ r=records[k]; lines.append(json.dumps(r,ensure_ascii=False))
+lines.extend(['','環境嘗試：起初使用 python 啟動收集器，退出 127（/bin/bash: line 1: python: command not found）；改用 python3 後完成。'])
+(base/'審查紀錄.md').write_text('\\n'.join(lines)+'\\n')
+(raw/'environment_initial_failure.stdout').write_text('/bin/bash: line 1: python: command not found\\n')
+(raw/'environment_initial_failure.command.json').write_text(json.dumps({'command':'python - <<\\'PY\\'（原始收集器，內容見本輪工具紀錄）','exit_code':127,'raw':'/ao/v3/raw/environment_initial_failure.stdout'},ensure_ascii=False,indent=2)+'\\n')
+print('已寫入 /ao/AO_VERDICT_V3.json；C2 PASS、C6 FAIL、C8 PASS；整體 PARTIAL。')
+PY
+python3 /ao/v3/write_verdict.py" in /ao
+ succeeded in 0ms:
+已寫入 /ao/AO_VERDICT_V3.json；C2 PASS、C6 FAIL、C8 PASS；整體 PARTIAL。
+
+exec
+/bin/bash -lc "python3 - <<'PY'
+from pathlib import Path
+import json,subprocess
+p=Path('/ao/AO_VERDICT_V3.json'); text=p.read_text().replace('执行綁定脚本','執行綁定腳本'); p.write_text(text)
+cmd=['python3','-c',\"import json;from pathlib import Path;p=Path('/ao/AO_VERDICT_V3.json');v=json.loads(p.read_text());assert v['claim_ceiling']=='CANDIDATE_ONLY';assert v['human_ratification']=='PENDING';assert [c['id'] for c in v['checks']]==['C2','C6','C8'];assert v['overall']=='PARTIAL';[(Path(r).is_file() or (_ for _ in ()).throw(AssertionError(r))) for c in v['checks'] for r in c['evidence']];assert all(x['exit_code']==0 and Path(x['stdout']).is_file() for c in v['checks'] for x in c['commands']);print('JSON 格式、三項範圍、原始證據路徑、檢查命令退出碼與宣稱上限驗證通過。')\"]
+r=subprocess.run(cmd,capture_output=True,cwd='/ao'); root=Path('/ao/v3/raw')
+(root/'final_validation.stdout').write_bytes(r.stdout);(root/'final_validation.stderr').write_bytes(r.stderr)
+record={'command':cmd,'cwd':'/ao','exit_code':r.returncode,'stdout':str(root/'final_validation.stdout'),'stderr':str(root/'final_validation.stderr')}
+(root/'final_validation.command.json').write_text(json.dumps(record,ensure_ascii=False,indent=2)+'\\n')
+with Path('/ao/v3/commands.jsonl').open('a') as f:f.write(json.dumps(record,ensure_ascii=False)+'\\n')
+with Path('/ao/v3/審查紀錄.md').open('a') as f:f.write('\\n交付檔驗證：'+json.dumps(record,ensure_ascii=False)+'\\n')
+print(json.dumps(record,ensure_ascii=False));print(r.stdout.decode());raise SystemExit(r.returncode)
+PY" in /ao
+ succeeded in 0ms:
+{"command": ["python3", "-c", "import json;from pathlib import Path;p=Path('/ao/AO_VERDICT_V3.json');v=json.loads(p.read_text());assert v['claim_ceiling']=='CANDIDATE_ONLY';assert v['human_ratification']=='PENDING';assert [c['id'] for c in v['checks']]==['C2','C6','C8'];assert v['overall']=='PARTIAL';[(Path(r).is_file() or (_ for _ in ()).throw(AssertionError(r))) for c in v['checks'] for r in c['evidence']];assert all(x['exit_code']==0 and Path(x['stdout']).is_file() for c in v['checks'] for x in c['commands']);print('JSON 格式、三項範圍、原始證據路徑、檢查命令退出碼與宣稱上限驗證通過。')"], "cwd": "/ao", "exit_code": 0, "stdout": "/ao/v3/raw/final_validation.stdout", "stderr": "/ao/v3/raw/final_validation.stderr"}
+JSON 格式、三項範圍、原始證據路徑、檢查命令退出碼與宣稱上限驗證通過。
+
+
+codex
+已寫入 [AO_VERDICT_V3.json](/ao/AO_VERDICT_V3.json)，整體 **PARTIAL**。
+
+- **C2 PASS**：收據證據足夠；兩項測試產物不阻擋關閉。
+- **C8 PASS**：新 digest `4f5e2310…` 符合綁定檔；窄定義仍明確標為 rejected。
+- **C6 FAIL／EVIDENCE_GAP**：橫幅仍標示 attempt 2 的 commit/tree/digest，未清楚綁定目前凍結主體。
+
+命令、退出碼及原始證據均已保存。維持 `CANDIDATE_ONLY`、`human_ratification: PENDING`。
+tokens used
+132,909
+已寫入 [AO_VERDICT_V3.json](/ao/AO_VERDICT_V3.json)，整體 **PARTIAL**。
+
+- **C2 PASS**：收據證據足夠；兩項測試產物不阻擋關閉。
+- **C8 PASS**：新 digest `4f5e2310…` 符合綁定檔；窄定義仍明確標為 rejected。
+- **C6 FAIL／EVIDENCE_GAP**：橫幅仍標示 attempt 2 的 commit/tree/digest，未清楚綁定目前凍結主體。
+
+命令、退出碼及原始證據均已保存。維持 `CANDIDATE_ONLY`、`human_ratification: PENDING`。
+[checker] codex_exit=0
+[checker] done 2026-10-10T12:48:02Z

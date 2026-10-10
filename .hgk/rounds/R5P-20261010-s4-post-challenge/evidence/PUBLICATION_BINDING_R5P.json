@@ -1,0 +1,73 @@
+{
+  "schema": "PIPD-R5P-PUBLICATION-BINDING/1",
+  "as_of": "2026-10-10T15:10:00Z",
+  "closes_tt": "TT-R5P-10",
+  "tt_statement": "No PUBLICATION_SUBJECT_ATTESTATION in the repository named an R5P commit.",
+  "subject": {
+    "branch": "r5p-post-challenge-repair",
+    "attested_commit": "194f1774e8e852f954d141c48389a74b0f0e302a",
+    "attested_tree": "b1ec0abf4799fdc917aaa23dc75885b302407ee5",
+    "carried_by": "the commit that adds the sidecar (see git log -1 -- .hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION_R5P_POSTCHALLENGE.json)",
+    "convention": "same as the R5 pin: the sidecar is attested against the commit that WROTE it and is carried by the next commit; PUBLISHED_COMMIT (R5) = f4f0a02 is carried by 5094939 in exactly this way",
+    "wheel_sha256": "bb070a6f525382edc521bcf7fe127579e1e329024113ab4fe2881eeeea7b0a76",
+    "round_bound_product_digest": "6120cf3775ae522fbabb550f12b39bb6b682d88d8dabc8b247ec093f41775c0e"
+  },
+  "artifact": {
+    "path": ".hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION_R5P_POSTCHALLENGE.json",
+    "sha256": "2bd562fca145b18a6516ee323b869188c3580f9d100850917401df863842f4cf",
+    "payload_digest": "2818b9f03307540edfe371740d2b27b8b9ec2eced093a824e5b14a7149a55024",
+    "tool_product_digest": "53456af2cba9abd99a937bcd82e7b4719fa25b93ee1c81dcf23d1c997c6ea567",
+    "tool_manifest_digest": "31aee9c8c07db22d3fe7fb970ae5b0b6429e1cbcf95792347282ac99fa619c5c",
+    "built_by": "tools/publication_attestation.py --build (the repository's own tool)",
+    "identity_bound_by": ".hgk/rounds/R5P-20261010-s4-post-challenge/ops/bind_r5p_checker_identity.py",
+    "sha256_note": "canonical value is the LF blob that git stores (.gitattributes: * text=auto eol=lf); the first writing of the file had CRLF line endings in the worktree, which would have made a worktree-only hash impossible to reproduce from a clone. The worktree file was normalized to LF, so worktree == committed blob == clone, and the tool's --verify still exits 0."
+  },
+  "verification": {
+    "command": "python tools/publication_attestation.py --verify --out .hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION_R5P_POSTCHALLENGE.json --expect-commit 194f1774e8e852f954d141c48389a74b0f0e302a --expect-tree b1ec0abf4799fdc917aaa23dc75885b302407ee5",
+    "exit_code": 0,
+    "verdict": "PASS",
+    "violations": [],
+    "covers": "subject commit/tree, tool product_digest, tool manifest_digest, payload tamper-evidence"
+  },
+  "checker_identity": {
+    "id": "AO-R5P-INDEPENDENT-V4",
+    "model": "gpt-6.1-sol",
+    "provider": "OpenAI OAuth (sealed VERIFY front door, container, read-only product)",
+    "role": "VERIFY/SECURITY",
+    "independent_of_maker": true,
+    "passes": [
+      "V1 FAIL_partial",
+      "V2 PARTIAL",
+      "V3 PARTIAL",
+      "V4 PASS_C6_terminal"
+    ],
+    "why_substituted": "tools/publication_attestation.py fills checker_identity from the tracked .hgk/ao/FROZEN_CANDIDATE_R3.json, so every newly built sidecar is stamped with the R3 checker (INDEPENDENT_ACCEPTANCE_OFFICER_R3 / GLM-5.3-Flash). Committing that for an R5P subject would be a misattribution. The R3 file was not rewritten; the substitution is done by an explicit, committed round script and the tool's own --verify is re-run and still exits 0."
+  },
+  "disclosures": [
+    "TWO DIGEST DEFINITIONS: this sidecar's product_digest (53456af2..., the tool's definition over PRODUCT_PREFIXES) is NOT the round's bound digest (6120cf37..., bound_digest.py over PRODUCT_ROOTS). They are different rules over different path sets. The external challenge's C8 found exactly this class of ambiguity; no attempt is made to equate them here.",
+    "PROJECTION COVERAGE GAP: tools/build_publication_manifest.py --check --current exits 1 with CURRENT_TREE_UNCOVERED for tests/test_git_object_reader.py (present at the baseline, so pre-existing), tests/test_doctor_schema_truth.py and tests/test_tqaep_design_positive.py (added by this round). Regenerating PUBLICATION_PROJECTION_MANIFEST.json with --write against the R5P subject (1916 entries) does NOT clear it, because dispositions come from .hgk/artifacts/evidence_manifest.json, which does not list those paths. That regeneration was therefore REVERTED and the R5 version of the projection manifest is intact. Fixing this is a separate publish step (extend the evidence manifest + reseal -> which in turn rebinds this sidecar's source_manifest_seal), recorded as TT-R5P-13.",
+    "The R5 pin constants (PUBLISHED_COMMIT/PUBLISHED_TREE/PUBLISHED_REF) were NOT changed; only an auditable comment block was added, following the file's own convention of keeping superseded pins in comments.",
+    "The known pre-existing test failure tests/test_publication_projection...test_attestation_build_then_verify_exits_zero is unaffected by this work: it uses tool defaults, where build resolves PUBLISHED_REF (local r5-s4-candidate = 5094939) but verify expects PUBLISHED_COMMIT (f4f0a02). It is ref-dependent and SKIPS from a clone or worktree (verified: baseline worktree reports OK (skipped=1)). Recorded as TT-R5P-14."
+  ],
+  "next_actions": [
+    "Push r5p-post-challenge-repair to the non-main branch and read the remote ref back.",
+    "TT-R5P-13: extend .hgk/artifacts/evidence_manifest.json for the two new test paths, reseal, regenerate the projection, then rebuild this sidecar so its seal reference matches.",
+    "TT-R5P-14: decide the intended default resolution for publication_attestation.py --verify (published constant vs the same resolution the build used)."
+  ],
+  "carried_by": {
+    "commit": "f06b0e7b5f287e1b83cc737061da4bfad94acdf8",
+    "tree": "e1c98195ae50d58ec07ffd67fde585b860e119fd",
+    "note": "this is the commit that adds the sidecar; it is also the pushed branch tip"
+  },
+  "tip_bound_copy": {
+    "path": "evidence/PUBLICATION_SUBJECT_ATTESTATION_R5P_TIP.json",
+    "sha256": "5c68c1a0de539e4aa73653ee2f32666452e01fabd9d17284724c2d0315c4e7d9",
+    "attested_commit": "f06b0e7b5f287e1b83cc737061da4bfad94acdf8",
+    "attested_tree": "e1c98195ae50d58ec07ffd67fde585b860e119fd",
+    "payload_digest": "922f32e89c88570aad94ba36cad3c1d9d7ac2f3b72b0f1ab6cd7913b7e8549c6",
+    "verified": "tools/publication_attestation.py --verify --expect-commit f06b0e7b... --expect-tree e1c98195... -> exit 0",
+    "note": "round-evidence copy (not committed, not pushed) that attests the exact pushed tip, so both the authoring commit and the tip are covered"
+  },
+  "status": "CLOSED",
+  "closed_at": "2026-10-10T15:35:00Z"
+}

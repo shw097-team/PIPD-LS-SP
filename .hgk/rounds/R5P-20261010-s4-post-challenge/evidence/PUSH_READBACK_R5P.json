@@ -1,0 +1,45 @@
+{
+  "schema": "PIPD-R5P-PUSH-READBACK/1",
+  "as_of": "2026-10-10T15:35:00Z",
+  "repo": "https://github.com/shw097-team/PIPD-LS-SP",
+  "branch": "r5p-post-challenge-repair",
+  "not_main": true,
+  "remote_tip": "f06b0e7b5f287e1b83cc737061da4bfad94acdf8",
+  "remote_tree": "e1c98195ae50d58ec07ffd67fde585b860e119fd",
+  "local_tip": "f06b0e7b5f287e1b83cc737061da4bfad94acdf8",
+  "local_tree": "e1c98195ae50d58ec07ffd67fde585b860e119fd",
+  "tip_match": true,
+  "tree_match": true,
+  "untouched_refs": {
+    "main": "3aebbbce948871c07b875ab92acf263d298ecf38",
+    "r5-s4-packreader": "0f06eec96386b7349db8b41ac6cf9c7455d326f1"
+  },
+  "pushed_artifact": {
+    "path": ".hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION_R5P_POSTCHALLENGE.json",
+    "sha256_from_remote_object": "2bd562fca145b18a6516ee323b869188c3580f9d100850917401df863842f4cf",
+    "remote_reverify": "fetched the blob from the remote object and ran tools/publication_attestation.py --verify against the attested subject 194f1774 / b1ec0abf -> verdict PASS, exit 0, violations []"
+  },
+  "method": {
+    "push": "git push origin r5p-post-challenge-repair (GIT_ASKPASS helper reading a 0600 staging file, GIT_TERMINAL_PROMPT=0)",
+    "readback": "git ls-remote + anonymous git fetch into refs/remotes/readback/*, tree from the fetched object",
+    "secret_handling": [
+      "the PAT value was never printed, echoed, logged, or placed in argv, the remote URL, or .git/config",
+      "token staged only into a 0600 file under the Hermes scratch dir, deleted immediately after the readback",
+      "an added remote `origin` carries the token-free https URL only",
+      "secret scan over the pushed diff (baseline..tip) for token/authorization/private-key patterns: no hits"
+    ],
+    "token_permission_before_push": "GET /repos/shw097-team/PIPD-LS-SP returned permissions {admin,maintain,push,triage,pull} = true; repo private=false"
+  },
+  "disclosures": [
+    "the branch is now PUBLICLY READABLE on GitHub (the repository itself is public); this is a real side effect and is not reversible by me beyond deleting the branch",
+    "no pull request was opened and main was not touched",
+    "the pushed branch contains dist/pipd_ls_sp-0.1.0-py3-none-any.whl and no secrets; the round evidence under .hgk/rounds/R5P-... is untracked and was NOT pushed"
+  ],
+  "unresolved_on_the_pushed_branch": [
+    "tools/build_publication_manifest.py --check --current exits 1: CURRENT_TREE_UNCOVERED for tests/test_git_object_reader.py (pre-existing at the baseline), tests/test_doctor_schema_truth.py and tests/test_tqaep_design_positive.py (added by this round) - TT-R5P-13",
+    "tests/test_publication_projection::test_attestation_build_then_verify_exits_zero fails only where the local r5-s4-candidate ref exists; it SKIPS from a clone (verified in a baseline worktree) - TT-R5P-14"
+  ],
+  "claim_ceiling": "CANDIDATE_ONLY",
+  "release": "NOT_GRANTED",
+  "human_ratification": "PENDING"
+}
