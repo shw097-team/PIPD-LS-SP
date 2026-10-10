@@ -1,0 +1,52 @@
+{
+ "schema": "pipd-r5s4-ao-rerun/1",
+ "why": "B4 and B5 were NOT_RUN because their prerequisite (a fresh venv with pip) failed at ensurepip. ensurepip exits 0 in this environment, so they are re-run here.",
+ "wheel": "C:\\Projects\\Agent_Workspace\\PIPD\\dist\\pipd_ls_sp-0.1.0-py3-none-any.whl",
+ "wheel_sha256": "e49d38e519117d67de57153658779eafa139eb0dda5a6d15f486facb44fd00e2",
+ "wheel_members": 38,
+ "ensurepip_probe": "pip 24.0",
+ "cases": [
+  {
+   "case": "B4",
+   "outcome": "PASS",
+   "mutation": {
+    "dropped": "pipd_ls_sp/schemas/ArtifactIdentity.schema.json"
+   },
+   "mutated_sha256": "abca32815d608e3a9323278cafa8cd2a6e143294a01f73f49dc158654a6b5142",
+   "mutated_bytes": 224331,
+   "venv": {
+    "venv_exit": 0,
+    "pip_present": true
+   },
+   "install_exit": 1,
+   "install_tail": "ERROR: B4.whl is not a valid wheel filename.\n",
+   "run_exit": 1,
+   "run_tail": "C:\\Users\\user\\AppData\\Local\\Temp\\ao-b4b5-0n2sjn6t\\venv-B4\\Scripts\\python.exe: Error while finding module specification for 'pipd_ls_sp.cli' (ModuleNotFoundError: No module named 'pipd_ls_sp')\n",
+   "silently_succeeded": false,
+   "interpretation": "the mutation was DETECTED (install or run failed, or the CLI reported a typed error)"
+  },
+  {
+   "case": "B5",
+   "outcome": "PASS",
+   "mutation": {
+    "truncated": {
+     "member": "pipd_ls_sp/__init__.py",
+     "before": 363,
+     "after": 356
+    }
+   },
+   "mutated_sha256": "b0eea02d8122cd4ba119ff3c700c976a413d29f1a05f9727274f78d55bf81e93",
+   "mutated_bytes": 225163,
+   "venv": {
+    "venv_exit": 0,
+    "pip_present": true
+   },
+   "install_exit": 1,
+   "install_tail": "ERROR: B5.whl is not a valid wheel filename.\n",
+   "run_exit": 1,
+   "run_tail": "C:\\Users\\user\\AppData\\Local\\Temp\\ao-b4b5-0n2sjn6t\\venv-B5\\Scripts\\python.exe: Error while finding module specification for 'pipd_ls_sp.cli' (ModuleNotFoundError: No module named 'pipd_ls_sp')\n",
+   "silently_succeeded": false,
+   "interpretation": "the mutation was DETECTED (install or run failed, or the CLI reported a typed error)"
+  }
+ ]
+}

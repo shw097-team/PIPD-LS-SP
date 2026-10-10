@@ -1,0 +1,35 @@
+{
+ "schema": "pipd-r5s4-ao-b4verdict/3",
+ "question": "with a schema member missing from the INSTALLED package, does the code that resolves schemas refuse, and does it name the family?",
+ "victim_member": "pipd_ls_sp/schemas/ArtifactIdentity.schema.json",
+ "mutation": {
+  "dropped": "pipd_ls_sp/schemas/ArtifactIdentity.schema.json",
+  "record_row_removed": "pipd_ls_sp/schemas/ArtifactIdentity.schema.json"
+ },
+ "install_exit": 0,
+ "installed_package_state": {
+  "schemas_dir": "C:\\Users\\user\\AppData\\Local\\Temp\\b4v-msy7nkiy\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "victim_present_in_installed_package": false,
+  "registry_family_count": 19,
+  "registry_still_lists_victim": true,
+  "load_registry": {
+   "raised": true,
+   "type": "ValidationFail",
+   "message": "schema file missing for ArtifactIdentity"
+  },
+  "load_schema_victim": {
+   "raised": true,
+   "type": "FileNotFoundError",
+   "message": "[Errno 2] No such file or directory: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\b4v-msy7nkiy\\\\venv\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\\\\ArtifactIdentity.schema.json'"
+  }
+ },
+ "inner_stderr_tail": "",
+ "guard_held": true,
+ "verdict": "PASS",
+ "interpretation": "the schema resolver refuses with a typed error naming the family when the member is absent from the installed package - the brief's A4 requirement is satisfied by registry.load_registry(), NOT by `doctor`",
+ "scope_note": "This does NOT verify that any CLI subcommand surfaces that error to a user; `doctor` provably cannot, because it never opens the schema set.",
+ "retractions": {
+  "rerun_b4_b5_v1_falsepass.json": "false PASS - invalid wheel filename, mutation never exercised",
+  "rerun_b4_probe.json": "CONCLUSION line is VOID - argparse usage errors, no schema resolution reached"
+ }
+}
