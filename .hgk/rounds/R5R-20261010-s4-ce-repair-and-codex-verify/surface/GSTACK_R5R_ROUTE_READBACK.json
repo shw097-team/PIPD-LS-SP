@@ -1,0 +1,215 @@
+{
+ "schema": "HGK-GSTACK-ROUTE-READBACK/1",
+ "round": "R5R-20261010-s4-ce-repair-and-codex-verify",
+ "contract": "PIPD-LS-SP-R5R-CE-REPAIR-20261010",
+ "control_plane": "HG-KSEOS",
+ "written_by": "PLAN lane (hermes), on the operator's order for this round",
+ "note": "This is a route readback, not an acceptance. It claims exactly what the evidence below shows and nothing more.",
+
+ "gstack_definition_applied": {
+  "source": "HG-KSEOS/AGENTS.md L23",
+  "text": "GSTACK  named-method route check (registry ACTIVE_SELECTED + route(flow) evidence)",
+  "upstream_executable_present": false,
+  "why_no_upstream_binary": "No `gstack` exists on PATH and it is not in the npm globals. The GSTACK role map fixes authority_ceiling NO_ADOPT_CONTROL_PLANE and hard_denies the Conductor as canonical scheduler, so what is enabled here is the HGK-side named-method route check with its declared hosts and fallbacks -- not the upstream tool."
+ },
+
+ "registry": {
+  "path": "HG-KSEOS/evidence/review/FAR_LANE_ROUTE_SLOTS_012_REGISTRY_EPOCH15_2026-10-10.yaml",
+  "schema": "HGK-LANE-ROUTING-REGISTRY/1",
+  "epoch": 15,
+  "status": "CANDIDATE",
+  "source_of_routes": {
+   "path": "config/model-lane-assignment.json",
+   "revision": 16,
+   "sha256": "7c1fa5f25d67799f82650621b5194e8ac7a6739a219cf8bc5cf1ded379298d13"
+  },
+  "hard_deny": [
+   "gstack Conductor as canonical scheduler",
+   "gstack /spec as canonical spec owner",
+   "gstack /ship as promote/release",
+   "gstack /land-and-deploy or setup-deploy as production"
+  ],
+  "registry_is_candidate": "Activation requires an HGK-authorized generation binding. This round did not promote, accept or activate the registry."
+ },
+
+ "route_check_per_flow": [
+  {
+   "flow": "FAR research on the CE-1/CE-2 repairs",
+   "flow_class": "RESEARCH",
+   "gstack_role": "investigate",
+   "role_category": "research",
+   "disposition": "ADOPT",
+   "declared_host": "specialist-research-worker",
+   "declared_fallback": "hgk_native_research",
+   "effective_host_used": "hgk_native_research (PLAN lane in canonical Hermes)",
+   "route_evidence": ".hgk/rounds/R5R-.../far/R5R_FAR_CE_REPAIR_QUICKSTUDY.md",
+   "claim": "Named method used: a written FAR quickstudy comparing candidate repairs against criteria and recording the rejected alternatives. No upstream gstack host was invoked."
+  },
+  {
+   "flow": "Authoring the bounded writer work orders",
+   "flow_class": "PLAN",
+   "gstack_role": "plan-eng-review",
+   "role_category": "plan",
+   "disposition": "ADOPT",
+   "declared_host": "hgk-engineering-reviewer",
+   "declared_fallback": "hgk_native_plan",
+   "effective_host_used": "hgk_native_plan (PLAN lane in canonical Hermes)",
+   "route_evidence": [
+    ".hgk/rounds/R5R-.../workorder/WO-R5R-REPAIR-002.md",
+    ".hgk/rounds/R5R-.../workorder/EXECUTE_PROMPT3.txt",
+    ".hgk/rounds/R5R-.../workorder/EXECUTE_PROMPT4.txt",
+    ".hgk/rounds/R5R-.../workorder/EXECUTE_PROMPT5.txt"
+   ],
+   "claim": "Each order names its round, requirement, scope, out-of-scope items, the tests to run, the evidence to write and the explicit instruction not to commit, push, build a wheel or edit schemas."
+  },
+  {
+   "flow": "Writing the repair (bounded writer / EXECUTE)",
+   "flow_class": "REPAIR",
+   "gstack_role": "codex",
+   "role_category": "coding",
+   "disposition": "MAP_TO_EXISTING_OWNER",
+   "declared_host": "hgk-coding-factory",
+   "declared_worker_mode": "tracked-writer",
+   "declared_fallback": "sealed-codex-lane",
+   "effective_host_used": "sealed-codex-lane",
+   "how_invoked": "HG-KSEOS/scripts/start-hgk-hermes.ps1 -Action Write -ModelChain deepseek-v4.1-flash, from cwd HG-KSEOS, which is the sanctioned launcher entry point and NOT a direct codex.exe invocation",
+   "route_evidence": [
+    "%LOCALAPPDATA%/HG-KSEOS/logs/codex-write-*.log (4 runs)",
+    ".hgk/rounds/R5R-.../execute/SUMMARY.md",
+    ".hgk/rounds/R5R-.../execute/red_state.txt",
+    ".hgk/rounds/R5R-.../execute/green_state.txt"
+   ],
+   "claim": "The writer ran through the sealed lane's front door with the sanctioned model pair only. No OAuth route was used as a writer: the launcher fails closed with ERR_EXECUTE_OAUTH_BOUNDED_WRITER_ADMISSION_REQUIRED for that."
+  },
+  {
+   "flow": "Reviewing the writer's diff before accepting it into a commit",
+   "flow_class": "REVIEW",
+   "gstack_role": "review",
+   "role_category": "review",
+   "disposition": "ADOPT",
+   "declared_host": "hgk-engineering-reviewer",
+   "declared_fallback": "hgk_native_review",
+   "effective_host_used": "hgk_native_review (PLAN lane)",
+   "route_evidence": "Commits a503efe, afb29d0, c18c027, 1ab17d1 -- each message records what the maker re-ran itself and, in afb29d0, that the writer's own 'pre-existing failure' verdict had been measured and rejected.",
+   "claim": "The maker re-ran the suite and the end-to-end probe itself and did not accept the writer's self-report. One writer claim was measured to be wrong and is corrected in the record."
+  },
+  {
+   "flow": "Tests, regression pins and end-to-end execution",
+   "flow_class": "QA",
+   "gstack_role": "qa",
+   "role_category": "qa",
+   "disposition": "ADOPT",
+   "declared_host": "hgk-qa",
+   "declared_fallback": "hgk_native_qa",
+   "effective_host_used": "hgk_native_qa",
+   "route_evidence": [
+    "tests/test_ce_repair_regression.py (9 tests)",
+    ".hgk/rounds/R5R-.../maker-e2e/maker_e2e.py + maker_e2e_transcript.txt",
+    ".hgk/rounds/R5R-.../maker-e2e/trace_widening_probe.py"
+   ],
+   "claim": "Suite 321 tests OK (skipped=3). Red and green states are captured on disk for each repair, not asserted in prose."
+  },
+  {
+   "flow": "Independent acceptance (VERIFY)",
+   "flow_class": "ACCEPTANCE",
+   "gstack_role": "cso",
+   "role_category": "security",
+   "disposition_considered": "ADOPT / host hgk-security",
+   "effective_host_used": "NOT USED for this flow",
+   "honest_statement": "The ADOPT role for security review was not exercised in this round. The VERIFY_SECURITY lane that was exercised is the acceptance/verify flow below, and it is not a substitute for a security review. No supply-chain, dependency or CVE review was performed on the repaired wheel."
+  }
+ ],
+
+ "lane_route_resolution": {
+  "declared": {
+   "PLAN": {"engine": "hermes", "provider": "openai-codex", "model": "gpt-6.1-sol"},
+   "EXECUTE": {"engine": "codex-cli", "provider": "opencode-go", "model": "deepseek-v4.1-flash"},
+   "VERIFY_SECURITY": {
+    "arm_A": {"provider": "opencode-go", "model": "glm-5.3-flash", "role": "primary", "default": true},
+    "arm_B": {"provider": "openai-codex", "model": "gpt-6.1-sol", "role": "demoted_alternate_operator_selectable_only_never_auto_selected", "automatic_selection": false}
+   }
+  },
+  "effective": {
+   "PLAN": {"provider": "opencode-go", "model": "deepseek-v4.1-flash"},
+   "EXECUTE": {"provider": "opencode-go", "model": "deepseek-v4.1-flash", "engine": "codex-cli"},
+   "VERIFY_SECURITY": {"provider": "openai-codex", "model": "gpt-6.1-sol", "engine": "codex-cli", "arm": "B"}
+  },
+  "deviations_declared": [
+   {
+    "lane": "PLAN",
+    "declared": "openai-codex/gpt-6.1-sol",
+    "effective": "opencode-go/deepseek-v4.1-flash",
+    "basis": "explicit operator instruction in this round's order: 'PLAN in HERMES ... PLAN model DeepSeek V4.1 Flash (OPENCODE GO)'",
+    "registry_permits": false,
+    "registry_field": "invariants.global_overrides_permitted = false",
+    "claim_ceiling": "operator-directed deviation from the registry's declared PLAN route. This is NOT a registry-compliant PLAN route and must not be cited as one. The registry is status CANDIDATE and was not activated by this round."
+   },
+   {
+    "lane": "VERIFY_SECURITY",
+    "declared_default": "opencode-go/glm-5.3-flash (arm A)",
+    "effective": "openai-codex/gpt-6.1-sol (arm B)",
+    "basis": "explicit operator selection in this round's order: 'checker model: GPT 6.1 SOL-MEDIUM (OPEN AI OAuth)'",
+    "automatic_selection": false,
+    "registry_permits_operator_selection": true,
+    "claim_ceiling": "arm B was operator-selected and not auto-selected, which is the only mode the registry allows for it."
+   }
+  ],
+  "arm_b_refusal_condition": {
+   "registry_rule": "Arm B must still be refused when checking a PLAN-made artifact.",
+   "was_it_triggered": false,
+   "why": "The artifacts arm B verified were made by the EXECUTE lane (bounded writer, opencode-go/deepseek-v4.1-flash) writing under bounded work orders. PLAN wrote the orders and the FAR, not the code under test. Recording this explicitly because the rule is a refusal condition and its non-triggering is a claim that should be checkable, not assumed.",
+   "checkable_from": "the commit authorship trail and .hgk/rounds/R5R-.../execute/SUMMARY.md, written by the writer lane"
+  },
+  "independence_invariants": {
+   "unknown_lane_deny": true,
+   "maker_checker_distinct_model": {
+    "required": true,
+    "maker": "opencode-go/deepseek-v4.1-flash",
+    "checker": "openai-codex/gpt-6.1-sol",
+    "distinct": true,
+    "satisfied": true
+   },
+   "de_modeled_allowed": false,
+   "global_overrides_permitted": false
+  }
+ },
+
+ "hard_deny_attestation": [
+  {
+   "denied": "gstack Conductor as canonical scheduler",
+   "occurred": false,
+   "evidence": "Scheduling was owned by the Hermes KANBAN board pipd-r5r-20261010 (tasks t_aeb3a5b8, t_adae66d1, t_2af4e027, t_3a7e1c8f, t_b5874184, t_9cd0e2cd plus a swarm root t_c9975958 with 5 workers, a verifier and a synthesizer). No gstack executable exists on this host to act as a scheduler."
+  },
+  {
+   "denied": "gstack /spec as canonical spec owner",
+   "occurred": false,
+   "evidence": "The canonical spec owners are unchanged: schemas/ (19 families, never edited this round) and the PIPD SPEC/DEL artefacts. The OpenSpec change under openspec/changes/pipd-ls-sp-r5r-ce-repair-and-codex-verify/ is this round's change record, the same pattern the previous round used."
+  },
+  {
+   "denied": "gstack /ship as promote/release",
+   "occurred": false,
+   "evidence": "No tag was created, moved or deleted. No GitHub release or prerelease was created, edited or published. The published v0.1.0-preview.1 was verified by the checker to still resolve to cc9bf574c3b3f0f44ea615b5c67ae40d74efee32 with its wheel still hashing to c450dbef1c3bfbc2048dcf0562f83d655cc5e5940511e65fd44bf9f91cf14e60. The rebuilt wheel is a local candidate at 0.1.0 and was not published."
+  },
+  {
+   "denied": "gstack /land-and-deploy or setup-deploy as production",
+   "occurred": false,
+   "evidence": "Nothing was deployed. No production or host-native verification was performed or claimed."
+  }
+ ],
+
+ "side_effects_disclosed": [
+  "Four bounded-writer lane runs through the sealed EXECUTE front door, model pair locked to opencode-go/deepseek-v4.1-flash. Logs under %LOCALAPPDATA%/HG-KSEOS/logs/codex-write-*.log.",
+  "Two independent checker runs through the CODEX CLI on native OpenAI OAuth (gpt-6.1-sol, medium) with a dedicated CODEX_HOME, which is NOT the sealed EXECUTE lane's CODEX_HOME. Their raw transcripts are in the round's verify-codex/ and verify-codex-2/.",
+  "jsonschema was installed into the repo's Python 3.11 interpreter from a local offline wheelhouse by the writer lane, because the suite cannot exercise the validate path without it. Disclosed by the writer in execute/SUMMARY.md.",
+  "Commits created on branch r5r-ce-repair only. main was not touched. The published tag was not touched.",
+  "A tracked artefact (.hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json) was dirtied twice by running the design chain and was reverted both times; it is not part of any commit in this round."
+ ],
+
+ "open_items_not_claimed": [
+  "No security review (cso / hgk-security role) was performed.",
+  "The verdict of the first checker run was FAIL on one claim. That FAIL is recorded as-is and was answered by a repair plus a re-verification; it is not erased.",
+  "The repaired wheel is not published. Delivering the repair to users requires a successor release under a fresh owner grant; v0.1.0-preview.1 must never be rewritten.",
+  "Registry admission_status for both PLAN and EXECUTE remains UNPROVEN.",
+  "The package ships no README or quickstart; the checker had to derive several non-obvious CLI usages. Recorded as a feasibility finding, not fixed in this round."
+ ]
+}
