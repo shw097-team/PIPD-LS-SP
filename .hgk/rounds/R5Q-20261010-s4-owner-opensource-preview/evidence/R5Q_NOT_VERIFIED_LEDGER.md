@@ -177,3 +177,26 @@ A §1.2（L51）明確把 `EvidenceGap` 與 `Defect` 分開。以下仍使用使
 已實讀四份指定文件、公開 main/tag README、公開 Preview Notes asset、live release body，以及 validate/schema resolution 相關 source；逐項區分缺陷、宣稱邊界、可選增強、方法論註記，補列 DEL-018、checker lane 與 mutable/pending 邊界。所有公開揭露判斷均限定本輪實讀的 D/N/B/M；未聲稱搜尋整個 GitHub 後證明任何句子絕對不存在。
 
 本文件不執行 closure，不新增產品 PASS、不修既有文檔、不重跑套件、不操作 git、不發布或撤回 release。**最終裁定：`NOT_ALL_NOT_VERIFIED_ITEMS_REQUIRE_CLOSURE`；保留正確邊界，修正必要公開說明，證據／Stage 的真正關閉留給合法的新驗收。**
+
+---
+
+## 7. 後續結案註記（append-only，2026-10-10T16:2x UTC）
+
+本節由 maker 在台帳首次寫成之後追加，只記錄**已實際發生**的處置，不改動 §3–§6 的歷史判定。
+
+| 台帳項 | 當時狀態 | 之後的處置 | 現在的狀態 |
+|---|---|---|---|
+| NV-06 / SUP-03 所指的**公開文件**問題 | 必須處置 | 已在 release body、README、PREVIEW_NOTES 三處揭露 `validate` 的 `--root` 使用前提，並把 live body 的「independent acceptance pending」改為「received, with qualifications」 | **文件面已結案**（`update_preview_surfaces.py` 自證 live 與 repo 位元一致） |
+| NV-06 的 **focused evidence** | 尚開 | maker 用發布 wheel 自行重現：`doctor` exit 0 / `validate` 無 `--root` exit 2 → 已凍結於 `evidence/ce_repro/` | 證據已補；**程式行為仍開**，列為 CE-1 |
+| SUP-02 model lane | 不得聲稱 planned SoD | 已在指定 lane（`openai-codex/gpt-6.1-sol`、effort medium）重跑獨立驗收 | **已補**；新收據 `COUNTEREXAMPLE_FOUND` |
+| SUP-01 DEL-018 | 保留、正式 Gate 前必修 | 未動 | **仍為 `FAIL/EVIDENCE_GAP`** |
+| 原始七項歷史事實 | 必須保持開啟 | 未動 | **保持開啟** |
+
+**新增、先前不在本台帳內的兩項：**
+
+- **CE-1**：`validate` 不像 `doctor` 那樣解析 wheel 內自帶的 schemas（無 `--root` 且 cwd 無 `schemas/` 時 exit 2）。文件面已揭露；程式面未修，因為修它會動到成員位元，須以**後繼 release** 交付，不得回寫既有 tag。
+- **CE-2**：由四個 compiler **未經修改的 stdout** 組成的 bundle 被 `validate` 拒絕（`compile-pi` 輸出頂層 `_profile_meta`，而 `PI-PKG` 設 `additionalProperties: false`）；僅移除該 sidecar 即 `checked=4, findings=[]` 通過。同上，未修，須後繼 release。
+
+兩者皆非 stop-ship（安裝、授權打包、`doctor`、CLI、所有產物雜湊均不受影響），但落在 owner grant 的 stop-ship 條件「核心鏈普遍不可用」邊界上，故**不由 maker 自行判為 cosmetic**，處置權留給 owner。
+
+**本節不改變 §6 的最終裁定**，但把 §5「必須關閉」的兩項由「待處置」推進為「文件面已結案、程式面另立 CE 項追蹤」。
