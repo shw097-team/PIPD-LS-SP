@@ -1,0 +1,73 @@
+Fourth bounded-writer order for the SAME round. Repository:
+C:/Projects/Agent_Workspace/PIPD-r5r-repair-wt (branch r5r-ce-repair).
+
+## What the independent checker found
+
+The round's repairs were handed to an independent checker running under a different model
+(GPT 6.1 SOL) with a different CODEX_HOME. Its verdict was **FAIL**, on one specific claim.
+
+- Claims 1-7 and 9: PASS (clean install, full chain, CE-1, CE-2, fail-closed behaviour, the
+  published tag untouched, and the `.git`-internals guard).
+- **Claim 8: FAIL — a real widening of accepted input.** Adding an undeclared `trace` key to a
+  `PD-PKG`, `ECP` or `TQAEP` record now returns `verdict=PASS`, `checked=4`, `findings=[]`, exit 0.
+  The PUBLISHED validator rejects the exact same records with
+  `Additional properties are not allowed (trace was unexpected)`. The checker verified this by
+  loading the baseline validator straight out of the downloaded published wheel, so it is
+  comparative evidence, not speculation. It also confirmed by inspecting the installed pipeline
+  that no shipped compiler emits `trace` on those three contracts — the widening is latent for
+  generator output but real for any caller-supplied bundle.
+
+## Why this is a defect in your CE-2 repair, and what the correct shape is
+
+Your CE-2 repair schema-checks a copy of the record with `NON_RECORD_SIDECARS` removed, minus any
+key the schema itself declares. `NON_RECORD_SIDECARS` is the HASH-EXCLUSION list
+(`subject_id`, `version`, `content_hash`, `schema_version`, `trace`, `_profile_meta`). Only
+`PI-PKG` declares `trace`; the other three contracts do not. So the `declared` guard drops `trace`
+for them and the `additionalProperties: false` rejection disappears.
+
+The conflation is the bug: "fields excluded from the body hash" and "fields that are not part of
+the record at all" are two different sets that happen to overlap on `_profile_meta`.
+
+Fix it by separating the two concepts in `src/pipd_ls_sp/validate.py`:
+
+1. Keep ONE constant for the hash-exclusion set (the identity fields plus the derived `trace`
+   relation plus the sidecar) and have `_body_hash` and `pipeline._seal` reference it. Behaviour of
+   the hash must not change.
+2. Introduce a SEPARATE constant for the genuine non-record sidecars — the fields the pipeline
+   emits for the operator/registry that NO schema declares. Today that is exactly `_profile_meta`.
+   `validate_record` must strip ONLY this set (keeping a defensive "unless the schema declares it"
+   guard is fine). `trace` must NOT be in it, so `trace` stays subject to `additionalProperties`
+   for every contract that does not declare it, exactly as the published validator behaves.
+3. Do not change any schema. Do not change what the pipeline emits.
+
+Verify your understanding before you change anything: the required end state is that
+`_profile_meta` on PI-PKG is still tolerated (CE-2 stays repaired) while an undeclared `trace` on
+`PD-PKG`, `ECP` or `TQAEP` is REJECTED again.
+
+## Required tests
+
+4. Add a regression test that pins the checker's own counterexample: a bundle whose `PD-PKG`, `ECP`
+   and `TQAEP` members each carry an undeclared `trace` (all other fields and the original
+   `content_hash` untouched) must produce findings naming `trace` for each. This test must FAIL on
+   the tree you start from and PASS after your change. Capture both states.
+5. Keep the existing CE-2 test green: the four compilers' own stdout, unedited, with `_profile_meta`
+   present on PI-PKG, must still validate to `findings=[]`.
+6. Also pin that removing `_profile_meta` tolerance is not re-introduced the other way: the existing
+   `test_sidecar_list_has_one_definition` test asserts `validate.NON_RECORD_SIDECARS` exists. If
+   your renaming/refactor changes what that attribute means, update that test to assert the NEW
+   single definition honestly — and make sure it still fails if someone copy-pastes the list again.
+
+## Run and record
+
+7. `unset PYTHONPATH` and
+   `C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -m unittest discover -s tests -t .`
+   Baseline now: 319 tests, `OK (skipped=3)`. It must end `OK` and the count must rise by the tests
+   you add.
+8. Append the red/green evidence to
+   `.hgk/rounds/R5R-20261010-s4-ce-repair-and-codex-verify/execute/red_state.txt` and
+   `green_state.txt` under `--- trace widening (checker counterexample CE-CODEX-TRACE-WIDENING) ---`
+   and append a section to `execute/SUMMARY.md` that names the checker's finding and states exactly
+   how the constant split closes it.
+9. Do NOT commit, do NOT push, do NOT build a wheel, do NOT edit anything under `schemas/`, and do
+   NOT edit `.hgk/artifacts/`. If the toolchain dirties a tracked artifact, revert it.
+10. Do not investigate anything else. Finish and stop.
