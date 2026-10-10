@@ -6,7 +6,7 @@ for that reader. **Nothing in this repository is a claim of acceptance** — see
 | item | value |
 |---|---|
 | branch to accept | `r5-s4-packreader` |
-| subject commit | the tip of this branch: `git rev-parse HEAD`; pinned authoritatively (commit and tree) in `.hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION.json` |
+| subject commit | the tip of branch `r5-s4-packreader`. Two bindings pin it: (a) the **sha256 of both subject files** (table below) — stable across any commit, and the same digests the independent checker verified; (b) `.hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION_R5S4_PACKREADER.json`, which seals the product and manifest digests with a `payload_digest`. That sidecar records the content commit whose tree it was computed over, and it is itself committed by the one commit immediately following it — so `git rev-parse HEAD~1` is the content commit when this branch tip is the sidecar commit. The repository's older `.hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION.json` attests the earlier R3 published subject and is deliberately left untouched. |
 | previous public state (parent) | `7f13b90dc06354a0c6b7bd013f83a8cc244bf93d`; its tree is `git rev-parse 7f13b90^{tree}` |
 | round | `R5-20261009-s4-user-operability` |
 | scope | exactly one confirmed defect (**D1**) repaired, then independently checked |
