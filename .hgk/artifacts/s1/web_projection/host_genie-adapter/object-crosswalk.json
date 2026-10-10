@@ -1,0 +1,204 @@
+{
+ "capability_loss": [
+  {
+   "capability": "truth writeback",
+   "loss_id": "LOSS-GA-01",
+   "reason": "GENIE target refs are reference-only; no truth writeback by contract",
+   "record_type": "CapabilityLoss",
+   "severity": "DECLARED"
+  },
+  {
+   "capability": "live GENIE integration",
+   "loss_id": "LOSS-GA-02",
+   "reason": "S6 GENIE live integration NOT_AUTHORISED; seam schema only",
+   "record_type": "CapabilityLoss",
+   "severity": "DECLARED"
+  }
+ ],
+ "compatibility": {
+  "asserted": {
+   "itch_contract_only": true,
+   "no_live_receiver_ack": true,
+   "no_world_effect": true
+  },
+  "fixture_kind": "compatibility",
+  "live_status": "NOT_RUN",
+  "mode": "FIXTURE_MOCK",
+  "seam_schemas": [
+   "GENIEProjectionRef",
+   "SurfaceProjectionManifest"
+  ],
+  "seam_source": "SEAM:S6"
+ },
+ "contract_version": "1",
+ "entry_kind": "object_crosswalk",
+ "field_contract": [
+  {
+   "name": "target_refs",
+   "required": true,
+   "source_object_id": "S0:GENIEProjectionRef",
+   "type": "object"
+  },
+  {
+   "name": "subject_id",
+   "required": true,
+   "source_object_id": "S0:GENIEProjectionRef",
+   "type": "object"
+  },
+  {
+   "name": "version",
+   "required": true,
+   "source_object_id": "S0:GENIEProjectionRef",
+   "type": "object"
+  },
+  {
+   "name": "content_hash",
+   "required": true,
+   "source_object_id": "S0:GENIEProjectionRef",
+   "type": "object"
+  },
+  {
+   "name": "schema_version",
+   "required": true,
+   "source_object_id": "S0:GENIEProjectionRef",
+   "type": "object"
+  },
+  {
+   "name": "supersedes",
+   "required": true,
+   "source_object_id": "S0:ArtifactIdentity",
+   "type": "object"
+  },
+  {
+   "name": "invalidates",
+   "required": true,
+   "source_object_id": "S0:ArtifactIdentity",
+   "type": "object"
+  }
+ ],
+ "nack": [
+  {
+   "basis": "S6 NOT_AUTHORISED",
+   "nack_id": "NACK-GA-01",
+   "record_type": "NACK",
+   "statement": "object-crosswalk effective load is a fixture/mock contract load, not a live GENIE run"
+  },
+  {
+   "basis": "S6 NOT_AUTHORISED",
+   "nack_id": "NACK-GA-02",
+   "record_type": "NACK",
+   "statement": "no live GENIE integration PASS is claimed by this projection"
+  }
+ ],
+ "payload": {
+  "crosswalk_version": "PIPD-GENIE-CROSSWALK/1",
+  "mappings": [
+   {
+    "direction": "REFERENCE_ONLY",
+    "source_object_id": "S0:PD-PKG",
+    "source_schema": "urn:pipd:s0:PD-PKG:1",
+    "source_version": "1",
+    "target": "ProductGraph",
+    "target_ref": "urn:genie:seam:ProductGraph"
+   },
+   {
+    "direction": "REFERENCE_ONLY",
+    "source_object_id": "S0:ProfileBinding",
+    "source_schema": "urn:pipd:s0:ProfileBinding:1",
+    "source_version": "1",
+    "target": "Profile",
+    "target_ref": "urn:genie:seam:Profile"
+   },
+   {
+    "direction": "REFERENCE_ONLY",
+    "source_object_id": "S0:PI-PKG",
+    "source_schema": "urn:pipd:s0:PI-PKG:1",
+    "source_version": "1",
+    "target": "Bundle",
+    "target_ref": "urn:genie:seam:Bundle"
+   },
+   {
+    "direction": "REFERENCE_ONLY",
+    "source_object_id": "S0:ArtifactIdentity",
+    "source_schema": "urn:pipd:s0:ArtifactIdentity:1",
+    "source_version": "1",
+    "target": "GENIEArtifact",
+    "target_ref": "urn:genie:seam:GENIEArtifact"
+   }
+  ],
+  "required_targets": [
+   "ProductGraph",
+   "Profile",
+   "Bundle",
+   "GENIEArtifact"
+  ]
+ },
+ "permissions": [
+  "read:canonical-objects",
+  "emit:projection",
+  "emit:object-crosswalk"
+ ],
+ "provider": {
+  "admission_state": "OFF",
+  "basis": "S6 GENIE live integration NOT_AUTHORISED",
+  "live_integration": false,
+  "provider_id": "genie-live-integration"
+ },
+ "schema": "PIPD-HOST-PROJECTION/1",
+ "schema_version": "1",
+ "scope": [
+  "dist/web/**"
+ ],
+ "source_refs": [
+  {
+   "object_id": "S0:GENIEProjectionRef",
+   "schema": "urn:pipd:s0:GENIEProjectionRef:1",
+   "schema_version": "1",
+   "source_hash": "22c88a0f9ec4ea4747967546f9a5ea7f19f0285be60ac42567fae2ca0b1c36ed",
+   "source_path": "schemas/GENIEProjectionRef.schema.json"
+  },
+  {
+   "object_id": "S0:ArtifactIdentity",
+   "schema": "urn:pipd:s0:ArtifactIdentity:1",
+   "schema_version": "1",
+   "source_hash": "67d26f18d26307410bf0be5369949eb525d477e053ee3a7091e54b97f6d4ad4c",
+   "source_path": "schemas/ArtifactIdentity.schema.json"
+  },
+  {
+   "object_id": "S0:ProfileBinding",
+   "schema": "urn:pipd:s0:ProfileBinding:1",
+   "schema_version": "1",
+   "source_hash": "b559fb70bb6ceb9d491c989cb5ec031f44d15bcad5b40e75d6649aa059a93556",
+   "source_path": "schemas/ProfileBinding.schema.json"
+  },
+  {
+   "object_id": "S0:PI-PKG",
+   "schema": "urn:pipd:s0:PI-PKG:1",
+   "schema_version": "1",
+   "source_hash": "3e797d4eac04a04fee65add1ca6cb196154490ccd848b9b1cc561f24feaefb57",
+   "source_path": "schemas/PI-PKG.schema.json"
+  },
+  {
+   "object_id": "S0:PD-PKG",
+   "schema": "urn:pipd:s0:PD-PKG:1",
+   "schema_version": "1",
+   "source_hash": "37291e8790e03839308a7c36125f9576d14da725a27480c9759ef5362d255541",
+   "source_path": "schemas/PD-PKG.schema.json"
+  },
+  {
+   "object_id": "SEAM:S6",
+   "schema": "PIPD-SEAM-COMPAT/1",
+   "schema_version": "1",
+   "source_hash": "a2541b4b73f054d5557dcaeaca1544a3665fb9e5ddcd7264be383b59c4c39b37",
+   "source_path": "fixtures/s5_s8/s6_compat.json"
+  },
+  {
+   "object_id": "ADAPTER:MAPPING",
+   "schema": "PIPD-ADAPTER-MAPPING/1",
+   "schema_version": "1",
+   "source_hash": "ae939d979559985dfe692bf7f8638fc571d07013270fc15e734951b37b2af1ab",
+   "source_path": "src/pipd_ls_sp/projection.py#ADAPTER_MAPPING"
+  }
+ ],
+ "surface": "host:genie-adapter"
+}

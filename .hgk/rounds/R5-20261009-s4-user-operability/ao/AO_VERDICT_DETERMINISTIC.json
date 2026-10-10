@@ -1,0 +1,287 @@
+{
+ "schema": "PIPD-R5-AO-VERDICT-DETERMINISTIC/1",
+ "checker_identity": "PIPD-R5-AO-DETERMINISTIC-CHECKER/1",
+ "maker_identity": "R5-WO1/WO2/WO3 codex lanes + orchestrator",
+ "independence_basis": "separate process, separate scratch, read-only on the product tree, recomputes rather than trusts, mutates the artefact to prove the negative paths are real",
+ "explicitly_not": "an LLM acceptance officer; the model proxy exposes one model id and the provider rate-limits it (7 x HTTP 429 this round), which killed both container checker lanes",
+ "subject": {
+  "wheel": "C:\\Projects\\Agent_Workspace\\PIPD\\dist\\pipd_ls_sp-0.1.0-py3-none-any.whl",
+  "wheel_sha256": "e49d38e519117d67de57153658779eafa139eb0dda5a6d15f486facb44fd00e2",
+  "candidate_head": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2"
+ },
+ "blocks": {
+  "A": {
+   "wheel_sha256": "e49d38e519117d67de57153658779eafa139eb0dda5a6d15f486facb44fd00e2",
+   "wheel_bytes": 225170,
+   "member_count": 38,
+   "schema_members": 19,
+   "has_registry": true,
+   "manifest_candidate_head": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+   "manifest_member_count": 38,
+   "manifest_product_digest": "52bec29276c001b26aacd06119cbb13d9b8dd64f3758d44fc6c194477edef34a",
+   "member_mismatches": [],
+   "A4": {
+    "held": true,
+    "raw": "START\nTYPED ValidationFail schema file missing for ArtifactIdentity\n"
+   }
+  },
+  "B": {
+   "negatives": [
+    [
+     "repo root",
+     2,
+     true,
+     "UNSAFE_DESTINATION"
+    ],
+    [
+     "cwd dot",
+     2,
+     true,
+     "UNSAFE_DESTINATION"
+    ],
+    [
+     "parent",
+     2,
+     true,
+     "UNSAFE_DESTINATION"
+    ],
+    [
+     "source descendant",
+     2,
+     true,
+     "UNSAFE_DESTINATION"
+    ],
+    [
+     "filesystem root",
+     2,
+     true,
+     "UNSAFE_DESTINATION"
+    ],
+    [
+     "empty",
+     2,
+     true,
+     "UNSAFE_DESTINATION"
+    ],
+    [
+     "whitespace",
+     2,
+     true,
+     "UNSAFE_DESTINATION"
+    ],
+    [
+     "MSYS form",
+     2,
+     true,
+     "UNSAFE_DESTINATION"
+    ],
+    [
+     "foreign absolute",
+     2,
+     true,
+     "UNSAFE_DESTINATION"
+    ]
+   ],
+   "canary_unchanged": true,
+   "symlink": {
+    "ok": true,
+    "how": "junction"
+   },
+   "positive": {
+    "web": [
+     "PIPD_ARTIFACT_SCHEMAS.md",
+     "PIPD_BOOTSTRAP.md",
+     "PIPD_CANONICAL_CORE.md",
+     "PIPD_EVAL_HANDOFF.md",
+     "PIPD_ROUTER_PROFILES.md"
+    ],
+    "hosts": [
+     "host_generic-skills",
+     "host_genie-adapter",
+     "host_hgk-receiver"
+    ],
+    "ir": true,
+    "residue": []
+   },
+   "refusal": {
+    "refused": true,
+    "replaced": true,
+    "backup": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5-ao\\subject\\allowed\\good.pipd-backup-f93e8264d0906a61"
+   },
+   "dry_run": {
+    "exit": 0,
+    "exists": false
+   }
+  },
+  "C": {
+   "landed": [
+    "SHA256SUMS",
+    "bundle.tar.gz",
+    "export_manifest.json"
+   ],
+   "recompute": {
+    "rows": 71,
+    "members": 71,
+    "bad": [],
+    "archive_sha": true
+   },
+   "secret_negative": {
+    "held": true,
+    "artifacts": []
+   }
+  },
+  "D_E": {
+   "install_purity": {
+    "mod": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5-ao\\uat\\venv\\Lib\\site-packages\\pipd_ls_sp\\__init__.py",
+    "fam": 19
+   },
+   "replay": [
+    "c1af2963133c7e69c53db774778a5ff697c9ad262e5e03daa368bb6415b0131b",
+    "c1af2963133c7e69c53db774778a5ff697c9ad262e5e03daa368bb6415b0131b"
+   ],
+   "sod": {
+    "refused": true,
+    "raw": "{\n \"code\": \"TQ_SOD\",\n \"message\": \"maker must not be the independent checker (case/whitespace-insensitive)\",\n \"verdict\": \"FAIL\"\n}\n"
+   },
+   "product_src_canary": "60621cc34b4ba5d7fcfc6b1bdda67b11f77183fd50f1c157ef5cc42cdbb05942"
+  }
+ },
+ "counts": {
+  "PASS": 17
+ },
+ "falsification_attempts": [
+  {
+   "case": "A4 FALSIFY missing schema member",
+   "result": "PASS(held)",
+   "detail": "START | TYPED ValidationFail schema file missing for ArtifactIdentity"
+  },
+  {
+   "case": "C5 FALSIFY planted secret",
+   "result": "PASS(held)",
+   "detail": "exit=2 artifacts=[] out={\n \"code\": \"EXPORT_SECRET_SCAN\",\n \"message\": \"secret scan found 2 hits\",\n \"verdict\": \"FAIL\"\n}\n"
+  }
+ ],
+ "cases": [
+  {
+   "case": "A1-A3 wheel completeness",
+   "verdict": "PASS",
+   "expected": "38 members, 19 schemas + registry, manifest agrees with the artefact",
+   "actual": "members=38 schemas=19 registry=True manifest_members=38",
+   "detail": ""
+  },
+  {
+   "case": "A2 wheel members == source bytes",
+   "verdict": "PASS",
+   "expected": "every packaged module is byte-identical to src/pipd_ls_sp/",
+   "actual": "mismatches=[]",
+   "detail": ""
+  },
+  {
+   "case": "A4 FALSIFY missing schema member",
+   "verdict": "PASS(held)",
+   "expected": "removing a schema member makes the installed registry fail typed",
+   "actual": "START | TYPED ValidationFail schema file missing for ArtifactIdentity",
+   "detail": ""
+  },
+  {
+   "case": "B dream destinations refused",
+   "verdict": "PASS",
+   "expected": "every dangerous destination typed-refused, canary unchanged",
+   "actual": "rows=[['repo root', 2, True], ['cwd dot', 2, True], ['parent', 2, True], ['source descendant', 2, True], ['filesystem root', 2, True], ['empty', 2, True], ['whitespace', 2, True], ['MSYS form', 2, True], ['foreign absolute', 2, True]] canary_same=True",
+   "detail": ""
+  },
+  {
+   "case": "B symlink/junction escape",
+   "verdict": "PASS",
+   "expected": "a link (symlink, else junction) pointing back into the tree is refused",
+   "actual": "via=junction exit=2 {\n \"code\": \"UNSAFE_DESTINATION\",\n \"message\": \"refusing destination C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\",
+   "detail": ""
+  },
+  {
+   "case": "B positive control",
+   "verdict": "PASS",
+   "expected": "5 Web + 3 Host + IR, no stage/backup residue",
+   "actual": "exit=0 web=5 host=3 ir=True residue=[]",
+   "detail": ""
+  },
+  {
+   "case": "B nonempty refusal + allow-replace",
+   "verdict": "PASS",
+   "expected": "second run refused; --allow-replace publishes and reports a backup",
+   "actual": "refused=True replaced=True backup=C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5-ao\\subject\\allowed\\good.pipd-backup-f93e8264d0906a61",
+   "detail": ""
+  },
+  {
+   "case": "B dry-run zero writes",
+   "verdict": "PASS",
+   "expected": "dry-run exits 0 and creates nothing",
+   "actual": "exit=0 exists=False",
+   "detail": ""
+  },
+  {
+   "case": "C1 export writes a bundle",
+   "verdict": "PASS",
+   "expected": "archive + manifest + checksums",
+   "actual": "exit=0 landed=['SHA256SUMS', 'bundle.tar.gz', 'export_manifest.json']",
+   "detail": ""
+  },
+  {
+   "case": "C2 independent recompute",
+   "verdict": "PASS",
+   "expected": "every member sha+size equals the manifest; archive sha re-derived; present in SHA256SUMS",
+   "actual": "rows=71 members=71 bad=[] archive_sha=True sums=True",
+   "detail": ""
+  },
+  {
+   "case": "C3 dry-run zero writes",
+   "verdict": "PASS",
+   "expected": "export --dry-run creates nothing",
+   "actual": "exit=0 exists=False",
+   "detail": ""
+  },
+  {
+   "case": "C4 no --out keeps read-only mode",
+   "verdict": "PASS",
+   "expected": "read-only manifest projection that says it wrote nothing",
+   "actual": "exit=0 mode=READ_ONLY_MANIFEST wrote_nothing=True",
+   "detail": ""
+  },
+  {
+   "case": "C5 FALSIFY planted secret",
+   "verdict": "PASS(held)",
+   "expected": "a planted credential blocks the export and leaves zero artefacts",
+   "actual": "exit=2 artifacts=[] out={\n \"code\": \"EXPORT_SECRET_SCAN\",\n \"message\": \"secret scan found 2 hits\",\n \"verdict\": \"FAIL\"\n}\n",
+   "detail": ""
+  },
+  {
+   "case": "D1 install purity",
+   "verdict": "PASS",
+   "expected": "installed module resolves out of site-packages with 19 families",
+   "actual": "exit=0 mod=atch\\r5-ao\\uat\\venv\\Lib\\site-packages\\pipd_ls_sp\\__init__.py fam=19",
+   "detail": ""
+  },
+  {
+   "case": "D2 two-process replay",
+   "verdict": "PASS",
+   "expected": "identical canonical hash across two fresh processes",
+   "actual": "hashes=['c1af2963133c7e69c53db774778a5ff697c9ad262e5e03daa368bb6415b0131b', 'c1af2963133c7e69c53db774778a5ff697c9ad262e5e03daa368bb6415b0131b']",
+   "detail": ""
+  },
+  {
+   "case": "E1 maker==checker refused",
+   "verdict": "PASS",
+   "expected": "self-attestation is rejected",
+   "actual": "exit=2 out={\n \"code\": \"TQ_SOD\",\n \"message\": \"maker must not be the independent checker (case/whitespace-insensitive)\",\n \"verdict\": \"FAIL\"\n}\n",
+   "detail": ""
+  },
+  {
+   "case": "E2 product tree untouched by the checker",
+   "verdict": "PASS",
+   "expected": "checker writes only under its scratch",
+   "actual": "src canary=60621cc34b4ba5d7…",
+   "detail": ""
+  }
+ ],
+ "seconds": 27.6,
+ "verdict": "PASS_CHECK_DETERMINISTIC"
+}

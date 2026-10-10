@@ -1,0 +1,28 @@
+{
+  "schema": "PIPD-LANE-INCIDENT/1",
+  "lane": "R5-WO3 (WO-S4-EXPORT-003)",
+  "image": "pipd-r4-writer:4",
+  "observed_window": "2026-10-10T03:05Z..03:39Z",
+  "outcome": "lane terminated by the orchestrator at 03:39Z while stalled; the WriteSet it had already produced was independently verified on the host and completed by a two-line orchestrator fix",
+  "block_evidence": {
+    "class_A_websocket_fallback": {"count": 1, "detail": "Reconnecting 2/5..5/5 at lane start (the /v1/responses WS probe 404s, codex falls back to HTTPS). Same benign event as WO1/WO2."},
+    "class_B_apply_patch_verification": {"count": 2, "detail": "invalid hunk header; codex re-issued the patch itself and succeeded. Not a stall."},
+    "class_C_provider_429": {"count": 1, "detail": "the host bridge logged exactly one upstream 429 (bridge.log: 'POST /v1/responses HTTP/1.1\" 429'). Immediately after it the lane emitted 'Reconnecting... 1/5' at 03:32Z and produced NO further output for ~7 minutes (log frozen at 1,140,233 bytes, no bridge traffic, container still Up)."},
+    "class_D_exec_policy_rejection": {"count": 1, "detail": "the image's own exec guard rejected a 'rm -rf <dir> && mkdir -p' probe ('rm -f style commands are not permitted'). This is the lane's fail-closed policy working, not a block."}
+  },
+  "threshold_decision": {
+    "rule": "remediate or pause when the SAME abnormal block class repeats more than 4 times, counting per class",
+    "counts": {"websocket_fallback": 1, "apply_patch": 2, "http_429": 1, "exec_policy_rejection": 1},
+    "verdict": "no class exceeded 4 occurrences",
+    "action_taken": "the lane was stopped anyway, under the separate 'task running > 10 minutes with a frozen log' rule: 26 minutes elapsed, zero progress for the last ~7. The stop was a remediation, not a threshold breach."
+  },
+  "remediation": [
+    "docker kill d6e8bf407d3c (the only pipd-r4-writer container)",
+    "host re-verification of the partial WriteSet: tests/test_export_bundle.py -> Ran 7 tests OK",
+    "host end-to-end export verification: export --out -> bundle.tar.gz 140,455 B + export_manifest.json (71 files) + SHA256SUMS; independent re-unpack matched 71/71 member sha256+size and the archive sha256 re-computed identical; export --out --dry-run wrote nothing and created no directory",
+    "orchestrator fix (2 lines, disclosed): the read-only branch of `export` now reports wrote_nothing/dry_run, restoring the pre-existing tools/cli_surface_check.py 'dry_run_export' surface that WO3 had left red",
+    "lane NOT restarted: the work product was complete and verified, so a re-run would have re-written the same files for no gain"
+  ],
+  "disclosure": "The WO3 lane did not reach its own final self-check phase. Every claim about the export path above therefore rests on orchestrator-run host verification, not on the lane's self-report, and is recorded as Maker-side evidence only (claim ceiling S4_REPAIR_CANDIDATE_LOCAL_TESTED).",
+  "provider_note": "The single 429 was transient (the following /v1/models probe returned 200 and the bridge has since served only 200s). No model switch was performed: this round's PLAN/EXECUTE/VERIFY lanes are pinned by the user's order to opencode-go/deepseek-v4.1-flash, and the declared fallback for the EXECUTE lane is recorded as RETIRED in the lane registry, so switching would have had no reachable target."
+}

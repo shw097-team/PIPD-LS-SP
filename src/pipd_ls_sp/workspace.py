@@ -90,7 +90,8 @@ def export_manifest(root: Path, *, include: list[str] | None = None) -> dict[str
             "secret_scan": scan["verdict"]}
 
 
-def project_surfaces(root: Path, out: Path) -> dict[str, Any]:
+def project_surfaces(root: Path, out, *, authorized_roots=None,
+                     allow_replace=None) -> dict[str, Any]:
     """R-AUD-015 repair: delegate to the typed projection IR.
 
     This function previously wrote a hardcoded five-file site UI pack plus marker-only host stubs
@@ -99,10 +100,14 @@ def project_surfaces(root: Path, out: Path) -> dict[str, Any]:
     typed IR implementation in `projection` is now the single source: it compiles every artifact
     from canonical objects + profile + adapter mapping, so a stub cannot be produced here, and the
     13-command CLI can no longer overwrite dist/web with a marker pack.
+
+    R5-WO1 (REQ-PIPD-R5-DEST-001): the destination is resolved fail-closed and published by
+    staging + atomic replace, so a caller-supplied `--out` can no longer delete an unintended tree.
     """
     from . import projection as _projection
 
-    return _projection.project_surfaces(root, out)
+    return _projection.project_surfaces(root, out, authorized_roots=authorized_roots,
+                                        allow_replace=allow_replace)
 
 def doctor(root: Path) -> dict[str, Any]:
     findings = []

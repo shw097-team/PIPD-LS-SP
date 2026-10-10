@@ -1,0 +1,120 @@
+{
+ "schema": "PIPD-FAR-EVIDENCE-S2PERF/1",
+ "generated_utc": "2026-10-10T04:37:13Z",
+ "artefact": {
+  "pi_bytes": 334778,
+  "atoms": 237,
+  "trace_rows": 237,
+  "bytes_per_atom": 1412.6,
+  "budget_bytes": 20000,
+  "implied_atom_capacity_at_today_density": 14.2,
+  "ratio_over_budget": 16.74
+ },
+ "composition": {
+  "stable_semantic_contract": 212564,
+  "atoms": 189497,
+  "sources": 22520,
+  "trace": 121581
+ },
+ "atoms_field_bytes": {
+  "risk_guard": 64492,
+  "source_clause": 47375,
+  "content_hash": 15642,
+  "acceptance_cue": 8189,
+  "req_id": 6162,
+  "subject_id": 5451,
+  "schema_version": 4503,
+  "owner": 2133,
+  "version": 711
+ },
+ "trace_field_bytes": {
+  "content_hash": 15642,
+  "from_hash": 15642,
+  "to_hash": 15642,
+  "rationale": 10665,
+  "to_id": 5451,
+  "subject_id": 4977,
+  "from_id": 4977,
+  "to_type": 4029,
+  "schema_version": 3081,
+  "from_type": 1896,
+  "version": 711
+ },
+ "clause_text_copies_bytes": {
+  "source_clause.text": 6755,
+  "risk_guard.oracle.predicate": 6755,
+  "risk_guard.failure_condition": 10085
+ },
+ "clause_text_copies_total": 23595,
+ "reduction_projection": {
+  "note": "computed by transforming the real artefact; a projection, not a shipped change",
+  "A_drop_inline_clause_text": 325653,
+  "B_plus_hoist_row_invariants": 282993,
+  "C_plus_short_hash_ids": 263653,
+  "cumulative_saving_bytes": 71125,
+  "cumulative_saving_pct": 21.2,
+  "distinct_hashes": 475,
+  "hash_table_bytes": 36575,
+  "floor_still_over_budget_x": 13.2
+ },
+ "perf_rows": [
+  {
+   "metric": "compile_chain_ms",
+   "value": 850.7,
+   "value_display": 850.7,
+   "budget": 2000,
+   "measurement": "wall-clock perf_counter around intake->compile_pi->bind_pd->compile_construction_contract->compile_ecp->compile_tqaep, ms",
+   "denominator": "",
+   "source_of_truth": "UNPROVENANCED",
+   "exceeded": false,
+   "verdict": "UNDECIDABLE",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
+  },
+  {
+   "metric": "validate_19_contracts_ms",
+   "value": 1.9,
+   "value_display": 1.9,
+   "budget": 3000,
+   "contracts": 19,
+   "measurement": "wall-clock perf_counter loading every registry family schema, ms",
+   "denominator": "19 registry families (registry.json)",
+   "source_of_truth": "UNPROVENANCED",
+   "exceeded": false,
+   "verdict": "UNDECIDABLE",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
+  },
+  {
+   "metric": "cli_cold_start_ms",
+   "value": 116.6,
+   "value_display": 116.6,
+   "budget": 6000,
+   "measurement": "wall-clock perf_counter of `python -B -m pipd_ls_sp.cli --help` in a fresh interpreter, ms",
+   "denominator": "",
+   "source_of_truth": "UNPROVENANCED",
+   "exceeded": false,
+   "verdict": "UNDECIDABLE",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
+  },
+  {
+   "metric": "context_bytes_per_artefact",
+   "value": 343547,
+   "value_display": 343547,
+   "budget": 20000,
+   "sizes": {
+    "pi": 343547,
+    "pd": 2288,
+    "cc": 442,
+    "ecp": 528,
+    "tqaep": 109888
+   },
+   "measurement": "max of len(json.dumps(artefact)) in UTF-8 bytes over PI/PD/CC/ECP/TQAEP",
+   "denominator": "one artefact (bytes per artefact, not per atom)",
+   "source_of_truth": "UNPROVENANCED",
+   "exceeded": true,
+   "verdict": "FAIL",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
+  }
+ ],
+ "perf_exit_code": 1,
+ "product_calls_no_llm": true
+}

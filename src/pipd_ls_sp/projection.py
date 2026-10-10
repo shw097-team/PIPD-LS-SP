@@ -30,12 +30,16 @@ from __future__ import annotations
 
 import ast
 import json
+import os
 import re
+import secrets
 import shutil
 from dataclasses import asdict, dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from .errors import PipdError
 from .util import canonical_json, sha256_file, sha256_text
 
 SCHEMA_IR = "PIPD-PROJECTION-IR/1"
@@ -52,6 +56,8 @@ UI_KIND = "OPTIONAL_SITE_UI"
 UI_FILES = ("index.html", "app.js", "styles.css", "manifest.webmanifest", "README.md")
 UI_DIR = "OPTIONAL_SITE_UI"
 IR_FILE = "PROJECTION_IR.json"
+MARKER_FILE = ".pipd-generated-surface.json"
+SCHEMA_MARKER = "PIPD-GENERATED-SURFACE/1"
 
 TYPE_VOCAB = {"string", "integer", "number", "boolean", "object", "array", "enum"}
 
@@ -125,6 +131,19 @@ class WrongWebSet(ProjectionError):
     mutation = "MUT-WEB-WRONGSET"
 
 
+class UnsafeDestination(ProjectionError, PipdError):
+    """A caller-supplied `--out` destination that must never be deleted/overwritten.
+
+    R5-WO1 (REQ-PIPD-R5-DEST-001): the resolver refuses repo roots, the cwd,
+    $HOME, filesystem roots, source ancestors/descendants, MSYS/POSIX absolute
+    forms, symlink escapes and foreign directories BEFORE any filesystem
+    mutation. It is both a ProjectionError (for the gates) and a PipdError (so
+    the CLI renders a typed JSON envelope with exit code 2).
+    """
+    code = "UNSAFE_DESTINATION"
+    mutation = "MUT-UNSAFE-DESTINATION"
+
+
 class DenominatorLeak(ProjectionError):
     code = "DENOMINATOR_LEAK"
     mutation = "MUT-WEB-WRONGSET"
@@ -158,6 +177,193 @@ class ParityMismatch(ProjectionError):
 class UnknownSourceObject(ProjectionError):
     code = "UNKNOWN_SOURCE_OBJECT"
     mutation = "MUT-HOST-UNKNOWN-SOURCE"
+
+
+# ---------------------------------------------------------------- destination safety
+
+def _norm_key(path: Path) -> str:
+    return os.path.normcase(os.path.abspath(str(path)))
+
+
+def _is_within(resolved: Path, base: Path) -> bool:
+    """True when `resolved` is strictly inside `base` (not equal)."""
+    base_key = _norm_key(base)
+    return _norm_key(resolved).startswith(base_key.rstrip("\\/") + os.sep)
+
+
+def _looks_like_msys_posix(raw: str) -> bool:
+    """A leading '/' that is NOT a UNC path.
+
+    On this Windows host a POSIX/MSYS path such as `/c/Users/...` or `/tmp/x`
+    resolves to a *drive-relative* path (`C:\\c\\Users\\...`) - a silently
+    reinterpreted, wrong target. UNC paths (`\\\\server\\share`) are the one
+    legitimate leading-slash form and are allowed through.
+
+    On a POSIX host a leading '/' is a normal absolute path, so only the MSYS
+    drive form (`/c/...`) is flagged there, and only when `/<letter>` is not a
+    real top-level directory (a genuine `/tmp`, `/w`, ... stays legitimate).
+    """
+    if not raw.startswith("/"):
+        return False
+    if raw.startswith("//"):
+        return False  # UNC path
+    if os.name == "nt":
+        return True
+    m = re.match(r"^/([A-Za-z])(?:/|$)", raw)
+    if not m:
+        return False
+    return not Path("/" + m.group(1)).exists()
+
+
+def resolve_output_destination(root: Path, out, *, authorized_roots=None,
+                               allow_replace=None) -> Path:
+    """Fail-closed resolution of a caller-supplied projection destination.
+
+    Every refusal below happens BEFORE any create/delete on disk. The returned
+    path is the resolved target; the caller stages into a sibling and publishes
+    atomically. `allow_replace=None` means True for trusted in-process callers
+    (authorized_roots is None) and False for the user-facing CLI (authorized
+    roots supplied). Raises `UnsafeDestination` (a typed PipdError) on refusal.
+    """
+    root_resolved = Path(root).expanduser().resolve(strict=False)
+
+    if out is None:
+        raise UnsafeDestination("no destination was supplied: --out is required "
+                                "(refusing before any filesystem mutation)")
+    raw = out if isinstance(out, str) else str(out)
+    if not raw.strip():
+        raise UnsafeDestination(f"refusing an empty/whitespace destination {raw!r} "
+                                "(reason: blank --out)")
+    if _looks_like_msys_posix(raw.strip()):
+        raise UnsafeDestination(
+            f"refusing the MSYS/POSIX-style absolute destination {raw!r}: on this Windows host "
+            "a leading '/' (other than a UNC path) resolves to a wrong drive-relative path "
+            "(e.g. /c/Users -> C:\\c\\Users); provide a native path or a UNC path")
+
+    resolved = Path(raw).expanduser().resolve(strict=False)
+    resolved = _verify_destination(root_resolved, resolved, authorized_roots=authorized_roots)
+    key = _norm_key(resolved)
+
+    # Symlink/junction/reparse escape: resolve the real target of an existing
+    # link and re-check that it has not left the candidate region.
+    try:
+        real = resolved.resolve(strict=True)
+    except (OSError, RuntimeError):
+        real = resolved
+    if _norm_key(real) != key:
+        _verify_destination(root_resolved, real, authorized_roots=authorized_roots,
+                            report=resolved, label_suffix=" (via a symlink/junction)")
+
+    # Preexisting data: a non-empty directory (or a file) is refused unless
+    # replacement is explicitly allowed.
+    if allow_replace is None:
+        allow_replace = authorized_roots is None
+    if not allow_replace and resolved.exists():
+        if resolved.is_dir() and any(resolved.iterdir()):
+            raise UnsafeDestination(
+                f"refusing destination {resolved} — it is a pre-existing non-empty directory; "
+                "pass --allow-replace to overwrite it (the previous tree is kept as a backup)")
+        if resolved.is_file():
+            raise UnsafeDestination(
+                f"refusing destination {resolved} — it is an existing file; pass "
+                "--allow-replace to overwrite it")
+
+    return resolved
+
+
+def _verify_destination(root_resolved: Path, target: Path, *, authorized_roots=None,
+                        report: Path | None = None, label_suffix: str = "") -> Path:
+    """Containment/authorization check for a resolved target.
+
+    Shared by the initial resolution and the immediate-pre-publish TOCTOU
+    re-check. Raises `UnsafeDestination` on any violation. Never touches disk.
+    """
+    shown = report if report is not None else target
+    tkey = _norm_key(target)
+
+    try:
+        cwd = Path.cwd()
+    except OSError:
+        cwd = None
+
+    denied: list[tuple[str, str]] = []
+    if cwd is not None:
+        denied.append(("the current working directory", _norm_key(cwd)))
+    try:
+        denied.append(("the user home directory ($HOME)", _norm_key(Path.home())))
+    except (OSError, RuntimeError):
+        pass
+    denied.append(("the filesystem/drive root", _norm_key(Path(target.anchor))))
+    denied.append(("the source root", _norm_key(root_resolved)))
+    denied.append(("the repository .git directory", _norm_key(root_resolved / ".git")))
+    for anc in root_resolved.parents:
+        denied.append((f"an ancestor of the source root ({anc})", _norm_key(anc)))
+
+    for label, bad_key in denied:
+        if bad_key and tkey == bad_key:
+            raise UnsafeDestination(
+                f"refusing destination {shown}{label_suffix} — it is {label}; a generated "
+                "surface may never be the repo, its ancestors, the cwd, $HOME or a root")
+    if tkey == _norm_key(root_resolved) or _is_within(root_resolved, target):
+        raise UnsafeDestination(
+            f"refusing destination {shown}{label_suffix} — the source root {root_resolved} is "
+            "at or below it, so publishing would delete the source tree")
+    if cwd is not None and (tkey == _norm_key(cwd) or _is_within(cwd, target)):
+        raise UnsafeDestination(
+            f"refusing destination {shown}{label_suffix} — it contains the current working "
+            "directory; publishing would delete the caller's cwd")
+
+    if authorized_roots:
+        auth = [Path(a).expanduser().resolve(strict=False) for a in authorized_roots]
+        if not any(tkey == _norm_key(a) or _is_within(target, a) for a in auth):
+            raise UnsafeDestination(
+                f"refusing destination {shown}{label_suffix} — it is outside every authorized "
+                f"root {[str(a) for a in auth]}")
+    return target
+
+
+def _generate_marker(root: Path, ir: dict) -> dict[str, Any]:
+    """Marker content. `generated_at` is derived deterministically from the
+    newest canonical source mtime, so an identical source state yields a
+    byte-identical marker (the byte-determinism contract)."""
+    latest = 0.0
+    for ref in ir.get("source_index", []):
+        sp = str(ref.get("source_path", "")).split("#", 1)[0]
+        if not sp:
+            continue
+        try:
+            latest = max(latest, (Path(root) / sp).stat().st_mtime)
+        except OSError:
+            continue
+    generated_at = datetime.fromtimestamp(latest, timezone.utc).isoformat()
+    return {
+        "schema": SCHEMA_MARKER,
+        "source_root": str(Path(root).expanduser().resolve(strict=False)),
+        "generated_at": generated_at,
+    }
+
+
+def _publish_staged(stage: Path, target: Path) -> tuple[bool, str | None]:
+    """Atomic publish of a fully-written staged tree into `target`.
+
+    1. if the target exists, rename it to `<target>.pipd-backup-<token>` (kept);
+    2. os.replace(stage, target);
+    3. on any failure after step 1, restore the backup to the original name.
+    Returns (replaced, rollback_pointer).
+    """
+    replaced = target.exists()
+    backup: Path | None = None
+    if replaced:
+        token = secrets.token_hex(8)
+        backup = target.with_name(f"{target.name}.pipd-backup-{token}")
+        os.replace(target, backup)
+    try:
+        os.replace(stage, target)
+    except OSError:
+        if backup is not None and backup.exists() and not target.exists():
+            os.replace(backup, target)
+        raise
+    return replaced, (str(backup) if backup is not None else None)
 
 
 # ---------------------------------------------------------------- adapter mapping
@@ -1042,42 +1248,90 @@ def render_ui_file(name: str) -> str:
 
 # ---------------------------------------------------------------- generation
 
-def project_surfaces(root: Path, out: Path) -> dict[str, Any]:
+def project_surfaces(root: Path, out, *, authorized_roots=None,
+                     allow_replace=None) -> dict[str, Any]:
     """Regenerate the whole projection surface from canonical sources.
 
-    `out` is a generated surface: regeneration replaces it wholesale, so a
-    stale source is always regenerated and no leak survives. The output is
-    deterministic for a given source state (byte-for-byte replayable)."""
+    R5-WO1 (REQ-PIPD-R5-DEST-001): `out` is resolved through the fail-closed
+    destination resolver BEFORE any create/delete, staged into a uniquely named
+    sibling directory on the same volume, checked by the strict gates, and then
+    published by atomic replace. A caller-supplied path is never `rmtree`-ed;
+    an existing target is renamed to a kept `.pipd-backup-<token>` first.
+
+    For an identical source state the published artefacts are byte-identical to
+    the previous implementation (deterministic, replayable)."""
+    root = Path(root)
+    target = resolve_output_destination(root, out, authorized_roots=authorized_roots,
+                                        allow_replace=allow_replace)
     ir = compile_projection_ir(root)
     validate_projection_ir(ir)
-    out = Path(out)
-    if out.exists():
-        shutil.rmtree(out)
-    out.mkdir(parents=True)
 
-    web_files = []
-    for art in ir["artifacts"]:
-        if art["kind"] == WEB_DOC_KIND:
-            (out / art["path"]).write_text(render_web_doc(art), encoding="utf-8", newline="")
-            web_files.append(art["path"])
-        elif art["kind"] == HOST_KIND:
-            d = out / Path(art["path"]).parent
-            d.mkdir(parents=True, exist_ok=True)
-            (d / Path(art["path"]).name).write_text(
-                render_host_entry(art["payload"]), encoding="utf-8", newline="")
-    (out / IR_FILE).write_text(
-        json.dumps(ir, ensure_ascii=False, indent=1, sort_keys=True) + "\n",
-        encoding="utf-8", newline="")
-    ui_dir = out / UI_DIR
-    ui_dir.mkdir(parents=True, exist_ok=True)
-    for name in UI_FILES:
-        (ui_dir / name).write_text(render_ui_file(name), encoding="utf-8", newline="")
+    parent = target.parent
+    parent.mkdir(parents=True, exist_ok=True)
+    stage = parent / f".{target.name}.pipd-stage-{secrets.token_hex(8)}"
+    stage.mkdir(parents=True, exist_ok=False)
 
-    return {"verdict": "PASS", "out": str(out), "web_pack": sorted(web_files),
+    web_files: list[str] = []
+    try:
+        for art in ir["artifacts"]:
+            if art["kind"] == WEB_DOC_KIND:
+                (stage / art["path"]).write_text(render_web_doc(art), encoding="utf-8",
+                                                 newline="")
+                web_files.append(art["path"])
+            elif art["kind"] == HOST_KIND:
+                d = stage / Path(art["path"]).parent
+                d.mkdir(parents=True, exist_ok=True)
+                (d / Path(art["path"]).name).write_text(
+                    render_host_entry(art["payload"]), encoding="utf-8", newline="")
+        (stage / IR_FILE).write_text(
+            json.dumps(ir, ensure_ascii=False, indent=1, sort_keys=True) + "\n",
+            encoding="utf-8", newline="")
+        ui_dir = stage / UI_DIR
+        ui_dir.mkdir(parents=True, exist_ok=True)
+        for name in UI_FILES:
+            (ui_dir / name).write_text(render_ui_file(name), encoding="utf-8", newline="")
+        # A generated-surface marker. It is NOT a Web/Host/IR artefact and is
+        # excluded from every denominator / strict check.
+        (stage / MARKER_FILE).write_text(
+            json.dumps(_generate_marker(root, ir), ensure_ascii=False, indent=1,
+                       sort_keys=True) + "\n",
+            encoding="utf-8", newline="")
+
+        # Run the existing strict gates against the STAGED tree before publish.
+        web_check = check_web_surface(root, stage)
+        host_check = check_host_surfaces(root, stage)
+
+        # TOCTOU: re-verify containment/authorization immediately before publish
+        # (the target's own link resolution is re-checked too).
+        ver = _verify_destination(Path(root).expanduser().resolve(strict=False), target,
+                                  authorized_roots=authorized_roots)
+        try:
+            real = ver.resolve(strict=True)
+        except (OSError, RuntimeError):
+            real = ver
+        if _norm_key(real) != _norm_key(ver):
+            _verify_destination(Path(root).expanduser().resolve(strict=False), real,
+                                authorized_roots=authorized_roots, report=target,
+                                label_suffix=" (via a symlink/junction)")
+        replaced, rollback = _publish_staged(stage, target)
+    finally:
+        if stage.exists():
+            shutil.rmtree(stage, ignore_errors=True)
+
+    return {"verdict": "PASS", "out": str(target), "web_pack": sorted(web_files),
             "web_count": f"{len(web_files)}/5",
             "hosts": {surface: spec["dir"] for surface, spec in ADAPTER_MAPPING["hosts"].items()},
             "optional_site_ui": {"files": list(UI_FILES), "denominator": False},
-            "projection_parity_sha256": ir["projection_parity_sha256"]}
+            "projection_parity_sha256": ir["projection_parity_sha256"],
+            "destination": {
+                "resolved": str(target),
+                "authorized_roots": [str(Path(a)) for a in authorized_roots]
+                                    if authorized_roots else [],
+                "replaced": replaced,
+                "rollback_pointer": rollback,
+                "staged": str(stage),
+            },
+            "web_check": web_check["verdict"], "host_check": host_check["verdict"]}
 
 
 # ---------------------------------------------------------------- checks
@@ -1427,7 +1681,10 @@ def check_web_surface(root: Path, out: Path) -> dict[str, Any]:
 
     expected_top = set(WEB_DOC_FILES) | {IR_FILE, UI_DIR} \
         | {spec["dir"] for spec in ADAPTER_MAPPING["hosts"].values()}
+    # The generated-surface marker is not a Web/Host/IR artefact: it never
+    # appears in the denominator or the strict set equality.
     present_top = {p.name for p in out.iterdir()} if out.is_dir() else set()
+    present_top.discard(MARKER_FILE)
     if present_top != expected_top:
         failures.append(_fail(WrongWebSet,
                               f"web surface set mismatch: expected {sorted(expected_top)}, "

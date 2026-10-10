@@ -1,0 +1,178 @@
+{
+  "schema": "PIPD-R5-S4-FINDING-LEDGER/1",
+  "round": "R5-20261009-s4-user-operability",
+  "as_of": "2026-10-10T03:35:00Z",
+  "claim_ceiling": "S4_REPAIR_CANDIDATE_LOCAL_TESTED",
+  "counting_rule": "closed / conditional / deferred / owner_pending / blocked / out_of_scope are DISJOINT states. They are never summed into a '10/10 PASS'. Only 'closed' means the finding's own retest passed on the frozen candidate.",
+  "rows": [
+    {
+      "finding": "F-R4-S4-01",
+      "alias": "S4-USER-SEC-001",
+      "class": "CONFIRMED_DEFECT",
+      "priority": "P0",
+      "substance": "project_surfaces() ran shutil.rmtree(out) on a caller-supplied --out before any validation; pipd project --out <any> could delete the repo root, cwd or home",
+      "owner": "PIPD-EC / Surface projection",
+      "workorder": "WO-S4-DEST-001",
+      "disposition": "closed",
+      "evidence": [
+        "src/pipd_ls_sp/projection.py: resolve_output_destination + UnsafeDestination(code=UNSAFE_DESTINATION); staged sibling -> backup rename -> os.replace; no rmtree of a caller path",
+        "src/pipd_ls_sp/cli.py: project gains --allow-root/--allow-replace; --out never ignored; --dry-run runs the same resolver",
+        "tests/test_project_destination_safety.py (17 tests) — container lane exit 0",
+        "host re-verification: --out . -> UNSAFE_DESTINATION exit 2; --dry-run --out /c/anything -> UNSAFE_DESTINATION exit 2; positive control -> 5 Web + 3 Host + IR with no stage residue; second run refused (non-empty); --allow-replace -> replaced=true with rollback pointer out.pipd-backup-1cf416fc5bc38b8d"
+      ],
+      "residual": "none for the S4 user path"
+    },
+    {
+      "finding": "F-R4-S4-02",
+      "alias": "S4-USER-DIST-002",
+      "class": "CONFIRMED_DEFECT",
+      "priority": "P0",
+      "substance": "the published wheel was the R2 build (candidate_head=829c17e, 60,980 B, no requirements.py/repo_context.py/projection.py, no schemas); registry._root() resolved outside the package so an installed CLI could not load its registry",
+      "owner": "PKG-08 / Release packaging",
+      "workorder": "WO-S4-DIST-002",
+      "disposition": "closed",
+      "evidence": [
+        "src/pipd_ls_sp/registry.py: $PIPD_SCHEMAS_DIR -> importlib.resources.files('pipd_ls_sp')/'schemas' -> source-tree fallback; typed ValidationFail naming every location tried",
+        "dist/pipd_ls_sp-0.1.0-py3-none-any.whl rebuilt: 197,647 B, sha256 0e23db8899d19e33cfe0e53b38fd8cd478d7dc3a7ea5420eab6c17aa3d1135dd, 37 members, 12 modules, 19 schemas + registry.json",
+        "dist/WHEEL_MANIFEST.json: candidate_head 7c5bc585c7d889cd338da853be4efc4b8f07d3b2 (was 829c17e...), member_count 37, product_digest dd2fbe69100624e30873ff983c4a8c89cc2abc83bf8c7e9fbe7f4307943d84a9",
+        "tests/test_wheel_distribution.py (5 tests) — container lane exit 0; two builds byte-identical",
+        "tools/portable_install_check.py 14/14 PASS (installed registry self-sufficient; import resolves outside the source checkout; packaged registry removed -> typed failure)"
+      ],
+      "residual": "the jsonschema runtime dependency is NOT installable offline; recorded as a typed, declared limitation (see evidence master)"
+    },
+    {
+      "finding": "F-R4-S4-03",
+      "alias": "S4-USER-EXPORT-003",
+      "class": "CONFIRMED_DEFECT",
+      "priority": "P1",
+      "substance": "cli.py export ignored args.out; workspace.export_manifest only returned an in-memory dict, so pipd export --out wrote nothing while --dry-run claimed it would",
+      "owner": "PIPD-EC CLI / export",
+      "workorder": "WO-S4-EXPORT-003",
+      "disposition": "closed",
+      "evidence": [
+        "src/pipd_ls_sp/export_bundle.py (new module): plan()/write_bundle(), deterministic member ordering, per-member rel/size/sha256, archive + export_manifest.json + SHA256SUMS, staged publish through the shared resolver, secret scan first",
+        "src/pipd_ls_sp/cli.py: `export --out` writes the bundle; `--dry-run` reports the would-write set and creates nothing; no `--out` keeps an explicitly named READ_ONLY_MANIFEST mode",
+        "tests/test_export_bundle.py (7 tests) OK",
+        "host end-to-end: export --out -> bundle.tar.gz 140,455 B + export_manifest.json (71 files) + SHA256SUMS; independent re-unpack matched 71/71 member sha256+size and the archive sha256 re-derived identical; export --out --dry-run created no directory",
+        "independent deterministic checker C1-C5: PASS, including the planted-secret falsification (exit 2 EXPORT_SECRET_SCAN, zero artefacts)"
+      ],
+      "residual": "the secret scanner walks the whole repo root, so a credential-shaped literal anywhere in the tree blocks export; recorded as OBS-01 for the owner, deliberately not weakened"
+    },
+    {
+      "finding": "F-R4-S4-04",
+      "class": "EVIDENCE_GAP",
+      "priority": "P1",
+      "substance": "no end-user acceptance matrix bound to the same frozen subject the wheel is built from; --help smoke was standing in for a functional test",
+      "owner": "TQAEP / non-Maker checker",
+      "workorder": "WO-S4-UAT-004",
+      "disposition": "closed_pending_llm_checker",
+      "evidence": [
+        ".hgk/rounds/R5-20261009-s4-user-operability/uat/uat_matrix.py — 13 cases x source+install; 25 PASS, 0 FAIL, 2 INFO (UAT-ENV provisioning record; UAT-10 source N/A)",
+        "raw per-run stdout/stderr/exit/argv: uat/RAW_RUNS.jsonl",
+        "install mode is not a substitute for source mode and vice versa: both columns are reported separately",
+        "independent deterministic checker D1/D2: install purity (module resolves out of site-packages, 19 families) and two-fresh-process replay with identical canonical hash",
+        "LLM checker lane could not complete (provider 429); no INDEPENDENT_PASS is claimed"
+      ],
+      "residual": "no LLM-grade independent acceptance; the deterministic checker is explicitly graded lower"
+    },
+    {
+      "finding": "F-R4-S2-05",
+      "class": "EVIDENCE_GAP + GATE FAIL",
+      "priority": "P1",
+      "substance": "context_bytes_per_artefact 343,547 > 20,000 with unprovenanced thresholds",
+      "owner": "perf / canonical budget owner",
+      "workorder": "WO-S2-PERF-005",
+      "disposition": "closed_by_owner_adjudication",
+      "ruling": "docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json — S2_BUDGET_DEFINITION = PER_ATOM_BYTES(2000); timing rows ADVISORY; S2_HISTORICAL_FAIL = PRESERVE; S2_REGRESSION_GUARD = ADD",
+      "evidence": [
+        ".hgk/rounds/R5-20261009-s4-user-operability/ledger/perf_check.txt — measurements: compile_chain_ms 827.9/2000 (UNDECIDABLE), validate_19_contracts_ms 1.9/3000 (UNDECIDABLE), cli_cold_start_ms 111.9/6000 (UNDECIDABLE), context_bytes_per_artefact 343547/20000 -> exceeded=true, verdict=FAIL, source_of_truth=UNPROVENANCED",
+        "tools/perf_budget.py --check exit 1, failed=['context_bytes_per_artefact']",
+        "EXECUTED 2026-10-10 (owner adjudication): the deciding row is now the scale-invariant rate bytes_per_atom at 1,449.6 / 2,000; the three timing rows and the old absolute row are ADVISORY (voting=False) and are still measured and printed",
+        "the historical FAIL 343,547 > 20,000 is preserved verbatim as a non-voting ADVISORY row and re-emitted in every run's historical.preserved_fails block — never rewritten",
+        "a frozen-baseline regression guard was added (bytes_per_atom must not grow beyond 10% of .hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json); --check never writes, only --freeze-baseline does",
+        "tests/test_perf_budget.py extended to 9 tests, incl. an end-to-end assertion that the preserved FAIL stays visible and that the rate decides; host suite 290 tests OK",
+        "no numeric threshold was raised or lowered; the artefact is byte-identical (334,778 B before and after)"
+      ],
+      "honest_reading": "G-S2-LOCAL now passes because the DEFINITION was re-specified by the owner, NOT because the artefact improved. Any report of this state must say so.",
+      "residual": "G-S2-LOCAL is decided under the ratified definition (PER_ATOM_BYTES 2000) and the historical FAIL stays visible. The lossless dedup measured by the FAR (the same clause text stored three times, 23,595 B; row-constant repetition) is DEFERRED as a refactor and is explicitly NOT sold as closing any budget: it would change the artefact contract and every consumer."
+    },
+    {
+      "finding": "F-R4-PUB-06",
+      "class": "EVIDENCE_GAP",
+      "priority": "P1",
+      "substance": "R4 branch cd8a06e was never bound to a publication projection; the historical R3 attestation still points at 3aebbbc; publication_manifest --check --current exited 1",
+      "owner": "Evidence / publication owner",
+      "workorder": "WO-R4-PUBLISH-006",
+      "disposition": "blocked",
+      "evidence": [
+        ".hgk/ao/pub/PUBLICATION_PROJECTION_MANIFEST.json and PUBLICATION_SUBJECT_ATTESTATION.json (pre-existing)",
+        "no remote is configured for C:/Projects/Agent_Workspace/PIPD and the externally reviewed GitHub commit cd8a06e4c066a40398a4012b7b3908ac11408a2b is NOT present in the local object store, so the reviewed subject cannot be reproduced locally"
+      ],
+      "residual": "EVIDENCE_GAP: a publication attestation for THIS candidate can only bind the local frozen tree 7c5bc585c7d889cd338da853be4efc4b8f07d3b2, which is not the reviewed subject."
+    },
+    {
+      "finding": "F-R4-HARNESS-07",
+      "class": "CONFIRMED_DEFECT (historical incident) + conditional",
+      "priority": "P1",
+      "substance": "orchestration used MSYS /c/... paths that landed as wrong native paths; a tokenized git URL reached an unintended .git/config for ~3 minutes",
+      "owner": "HGK / Hermes executor owner",
+      "workorder": "WO-HGK-ORCH-007",
+      "disposition": "conditional",
+      "evidence": [
+        "this round's lanes run in the egress-locked container pipd-r4-writer:4 with no git binary and no credentials, so no .git/config can be written and no token can reach a remote",
+        "the product CLI itself now refuses the MSYS form typed (UNSAFE_DESTINATION) — verified: project --dry-run --out /c/anything -> exit 2",
+        "the orchestrator's own host-side docker mount arguments use C:/... native forms"
+      ],
+      "residual": "the HGK/Hermes native command boundary hardening is an S5-live dependency and is NOT claimed as repaired here."
+    },
+    {
+      "finding": "F-R4-TRACE-08",
+      "class": "EVIDENCE_GAP",
+      "priority": "P2",
+      "substance": "the 57-row SPEC/DEL crosswalk's EVIDENCED mark means an artefact/oracle PATH exists, not that the clause is behaviourally verified",
+      "owner": "SPEC / DEL owner",
+      "workorder": "cross-cutting",
+      "disposition": "deferred",
+      "evidence": [
+        "docs/SPEC_DEL_CROSSWALK.json — 57 rows, preserved baseline 42 EVIDENCED / 11 EVIDENCE_GAP / 4 DESIGN_ONLY",
+        "this round did not re-mark any row"
+      ],
+      "residual": "only the S4-affected rows are touched by this round's evidence; the remaining gaps stay EVIDENCE_GAP / DESIGN_ONLY."
+    },
+    {
+      "finding": "F-R4-GOV-09",
+      "class": "EVIDENCE_GAP",
+      "priority": "P2",
+      "substance": "22 TT / 18 blocking; knowledge physical index 153/160; 22 technologies with 0/22 source-pins",
+      "owner": "governance / knowledge owner",
+      "workorder": "cross-cutting",
+      "disposition": "deferred",
+      "evidence": [
+        ".hgk/artifacts/TT_REGISTER.json — count 22, blocking_count 18, status_summary {closed 1, partial 2, partial_closed 1, temp_closed 1, open 16, open_owner_gate 2, unknown 0}, as_of_round R3-20261009-audit-repair",
+        "no S4 dependency required enabling any of the 22 un-pinned technologies; none was enabled by this round"
+      ],
+      "residual": "the S4 path itself depends only on stdlib + jsonschema + the in-repo schemas, so the global 153/160 and 0/22 pins do not block it; they remain open."
+    },
+    {
+      "finding": "F-R4-RELEASE-10",
+      "class": "OUT_OF_SCOPE",
+      "priority": "n/a",
+      "substance": "no licence grant; Human RELEASE and PRE-W3 owners have not signed",
+      "owner": "human / HGK",
+      "workorder": "none",
+      "disposition": "out_of_scope",
+      "evidence": ["OWNER_LICENSE_DECISION.yaml present; LICENSE = LicenseRef-PIPD-Proprietary"],
+      "residual": "RELEASE / INDEPENDENT_PASS / PRODUCTION are NOT claimed by this round. PRE-W3 stays independently TEMP_CLOSED."
+    }
+  ],
+  "tally": {
+    "closed": 2,
+    "in_progress_at_ledger_write": 2,
+    "owner_pending": 1,
+    "blocked": 1,
+    "conditional": 1,
+    "deferred": 2,
+    "out_of_scope": 1,
+    "note": "10 rows total; the tally is a disposition census, not a pass count."
+  }
+}

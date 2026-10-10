@@ -1,0 +1,66 @@
+{
+  "schema": "PIPD-FAR-EVIDENCE/1",
+  "far_id": "FAR-PIPD-R5S4-GAPCLOSURE-001",
+  "question": "Whether all current gaps/defects can be closed so an external acceptance officer can perform S4-level acceptance, and what the owner must additionally do or authorise. Or whether S4-level is impossible for us.",
+  "issued_utc": "2026-10-10T06:10Z",
+  "method": "live machine truth only; no credential used; product repo not modified",
+  "headline": "Not impossible. The technical blockers are dominated by one zero-credential action (git fetch + a 15-file commit) that should have been step zero. But three things are outside our authority: remote write, licence/publication scope, and the independent acceptance act itself.",
+  "measurements": {
+    "network": {"api.github.com": 200, "github.com": 200},
+    "repo_visibility": "public (anonymous read works; no PAT needed)",
+    "anonymous_ls_remote": {
+      "HEAD": "3aebbbce948871c07b875ab92acf263d298ecf38",
+      "refs/heads/main": "3aebbbce948871c07b875ab92acf263d298ecf38",
+      "refs/heads/r3-candidate": "3aebbbce948871c07b875ab92acf263d298ecf38",
+      "refs/heads/r4-candidate": "cd8a06e4c066a40398a4012b7b3908ac11408a2b",
+      "refs/pull/1/head": "cd8a06e4c066a40398a4012b7b3908ac11408a2b",
+      "refs/pull/1/merge": "0289573195c32172a67aa424319e244b0316df95"
+    },
+    "local_object_store_before_this_far": {"branches": ["master@7c5bc585c7d8", "r3-candidate@3aebbbc"], "r4_candidate_present": false, "cd8a06e_present": false},
+    "r4_candidate_is_ahead_of_main_by": {"commits": 2, "files": 135, "insertions": 48977, "deletions": 133},
+    "working_tree_equals_r4_candidate_content": {
+      "method": "sha256 of the local file vs `git show origin/r4-candidate:<path>`",
+      "identical": ["tests/test_round_envelope.py", "tools/round_envelope.py", "tools/preflight_check.py", "tests/test_tt_summary.py", "src/pipd_ls_sp/requirements.py", "tests/test_deny_list_scan.py"],
+      "conclusion": "the working tree holds the R4 candidate's content on disk, but the local history is the R3 line - content-correct but unbindable, which is exactly why every publication/attestation attempt had to fail"
+    },
+    "r5_delta_on_top_of_cd8a06e": {
+      "total_files": 15,
+      "src": ["cli.py", "errors.py", "export_bundle.py (new)", "projection.py", "registry.py", "workspace.py"],
+      "tools": ["build_dist.py", "cli_smoke.py", "cli_surface_check.py", "perf_budget.py", "portable_install_check.py"],
+      "tests": ["test_export_bundle.py", "test_perf_budget.py", "test_project_destination_safety.py", "test_wheel_distribution.py"],
+      "note": "plus rebuilt dist/*, pyproject.toml, OWNER_LICENSE_DECISION.yaml, docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json"
+    },
+    "publication_gate_mechanism": "build_publication_manifest.py needs a committed subject (--commit defaults to r3-candidate); --current FAILs while any current worktree product path is UNCOVERED",
+    "pycache_risk": "none - git status shows 0 __pycache__ entries (ignored)"
+  },
+  "closability": {
+    "closable_by_us": [
+      "G1 GitHub readback (zero credential)",
+      "G2 lineage binding to cd8a06e (fetch + one 15-file commit)",
+      "G3 publication manifest/attestation (local, after G2)"
+    ],
+    "owner_action_required": [
+      "A1 confirm an anonymous read of the public repo satisfies the normative-source requirement",
+      "A2 authorise a writable push target + a contents:write credential, or push it themselves",
+      "A3 rule on licence / publication scope (currently non-granting LicenseRef-PIPD-Proprietary)",
+      "A4 appoint a non-Maker independent checker (whose harness the Maker did not author) for the frozen tuple"
+    ],
+    "impossible_for_us_by_construction": [
+      "G10 S4-level PASS itself - it is the checker's act on a frozen subject; a Maker cannot produce its own acceptance"
+    ]
+  },
+  "answer": {
+    "is_it_possible": "Yes - not impossible. The remaining engineering is small (fetch, one commit, regenerate the publication manifest, re-run the checker on the frozen tuple).",
+    "can_we_do_it_all_ourselves": "No. Remote write, licence/publication scope, and the independent acceptance act are structurally outside our authority.",
+    "bottleneck": "the owner's four decisions, not the engineering"
+  },
+  "boundaries": {
+    "product_repo_modified": false,
+    "commits_made": 0,
+    "pushes_made": 0,
+    "credentials_read_or_used": 0,
+    "clone_location": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/far-r5s4-lineage (outside the product tree)",
+    "claim_ceiling": "FEASIBILITY_ONLY - this proves closability, not closure",
+    "must_not_be_cited_as": ["a publication authorisation", "an external acceptance", "an INDEPENDENT_PASS", "proof that the gaps are closed"]
+  }
+}

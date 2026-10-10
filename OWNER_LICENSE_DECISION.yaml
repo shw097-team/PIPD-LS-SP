@@ -7,7 +7,16 @@ subject: PIPD-LS-SP (https://github.com/shw097-team/PIPD-LS-SP)
 prepared_by: FAR-PIPD-LICENSE-001
 prepared_utc: "2026-10-09"
 current_position: LicenseRef-PIPD-Proprietary   # unlicensed review candidate; all rights reserved
-decision: UNSET                                # owner sets exactly one value below
+decision: LicenseRef-PIPD-Proprietary          # NON-GRANTING: the position is affirmed, not changed
+decided_utc: "2026-10-10"
+decided_by: "owner (instruction: 直接執行FAR研究後建議的裁決)"
+decided_basis: >-
+  FAR-PIPD-R5S4-S2PERF-LICENSE-001, recommendation R6; consistent with R4 ruling
+  A2 = ACCEPT_EXISTING_NO_LICENSE_NOTICE (which already decided this in prose while the slot
+  still read UNSET, keeping the item on every open list). GRANTS NOTHING.
+past_round_slots: >-
+  the UNSET copies under .hgk/rounds/R2-20261009-qualification/** are left byte-identical as
+  historical records; this file is the slot that governs going forward.
 allowed_values:
   - UNSET                                      # keep the current non-grant (no change required)
   - LicenseRef-PIPD-Proprietary                # keep non-grant but affirm it explicitly
@@ -27,6 +36,7 @@ downstream_edits_on_grant:
   - id: E4
     file: .hgk/artifacts/publication_binding.json
     change: record license decision receipt; PUBLICATION_APPROVED may then be reassessed by the owner
+triggered_edits: none   # the decision is non-granting, so E1-E4 are not triggered and stay as-is
 authority_note: >
   Granting a licence over the owner's material is an owner-only act. This file exists so that the act is
   one edit, not an open research question. No agent may set `decision` to a granting value on the owner's

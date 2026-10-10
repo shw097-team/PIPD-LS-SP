@@ -12,5 +12,15 @@ pipd = "pipd_ls_sp.cli:main"
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools.packages.find]
-where = ["src"]
+# NOTE (honesty): the shipped wheel is HAND-BUILT by tools/build_dist.py (PEP 427) because this
+# environment is network-off with no build backend available at build time. The declarations below
+# are not used by that offline build; they exist so any future backend-driven build produces the
+# same install-safe layout — the `schemas/` tree mapped into the package as package data.
+[tool.setuptools]
+packages = ["pipd_ls_sp"]
+package-dir = { "" = "src" }
+
+# Install-safe schema resources: registry.json + every *.schema.json travel WITH the package so an
+# installed `pipd` can resolve its contract registry without the source checkout.
+[tool.setuptools.package-data]
+pipd_ls_sp = ["schemas/*.json"]

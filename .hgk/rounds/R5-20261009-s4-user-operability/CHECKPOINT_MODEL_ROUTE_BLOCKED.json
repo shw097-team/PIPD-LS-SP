@@ -1,0 +1,139 @@
+{
+  "document_type": "LOCAL_HANDOFF_REPORT_ONLY; not an HGK schema or canonical checkpoint event",
+  "status": "BLOCKED_BEFORE_WRITER (local handoff classification)",
+  "authority": "NONCANONICAL_CANDIDATE_EVIDENCE; canonical lifecycle state/checkpoint is the typed SharedSpine record below",
+  "authoring_provenance": "Persisted by the orchestration session with file tooling after the bounded Codex writer was blocked; not written through an admitted OS-enforced writer lane.",
+  "as_of": "2026-10-09T13:50:21.902312Z",
+  "prior_checkpoint": "CHECKPOINT_PAUSED.json (historical; preserved, not overwritten)",
+  "claim_ceiling": "REPAIR_CANDIDATE_ONLY; no product repair, no UAT, no independent acceptance",
+  "governance": {
+    "control_plane": "HG-KSEOS",
+    "runtime_orchestrator": "Hermes is the runtime/orchestrator plane; config/hermes.json declares the canonical AppData Hermes v0.20.0 / v2026.8.3 binding. This declaration does not establish an R5-specific ExecutionBinding.",
+    "hermes_binding_sha256": "d3e6fb345b57d5de7a65eda0737d7e06f9790f779f54fae5ca0740bc0c22e95f",
+    "fabric_role": "governance/assurance contract surface, not a control plane",
+    "fabric_policy_consumption_for_R5": "NOT_PROVEN; the prior CHECKPOINT_PAUSED.json calls HGK doctor a policy consumption trace, but Fabric AGENTS.md requires a digest-bound policy -> consumer -> decision -> evidence trace. Existing F0 trace is for RP2 Stage-2, not this PIPD R5 round.",
+    "fabric_contract_readback": [
+      {"path": "Fabric/AGENTS.md", "sha256": "8b711085f5bb20194bbfab3b996befc13252545b519cc2fe3e4c8ceb512fcc0b"},
+      {"path": "Fabric/control/AUTHORITY_MATRIX.yaml", "sha256": "60a98bff0366b4611305d29e0f090a380630720200b0ac6cf003b7e56dcb4d3f"},
+      {"path": "Fabric/control/SOD_POLICY.yaml", "sha256": "ae98dbe31b8cdaa265e5ec2d5c07148eabd110e305ab15019bc49cb05492c984"},
+      {"path": "Fabric/control/CHANGE_CLASS_ROUTER.yaml", "sha256": "0839ead509ed269c2a7aa1c0f0cda47cc4f703008cb0c09694d3dd9bb2dec2b6"},
+      {"path": "Fabric/control/ACCEPTANCE_POLICY.yaml", "sha256": "e5405f1c105050a84b2362182cc8278f5605ab25402929eb9fb5006b8d0b70c2"},
+      {"path": "Fabric/control/PROMOTION_POLICY.yaml", "sha256": "93208664310a9891a57699f760bf0d40f5a49d093c49e4fbf5313bce277a83ae"},
+      {"path": "Fabric/control/RELEASE_POLICY.yaml", "sha256": "f53fec47178c129c8c542fdecbcf0810f611c8d88d112bb1685c353260022a35"},
+      {"path": "Fabric/assurance/EVIDENCE_CONTRACT.yaml", "sha256": "6c08b2b9cb90283d4c2638f25681bece6af86bac2c72ee895960ed973ffc8bfc"},
+      {"path": "Fabric/rp002/RP002_STAGE_CROSSWALK.yaml", "sha256": "a2b17ec01c4cddc029534ea4cd9da89849b91983bb5d072e0573981c17f1c8af"},
+      {"path": "Fabric/rp002/RP002_GATE_CATALOG.yaml", "sha256": "982483abdb9b4741475facf61e79ca1e2148f982e2c2694bbab80ec297b8ebf2"},
+      {"path": "Fabric/stage/RP002-STAGE-HGK/F0/F0_POLICY_CONSUMER_TRACE.json", "sha256": "85b830233798bf6a0f24d13ffa7e8301fbbe8e8547c1751bf08720629141f8f2", "scope": "RP2 Stage-2; not this PIPD R5 round"}
+    ],
+    "hgk_project_id": "PIPD-LS-SP-20261008",
+    "hgk_state": "EXECUTING (not transitioned)",
+    "previous_hgk_checkpoint": "CK-20261008-B1083733",
+    "current_hgk_checkpoint": "CK-20261008-BB475EDC",
+    "current_workorder_readback": null,
+    "execution_binding": "NOT_READ_BACK; do not infer from admission or Kanban",
+    "independent_acceptance": "NOT_RUN",
+    "release_or_production_authority": "NOT_GRANTED"
+  },
+  "source_subject": {
+    "repo": "C:/Projects/Agent_Workspace/PIPD",
+    "branch": "master",
+    "head": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+    "remote": "none configured",
+    "externally_reviewed_R4_commit": "cd8a06e4c066a40398a4012b7b3908ac11408a2b (not present in local git object store per prior checkpoint)",
+    "product_paths_changed_by_this_continuation": [],
+    "preexisting_dirty_product_paths_at_readback": [
+      "README.md",
+      "src/pipd_ls_sp/pipeline.py",
+      "src/pipd_ls_sp/requirements.py",
+      "tests/test_technology_admission.py",
+      "tools/admit_technologies.py",
+      "tools/perf_budget.py"
+    ],
+    "note": "These dirty paths predated this continuation; do not attribute them to R5 without a lane-window attribution."
+  },
+  "existing_admission": {
+    "artifact": ".hgk/preflight/R5-compiler/admission/r5_admission.json",
+    "requirements_frozen": 7,
+    "taskspecs": 7,
+    "workorders": 7,
+    "errors": [],
+    "compiler_receipt": ".hgk/preflight/R5-compiler/compiled/compiler-receipt.json",
+    "compiler_verdict": "PROMPT_COMPILE_PASS"
+  },
+  "model_route_readback": {
+    "current_hgk_lane_registry": {
+      "plan_primary": "openai-codex / gpt-6.1-sol",
+      "execute_primary": "opencode-go / deepseek-v4.1-flash",
+      "execute_fallback_gpt_6_luna": "openai-codex / gpt-6-luna; recorded as RETIRED in the current config",
+      "verify_primary": "opencode-go / glm-5.3-flash",
+      "verify_alternate": "openai-codex / gpt-6.1-sol",
+      "requested_verify_nvidia_nim_route": "not present in current VERIFY_SECURITY lane assignment; the matching DeepSeek NVIDIA route appears only under EXECUTE fallback chains",
+      "source": "HG-KSEOS/config/model-lane-assignment.json"
+    },
+    "plan_requested": "GPT 6.1 SOL-MEDIUM / OpenAI OAuth",
+    "active_chat_runtime": "gpt-6-luna / openai-codex (system runtime metadata only; not a Codex CLI lane invocation)",
+    "plan_probe": "Current OpenAI OAuth /v1/models catalog lists gpt-5.6-sol but not gpt-6.1-sol; no PLAN lane invocation occurred",
+    "execute_requested": "GPT-6 Luna / OpenAI OAuth / Codex CLI",
+    "execute_probe": {
+      "codex_cli": "0.147.0-alpha.6.5",
+      "command_mode": "ephemeral, read-only, no repository mounted",
+      "result": "HTTP 400 invalid_request_error: model gpt-6-luna is not supported when using Codex with a ChatGPT account",
+      "raw_evidence": ".hgk/preflight/R5-compiler/lane/gpt6luna_codex_probe_20261009.txt",
+      "sha256": "fb58d73ae86905d51700008595ca48aa63d98ff1d953a41c949958f2297089fe"
+    },
+    "verify_requested": "DeepSeek V4.1 Flash / NVIDIA NIM / Codex CLI",
+    "verify_probe": "NOT_RUN; do not claim unavailable. Current local OpenAI-compatible model catalog at 127.0.0.1:10101 listed only opencode-go/deepseek-v4.1-flash, which is a different provider route.",
+    "automatic_fallback": "NOT_AUTHORIZED"
+  },
+  "execution_surfaces": {
+    "kanban": {
+      "board": "pipd-ls-sp",
+      "swarm_root": "t_47ab1838 (graph root only; its done status is not task completion)",
+      "workers": [
+        {"id": "t_9b7a1305", "status": "blocked"},
+        {"id": "t_532ff137", "status": "blocked"},
+        {"id": "t_8dd5faf0", "status": "blocked"}
+      ],
+      "verifier": {"id": "t_76e7d200", "status": "todo / dependency-wait"},
+      "synthesizer": {"id": "t_52aa8698", "status": "todo / dependency-wait"},
+      "block_reason": "Required Codex EXECUTE route returned HTTP 400; no automatic model substitution",
+      "gateway": "NOT_RUNNING; no Kanban workers dispatched",
+      "raw_files": [".hgk/kanban/canonical_dag.json", ".hgk/kanban/canonical_completion.json"]
+    },
+    "gstack": "route check command exit 0; activation invariant counts all zero. This is route/readback evidence only, not proof installed gstack skills ran.",
+    "openspec": {
+      "change": "pipd-ls-sp-r5-s4-usability-repair",
+      "path": "openspec/changes/pipd-ls-sp-r5-s4-usability-repair/",
+      "status": "scaffold only; proposal/specs/design/tasks not written; not ready to apply"
+    },
+    "swarm_subagents": "Two read-only inspection fan-outs were dispatched; they did not edit product files or execute writer/acceptance work."
+  },
+  "workorders": {
+    "WO-S4-DEST-001": "BLOCKED_BEFORE_WRITER; no repair applied",
+    "WO-S4-DIST-002": "NOT_STARTED",
+    "WO-S4-EXPORT-003": "NOT_STARTED",
+    "WO-S4-UAT-004": "NOT_STARTED",
+    "WO-S2-PERF-005": "OWNER_GATED; standing FAIL 343547 > 20000 unchanged",
+    "WO-R4-PUBLISH-006": "NOT_STARTED",
+    "WO-HGK-ORCH-007": "CONDITIONAL; not modified"
+  },
+  "runtime_probe_side_effects": [
+    "One ephemeral isolated-container model probe against 127.0.0.1:10102 returned HTTP 403 cross-origin; the container entrypoint reported egress-lock degraded and rolled back to allow-all for that disposable no-product-mount probe; it exited and was removed.",
+    "Two host Codex CLI read-only/ephemeral probes for gpt-6-luna returned HTTP 400; no repository files were mounted or modified by those probes.",
+    "One OpenSpec change scaffold was created; no proposal/spec/task content was written.",
+    "One Kanban swarm graph was created; three worker cards were explicitly blocked; no worker was dispatched.",
+    "One typed HG-KSEOS checkpoint CK-20261008-BB475EDC was written; no raw SQL was used.",
+    "No commit, push, merge, release, or publication. No credentials were printed or copied."
+  ],
+  "resume_gate": {
+    "required_human_decision": "Authorize model/provider substitutions or provide a Codex CLI-supported route for each ordered lane.",
+    "do_not_resume_writer_until": [
+      "PLAN lane is available and actually invoked, or an owner-authorized substitute is recorded",
+      "EXECUTE Codex CLI lane can successfully complete a no-write model probe using an admitted sandbox",
+      "VERIFY/SECURITY lane is confirmed independent and uses the authorized provider/model",
+      "HGK ExecutionBinding and OS-enforced per-path WriteSet are read back",
+      "Docker egress lock is ACTIVE for the exact model endpoint; DEGRADED is a hard stop"
+    ],
+    "next_product_action": "WO-S4-DEST-001 only after all resume gates pass"
+  }
+}

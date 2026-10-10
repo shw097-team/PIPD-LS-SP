@@ -1,0 +1,49 @@
+{
+  "schema": "PIPD-R5-S4-OBSERVATIONS/1",
+  "round": "R5-20261009-s4-user-operability",
+  "note": "Things found while repairing that are NOT defects in the R4 report's sense (or are out of this repair's scope) but that a normal user will hit, or that an owner should decide. Recorded so the next owner has them; none of them was silently fixed.",
+  "observations": [
+    {
+      "id": "OBS-01",
+      "title": "`pipd export` secret-scans the WHOLE repository root, not just the export set",
+      "observed": "workspace.secret_scan(root) walks root.rglob('*') over every .py/.md/.json/.toml/.yaml/.yml/.txt/.sh file in the whole tree. export_bundle.write_bundle() calls it first and refuses with ExportSecretFound('secret scan found N hits' ) before writing anything.",
+      "why_it_matters": "A normal user who keeps an .env, a docs example, or any test fixture containing a credential-looking string ANYWHERE in the repository cannot export at all, and the error names only a count, not the files.",
+      "how_it_surfaced": "This round's own checker script was written under .hgk/rounds/.../ao/ and contained two credential-shaped literals used to test the negative path. That made `pipd export --out ...` refuse the whole repository (exit 2, EXPORT_SECRET_SCAN) with zero artefacts. Removing the literals restored PASS 0 hits.",
+      "assessment": "Fail-closed is the correct direction and this round did NOT weaken it. But the bluntness (whole tree, count-only message) is a usability problem on the S4 user path and the hit list is not shown to the user.",
+      "recommended_owner_action": "PIPD-EC CLI: report the hit file list (paths only, values redacted) and consider limiting the scan to the export set plus an explicit deny-list of extra roots.",
+      "disposition": "deferred_to_owner, NOT fixed by this round, NOT a regression introduced by this round"
+    },
+    {
+      "id": "OBS-02",
+      "title": "The destination-safety contract requires an explicit authorised root for any out-of-tree target",
+      "observed": "After the R4 F-R4-S4-01 fix, `project --out <dir outside the repo>` and `export --out <dir>` are refused unless `--allow-root <dir>` (or PIPD_PROJECT_ALLOWED_ROOTS) is passed. The built-in default authorised root is <repo>/dist.",
+      "why_it_matters": "This is a deliberate, necessary behaviour change, but it is a CLI contract change: two of the product's own tooling scripts (tools/cli_smoke.py, tools/cli_surface_check.py) went red the moment it landed and had to be updated.",
+      "assessment": "Correct and intended; recorded so that any consumer of the CLI is told about the new required flag rather than discovering it as a broken script.",
+      "disposition": "accepted_contract_change"
+    },
+    {
+      "id": "OBS-03",
+      "title": "The wheel declares a runtime dependency that cannot be installed offline",
+      "observed": "The installed CLI needs `jsonschema` (which needs `referencing`, `attrs`, `rpds-py`, `jsonschema-specifications`, `typing_extensions`). With no package index reachable, the acceptance harness provisions those packages by copying them into the venv; that step is recorded in UAT-ENV.",
+      "why_it_matters": "On a genuinely air-gapped machine, `pip install pipd_ls_sp-0.1.0-py3-none-any.whl` succeeds but the CLI then fails at the first command that validates a contract. The failure is typed and names the missing schema/registry location, so it is not silent — but it is a real offline limitation.",
+      "assessment": "Declared and typed, not hidden. The R4 report's UAT-10 expectation ('in an offline situation, clearly state the jsonschema dependency') is met by the typed error path, and this round additionally proves the installed package is self-sufficient for its own data (19/19 families out of site-packages).",
+      "disposition": "declared_limitation"
+    },
+    {
+      "id": "OBS-04",
+      "title": "One model id is exposed and it is rate-limited",
+      "observed": "GET /v1/models through the host bridge returns exactly one entry, opencode-go/deepseek-v4.1-flash. Over the round the bridge served 270 x 200, 77 x 404 (websocket probe) and 7 x 429.",
+      "why_it_matters": "The standing convention says to switch a lane to its declared backup model on HTTP 429. There is no second model to switch to, and the lane registry's recorded fallback is RETIRED, so the convention has no reachable target in this environment.",
+      "assessment": "Environment fact, verified by querying the proxy rather than assumed.",
+      "disposition": "environment_limitation"
+    },
+    {
+      "id": "OBS-05",
+      "title": "Container lanes have no git binary",
+      "observed": "The `pipd-r4-writer:4` image has python3.11.2, pip 23.0.1 and venv, but no git.",
+      "why_it_matters": "Any writer-lane test or CLI path that shells out to git fails inside the lane (two WO1 test failures were exactly this). It also means the lane cannot accidentally write a .git/config, which is why it was chosen for this round.",
+      "assessment": "Deliberate trade-off, recorded so the next round does not chase the two 'failures' as product defects.",
+      "disposition": "environment_fact"
+    }
+  ]
+}

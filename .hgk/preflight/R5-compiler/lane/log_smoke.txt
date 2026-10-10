@@ -1,0 +1,124 @@
+[lane] start 2026-10-10T02:24:11Z brief=smoke.md model=opencode-go/deepseek-v4.1-flash image=pipd-r4-writer:4 port=10100 timeout=300
+[egress] admission ACTIVE — loopback + gateway 192.168.65.254 ALLOW; all other egress DROP
+[egress] state=locked:192.168.65.254 
+Reading additional input from stdin...
+2026-10-10T02:24:11.994163Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 404 Not Found, url: ws://host.docker.internal:10100/v1/responses
+OpenAI Codex v0.162.0
+--------
+workdir: /w
+model: opencode-go/deepseek-v4.1-flash
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: none
+reasoning summaries: none
+session id: 01a123a0-0461-74b2-9a5e-e23b5bc8a1df
+--------
+user
+# LANE SMOKE PROBE (read-only, no writes)
+
+You are a read-only probe of the admitted EXECUTE lane. Do exactly this and nothing else:
+
+1. Run: `ls /w/src/pipd_ls_sp/`
+2. Run: `head -3 /w/src/pipd_ls_sp/cli.py`
+3. Report the string `LANE_SMOKE_OK` plus the two outputs as plain text.
+
+Do not create, modify or delete any file. Do not run any test suite.
+2026-10-10T02:24:12.079736Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 404 Not Found, url: ws://host.docker.internal:10100/v1/responses
+2026-10-10T02:24:12.291255Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 404 Not Found, url: ws://host.docker.internal:10100/v1/responses
+ERROR: Reconnecting... 2/5
+2026-10-10T02:24:12.668091Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 404 Not Found, url: ws://host.docker.internal:10100/v1/responses
+ERROR: Reconnecting... 3/5
+2026-10-10T02:24:13.450196Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 404 Not Found, url: ws://host.docker.internal:10100/v1/responses
+ERROR: Reconnecting... 4/5
+2026-10-10T02:24:15.074001Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 404 Not Found, url: ws://host.docker.internal:10100/v1/responses
+ERROR: Reconnecting... 5/5
+2026-10-10T02:24:18.481519Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 404 Not Found, url: ws://host.docker.internal:10100/v1/responses
+warning: Falling back from WebSockets to HTTPS transport. unexpected status 404 Not Found: 61
+{"error":{"message":"Unknown endpoint: GET /v1/responses","type":"not_found","code":"not_found"}}
+0, url: ws://host.docker.internal:10100/v1/responses
+exec
+/bin/bash -lc 'head -3 /w/src/pipd_ls_sp/cli.py' in /w
+exec
+/bin/bash -lc 'ls /w/src/pipd_ls_sp/' in /w
+ succeeded in 0ms:
+"""`pipd` CLI - exactly the 13 commands of 總藍圖 §5.9.3 (exact-set, no 14th)."""
+from __future__ import annotations
+
+
+ succeeded in 0ms:
+__init__.py
+__pycache__
+cli.py
+errors.py
+pipeline.py
+profiles.py
+projection.py
+registry.py
+repo_context.py
+requirements.py
+util.py
+validate.py
+workspace.py
+
+codex
+LANE_SMOKE_OK
+
+Output 1 — `ls /w/src/pipd_ls_sp/`:
+
+```
+__init__.py
+__pycache__
+cli.py
+errors.py
+pipeline.py
+profiles.py
+projection.py
+registry.py
+repo_context.py
+requirements.py
+util.py
+validate.py
+workspace.py
+```
+
+Output 2 — `head -3 /w/src/pipd_ls_sp/cli.py`:
+
+```
+"""`pipd` CLI - exactly the 13 commands of 總藍圖 §5.9.3 (exact-set, no 14th)."""
+from __future__ import annotations
+```
+
+No files were created, modified, or deleted, and no test suite was run.
+tokens used
+7,887
+LANE_SMOKE_OK
+
+Output 1 — `ls /w/src/pipd_ls_sp/`:
+
+```
+__init__.py
+__pycache__
+cli.py
+errors.py
+pipeline.py
+profiles.py
+projection.py
+registry.py
+repo_context.py
+requirements.py
+util.py
+validate.py
+workspace.py
+```
+
+Output 2 — `head -3 /w/src/pipd_ls_sp/cli.py`:
+
+```
+"""`pipd` CLI - exactly the 13 commands of 總藍圖 §5.9.3 (exact-set, no 14th)."""
+from __future__ import annotations
+```
+
+No files were created, modified, or deleted, and no test suite was run.
+[lane] codex_exit=0
+[lane] done 2026-10-10T02:24:28Z

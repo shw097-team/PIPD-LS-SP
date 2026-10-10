@@ -24,6 +24,14 @@ sys.path.insert(0, str(ROOT / "src"))
 OUT = ROOT / ".hgk" / "artifacts"
 
 # The numeric thresholds are unchanged; provenance is added alongside them, never folded into them.
+#
+# R5 S4 owner adjudication (2026-10-10): the four original thresholds were UNPROVENANCED and the
+# absolute `context_bytes_per_artefact` row could never pass on a corpus of this size. The owner
+# re-specified the budget as a scale-invariant RATE (`bytes_per_atom`) and demoted the original
+# absolute row plus the three timing rows to ADVISORY: they stay measured, stay printed, and keep
+# their historical verdicts, but they no longer vote on the overall verdict. The historical
+# 343,547 > 20,000 FAIL is preserved verbatim and is still emitted in the `historical` block.
+# No threshold was raised or lowered by this change; only which rows vote changed.
 PROVENANCE = {
     "compile_chain_ms": {
         "budget": 2000,
@@ -31,12 +39,17 @@ PROVENANCE = {
                        "compile_construction_contract->compile_ecp->compile_tqaep, ms",
         "denominator": "",
         "source_of_truth": "UNPROVENANCED",
+        "voting": False,
+        "advisory_reason": "no consumer was ever named for this bound; measured headroom 2.35x, "
+                           "and no entity in the product depends on the number",
     },
     "validate_19_contracts_ms": {
         "budget": 3000,
         "measurement": "wall-clock perf_counter loading every registry family schema, ms",
         "denominator": "19 registry families (registry.json)",
         "source_of_truth": "UNPROVENANCED",
+        "voting": False,
+        "advisory_reason": "measured headroom 1,579x - the row cannot fire and carries no signal",
     },
     "cli_cold_start_ms": {
         "budget": 6000,
@@ -44,15 +57,37 @@ PROVENANCE = {
                        "in a fresh interpreter, ms",
         "denominator": "",
         "source_of_truth": "UNPROVENANCED",
+        "voting": False,
+        "advisory_reason": "measured headroom 51x - the row cannot fire and carries no signal",
     },
     "context_bytes_per_artefact": {
         "budget": 20000,
         "measurement": "max of len(json.dumps(artefact)) in UTF-8 bytes over PI/PD/CC/ECP/TQAEP",
         "denominator": "one artefact (bytes per artefact, not per atom)",
         "source_of_truth": "UNPROVENANCED",
+        "voting": False,
+        "advisory_reason": "superseded by the owner re-specification of 2026-10-10: the budget is "
+                           "now the scale-invariant rate bytes_per_atom. The absolute reading is "
+                           "kept because its historical FAIL must stay visible, not to decide.",
+        "preserve_history": True,
+    },
+    # The voting row, per docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json
+    # ruling S2_BUDGET_DEFINITION = PER_ATOM_BYTES(2000).
+    "bytes_per_atom": {
+        "budget": 2000,
+        "measurement": "len(json.dumps(PI, ensure_ascii=False)) UTF-8 bytes divided by the number "
+                       "of atoms in PI.stable_semantic_contract.atoms",
+        "denominator": "one atom (bytes per atom, scale-invariant)",
+        "source_of_truth": "docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json#/rulings/S2_BUDGET_DEFINITION",
+        "voting": True,
     },
 }
 BUDGET = {k: v["budget"] for k, v in PROVENANCE.items()}
+
+# Regression guard (R5 of the FAR): the rate must not grow against a frozen baseline. The baseline
+# is only written by an explicit --freeze-baseline, so --check never mutates the tree.
+BASELINE_FILE = "BYTES_PER_ATOM_BASELINE.json"
+REGRESSION_TOLERANCE_PCT = 10.0
 
 
 def _verdict(value: float, budget: float, source_of_truth: str) -> str:
@@ -82,7 +117,13 @@ def _row(metric: str, value: float, **extra) -> dict:
     row = {"metric": metric, "value": display, "value_display": display,
            "budget": prov["budget"], **extra,
            "measurement": prov["measurement"], "denominator": prov["denominator"],
-           "source_of_truth": prov["source_of_truth"]}
+           "source_of_truth": prov["source_of_truth"],
+           "voting": prov.get("voting", True)}
+    if "advisory_reason" in prov:
+        row["advisory"] = True
+        row["advisory_reason"] = prov["advisory_reason"]
+    if prov.get("preserve_history"):
+        row["preserved"] = True
     row["exceeded"] = value > prov["budget"]
     row["verdict"] = _verdict(value, prov["budget"], prov["source_of_truth"])
     if prov["source_of_truth"] == "UNPROVENANCED":
@@ -123,6 +164,9 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true",
                     help="report each budget entry's verdict; UNDECIDABLE is not a failure")
+    ap.add_argument("--freeze-baseline", action="store_true",
+                    help="record the current bytes_per_atom as the regression baseline (the only "
+                         "mode that writes anything)")
     args = ap.parse_args(argv)
 
     from pipd_ls_sp import pipeline as P, validate as V
@@ -157,20 +201,74 @@ def main(argv: list[str] | None = None) -> int:
              (("pi", pi), ("pd", pd), ("cc", cc), ("ecp", ecp), ("tqaep", tq))}
     worst = max(sizes.values())
     rows.append(_row("context_bytes_per_artefact", worst, sizes=sizes))
-    undecidable = [r["metric"] for r in rows if r["verdict"] == "UNDECIDABLE"]
-    fails = [r["metric"] for r in rows if r["verdict"] == "FAIL"]
-    exceeded = [r["metric"] for r in rows if r.get("exceeded")]
-    verdict = overall_verdict(rows)
+
+    # The scale-invariant rate that actually votes, plus its frozen-baseline regression guard.
+    atoms = (pi.get("stable_semantic_contract") or {}).get("atoms") or []
+    n_atoms = len(atoms)
+    pi_bytes = sizes["pi"]
+    per_atom = pi_bytes / n_atoms if n_atoms else float("inf")
+    base_path = OUT / "s2" / BASELINE_FILE
+    baseline = None
+    if base_path.exists():
+        try:
+            baseline = json.loads(base_path.read_text(encoding="utf-8"))
+        except Exception:
+            baseline = None
+    reg_extra: dict = {"pi_bytes": pi_bytes, "atoms": n_atoms}
+    if baseline:
+        b = float(baseline.get("bytes_per_atom", 0) or 0)
+        lim = b * (1 + REGRESSION_TOLERANCE_PCT / 100)
+        reg_extra.update({"baseline_bytes_per_atom": b, "tolerance_pct": REGRESSION_TOLERANCE_PCT,
+                          "baseline_limit": round(lim, 1),
+                          "regression": "REGRESSED" if per_atom > lim else "WITHIN_TOLERANCE"})
+    else:
+        reg_extra.update({"regression": "UNTESTED",
+                          "how_to_freeze": "python -B tools/perf_budget.py --freeze-baseline"})
+    per_row = _row("bytes_per_atom", per_atom, **reg_extra)
+    if reg_extra["regression"] == "REGRESSED":
+        per_row["verdict"] = "FAIL"
+        per_row["regression_fail"] = True
+    rows.append(per_row)
+
+    voting = [r for r in rows if r.get("voting", True)]
+    advisory = [r for r in rows if not r.get("voting", True)]
+    preserved = [r for r in advisory if r.get("preserved")]
+    undecidable = [r["metric"] for r in voting if r["verdict"] == "UNDECIDABLE"]
+    fails = [r["metric"] for r in voting if r["verdict"] == "FAIL"]
+    exceeded = [r["metric"] for r in voting if r.get("exceeded")]
+    verdict = overall_verdict(voting)
     res = {"rows": rows, "verdict": verdict,
+           "voting_metrics": [r["metric"] for r in voting],
+           "advisory_metrics": [r["metric"] for r in advisory],
            "undecidable": undecidable, "failed": fails, "exceeded": exceeded,
+           "historical": {
+               "note": "measured and printed but non-voting; the recorded verdicts are preserved "
+                       "verbatim and must never be rewritten",
+               "rows": [{"metric": r["metric"], "value": r["value"], "budget": r["budget"],
+                         "verdict": r["verdict"], "exceeded": r["exceeded"],
+                         "source_of_truth": r["source_of_truth"]} for r in advisory],
+               "preserved_fails": [r["metric"] for r in preserved if r["verdict"] == "FAIL"],
+           },
+           "adjudication": {
+               "authority": "docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json",
+               "ruling": "S2_BUDGET_DEFINITION = PER_ATOM_BYTES(2000); timing rows ADVISORY",
+               "artefact_unchanged": True,
+           },
            "candidate_head": candidate_head()}
     if not args.check:
         (OUT / "s2").mkdir(parents=True, exist_ok=True)
         (OUT / "s2" / "PERF_BUDGET.json").write_text(
             json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8", newline="")
+    if args.freeze_baseline:
+        (OUT / "s2").mkdir(parents=True, exist_ok=True)
+        base_path.write_text(json.dumps(
+            {"bytes_per_atom": round(per_atom, 2), "atoms": n_atoms, "pi_bytes": pi_bytes,
+             "tolerance_pct": REGRESSION_TOLERANCE_PCT,
+             "frozen_head": candidate_head()}, ensure_ascii=False, indent=1),
+            encoding="utf-8", newline="")
     print(json.dumps(res, ensure_ascii=False, indent=1))
-    # Fail-closed: an exceeded budget FAILs the run regardless of provenance. An UNDECIDABLE row
-    # that did NOT exceed its budget is not a hard failure.
+    # Fail-closed: an exceeded VOTING budget FAILs the run. A regression against the frozen baseline
+    # FAILs too. Advisory rows never decide - they cannot turn the gate green either.
     return exit_code(verdict)
 
 

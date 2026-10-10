@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -21,12 +22,94 @@ SEAM_ONLY = {"GENIEProjectionRef": "SCHEMA_SEAM_ONLY_UNTIL_S6",
              "ExecutionBindingRef": "SCHEMA_SEAM_ONLY_UNTIL_S5"}
 
 
-def _root() -> Path:
-    return Path(__file__).resolve().parents[2]
+def _repo_schemas_dir() -> Path:
+    """Source-tree fallback: <repo_root>/schemas (keeps in-tree tests/tools working)."""
+    return Path(__file__).resolve().parents[2] / "schemas"
+
+
+def _packaged_schemas_dir() -> Path | None:
+    """The schemas/ tree shipped INSIDE the installed package.
+
+    Uses `importlib.resources.files("pipd_ls_sp") / "schemas"`. For a normal
+    filesystem (unzipped wheel / editable) install `Path(...)` yields the real
+    directory. For a zipped/re-homed install the resource is not a filesystem
+    path, so it is materialised with `as_file` and copied to a persistent cache
+    (the `as_file` temp dir is removed when its context exits). Returns the
+    directory only when it actually contains `registry.json`; never assumes a
+    filesystem path exists without checking it.
+    """
+    try:
+        from importlib.resources import as_file, files
+    except Exception:  # pragma: no cover - importlib.resources is stdlib on >=3.9
+        return None
+    try:
+        resource = files("pipd_ls_sp") / "schemas"
+    except Exception:  # pragma: no cover - package not importable as a resource
+        return None
+    try:
+        direct = Path(resource)
+    except TypeError:
+        direct = None
+    if direct is not None and (direct / "registry.json").is_file():
+        return direct
+    try:
+        with as_file(resource) as materialized:
+            mpath = Path(materialized)
+            if not (mpath / "registry.json").is_file():
+                return None
+            return _persist_tree(mpath)
+    except Exception:  # pragma: no cover - unreadable/zipped edge
+        return None
+
+
+_PERSISTED: Path | None = None
+
+
+def _persist_tree(src: Path) -> Path:
+    """Copy a materialised (possibly ephemeral) schemas tree to a stable cache."""
+    global _PERSISTED
+    if _PERSISTED is not None and (_PERSISTED / "registry.json").is_file():
+        return _PERSISTED
+    import shutil
+    import tempfile
+
+    dst = Path(tempfile.mkdtemp(prefix="pipd-schemas-")) / "schemas"
+    shutil.copytree(src, dst)
+    _PERSISTED = dst
+    return dst
+
+
+def _candidate_schemas_dirs() -> list[Path]:
+    """Strict resolution order: explicit override, packaged copy, source tree."""
+    candidates: list[Path] = []
+    override = os.environ.get("PIPD_SCHEMAS_DIR")
+    if override:
+        candidates.append(Path(override))
+    packaged = _packaged_schemas_dir()
+    if packaged is not None:
+        candidates.append(packaged)
+    candidates.append(_repo_schemas_dir())
+    return candidates
+
+
+def _resolve_schemas_dir() -> Path:
+    """First location that contains registry.json, else typed ValidationFail."""
+    tried: list[str] = []
+    seen: set[str] = set()
+    for cand in _candidate_schemas_dirs():
+        key = str(cand)
+        if key in seen:
+            continue
+        seen.add(key)
+        tried.append(key)
+        if (cand / "registry.json").is_file():
+            return cand
+    raise ValidationFail(
+        "no schemas directory containing registry.json; tried: " + "; ".join(tried))
 
 
 def load_registry(schemas_dir: Path | None = None) -> dict[str, Any]:
-    d = schemas_dir or (_root() / "schemas")
+    d = schemas_dir or _resolve_schemas_dir()
     reg_path = d / "registry.json"
     if not reg_path.is_file():
         raise ValidationFail(f"registry missing: {reg_path}")
@@ -46,5 +129,5 @@ def load_registry(schemas_dir: Path | None = None) -> dict[str, Any]:
 
 
 def load_schema(contract: str, schemas_dir: Path | None = None) -> dict[str, Any]:
-    d = schemas_dir or (_root() / "schemas")
+    d = schemas_dir or _resolve_schemas_dir()
     return json.loads((d / f"{contract}.schema.json").read_text(encoding="utf-8"))

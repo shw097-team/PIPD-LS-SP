@@ -1,0 +1,329 @@
+{
+ "capability_loss": [
+  {
+   "capability": "runtime authority",
+   "loss_id": "LOSS-HR-01",
+   "reason": "the typed receiver map is contract-only; the receiver is never executed here",
+   "record_type": "CapabilityLoss",
+   "severity": "DECLARED"
+  },
+  {
+   "capability": "live receiver ack",
+   "loss_id": "LOSS-HR-02",
+   "reason": "S5 receiver canary NOT_AUTHORISED; ack/nack state stays contract-level",
+   "record_type": "CapabilityLoss",
+   "severity": "DECLARED"
+  }
+ ],
+ "compatibility": {
+  "asserted": {
+   "itch_contract_only": true,
+   "no_live_receiver_ack": true,
+   "no_world_effect": true
+  },
+  "fixture_kind": "compatibility",
+  "live_status": "NOT_RUN",
+  "mode": "FIXTURE_MOCK",
+  "seam_schemas": [
+   "ExecutionHandoff",
+   "ExecutionBindingRef",
+   "ArtifactIdentity"
+  ],
+  "seam_source": "SEAM:S5"
+ },
+ "contract_version": "1",
+ "entry_kind": "receiver_map",
+ "field_contract": [
+  {
+   "name": "receiver",
+   "required": true,
+   "source_object_id": "S0:ExecutionHandoff",
+   "type": "object"
+  },
+  {
+   "name": "abi_version",
+   "required": true,
+   "source_object_id": "S0:ExecutionHandoff",
+   "type": "object"
+  },
+  {
+   "name": "payload_refs",
+   "required": true,
+   "source_object_id": "S0:ExecutionHandoff",
+   "type": "object"
+  },
+  {
+   "name": "ack_nack_state",
+   "required": true,
+   "source_object_id": "S0:ExecutionHandoff",
+   "type": "object"
+  },
+  {
+   "name": "subject_id",
+   "required": true,
+   "source_object_id": "S0:ExecutionHandoff",
+   "type": "object"
+  },
+  {
+   "name": "version",
+   "required": true,
+   "source_object_id": "S0:ExecutionHandoff",
+   "type": "object"
+  },
+  {
+   "name": "content_hash",
+   "required": true,
+   "source_object_id": "S0:ExecutionHandoff",
+   "type": "object"
+  },
+  {
+   "name": "schema_version",
+   "required": true,
+   "source_object_id": "S0:ExecutionHandoff",
+   "type": "object"
+  },
+  {
+   "name": "receiver_binding_id",
+   "required": true,
+   "source_object_id": "S0:ExecutionBindingRef",
+   "type": "object"
+  },
+  {
+   "name": "receiver_binding_version",
+   "required": true,
+   "source_object_id": "S0:ExecutionBindingRef",
+   "type": "object"
+  },
+  {
+   "name": "receiver_binding_hash",
+   "required": true,
+   "source_object_id": "S0:ExecutionBindingRef",
+   "type": "object"
+  },
+  {
+   "name": "lease",
+   "required": true,
+   "source_object_id": "S0:ExecutionBindingRef",
+   "type": "object"
+  },
+  {
+   "name": "state",
+   "required": true,
+   "source_object_id": "S0:ExecutionBindingRef",
+   "type": "object"
+  },
+  {
+   "name": "candidate_only",
+   "required": true,
+   "source_object_id": "S0:WorkOrderCandidate",
+   "type": "object"
+  }
+ ],
+ "nack": [
+  {
+   "basis": "S5 NOT_AUTHORISED",
+   "nack_id": "NACK-HR-01",
+   "record_type": "NACK",
+   "statement": "receiver-map effective load is a fixture/mock contract load, not a live HGK run"
+  },
+  {
+   "basis": "S5 NOT_AUTHORISED",
+   "nack_id": "NACK-HR-02",
+   "record_type": "NACK",
+   "statement": "no live HGK integration PASS is claimed by this projection"
+  }
+ ],
+ "payload": {
+  "abi_version": "PIPD-HGK-RECEIVER-ABI/1",
+  "receivers": [
+   {
+    "ack_state": "NACK_ONLY",
+    "entry": "receive_executionhandoff",
+    "fields": [
+     {
+      "name": "receiver",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "abi_version",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "payload_refs",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "ack_nack_state",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "subject_id",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "version",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "content_hash",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "schema_version",
+      "required": true,
+      "type": "object"
+     }
+    ],
+    "receiver_id": "hgk.executionhandoff",
+    "source_object_id": "S0:ExecutionHandoff"
+   },
+   {
+    "ack_state": "NACK_ONLY",
+    "entry": "receive_executionbindingref",
+    "fields": [
+     {
+      "name": "receiver_binding_id",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "receiver_binding_version",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "receiver_binding_hash",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "lease",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "state",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "subject_id",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "version",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "content_hash",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "schema_version",
+      "required": true,
+      "type": "object"
+     }
+    ],
+    "receiver_id": "hgk.executionbindingref",
+    "source_object_id": "S0:ExecutionBindingRef"
+   },
+   {
+    "ack_state": "NACK_ONLY",
+    "entry": "receive_workordercandidate",
+    "fields": [
+     {
+      "name": "candidate_only",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "subject_id",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "version",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "content_hash",
+      "required": true,
+      "type": "object"
+     },
+     {
+      "name": "schema_version",
+      "required": true,
+      "type": "object"
+     }
+    ],
+    "receiver_id": "hgk.workordercandidate",
+    "source_object_id": "S0:WorkOrderCandidate"
+   }
+  ]
+ },
+ "permissions": [
+  "read:canonical-objects",
+  "emit:projection",
+  "emit:receiver-map"
+ ],
+ "provider": {
+  "admission_state": "OFF",
+  "basis": "S5 HGK execution receiver canary NOT_AUTHORISED",
+  "live_integration": false,
+  "provider_id": "hgk-execution-receiver"
+ },
+ "schema": "PIPD-HOST-PROJECTION/1",
+ "schema_version": "1",
+ "scope": [
+  "dist/web/**"
+ ],
+ "source_refs": [
+  {
+   "object_id": "S0:ExecutionHandoff",
+   "schema": "urn:pipd:s0:ExecutionHandoff:1",
+   "schema_version": "1",
+   "source_hash": "7fa36d3e7fe6e7416111b975381a42f3f5ad46cc81d97b610f317548815bd77b",
+   "source_path": "schemas/ExecutionHandoff.schema.json"
+  },
+  {
+   "object_id": "S0:ExecutionBindingRef",
+   "schema": "urn:pipd:s0:ExecutionBindingRef:1",
+   "schema_version": "1",
+   "source_hash": "7c98cebfee30d9719cb8fd2d565c44120ce8d1be5b231071c19528cae1e95f50",
+   "source_path": "schemas/ExecutionBindingRef.schema.json"
+  },
+  {
+   "object_id": "S0:WorkOrderCandidate",
+   "schema": "urn:pipd:s0:WorkOrderCandidate:1",
+   "schema_version": "1",
+   "source_hash": "03a8692f183f106ec7e4739b925c980ba07d68551627ca6af315fa9f9e2caf54",
+   "source_path": "schemas/WorkOrderCandidate.schema.json"
+  },
+  {
+   "object_id": "SEAM:S5",
+   "schema": "PIPD-SEAM-COMPAT/1",
+   "schema_version": "1",
+   "source_hash": "5aa6aa3e4f360ab6e898e5034ec3871e731ec48137ae8af50fc2138871faf3ec",
+   "source_path": "fixtures/s5_s8/s5_compat.json"
+  },
+  {
+   "object_id": "ADAPTER:MAPPING",
+   "schema": "PIPD-ADAPTER-MAPPING/1",
+   "schema_version": "1",
+   "source_hash": "ae939d979559985dfe692bf7f8638fc571d07013270fc15e734951b37b2af1ab",
+   "source_path": "src/pipd_ls_sp/projection.py#ADAPTER_MAPPING"
+  }
+ ],
+ "surface": "host:hgk-receiver"
+}

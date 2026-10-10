@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -22,8 +23,8 @@ FAILURE_CODES = {
     "compile-tqaep": "TQ_TRACE/TQ_ORACLE/TQ_SOD",
     "validate": "VALIDATION_FAIL",
     "doctor": "TOOL_DRIFT/HOST_UNSUPPORTED/COLLISION/RESIDUE/SEMVER",
-    "project": "PROJECTION_LOSS/ADAPTER_FAIL",
-    "export": "EXPORT_HASH/SECRET_SCAN",
+    "project": "PROJECTION_LOSS/ADAPTER_FAIL/UNSAFE_DESTINATION",
+    "export": "EXPORT_HASH/SECRET_SCAN/UNSAFE_DESTINATION",
     "diff": "DIFF_INCOMPATIBLE_SCHEMA",
     "repair": "REPAIR_SCOPE/DEPENDENCY/SELF_ACCEPT",
 }
@@ -63,9 +64,20 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--explain", action="store_true")
     sub.add_parser("doctor")
     s = sub.add_parser("project"); s.add_argument("--out", type=Path, default=None)
+    # `--root` is a global option, but accept it after the subcommand too so
+    # `pipd project --out ... --root <root>` is not a usage error.
+    s.add_argument("--root", dest="sub_root", type=Path, default=None)
     s.add_argument("--dry-run", dest="dry_run", action="store_true")
+    s.add_argument("--allow-root", dest="allow_root", type=Path, action="append", default=[])
+    s.add_argument("--allow-replace", dest="allow_replace", action="store_true")
     s = sub.add_parser("export"); s.add_argument("--out", type=Path, default=None)
     s.add_argument("--dry-run", dest="dry_run", action="store_true")
+    # R5-WO3: `export --out` publishes a portable bundle, so it shares the R5-WO1
+    # destination policy: repeatable --allow-root / --allow-replace + the
+    # PIPD_PROJECT_ALLOWED_ROOTS environment variable.
+    s.add_argument("--root", dest="sub_root", type=Path, default=None)
+    s.add_argument("--allow-root", dest="allow_root", type=Path, action="append", default=[])
+    s.add_argument("--allow-replace", dest="allow_replace", action="store_true")
     s = sub.add_parser("diff"); s.add_argument("--a", type=Path, required=True)
     s.add_argument("--b", type=Path, required=True)
     s.add_argument("--explain", action="store_true")
@@ -99,7 +111,7 @@ def _explain(cmd: str, record: dict, extra: dict | None = None) -> dict:
 
 
 def run(args: argparse.Namespace) -> dict:
-    root: Path = args.root.resolve()
+    root: Path = (getattr(args, "sub_root", None) or args.root).resolve()
     cmd = args.command
     if cmd == "init":
         return workspace.init_workspace(root)
@@ -158,25 +170,80 @@ def run(args: argparse.Namespace) -> dict:
     if cmd == "doctor":
         return workspace.doctor(root)
     if cmd == "project":
+        from .projection import resolve_output_destination
+        out_omitted = args.out is None
+        target = args.out if not out_omitted else (root / "dist" / "web")
+        authorized = list(getattr(args, "allow_root", []) or [])
+        env_roots = os.environ.get("PIPD_PROJECT_ALLOWED_ROOTS", "")
+        if env_roots:
+            authorized += [Path(p) for p in env_roots.split(os.pathsep) if p.strip()]
+        # The built-in generated surface is always authorized.
+        authorized.append(root / "dist")
+        allow_replace = True if (out_omitted or getattr(args, "allow_replace", False)) else None
+        planned = ["PIPD_BOOTSTRAP.md", "PIPD_CANONICAL_CORE.md", "PIPD_ROUTER_PROFILES.md",
+                   "PIPD_ARTIFACT_SCHEMAS.md", "PIPD_EVAL_HANDOFF.md", "PROJECTION_IR.json",
+                   "host_generic-skills/SKILL.md", "host_hgk-receiver/receiver-map.json",
+                   "host_genie-adapter/object-crosswalk.json",
+                   ".pipd-generated-surface.json"]
         if getattr(args, "dry_run", False):
-            target = args.out or (root / "dist" / "web")
-            # R-AUD-003: the plan is the five PIPD semantic documents, not the site UI five.
-            planned = ["PIPD_BOOTSTRAP.md", "PIPD_CANONICAL_CORE.md", "PIPD_ROUTER_PROFILES.md",
-                       "PIPD_ARTIFACT_SCHEMAS.md", "PIPD_EVAL_HANDOFF.md", "PROJECTION_IR.json",
-                       "host_generic-skills/SKILL.md", "host_hgk-receiver/receiver-map.json",
-                       "host_genie-adapter/object-crosswalk.json"]
+            # Run the SAME resolver (typed refusal on a dangerous target); a safe
+            # dry-run reports the plan and writes nothing anywhere.
+            resolved = resolve_output_destination(root, target, authorized_roots=authorized,
+                                                  allow_replace=allow_replace)
             return {"verdict": "PASS", "dry_run": True, "would_write": planned,
-                    "target": str(target), "wrote_nothing": True,
+                    "target": str(resolved), "wrote_nothing": True,
+                    "destination_safety": {"safe": True, "code": None,
+                                           "resolved": str(resolved), "reason": ""},
                     "explain": {"derivation": ["dry-run: the target tree was not touched"]}}
-        return workspace.project_surfaces(root, args.out or (root / "dist" / "web"))
+        return workspace.project_surfaces(root, target, authorized_roots=authorized,
+                                          allow_replace=allow_replace)
     if cmd == "export":
-        if getattr(args, "dry_run", False):
+        # R5-WO3 (REQ-PIPD-R5-EXPORT-003): `export` is a PORTABLE EXPORT. With
+        # --out it writes <name>.tar.gz + export_manifest.json + SHA256SUMS to the
+        # resolved destination; without --out it keeps the read-only in-memory
+        # manifest projection and says so. The destination is resolved with the
+        # EXISTING R5-WO1 resolver before any create/delete.
+        out_given = args.out is not None
+        if not out_given:
             man = workspace.export_manifest(root)
-            return {"verdict": man.get("verdict", "PASS"), "dry_run": True,
-                    "would_write": [str(args.out or (root / "dist" / "export_manifest.json"))],
-                    "files": len(man.get("files", [])), "manifest_sha256": man.get("manifest_sha256", ""),
-                    "wrote_nothing": True}
-        return workspace.export_manifest(root)
+            man["mode"] = "READ_ONLY_MANIFEST"
+            man["wrote_nothing"] = True
+            man["dry_run"] = bool(getattr(args, "dry_run", False)) or None
+            man["note"] = ("no --out given: nothing was written; this is the "
+                           "read-only manifest projection (pass --out <dir> "
+                           "--allow-root <dir> for a portable bundle)")
+            return man
+
+        from .export_bundle import plan as _export_plan
+        from .export_bundle import write_bundle
+        from .projection import resolve_output_destination
+
+        authorized = list(getattr(args, "allow_root", []) or [])
+        env_roots = os.environ.get("PIPD_PROJECT_ALLOWED_ROOTS", "")
+        if env_roots:
+            authorized += [Path(p) for p in env_roots.split(os.pathsep) if p.strip()]
+        # The built-in default export root is <root>/dist.
+        authorized.append(root / "dist")
+        allow_replace = True if getattr(args, "allow_replace", False) else None
+
+        # Resolve BEFORE any create/delete: a refusal is the same typed
+        # UNSAFE_DESTINATION envelope the R5-WO1 `project` branch emits.
+        target = resolve_output_destination(root, args.out, authorized_roots=authorized,
+                                            allow_replace=allow_replace)
+
+        if getattr(args, "dry_run", False):
+            p = _export_plan(root)
+            archive_name = f"{(target.name or 'export')}.tar.gz"
+            return {"verdict": "PASS", "dry_run": True, "mode": "DRY_RUN",
+                    "target": str(target), "file_count": p["file_count"],
+                    "manifest_sha256": p["manifest_sha256"],
+                    "would_write": sorted([archive_name, "export_manifest.json", "SHA256SUMS"]),
+                    "wrote_nothing": True,
+                    "destination_safety": {"safe": True, "code": None,
+                                           "resolved": str(target), "reason": ""}}
+
+        return write_bundle(root, target, authorized_roots=authorized,
+                            allow_replace=allow_replace)
     if cmd == "diff":
         out = workspace.semantic_diff(_read_json(args.a, "artefact A"),
                                       _read_json(args.b, "artefact B"))

@@ -97,7 +97,9 @@ def main() -> int:
     case("validate", cli(["validate", "--bundle", str(bundle_p)]),
          cli(["validate", "--bundle", str(tmp / "nope.json")]), lambda r: "verdict" in r.stdout)
     case("doctor", cli(["doctor"]), cli(["doctor", "--bogus"]), lambda r: "verdict" in r.stdout)
-    case("project", cli(["project", "--out", str(tmp / "web")]),
+    # R5-WO1: the destination resolver refuses a target outside every authorised root, so the
+    # scratch surface must be authorised explicitly (the product tree is never the target).
+    case("project", cli(["project", "--out", str(tmp / "web"), "--allow-root", str(tmp)]),
          cli(["project", "--bogus"]), lambda r: "web_pack" in r.stdout)
     case("export", cli(["export"]), cli(["export", "--bogus"]),
          lambda r: "files" in r.stdout or "verdict" in r.stdout)
@@ -119,7 +121,7 @@ def main() -> int:
     r = cli(["diff", "--a", str(a_p), "--b", str(b_p), "--explain"])
     extras.append({"surface": "semantic_diff_explain", "verdict": "PASS" if (r.returncode == 0 and
                    json.loads(r.stdout).get("explain")) else "FAIL"})
-    r = cli(["project", "--out", str(tmp / "web2"), "--dry-run"])
+    r = cli(["project", "--out", str(tmp / "web2"), "--allow-root", str(tmp), "--dry-run"])
     no_write = not (tmp / "web2").exists()
     extras.append({"surface": "dry_run_project", "verdict": "PASS" if (r.returncode == 0 and no_write
                    and json.loads(r.stdout).get("wrote_nothing")) else "FAIL",
