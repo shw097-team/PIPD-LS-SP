@@ -1,13 +1,13 @@
 {
  "schema": "PIPD-R5Q-LICENCE-ORACLE/1",
- "generated_at": "2026-10-10T15:26:20Z",
+ "generated_at": "2026-10-10T15:29:39Z",
  "repo": "C:\\Projects\\Agent_Workspace\\PIPD-r5q-release-wt",
  "wheel": "C:\\Projects\\Agent_Workspace\\PIPD-r5q-release-wt\\dist\\pipd_ls_sp-0.1.0-py3-none-any.whl",
- "wheel_sha256": "916f4b0507160bbfb5dbd7274d0492a5e639261d127d4d01e3663a4046dc0055",
+ "wheel_sha256": "c450dbef1c3bfbc2048dcf0562f83d655cc5e5940511e65fd44bf9f91cf14e60",
  "decision": "Apache-2.0",
  "licence_distributed_with_binary": true,
- "required": 19,
- "passed": 19,
+ "required": 21,
+ "passed": 21,
  "failed": 0,
  "verdict": "PASS",
  "checks": [
@@ -126,14 +126,28 @@
    "check_id": "LIC-13",
    "requirement": "the licence travels inside the wheel, not only in the repo",
    "verdict": "PASS",
-   "actual": "licence-bearing members=['pipd_ls_sp-0.1.0.dist-info/licenses/LICENSE', 'pipd_ls_sp-0.1.0.dist-info/licenses/NOTICE']",
+   "actual": "licence-bearing members=['pipd_ls_sp-0.1.0.dist-info/licenses/LICENSE', 'pipd_ls_sp-0.1.0.dist-info/licenses/NOTICE', 'pipd_ls_sp-0.1.0.dist-info/licenses/OWNER_LICENSE_DECISION.yaml']",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-17",
+   "requirement": "the owner decision the SPDX id is derived from ships with the binary",
+   "verdict": "PASS",
+   "actual": "member=pipd_ls_sp-0.1.0.dist-info/licenses/OWNER_LICENSE_DECISION.yaml present=True byte_identical=True",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-18",
+   "requirement": "METADATA License-File headers match the licence texts actually packed",
+   "verdict": "PASS",
+   "actual": "packed licence texts=['pipd_ls_sp-0.1.0.dist-info/licenses/LICENSE', 'pipd_ls_sp-0.1.0.dist-info/licenses/NOTICE']",
    "evidence": {}
   },
   {
    "check_id": "LIC-14",
    "requirement": "the wheel's own RECORD accounts for every member and every hash agrees",
    "verdict": "PASS",
-   "actual": "RECORD rows=40 unlisted_members=[] hash_mismatches=[]",
+   "actual": "RECORD rows=41 unlisted_members=[] hash_mismatches=[]",
    "evidence": {}
   },
   {
