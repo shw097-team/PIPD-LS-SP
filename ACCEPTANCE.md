@@ -1,16 +1,34 @@
-> **R5P (2026-10-10) — this file describes the BASELINE round, not the current subject.**
-> Independent checker `AO-R5P-INDEPENDENT-V2` flagged that the receipt below still names branch
-> `r5-s4-packreader` and round `R5-20261009-s4-user-operability` (D1), and must not be read as current
-> acceptance. The branch **under review now** is **`r5p-post-challenge-repair`**, cut from
-> `r5-s4-packreader` @ `0f06eec96386b7349db8b41ac6cf9c7455d326f1`; the post-challenge repair subject is
-> commit `812af79422c087f0ef5a07188fbec061df6b47e0` (tree `d3b79d2bc7aba08368a02a9f34204d14c9b06bbd`),
-> wheel sha256 `bb070a6f525382edc521bcf7fe127579e1e329024113ab4fe2881eeeea7b0a76`, bound product digest
-> `4ee712e899e9f4aa14d46ba1d3f879eb6b45ad0ae4a8b02bf1d9847b5f8cc579` (288 files). Its round evidence is
-> `.hgk/rounds/R5P-20261010-s4-post-challenge/` (`evidence/EVIDENCE_RETURN_PACK.json`,
-> `evidence/DIGEST_BINDING.json`, `ao/out/AO_VERDICT.json`, `ao/out/AO_VERDICT_V2.json`,
-> `evidence/FINDING_DISPOSITION.json`). Claim ceiling for both: **`CANDIDATE_ONLY`**, licence
-> **`LicenseRef-PIPD-Proprietary` with no public-use grant**; nothing below or above is promoted. The
-> R5/D1 text below is retained as history and was not rewritten.
+> **R5P (2026-10-10) — read this banner before the receipt below.**
+>
+> This file describes the **BASELINE** round (`r5-s4-packreader` @
+> `0f06eec96386b7349db8b41ac6cf9c7455d326f1`). It is retained verbatim as history and was not rewritten.
+> The branch under review now is **`r5p-post-challenge-repair`**, carrying the post-challenge repair for
+> the external 2026-10-10 challenge.
+>
+> **The current subject's commit, tree, wheel hash and product digest are deliberately NOT quoted in this
+> file.** This file sits inside the measured product surface, so committing a digest here would change the
+> very subject that digest describes (the independent checker confirmed this and required an external
+> binding entry point rather than self-reference). The authority for the branch's current subject is the
+> round evidence directory, which the product digest excludes:
+>
+> - `.hgk/rounds/R5P-20261010-s4-post-challenge/CHECKPOINT_R5P.json` — current subject commit / tree /
+>   wheel sha256 / bound product digest
+> - `.hgk/rounds/R5P-20261010-s4-post-challenge/evidence/DIGEST_BINDING.json` — the round's single bound
+>   product-digest definition, plus the rejected narrower alternative; reproduce with
+>   `python .hgk/rounds/R5P-20261010-s4-post-challenge/ops/bound_digest.py <pristine-root>`
+> - `.hgk/rounds/R5P-20261010-s4-post-challenge/evidence/host_fullsuite_repair_bound.txt` — host suite
+>   receipt carrying its own command line, exit code and subject binding
+> - `.hgk/rounds/R5P-20261010-s4-post-challenge/ao/out/AO_VERDICT.json`, `AO_VERDICT_V2.json`,
+>   `AO_VERDICT_V3.json` — the independent checker's passes; never the Maker's own summary
+>
+> **Superseded attempt, kept as history only:** an earlier attempt of this round quoted attempt-2's
+> identity (`812af79422c087f0ef5a07188fbec061df6b47e0`, tree `d3b79d2bc7aba08368a02a9f34204d14c9b06bbd`,
+> wheel `bb070a6f525382edc521bcf7fe127579e1e329024113ab4fe2881eeeea7b0a76`, product digest
+> `4ee712e899e9f4aa14d46ba1d3f879eb6b45ad0ae4a8b02bf1d9847b5f8cc579`) as though it were current. Those
+> values belong to that superseded attempt only.
+>
+> Claim ceiling for every subject named above: **`CANDIDATE_ONLY`**; licence
+> **`LicenseRef-PIPD-Proprietary`, no public-use grant**; no downstream stage inherits any PASS.
 
 # External acceptance entry point — R5 S4 repair round (2026-10-10)
 
