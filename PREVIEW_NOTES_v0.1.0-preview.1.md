@@ -53,7 +53,11 @@ combination. No other runtime dependency is declared.
    `tests/test_tqaep_design_positive.py`. This publication does **not** claim a green release-manifest
    gate. It is a routine packaging fix for a follow-up, not a functional defect.
 2. **Not a full independent acceptance.** `S0_S4_FULL_INDEPENDENT_CHALLENGE = PARTIAL_CHALLENGE`; the
-   maker did not sign its own final verdict. The SPEC/DEL denominator stays
+   maker did not sign its own final verdict. An independent verifier has since re-derived the
+   **immutable** published artefact from scratch (own anonymous download, own clone, no local cache)
+   and returned 9/9 claims PASS with no stop-ship counter-example — scoped to tag/commit/tree/wheel
+   bytes, on a model lane other than the one this round's plan named, so no planned-model SoD is
+   claimed. The SPEC/DEL denominator stays
    `28 S4_ACTIVE_EVIDENCED / 10 S4_ACTIVE_GAP / 19 DEFERRED_BY_INSTRUCTION` and `EVIDENCED ≠ PASS`.
 3. **Windows path edges are not certified beyond the tested scope.** Native symlink / junction /
    reparse-point behaviour, and a dirty dangling symlink under the root, are only partially covered
@@ -70,6 +74,25 @@ combination. No other runtime dependency is declared.
 8. **`main` is the historical R3 line plus a front-page pointer to this tag.** Do not install from
    the default branch or judge this preview by it; the tag is the entry point. The repository front
    page carries a banner naming `v0.1.0-preview.1`, its `Apache-2.0` grant and the limitations.
+9. **`validate` needs `--root` when you are not sitting in a workspace that has `schemas/`.**
+   `doctor` resolves the schemas installed inside the wheel (`schema_source.mode = INSTALLED`), but
+   `validate` looks for `schemas/` under the current working directory. Run it from elsewhere with no
+   `--root` and it exits **2** with `INPUT_SHAPE_INVALID` /
+   `FileNotFoundError: <cwd>/schemas/PI-PKG.schema.json`, even though `doctor` in the same venv passes:
+   `python -m pipd_ls_sp.cli --root <site-packages>/pipd_ls_sp validate --bundle bundle.json`.
+10. **`validate` rejects a bundle assembled from the compilers' own unedited output.** `compile-pi`
+    emits a top-level `_profile_meta` sidecar and the `PI-PKG` schema sets
+    `additionalProperties: false`, so piping the four compiler outputs straight into `validate` exits
+    **1** with `PI-PKG/: Additional properties are not allowed ('_profile_meta' was unexpected)`.
+    Remove only that sidecar and the same bundle passes (`checked=4`, `findings=[]`).
+
+Limitations 9 and 10 were found by an **independent verifier** and **reproduced by the maker** against
+the published wheel bytes. They are **non-stop-ship** — installation, licence packaging, `doctor`,
+the CLI and every artefact hash are unaffected — but they sit on the boundary of the owner grant's
+stop-ship condition *"core chain broadly unusable"*, so they are stated plainly. Both remain **open**:
+repairing either changes member bytes and therefore requires a superseding release, because published
+tags are never rewritten. The independent receipts are recorded in the round evidence
+(`evidence/R5Q_INDEPENDENT_VERIFICATION_RECEIPT.json`, `evidence/ce_repro/`).
 
 ## 4. What changed for this publication (relative to `r5p-post-challenge-repair`)
 

@@ -1,0 +1,56 @@
+[
+ {
+  "label": "CE-1 doctor (no --root)",
+  "exit": 0,
+  "stdout": "{\n \"families\": 19,\n \"findings\": [],\n \"schema_source\": {\n  \"mode\": \"INSTALLED\",\n  \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r5q-ce-verify\\\\venv\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\",\n  \"tried\": [\n   \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r5q-ce-verify\\\\venv\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\"\n  ]\n },\n \"skill_drift\": [],\n \"verdict\": \"PASS\"\n}\n",
+  "stderr": ""
+ },
+ {
+  "label": "intake --source <published preview notes>",
+  "exit": 0,
+  "stdout": "{\n \"atoms\": [\n  {\n   \"acceptance_cue\": \"MUST: # PIPD-LS-SP `v0\",\n   \"axis\": \"intent\",\n   \"owner\": \"PIPD-EC\",\n   \"req_id\": \"REQ-4ff115ab7c22b7d4e212\",\n   \"risk_guard\": {\n    \"failure_condition\": \"violate MUST: # PIPD-LS-SP `v0\",\n    \"negative_fixture\": \"fixtures/REQ-4ff115ab7c22b7d4e212/negative\",\n    \"oracle\": {\n     \"expected\": \"required\",\n     \"id\": \"ORACLE-REQ-4ff115ab7c22b7d4e212\",\n     \"predicate\": \"# PIPD-LS-SP `v0\"\n    },\n    \"polarity\": \"MUST\"\n   },\n   \"source_clause\": {\n    \"child\": 0,\n    \"clause_id\": \"clause-0-16\",\n    \"file\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex",
+  "stderr": ""
+ },
+ {
+  "label": "compile-pi",
+  "exit": 0,
+  "stdout": "{\n \"_profile_meta\": {\n  \"artifact_depth\": \"L4_FAILURE_RECOVERY\",\n  \"assurance\": [\n   \"deterministic_validator\",\n   \"negative_security\",\n   \"adversarial\",\n   \"independent_checker\"\n  ],\n  \"axes\": [\n   \"intent\",\n   \"knowledge\",\n   \"release\",\n   \"verification\"\n  ],\n  \"canonical_truth\": \"single\",\n  \"escalated\": true,\n  \"escalation_reason\": \"axis_complexity\",\n  \"profile\": \"ASSURED\",\n  \"requested_profile\": \"LITE\",\n  \"vetoes\": []\n },\n \"acceptance\": {\n  \"mode\": \"bound\",\n  \"oracle_source\": \"DOC-03 DOMAIN_ORACLES\"\n },\n \"content_hash\": \"4f57faa89d398c5a9d3d75f62ed2402700857c5b5f520175c2a696174dfff193\",\n \"",
+  "stderr": ""
+ },
+ {
+  "label": "bind-pd --repo-root <clean git repo>",
+  "exit": 0,
+  "stdout": "{\n \"RepoContext\": {\n  \"branch\": \"master\",\n  \"caller_claims\": {\n   \"branch\": {\n    \"matches_host\": true,\n    \"value\": \"master\",\n    \"verified\": true\n   },\n   \"currentness\": {\n    \"matches_host\": true,\n    \"value\": \"FRESH\",\n    \"verified\": true\n   },\n   \"currentness_epoch\": {\n    \"matches_host\": true,\n    \"value\": \"cb4a3025a5cbf99e00c8b1312cc16b0e26686781dd2896247f0814a7a2e6203f\",\n    \"verified\": true\n   },\n   \"dirty\": {\n    \"matches_host\": true,\n    \"value\": false,\n    \"verified\": true\n   },\n   \"head\": {\n    \"matches_host\": true,\n    \"value\": \"575b8996f89ce532a63cb1ca812326161a7df301\",\n    \"ver",
+  "stderr": ""
+ },
+ {
+  "label": "compile-ecp",
+  "exit": 0,
+  "stdout": "{\n \"content_hash\": \"86c8264a04e41d4d1fbdfa1c20a7888cd9ab7b3afde10329ba795d96b825bfd7\",\n \"effect_intent\": \"apply bounded edits inside the writable scope\",\n \"idempotency\": {\n  \"guarantee\": \"at_most_once\",\n  \"key\": \"IDEM-bf17153ac9cb1dfd\"\n },\n \"permission\": {\n  \"scope\": \"src/**\",\n  \"token_required\": true\n },\n \"readback\": {\n  \"kind\": \"residue_scan\",\n  \"required\": true\n },\n \"retries\": {\n  \"backoff\": \"none\",\n  \"max\": 1\n },\n \"rollback\": {\n  \"pointer\": \"baseline_commit\",\n  \"required\": true\n },\n \"schema_version\": \"ECP@1\",\n \"subject_id\": \"ECP-86c8264a04e41d4d\",\n \"version\": \"1\"\n}\n",
+  "stderr": ""
+ },
+ {
+  "label": "compile-tqaep",
+  "exit": 0,
+  "stdout": "{\n \"acceptance\": [\n  {\n   \"case\": \"TQAEP_DESIGN_CANDIDATE\",\n   \"checker_execution_receipt\": \"DESIGN_ONLY_NOT_RUNTIME_ACCEPTANCE\",\n   \"checker_identity\": \"independent-design-checker\",\n   \"claim_ceiling\": \"TQAEP_DESIGNED\",\n   \"design_time_status\": \"DISTINCT_CHECKER_IDENTITY_RECORDED\",\n   \"distinct\": true,\n   \"independent_acceptance\": \"NOT_GRANTED\",\n   \"independent_proof_requires\": \"S5_LIVE_RUNTIME_CHECKER\",\n   \"maker_identity\": \"preview-author\",\n   \"note\": \"design-time candidate only: the checker receipt is a recorded string, not independent verification; a live runtime checker must re-run it be",
+  "stderr": ""
+ },
+ {
+  "label": "CE-1 validate --bundle (NO --root), cwd has no schemas/",
+  "exit": 2,
+  "stdout": "{\n \"code\": \"INPUT_SHAPE_INVALID\",\n \"message\": \"FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\\\\\Users\\\\\\\\user\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Packages\\\\\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\\\\\LocalCache\\\\\\\\Local\\\\\\\\hermes\\\\\\\\cache\\\\\\\\scratch\\\\\\\\r5q-ce-verify\\\\\\\\mywork\\\\\\\\schemas\\\\\\\\PI-PKG.schema.js\",\n \"verdict\": \"FAIL\"\n}\n",
+  "stderr": ""
+ },
+ {
+  "label": "CE-2 validate --bundle <raw bundle> --root <installed pkg>",
+  "exit": 1,
+  "stdout": "{\n \"checked\": 4,\n \"findings\": [\n  {\n   \"contract\": \"PI-PKG\",\n   \"detail\": \"PI-PKG/: Additional properties are not allowed ('_profile_meta' was unexpected)\",\n   \"kind\": \"SCHEMA\"\n  }\n ],\n \"verdict\": \"FAIL\"\n}\n",
+  "stderr": ""
+ },
+ {
+  "label": "CE-2 CONTROL validate --bundle <bundle minus _profile_meta> --root <installed pkg>",
+  "exit": 0,
+  "stdout": "{\n \"checked\": 4,\n \"findings\": [],\n \"verdict\": \"PASS\"\n}\n",
+  "stderr": ""
+ }
+]

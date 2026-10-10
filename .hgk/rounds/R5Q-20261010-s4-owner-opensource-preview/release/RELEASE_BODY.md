@@ -31,6 +31,18 @@ venv/bin/python -m pipd_ls_sp.cli doctor
 `doctor` must report the schema source it actually loaded. The 19 JSON Schemas travel inside the
 wheel, so an installed `pipd` is self-sufficient — there is no `PYTHONPATH` step.
 
+**`validate` is the exception — pass `--root`.** Unlike `doctor`, which resolves the schemas that
+ship inside the wheel, `validate` looks for `schemas/` under the current working directory unless you
+give it the global `--root`. Installed and running from a directory that has no `schemas/`, this
+fails with `INPUT_SHAPE_INVALID` before it ever looks at your bundle:
+
+```sh
+venv/bin/python -m pipd_ls_sp.cli --root <site-packages>/pipd_ls_sp validate --bundle bundle.json
+```
+
+This is limitation 6 below. It is a documented prerequisite here because the behaviour is surprising,
+not because it is the intended design.
+
 ## Verify the bytes before you trust them
 
 ```sh
@@ -82,6 +94,28 @@ Read these as part of the licence grant, not as fine print.
 4. **Windows, host-native and S5–S8 are not certified.** Junction/symlink behaviour, host-native
    projections and live runtime stages were not exercised. Nothing here certifies them.
 5. **The scope is construction-time only.** S4 produces contracts for work that has not been done.
+6. **`validate` does not resolve the wheel's own schemas by default.** `doctor` finds the schemas
+   installed inside the wheel (`schema_source.mode = INSTALLED`); `validate` instead looks for
+   `schemas/` under the current working directory. Run from a foreign directory with no `--root`,
+   `validate` exits 2 with `INPUT_SHAPE_INVALID` / `FileNotFoundError: <cwd>/schemas/PI-PKG.schema.json`
+   even though `doctor` in the same environment is perfectly happy. Pass the global
+   `--root <site-packages>/pipd_ls_sp` as in the Install section above. Found by the independent
+   verifier, reproduced by the maker against the published wheel bytes.
+7. **A bundle assembled from the compilers' own stdout is rejected by `validate`.** `compile-pi`
+   emits a top-level `_profile_meta` sidecar, but the `PI-PKG` schema sets
+   `additionalProperties: false`, so feeding the four unmodified compiler outputs straight into
+   `validate` exits 1 with
+   `PI-PKG/: Additional properties are not allowed ('_profile_meta' was unexpected)`.
+   Deleting only that sidecar makes the same bundle pass (`checked=4`, `findings=[]`). The tool
+   therefore rejects its own unedited output. Found by the independent verifier, reproduced by the
+   maker against the published wheel bytes.
+
+Limitations 6 and 7 are the two counter-examples the independent verifier returned. Both are
+**non-stop-ship** — install, licence packaging, schema resolution by `doctor`, the CLI and the
+artefact hashes are all unaffected — but they sit on the boundary of the owner grant's stop-ship
+condition *"core intake → PI → PD → ECP/TQAEP chain broadly unusable"*, so they are stated plainly
+rather than filed as cosmetic. They are **open**, not fixed: fixing either changes member bytes and
+therefore requires a superseding release, which published tags are never rewritten to carry.
 
 ## What this release does not claim
 
@@ -89,8 +123,20 @@ Read these as part of the licence grant, not as fine print.
 `S5_RUNTIME_READY`, `G_RELEASE_FULL_PASS` and `PRODUCTION_VERIFIED` are **NOT GRANTED**.
 
 The highest claim this round can reach is `OWNER_AUTHORIZED_OPEN_SOURCE_PREVIEW_BETA_PUBLISHED` —
-a published, licenced, byte-verifiable preview. Independent acceptance by a verifier that is not
-the maker is still pending; until that receipt exists, treat every maker-side PASS as unconfirmed.
+a published, licenced, byte-verifiable preview.
+
+**Independent acceptance: received, with qualifications.** A verifier that did not participate in the
+build re-derived the published artefact from scratch — its own anonymous download and its own git
+clone, no local cache — and returned **9/9 claims PASS with no stop-ship counter-example**. Two
+qualifications attach and are not glossed over: (a) it ran on a **different model lane than the one
+this round's plan named**, so no planned-model separation-of-duties is claimed; and (b) the receipt
+covers the **immutable** artefact — tag, commit, tree, wheel bytes — while the mutable surfaces on
+this page and the repository front page are covered by a timestamped readback instead. The receipt
+itself did not find the two limitations 6 and 7 above: a **second, later** independent run found
+those, and the maker reproduced both directly against the published wheel bytes.
+
+Nothing above upgrades this to `FULL_S0_S4_INDEPENDENT_PASS`. Treat every maker-side PASS as
+corroborated **only** for the immutable released artefact.
 
 ## Reporting
 
