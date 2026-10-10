@@ -90,13 +90,78 @@ class CE2CompilerStdoutTests(unittest.TestCase):
             self.assertEqual(res["checked"], 4)
 
     def test_sidecar_list_has_one_definition(self) -> None:
-        """A future copy-paste must not be able to split the sidecar list again."""
+        """A future copy-paste must not be able to split the field lists again.
+
+        CE-2 refinement split ONE conflated list into TWO honest concepts, each defined once:
+
+        * ``validate.NON_RECORD_SIDECARS`` - the fields the SCHEMA CHECK strips. NO schema
+          declares these; today that is exactly ``_profile_meta``.
+        * ``validate.HASH_EXCLUDED_FIELDS`` - the fields the body HASH does not cover
+          (identity fields + derived ``trace`` + ``_profile_meta``); ``pipeline._seal`` must
+          reference exactly this object so the hash cannot diverge from its recomputation.
+
+        The test asserts the NEW single definition honestly: the two lists are distinct, and
+        neither can be re-copied into ``pipeline`` without tripping this assertion.
+        """
         self.assertTrue(hasattr(validate, "NON_RECORD_SIDECARS"),
-                        "validate must expose the single sidecar definition")
-        self.assertTrue(hasattr(pipeline, "NON_RECORD_SIDECARS"),
-                        "pipeline must reference the same sidecar definition")
+                        "validate must expose the single non-record sidecar definition")
+        self.assertTrue(hasattr(validate, "HASH_EXCLUDED_FIELDS"),
+                        "validate must expose the single hash-exclusion definition")
+        # pipeline references BOTH by identity (imported, never re-typed).
         self.assertIs(pipeline.NON_RECORD_SIDECARS, validate.NON_RECORD_SIDECARS)
-        self.assertIn("_profile_meta", validate.NON_RECORD_SIDECARS)
+        self.assertIs(pipeline.HASH_EXCLUDED_FIELDS, validate.HASH_EXCLUDED_FIELDS)
+        # The two concepts are distinct: the hash-exclusion set is the strict superset. The
+        # conflation bug was exactly `trace` living in the schema-check list.
+        self.assertEqual(validate.NON_RECORD_SIDECARS, ("_profile_meta",))
+        self.assertIn("trace", validate.HASH_EXCLUDED_FIELDS)
+        self.assertNotIn("trace", validate.NON_RECORD_SIDECARS)
+        for field in ("subject_id", "version", "content_hash", "schema_version", "_profile_meta"):
+            self.assertIn(field, validate.HASH_EXCLUDED_FIELDS)
+
+
+class CE2TraceWideningTests(unittest.TestCase):
+    """Checker counterexample CE-CODEX-TRACE-WIDENING.
+
+    The independent checker (GPT 6.1 SOL, separate CODEX_HOME) loaded the PUBLISHED validator
+    straight out of the downloaded wheel: adding an undeclared ``trace`` key to a ``PD-PKG``,
+    ``ECP`` or ``TQAEP`` record is rejected there ("Additional properties are not allowed
+    (trace was unexpected)"). The CE-2 repair had widened the accepted input because
+    ``trace`` was in the conflated ``NON_RECORD_SIDECARS`` list, which ``validate_record``
+    stripped. This test is the checker's own counterexample, pinned.
+    """
+
+    def test_undeclared_trace_is_rejected_on_pd_ecp_tqaep(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            repo = Path(td) / "repo"
+            _init_git_repo(repo)
+            bundle = _compilers_stdout_bundle(repo)
+            # Every non-PI member carries an undeclared `trace`; every other field and the
+            # ORIGINAL content_hash are left untouched (trace is hash-excluded, so the body
+            # digest is unaffected and the only possible finding is the schema one).
+            for contract in ("PD-PKG", "ECP", "TQAEP"):
+                self.assertNotIn("trace", bundle[contract],
+                                 "precondition: the compiler does not emit `trace` here")
+                widened = dict(bundle[contract])
+                widened["trace"] = [{"undeclared": True}]
+                bundle[contract] = widened
+            res = validate.validate_bundle(bundle)
+            self.assertEqual(res["checked"], 4)
+            self.assertEqual(res["verdict"], "FAIL", res)
+            named = {f["contract"] for f in res["findings"]
+                     if "trace" in f["detail"] and "was unexpected" in f["detail"]}
+            self.assertEqual(named, {"PD-PKG", "ECP", "TQAEP"},
+                             f"undeclared `trace` must be named for each contract: {res['findings']}")
+
+    def test_declared_trace_on_pi_pkg_still_tolerated(self) -> None:
+        # Guard the other direction: PI-PKG DECLARES `trace`, so it must stay accepted.
+        with tempfile.TemporaryDirectory() as td:
+            repo = Path(td) / "repo"
+            _init_git_repo(repo)
+            bundle = _compilers_stdout_bundle(repo)
+            self.assertIn("trace", bundle["PI-PKG"])
+            res = validate.validate_bundle(bundle)
+            self.assertEqual(res["findings"], [], str(res["findings"])[:800])
+            self.assertEqual(res["verdict"], "PASS")
 
 
 class CE1ValidateSchemaResolutionTests(unittest.TestCase):

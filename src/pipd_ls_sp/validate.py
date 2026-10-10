@@ -15,13 +15,26 @@ CLAIM_LADDER = ["PROMPT_COMPILE_PASS", "HGK_ADMITTED", "RUNTIME_READY", "LOCAL_Q
                 "INDEPENDENT_PASS", "PUBLICATION_APPROVED", "RELEASED", "PRODUCTION_VERIFIED"]
 RELEASE_BOUND = ("PI-PKG", "PD-PKG", "ECP", "TQAEP", "ConstructionContract")
 
-# The SINGLE definition of the non-record sidecar keys (CE-2 structural repair): fields the
-# pipeline emits for the operator/registry but that are NOT part of a record's schema body.
-# `_body_hash` (identity recomputation), `validate_record` (schema check on a stripped copy),
-# `validate_bundle` and `pipeline` all reference THIS object, so the list cannot be silently
-# split into a second copy again.
-NON_RECORD_SIDECARS = ("subject_id", "version", "content_hash", "schema_version", "trace",
-                       "_profile_meta")
+# CE-2 refinement (checker counterexample CE-CODEX-TRACE-WIDENING). Two DISTINCT concepts that
+# used to be conflated into one list: "fields excluded from the body hash" and "fields that are
+# not part of the record at all". They overlap only on `_profile_meta`.
+#
+# HASH_EXCLUDED_FIELDS -- the fields the body hash does NOT cover: the universal identity fields
+#   (recomputed after sealing), the derived `trace` relation (it carries the parent hash, so it
+#   cannot sit inside the hash it references) and the `_profile_meta` sidecar. This is the
+#   HASH-EXCLUSION set ONLY; it says nothing about which fields a schema declares. `_body_hash`
+#   and `pipeline._seal` both reference THIS object, so the hash and its recomputation stay one
+#   definition and cannot diverge.
+HASH_EXCLUDED_FIELDS = ("subject_id", "version", "content_hash", "schema_version", "trace",
+                        "_profile_meta")
+
+# NON_RECORD_SIDECARS -- the fields the pipeline emits for the operator/registry that NO schema
+#   declares at all. Today that is exactly `_profile_meta`. `validate_record` strips ONLY this
+#   set before the schema check, so a field that is hash-excluded but IS declared by the schema
+#   (the identity fields, or `trace` on PI-PKG) remains schema-enforced, and an undeclared
+#   `trace` on PD-PKG/ECP/TQAEP is again rejected by `additionalProperties: false`, exactly as
+#   the published validator behaves.
+NON_RECORD_SIDECARS = ("_profile_meta",)
 
 
 def _validator(schema: dict[str, Any]):
@@ -35,17 +48,18 @@ def _validator(schema: dict[str, Any]):
 def validate_record(contract: str, record: dict[str, Any], schemas_dir: Path | None = None) -> list[str]:
     """Return a list of deterministic findings; empty list == schema-valid.
 
-    Schema validation runs on a COPY of the record with the non-record sidecars removed, so a
-    bundle assembled from the compilers' own stdout (which carries ``_profile_meta``) is held to
-    its declared field set instead of tripping ``additionalProperties: false``. This is exactly
-    the "stripped before validation" behavior ``pipeline`` already declares.
+    Schema validation runs on a COPY of the record with the genuine non-record sidecars
+    (``NON_RECORD_SIDECARS`` - today only ``_profile_meta``) removed, so a bundle assembled from
+    the compilers' own stdout (which carries ``_profile_meta``) is held to its declared field set
+    instead of tripping ``additionalProperties: false``. This is exactly the "stripped before
+    validation" behavior ``pipeline`` already declares.
 
-    The sidecar list is the SAME ``NON_RECORD_SIDECARS`` object the hash path uses. A key on that
-    list that the SCHEMA ITSELF declares (the identity fields and ``trace`` are declared *and
-    required* properties) is NOT removed: it is part of the record's contract, so its presence
-    must still be schema-enforced. Only sidecars the schema does not declare - i.e. the genuine
-    non-record sidecar ``_profile_meta`` - are stripped. This closes CE-2 without weakening any
-    required-field or ``additionalProperties`` check.
+    ``NON_RECORD_SIDECARS`` is deliberately NOT the same set as ``HASH_EXCLUDED_FIELDS``: a field
+    can be excluded from the body hash (``trace``, the identity fields) yet still be part of the
+    record's contract, so its presence must remain schema-enforced. Only the genuine non-record
+    sidecar ``_profile_meta`` is stripped; the defensive "unless the schema declares it" guard
+    keeps that safe even if a future schema chooses to declare a sidecar. This closes CE-2 without
+    widening the accepted input.
     """
     schema = registry.load_schema(contract, schemas_dir)
     v = _validator(schema)
@@ -69,7 +83,7 @@ def _body_hash(record: dict[str, Any]) -> str:
     """
     import hashlib
     import json
-    body = {k: v for k, v in record.items() if k not in NON_RECORD_SIDECARS}
+    body = {k: v for k, v in record.items() if k not in HASH_EXCLUDED_FIELDS}
     return hashlib.sha256(json.dumps(body, sort_keys=True, ensure_ascii=False,
                                      separators=(",", ":")).encode()).hexdigest()
 

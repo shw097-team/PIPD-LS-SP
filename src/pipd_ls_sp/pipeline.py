@@ -16,10 +16,11 @@ from .profiles import compute_profile
 from . import repo_context as repo_probe
 from . import requirements as req_compile
 from .util import canonical_json, content_id, sha256_text  # noqa: F401
-# CE-2: the non-record sidecar list is defined ONCE (validate.NON_RECORD_SIDECARS) and
-# referenced here, so the "stripped before validation" contract cannot diverge from the
-# validator's schema check again.
-from .validate import NON_RECORD_SIDECARS
+# CE-2: the field lists are defined ONCE in validate and referenced here, so the hash body and
+# the "stripped before validation" contract cannot diverge from the validator again.
+#   HASH_EXCLUDED_FIELDS - the fields `_seal` does not hash (identity + derived `trace` + sidecar).
+#   NON_RECORD_SIDECARS  - re-exported (validate defines it); the fields the schema check strips.
+from .validate import HASH_EXCLUDED_FIELDS, NON_RECORD_SIDECARS  # noqa: F401
 
 CLAIM_LADDER = ["PROMPT_COMPILE_PASS", "HGK_ADMITTED", "RUNTIME_READY", "LOCAL_QUALIFIED",
                 "INDEPENDENT_PASS", "PUBLICATION_APPROVED", "RELEASED", "PRODUCTION_VERIFIED"]
@@ -177,8 +178,8 @@ def _seal(rec: dict[str, Any], prefix: str) -> dict[str, Any]:
     """
     # `trace` is a derived relation, not body content: it carries the parent hash, so it cannot be
     # inside the hash it references. The validator excludes exactly the same key set
-    # (validate.NON_RECORD_SIDECARS) - one definition, referenced in both places.
-    body = {k: v for k, v in rec.items() if k not in NON_RECORD_SIDECARS}
+    # (validate.HASH_EXCLUDED_FIELDS) - one definition, referenced in both places.
+    body = {k: v for k, v in rec.items() if k not in HASH_EXCLUDED_FIELDS}
     digest = sha256_text(canonical_json(body))
     rec["subject_id"] = f"{prefix}-{digest[:16]}"
     rec["content_hash"] = digest

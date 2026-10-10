@@ -299,3 +299,45 @@ Tracked-file counts, measured with `git ls-tree -r --name-only <commit> | wc -l`
     9bd33a1 = 996   (round base; assertLess(1000) PASSES)
     afb29d0 = 1019  (this round's commits; assertLess(1000) FAILS)
     af3f86c = 1025  (HEAD of this round)
+
+--- trace widening (checker counterexample CE-CODEX-TRACE-WIDENING) ---
+
+Fix: split the conflated list into TWO honestly-named constants in `src/pipd_ls_sp/validate.py`:
+
+* `HASH_EXCLUDED_FIELDS` = ("subject_id", "version", "content_hash", "schema_version",
+  "trace", "_profile_meta") — the fields the body hash does NOT cover. `_body_hash` and
+  `pipeline._seal` both reference THIS object by identity, so the hash behaviour is unchanged.
+* `NON_RECORD_SIDECARS` = ("_profile_meta",) — the fields the pipeline emits for the
+  operator/registry that NO schema declares. `validate_record` strips ONLY this set (keeping the
+  defensive "unless the schema declares it" guard).
+
+`trace` is no longer in the schema-check strip list, so it stays subject to
+`additionalProperties: false` for every contract that does not declare it — exactly the published
+behaviour. No schema changed; nothing the pipeline emits changed.
+
+GREEN (after the fix):
+
+    python -m unittest tests.test_ce_repair_regression.CE2TraceWideningTests \
+        tests.test_ce_repair_regression.CE2CompilerStdoutTests.test_sidecar_list_has_one_definition -v
+
+    test_declared_trace_on_pi_pkg_still_tolerated ... ok
+    test_undeclared_trace_is_rejected_on_pd_ecp_tqaep ... ok
+    test_sidecar_list_has_one_definition ... ok
+
+    Ran 3 tests ... OK
+
+Required end state verified: an undeclared `trace` on PD-PKG/ECP/TQAEP is REJECTED again (findings
+name `trace` for each: "Additional properties are not allowed (trace was unexpected)"), while
+PI-PKG — which DECLARES `trace` — is still accepted, and the four compilers' own stdout with
+`_profile_meta` on PI-PKG still validates to findings=[] (CE-2 stays repaired).
+
+GREEN, full suite (unset PYTHONPATH):
+
+    C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -m unittest discover -s tests -t .
+
+    Ran 321 tests in 107.252s
+
+    OK (skipped=3)
+
+Baseline was 319 (OK, skipped=3); count rose by 2 (the two new CE2TraceWideningTests) and is not
+lower. Nothing committed, pushed, or built; no `schemas/` edit; no `.hgk/artifacts/` edit kept.

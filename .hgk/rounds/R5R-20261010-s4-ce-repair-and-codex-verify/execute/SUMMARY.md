@@ -242,3 +242,68 @@ Evidence appended under `--- tracked_files heuristic (third site) ---` in `red_s
 `green_state.txt`. Single test (after) `Ran 7 tests ... OK`; full suite (after)
 `Ran 319 tests ... OK (skipped=3)` — up from 318 with 1 failure. Nothing committed, pushed, or built;
 no `schemas/` or `.hgk/artifacts/` edit was kept (the one artifact dirtied by the run was reverted).
+
+# Repair — trace widening (checker counterexample CE-CODEX-TRACE-WIDENING)
+
+Fourth bounded-writer order, same round. The independent checker (GPT 6.1 SOL, separate
+`CODEX_HOME`) returned **FAIL on Claim 8** of the round. Adding an undeclared `trace` key to a
+`PD-PKG`, `ECP` or `TQAEP` record returned `verdict=PASS`, `checked=4`, `findings=[]`, exit 0.
+The checker proved it comparatively, not speculatively: it loaded the baseline validator straight
+out of the downloaded published wheel and that validator rejects the exact same records with
+`Additional properties are not allowed (trace was unexpected)`. It also confirmed no shipped
+compiler emits `trace` on those three contracts, so the widening is latent for generator output
+but real for any caller-supplied bundle.
+
+## Why it was a defect in the CE-2 repair
+
+CE-2 schema-checked a copy of the record with `NON_RECORD_SIDECARS` removed, minus any key the
+schema itself declares. That constant was the HASH-EXCLUSION list
+(`subject_id, version, content_hash, schema_version, trace, _profile_meta`). Only `PI-PKG`
+declares `trace`; the other three contracts do not — so the `declared` guard dropped `trace` for
+them and the `additionalProperties: false` rejection vanished. The conflation is the bug: "fields
+excluded from the body hash" and "fields that are not part of the record at all" are different
+sets that happen to overlap on exactly `_profile_meta`.
+
+## How the constant split closes it
+
+`src/pipd_ls_sp/validate.py` now defines two distinct constants, each defined once:
+
+* `HASH_EXCLUDED_FIELDS` — the identity fields + the derived `trace` relation + the `_profile_meta`
+  sidecar. `_body_hash` and `pipeline._seal` both reference this object by identity, so the hash
+  and its recomputation stay one definition and the hash behaviour is unchanged.
+* `NON_RECORD_SIDECARS` — the genuine non-record sidecars no schema declares; today exactly
+  `_profile_meta`. `validate_record` strips ONLY this set (the defensive "unless the schema
+  declares it" guard is kept).
+
+`trace` is no longer stripped before the schema check, so it stays subject to
+`additionalProperties` for every contract that does not declare it — byte-for-byte the published
+validator's behaviour. No schema changed; nothing the pipeline emits changed.
+
+## Tests
+
+`tests/test_ce_repair_regression.py`:
+
+1. New `CE2TraceWideningTests.test_undeclared_trace_is_rejected_on_pd_ecp_tqaep` pins the
+   checker's own counterexample: a bundle whose `PD-PKG`, `ECP` and `TQAEP` members each carry an
+   undeclared `trace` (all other fields and the original `content_hash` untouched — `trace` is
+   hash-excluded, so the body digest is unaffected) must produce findings naming `trace` for each.
+   It FAILS on the starting tree (`'PASS' != 'FAIL'`) and PASSES after the change.
+2. New `CE2TraceWideningTests.test_declared_trace_on_pi_pkg_still_tolerated` guards the other
+   direction: `PI-PKG` DECLARES `trace`, so it must stay accepted.
+3. `test_sidecar_list_has_one_definition` was updated honestly: it now asserts the NEW single
+   definition — both constants exist, `pipeline` imports each by identity, the two concepts are
+   distinct (`NON_RECORD_SIDECARS == ("_profile_meta",)`, `trace in HASH_EXCLUDED_FIELDS`,
+   `trace not in NON_RECORD_SIDECARS`) — and it still fails if anyone re-copies either list into
+   `pipeline`.
+4. The existing CE-2 test (`test_compilers_own_stdout_bundle_is_accepted`) stays green: the four
+   compilers' own stdout, unedited, with `_profile_meta` present on `PI-PKG`, still validates to
+   `findings=[]`.
+
+## Run
+
+`unset PYTHONPATH`; `C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -m unittest
+discover -s tests -t .` → `Ran 321 tests ... OK (skipped=3)`. Baseline was 319 tests
+(`OK (skipped=3)`); the count rose by the two tests added and is not lower. Red/green evidence is
+appended under `--- trace widening (checker counterexample CE-CODEX-TRACE-WIDENING) ---` in
+`red_state.txt` and `green_state.txt`. Nothing committed, pushed, or built; no `schemas/` edit; no
+`.hgk/artifacts/` edit kept.

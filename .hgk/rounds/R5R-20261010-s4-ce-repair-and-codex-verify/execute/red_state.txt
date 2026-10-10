@@ -147,3 +147,37 @@ Scratch proof that the NEW guard fires when it SHOULD (item 5; not a committed t
     # .git machinery detected -> would fail the assertion; .gitignore correctly left alone.
     GUARD FIRES: OK
 
+--- trace widening (checker counterexample CE-CODEX-TRACE-WIDENING) ---
+
+FOURTH bounded-writer order, same round. The independent checker (GPT 6.1 SOL, separate
+CODEX_HOME) returned **FAIL on Claim 8**: adding an undeclared `trace` key to a `PD-PKG`,
+`ECP` or `TQAEP` record now returns verdict=PASS, checked=4, findings=[], exit 0. The PUBLISHED
+validator (loaded from the downloaded wheel) rejects the exact same records with
+"Additional properties are not allowed (trace was unexpected)".
+
+Root cause: the CE-2 repair conflated two distinct concepts in ONE constant
+(`NON_RECORD_SIDECARS` = the HASH-EXCLUSION list: subject_id, version, content_hash,
+schema_version, trace, _profile_meta). `validate_record` stripped every key on that list minus
+the ones the schema itself declares, so `trace` was dropped for PD-PKG/ECP/TQAEP (which do NOT
+declare it) and `additionalProperties: false` never fired. "Fields excluded from the body hash"
+and "fields that are not part of the record at all" are different sets that only overlap on
+`_profile_meta`.
+
+RED (before the fix), the checker's own counterexample pinned as a test on the pre-fix tree
+(sources temporarily restored from git to capture the starting state):
+
+    python -m unittest tests.test_ce_repair_regression.CE2TraceWideningTests \
+        tests.test_ce_repair_regression.CE2CompilerStdoutTests.test_sidecar_list_has_one_definition -v
+
+    test_declared_trace_on_pi_pkg_still_tolerated ... ok
+    test_undeclared_trace_is_rejected_on_pd_ecp_tqaep ... FAIL
+        AssertionError: 'PASS' != 'FAIL'
+        : {'verdict': 'PASS', 'checked': 4, 'findings': []}
+    test_sidecar_list_has_one_definition ... FAIL
+        AssertionError: False is not true : validate must expose the single hash-exclusion definition
+
+    Ran 3 tests ... FAILED (failures=2)
+
+So the widening is reproduced exactly as the checker reported: the undeclared `trace` is accepted
+(`verdict=PASS`), and the source still lacks the separated constant the fix introduces.
+
