@@ -1,3 +1,15 @@
+> **R5Q (2026-10-10) — read this banner first.** The owner has granted **`Apache-2.0`** over this
+> repository and authorised a limited **S4 open source preview / beta**. The distribution entry point
+> is the tag **`v0.1.0-preview.1`**; `main` is still the historical R3 snapshot. The grant, the
+> material-class split and the exclusion policy live in [`LICENSE`](LICENSE),
+> [`NOTICE`](NOTICE), [`OWNER_LICENSE_DECISION.yaml`](OWNER_LICENSE_DECISION.yaml) and
+> [`SBOM.cdx.json`](SBOM.cdx.json) (study FAR-PIPD-R5Q-LICENSE-001).
+>
+> The grant changes **no** engineering claim: `S0_S4_FULL_INDEPENDENT_CHALLENGE` stays
+> `PARTIAL_CHALLENGE`, `DEL-018` stays **FAIL/EVIDENCE_GAP**, the SPEC/DEL denominator stays
+> `28 / 10 / 19`, and `G-RELEASE_FULL_PASS` and `PRODUCTION_VERIFIED` remain **NOT claimed**. The
+> release notes for the tag carry the full known-limitations list.
+>
 > **R5P (2026-10-10) — read this banner before the receipt below.**
 >
 > This file describes the **BASELINE** round (`r5-s4-packreader` @

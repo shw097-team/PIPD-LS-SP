@@ -10,3 +10,18 @@
 No third-party source was copied verbatim. The three donor Skill plugins (SDLC_PRW_HLPE R2,
 SWOF_ECP v2.0.1, SWOF_TQAEP v2.0.1) were inventoried and are retained as SOURCE references
 only; nothing was pasted into this tree.
+
+## Licence layer (R5Q, 2026-10-10)
+
+| layer | value |
+|---|---|
+| grant | `Apache-2.0` — owner grant recorded in `OWNER_LICENSE_DECISION.yaml`; study FAR-PIPD-R5Q-LICENSE-001 |
+| licence text | `LICENSE` = verbatim Apache License 2.0 (`sha256 cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30`) |
+| attribution | `NOTICE` — material-class split, donor-plugin non-assertion, third-party component list, exclusion policy |
+| machine-readable | `SBOM.cdx.json` — project `Apache-2.0`; `jsonschema` corrected to its own `MIT` licence |
+| effective point | the release commit that carries these files; earlier commits of this repository are the historical no-grant state and are not re-labelled |
+
+Scope: the grant covers the agent-authored engineering output and the derived expression produced by
+the governed build from the owner's own governing PIPD corpus. The three donor Skill plugins are NOT
+distributed here and no right over them is asserted. A file later shown to carry third-party rights
+is excluded from the grant from the moment that is established; published tags are not rewritten.

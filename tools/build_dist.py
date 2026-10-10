@@ -37,6 +37,30 @@ REQUIRED_SOURCE_FILES = [
     SRC / NAME / "projection.py",
 ]
 
+# R5Q: the granted licence must travel WITH the binary, not only be asserted in the source tree.
+# The SPDX identifier is read from OWNER_LICENSE_DECISION.yaml so there is exactly one source of
+# truth for the grant; the licence text and NOTICE are packed into <dist-info>/licenses/ (PEP 639).
+LICENCE_SLOT = ROOT / "OWNER_LICENSE_DECISION.yaml"
+LICENCE_TEXT = ROOT / "LICENSE"
+NOTICE_TEXT = ROOT / "NOTICE"
+
+
+def _licence_id() -> str:
+    """SPDX id of the operative owner grant; never invented in code."""
+    for raw in LICENCE_SLOT.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if line.startswith("decision:") and not line.startswith("#"):
+            return line.split(":", 1)[1].split("#", 1)[0].strip()
+    raise RuntimeError("OWNER_LICENSE_DECISION.yaml has no `decision:` slot")
+
+
+def _git_commit() -> str:
+    """Commit the wheel is built FROM (build input identity), or a typed marker if unavailable."""
+    import subprocess
+    cp = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"],
+                        capture_output=True, text=True)
+    return cp.stdout.strip() if cp.returncode == 0 else "NOT_A_GIT_CHECKOUT"
+
 
 def _sha256(b: bytes) -> str:
     return hashlib.sha256(b).hexdigest()
@@ -74,7 +98,8 @@ def _required_schema_files() -> list[Path]:
 
 def _assert_source_complete() -> None:
     missing = []
-    for p in [SCHEMAS / "registry.json", *REQUIRED_SOURCE_FILES, *_required_schema_files()]:
+    for p in [SCHEMAS / "registry.json", *REQUIRED_SOURCE_FILES, *_required_schema_files(),
+              LICENCE_SLOT, LICENCE_TEXT, NOTICE_TEXT]:
         if not p.is_file():
             missing.append(str(p.relative_to(ROOT)))
     if not (SCHEMAS / "registry.json").is_file():
@@ -104,17 +129,22 @@ def build_wheel() -> dict:
     for p in sorted(SCHEMAS.rglob("*.json")):
         files[f"{NAME}/schemas/{p.relative_to(SCHEMAS).as_posix()}"] = p.read_bytes()
 
+    licence = _licence_id()
     files[f"{DISTINFO}/METADATA"] = (
-        "Metadata-Version: 2.3\n"
+        "Metadata-Version: 2.4\n"
         f"Name: pipd-ls-sp\nVersion: {VERSION}\n"
         "Summary: PIPD-LS-SP Pre-Implementation & Pre-Dev Lifecycle Skills Plugin (HG-KSEOS governed)\n"
         "Requires-Python: >=3.11\n"
         "Requires-Dist: jsonschema>=4.0\n"
-        "License: LicenseRef-PIPD-Proprietary\n"
+        f"License-Expression: {licence}\n"
+        "License-File: LICENSE\n"
+        "License-File: NOTICE\n"
         "Description-Content-Type: text/markdown\n\n"
-        "# PIPD-LS-SP\n\nGoverned pre-implementation contract compiler. Licence position: see LICENSE "
-        "(no licence granted; owner grant pending, TT-PIPD-LICENSE-001).\n"
+        "# PIPD-LS-SP\n\nGoverned pre-implementation contract compiler. Licensed under Apache-2.0; "
+        "see LICENSE and NOTICE (both packed in this wheel under the .dist-info/licenses directory).\n"
     ).encode()
+    files[f"{DISTINFO}/licenses/LICENSE"] = LICENCE_TEXT.read_bytes()
+    files[f"{DISTINFO}/licenses/NOTICE"] = NOTICE_TEXT.read_bytes()
     files[f"{DISTINFO}/WHEEL"] = (
         "Wheel-Version: 1.0\nGenerator: pipd-ls-sp hand-built (PEP 427)\n"
         "Root-Is-Purelib: true\nTag: py3-none-any\n"
@@ -144,9 +174,19 @@ def build_wheel() -> dict:
         "product_digest": _sha256(_canonical_json([[k, member_hashes[k]] for k in sorted(member_hashes)]).encode()),
         "entry_points": {"pipd": "pipd_ls_sp.cli:main"},
         "requires_dist": ["jsonschema>=4.0"],
-        "licence": "LicenseRef-PIPD-Proprietary",
-        "built_by": "hand-built PEP 427 (no build backend available offline)",
+        "licence": licence,
+        "licence_files": ["LICENSE", "NOTICE", LICENCE_SLOT.name],
+        "build_input_commit": _git_commit(),
+        "released_commit": "SEE_PUBLICATION_BINDING_R5Q.json",
+        "released_commit_note": (
+            "the wheel is built FROM build_input_commit; the commit the release tag resolves to "
+            "does not exist yet at build time and is bound by the publication binding, so this "
+            "field never pretends the two identities are the same SHA (CORR-07)"),
         "candidate_head": _candidate_head(),
+        "candidate_head_note": (
+            "legacy field: the frozen R5 source identity the schemas were generated from; it is "
+            "NOT the release tip"),
+        "built_by": "hand-built PEP 427 (no build backend available offline)",
     }
     (DIST / "WHEEL_MANIFEST.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=1),
                                               encoding="utf-8", newline="")
@@ -158,7 +198,8 @@ def build_wheel() -> dict:
 def main() -> int:
     m = build_wheel()
     print(json.dumps({k: m[k] for k in ("artefact", "sha256", "bytes", "member_count", "product_digest",
-                                        "candidate_head", "entry_points", "licence")},
+                                        "candidate_head", "entry_points", "licence", "licence_files",
+                                        "build_input_commit", "released_commit")},
                      ensure_ascii=False, indent=1))
     return 0
 

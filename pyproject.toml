@@ -4,6 +4,8 @@ version = "0.1.0"
 description = "PIPD-LS-SP Pre-Implementation & Pre-Dev Lifecycle Skills Plugin (HG-KSEOS governed)"
 requires-python = ">=3.11"
 dependencies = ["jsonschema>=4.0"]
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
 
 [project.scripts]
 pipd = "pipd_ls_sp.cli:main"
@@ -16,6 +18,10 @@ build-backend = "setuptools.build_meta"
 # environment is network-off with no build backend available at build time. The declarations below
 # are not used by that offline build; they exist so any future backend-driven build produces the
 # same install-safe layout — the `schemas/` tree mapped into the package as package data.
+# R5Q: the wheel's own METADATA is emitted by tools/build_dist.py, which now reads the SPDX
+# identifier from OWNER_LICENSE_DECISION.yaml (single source of truth) and packs LICENSE + NOTICE
+# into <dist-info>/licenses/ per PEP 639, so the granted licence travels with the binary rather
+# than being asserted only in this file. Verified by tools/r5q_wheel_license_check.py.
 [tool.setuptools]
 packages = ["pipd_ls_sp"]
 package-dir = { "" = "src" }

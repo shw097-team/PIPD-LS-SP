@@ -1,5 +1,21 @@
 # PIPD-LS-SP — Pre-Implementation / Pre-Dev Lifecycle Skills Plugin (review candidate)
 
+> **S4 OPEN SOURCE PREVIEW / BETA — licence granted by the owner as `Apache-2.0`.**
+>
+> The distribution entry point for this preview is the tag **`v0.1.0-preview.1`**, not the default
+> branch. `main` is still the historical R3 snapshot and must not be used to judge this preview.
+>
+> | what | where |
+> |---|---|
+> | licence | [`LICENSE`](LICENSE) (verbatim Apache License 2.0); attribution and material-class split in [`NOTICE`](NOTICE) |
+> | grant record | [`OWNER_LICENSE_DECISION.yaml`](OWNER_LICENSE_DECISION.yaml) — `decision: Apache-2.0`, effective at the release commit |
+> | machine-readable licence | [`SBOM.cdx.json`](SBOM.cdx.json) |
+> | what is **not** claimed | [`ACCEPTANCE.md`](ACCEPTANCE.md) and the release notes for the tag |
+>
+> This is a **preview**, not a production release: `DEL-018` (RELEASE_MANIFEST@1) stays an open
+> release-evidence gap, the full S0–S4 independent challenge is `PARTIAL_CHALLENGE`, and S5–S8,
+> host-native certification and PRE-W3 are deferred. Nothing above is inherited from any earlier round.
+
 Candidate artifact of a governed implementation round. Control plane: **HG-KSEOS**
 (project `PIPD-LS-SP-20261008`). Runtime / orchestration plane: **Hermes** under HGK admission.
 Contract surface: **Fabric**.
@@ -17,7 +33,8 @@ Contract surface: **Fabric**.
 | `src/pipd_ls_sp/` | the plugin runtime: intake, profile binding, PI→PD→ConstructionContract→ECP/TQAEP pipeline, deterministic validators, 13-command CLI |
 | `tests/` | deterministic tests: S0 contract set, LITE vertical slice, negative/adversarial, rollback, secret patterns, tooling guards, quarantine disposition (POS/NEG/EDGE), oracle-disagreement, evidence-MD hard-gate refusal — live count below, never a stale number |
 | `tools/` | governed round tooling (knowledge probe, HGK admission driver, kanban receipts, CLI smoke) |
-| `LICENSE`, `PROVENANCE.md`, `SBOM.cdx.json` | release-gate artifacts |
+| `LICENSE`, `NOTICE`, `PROVENANCE.md`, `SBOM.cdx.json` | release-gate artifacts (licence text, attribution + material-class split, provenance, machine-readable licence) |
+| `PREVIEW_NOTES_v0.1.0-preview.1.md` | preview release notes: what this build is, how to verify it, and what it does not claim |
 
 ## Claim ceiling — read this before believing anything
 
@@ -30,13 +47,17 @@ This repository is a **review candidate**. Status words are kept separate on pur
 | `RUNTIME_READY` | **NOT claimed** |
 | `LOCAL_QUALIFIED` | claimed locally (deterministic tests + CLI smoke), scoped to S0/S1 |
 | `INDEPENDENT_PASS` | **NOT CLAIMED by the maker** — pending an independent acceptance officer receipt |
-| `PUBLICATION_APPROVED` | **NOT claimed** — no license is declared in the source corpus |
-| `RELEASED` | **NOT claimed** |
+| `PUBLICATION_APPROVED` | **GRANTED** for the limited S4 open-source preview: owner licence decision `Apache-2.0` in [`OWNER_LICENSE_DECISION.yaml`](OWNER_LICENSE_DECISION.yaml) (round R5Q, 2026-10-10). Still **NOT claimed**: `G-RELEASE_FULL_PASS` — `DEL-018` remains an open release evidence gap |
+| `RELEASED` | limited: `OWNER_AUTHORIZED_OPEN_SOURCE_PREVIEW_BETA_PUBLISHED` only, at the preview tag |
 | `PRODUCTION_VERIFIED` | **NOT claimed** |
 
 **Historical R3 snapshot (kept as history, not the current product state):** `S0` and `S1` are the only stages reached. S2–S8 are not implemented.
 
-> The sentence above is the **R3** snapshot. The branch **current for review** is **`r5p-post-challenge-repair`** (baseline `r5-s4-packreader` @ `0f06eec96386b7349db8b41ac6cf9c7455d326f1`; `main` is still the R3 state). The current acceptance entry point is [`ACCEPTANCE.md`](ACCEPTANCE.md), which names the candidate ceiling: an **`S4` candidate, internal evaluation**, licensed **`LicenseRef-PIPD-Proprietary`** with **no public-use grant**. This note upgrades no claim level.
+> The sentence above is the **R3** snapshot. The branch **current for review** is **`r5p-post-challenge-repair`** (baseline `r5-s4-packreader` @ `0f06eec96386b7349db8b41ac6cf9c7455d326f1`; `main` is still the R3 state). The current acceptance entry point is [`ACCEPTANCE.md`](ACCEPTANCE.md), which names the candidate ceiling: an **`S4` candidate, internal evaluation**, licensed **`LicenseRef-PIPD-Proprietary`** with **no public-use grant** — *historical, superseded by the R5Q owner grant below*. This note upgrades no claim level.
+>
+> **R5Q (2026-10-10) supersedes the licence sentence above.** The owner granted **`Apache-2.0`** over this repository (record: [`OWNER_LICENSE_DECISION.yaml`](OWNER_LICENSE_DECISION.yaml), study FAR-PIPD-R5Q-LICENSE-001); the grant becomes publicly effective at the release commit carrying it, and **the tag `v0.1.0-preview.1` — not this branch and not `main` — is the distribution entry point for the preview.** The prior no-grant state is retained as history above rather than rewritten. Claim level after the grant is still bounded: `PARTIAL_CHALLENGE`, `DEL-018` open, no `G-RELEASE_FULL_PASS`, no `PRODUCTION_VERIFIED`.
+
+> **Preview known limitations** (full text in the release notes for `v0.1.0-preview.1`): `DEL-018 RELEASE_MANIFEST@1` remains **FAIL/EVIDENCE_GAP** — `tools/build_publication_manifest.py --check --current` exits 1 and the uncovered paths are `tests/test_git_object_reader.py`, `tests/test_doctor_schema_truth.py`, `tests/test_tqaep_design_positive.py`; the SPEC/DEL denominator stays `28 evidenced / 10 active gaps / 19 deferred`; native Windows symlink/junction/reparse behaviour is not certified beyond the tested scope (`TT-R5P-01`, `TT-R5P-06`); there is no install-time cryptographic readback, only published SHA-256 for manual verification (`TT-R5P-02`); S5 (HGK live), S6 (GENIE), S7 (JIT), S8 (SWOF/SGM), PRE-W3 and the 22 inactive external technologies are deferred; `PRODUCTION_VERIFIED` is not claimed.
 
 **R4 (2026-10-09) keeps every one of those ceilings — nothing below was promoted.**
 `INDEPENDENT_PASS`, `PUBLICATION_APPROVED`, `RELEASED` and `PRODUCTION_VERIFIED` remain **NOT CLAIMED**. One repair
