@@ -1,22 +1,22 @@
 {
  "schema": "PIPD-PUBLICATION-PROJECTION/1",
  "policy_version": "CAPC-PROMPT-CONTRACT/1",
- "generated_at": "2026-10-09T07:31:56.590677+00:00",
+ "generated_at": "2026-10-10T06:17:46.647281+00:00",
  "subject_scope": {
   "scope": "PUBLISHED_SUBJECT",
-  "commit": "3aebbbce948871c07b875ab92acf263d298ecf38",
-  "tree": "1a7dc57f9403202c32d1bc01deb1925ac1f6412e",
+  "commit": "f4f0a02ca71a5a6e2c77c9dad1b961ccea4487df",
+  "tree": "49082394d1e895e7eb5ca46a94fe217468f0a6ab",
   "ref": "r3-candidate",
   "statement": "this crosswalk covers the published subject commit/tree only; it does NOT assert coverage of the current worktree (see the current_tree_coverage report)"
  },
  "published_subject": {
-  "commit": "3aebbbce948871c07b875ab92acf263d298ecf38",
-  "tree": "1a7dc57f9403202c32d1bc01deb1925ac1f6412e",
+  "commit": "f4f0a02ca71a5a6e2c77c9dad1b961ccea4487df",
+  "tree": "49082394d1e895e7eb5ca46a94fe217468f0a6ab",
   "ref": "r3-candidate"
  },
  "local_candidate": {
-  "commit": "10cb3d31fcbd54fffe64152f4b17085866d0d75e",
-  "tree": "bba26ad0634e46169270e81109f9db22c967602a",
+  "commit": "818157b19f6661b0e80e1686b08ad6d76267d465",
+  "tree": "19d26c75f1c3b78b795519d416a8c242446881c8",
   "role": "frozen local candidate the evidence manifest is sealed against"
  },
  "subjects_are_distinct": true,
@@ -33,30 +33,30 @@
  "oversize_limit_bytes": 104857600,
  "source_manifest": {
   "path": ".hgk/artifacts/evidence_manifest.json",
-  "sha256": "35820052406132bcbc870f7399f181f5129a41f93166ce5d0f2b5b876640c8d6",
-  "bytes": 258247,
-  "entries": 1668
+  "sha256": "298b89ec3b4a01c133b194f16ba2d78e6ecedf58bfd02cd286c1b04ea666a921",
+  "bytes": 290306,
+  "entries": 1916
  },
  "source_manifest_seal": {
   "path": ".hgk/artifacts/evidence_manifest.seal.json",
-  "sha256": "8f7b4ee0f9d1c4157a5392a57c11d32834cba03b6307000fb301d2784c5e1b5c",
+  "sha256": "240cb606c85dd0a476c1ead897deac444b7e5a4bd35078f879f5cb226c7986b9",
   "candidate": {
-   "repo_commit_sha": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
-   "candidate_tree_sha": "b2d5faf52a1b7b37f85c0a83162cbaaa896edb37",
+   "repo_commit_sha": "818157b19f6661b0e80e1686b08ad6d76267d465",
+   "candidate_tree_sha": "19d26c75f1c3b78b795519d416a8c242446881c8",
    "stage": "S0-S4",
    "policy_version": "CAPC-PROMPT-CONTRACT/1"
   }
  },
- "product_digest": "81ac7e3421208ade4b4b00d9edb0402de3f696a889d3a8a166aa9fb49d76a60f",
- "manifest_digest": "8786778396770f86330d9f3813e2b6281ec289b802cc57c84c3de61de29eb2e7",
+ "product_digest": "454cf0623eabea20e6637ef2fa0cf2c065528c2b1fdad4c12e4635aed80beb4a",
+ "manifest_digest": "b3e422583044c916bdc4663c01f114f244572226fa33d3ff2088c2812a91c78b",
  "counts": {
-  "total": 1668,
-  "PUBLIC_IN_PUBLISHED_TREE": 594,
+  "total": 1916,
+  "PUBLIC_IN_PUBLISHED_TREE": 831,
   "PRIVATE_ARCHIVE": 8,
   "EXCLUDED_OVERSIZE": 0,
-  "NOT_PUBLISHED": 1066
+  "NOT_PUBLISHED": 1077
  },
- "crosswalk_digest": "51386beac34659709e8713132d9d94a1750060b94c70c68de1ab90b2af248a29",
+ "crosswalk_digest": "09af17e6272f0a0a42548da7e67a2f2dc82f53d579d3c1addc6a56e3bd374adb",
  "entries": {
   ".agents/skills/.openspec-target": {
    "local_sha256": "243b0dc9b847e66c440dca985e10fe0ce9e29c379b018ddd5747ba8948f84cc8",
@@ -366,6 +366,20 @@
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob 31bc1ed3d89b046315e4d3876be0145a757b68a3"
   },
+  ".hgk/ao/pub/PUBLICATION_PROJECTION_MANIFEST.json": {
+   "local_sha256": "52d8e0f6c31519156275dde228f580c99dce853055f37ac4c0f8756535911643",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "e16b1c6d4beb6525a6bc84904f29be36464cb2ce60d7393c75d968d0f138f9e0",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 38dae9b1eb4019fc40bfe30ec343ab3e7a2de064"
+  },
+  ".hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION.json": {
+   "local_sha256": "e3b1be44b7936ebeb1d9388915205d8c7f3b9d2c71f657ef2299edc8688a02bd",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "b0ca584503a6ec711692afb20d919a63b2ffa5c90290e7b7226af0b55d504b5e",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob ce146975bfff10626cd0235ed8f0d9fffcb26ff1"
+  },
   ".hgk/ao/run_ao_lane.sh": {
    "local_sha256": "d69d231499c8c249777ae26735d5cda4ed11276986378af39dc925a74402775d",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
@@ -451,18 +465,18 @@
    "reference": "published tree blob 883ec7ca62b9c7661bd0579994dacff67e828324"
   },
   ".hgk/artifacts/TT_REGISTER.json": {
-   "local_sha256": "9eeb5bc6bc997b568950033597567c44fa94699ef95c334b5cf9179d04b53295",
+   "local_sha256": "94e4b82ea6bcfdbd7d98537711433c95408313348cad2f1715edb32fd590546f",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "240a1f9e7eca54f38ee270f2f10247d88564a5be5eb25180591300c38593b040",
+   "published_blob_sha256": "98fb9ab87874ee13c82bd669f04620c9d7b7895a939f6850cd9b44ce3a5fc9aa",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob e048405e9c9e972e94e9ec578b5ccd2be9826efb"
+   "reference": "published tree blob 93b8430dcf1b0c06dfa3133beff503db80fe86e0"
   },
   ".hgk/artifacts/cli/CLI_SMOKE.json": {
-   "local_sha256": "3363ee02e564034a88e2fb92b72675a4f9e1770d6e4132cdaa6c586d2ed2bee9",
+   "local_sha256": "6cb6fe24f3a31f34c549b3a8c41e519e6235888cc1ffba82cc4ff6307241bbbc",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "3363ee02e564034a88e2fb92b72675a4f9e1770d6e4132cdaa6c586d2ed2bee9",
+   "published_blob_sha256": "6cb6fe24f3a31f34c549b3a8c41e519e6235888cc1ffba82cc4ff6307241bbbc",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob a770994fc7a943c6ff9e8f7e0bb2283c1725abdd"
+   "reference": "published tree blob cb683f5ad396eb924a3f8014880eda7788c23fcc"
   },
   ".hgk/artifacts/compiler_receipt_recheck.json": {
    "local_sha256": "a65891a6e977b5edc92988d805d7bd4f00a0aa896298e82c916646b71bab438a",
@@ -535,11 +549,11 @@
    "reference": "published tree blob 4b5acd8f814f3fa13fccab53252c722ddf1355b7"
   },
   ".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json": {
-   "local_sha256": "02fbefc856538e5814bec727bbc4bf058bc996556173da2ff2f0bc3d273b9a6b",
+   "local_sha256": "f6269eb6e4b7f3102433260919ee8ab383697b11ecd32b73e19f9166d90a8d35",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "02fbefc856538e5814bec727bbc4bf058bc996556173da2ff2f0bc3d273b9a6b",
+   "published_blob_sha256": "f6269eb6e4b7f3102433260919ee8ab383697b11ecd32b73e19f9166d90a8d35",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 1e20cc9c5305bfdf5ea27025fd61e41a9c6d3b6c"
+   "reference": "published tree blob ca5f7c3ddb43297c55cce9f0a2e8baf4547dd15c"
   },
   ".hgk/artifacts/s1/artifact_validation.json": {
    "local_sha256": "5737a24d6f7c3c7d3151d538b59ce36bb206eaac6480ad1cb91b14be9a3e9b05",
@@ -583,6 +597,27 @@
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob 773ad41865287e7478c6450cb6e8592d269f5343"
   },
+  ".hgk/artifacts/s1/export_bundle/SHA256SUMS": {
+   "local_sha256": "7286f0a176659bbcb5c0e6e7208bbf55edf9db5e68581278757ec27ddc0e537b",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "7286f0a176659bbcb5c0e6e7208bbf55edf9db5e68581278757ec27ddc0e537b",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 22d2b96f0378ab0634302fd2923706fe5f388af0"
+  },
+  ".hgk/artifacts/s1/export_bundle/export_bundle.tar.gz": {
+   "local_sha256": "2dec2a5c9ff323bebcd77a44cc6d562c7560ce12b9145e81f16d0e0675dd6200",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "2dec2a5c9ff323bebcd77a44cc6d562c7560ce12b9145e81f16d0e0675dd6200",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 2dd95ce0810264d8f9758beb34dca6feb1efd1ad"
+  },
+  ".hgk/artifacts/s1/export_bundle/export_manifest.json": {
+   "local_sha256": "b028644033c2291f308eacc0cfe12ba7942662eec15acf1052920958b28b29f4",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "b028644033c2291f308eacc0cfe12ba7942662eec15acf1052920958b28b29f4",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 8e37d93357d05ef9f86c34b87939342b1d4303e5"
+  },
   ".hgk/artifacts/s1/intent_card.json": {
    "local_sha256": "393e3e8a8c0b266ef88eeb636ce04057702a0bc3a11b91746e1c5b9835467c13",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
@@ -625,6 +660,111 @@
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob 2ead0fc6d671ca3bcd52e87659ab763377992041"
   },
+  ".hgk/artifacts/s1/web_projection/OPTIONAL_SITE_UI/README.md": {
+   "local_sha256": "971a89d34b8f03cad5f40f22eca9cfa6b67c9035843448f9751b214bf083e709",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "971a89d34b8f03cad5f40f22eca9cfa6b67c9035843448f9751b214bf083e709",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob f62a187881827611b46368410ade94fe9c5a49ae"
+  },
+  ".hgk/artifacts/s1/web_projection/OPTIONAL_SITE_UI/app.js": {
+   "local_sha256": "f297adb657e233cd7c17288f10110a4a2878f8eb788a251c038bf8a268376c84",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "f297adb657e233cd7c17288f10110a4a2878f8eb788a251c038bf8a268376c84",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 8fe49c39d1a23b8cdb07d49fce1f527fd026902b"
+  },
+  ".hgk/artifacts/s1/web_projection/OPTIONAL_SITE_UI/index.html": {
+   "local_sha256": "227647f8e0e7c2f4aef262cf8ad362249c1754e333f289a1dcbd20d7c4c3aedd",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "227647f8e0e7c2f4aef262cf8ad362249c1754e333f289a1dcbd20d7c4c3aedd",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob d6a4c139b081dbc035e0a92b8b17a9f3a273eb36"
+  },
+  ".hgk/artifacts/s1/web_projection/OPTIONAL_SITE_UI/manifest.webmanifest": {
+   "local_sha256": "77f801d3f2b793b67bc3b04814363e5bf0415cb10f9fa0a80124a971ed18bfdf",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "77f801d3f2b793b67bc3b04814363e5bf0415cb10f9fa0a80124a971ed18bfdf",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob a4c65ea737fff0ac3853fcf5b6f8e78e430983ad"
+  },
+  ".hgk/artifacts/s1/web_projection/OPTIONAL_SITE_UI/styles.css": {
+   "local_sha256": "a86b3f6965a46b61cd5c6e864e67d9c05933c95bfbf6f6bd0d36559185585823",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "a86b3f6965a46b61cd5c6e864e67d9c05933c95bfbf6f6bd0d36559185585823",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 83ee686e14b35d857fc3a529a7f006fa24e17ff4"
+  },
+  ".hgk/artifacts/s1/web_projection/PIPD_ARTIFACT_SCHEMAS.md": {
+   "local_sha256": "a6b08541e96b84c6fbcb8701f525cfdd615dceeb39395e2fa97d94d2aac286a0",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "a6b08541e96b84c6fbcb8701f525cfdd615dceeb39395e2fa97d94d2aac286a0",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob e63f5d0691e15f8a118a81006983d23b83f620a8"
+  },
+  ".hgk/artifacts/s1/web_projection/PIPD_BOOTSTRAP.md": {
+   "local_sha256": "50f8f60450314472db660c306f9877c8f36ca2662ad8b7c72a83a649507724e5",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "50f8f60450314472db660c306f9877c8f36ca2662ad8b7c72a83a649507724e5",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob b63b64c14885880edec99685ba1303dd984f9883"
+  },
+  ".hgk/artifacts/s1/web_projection/PIPD_CANONICAL_CORE.md": {
+   "local_sha256": "8660d4174d0a7bf38a148e563fa36cf81316ed8970cafc603492bff1dd2b63fc",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "8660d4174d0a7bf38a148e563fa36cf81316ed8970cafc603492bff1dd2b63fc",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 5d7947296709116a8d6a58790d480614456fc8e0"
+  },
+  ".hgk/artifacts/s1/web_projection/PIPD_EVAL_HANDOFF.md": {
+   "local_sha256": "da2180459a52647eaa4cc14adb26f9f224f3efe8bf3dba4721d762232eaf3570",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "da2180459a52647eaa4cc14adb26f9f224f3efe8bf3dba4721d762232eaf3570",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob e0760e956d32fb22c9d8cb4f075e8d8f5e36edd7"
+  },
+  ".hgk/artifacts/s1/web_projection/PIPD_ROUTER_PROFILES.md": {
+   "local_sha256": "5616ba661873eb0906e6c772530e5aa9ccd74e29da47ea9fe5aaa71b80031188",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "5616ba661873eb0906e6c772530e5aa9ccd74e29da47ea9fe5aaa71b80031188",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 1c5d2f0d122c3ff700968b791ff2fa4a4f6df173"
+  },
+  ".hgk/artifacts/s1/web_projection/PROJECTION_IR.json": {
+   "local_sha256": "0143ce2e160e744a65ccddc47e5012d37cc301b91f60a74e2520d9f00051df1c",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "0143ce2e160e744a65ccddc47e5012d37cc301b91f60a74e2520d9f00051df1c",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 90bd7fa765a4bc36e2c7706746c7c33e08b84934"
+  },
+  ".hgk/artifacts/s1/web_projection/host_generic-skills/SKILL.md": {
+   "local_sha256": "e691970932ed27293b4073223b665957272026f3b39cc85bc318985bbce74127",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "e691970932ed27293b4073223b665957272026f3b39cc85bc318985bbce74127",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob eb3640218f61bde8f655a9512039f7a926f4a80a"
+  },
+  ".hgk/artifacts/s1/web_projection/host_genie-adapter/object-crosswalk.json": {
+   "local_sha256": "1f942342b9ea6af587e3b1153bee2ccf33529eaee65786530b87dbe7a12307b7",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "1f942342b9ea6af587e3b1153bee2ccf33529eaee65786530b87dbe7a12307b7",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 36cc21a242868babcd12dc0c39e56c019d587aec"
+  },
+  ".hgk/artifacts/s1/web_projection/host_hgk-receiver/receiver-map.json": {
+   "local_sha256": "682cb92264b3016ad134d710cab5b371cf39b5f746b8bc85071add4613d1af4d",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "682cb92264b3016ad134d710cab5b371cf39b5f746b8bc85071add4613d1af4d",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 9bdc08a448d7a55075faae8982b711ecea905b1d"
+  },
+  ".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json": {
+   "local_sha256": "f09b5912555db364a4aabc7607453f032100ac18a7ebe654261fe16ad721cf37",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "f09b5912555db364a4aabc7607453f032100ac18a7ebe654261fe16ad721cf37",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 0dac7d9860c8e12946052c3a07cb6aaf6d865645"
+  },
   ".hgk/artifacts/s2/NRTV_JUDGE.json": {
    "local_sha256": "c89b948f702213d331f26a2762cdfecabad3c2cf74f9b15110e585201ff5bd2e",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
@@ -633,11 +773,11 @@
    "reference": "published tree blob 8e7895cec5fd3c2ad541b41d3ab0b6a5e8764eda"
   },
   ".hgk/artifacts/s2/PERF_BUDGET.json": {
-   "local_sha256": "cf3919e5b3e555b684df4ff5f3839fc8ce231286cae0ef4661ee1d552c8100ce",
+   "local_sha256": "10e5209e840a23991b40f9d960f9345dec9c6aeec1bc564b84e95d1ef447d98f",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "cf3919e5b3e555b684df4ff5f3839fc8ce231286cae0ef4661ee1d552c8100ce",
+   "published_blob_sha256": "10e5209e840a23991b40f9d960f9345dec9c6aeec1bc564b84e95d1ef447d98f",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob bfa32582c5ca86d0051f448d6a7cd8d1d87c4ecf"
+   "reference": "published tree blob aee6576b004f04b488d863c63e5d65ddb7f78f8b"
   },
   ".hgk/artifacts/s2/pilots/GOLDEN_PILOTS.json": {
    "local_sha256": "09f1576701d4417aba3ef27666614d860aa5d3653dd2ba9e801d1d52dffa1e70",
@@ -668,11 +808,11 @@
    "reference": "published tree blob 5ed184149abcb490413a6614bbf73a2a2b25fefe"
   },
   ".hgk/artifacts/s3/HOST_PROJECTIONS.json": {
-   "local_sha256": "1943d608786b415f991199d8d4436fa77c51e5c562fe20542d986d257eea99f8",
+   "local_sha256": "e3c252cbd9256d8bee718ef260f4d96209fa1648cfb82f19b9e0da5f5223bd79",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "1943d608786b415f991199d8d4436fa77c51e5c562fe20542d986d257eea99f8",
+   "published_blob_sha256": "e3c252cbd9256d8bee718ef260f4d96209fa1648cfb82f19b9e0da5f5223bd79",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 676b65a0ab6ce5a0d1b4c8819843d29e3188995a"
+   "reference": "published tree blob 36bb67ace25c67c8f5d751509c7d721e5e8cf8de"
   },
   ".hgk/artifacts/s3/PORTABLE_INSTALL.json": {
    "local_sha256": "6ea19ef164dd7eee0e30c8af657291e6a0ca68960eef463a17addd671c4df8f3",
@@ -682,18 +822,18 @@
    "reference": "published tree blob 8241d2b461bde743e254f4bb86bc52867b0ebe33"
   },
   ".hgk/artifacts/s3/WEB_PACK.json": {
-   "local_sha256": "41c9f49623a8fb2bdc8bedd38bd9a8de6e043630116202394241643ff86547fc",
+   "local_sha256": "d39cb074f082c94bd343a5d6cf32589cd440e374f3d954b3719a503ad2e53071",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "41c9f49623a8fb2bdc8bedd38bd9a8de6e043630116202394241643ff86547fc",
+   "published_blob_sha256": "d39cb074f082c94bd343a5d6cf32589cd440e374f3d954b3719a503ad2e53071",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 67855658ff730b186c77b43f2ae9774cedf8a053"
+   "reference": "published tree blob 803338ef8d38245735d461f0ec83e904a757202b"
   },
   ".hgk/artifacts/s4/CLI_SURFACE.json": {
-   "local_sha256": "2cfa7f6a0be96110a9faa3e2171865229100c7906f7d28a1d28e0fbac84e61c5",
+   "local_sha256": "1ce4f4f7ac847dcdbbfc774fd0284ea693e35084a2a602091c066f2d88c18681",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "2cfa7f6a0be96110a9faa3e2171865229100c7906f7d28a1d28e0fbac84e61c5",
+   "published_blob_sha256": "1ce4f4f7ac847dcdbbfc774fd0284ea693e35084a2a602091c066f2d88c18681",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 4566e0328ebe7b1272dd06b479fc06574141c0f1"
+   "reference": "published tree blob 01fba556c673d74de25f1c1e4dafd9717f72be24"
   },
   ".hgk/artifacts/s4/REPLAY.json": {
    "local_sha256": "3bec466dee553cabd02e7a2e213bf6b96296c3b153136cc74426064ca5790456",
@@ -814,19 +954,54 @@
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob e8853738afd06bdf594275ca948fca71b4fe87fa"
   },
-  ".hgk/kanban/canonical_completion.json": {
-   "local_sha256": "51653de5c8b5ac9e52b3aac9abf1fb24e9faa62bea62860949a96ef3462c557a",
+  ".hgk/far/FAR-PIPD-R5S4-GAPCLOSURE-001/EVIDENCE_GAPCLOSURE.json": {
+   "local_sha256": "40ccfaf30d6431769993471b36ebd39c5d689e00410b8685bf0691fffc7128ea",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "51653de5c8b5ac9e52b3aac9abf1fb24e9faa62bea62860949a96ef3462c557a",
+   "published_blob_sha256": "40ccfaf30d6431769993471b36ebd39c5d689e00410b8685bf0691fffc7128ea",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob b81800b134d5b4b145eea294ab0074aa739e6b74"
+   "reference": "published tree blob 13f988c02c3814e8aff57eef59d5a57978645732"
+  },
+  ".hgk/far/FAR-PIPD-R5S4-GAPCLOSURE-001/PIPD-LS-SP_R5_S4_FAR_GAPCLOSURE_FEASIBILITY_2026-10-10.md": {
+   "local_sha256": "6290ce46adfac4d2ff81c44c5c2fba5b9d404a0d23e23829eb4f2f4076e9aeb1",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "6290ce46adfac4d2ff81c44c5c2fba5b9d404a0d23e23829eb4f2f4076e9aeb1",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 6367c4a14e79e44200d27ee5abaf721248e42c0d"
+  },
+  ".hgk/far/FAR-PIPD-R5S4-GAPCLOSURE-001/PIPD-LS-SP_R5_S4_FAR_GAPCLOSURE_FEASIBILITY_2026-10-10.md.sha256": {
+   "local_sha256": "d9e77d06468a85aa8ee65adc486c4cc2947b98d36b400d193dd63b9f17ba26c1",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "d9e77d06468a85aa8ee65adc486c4cc2947b98d36b400d193dd63b9f17ba26c1",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 223074a920e3f231a5ea7620f5d5b6e478ead22f"
+  },
+  ".hgk/far/FAR-PIPD-R5S4-S2PERF-LICENSE-001/EVIDENCE_S2PERF.json": {
+   "local_sha256": "18972e4f62023dac95929534033410e03f5c86c53795a7072046fdb921ef7506",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "f9575739b4d1ce2b8c1dd52c3b6cd5ded97371794b602b8bf2dc13e2394e7685",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 5a71a6533f73830dc2f72f0d2e0546bebedaf01c"
+  },
+  ".hgk/far/FAR-PIPD-R5S4-S2PERF-LICENSE-001/OWNER_ADJUDICATION_SLOTS.yaml": {
+   "local_sha256": "ab980dccd06c7f1b3c20eab4946d5a769b7ded160d5173aa2f0994a12945e5ce",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ab980dccd06c7f1b3c20eab4946d5a769b7ded160d5173aa2f0994a12945e5ce",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob a30d9c55034a1489d670c1882ce161915146f232"
+  },
+  ".hgk/kanban/canonical_completion.json": {
+   "local_sha256": "a2e3852930a108153bef7833806e703d67d3bcf7db8f9e2cddeae0a17353beb8",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "a2e3852930a108153bef7833806e703d67d3bcf7db8f9e2cddeae0a17353beb8",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 8e906f7d531cc66f9409ac26e2e42dfbbafa8cd5"
   },
   ".hgk/kanban/canonical_dag.json": {
-   "local_sha256": "fe651f181bddbd57a0367ab6ad0d657716eacd16b5cd1e8f3a18c12a79844df1",
+   "local_sha256": "0d4349f6d2c574b2712c4b533fe6e7839255e318b4bf87aa0baf6b931a5a8525",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "fe651f181bddbd57a0367ab6ad0d657716eacd16b5cd1e8f3a18c12a79844df1",
+   "published_blob_sha256": "0d4349f6d2c574b2712c4b533fe6e7839255e318b4bf87aa0baf6b931a5a8525",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 573fc2b75c40b328018cf8d4fd02bffa587bd2df"
+   "reference": "published tree blob b83e953d15156dfa95ecddf8bb9dde9187d02a14"
   },
   ".hgk/kanban/canonical_ids.txt": {
    "local_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -974,6 +1149,398 @@
    "published_blob_sha256": "d59ab88114b1257583dd98aa82ee25eeb77b3d564563a9ba75a82aa13233d2f2",
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob 9b62036aba35ab48edd7d640486d73c1a2ff0415"
+  },
+  ".hgk/preflight/R4-compiler/R4.CONTRACT.json": {
+   "local_sha256": "776994c95c73f812083e0154e6fa66e6fffb200d72a11ad49f7a75099f6b2f09",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "718978f76835e6cc53a615488494ba898ac57bae124e76f575581df0f5e305b7",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 345b0f42f2c504d4278b0c4a94ecf6727df4c0bf"
+  },
+  ".hgk/preflight/R4-compiler/compiled/compiler-receipt.json": {
+   "local_sha256": "910dd7c4820f606bdb89323c69c5394a0dc5226a0b8164ed0afbb44646949ef0",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "910dd7c4820f606bdb89323c69c5394a0dc5226a0b8164ed0afbb44646949ef0",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 3599cabb20f0624f495e30d170fd3c7e71091f5b"
+  },
+  ".hgk/preflight/R4-compiler/compiled/compiler-report.json": {
+   "local_sha256": "25d1e7498c8431fb291571874c7b2438e42c0d0e105a7123d07e2c8fc425b4de",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "25d1e7498c8431fb291571874c7b2438e42c0d0e105a7123d07e2c8fc425b4de",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 34ee9a1a23e1aaf3c529dc50f74771f0c3695af1"
+  },
+  ".hgk/preflight/R4-compiler/compiled/thin-prompt.md": {
+   "local_sha256": "2b1c4229a0c36b23a9a5ab794d1adce5125857737110e507babd5119b3cac2f1",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "2b1c4229a0c36b23a9a5ab794d1adce5125857737110e507babd5119b3cac2f1",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob ff972d4e49edd7f4fe108644f14a49607ede2f50"
+  },
+  ".hgk/preflight/R4-w2/m1.txt": {
+   "local_sha256": "dc51b8c96c2d745df3bd5590d990230a482fd247123599548e0632fdbf97fc22",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "dc51b8c96c2d745df3bd5590d990230a482fd247123599548e0632fdbf97fc22",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 9766475a4185a151dc9d56d614ffb9aaea3bfd42"
+  },
+  ".hgk/preflight/R5-compiler/R5.CONTRACT.json": {
+   "local_sha256": "f74779091b1be471e134fc5eeb4fbf370078455fb55eb4242a4a88cb7cf60095",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "f74779091b1be471e134fc5eeb4fbf370078455fb55eb4242a4a88cb7cf60095",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob fef4d6d8bf6a743ce71e190e15e4e08e828d5dc6"
+  },
+  ".hgk/preflight/R5-compiler/admission/r5_admission.json": {
+   "local_sha256": "ddc12db2d678290e39c12a06e49ffe09302164cccb6cc2d0bafdad6ed5ab16db",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ddc12db2d678290e39c12a06e49ffe09302164cccb6cc2d0bafdad6ed5ab16db",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 0c5d61233e50dd2728724829f32c731eee76eb78"
+  },
+  ".hgk/preflight/R5-compiler/compiled-r2/compiler-receipt.json": {
+   "local_sha256": "7ac38fe66868e3463a70f9c083d2782e1c63f0fe3f9c86dadba44b777197303f",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "7ac38fe66868e3463a70f9c083d2782e1c63f0fe3f9c86dadba44b777197303f",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c8373086c148f64a5c8f2aaf4cc89f3398ef4b73"
+  },
+  ".hgk/preflight/R5-compiler/compiled-r2/compiler-report.json": {
+   "local_sha256": "f3f3876d757e1a7145aef127f05f59c58192ccf999a9578eb4f7997a1c3a1b5d",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "f3f3876d757e1a7145aef127f05f59c58192ccf999a9578eb4f7997a1c3a1b5d",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 8134942218388180e4964a227b8183ac110849da"
+  },
+  ".hgk/preflight/R5-compiler/compiled-r2/thin-prompt.md": {
+   "local_sha256": "c17d956b1f8f0a0d0530c21f67f862a2d6a95e1ef22bf124df6e28d5c0d9ea2c",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "c17d956b1f8f0a0d0530c21f67f862a2d6a95e1ef22bf124df6e28d5c0d9ea2c",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c4477a65a2068299cf7e493fdc4e4f97bed78ec2"
+  },
+  ".hgk/preflight/R5-compiler/compiled/R5.acceptance.json": {
+   "local_sha256": "9b718dd02a8f35fb25777044885eb03314962cb7b4035722e623c1f0648548f3",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "50d77ca26b1eb028764a62d4bd750f058586a830441947b2201270a10502b457",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 615bb0cf90aa9933587ffff08394c79f3ac9e1ee"
+  },
+  ".hgk/preflight/R5-compiler/compiled/R5.activation.json": {
+   "local_sha256": "9b718dd02a8f35fb25777044885eb03314962cb7b4035722e623c1f0648548f3",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "50d77ca26b1eb028764a62d4bd750f058586a830441947b2201270a10502b457",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 615bb0cf90aa9933587ffff08394c79f3ac9e1ee"
+  },
+  ".hgk/preflight/R5-compiler/compiled/R5.compile.log": {
+   "local_sha256": "7b5bc4a3cdb25f0cb570e8388a9234db8043a87c8b8592bfbd7c9babf1ccc6a9",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "0c5d6a5d1798a3a30ded17d0d7f679fd2c3f095503b7190fba87ea2444dd2da2",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 1f5be91fd084a1eef8776653f001b4693ca3abbd"
+  },
+  ".hgk/preflight/R5-compiler/compiled/R5.duplication.json": {
+   "local_sha256": "8f8e55fae91c985ff43c354ae6e2971bf80f316e9b282cd4a003e66c63986e44",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "fe317e5d5e7a6be97e69359f1ff208c866d3d25889a7b28caf5dab3e57777166",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 9909b2e86cfc016a1561622dfa9ef65742a3f1f7"
+  },
+  ".hgk/preflight/R5-compiler/compiled/R5.lint.json": {
+   "local_sha256": "9b718dd02a8f35fb25777044885eb03314962cb7b4035722e623c1f0648548f3",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "50d77ca26b1eb028764a62d4bd750f058586a830441947b2201270a10502b457",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 615bb0cf90aa9933587ffff08394c79f3ac9e1ee"
+  },
+  ".hgk/preflight/R5-compiler/compiled/compiler-receipt.json": {
+   "local_sha256": "bd17457351aa79bacc641c194ea22c3886efc24474c634bba0b7412c1c8e84cd",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "bd17457351aa79bacc641c194ea22c3886efc24474c634bba0b7412c1c8e84cd",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 6d402bdf2a2bf5e54546d5c09a5cb22aa4a16c9d"
+  },
+  ".hgk/preflight/R5-compiler/compiled/compiler-report.json": {
+   "local_sha256": "f3f3876d757e1a7145aef127f05f59c58192ccf999a9578eb4f7997a1c3a1b5d",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "f3f3876d757e1a7145aef127f05f59c58192ccf999a9578eb4f7997a1c3a1b5d",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 8134942218388180e4964a227b8183ac110849da"
+  },
+  ".hgk/preflight/R5-compiler/compiled/thin-prompt.md": {
+   "local_sha256": "c17d956b1f8f0a0d0530c21f67f862a2d6a95e1ef22bf124df6e28d5c0d9ea2c",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "c17d956b1f8f0a0d0530c21f67f862a2d6a95e1ef22bf124df6e28d5c0d9ea2c",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c4477a65a2068299cf7e493fdc4e4f97bed78ec2"
+  },
+  ".hgk/preflight/R5-compiler/hgk_r5_admission.py": {
+   "local_sha256": "509dcdfa0b68fb7e37e9f48d282eaedc3f3e7d70d1b71599f6fea728fb7bcc1d",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "509dcdfa0b68fb7e37e9f48d282eaedc3f3e7d70d1b71599f6fea728fb7bcc1d",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob dfbf9dd71937556049f821686d6d86df22a038fc"
+  },
+  ".hgk/preflight/R5-compiler/lane/bridge.log": {
+   "local_sha256": "c33b67d1ae9b4235cdd25e45a15bf39aa6fe64e206cb28dcc7495fa95c42fbee",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "3c130f4946c4e16365a9c80fa17f82bbfac77cdf75c73db44f56b204501af564",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 36b17364940812b8f00944df726170b3a138dc05"
+  },
+  ".hgk/preflight/R5-compiler/lane/bridge.py": {
+   "local_sha256": "1e9bb368c5df4a272682180781f1ab9a614e0eab8720e92a26f1deee235dfe6e",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "1e9bb368c5df4a272682180781f1ab9a614e0eab8720e92a26f1deee235dfe6e",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob f06196b866343019d33be6f6dbf86b714129c5df"
+  },
+  ".hgk/preflight/R5-compiler/lane/brief_wo1_dest.md": {
+   "local_sha256": "8b267ef5584719be2b3d1a2442ccbc82f5a54dfda608163f74b81f38d8c140e6",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "8b267ef5584719be2b3d1a2442ccbc82f5a54dfda608163f74b81f38d8c140e6",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 87fa70ee26afeeda2d6e7b5962d9fe07bd659d4a"
+  },
+  ".hgk/preflight/R5-compiler/lane/brief_wo2_dist.md": {
+   "local_sha256": "c651be03b72f4f28ce1fc744da0832e2fea74914be495e29552a99dc99f9fca3",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "c651be03b72f4f28ce1fc744da0832e2fea74914be495e29552a99dc99f9fca3",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob be3b2be6988a187ed052c55cdc349092d2052e98"
+  },
+  ".hgk/preflight/R5-compiler/lane/brief_wo3_export.md": {
+   "local_sha256": "c3a20b8ed8e9e7b418e1634938d38f51da2120047dc2c877db39381d71600e97",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "c3a20b8ed8e9e7b418e1634938d38f51da2120047dc2c877db39381d71600e97",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c18cb223246a37eb851b39e6bafd24ad59990571"
+  },
+  ".hgk/preflight/R5-compiler/lane/brief_wo4_ao.md": {
+   "local_sha256": "7c7d5498f0686039fd86b0bfef16b5d1d85d936f1db89d50bdc475b5c51c7cf5",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "7c7d5498f0686039fd86b0bfef16b5d1d85d936f1db89d50bdc475b5c51c7cf5",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob acf641461b2f0f9022afbf1326c9764128a7dc47"
+  },
+  ".hgk/preflight/R5-compiler/lane/egress_probe.sh": {
+   "local_sha256": "c4ee4d3e4c93f84a4e5bfa4774f41fd34f16d9b35ca942a071235a34137f6445",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "c4ee4d3e4c93f84a4e5bfa4774f41fd34f16d9b35ca942a071235a34137f6445",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 54c71a7e7122fea793083202da10e7f83248b34b"
+  },
+  ".hgk/preflight/R5-compiler/lane/gpt6luna_codex_probe_20261009.txt": {
+   "local_sha256": "fb58d73ae86905d51700008595ca48aa63d98ff1d953a41c949958f2297089fe",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "fb58d73ae86905d51700008595ca48aa63d98ff1d953a41c949958f2297089fe",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c1f7b6b2544a3372534b8f492530babec587eda8"
+  },
+  ".hgk/preflight/R5-compiler/lane/log_ao.txt": {
+   "local_sha256": "ebb312139f74999b6e242a4ab7874b1a1762c6e1a02a888687b22f735f883ca1",
+   "disposition": "NOT_PUBLISHED",
+   "published_blob_sha256": null,
+   "reason": "worktree-only execution evidence; absent from the published tree",
+   "reference": "local candidate 10cb3d31fcbd54fffe64152f4b17085866d0d75e (tree bba26ad0634e46169270e81109f9db22c967602a); not in published tree 1a7dc57f9403202c32d1bc01deb1925ac1f6412e"
+  },
+  ".hgk/preflight/R5-compiler/lane/log_ao_attempt1.txt": {
+   "local_sha256": "b3d8928b6b2010b1714b167785676a7f5e72007a386fba086ffcc2cc9ed27222",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "b3d8928b6b2010b1714b167785676a7f5e72007a386fba086ffcc2cc9ed27222",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 46a3c1715fe4349221b03f0c49df74cd997641d6"
+  },
+  ".hgk/preflight/R5-compiler/lane/log_ao_attempt2.txt": {
+   "local_sha256": "1d20ca431eec10b150c310e048a6eefd30c73c4c71c2294192b2b6e9ed6c8d1f",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "afdec3e7e6e0b75bad51bf3e96c4dabbca1cb5f875ea74b9eef5f15f03b53a80",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob bfc59b8a5e8765bfe94763180a583d969c86184f"
+  },
+  ".hgk/preflight/R5-compiler/lane/log_ao_attempt3_superseded.txt": {
+   "local_sha256": "1d20ca431eec10b150c310e048a6eefd30c73c4c71c2294192b2b6e9ed6c8d1f",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "afdec3e7e6e0b75bad51bf3e96c4dabbca1cb5f875ea74b9eef5f15f03b53a80",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob bfc59b8a5e8765bfe94763180a583d969c86184f"
+  },
+  ".hgk/preflight/R5-compiler/lane/log_ao_attempt4_contaminated.txt": {
+   "local_sha256": "2819930eeacf19c520ee7016fda7c36d687cb1f05a7dbf0776a4c98232535486",
+   "disposition": "NOT_PUBLISHED",
+   "published_blob_sha256": null,
+   "reason": "worktree-only execution evidence; absent from the published tree",
+   "reference": "local candidate 10cb3d31fcbd54fffe64152f4b17085866d0d75e (tree bba26ad0634e46169270e81109f9db22c967602a); not in published tree 1a7dc57f9403202c32d1bc01deb1925ac1f6412e"
+  },
+  ".hgk/preflight/R5-compiler/lane/log_smoke.txt": {
+   "local_sha256": "b3c599025360b8b23bfa52d645f1a053c179b631b05e406e0fe94f7b5e797448",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "371fa15188227db83d827578368fc031aca48568bcf384e4166a2444b302b063",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 97f92c9226b4bb1b37cbeb0219c652995a579ed4"
+  },
+  ".hgk/preflight/R5-compiler/lane/log_wo1.txt": {
+   "local_sha256": "b33142aaf579c1f68488f59cefa1fea52451051b26aadc675029b1ee255f6c7a",
+   "disposition": "NOT_PUBLISHED",
+   "published_blob_sha256": null,
+   "reason": "worktree-only execution evidence; absent from the published tree",
+   "reference": "local candidate 10cb3d31fcbd54fffe64152f4b17085866d0d75e (tree bba26ad0634e46169270e81109f9db22c967602a); not in published tree 1a7dc57f9403202c32d1bc01deb1925ac1f6412e"
+  },
+  ".hgk/preflight/R5-compiler/lane/log_wo1_resume.txt": {
+   "local_sha256": "5bdffbff2ab496ce6451af071e349f80a7c55ad55b8d41172ab55e5ee58c1c2f",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "5bdffbff2ab496ce6451af071e349f80a7c55ad55b8d41172ab55e5ee58c1c2f",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob bc9a82b12e085a3a93b317a040cb7e890b0c7a6a"
+  },
+  ".hgk/preflight/R5-compiler/lane/log_wo1_resume2.txt": {
+   "local_sha256": "5ce0f4748360510bb98afe18706bb4873641243519688e6b30e412a1d76aef76",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "5ce0f4748360510bb98afe18706bb4873641243519688e6b30e412a1d76aef76",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob bddefed4e6a4c957212c140c764b7e62262d45ac"
+  },
+  ".hgk/preflight/R5-compiler/lane/log_wo2.txt": {
+   "local_sha256": "e992450b68726709bdd663be2d64f1028843b7b379aab95e273267509250d0e6",
+   "disposition": "NOT_PUBLISHED",
+   "published_blob_sha256": null,
+   "reason": "worktree-only execution evidence; absent from the published tree",
+   "reference": "local candidate 10cb3d31fcbd54fffe64152f4b17085866d0d75e (tree bba26ad0634e46169270e81109f9db22c967602a); not in published tree 1a7dc57f9403202c32d1bc01deb1925ac1f6412e"
+  },
+  ".hgk/preflight/R5-compiler/lane/log_wo3.txt": {
+   "local_sha256": "1dc50ab9f2aa5abd3be44d99338348ff3f56cc5f0615dc026e0c0963aed45703",
+   "disposition": "NOT_PUBLISHED",
+   "published_blob_sha256": null,
+   "reason": "worktree-only execution evidence; absent from the published tree",
+   "reference": "local candidate 10cb3d31fcbd54fffe64152f4b17085866d0d75e (tree bba26ad0634e46169270e81109f9db22c967602a); not in published tree 1a7dc57f9403202c32d1bc01deb1925ac1f6412e"
+  },
+  ".hgk/preflight/R5-compiler/lane/probe.sh": {
+   "local_sha256": "a999cd8b7dff71bc7bf518485f502302ca1f9a2f27b542431784b172f9ca4e21",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "a999cd8b7dff71bc7bf518485f502302ca1f9a2f27b542431784b172f9ca4e21",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob fdd34c17890d6becada8c20e1694c690dec1b182"
+  },
+  ".hgk/preflight/R5-compiler/lane/probe_result.txt": {
+   "local_sha256": "578fedb6030d0beaf6512b55edc1999192e6f20b65ee9bcc05c390b1902366bb",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "578fedb6030d0beaf6512b55edc1999192e6f20b65ee9bcc05c390b1902366bb",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 45080d3255cdd83440c225ba75197221bd29445e"
+  },
+  ".hgk/preflight/R5-compiler/lane/run_checker.sh": {
+   "local_sha256": "ef12dec3eefc408e6ad3608c1b22f7b4ddeabc5ba48991dfada0aa3f38b144bd",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ef12dec3eefc408e6ad3608c1b22f7b4ddeabc5ba48991dfada0aa3f38b144bd",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c76437f2fb07b7a068ea184f2795c977c8f78743"
+  },
+  ".hgk/preflight/R5-compiler/lane/run_lane.sh": {
+   "local_sha256": "0d993906fbbc9678e4f22b23145761b70de6172fe88586ceadb61e379acf83d6",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "0d993906fbbc9678e4f22b23145761b70de6172fe88586ceadb61e379acf83d6",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob ce6a7847f056fe9352b036d4a9aa59322dbbd8b3"
+  },
+  ".hgk/preflight/R5-compiler/lane/run_lane2.sh": {
+   "local_sha256": "510c36e89be26ac6b31c38b3bb7b9c1fedb8424c12a2acf7f506d06cd90ed749",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "510c36e89be26ac6b31c38b3bb7b9c1fedb8424c12a2acf7f506d06cd90ed749",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 414acf7d8a092a495193e158ce91e177c3140289"
+  },
+  ".hgk/preflight/R5-compiler/lane/smoke.md": {
+   "local_sha256": "48f1fbd1dfbe30115f58b463a3bfbd2436756515939f6f5c09426931ca70e813",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "48f1fbd1dfbe30115f58b463a3bfbd2436756515939f6f5c09426931ca70e813",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 3be85ed45a75a2888317b198a455b54fbc25955c"
+  },
+  ".hgk/preflight/R5-compiler/make_r5_contract.py": {
+   "local_sha256": "12f84493eb4b828fffc3a16959bfd86a9f0fa110e29de9ebedea12d2e4a9a2cb",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "12f84493eb4b828fffc3a16959bfd86a9f0fa110e29de9ebedea12d2e4a9a2cb",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 18cb02b4eac60b997307c6998c39d933aa51ba59"
+  },
+  ".hgk/preflight/R5-compiler/opencodex-config.backup-20261010.json": {
+   "local_sha256": "293cef18e05b946f88cc50dc2895a5a8cf65ab360fbbcf472599bdd7585ebf70",
+   "disposition": "NOT_PUBLISHED",
+   "published_blob_sha256": null,
+   "reason": "worktree-only execution evidence; absent from the published tree",
+   "reference": "local candidate 10cb3d31fcbd54fffe64152f4b17085866d0d75e (tree bba26ad0634e46169270e81109f9db22c967602a); not in published tree 1a7dc57f9403202c32d1bc01deb1925ac1f6412e"
+  },
+  ".hgk/preflight/R5-compiler/rollback/wo1/cli.py": {
+   "local_sha256": "6428e9763e40a49289b71c324f3427bbc1fc278530b7cf0959d84c8ba3938609",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "6428e9763e40a49289b71c324f3427bbc1fc278530b7cf0959d84c8ba3938609",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 31faa55b70271e0b4c5546a59461088bd75b60d0"
+  },
+  ".hgk/preflight/R5-compiler/rollback/wo1/projection.py": {
+   "local_sha256": "8b02bc9b13b31e0a79d03bfab1e7ca4638505c30cc42f97d8dcda7ce0fd13e96",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "8b02bc9b13b31e0a79d03bfab1e7ca4638505c30cc42f97d8dcda7ce0fd13e96",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 40fa3a285a6864a8a3fdfd838a07d2d8109145ca"
+  },
+  ".hgk/preflight/R5-compiler/rollback/wo1/workspace.py": {
+   "local_sha256": "27fa6c1b3c9001ffdc6d1109119eea8ff9a21e5c5d16ade093d0fb278bbafa5a",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "27fa6c1b3c9001ffdc6d1109119eea8ff9a21e5c5d16ade093d0fb278bbafa5a",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 17289b5a4696d0258fb7cb6ea20e03e3a5266e52"
+  },
+  ".hgk/preflight/R5-compiler/snapshot.py": {
+   "local_sha256": "0975efe0b1275eac82b2921019f66bcfa5c04f1b5a37e298cb9353e0bd01a865",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "0975efe0b1275eac82b2921019f66bcfa5c04f1b5a37e298cb9353e0bd01a865",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 7c198290ba75e5dcd305a527cad1ff233e245235"
+  },
+  ".hgk/preflight/R5-compiler/snapshots/after_wo1abort.json": {
+   "local_sha256": "4c94f3d8f116055cf2d0b11b9e16a00d5202a1cc79629c0db077f55f4d206c53",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "4c94f3d8f116055cf2d0b11b9e16a00d5202a1cc79629c0db077f55f4d206c53",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob e5d56be829065318c06adc05da144de3deba416f"
+  },
+  ".hgk/preflight/R5-compiler/snapshots/after_wo1wo2.json": {
+   "local_sha256": "30d5a667ea3938d1a27686c8bc790242aa0183a716da5966fed73b968c201025",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "30d5a667ea3938d1a27686c8bc790242aa0183a716da5966fed73b968c201025",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 14b4893bf91b916905727a6286906dbae7f28207"
+  },
+  ".hgk/preflight/R5-compiler/snapshots/after_wo3.json": {
+   "local_sha256": "2f78f049e4c8562398fd3b3b2bafbe64af12e9b1214c97bc8889f9011b84646c",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "2f78f049e4c8562398fd3b3b2bafbe64af12e9b1214c97bc8889f9011b84646c",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob f7cf6db924f6e06fc8dc2e069696f2c195f8be57"
+  },
+  ".hgk/preflight/R5-compiler/snapshots/before_r5_exec.json": {
+   "local_sha256": "03af05707e526111d394c0da81cc457eb24ca8334d8134bf23baa3e0bfd29e0e",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "03af05707e526111d394c0da81cc457eb24ca8334d8134bf23baa3e0bfd29e0e",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 9fb027524fa6174389721fddf4f577b2c61fa232"
+  },
+  ".hgk/preflight/R5-compiler/snapshots/before_wo1.json": {
+   "local_sha256": "88b1af494fa1432b208690e43eecb183a9416fdcccd5e2deaba6a86786f07946",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "88b1af494fa1432b208690e43eecb183a9416fdcccd5e2deaba6a86786f07946",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 3423db0b4d2466637c0f41f6b07693ca12b296c9"
+  },
+  ".hgk/preflight/R5-compiler/snapshots/final.json": {
+   "local_sha256": "f7c75fc9e14d9a619d6c1c7a48ba355958bf01efea335a1ca9f397bd007637dc",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "f7c75fc9e14d9a619d6c1c7a48ba355958bf01efea335a1ca9f397bd007637dc",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob f679c724c7de9b5ee896dcfef83e5dc1e4852fad"
   },
   ".hgk/preflight/_contract_part1.json": {
    "local_sha256": "2c95f723ce7ffa80ba003896bfb94573b330f85cd4e235c550862f97921db401",
@@ -10047,6 +10614,930 @@
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob 6d196d577c12178027c4a2f1b483a0d587f8ba15"
   },
+  ".hgk/rounds/R4-20261009-focused-repair/CHECKPOINT2_PAUSED.json": {
+   "local_sha256": "4a6eae0359014b36cd24ef4db766c0b8769a342a381af824ea00e9e9a3defa9e",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "0b9cadfa400acdedbfbed134c3a571f5a3537ad3474e881a24452e6109af812c",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 6e5929412f119c0b862405e3179b7ba9152954aa"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/CHECKPOINT_PAUSED.json": {
+   "local_sha256": "ba078df4d57de54d86627267492f7c6f7927e6ece2a9f88a3559e7ee9b31212b",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ba078df4d57de54d86627267492f7c6f7927e6ece2a9f88a3559e7ee9b31212b",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob cf75f7f73b17b84952723ef8355894aef6b00d2e"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/CLOSURE_R4_STATE.json": {
+   "local_sha256": "3f8bf929e3363ae63076fd67be69bd97e335274f9fd06679cd179e253caf15eb",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "c4093ee71516fc977a3c902585cea0fda036d30ba09d04509e8cab5536dea452",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 066116a02e891384bd22e1276a88a182aa8d3c7f"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H1/raw/PREFLIGHT.json": {
+   "local_sha256": "09b64713cfb890ef24d43ad51f683a5c82d0a0f7cb1f528bb055fc8f079beec6",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "09b64713cfb890ef24d43ad51f683a5c82d0a0f7cb1f528bb055fc8f079beec6",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 13f5c9c9e97a6e8839377eef81e10a003cbf3546"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/delta/D1_D6_RESULT_v3.json": {
+   "local_sha256": "83c62b74baeb82a563af85fb7b0f4233f322bf82c91201560b496c01b34dc525",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "6eb3a45196af4058033575d581e3ff6e843cd7d45c859253aaa127accca782e1",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob cd2929e9c34f031630f83beae47e7fefb10f8162"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/delta/D1_D6_RESULT_v4.json": {
+   "local_sha256": "146df3e2ab97f85923c232fcb700a2582af6b153f8349db248dbd1e261ef6e70",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "7d840ba8567a4d90fb382b5b9ac45015fd46e8f5811051b37008540cd92c5515",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob aebd75534ca1fb9bc512d4d242c4456399e87bd1"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/delta/D1_D6_RESULT_v5.json": {
+   "local_sha256": "b1e9ae45e20fa92476187de1fb32528d0ff6772eec18beed3c40fd0aa1c5e7ff",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "f6dc9f6339b101dd47c3e02249550e12142d05ac5eea963005743fcc315d09f8",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 0f4ca878e764cef67a4122c2a34d4f2d44743311"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/delta/D1_D6_RESULT_v5_recheck.json": {
+   "local_sha256": "296ad1ea5a8371936d1fe7054ea76d3d1938457142c2c06b0f6d79c84a1157ee",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "1b212f6364fae44a7c51fa7c23eb621258c6cf5254560a293b5d25885141747a",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 224913ffc8c31863f96629e7622586be1f9121d4"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/delta/HARNESS_D1_D6.py": {
+   "local_sha256": "9ded7432233bdcab9f57cf92ad191166659d21c00d5e43e28f423082a7d5e4cd",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "9ded7432233bdcab9f57cf92ad191166659d21c00d5e43e28f423082a7d5e4cd",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 85c9046a2dbf920ffd65d797352fc738a51e3b1d"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/delta/HARNESS_D1_D6_v4.py": {
+   "local_sha256": "f3df69e67512b12701f35fb9059cdf5c4f53c6c807ae972ee6fe1add0c09c396",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "835466a97f69e72eba2fbf678cadce9ebb30a8da76a47a2a17a93dfc776f28fd",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 11b7e7ae72c9239bcd8103b0a02727c108c9b966"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/delta/HARNESS_D1_D6_v5.py": {
+   "local_sha256": "cda6d76fb4f0ec623658b04c08fa0d0d18648bfc15cc3ae2d1f554cb8681f231",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "a03ecd5347cb6fc004f64fb96a7fcd074253780bc2899ecf6ac241a66d1bc410",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob ab4d2925801cd5834ab0501a5e329d3a7e58178f"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/delta/RECORD.json": {
+   "local_sha256": "d2356023ff7b9d8a5e130e0723a1dd566ba4eef8aadfe4081ce5dd21dc83c64b",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "8cdd87af47cb7a1ae0989ec01409798e92a3f7ce1e0fce8bdf97dceee137eeac",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 757f20f8edd3ec5950acdf98445a294095c51a88"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/delta/VERDICT_DELTA_H2_v3.json": {
+   "local_sha256": "d40ab8117d72ebe0b11f292be76a7779eb48a9c92a25a48f28dd4760d09cd4b1",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "d40ab8117d72ebe0b11f292be76a7779eb48a9c92a25a48f28dd4760d09cd4b1",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 2bcc3cfb56c073a19e9eef41c8a47fc41fc30182"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/delta/VERDICT_DELTA_H2_v4.json": {
+   "local_sha256": "02f926a55aa82ade108399e973be1aff69ed544725bf930142f8125cec150195",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "02f926a55aa82ade108399e973be1aff69ed544725bf930142f8125cec150195",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 4990be08714e4efdecc349adcc3dda6952f9dd9a"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/delta/VERDICT_DELTA_H2_v5.json": {
+   "local_sha256": "bd5f1d6a57dd69ae7075929c39da5d683515693339589ecf31bf9050e1dac67d",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "bd5f1d6a57dd69ae7075929c39da5d683515693339589ecf31bf9050e1dac67d",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 58979b8856f2933592171d0975dfa011889c9608"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/raw/DELTA_BASELINE.json": {
+   "local_sha256": "25033f3b0af7a81d1ebba00fb24eec2ddbdf847670ca769bbc7c18caef2de000",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "039b8bf21312e893cf6cd8deae2046ffcc954c1c6fee70859f991733d4777880",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob fc7686cb43574e82a63bb215108eac42910fc785"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/raw/H2_DEFECT_01.json": {
+   "local_sha256": "019a5614b9ec4e11d5e2ee3ef49f4360d2ab2c8ec4259369ffdb2c41d9dedb3c",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "88b208bc22435be8e1a919ceee3a6d9b67a376fa211e9688bb0222a4863ca7d4",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c09fc4fab5bdfa356b34caa8b628b7fa6d93a230"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/raw/H2_DEFECT_01_REPAIR.json": {
+   "local_sha256": "b6ac57d994a65cf971cab837050264ce1ea08b8bf433768ea39668adfdfdfd85",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "b6ac57d994a65cf971cab837050264ce1ea08b8bf433768ea39668adfdfdfd85",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c48ddadc9c7ed9a74b9ca354d8921a1181808e28"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/raw/H2_DEFECT_02_REPAIR.json": {
+   "local_sha256": "73a08c3fd732fc602183a3d891c7431fed009d000266be0cbdea7f02fe6b9e70",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "73a08c3fd732fc602183a3d891c7431fed009d000266be0cbdea7f02fe6b9e70",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 3fbbf329ed7b01c1c7f61fc6abfce29231acf53f"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/raw/INCIDENT01.json": {
+   "local_sha256": "95ce9d0c7378379040faaf206040ab4927d7727e36e76fd4a67c88da7351798f",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "4787d7b207596acb703517c46f1759e6d56a64ffaf6acf9ef4e3b4d66b2b3ca5",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 515218ff9adc5ae3d7aef3312dc518e406f9af9e"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H2/raw/INCIDENT02.json": {
+   "local_sha256": "044cf92f4985738e8f77b738cf104e05e5f77a36f2b064afa100d20002725957",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "044cf92f4985738e8f77b738cf104e05e5f77a36f2b064afa100d20002725957",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 403e8727c63871154839990f88f215c1c1e97da0"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/H3/raw/SELFSCAN.json": {
+   "local_sha256": "21d668dfc3556f71093bb8a848cc75404d9fea5ae5725c34439cbbe8d8eecccd",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "c3f99f1d49e18715ac7113cd34db5daf7f07ea25530a592c188336f31894def5",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob d8ed5ae08ed1c5b486523ac98edf96dccb1487f7"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W1/raw/BRIEF.txt": {
+   "local_sha256": "946fa1dd8823a849bcd4d415ab3d35927be5f663f2b0e35ca5449d6f7a4c09d7",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "946fa1dd8823a849bcd4d415ab3d35927be5f663f2b0e35ca5449d6f7a4c09d7",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob a9285cf62d6d591271e9f23043ef6b7668f1f83e"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W1/raw/PUBLICATION_PROJECTION_MANIFEST.json": {
+   "local_sha256": "68487117f3730c82c6ee13e08ce22dfc9ec41023b4b3a8433b9710690cf63444",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "916e8a12b7e985e799488ea2a2535c23874d2d7b80e1f888886f7ef05ff0cede",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c1c8899c4f167bc4018aa0cf1918fbcfbedd1f6b"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W1/raw/PUBLICATION_SUBJECT_ATTESTATION.json": {
+   "local_sha256": "5d841e70cc68c878b0ed8142806c8858fb0cbdcee01c7790c68170f0bf1ecb01",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ff7af0c8a7ec371b872f13fce608a7d117026b663766e0c67644d6d9464ff3be",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 8b7c506717289d5b501f5fb8fc984ef9d59e5313"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W1/raw/RUNNER_NOTE.txt": {
+   "local_sha256": "2cf5f29ffc7e5eaccedc23deae5a3bffc2895e6c020e265acf57e73730470d85",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "2cf5f29ffc7e5eaccedc23deae5a3bffc2895e6c020e265acf57e73730470d85",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 45c910ecf4669e0876ef39ad36bc0efd9b42fcde"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W1/raw/attestation.txt": {
+   "local_sha256": "bd1c0ed3328dfb249c72fb7889236ad7f56dabb8214b4f55551c53c111764095",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "139abc6fe59dbb6b8a775b7b841edc1474bb4d538dd6bbcd86a368dd0be0e66d",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 4ccdba960a5b66a7d82fe077aa16c90ae88f69a5"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W1/raw/manifest_check.txt": {
+   "local_sha256": "7dd2c03e510c14dc6752bbc56cd08a9e962c2617089805839442a9bff7bb6ccd",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "9042572c12a488f750c955c658ed3e13d8aa5fe342008ed64dc8a90b0572eab2",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 6d235171599356afc540a54d53a6b58bc8e7e8c9"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W1/raw/unittest_w1.txt": {
+   "local_sha256": "a8946aa96eb8392bcfff54e3c285f24cbc41ef16d79d4fb1e7587647dafd0819",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "6b52073977c798e3b8f9f95bb6ea1587e2ca2f2c98323c9a1e699c5e1cb769c7",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 9b778298784bd171cf2ddb31ae260b4841aa8a1e"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W10/raw/BRIEF.md": {
+   "local_sha256": "31146023f18289b8d4fc487e5dcb6364a2e227ac5ebb9ec29cbe6fbdbe0415da",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "e56ab6fcfb956b54bcf162ce66237a5de3acccae91f2b66ab84d690123412817",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob ba922f396c6752a36b8df4d49e746c4df99651c3"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W10/raw/BRIEF.txt": {
+   "local_sha256": "d249afada6414b26694a37477bd2c6b366341814e7980890b825d631929bd9d0",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "d249afada6414b26694a37477bd2c6b366341814e7980890b825d631929bd9d0",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob a594c45fb9f359ea8852b8fabebfdd4a3739011e"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W10/raw/RUNNER_NOTE.txt": {
+   "local_sha256": "6180ece6f9d1a7f33951bca0275f239a54b32ab79d899c8eb88b4b48f968075b",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "6180ece6f9d1a7f33951bca0275f239a54b32ab79d899c8eb88b4b48f968075b",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 1842521bc5b2b31b0563467d9120ad6e787f58e2"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W10/raw/acceptance.txt": {
+   "local_sha256": "1130a5f8211ab09cf8b28af78cc45805c4242d61af04ba2d268944d3cd3c86c1",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "d455f890fe89fb6fecd8da9b46b4992176c54374b2f190dfedaa37ea9f5cbdf1",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob a5c8e4fb8765e256164936b911d814c2751458d0"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W10/raw/dedup_check.txt": {
+   "local_sha256": "555474686373d28e53b861111e453d57cbba665beed1f9928280c314fcbe7e25",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "555474686373d28e53b861111e453d57cbba665beed1f9928280c314fcbe7e25",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob b8bf5345c7b417c8710cd2d475e7b19a51e4a144"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W10/raw/deny_scan.txt": {
+   "local_sha256": "f4576abd4b22a310d7aa7a72ad86da05284af42ace9e8c2c5ec5fc09306f7670",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "f4576abd4b22a310d7aa7a72ad86da05284af42ace9e8c2c5ec5fc09306f7670",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 5515bc06602665148c873d9764d21cccd57b5232"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W10/raw/final_digests.json": {
+   "local_sha256": "01391a27656e369088b4981fbe9485ed0d70f074a756e29ace86021ece9b491b",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "714e18500bccf83c2c07059a178c0ad80506df17faf91873db81d7e3560cb4c9",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob a409acd275260ed708b53ce3be13f1f6628e272d"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W10/raw/perf_check.txt": {
+   "local_sha256": "5fe8ffaac8e6649dab8c5f43ba61b7611a2b8bc79e51968a7841d50ef3f95f22",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "5fe8ffaac8e6649dab8c5f43ba61b7611a2b8bc79e51968a7841d50ef3f95f22",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob e54e1f5be94bb1e59ec83b0097b87f77538b4bb6"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W10/raw/pub_digests_after.txt": {
+   "local_sha256": "68d53d444a1a334a34df98317fc5786db8a40f6967cc0ff87b0720ab94b3987f",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "68d53d444a1a334a34df98317fc5786db8a40f6967cc0ff87b0720ab94b3987f",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c77bb672884690e3d25e426e01cc47105f731185"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W10/raw/pub_digests_before.txt": {
+   "local_sha256": "1be3039e852cbb6ef44e5807034337bde44d9e6a54c00a3a71af2550f563e56e",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "1be3039e852cbb6ef44e5807034337bde44d9e6a54c00a3a71af2550f563e56e",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 0cc9fd5565bcd80d5cfc9b0d475c897406fd6dd6"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W10/raw/suite.txt": {
+   "local_sha256": "27009eee019d73f560ec82a87048891bc0d41192dd957e8991876e9eac450d91",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "5d58959799a92037994ee0f69d38e3507f03f207c42639cebad781e0ec575597",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 4c7f392dd20c451f732172a8daf19be1551add07"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W10/raw/unittest_pub.txt": {
+   "local_sha256": "a317493707f85486dc8642ef03e7c51a042c78ba9e55fe5446a87efd9cece8f1",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "a317493707f85486dc8642ef03e7c51a042c78ba9e55fe5446a87efd9cece8f1",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 739ca41aa241e76be2a8ea5cec5f601a4f92a651"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W10/raw/unittest_w10.txt": {
+   "local_sha256": "fccf33fb64c6ca335e981311f707990c08a74607d75523979e39a07dc6008b97",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "fccf33fb64c6ca335e981311f707990c08a74607d75523979e39a07dc6008b97",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 382b1ad25e8d699c3a64e4c0ab0d0385d8910d41"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W2/raw/w2_matrix.txt": {
+   "local_sha256": "ab71eec5a0e6fd7ca2825db9cbc7539875926ff29241ae991f7e4f2c02af825e",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ab71eec5a0e6fd7ca2825db9cbc7539875926ff29241ae991f7e4f2c02af825e",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 7112aa6c687d61e1ba404bfc94d852dc58ee719e"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W3/raw/BRIEF.txt": {
+   "local_sha256": "405e35b2d7dff15d5b9078d764b5c583f3e43fa3eb03bdb412da29f9cdd95fb0",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "405e35b2d7dff15d5b9078d764b5c583f3e43fa3eb03bdb412da29f9cdd95fb0",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 1f7bf930ad7a3dd5020219e18595bc8b09ad39a9"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W3/raw/CHANGED.txt": {
+   "local_sha256": "eb7ded191609ec4ff70ae8959c9c8959cec5fa10032a2ee6102956c9ba4208df",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "eb7ded191609ec4ff70ae8959c9c8959cec5fa10032a2ee6102956c9ba4208df",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c48bb0c3d724f208ffe8f8e0ff775bab96bcb2bd"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W3/raw/pytest_full.txt": {
+   "local_sha256": "ce891d145d66a1445e4ed3ac79abe03af79c2d8aa979a6f26fae9530240b2160",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ce891d145d66a1445e4ed3ac79abe03af79c2d8aa979a6f26fae9530240b2160",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c2af1d0393a909c22f2e6bea5a05c42c5d8279b6"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W3/raw/pytest_w3.txt": {
+   "local_sha256": "ce891d145d66a1445e4ed3ac79abe03af79c2d8aa979a6f26fae9530240b2160",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ce891d145d66a1445e4ed3ac79abe03af79c2d8aa979a6f26fae9530240b2160",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c2af1d0393a909c22f2e6bea5a05c42c5d8279b6"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W3/raw/tt_assert.txt": {
+   "local_sha256": "25d6e2b12797303ace6cda7e29f2e6f943359a1735bbf9aeda596274ec841172",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "25d6e2b12797303ace6cda7e29f2e6f943359a1735bbf9aeda596274ec841172",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 50fe06045ccdc29d76bbd019d31f4db81197e49b"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W3/raw/tt_write.txt": {
+   "local_sha256": "10881525093d9fd820111f6f0dabe20f6b7521bf4c49fbbe11982bf65f349319",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "10881525093d9fd820111f6f0dabe20f6b7521bf4c49fbbe11982bf65f349319",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 7558e7500cb9f2007e19f1bd6761d74ef9958474"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W3/raw/unittest_full.txt": {
+   "local_sha256": "9158b35b4c9a26e512f24864ba47464ee48c6e4fd7db3954c2e3d0367077cec3",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "9158b35b4c9a26e512f24864ba47464ee48c6e4fd7db3954c2e3d0367077cec3",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 30885e9a99b1d58d2103bf0e1e70c450c168d582"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W3/raw/unittest_host_full.txt": {
+   "local_sha256": "a9e41cba55b2f795693205f74617a37615221d7719dbda33b5b0b84e41495336",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "927ffb539c585bdd0df9c37d5ea23ce319abb00d4cdbd2b3c935df075ec700fe",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 18d73dd84baa764defcb346e1bd2d61eb90b5dd6"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W3/raw/unittest_tt.txt": {
+   "local_sha256": "e172f52e754f4e7df549b185eb81bfa8a5cf022d42dea52607196a89d5e5a4ae",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "e172f52e754f4e7df549b185eb81bfa8a5cf022d42dea52607196a89d5e5a4ae",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 0e3566323ff9a4ba0347863239548975da59515e"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W4/raw/CHANGED.txt": {
+   "local_sha256": "0c453b50c2b659e27791b46d7a3f909e78acddb45e47590dbdbafc5a31c29ef4",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "0c453b50c2b659e27791b46d7a3f909e78acddb45e47590dbdbafc5a31c29ef4",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob d1aa1878b3206243d17fd77dc96dda79f7c82784"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W4/raw/report.json": {
+   "local_sha256": "73eb02c5cc61c2b17d9f89a96b6b12e99c197669cb06928c62daa569a73800bb",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "73eb02c5cc61c2b17d9f89a96b6b12e99c197669cb06928c62daa569a73800bb",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob cf562c622a170bcca8b39e9a9346db9355ad3a88"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W4/raw/report_c.json": {
+   "local_sha256": "7f0988bfe13ce4dc90dfe82700d5667c80872b706ed4cbca9aac8755ace92dd9",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "7f0988bfe13ce4dc90dfe82700d5667c80872b706ed4cbca9aac8755ace92dd9",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 5e38e81c97daa120afb2786b57ca88fb3f1e7492"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W4/raw/unittest_full.txt": {
+   "local_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W4/raw/unittest_w4.txt": {
+   "local_sha256": "6d7239084b6ddccb9013aafeb045304b59526ac961196d4508b38a8af54ef2a1",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "6d7239084b6ddccb9013aafeb045304b59526ac961196d4508b38a8af54ef2a1",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob f1b735ac363261140d4fff1f6c1fe088c0c255f5"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W4/raw/unittest_w4c.txt": {
+   "local_sha256": "23b4223f9c0a2e778c74df3655228421b7ee1130036d2f594f3df970752d0137",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "23b4223f9c0a2e778c74df3655228421b7ee1130036d2f594f3df970752d0137",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 1ad34c251d2fdd0102eb935796d0b401f1df14a4"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W5/raw/BRIEF.txt": {
+   "local_sha256": "ad6035eb0d17899becc50707b51de03c827b1f70d8e06cb8d27a1dc9520d3773",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ad6035eb0d17899becc50707b51de03c827b1f70d8e06cb8d27a1dc9520d3773",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob cae0694e0ce7e8acdf0238d95c316eb78ac2c582"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W5/raw/PERF_AFTER.json": {
+   "local_sha256": "2ea0fb10ddc35a4adbdd4726bff15b1a7d4da2466d301e5ccd57af791324785c",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "2ea0fb10ddc35a4adbdd4726bff15b1a7d4da2466d301e5ccd57af791324785c",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 9e805bd003de064d05e74a0f7b7fc5947ab98056"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W5/raw/PERF_BEFORE.json": {
+   "local_sha256": "f41847d060a60844da9f5369367d4be5ad2a0ca84e319f0c552f0f035b62d1c0",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "de92210f704b6f45af3d0a62dfc48b352537874d51c6323561dd5c1b757d8fe6",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 97ac92b5d76c99e247c55a1822c2836b49d4857d"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W5/raw/RUNNER_NOTE.txt": {
+   "local_sha256": "d87dadebd5abc30278d36e13be889fce1d57fe755c7d9b6927b1d7c10960b546",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "d87dadebd5abc30278d36e13be889fce1d57fe755c7d9b6927b1d7c10960b546",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob e694eac6c1ac89aa9aee0c3ab3a0bd293b3c87e1"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W5/raw/dedup_after.txt": {
+   "local_sha256": "1424010b8811a573de3863558ad546b00f44034792b8515f132105b13fb2062d",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "1424010b8811a573de3863558ad546b00f44034792b8515f132105b13fb2062d",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c888cefb3c579617b3861132b32815a4af8e341f"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W5/raw/dedup_before.txt": {
+   "local_sha256": "30020906922e26cdc1a71152e3f1c55d2c907a54745c1892c405127365014d8b",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "30020906922e26cdc1a71152e3f1c55d2c907a54745c1892c405127365014d8b",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 10dcb7d67a3c265e281c8e4b5df51cbed51a7405"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W5/raw/dedup_check.txt": {
+   "local_sha256": "7c9caca0961d54dec7607ffb2ac74d365e6ebace9d89515594045cbc33997e16",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "7c9caca0961d54dec7607ffb2ac74d365e6ebace9d89515594045cbc33997e16",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 9043451f57a2b9364f492afa0902cb80e382897b"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W5/raw/perf_check.txt": {
+   "local_sha256": "ad8f714a7cf6ff72f844260fb0b84ec9ef138e48f35eb1883d3a41e14b0a14f4",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ad8f714a7cf6ff72f844260fb0b84ec9ef138e48f35eb1883d3a41e14b0a14f4",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 1b4c97ea6f7453dc5d9c58420e90c3fc87fa1cbf"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W5/raw/unittest_dedup.txt": {
+   "local_sha256": "0f07176446753105f72d081815b7c0716edffe3bc9bf47ebae665582eb9c8de3",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "0f07176446753105f72d081815b7c0716edffe3bc9bf47ebae665582eb9c8de3",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob fbb799424610bbf63a84fe4b0bcc2e425fadcf83"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W5/raw/unittest_perf.txt": {
+   "local_sha256": "06fea9ae925b1b32fc0a505f4704308941086bbd4f439be977bab0697ef2b8ad",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "06fea9ae925b1b32fc0a505f4704308941086bbd4f439be977bab0697ef2b8ad",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 71252d17a04e776509f1651b5c8ff09ac79239e2"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W7/raw/BRIEF.txt": {
+   "local_sha256": "13f79ec2de479ddda5b5930fd334d3629936e8f14d77fa7cf027521120fa4f1d",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "13f79ec2de479ddda5b5930fd334d3629936e8f14d77fa7cf027521120fa4f1d",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 17385986f056c74fe822223a48f91cd0fec6cb89"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W7/raw/SPEC_DEL_CROSSWALK.json": {
+   "local_sha256": "d98e3b65c8064ef8cf23b8e4d3c4712d21627976a6af74c3259f64cef5f9715c",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "d98e3b65c8064ef8cf23b8e4d3c4712d21627976a6af74c3259f64cef5f9715c",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob e21635da0369bc2f086f1d7fe3b98e69cb79e3b1"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W7/raw/crosswalk_check.txt": {
+   "local_sha256": "bb2e7219488d896c0d148cb4b959b4629ac58dd053dd9d8d7f279775c2fb939f",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "bb2e7219488d896c0d148cb4b959b4629ac58dd053dd9d8d7f279775c2fb939f",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 60423af25f50205895ad30ceaa3a105bd7e6c2ad"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W7/raw/unittest_w7.txt": {
+   "local_sha256": "be2c05bcc922ae16afb1339d940fd4720c4568999be482d6c77e17d9c28be6ca",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "be2c05bcc922ae16afb1339d940fd4720c4568999be482d6c77e17d9c28be6ca",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 68822017a93d0946338905b9b4a66c6dd954ca91"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W8-VERIFY-3/raw/CHECKER_RECEIPT.json": {
+   "local_sha256": "5000645107546a4ce6c4a9ff095d6022387f6daa4f1ed6b43110dd25e7b52270",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ac34d6381fa6d28701a2ac5174501aef2a80b3ee5c76e979f4f73f258612e5e8",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 902c5deb688cefc1dea7b28c5ae8e66e189f9820"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W8-VERIFY-3/raw/VERDICT_W8V3.json": {
+   "local_sha256": "9239bdbc8eab8374a53c3df44e0144637fc852250352bea91ba7c6f0f43f41a7",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "88492a60dd65f72b471222739186d67af8396d7e8c5ec9a4601095d773ab0118",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 7b557924c8640d8bf1d75184bed2fb21b75a6550"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W8/raw/BRIEF.txt": {
+   "local_sha256": "3f6e250abb1ff1026b8ccd4a09a70c63a1cf1be489e846c866506521a78327e4",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "3f6e250abb1ff1026b8ccd4a09a70c63a1cf1be489e846c866506521a78327e4",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob de7755379b448f0acd6840e61ef57cc6daef0f99"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W8/raw/BRIEF_W8b.txt": {
+   "local_sha256": "06aca4110e9479ebb77cdf7d235151fc48d174ddc8fd4fd7d22f67529b322d60",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "06aca4110e9479ebb77cdf7d235151fc48d174ddc8fd4fd7d22f67529b322d60",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 2be847ffd7f1a6e9dcafb26b6e5c316acf14df85"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W8/raw/BRIEF_W8c.txt": {
+   "local_sha256": "6033744057dfd461eb0e70259d32f7422abb571436e8c1fe633ed20e26864676",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "6033744057dfd461eb0e70259d32f7422abb571436e8c1fe633ed20e26864676",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob feee3665ff777fd04e4a55596b53f22710303983"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W8/raw/CHECKER_RECEIPT.json": {
+   "local_sha256": "65bcd2a3aaefd30a1e0fda311e526907f0a44d6c5ea1b24a73dfa8ddc9fae951",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "f9ff5cfc0740fe3e6c42853b82e6814e04cc5b36361a0e560c834378dd16ac19",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob d7045691c8405937dcb6841e0812c7dc8fff1b0d"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W8/raw/CHECKER_RECEIPT_2.json": {
+   "local_sha256": "06665c34fdd535a18739d1bffe58fed5bd41a85d4c2c7d50a2af7719d31d0837",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "252e237f0db08835c429e291256a71ba6bb77b2567d93b636edbad817a8c27eb",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 8ba7a05fa47ac57be5035e8f5c238bcbf6a15c76"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W8/raw/VERDICT_SUMMARY.txt": {
+   "local_sha256": "1be13225c1cca2655a1d84f4962dd34735b3950e9e9536c0ec61fbde8f923816",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "18e9fee37f5749f5e7ea01ec2516e4d13ba338b3b00daeca0590e1418f987448",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 16be57c5cd7aa0313370cdb6e7328aeb28c7460c"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W8/raw/VERDICT_W8.json": {
+   "local_sha256": "56a05ded1fb13e2f38b1cf33c77f8c6b9b06f2b5ac6fbdd79a4ae8a1d917ace5",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "0fe05f1e39954ca45f88f04a8c4277118c112cb60e85c05690e74c3f4b7c4857",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 5fc5759b511d9683ec9843ace35ecda9cfbe2a4f"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W8/raw/VERDICT_W8b.json": {
+   "local_sha256": "f6125acd29c495dce5f6910040a8ecfd38b583c5a2569d813b86c13b41ef3653",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "7397cc59ef706f78cfb5daf75e2863465d227d74a5036297e8b948ee61da7546",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 9c35e1d5eb9c54104261b00d990abe4b176ed207"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt1_provider_error.log": {
+   "local_sha256": "ce94dfce43ad48472fb93ceea8049a380ad20cea00144d32804bc200683e08e1",
+   "disposition": "NOT_PUBLISHED",
+   "published_blob_sha256": null,
+   "reason": "worktree-only execution evidence; absent from the published tree",
+   "reference": "local candidate 10cb3d31fcbd54fffe64152f4b17085866d0d75e (tree bba26ad0634e46169270e81109f9db22c967602a); not in published tree 1a7dc57f9403202c32d1bc01deb1925ac1f6412e"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt2_provider_error.log": {
+   "local_sha256": "774eb4c4a43a0ee6e434cbbbc00a5632d76d5dd77b3b8af29f30a3d9ff26f710",
+   "disposition": "NOT_PUBLISHED",
+   "published_blob_sha256": null,
+   "reason": "worktree-only execution evidence; absent from the published tree",
+   "reference": "local candidate 10cb3d31fcbd54fffe64152f4b17085866d0d75e (tree bba26ad0634e46169270e81109f9db22c967602a); not in published tree 1a7dc57f9403202c32d1bc01deb1925ac1f6412e"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W9/raw/BRIEF.txt": {
+   "local_sha256": "797185dbbb1d007d97555016555950639e075c2683227eeac09bd9e57788699e",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "797185dbbb1d007d97555016555950639e075c2683227eeac09bd9e57788699e",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c8cfa3180b851e3185d8e2dcbe8047c1a1369a66"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W9/raw/crosswalk_check.txt": {
+   "local_sha256": "bb2e7219488d896c0d148cb4b959b4629ac58dd053dd9d8d7f279775c2fb939f",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "bb2e7219488d896c0d148cb4b959b4629ac58dd053dd9d8d7f279775c2fb939f",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 60423af25f50205895ad30ceaa3a105bd7e6c2ad"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W9/raw/dedup_check.txt": {
+   "local_sha256": "40510d39d5bde130c1d0ff355123ba96aae8aeeaa23a0d4cbb2b7a4da549c95a",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "40510d39d5bde130c1d0ff355123ba96aae8aeeaa23a0d4cbb2b7a4da549c95a",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 739111d09b0574b6dc611be0f7ee47e2ae2670fb"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W9/raw/deny_scan.txt": {
+   "local_sha256": "6318401e8a4109e05b63b82b6c00e93277a63bf89209238812fd817bde946432",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "6318401e8a4109e05b63b82b6c00e93277a63bf89209238812fd817bde946432",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob cf20a55a4f533811a0faf34e416f9222b536dbff"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W9/raw/perf_check.txt": {
+   "local_sha256": "27140f85371fa03f19afcedb8cd3fa78026a7265de41ea1262dab6c1bcf1a726",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "27140f85371fa03f19afcedb8cd3fa78026a7265de41ea1262dab6c1bcf1a726",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 36c812fbfea2c2d906177cca22d7347df7720d1b"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W9/raw/pub_current.txt": {
+   "local_sha256": "088331a54c1955d2a6210db5988e9218ece5d86aa8b3524885aeb50aae0041c8",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "088331a54c1955d2a6210db5988e9218ece5d86aa8b3524885aeb50aae0041c8",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob b0a51727b2760ebd0cabbce020df664a9b3e9039"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/W9/raw/unittest_w9.txt": {
+   "local_sha256": "84839b6575214858845d748838413f842547c02c21f676c8425214742e9b0b53",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "84839b6575214858845d748838413f842547c02c21f676c8425214742e9b0b53",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 368e6b99c6cdbb9692754d7dcec0b34e225dde71"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/route/PLAN_CONTEXT.md": {
+   "local_sha256": "f2f1a4a0aac30ef9dbaf86593ad14d82adc3c088e553d60b84dfb87ba375a724",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "f2f1a4a0aac30ef9dbaf86593ad14d82adc3c088e553d60b84dfb87ba375a724",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 0afb5fc9d7d9ff9e58070f9461282183829f81a3"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/route/PLAN_RULINGS.md": {
+   "local_sha256": "7b49ef788659d842f9b607577f5959eefd7a1ef4c92b39e5fe32244721de5fc5",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "7b49ef788659d842f9b607577f5959eefd7a1ef4c92b39e5fe32244721de5fc5",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob fc505b4a934a6e31e827c165c7a3c82f7716437f"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/route/PLAN_RULINGS_A1_A5_V7.json": {
+   "local_sha256": "6cd0df646ad88cf6852623d892ac6108e8c044a85f50a62e9224c95df3a530f3",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "6cd0df646ad88cf6852623d892ac6108e8c044a85f50a62e9224c95df3a530f3",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 19c96e4953ca1d052a8989dc43db3f452a3a3f30"
+  },
+  ".hgk/rounds/R4-20261009-focused-repair/route/ROUTE_GSTACK_OPENSPEC_R4_HARDEN_20261009.json": {
+   "local_sha256": "5eb36a62d15d9e93008503eac2df5120894961093e462c0713c1e6b94e158fa4",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "c40d8547e2db8136da186537586e47cc91ccfc94708d8c948287e827bc82ef76",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob ab1cf2cea808249cd2530b760051ded80ba474a2"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/AO_LANE_INCIDENT.json": {
+   "local_sha256": "97b47dfa7ec6f2f2967a283a09844e41c0dff663fee9930eae0845e4199ef4d7",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "97b47dfa7ec6f2f2967a283a09844e41c0dff663fee9930eae0845e4199ef4d7",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob d9c2baeb8da847c2fc684f13d7312095c4e11747"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/CANDIDATE_TUPLE.json": {
+   "local_sha256": "cb0655f4017655554ee55f496435be1d3e350482d052197518585ea1a865447a",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "572100f0fd2a93a8cdc997ab68960890879b4033ebc027ae379d2651e7232bf9",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob a221ac202aeca8c213a40ddc9d1d8a1f4d251872"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/CHECKPOINT_MODEL_ROUTE_BLOCKED.json": {
+   "local_sha256": "8f7d3e8c47177981509b25d3f96d0fce9cbb8248058bb0eb33b3ac289ff93134",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "8f7d3e8c47177981509b25d3f96d0fce9cbb8248058bb0eb33b3ac289ff93134",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob dc6a8c3de3c6c206500fbd72c3612288c68c2bbf"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/CHECKPOINT_PAUSED.json": {
+   "local_sha256": "a98a3e3e2d1a8b471f50a8e5a88b56327eedc0104e95c001a4db07145453e3f6",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "a98a3e3e2d1a8b471f50a8e5a88b56327eedc0104e95c001a4db07145453e3f6",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 636836bd47b75e20128323fd9a0e272de602337e"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/CHECKPOINT_R5_CONTINUATION.json": {
+   "local_sha256": "17e9fca70824ca18fccd4dc147e25bb62ff2b1380c6c701d14f49c814a64ed19",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "17e9fca70824ca18fccd4dc147e25bb62ff2b1380c6c701d14f49c814a64ed19",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 0b56cfd33ab62254395f958e0ea251fe5f925f02"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/COMMIT_INCLUDE.txt": {
+   "local_sha256": "747f8083d92d148465f2d00dc165771fc669315a61176af057a7c6b3932085de",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "dcef510d77012efde4eaab7cfd416f3f6506bc583b7ff77353b0099a1ebbe61a",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob d3165b8158afc8a71fc67fc07d8fffd3073d6761"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/COMMIT_SET_POLICY.json": {
+   "local_sha256": "78d73229c59b938612a232318b5ead40258dcd1583baf07410c0a1268ef86450",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "98d2ef4a6a773f1d32010471d741be2b27b91fd1d294b6bd18583b8a24019b58",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 4bd24f904abe412374977f9149af1cbf4966572c"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/FROZEN_SOURCE.json": {
+   "local_sha256": "bcc34e21fd73e71a7832a2966a03c707fcb7a8aa9183c166b6fee35383c15e35",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "bcc34e21fd73e71a7832a2966a03c707fcb7a8aa9183c166b6fee35383c15e35",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 24334d839d0d1f29a3d2f266f804d67a1ebdd6dd"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/MAKER_SELFREPORT_CORRECTION_WO2.json": {
+   "local_sha256": "3d1c7ecf90069eb63049e15760d96309dd9507ad6f960e020dec00133b72a8c8",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "3d1c7ecf90069eb63049e15760d96309dd9507ad6f960e020dec00133b72a8c8",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 2aa07c127c839bf2e4be1253c3a4d8d51e02704d"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/MODEL_CREDENTIAL_ROTATION.json": {
+   "local_sha256": "2cd52229872839a207ca98fb76e18ab30db13b94a69f3d845f8c015a4b8dd207",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "2cd52229872839a207ca98fb76e18ab30db13b94a69f3d845f8c015a4b8dd207",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 97c107eb901293e5c80983b1d7967f3a40192dbb"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/OBSERVATIONS.json": {
+   "local_sha256": "4983325f641d84b19ba9a24cb689611f35af37837dacf362a4132f960210df85",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "4983325f641d84b19ba9a24cb689611f35af37837dacf362a4132f960210df85",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 7518ffc4f06d18f658e6937806feeef720e94ad7"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/VERIFIER_SCOPE_INCIDENT.json": {
+   "local_sha256": "04152562212de70c158fa5cbd6d0d3021bfd4c92183c2c5296aae7614019bbfc",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "04152562212de70c158fa5cbd6d0d3021bfd4c92183c2c5296aae7614019bbfc",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob d64f087b29f3c8ef8a09c37ab50ae95f67190b16"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/WO1_WO2_DELTA.json": {
+   "local_sha256": "09f4862e6c75f78e4782e497d03c357927cf516dc3fdc75cec033efd047c17c5",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "09f4862e6c75f78e4782e497d03c357927cf516dc3fdc75cec033efd047c17c5",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob e23d0cb8b828f7f7a75e5c5b358374b863bad1ae"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/WO3_LANE_INCIDENT.json": {
+   "local_sha256": "95a87d6a5a56c3bbd11782df6bfd6d0ca37e61361c1cde40500e4756255ee97a",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "95a87d6a5a56c3bbd11782df6bfd6d0ca37e61361c1cde40500e4756255ee97a",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 7e76fbb83690c23d3c477c6717a1796765be768d"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/ao/AO_INDEPENDENT_RESULT_DERIVED.json": {
+   "local_sha256": "5f14838cc40a1a101d074ec925bdecb20d4ac97c576f4b78cd3aab5e8b5d8748",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "5f14838cc40a1a101d074ec925bdecb20d4ac97c576f4b78cd3aab5e8b5d8748",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob db28f87fc893e6f5ee71f4ec66d37d0725dba097"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/ao/AO_REPORT_DETERMINISTIC.md": {
+   "local_sha256": "062b177511f17c61e645e0a12da785a64ec02c43fa8508434f58025bff3bd4af",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "062b177511f17c61e645e0a12da785a64ec02c43fa8508434f58025bff3bd4af",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob ee7ab14f3859f6f6aa791e9c497650f2751e2a43"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/ao/AO_VERDICT_DETERMINISTIC.json": {
+   "local_sha256": "b476b89f098e117babf3029239fc863b6d5c25ab0b36b5b5515224e0759c2bd1",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "b476b89f098e117babf3029239fc863b6d5c25ab0b36b5b5515224e0759c2bd1",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c59849c3508d67d29a4530510e9fb23850e62233"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt4_contaminated/log_ao.txt": {
+   "local_sha256": "2819930eeacf19c520ee7016fda7c36d687cb1f05a7dbf0776a4c98232535486",
+   "disposition": "NOT_PUBLISHED",
+   "published_blob_sha256": null,
+   "reason": "worktree-only execution evidence; absent from the published tree",
+   "reference": "local candidate 10cb3d31fcbd54fffe64152f4b17085866d0d75e (tree bba26ad0634e46169270e81109f9db22c967602a); not in published tree 1a7dc57f9403202c32d1bc01deb1925ac1f6412e"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt5/AO_LOG.ndjson": {
+   "local_sha256": "4bf6427d811c54253ec1da91c8cc47b45a969507524c9d8aa5f700b81107a57e",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "4bf6427d811c54253ec1da91c8cc47b45a969507524c9d8aa5f700b81107a57e",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob e2c74acffb8eaa083f9f0dc8b43e53f9fabd4588"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt5/AO_PROGRESS.txt": {
+   "local_sha256": "9ab4dd995585b2ad008f726c180a9204bbe971748fef42351338db0dfb10ac81",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "9ab4dd995585b2ad008f726c180a9204bbe971748fef42351338db0dfb10ac81",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 969a28dbdb8b1ad55309d58022b68e4e1877f0fd"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt5/log_ao.txt": {
+   "local_sha256": "ebb312139f74999b6e242a4ab7874b1a1762c6e1a02a888687b22f735f883ca1",
+   "disposition": "NOT_PUBLISHED",
+   "published_blob_sha256": null,
+   "reason": "worktree-only execution evidence; absent from the published tree",
+   "reference": "local candidate 10cb3d31fcbd54fffe64152f4b17085866d0d75e (tree bba26ad0634e46169270e81109f9db22c967602a); not in published tree 1a7dc57f9403202c32d1bc01deb1925ac1f6412e"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/ao/independent_check.py": {
+   "local_sha256": "7363f63b85264fd8256c3bdb84c95a9932d3c4ac4e2530d18af9321c808745e0",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "7363f63b85264fd8256c3bdb84c95a9932d3c4ac4e2530d18af9321c808745e0",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob cc47cc572c1aa34b5edf96527308661b229cac3a"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/build_evidence_md.py": {
+   "local_sha256": "77e7cda26cf3f961d569a808db649ff710253bbbe654698793c05f0b92843db5",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "77e7cda26cf3f961d569a808db649ff710253bbbe654698793c05f0b92843db5",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob ad2b501482734269a31edd5f8dc057b06c04b664"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/checks/cli_surface.txt": {
+   "local_sha256": "ea45553ca382b6045ac34115748989667511b469a30d9127d30e854a37f39cb3",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "5ea217057c1f4b4d825832b540565080f6695e4448829df1423eb4467cdf7625",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 834e8f307a97a36d2b7875fa8d4225ea552c1ea9"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/checks/host_proj.txt": {
+   "local_sha256": "a66e1df9c4b303edbbf313623d719af2b6ece574e3b29ccb6724933f06d4417b",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "10016a22c24e149886173912c980e8fd2aaa15a41fef38396436ff9af0c5ba01",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 7603113a3b475147656ef61c0e1e3d45451b06c0"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/checks/web_pack.txt": {
+   "local_sha256": "b8b726e814b64304f6c5119c873c34d472d1f5782ddfd3213845b410d4f286d4",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "801324e7aea971293219abad4806ca9ae584048beef9663b9ee4e6890cdd1644",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 60e207c611422ee3fdd5af7b742d0f93e5ceeaf3"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/host/unittest_full.txt": {
+   "local_sha256": "fffcf3c146d4859fae879f0155f94934fea5268700e9ae4f597b933d0b268beb",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "3db4cf44d1485757bf4b3c944622f99bce867b58f2dd1ef48495e8cc9190f5db",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 519446d616e9b92331315911213e9a0c47ef60c4"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/host/unittest_full2.txt": {
+   "local_sha256": "2b40544a6d4cf5a16d839ee5b9fd19c28a349c59f0544a1edaf6179cd275e084",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "68de122ac43a3da44359749f8577efeb01cf594cc45c6f9eda49e115207cf49c",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 9fca8bf238e9c131d89ed8824171230e8a4a4483"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/ledger/R5_S4_FINDING_LEDGER.json": {
+   "local_sha256": "a1a8c5e75d5cdac39e2151c6fdf7da8216c313d0768a4c1d9ba97aa8578aa609",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "a1a8c5e75d5cdac39e2151c6fdf7da8216c313d0768a4c1d9ba97aa8578aa609",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 5f8132c99150f356f07b10580f7d7b31ac19ec37"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/ledger/perf_check.txt": {
+   "local_sha256": "bd7edbc6bf254cf047445d215011d39623d12986afd31d80c7b2fb5a5a729c80",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ac0ff4c2ec3ce2f327e1073012ffa126318ff269a9f7f30f1a414930e5b67fcd",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 5f7b6e3e32043bbdfdb3ceb9072f2690cdc5a273"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/ledger/publication_check.txt": {
+   "local_sha256": "30d0dd56d782c62b61c27510628423bd0b0eed5fb2982182d6b008fac1901468",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "f5133821ba69d874800700269feabf60fa29e2bedc456df3beade2ae680bef6d",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob eb035e4effabf708dcd0c53c7bc4080cd9ac6bc5"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/route/gstack/route_readback.json": {
+   "local_sha256": "b600500d0ecc7fe74ab3f28e2619862f997d5bd73b285a5be210550164a02ce8",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "b600500d0ecc7fe74ab3f28e2619862f997d5bd73b285a5be210550164a02ce8",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob d21a2d6a6e8f545c7f869d8682e34ede4dab9bca"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/stage_commit_set.py": {
+   "local_sha256": "6fc30df1e6e36600889f68ae6a74ecf4b80daee3587f7b9b9c0bd02b1dfe9cfc",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "6fc30df1e6e36600889f68ae6a74ecf4b80daee3587f7b9b9c0bd02b1dfe9cfc",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 60f74bbc0a09ac5fee262b215c99330913a8a29a"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/uat/RAW_RUNS.jsonl": {
+   "local_sha256": "be6ec2280f3e3335967aedeeba3a44f99769d9e2108157454dd130385a9c84bf",
+   "disposition": "NOT_PUBLISHED",
+   "published_blob_sha256": null,
+   "reason": "worktree-only execution evidence; absent from the published tree",
+   "reference": "local candidate 10cb3d31fcbd54fffe64152f4b17085866d0d75e (tree bba26ad0634e46169270e81109f9db22c967602a); not in published tree 1a7dc57f9403202c32d1bc01deb1925ac1f6412e"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/uat/UAT_MATRIX.json": {
+   "local_sha256": "ba85a46b6bb9ac93e3f3c34db31a2d4247592e668b11089a9426c6cc6b264fd2",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ba85a46b6bb9ac93e3f3c34db31a2d4247592e668b11089a9426c6cc6b264fd2",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 1f18dd4581c789ff338dc3bbfede8f5806a69d23"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/uat/UAT_MATRIX.md": {
+   "local_sha256": "89f045b3c937ac630ceec598eca5d4494e935d437b2e44606475a6d78f677d63",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "89f045b3c937ac630ceec598eca5d4494e935d437b2e44606475a6d78f677d63",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 48523b76306d7487ad014477971e8409381fd684"
+  },
+  ".hgk/rounds/R5-20261009-s4-user-operability/uat/uat_matrix.py": {
+   "local_sha256": "b54852ff275ecbee2551bc3ca0abdd04dd70a96fe0f5bc37ce369907cfe1dd20",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "b54852ff275ecbee2551bc3ca0abdd04dd70a96fe0f5bc37ce369907cfe1dd20",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob c279c312e6fc10ad6de72679e02fb377b8b6eae6"
+  },
   ".hgk/surfaces/gstack_route_check.json": {
    "local_sha256": "d314eb31819aa05b964865fb2313c80dd31f59e81c1f7bfe3df286d878049dbc",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
@@ -10069,11 +11560,11 @@
    "reference": "published tree blob 26c3f2c926ff1ff8c6859fb2670e7f6b310bd1f3"
   },
   "OWNER_LICENSE_DECISION.yaml": {
-   "local_sha256": "418e46ed9d971827f79556673858fd1cf2200d1d4999e2fe5a28826ad9ceecbc",
+   "local_sha256": "5f3a9bd3e34fd92e57b137a6e1f346822b7fa1c7592c51b7ecc0ee2388a42468",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "418e46ed9d971827f79556673858fd1cf2200d1d4999e2fe5a28826ad9ceecbc",
+   "published_blob_sha256": "5f3a9bd3e34fd92e57b137a6e1f346822b7fa1c7592c51b7ecc0ee2388a42468",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob f4c1cf1f5750c459e687254d708ac0267621c437"
+   "reference": "published tree blob 50b5414c2930f7ca8bce96efeca9b49137739bf0"
   },
   "PROVENANCE.md": {
    "local_sha256": "52c01040b8d64bb3ce1f19518643b32159a33afad3336f090729bae32ebf917a",
@@ -10083,11 +11574,11 @@
    "reference": "published tree blob 13532d1c11a5d48cfb08835796d3cf908d50887e"
   },
   "README.md": {
-   "local_sha256": "570655665f1bfac29e54a90451834c3886b20c2637f796a93b2eb8d98e66f459",
+   "local_sha256": "f92234c704c7dabdc624f56eb0d8b5787379ea225d85496bf009b3a8d4d11876",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "570655665f1bfac29e54a90451834c3886b20c2637f796a93b2eb8d98e66f459",
+   "published_blob_sha256": "f92234c704c7dabdc624f56eb0d8b5787379ea225d85496bf009b3a8d4d11876",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 70cde1cbc9424ea29c56948178bd106b4e7b4217"
+   "reference": "published tree blob 8c20717591c908ffc4774799a3edd83fd267f5d3"
   },
   "SBOM.cdx.json": {
    "local_sha256": "fd40db277b7ebb2482d0ea36a831600a19932958838a5f7cf96831b21dc1d972",
@@ -10097,25 +11588,25 @@
    "reference": "published tree blob c091865e05c781e32536abeec53044f1aa8c5911"
   },
   "dist/WHEEL_MANIFEST.json": {
-   "local_sha256": "0beab2d4bc83b1392e1cb49516819d473f627e16495ab6b850caefd656e1dc3b",
+   "local_sha256": "1115773d5625ec9e0515d515d834bbf8f205d8773193c57e53cc16ac4e1d7525",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "0beab2d4bc83b1392e1cb49516819d473f627e16495ab6b850caefd656e1dc3b",
+   "published_blob_sha256": "1115773d5625ec9e0515d515d834bbf8f205d8773193c57e53cc16ac4e1d7525",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 162b23c9fbdc47a653f5df240bb8cef9457b6faf"
+   "reference": "published tree blob 4c1fa51e50f22a39502dc33f967412a96d2cc1b7"
   },
   "dist/pipd_ls_sp-0.1.0-py3-none-any.whl": {
-   "local_sha256": "ba84115dfc5efa0f7c2240d137c2868a9469a9b5680cbd6cff833c1943630dfa",
+   "local_sha256": "e49d38e519117d67de57153658779eafa139eb0dda5a6d15f486facb44fd00e2",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "ba84115dfc5efa0f7c2240d137c2868a9469a9b5680cbd6cff833c1943630dfa",
+   "published_blob_sha256": "e49d38e519117d67de57153658779eafa139eb0dda5a6d15f486facb44fd00e2",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 406502ca8f761a5fc201893391c1cd5ffee318e8"
+   "reference": "published tree blob 38e5b443db5477b3e2f524e6918e7ada91e29531"
   },
   "dist/pipd_ls_sp-0.1.0-py3-none-any.whl.sha256": {
-   "local_sha256": "cd314299825fd0e6d1558d2c2b1d7c4032ba2f224c1307811d45ae40c279bf49",
+   "local_sha256": "7ff654e17386a49af2943b7316045e6a7e26ec9871366ad945706949a3d84ac1",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "cd314299825fd0e6d1558d2c2b1d7c4032ba2f224c1307811d45ae40c279bf49",
+   "published_blob_sha256": "7ff654e17386a49af2943b7316045e6a7e26ec9871366ad945706949a3d84ac1",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob e23e5519c7f88192417999b32770dc366824cdac"
+   "reference": "published tree blob aa609cb2f85d9bf5f072d2e3aec9c811028a6810"
   },
   "dist/web/OPTIONAL_SITE_UI/README.md": {
    "local_sha256": "971a89d34b8f03cad5f40f22eca9cfa6b67c9035843448f9751b214bf083e709",
@@ -10215,6 +11706,27 @@
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob 9bdc08a448d7a55075faae8982b711ecea905b1d"
   },
+  "docs/OWNER_ADJUDICATION_R4_2026-10-09.json": {
+   "local_sha256": "76ea35c90101569460a3bec79c288982a2f522bd85c451ae7b62888849b49f34",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "76ea35c90101569460a3bec79c288982a2f522bd85c451ae7b62888849b49f34",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 9db095658b8f8e49276acb4316b1a3ec389004b1"
+  },
+  "docs/OWNER_ADJUDICATION_R4_2026-10-09.md": {
+   "local_sha256": "b023c9fa07960c823f5d613b313a48748c0009471bd3eb942d5422adc91df2fe",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "b023c9fa07960c823f5d613b313a48748c0009471bd3eb942d5422adc91df2fe",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 8bb6087b5f2f13ac748d4398e741b2b212d41bc0"
+  },
+  "docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json": {
+   "local_sha256": "b693b7bfddcf0a803730eef6783dae53a464cce8e7a82d371cd9d24c8cd76188",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "b693b7bfddcf0a803730eef6783dae53a464cce8e7a82d371cd9d24c8cd76188",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 71894be72c16d7d8d154591fbddb62b54f151182"
+  },
   "docs/ROUND3_DISCLOSURE.md": {
    "local_sha256": "c49bc0e254ac6d9500f234e70c03cbc11f3a4b15217bdb67032d53bc79c542e2",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
@@ -10235,6 +11747,13 @@
    "published_blob_sha256": "dfd67710920aa9b04f68c5e46cfb1e15b58cf713d3c5634bc2276d1c61a35788",
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob 587dfffd2f173f1671ccde244a26e057c5d0f049"
+  },
+  "docs/SPEC_DEL_CROSSWALK.json": {
+   "local_sha256": "d98e3b65c8064ef8cf23b8e4d3c4712d21627976a6af74c3259f64cef5f9715c",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "d98e3b65c8064ef8cf23b8e4d3c4712d21627976a6af74c3259f64cef5f9715c",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob e21635da0369bc2f086f1d7fe3b98e69cb79e3b1"
   },
   "fixtures/CAND-01/mutation-unpinned.json": {
    "local_sha256": "ca199666fd7056f3c96144481a40713f2cbd174909b18f259cf2bdbea5b95f03",
@@ -10768,6 +12287,41 @@
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob 8af907d59614602b3cfabddbc011d23bbd8e431f"
   },
+  "openspec/changes/pipd-ls-sp-r5-s4-usability-repair/.openspec.yaml": {
+   "local_sha256": "8ba8273010ceb66cd0ab320b2f49de179fac6fd6f648317c2cc129442eea7dc0",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "8ba8273010ceb66cd0ab320b2f49de179fac6fd6f648317c2cc129442eea7dc0",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 81264324b0500978f52f70d701b236a09cb1d808"
+  },
+  "openspec/changes/pipd-ls-sp-r5-s4-usability-repair/design.md": {
+   "local_sha256": "ff73f0b48b1b79148e77a44db60ab530da6e83afd7207b137ee54a1fa48c06f2",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ff73f0b48b1b79148e77a44db60ab530da6e83afd7207b137ee54a1fa48c06f2",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 3fd7a620100fa8b5f7913b32a7738c14d75291a6"
+  },
+  "openspec/changes/pipd-ls-sp-r5-s4-usability-repair/proposal.md": {
+   "local_sha256": "7f6766d2c856a34907c409d219a7ed7908fd53edbc7c7b90ef2aadd423347a19",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "7f6766d2c856a34907c409d219a7ed7908fd53edbc7c7b90ef2aadd423347a19",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 271e6ee3a214227f5cf2a3e7a909a7830d47c02a"
+  },
+  "openspec/changes/pipd-ls-sp-r5-s4-usability-repair/specs/pipd-s4-usability-repair/spec.md": {
+   "local_sha256": "ddfb708ad98d6eca6ea610e16658bfe91766a071e124d12992672f65ad9cdc45",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ddfb708ad98d6eca6ea610e16658bfe91766a071e124d12992672f65ad9cdc45",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob f0c3125236dc796bdb660bafd0536ea8a44f1b07"
+  },
+  "openspec/changes/pipd-ls-sp-r5-s4-usability-repair/tasks.md": {
+   "local_sha256": "19acd44edaf9d508efc6d2bfd1fb2b862b198ba746f5ac9b64901c29f20521b9",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "19acd44edaf9d508efc6d2bfd1fb2b862b198ba746f5ac9b64901c29f20521b9",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob f4b7e55996e2d855edff0dedb063691446cf7575"
+  },
   "openspec/changes/pipd-ls-sp-s0-s1/design.md": {
    "local_sha256": "0fec74f6ae66d707354b2808aab99db7e0b44428395c6506e50bfbf8e26ce872",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
@@ -10810,6 +12364,34 @@
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob e82fd5e1c85f83cd2b759e3bead38b075ddfa344"
   },
+  "openspec/changes/r4-low-resistance-hardening/design.md": {
+   "local_sha256": "405ed4803e4748029b92ed4d9457291b2d2e65cfb963afb9cb882ea13c513351",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "5b7ff9008c26beca5115d4bb5ac08f30965b8e42e5636789f991f32001646d2e",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 55e946effc3c2a4354e403e67e54172a63752d45"
+  },
+  "openspec/changes/r4-low-resistance-hardening/proposal.md": {
+   "local_sha256": "9b4c0066c5cbb1cc84e21730ed7e60b547500d0cee18bbb3005adfdeb42d107c",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "9b4c0066c5cbb1cc84e21730ed7e60b547500d0cee18bbb3005adfdeb42d107c",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 26dcd15471e4a2dbad978f374a4d23578ee44e61"
+  },
+  "openspec/changes/r4-low-resistance-hardening/specs/pipd-round-hardening/spec.md": {
+   "local_sha256": "acfcd590f651df4bd127b7f46998702d28ef51c91d589ed40f2ed603bc50919d",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "576c74999fa195a1d861f3325d73577fc1bcc832e96c62ff343313459fd67b05",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 078a88715313ce91853a4abdf1c4a9dd798fdb45"
+  },
+  "openspec/changes/r4-low-resistance-hardening/tasks.md": {
+   "local_sha256": "45f19036437b71b1d99daa72b649437378d615456295dabc8331322effad0c50",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "b6b51bb731358c88e0859b24b3d0327d959675ababede0f6fedd45c1173d5fa5",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 6b041f434b9c0f22943cb781b5c0ea0d22bb38cb"
+  },
   "openspec/config.yaml": {
    "local_sha256": "2a791b0ccc50e2c2ebbb3ba28692a4ad0e4b6ab94ed2151375ac404d7056e89a",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
@@ -10818,11 +12400,11 @@
    "reference": "published tree blob c4d34acea98d96d1c53eb71c7544336092d92f80"
   },
   "pyproject.toml": {
-   "local_sha256": "673e3d1bb11010313711ed7d81e88916648dd5788497a76e975ec216e2dfcf57",
+   "local_sha256": "7ba071da2d3bc71132b14817b5eeb8f198432629d8e8ef59df2d0f3a0180f0a6",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "673e3d1bb11010313711ed7d81e88916648dd5788497a76e975ec216e2dfcf57",
+   "published_blob_sha256": "7ba071da2d3bc71132b14817b5eeb8f198432629d8e8ef59df2d0f3a0180f0a6",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 35babbcb7fd5ed8dba7a09562d80332678c6b5c2"
+   "reference": "published tree blob 564a7015b36abb1e5c6078615b474f81f743a5f0"
   },
   "schemas/ArtifactIdentity.schema.json": {
    "local_sha256": "67d26f18d26307410bf0be5369949eb525d477e053ee3a7091e54b97f6d4ad4c",
@@ -11308,25 +12890,32 @@
    "reference": "published tree blob 0f0321923b978092e7ceb526155016d2415de574"
   },
   "src/pipd_ls_sp/cli.py": {
-   "local_sha256": "6428e9763e40a49289b71c324f3427bbc1fc278530b7cf0959d84c8ba3938609",
+   "local_sha256": "29470f7f77214beadeaea095b1c651a5e76ec6437c0c0d16fdd481f0bce5774d",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "6428e9763e40a49289b71c324f3427bbc1fc278530b7cf0959d84c8ba3938609",
+   "published_blob_sha256": "29470f7f77214beadeaea095b1c651a5e76ec6437c0c0d16fdd481f0bce5774d",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 31faa55b70271e0b4c5546a59461088bd75b60d0"
+   "reference": "published tree blob 69095baeb68a758d7c20baba4ab5f14a1174ddf1"
   },
   "src/pipd_ls_sp/errors.py": {
-   "local_sha256": "b7bce3ffe5877b327d38c8318bf5741625c45b025bc6e3e7d8491b5bea522247",
+   "local_sha256": "a8d1058a32523e25b66ce52e27ca94cd0851a1e68fdf31ecc7449da892911215",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "b7bce3ffe5877b327d38c8318bf5741625c45b025bc6e3e7d8491b5bea522247",
+   "published_blob_sha256": "a8d1058a32523e25b66ce52e27ca94cd0851a1e68fdf31ecc7449da892911215",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob b8cb260c868849a5ffbe201ce1b9c1da4952a46d"
+   "reference": "published tree blob bb2867b641cfcc818294435f7e116e8e25416b75"
+  },
+  "src/pipd_ls_sp/export_bundle.py": {
+   "local_sha256": "00644f120959626f9b9dabbf7a579c5acdafca017654dad394e46b65ead5202e",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "00644f120959626f9b9dabbf7a579c5acdafca017654dad394e46b65ead5202e",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 82e4beaa657a5b341d2ee44908086fa64c068449"
   },
   "src/pipd_ls_sp/pipeline.py": {
-   "local_sha256": "da8b209e2ee2565d27d7a683bdd5f128b858ac331ea9380729a6cc45d851ea08",
+   "local_sha256": "183b213d575413004ed7b3966176561f7eff106a6391c69eab5385bbc9e49379",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "da8b209e2ee2565d27d7a683bdd5f128b858ac331ea9380729a6cc45d851ea08",
+   "published_blob_sha256": "183b213d575413004ed7b3966176561f7eff106a6391c69eab5385bbc9e49379",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob e13d9d03d5ddc48378dc42e11bdcfa96e78430a5"
+   "reference": "published tree blob 325f5d6ab95b285f1217e440befcb939bf3d2089"
   },
   "src/pipd_ls_sp/profiles.py": {
    "local_sha256": "2631eac7f6cb2b48dba0ed6628c4d7d7e94b7843ac29353950c2d51172789070",
@@ -11336,18 +12925,18 @@
    "reference": "published tree blob d7ac74d041e00481e4c78c93f8755e61ed40d55d"
   },
   "src/pipd_ls_sp/projection.py": {
-   "local_sha256": "8b02bc9b13b31e0a79d03bfab1e7ca4638505c30cc42f97d8dcda7ce0fd13e96",
+   "local_sha256": "6a5d026386507adb0be01a594867223236382ab3cd2b2dd378d8a78c6d412d3c",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "8b02bc9b13b31e0a79d03bfab1e7ca4638505c30cc42f97d8dcda7ce0fd13e96",
+   "published_blob_sha256": "6a5d026386507adb0be01a594867223236382ab3cd2b2dd378d8a78c6d412d3c",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 40fa3a285a6864a8a3fdfd838a07d2d8109145ca"
+   "reference": "published tree blob 4c13f300f6ce8f1dff1ca79b19da82716a48daa8"
   },
   "src/pipd_ls_sp/registry.py": {
-   "local_sha256": "960f27d8944abf55a0b6019ec103a77b1b4301e49060dbc5d753b1bcaa1ca6cf",
+   "local_sha256": "58e6f4b2f3bec8dbe83bfecd5ccd8b3d5cd0a4b88dff0e1e491936d733ced573",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "960f27d8944abf55a0b6019ec103a77b1b4301e49060dbc5d753b1bcaa1ca6cf",
+   "published_blob_sha256": "58e6f4b2f3bec8dbe83bfecd5ccd8b3d5cd0a4b88dff0e1e491936d733ced573",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob c98951a57715b4ca31d63f60f4750797a238dffa"
+   "reference": "published tree blob 4e845be4483c322d2a3bb847793a1c879fe036fd"
   },
   "src/pipd_ls_sp/repo_context.py": {
    "local_sha256": "21940e5984867c7d9829f719bec47e09b8ee083061bae54f79962d7c603b3e03",
@@ -11357,11 +12946,11 @@
    "reference": "published tree blob 31e334ce8c0c309acf0250d3be0be3f76b116490"
   },
   "src/pipd_ls_sp/requirements.py": {
-   "local_sha256": "f01ac1ac4e5fb5be29e2ced434ac2528f94f3bd2b8288244e318516d496818f6",
+   "local_sha256": "1ac3a64c655d93e02e2511456d08972801a89b788eec635289b51e0e7de88121",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "f01ac1ac4e5fb5be29e2ced434ac2528f94f3bd2b8288244e318516d496818f6",
+   "published_blob_sha256": "1ac3a64c655d93e02e2511456d08972801a89b788eec635289b51e0e7de88121",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 83c46fec3f691b3280d992079e7c985a3efa703e"
+   "reference": "published tree blob 6932b160248f7517a5f6b4cf3a7148c686a1dc66"
   },
   "src/pipd_ls_sp/util.py": {
    "local_sha256": "e0f19219a669dd77c1e1fcf70dfdd072e66b142598b7d6dea0ab21c06c7e19c7",
@@ -11378,11 +12967,11 @@
    "reference": "published tree blob ce840caadca8a6724c6b4c6baf536c68a378e567"
   },
   "src/pipd_ls_sp/workspace.py": {
-   "local_sha256": "27fa6c1b3c9001ffdc6d1109119eea8ff9a21e5c5d16ade093d0fb278bbafa5a",
+   "local_sha256": "b9c2bd98e9abecd25680ff648897cf4eb8dc9eafeea7c39625fb991ee3bbb47b",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "27fa6c1b3c9001ffdc6d1109119eea8ff9a21e5c5d16ade093d0fb278bbafa5a",
+   "published_blob_sha256": "b9c2bd98e9abecd25680ff648897cf4eb8dc9eafeea7c39625fb991ee3bbb47b",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 17289b5a4696d0258fb7cb6ea20e03e3a5266e52"
+   "reference": "published tree blob c7a25acb5e284e826405cacea47d5fcb302ee85b"
   },
   "tests/__init__.py": {
    "local_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -11426,6 +13015,13 @@
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob a86b5cfe76924376a0adc56d60fe45dc38e182a2"
   },
+  "tests/test_deny_list_scan.py": {
+   "local_sha256": "ddc4d3bb8c6279e83514bfba918c82c00d4deca0c28e70d43c23021a67073efe",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ddc4d3bb8c6279e83514bfba918c82c00d4deca0c28e70d43c23021a67073efe",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 386830e607c20015c0c85a69fe2d40272bd61869"
+  },
   "tests/test_evidence_manifest.py": {
    "local_sha256": "4061fd943928a5a6d25e97fb2d1c72d271521bb42c05b830de926ecc8404658b",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
@@ -11439,6 +13035,13 @@
    "published_blob_sha256": "31b4e114e10c5018e4235fb333aea93948be7ba2a1d6cd2995412cc3277d3168",
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob 0bcc084e64fd5ded5f533f0b9e0b27cabfc720a7"
+  },
+  "tests/test_export_bundle.py": {
+   "local_sha256": "3febee1b5a3b354b5849146dd44810db8b9399a63c82ba7ae579c6d00536947b",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "3febee1b5a3b354b5849146dd44810db8b9399a63c82ba7ae579c6d00536947b",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 3c2efdeda5624958b19b824b6bbb9ae5a9e8bbf1"
   },
   "tests/test_host_projection.py": {
    "local_sha256": "649518da921115be81741f13b61a3a994c48a8ea42ccea71d5a315de96ef001f",
@@ -11461,12 +13064,61 @@
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob 72ecdad020ec9020e46b30027a893340873b836c"
   },
+  "tests/test_perf_budget.py": {
+   "local_sha256": "9b9fd6b6604054bce78f5414b1da3048bf4bd962871c9e3fb697abedd2da01bb",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "9b9fd6b6604054bce78f5414b1da3048bf4bd962871c9e3fb697abedd2da01bb",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob fe2af0c3e0cf8cf812740dd1c895dc4686a0779f"
+  },
+  "tests/test_pi_dedup.py": {
+   "local_sha256": "9487a71c8da57b0120f8f8025a41eafac5da7593e0908eca552b8039f28e0ea8",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "9487a71c8da57b0120f8f8025a41eafac5da7593e0908eca552b8039f28e0ea8",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 54cbafabfbeac5506d3a7419a643aed025fd0ddd"
+  },
+  "tests/test_preflight_check.py": {
+   "local_sha256": "6485a2f324835dd3cc1cc8aafeaceda5840c923db1ffe2a4e6c8e848356d2634",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "6485a2f324835dd3cc1cc8aafeaceda5840c923db1ffe2a4e6c8e848356d2634",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob edc1357366b9bd83bba1508ac00feb207364727d"
+  },
+  "tests/test_project_destination_safety.py": {
+   "local_sha256": "539faa31b6606351af185fe37ed88ffabb9ef09e32cb5106df840b64c5290b73",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "539faa31b6606351af185fe37ed88ffabb9ef09e32cb5106df840b64c5290b73",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 41c9ee6782f5ac5fe49f85559ef325c8cace0c44"
+  },
+  "tests/test_publication_projection.py": {
+   "local_sha256": "7e6ca39d48bdd6e7cc45afbc46b900acf4f652e481cfa3f4f25460956d410cbc",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "7e6ca39d48bdd6e7cc45afbc46b900acf4f652e481cfa3f4f25460956d410cbc",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 2f4210733209cc95fc0cf7ed94cde491c796717c"
+  },
   "tests/test_quarantine_review.py": {
    "local_sha256": "05ae2d78af254248763c71994f7e4d48741dcab0b668026fafe0815f6474cbdf",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
    "published_blob_sha256": "05ae2d78af254248763c71994f7e4d48741dcab0b668026fafe0815f6474cbdf",
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob 6758aca8a1a1f9d22416bb44a1b0a50e4e05d719"
+  },
+  "tests/test_round_envelope.py": {
+   "local_sha256": "907763d3c75883fa0082185c0fe8e8277afc368ce01e0938ce7a52141bef1d84",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "907763d3c75883fa0082185c0fe8e8277afc368ce01e0938ce7a52141bef1d84",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob b2bc801b0daaa1cb293ff941177a5c2d4e430ca9"
+  },
+  "tests/test_round_selfscan.py": {
+   "local_sha256": "c91f560a254b5ef94ea7db9888c218a00b3db0ccaf13afbb0749069b96bf29ec",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "c91f560a254b5ef94ea7db9888c218a00b3db0ccaf13afbb0749069b96bf29ec",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 4ebf0150d3d236bcfbcfeaddf039379f2737365d"
   },
   "tests/test_s0_contracts.py": {
    "local_sha256": "04f3b5bbcaf5db5a74821d0b6a7efa0204f5c424702acc779ce4bb7a298dd5ad",
@@ -11496,12 +13148,19 @@
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob 6d18ae5c732b31f4e7aee5dba406f6993c5e6a4c"
   },
-  "tests/test_technology_admission.py": {
-   "local_sha256": "b790e281e27960a30e304b382dd71346b6084984eeddeb5f8184f32c519084d9",
+  "tests/test_spec_del_crosswalk.py": {
+   "local_sha256": "d4591d9034ed4a96ffe029fe1b17fc9676f703d12caa11d0fdca164d8b55b4c3",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "b790e281e27960a30e304b382dd71346b6084984eeddeb5f8184f32c519084d9",
+   "published_blob_sha256": "d4591d9034ed4a96ffe029fe1b17fc9676f703d12caa11d0fdca164d8b55b4c3",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 9b4e14a8b7754b9e8462ca021353756d2839268b"
+   "reference": "published tree blob cd10e4eefd8c7d38fdb5fc4dbc68fbfe44482765"
+  },
+  "tests/test_technology_admission.py": {
+   "local_sha256": "7b6afec23dccd14440bc75bc775bbab8f282d285c8e56cab0f4526840814ecab",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "7b6afec23dccd14440bc75bc775bbab8f282d285c8e56cab0f4526840814ecab",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 88cbe04af679b42c56cd6e4696010f30aa69ba4b"
   },
   "tests/test_tooling_executes.py": {
    "local_sha256": "6463960288cb1a47eab326d065164ed9ce0d779d5bb27cdf2c670ce5b4102712",
@@ -11510,6 +13169,13 @@
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob 94f5b6acf72a7067e1c072d04a5c7caadc4cd1d8"
   },
+  "tests/test_tt_summary.py": {
+   "local_sha256": "1010ea1f837310cc77a5088b67e9b6df44eb0dce5685c9947bbb15532c6bf025",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "1010ea1f837310cc77a5088b67e9b6df44eb0dce5685c9947bbb15532c6bf025",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 23aea9bd58b922cabef4c06418db4d83f5ecd301"
+  },
   "tests/test_web_pack.py": {
    "local_sha256": "06e8409e97b5ef5b4dd215ad3837d580e5d3de8505f43c76bbca96b340db76ca",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
@@ -11517,19 +13183,26 @@
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob a45128c1e2a0a00ea95b58c2597afd67e9cbf24c"
   },
-  "tools/admit_technologies.py": {
-   "local_sha256": "64aa5073903ea57cbf32ad9a8de6b55a9953dcb3347269b68f8d6b2ec8f25bb4",
+  "tests/test_wheel_distribution.py": {
+   "local_sha256": "00c6cb7f6bde9838e3533404c2588e62ad07e58f1428597679ea71bbcd20cd23",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "64aa5073903ea57cbf32ad9a8de6b55a9953dcb3347269b68f8d6b2ec8f25bb4",
+   "published_blob_sha256": "00c6cb7f6bde9838e3533404c2588e62ad07e58f1428597679ea71bbcd20cd23",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 0dc7c0a3fa11465863fc5f91ab31489fe6419716"
+   "reference": "published tree blob 5bc086f47af6cba3e3eadf78f3c658fb5c04c8e4"
+  },
+  "tools/admit_technologies.py": {
+   "local_sha256": "1173be279cb5e379f639e5503f12aa02561a9f1b1e7670f0b6215749e275d55c",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "1173be279cb5e379f639e5503f12aa02561a9f1b1e7670f0b6215749e275d55c",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 6801db7e92f5871af8a2e586ae8013090f55395d"
   },
   "tools/build_dist.py": {
-   "local_sha256": "4835328bfb5bd47a16c2dbe853e46a5bf336831dec55ba4772d78ede8bca6ae7",
+   "local_sha256": "bb6329691bb37dbd54423bbb50d0758f5ce00356dd263136cb4209df6a20c668",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "4835328bfb5bd47a16c2dbe853e46a5bf336831dec55ba4772d78ede8bca6ae7",
+   "published_blob_sha256": "bb6329691bb37dbd54423bbb50d0758f5ce00356dd263136cb4209df6a20c668",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob c3377d28b38408479bd6abb8807766a450875c39"
+   "reference": "published tree blob 336789686bb11124f89edb7c6a942b6fbd557c19"
   },
   "tools/build_evidence_manifest.py": {
    "local_sha256": "84284233200fb51055c92eeac75d24f43cc6899e9a8e693af1d58232079242d6",
@@ -11552,6 +13225,13 @@
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob e84e720914e8f70347fb8346ad8bc4188d17f54c"
   },
+  "tools/build_publication_manifest.py": {
+   "local_sha256": "7b1525ff9fa6a91136b8f07a8b997eea0f971dc636567e986caee80692f86ca4",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "7b1525ff9fa6a91136b8f07a8b997eea0f971dc636567e986caee80692f86ca4",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob d85e08ee1075773cf11aaa762e5451354ab468f9"
+  },
   "tools/build_s5_s8_backlog.py": {
    "local_sha256": "708ee18b81efb455d2dd98f635a4f261d144f4b141dd608034554d624013c7ac",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
@@ -11559,19 +13239,33 @@
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob c93a6d259540ea2d95094122788e134cf22a10ad"
   },
-  "tools/cli_smoke.py": {
-   "local_sha256": "6221c3b1f3d092ee702a576fd1b6af0504b116d9d76b7207989bbfc459ae114a",
+  "tools/build_spec_del_crosswalk.py": {
+   "local_sha256": "1f8ea6b4b46da9c1df9cb3392b0d954eb21d929ac6b5145fcb6d4727b1db24e5",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "6221c3b1f3d092ee702a576fd1b6af0504b116d9d76b7207989bbfc459ae114a",
+   "published_blob_sha256": "1f8ea6b4b46da9c1df9cb3392b0d954eb21d929ac6b5145fcb6d4727b1db24e5",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob c7964ff6cabbbe1b2afdf008d76c66f22019aaf9"
+   "reference": "published tree blob 266c333f2540518ce72a9bac2728db3b21608736"
+  },
+  "tools/cli_smoke.py": {
+   "local_sha256": "1775547361929b43186927d0cb5240277984b3a372562843a2a85787bc53a89a",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "1775547361929b43186927d0cb5240277984b3a372562843a2a85787bc53a89a",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 9b4017f1e9cfd0bb7fd0cdbfd34417f4a302f6e5"
   },
   "tools/cli_surface_check.py": {
-   "local_sha256": "a12dc50f78dfbdffdcc79fc3c4b581df11d6d5f685bf31fc085c53d5d94e9f1a",
+   "local_sha256": "cc5478a50ff098fe340cf1a9a39385d6b5d5762b0bb7fce5e7d5ebf53e1caf17",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "a12dc50f78dfbdffdcc79fc3c4b581df11d6d5f685bf31fc085c53d5d94e9f1a",
+   "published_blob_sha256": "cc5478a50ff098fe340cf1a9a39385d6b5d5762b0bb7fce5e7d5ebf53e1caf17",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 097838d3ba38df90a117d2865f424bb6ca9d79b6"
+   "reference": "published tree blob 439c46779ef55049c81471c3b3ad817d96e25a75"
+  },
+  "tools/deny_list_scan.py": {
+   "local_sha256": "723f896660b175fff3e6b1ece92009ebb31a696459d7b465b8975e5cb97b9e7c",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "723f896660b175fff3e6b1ece92009ebb31a696459d7b465b8975e5cb97b9e7c",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob d8d22334f95741665e609021934038297e702670"
   },
   "tools/edge_selfcheck.py": {
    "local_sha256": "ad4266931aaac6cebdf348749eabf2063b1330776333884ea2e93f0722c385d1",
@@ -11658,18 +13352,39 @@
    "reference": "published tree blob 7315e6072e8ae577dd1b55523479635614fc28fc"
   },
   "tools/perf_budget.py": {
-   "local_sha256": "b9dbc782bea1e484d16591b8fbac6f951753bcdd7eedd1d65c9c3c54dfb3685f",
+   "local_sha256": "b122a0d97b1bc7a10082b579cf822e4bbfdd04055583f47b79750c6556aa8cc9",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "b9dbc782bea1e484d16591b8fbac6f951753bcdd7eedd1d65c9c3c54dfb3685f",
+   "published_blob_sha256": "b122a0d97b1bc7a10082b579cf822e4bbfdd04055583f47b79750c6556aa8cc9",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob d21d1845f0384ae2e1c856c3cfb68a0e60dec837"
+   "reference": "published tree blob 9d811b52959f635598e8e48b700264fe1bc925b7"
+  },
+  "tools/pi_dedup_check.py": {
+   "local_sha256": "04e2504ab9d85d9140b10136f02379408ea58ba51d9b26cc254220e88f171a8a",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "04e2504ab9d85d9140b10136f02379408ea58ba51d9b26cc254220e88f171a8a",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 3b06497c4bd809591257962d713758b1e7006caf"
   },
   "tools/portable_install_check.py": {
-   "local_sha256": "549febd23557adfbb3086b13d337417889dfedcde71b5de8c729148efa33691b",
+   "local_sha256": "bc858a2c6cb60e51446344b00f63182066d5a4537cba615d66c6e6fce64e6961",
    "disposition": "PUBLIC_IN_PUBLISHED_TREE",
-   "published_blob_sha256": "549febd23557adfbb3086b13d337417889dfedcde71b5de8c729148efa33691b",
+   "published_blob_sha256": "bc858a2c6cb60e51446344b00f63182066d5a4537cba615d66c6e6fce64e6961",
    "reason": "path is present in the published tree with byte-identical content",
-   "reference": "published tree blob 4f806564fa2d889709ae80ebe29253ecae5b6645"
+   "reference": "published tree blob 185d3fcf1fd8cd010d82658c6c9c3f3d085b8236"
+  },
+  "tools/preflight_check.py": {
+   "local_sha256": "ab193f06ef533566dc9316598253ca4debf2b4950d36333c627296416afd77ee",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "ab193f06ef533566dc9316598253ca4debf2b4950d36333c627296416afd77ee",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 862a431426a964bf6cfa403b2b74cff0a66135fd"
+  },
+  "tools/publication_attestation.py": {
+   "local_sha256": "a10df44074027997e6f50d9ca04420e029e924c0827a666eff5f2769cdc71f39",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "a10df44074027997e6f50d9ca04420e029e924c0827a666eff5f2769cdc71f39",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 9da59da959c331db3d91f9486acd0b9891a0e2ae"
   },
   "tools/quarantine_review.py": {
    "local_sha256": "c34477f48db9d79f30868bb0ded9533d149f4005a21b6540b47c67c74bc9f549",
@@ -11691,6 +13406,20 @@
    "published_blob_sha256": "b1a63db7461ecba1163e40a0782d0f348565954a615802ee4265acbcb29b9e35",
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob 783bdd6f8056cb1a06f55c7528fcae3c6272d997"
+  },
+  "tools/round_envelope.py": {
+   "local_sha256": "d8a24cb565ff51122cc5ecbd0f5fa814f3359da95c22f41023dedd7c7494dbd5",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "d8a24cb565ff51122cc5ecbd0f5fa814f3359da95c22f41023dedd7c7494dbd5",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob ef4dc19575128b9edd6bb2d3946f6aa1d8674d0f"
+  },
+  "tools/round_selfscan.py": {
+   "local_sha256": "e3feec03ead3538cf98c007ce8c0b599efe1f44941d4dea7214176f244069697",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "e3feec03ead3538cf98c007ce8c0b599efe1f44941d4dea7214176f244069697",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob 0b59d78d5898bed1c8329018da1bb1d962a099b5"
   },
   "tools/run_golden_pilots.py": {
    "local_sha256": "015f737dc51c2b66572be7c71a5c213011772ba88ccc52073c8408a01c6ad545",
@@ -11726,6 +13455,13 @@
    "published_blob_sha256": "daafad4fc968ee9f262aa6e06c26fe5d54b082205f03a51b7acd43208415db54",
    "reason": "path is present in the published tree with byte-identical content",
    "reference": "published tree blob a2167e17019360a97dcecefbec5595de2abef3af"
+  },
+  "tools/tt_summary_check.py": {
+   "local_sha256": "99e8872ee95019be1e70486ca4dabc8627aed5c8c647ba71cad6e1748d99a833",
+   "disposition": "PUBLIC_IN_PUBLISHED_TREE",
+   "published_blob_sha256": "99e8872ee95019be1e70486ca4dabc8627aed5c8c647ba71cad6e1748d99a833",
+   "reason": "path is present in the published tree with byte-identical content",
+   "reference": "published tree blob bffdd4a0336fc4b6b22bd6ab6ce27c7f5b5526a4"
   },
   "tools/web_pack_check.py": {
    "local_sha256": "8c78937990a8a7a74fc5098d716e6f231fa1c1d42f4308c9b5a627a208e1b04c",
