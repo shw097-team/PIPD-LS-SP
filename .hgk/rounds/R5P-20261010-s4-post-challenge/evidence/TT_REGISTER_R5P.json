@@ -78,7 +78,21 @@
       "finding": "projection coverage",
       "owner": "PKG08 packaging",
       "title": "tools/build_publication_manifest.py --check --current is red on the pushed branch",
-      "next": "extend .hgk/artifacts/evidence_manifest.json for tests/test_doctor_schema_truth.py, tests/test_tqaep_design_positive.py and the pre-existing tests/test_git_object_reader.py, reseal, regenerate the projection, then rebuild the R5P sidecar so its source_manifest_seal reference matches."
+      "next": "extend .hgk/artifacts/evidence_manifest.json for tests/test_doctor_schema_truth.py, tests/test_tqaep_design_positive.py and the pre-existing tests/test_git_object_reader.py, reseal, regenerate the projection, then rebuild the R5P sidecar so its source_manifest_seal reference matches.",
+      "root_cause": "build_evidence_manifest.py globs the whole repo with only .git/__pycache__/.pyc/.db excluded, so the reseal must follow a relocation of the round's Codex homes and container scratch out of the product tree.",
+      "fix_sequence": [
+        "move lane/writer-home, lane/checker-home and the container venv/scratch trees out of .hgk/rounds/R5P-... (keep the four AO verdict JSONs and the v2/v3/v4 raw runs the verdicts cite)",
+        "python tools/build_evidence_manifest.py --seal  (manifest + seal regenerated over a clean tree)",
+        "python tools/build_publication_manifest.py --write --commit <tip> --tree <tip tree>",
+        "python tools/build_publication_manifest.py --check --current  (expect exit 0)",
+        "rebuild the R5P sidecar via tools/publication_attestation.py + ops/bind_r5p_checker_identity.py so its source_manifest_seal matches the new seal",
+        "commit, push, read back - and this is a new subject, so the AO pass is invalidated for it"
+      ],
+      "severity": "EVIDENCE_GAP row in the S4-active denominator (DEL-018), not a document-named gate",
+      "pre_existing": "proven: the baseline manifest lacks tests/test_git_object_reader.py although the file exists at the baseline (1 violation at the frozen candidate, 3 now)",
+      "document_anchor": "D2 deliverables table: DEL-018 RELEASE_MANIFEST@1 = .hgk/artifacts/evidence_manifest.json + seal, public binding gap, EVIDENCE_GAP, stage S4. D1 section 6.2 F-R5-06: keep the 32+25 denominator, S4-active rows need POS/NEG/RAW/subject. D1 section 4 defers only stage>S4.",
+      "as_gate": "not named in either document; raised by this round's readiness dry run",
+      "can_fail_a_documented_acceptance": "no by itself - the documents mark these rows EVIDENCE_GAP and forbid rounding them up; it must stay declared"
     },
     {
       "id": "TT-R5P-14",

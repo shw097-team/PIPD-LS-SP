@@ -1,0 +1,2028 @@
+{
+ "schema": "PIPD-R5P-F-R5-06-S4-ACTIVE-ROWS/1",
+ "as_of": "2026-10-10T16:30:00Z",
+ "instruction": "D1 section 6.2 F-R5-06: keep the 32+25 denominator; for rows with stage<=S4 that are actually consumed, give POS/NEG/RAW/subject; set S5+ to DESIGN_ONLY; no overall 57-row PASS illusion.",
+ "denominator": {
+  "total": 57,
+  "SPEC": 32,
+  "DEL": 25
+ },
+ "counts": {
+  "S4_ACTIVE_EVIDENCED": 28,
+  "S4_ACTIVE_GAP": 10,
+  "DEFERRED_BY_INSTRUCTION": 19
+ },
+ "raw_used": {
+  "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+  "clean_clone_suite": "evidence/EXTERNAL_ACCEPTANCE_DRYRUN.json (Ran 311, OK (skipped=6))",
+  "uat_matrix": "uat/out2/UAT_MATRIX.json",
+  "independent_verdicts": [
+   "ao/out/AO_VERDICT.json",
+   "ao/out/AO_VERDICT_V2.json",
+   "ao/out/AO_VERDICT_V3.json",
+   "ao/out/AO_VERDICT_V4.json"
+  ]
+ },
+ "honesty": [
+  "no row is promoted: crosswalk_status is carried through unchanged",
+  "rows deferred by instruction stay counted in the denominator",
+  "RAW here is the executed suite receipt and the UAT matrix; this table binds paths and hashes, it does not re-run each oracle separately"
+ ],
+ "rows": [
+  {
+   "id": "PIPD-SP-SPEC-001",
+   "kind": "SPEC",
+   "stage": "S0",
+   "gate": "G-S0-OBJECTS",
+   "normative_summary": "No semantic compilation without exact owner/source/supersession resolution",
+   "owner": "PIPD Core",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_s0_contracts.py",
+    "present_in_subject": true,
+    "blob_sha256": "c26f1e0eb5c330e76d13133a9f994eae27606465"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_oracle_disagreement.py",
+    "present_in_subject": true,
+    "blob_sha256": "72ecdad020ec9020e46b30027a893340873b836c"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-002",
+   "kind": "SPEC",
+   "stage": "S0",
+   "gate": "G-S0-OBJECTS",
+   "normative_summary": "All Skills/packages project PIPD-LIFECYCLE-SPEC@1.1.0; no competing lifecycle SSOT",
+   "owner": "PIPD Core",
+   "crosswalk_status": "EVIDENCE_GAP",
+   "POS_oracle": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "NEG_negative_mutation": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_GAP",
+   "why": "declared oracle '' or negative '' not resolvable in the pushed subject",
+   "not_promoted": true
+  },
+  {
+   "id": "PIPD-SP-SPEC-003",
+   "kind": "SPEC",
+   "stage": "S0",
+   "gate": "G-S0-OBJECTS",
+   "normative_summary": "Every CURRENT requirement traces SRC→REQ→SPEC→ACC→VER→EVD→DEL→GATE",
+   "owner": "PIPD Core",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_s1_lite_slice.py",
+    "present_in_subject": true,
+    "blob_sha256": "cde621ccd86e9a9b8758023f8c3fc184f0cfd201"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-004",
+   "kind": "SPEC",
+   "stage": "S0",
+   "gate": "G-S0-OBJECTS",
+   "normative_summary": "Every canonical semantic object has one primary writer",
+   "owner": "PIPD Core",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_s0_contracts.py",
+    "present_in_subject": true,
+    "blob_sha256": "c26f1e0eb5c330e76d13133a9f994eae27606465"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-005",
+   "kind": "SPEC",
+   "stage": "S2",
+   "gate": "G-S0-OBJECTS",
+   "normative_summary": "Material capability choices execute admission algorithm before BUILD_MINIMAL",
+   "owner": "Technology Admission / PIPD",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_technology_admission.py",
+    "present_in_subject": true,
+    "blob_sha256": "88cbe04af679b42c56cd6e4696010f30aa69ba4b"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-006",
+   "kind": "SPEC",
+   "stage": "S2",
+   "gate": "G-S0-OBJECTS",
+   "normative_summary": "Every considered candidate has terminal disposition or blocking TT",
+   "owner": "Technology Admission / PIPD",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_technology_admission.py",
+    "present_in_subject": true,
+    "blob_sha256": "88cbe04af679b42c56cd6e4696010f30aa69ba4b"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-007",
+   "kind": "SPEC",
+   "stage": "S0",
+   "gate": "G-S0-OBJECTS",
+   "normative_summary": "LITE/STANDARD/ASSURED alter depth, not canonical semantics/permission",
+   "owner": "PIPD Core",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_s0_contracts.py",
+    "present_in_subject": true,
+    "blob_sha256": "c26f1e0eb5c330e76d13133a9f994eae27606465"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-008",
+   "kind": "SPEC",
+   "stage": "S1",
+   "gate": "G-PI-READY",
+   "normative_summary": "PI encodes stable semantic construction contracts and rejectable handoff",
+   "owner": "PI/PD Compiler",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_s1_lite_slice.py",
+    "present_in_subject": true,
+    "blob_sha256": "cde621ccd86e9a9b8758023f8c3fc184f0cfd201"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-009",
+   "kind": "SPEC",
+   "stage": "S1",
+   "gate": "G-PREDEV-READY",
+   "normative_summary": "PD resolves current repo/environment facts without silent semantic rewrite",
+   "owner": "PI/PD Compiler",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_atomic_requirements.py",
+    "present_in_subject": true,
+    "blob_sha256": "7a4cb414637c91c46cc2d9f7c2163e847919626b"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-010",
+   "kind": "SPEC",
+   "stage": "S3/S5",
+   "gate": "G-S5-SHADOW/G-S5-CANARY",
+   "normative_summary": "TaskSpecSeed != WorkOrder != ECP identities",
+   "owner": "Execution Contract / Receiver Adapter",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S3/S5 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-011",
+   "kind": "SPEC",
+   "stage": "S0",
+   "gate": "G-S5-SHADOW/G-S5-CANARY",
+   "normative_summary": "PIPD WorkOrderCandidate is never runtime-authoritative",
+   "owner": "PIPD Core",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-012",
+   "kind": "SPEC",
+   "stage": "S3/S5",
+   "gate": "G-S5-SHADOW/G-S5-CANARY",
+   "normative_summary": "Only receiver authority may ADMIT bounded execution",
+   "owner": "Execution Contract / Receiver Adapter",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S3/S5 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-013",
+   "kind": "SPEC",
+   "stage": "S0",
+   "gate": "G-S5-SHADOW/G-S5-CANARY",
+   "normative_summary": "Provider/tool success cannot establish world-effect confirmation",
+   "owner": "TQAEP / Assurance",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-014",
+   "kind": "SPEC",
+   "stage": "S0",
+   "gate": "G-TQAEP/G-RELEASE",
+   "normative_summary": "Evidence must bind subject/version/hash and freshness",
+   "owner": "TQAEP / Assurance",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_evidence_manifest.py",
+    "present_in_subject": true,
+    "blob_sha256": "b0a7949da5139a8ac37c706c6a13b2bf25146654"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-015",
+   "kind": "SPEC",
+   "stage": "S0",
+   "gate": "G-TQAEP/G-RELEASE",
+   "normative_summary": "Maker cannot self-issue independent qualification",
+   "owner": "TQAEP / Assurance",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_s1_lite_slice.py",
+    "present_in_subject": true,
+    "blob_sha256": "cde621ccd86e9a9b8758023f8c3fc184f0cfd201"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-016",
+   "kind": "SPEC",
+   "stage": "S3/S5",
+   "gate": "G-S5-SHADOW/G-S5-CANARY",
+   "normative_summary": "Handoff is versioned, machine-readable and ACK/NACK-able",
+   "owner": "Execution Contract / Receiver Adapter",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S3/S5 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-017",
+   "kind": "SPEC",
+   "stage": "S3/S5",
+   "gate": "G-S3-HOST/G-S3-WEB",
+   "normative_summary": "Provider/host adapters cannot widen authority or rewrite canonical truth",
+   "owner": "Surface/GENIE Adapter",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_host_projection.py",
+    "present_in_subject": true,
+    "blob_sha256": "7e7f1995156af35658f76c5676b311416ccffc8f"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S3/S5 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-018",
+   "kind": "SPEC",
+   "stage": "S3/S5",
+   "gate": "G-S3-HOST/G-S3-WEB",
+   "normative_summary": "Generated projection is invalid when source hash/version differs",
+   "owner": "Surface/GENIE Adapter",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_host_projection.py",
+    "present_in_subject": true,
+    "blob_sha256": "7e7f1995156af35658f76c5676b311416ccffc8f"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S3/S5 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-019",
+   "kind": "SPEC",
+   "stage": "S2",
+   "gate": "G-TECH-ADMISSION",
+   "normative_summary": "Adopted external capability includes fallback, exit, uninstall and residue check",
+   "owner": "Technology Admission / PIPD",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_technology_admission.py",
+    "present_in_subject": true,
+    "blob_sha256": "88cbe04af679b42c56cd6e4696010f30aa69ba4b"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-020",
+   "kind": "SPEC",
+   "stage": "S0",
+   "gate": "G-TQAEP/G-RELEASE",
+   "normative_summary": "Provenance/SBOM/attestation never substitutes for functional/security acceptance",
+   "owner": "PIPD Core",
+   "crosswalk_status": "EVIDENCE_GAP",
+   "POS_oracle": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "NEG_negative_mutation": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_GAP",
+   "why": "declared oracle '' or negative '' not resolvable in the pushed subject",
+   "not_promoted": true
+  },
+  {
+   "id": "PIPD-SP-SPEC-021",
+   "kind": "SPEC",
+   "stage": "S7",
+   "gate": "G-S7-REQUAL",
+   "normative_summary": "Change invalidates only dependency-affected artifacts/evidence",
+   "owner": "Evolution / Requalification",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S7 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-022",
+   "kind": "SPEC",
+   "stage": "S7",
+   "gate": "G-S7-REQUAL",
+   "normative_summary": "Promotion requires reachable rollback/compensation for applicable effects",
+   "owner": "Evolution / Requalification",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S7 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-023",
+   "kind": "SPEC",
+   "stage": "S0",
+   "gate": "G-PACKAGE-DERIVATION",
+   "normative_summary": "Package count is recomputed from responsibility graph, not hard-coded",
+   "owner": "PIPD Core",
+   "crosswalk_status": "EVIDENCE_GAP",
+   "POS_oracle": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "NEG_negative_mutation": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_GAP",
+   "why": "declared oracle '' or negative '' not resolvable in the pushed subject",
+   "not_promoted": true
+  },
+  {
+   "id": "PIPD-SP-SPEC-024",
+   "kind": "SPEC",
+   "stage": "S0",
+   "gate": "G-PACKAGE-DERIVATION",
+   "normative_summary": "Each package has one primary semantic owner and explicit consumers",
+   "owner": "PIPD Core",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_s0_contracts.py",
+    "present_in_subject": true,
+    "blob_sha256": "c26f1e0eb5c330e76d13133a9f994eae27606465"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-025",
+   "kind": "SPEC",
+   "stage": "S0",
+   "gate": "G-TQAEP/G-RELEASE",
+   "normative_summary": "Injection, permission escalation, secret/PII and irreversible effect risks fail closed",
+   "owner": "TQAEP / Assurance",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_secret_patterns.py",
+    "present_in_subject": true,
+    "blob_sha256": "56249529b8db418161d6f2e1ada7a0cfc676a99a"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-026",
+   "kind": "SPEC",
+   "stage": "S2",
+   "gate": "G-TECH-ADMISSION",
+   "normative_summary": "External pins/versions/licenses/security status carry TTL/recheck triggers",
+   "owner": "Technology Admission / PIPD",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_technology_admission.py",
+    "present_in_subject": true,
+    "blob_sha256": "88cbe04af679b42c56cd6e4696010f30aa69ba4b"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-027",
+   "kind": "SPEC",
+   "stage": "S7",
+   "gate": "G-S7-REQUAL",
+   "normative_summary": "Self-build/test/repair candidate allowed; self-independent-accept/release forbidden",
+   "owner": "Evolution / Requalification",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S7 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-028",
+   "kind": "SPEC",
+   "stage": "S3/S5",
+   "gate": "G-S6-GENIE",
+   "normative_summary": "GENIE projections/runtime findings feed CR, never direct truth mutation",
+   "owner": "Surface/GENIE Adapter",
+   "crosswalk_status": "DESIGN_ONLY",
+   "POS_oracle": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "NEG_negative_mutation": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S3/S5 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": true
+  },
+  {
+   "id": "PIPD-SP-SPEC-029",
+   "kind": "SPEC",
+   "stage": "S3/S5",
+   "gate": "G-S5-SHADOW/G-S5-CANARY",
+   "normative_summary": "HGK receives typed contracts; does not own PIPD lifecycle semantics",
+   "owner": "Execution Contract / Receiver Adapter",
+   "crosswalk_status": "DESIGN_ONLY",
+   "POS_oracle": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "NEG_negative_mutation": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S3/S5 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": true
+  },
+  {
+   "id": "PIPD-SP-SPEC-030",
+   "kind": "SPEC",
+   "stage": "S2",
+   "gate": "G-S3-HOST/G-S3-WEB",
+   "normative_summary": "MCP materializes only for live/authenticated/action/dynamic-discovery needs",
+   "owner": "Technology Admission / PIPD",
+   "crosswalk_status": "EVIDENCE_GAP",
+   "POS_oracle": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "NEG_negative_mutation": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_GAP",
+   "why": "declared oracle '' or negative '' not resolvable in the pushed subject",
+   "not_promoted": true
+  },
+  {
+   "id": "PIPD-SP-SPEC-031",
+   "kind": "SPEC",
+   "stage": "S0",
+   "gate": "G-TQAEP/G-RELEASE",
+   "normative_summary": "design/artifact/schema/test/bound/runtime/independent/human/release/production states are non-inheriting",
+   "owner": "TQAEP / Assurance",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_evidence_manifest.py",
+    "present_in_subject": true,
+    "blob_sha256": "b0a7949da5139a8ac37c706c6a13b2bf25146654"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "PIPD-SP-SPEC-032",
+   "kind": "SPEC",
+   "stage": "S0",
+   "gate": "G-PACKAGE-DERIVATION",
+   "normative_summary": "This blueprint freezes global architecture; package-local construction depth belongs downstream",
+   "owner": "PIPD Core",
+   "crosswalk_status": "EVIDENCE_GAP",
+   "POS_oracle": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "NEG_negative_mutation": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_GAP",
+   "why": "declared oracle '' or negative '' not resolvable in the pushed subject",
+   "not_promoted": true
+  },
+  {
+   "id": "DEL-001",
+   "kind": "DEL",
+   "stage": "S0",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "AUTHORITYBINDING_SOURCEFREEZE_BUNDLE@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "SK-02",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_s1_lite_slice.py",
+    "present_in_subject": true,
+    "blob_sha256": "cde621ccd86e9a9b8758023f8c3fc184f0cfd201"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "DEL-002",
+   "kind": "DEL",
+   "stage": "S0",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "REQUIREMENT_LEDGER@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "SK-01/SK-04",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_atomic_requirements.py",
+    "present_in_subject": true,
+    "blob_sha256": "7a4cb414637c91c46cc2d9f7c2163e847919626b"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "DEL-003",
+   "kind": "DEL",
+   "stage": "S0",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "CANONICAL_OBJECT_REGISTRY@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "PIPD core",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_s0_contracts.py",
+    "present_in_subject": true,
+    "blob_sha256": "c26f1e0eb5c330e76d13133a9f994eae27606465"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "DEL-004",
+   "kind": "DEL",
+   "stage": "S0",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "SPEC_REGISTRY@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "PIPD core",
+   "crosswalk_status": "EVIDENCE_GAP",
+   "POS_oracle": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "NEG_negative_mutation": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_GAP",
+   "why": "declared oracle '' or negative '' not resolvable in the pushed subject",
+   "not_promoted": true
+  },
+  {
+   "id": "DEL-005",
+   "kind": "DEL",
+   "stage": "S2",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "TECHNOLOGY_ADMISSION_LEDGER@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "SK-04/Tech",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_technology_admission.py",
+    "present_in_subject": true,
+    "blob_sha256": "88cbe04af679b42c56cd6e4696010f30aa69ba4b"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "DEL-006",
+   "kind": "DEL",
+   "stage": "S1",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "PI_PACKAGE_SET@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "SK-04",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_s1_lite_slice.py",
+    "present_in_subject": true,
+    "blob_sha256": "cde621ccd86e9a9b8758023f8c3fc184f0cfd201"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "DEL-007",
+   "kind": "DEL",
+   "stage": "S1",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "PD_PACKAGE_SET@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "SK-05",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_atomic_requirements.py",
+    "present_in_subject": true,
+    "blob_sha256": "7a4cb414637c91c46cc2d9f7c2163e847919626b"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "DEL-008",
+   "kind": "DEL",
+   "stage": "S1/S5",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "TASKSPECSEED_SET@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "SK-06",
+   "crosswalk_status": "EVIDENCE_GAP",
+   "POS_oracle": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "NEG_negative_mutation": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S1/S5 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": true
+  },
+  {
+   "id": "DEL-009",
+   "kind": "DEL",
+   "stage": "S1/S5",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "CONSTRUCTIONCONTRACT_SET@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "SK-06",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S1/S5 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": null
+  },
+  {
+   "id": "DEL-010",
+   "kind": "DEL",
+   "stage": "S1/S5",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "WORKORDERCANDIDATE_SET@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "SK-06",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S1/S5 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": null
+  },
+  {
+   "id": "DEL-011",
+   "kind": "DEL",
+   "stage": "S1/S5",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "ECP_SET@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "SK-06",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S1/S5 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": null
+  },
+  {
+   "id": "DEL-012",
+   "kind": "DEL",
+   "stage": "S2",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "TQAEP_SET@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "SK-07",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_oracle_disagreement.py",
+    "present_in_subject": true,
+    "blob_sha256": "72ecdad020ec9020e46b30027a893340873b836c"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "DEL-013",
+   "kind": "DEL",
+   "stage": "S2",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "EVIDENCEEXPECTATION_REGISTRY@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "SK-07",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_evidence_manifest.py",
+    "present_in_subject": true,
+    "blob_sha256": "b0a7949da5139a8ac37c706c6a13b2bf25146654"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "DEL-014",
+   "kind": "DEL",
+   "stage": "S1/S5",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "EXECUTIONHANDOFF_SET@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "SK-06",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S1/S5 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": null
+  },
+  {
+   "id": "DEL-015",
+   "kind": "DEL",
+   "stage": "S3",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "ADAPTER_REGISTRY@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "SK-08",
+   "crosswalk_status": "EVIDENCE_GAP",
+   "POS_oracle": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "NEG_negative_mutation": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_GAP",
+   "why": "declared oracle '' or negative '' not resolvable in the pushed subject",
+   "not_promoted": true
+  },
+  {
+   "id": "DEL-016",
+   "kind": "DEL",
+   "stage": "S3",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "SURFACE_PROJECTION_MANIFEST@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "SK-08",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_host_projection.py",
+    "present_in_subject": true,
+    "blob_sha256": "7e7f1995156af35658f76c5676b311416ccffc8f"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "DEL-017",
+   "kind": "DEL",
+   "stage": "S3",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "WEB_HOST_PROJECTION_PACK@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "SK-08",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_web_pack.py",
+    "present_in_subject": true,
+    "blob_sha256": "a45128c1e2a0a00ea95b58c2597afd67e9cbf24c"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  },
+  {
+   "id": "DEL-018",
+   "kind": "DEL",
+   "stage": "S4",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "RELEASE_MANIFEST@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "Release package",
+   "crosswalk_status": "EVIDENCE_GAP",
+   "POS_oracle": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "NEG_negative_mutation": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_GAP",
+   "why": "declared oracle '' or negative '' not resolvable in the pushed subject",
+   "not_promoted": true
+  },
+  {
+   "id": "DEL-019",
+   "kind": "DEL",
+   "stage": "S4",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "SBOM_PROVENANCE_BUNDLE@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "Release package",
+   "crosswalk_status": "EVIDENCE_GAP",
+   "POS_oracle": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "NEG_negative_mutation": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_GAP",
+   "why": "declared oracle '' or negative '' not resolvable in the pushed subject",
+   "not_promoted": true
+  },
+  {
+   "id": "DEL-020",
+   "kind": "DEL",
+   "stage": "S7",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "MIGRATION_COMPATIBILITY_LEDGER@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "Evolution",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S7 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": null
+  },
+  {
+   "id": "DEL-021",
+   "kind": "DEL",
+   "stage": "S2",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "PACKAGE_DERIVATION_RECEIPT@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "Package generator",
+   "crosswalk_status": "EVIDENCE_GAP",
+   "POS_oracle": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "NEG_negative_mutation": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_GAP",
+   "why": "declared oracle '' or negative '' not resolvable in the pushed subject",
+   "not_promoted": true
+  },
+  {
+   "id": "DEL-022",
+   "kind": "DEL",
+   "stage": "S5",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "HGK_RECEIVER_ADAPTER_SPEC@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "HGK seam",
+   "crosswalk_status": "DESIGN_ONLY",
+   "POS_oracle": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "NEG_negative_mutation": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S5 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": true
+  },
+  {
+   "id": "DEL-023",
+   "kind": "DEL",
+   "stage": "S6",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "GENIE_PROJECTION_ADAPTER_SPEC@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "GENIE seam",
+   "crosswalk_status": "DESIGN_ONLY",
+   "POS_oracle": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "NEG_negative_mutation": {
+    "path": "",
+    "present_in_subject": false,
+    "blob_sha256": null
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S6 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": true
+  },
+  {
+   "id": "DEL-024",
+   "kind": "DEL",
+   "stage": "S0..S7",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "RISK_TT_LEDGER@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "Control",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_tt_summary.py",
+    "present_in_subject": true,
+    "blob_sha256": "23aea9bd58b922cabef4c06418db4d83f5ecd301"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "DEFERRED_BY_INSTRUCTION",
+   "why": "stage S0..S7 spans S5+ ; D1 section 4 defers the stage>S4 portion; the row stays in the 57-row denominator",
+   "not_promoted": null
+  },
+  {
+   "id": "DEL-025",
+   "kind": "DEL",
+   "stage": "S3",
+   "gate": "DELIVERABLES_MASTER_LEDGER",
+   "normative_summary": "FINAL_READBACK_RECEIPT@1 — declared input artifact identities + source hashes; no implicit dependency",
+   "owner": "SK-08",
+   "crosswalk_status": "EVIDENCED",
+   "POS_oracle": {
+    "path": "tests/test_evidence_manifest.py",
+    "present_in_subject": true,
+    "blob_sha256": "b0a7949da5139a8ac37c706c6a13b2bf25146654"
+   },
+   "NEG_negative_mutation": {
+    "path": "tests/test_negative_and_rollback.py",
+    "present_in_subject": true,
+    "blob_sha256": "d81b8fa9fd8ef9e3fcfe1e604f323b7a9626b843"
+   },
+   "RAW": {
+    "suite_receipt": "evidence/host_fullsuite_repair_bound.txt",
+    "uat_matrix": "uat/out2/UAT_MATRIX.json",
+    "independent_verdicts": [
+     "ao/out/AO_VERDICT.json",
+     "ao/out/AO_VERDICT_V2.json",
+     "ao/out/AO_VERDICT_V3.json",
+     "ao/out/AO_VERDICT_V4.json"
+    ]
+   },
+   "subject": {
+    "commit": "244c7f5b91bd0cb46114c533e81254e03a5f9703"
+   },
+   "verdict": "S4_ACTIVE_EVIDENCED",
+   "why": "oracle present in the pushed subject and executed by the full-suite receipt; negative case present where the row declares one",
+   "not_promoted": null
+  }
+ ]
+}
