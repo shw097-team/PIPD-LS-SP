@@ -1,0 +1,100 @@
+{
+  "schema": "PIPD-PUBLICATION-SUBJECT-ATTESTATION/1",
+  "policy_version": "CAPC-PROMPT-CONTRACT/1",
+  "issued_utc": "2026-10-10T06:28Z",
+  "round": "R5-20261009-s4-user-operability",
+  "attains_independent_acceptance": false,
+  "why_not": "no non-Maker checker has produced a verdict. This record therefore binds the PUBLISHED SUBJECT and the publication projection; it is not an acceptance. The Maker cannot attest its own work.",
+
+  "published_subject": {
+    "repo": "https://github.com/shw097-team/PIPD-LS-SP",
+    "branch": "r5-s4-candidate",
+    "commit": "5094939606ba9331ed768743eb5b806ad159e639",
+    "tree": "b480182ca3c9c45fffb6d0d04cd81580d5b67c72",
+    "verified_by": "anonymous `git ls-remote` and the GitHub API, read back after the push (not from the pushing process)",
+    "main_untouched": "refs/heads/main still 3aebbbce948871c07b875ab92acf263d298ecf38",
+    "force_push_used": false,
+    "pull_request_opened": false,
+    "merged": false,
+    "release_claimed": false
+  },
+
+  "lineage": {
+    "externally_reviewed_subject": "cd8a06e4c066a40398a4012b7b3908ac11408a2b (refs/heads/r4-candidate, the commit carrying FAIL_CHALLENGE)",
+    "is_ancestor_of_published_candidate": true,
+    "how_verified": "git merge-base --is-ancestor cd8a06e4c066a40398a4012b7b3908ac11408a2b r5-s4-candidate, re-run inside a FRESH anonymous clone of the published branch",
+    "significance": "before this round the working tree held the R4 content on disk while the local history never contained the R4 commits: content-correct but unbindable. Every publication/attestation attempt had to fail for that reason. The candidate is now traceable to the subject that failed external challenge."
+  },
+
+  "published_commits": [
+    {"sha": "535e47eb20872daae8759224345fecacee1d7eca", "subject": "r5: S4 user-operability focused repair (candidate only)", "class": "CANDIDATE_PRODUCT"},
+    {"sha": "818157b19f6661b0e80e1686b08ad6d76267d465", "subject": "r5: let the publication projection bind a NEW candidate without rewriting its pins", "class": "CANDIDATE_PRODUCT"},
+    {"sha": "f4f0a02ca71a5a6e2c77c9dad1b961ccea4487df", "subject": "r5: reseal the evidence manifest against the S4 repair candidate", "class": "EVIDENCE_ONLY"},
+    {"sha": "5094939606ba9331ed768743eb5b806ad159e639", "subject": "r5: bind the publication projection to the S4 repair candidate and its publication commit", "class": "EVIDENCE_ONLY"}
+  ],
+
+  "product_equality_between_candidate_and_publication_commit": {
+    "candidate_commit": "818157b19f6661b0e80e1686b08ad6d76267d465",
+    "publication_commit": "5094939606ba9331ed768743eb5b806ad159e639",
+    "product_paths_byte_identical": true,
+    "proved_by": "tools/build_publication_manifest.py --check --current returned verdict PASS with 0 violations"
+  },
+
+  "projection": {
+    "path": ".hgk/ao/pub/PUBLICATION_PROJECTION_MANIFEST.json",
+    "entries": 1916,
+    "verdict": "PASS",
+    "coverage_uncovered_count": 0,
+    "crosswalk_digest": "68bf2ddc96a13d69caa71f83986b2654d79546bf160ff9021ee7f54c0373ac8a",
+    "product_digest": "e391d736ba5221a5e13f920105cb63bb567ad7ac228e601b373d3fd3555b9119",
+    "how_it_became_passable": "the tool pinned exactly one historical tuple and could not bind a new candidate (editing the pin would change a product path and trip its own Rule 2; naming the candidate inside the candidate commit is also impossible). --candidate / --candidate-tree now override the frozen subject for one invocation. The evidence manifest was simultaneously resealed: it still enumerated the R3/R4 tuple, leaving 26 current product paths with no disposition at all."
+  },
+
+  "wheel": {
+    "file": "dist/pipd_ls_sp-0.1.0-py3-none-any.whl",
+    "bytes": 225170,
+    "sha256": "e49d38e519117d67de57153658779eafa139eb0dda5a6d15f486facb44fd00e2"
+  },
+
+  "credential_use": {
+    "scope_used": "one push, no more",
+    "ref_created": "refs/heads/r5-s4-candidate",
+    "read_operations_needing_the_credential": "none - the repository is public, so ls-remote/clone/fetch were done anonymously",
+    "secret_handling": "GIT_ASKPASS against a 0600 scratch file; the value never entered argv, .git/config, a commit, a log, a report or a memory file; the scratch copy is outside the repository",
+    "receipt": ".hgk/credentials/CREDENTIAL_RECEIPT.json (value deliberately not recorded)"
+  },
+
+  "independent_acceptance_officer": {
+    "appointed_by_owner": "Independent Acceptance Officer / VERIFY / SECURITY, to be executed via the Codex CLI, checker model named by the owner as GPT 6.1 SOL-MEDIUM (OpenAI OAuth)",
+    "attempted": true,
+    "outcome": "BLOCKED - the Codex CLI on this host cannot execute commands or write files",
+    "blocker_class": "MISSING_EXECUTION_BACKEND",
+    "evidence": [
+      "codex-cli 0.147.0-alpha.6.5 and 0.154.0-alpha.6.2 both fail identically",
+      "failed to spawn code-mode host <...>\\codex-code-mode-host.exe: the system cannot find the file specified (os error 2)",
+      "a direct probe asking codex to run `echo AO_SHELL_OK` and create PROBE_OK.txt produced no command execution and created no file; the agent reported 'the shell host executable is missing'",
+      "`-c features.code_mode=false` did not restore a shell backend",
+      "a plain question-answer probe DOES work on the same lane, so the OAuth path itself is healthy"
+    ],
+    "model_id_discrepancy": {
+      "owner_named": "GPT 6.1 SOL-MEDIUM",
+      "what_the_account_actually_serves": "gpt-5.6-sol @ reasoning effort medium, provider openai (confirmed by the CLI banner and a successful probe)",
+      "rejected_ids": [
+        "gpt-6.1-sol -> HTTP 400 'not supported when using Codex with a ChatGPT account'",
+        "gpt-5.1-codex -> same rejection",
+        "opencode-go/gpt-5.6-sol -> same rejection (the CLI's provider is openai/OAuth, so the opencode-go prefix is not routable from it)"
+      ],
+      "reading": "the SOL family is available on this account at generation 5.6, not 6.1; gpt-5.6-sol at medium effort is the exact configuration the owner described other than the generation number"
+    },
+    "options_for_the_owner": [
+      "restore the missing codex-code-mode-host.exe so the Codex CLI can execute and write; then the appointed officer can run the full adversarial set",
+      "accept gpt-5.6-sol @ medium on the OpenAI OAuth lane as the checker (generation differs from the naming, everything else matches)",
+      "keep the appointment but run it on a lane that can execute (for example the declared VERIFY/SECURITY lane on opencode-go/glm-5.3-flash), accepting that the model is then not the one named",
+      "run the officer as an evidence-review (no tools) over the frozen published bundle - weaker, because it cannot independently execute anything"
+    ]
+  },
+
+  "claim_ceiling": "S4_REPAIR_CANDIDATE_LOCAL_TESTED",
+  "not_claimed": ["INDEPENDENT_PASS", "PUBLICATION_APPROVED", "RELEASED", "PRODUCTION_VERIFIED"],
+  "next_actor": "the appointed independent checker, on the frozen tuple 5094939606ba9331ed768743eb5b806ad159e639 / tree b480182ca3c9c45fffb6d0d04cd81580d5b67c72"
+}
