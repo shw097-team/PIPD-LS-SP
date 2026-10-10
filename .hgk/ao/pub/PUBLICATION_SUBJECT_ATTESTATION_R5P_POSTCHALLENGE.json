@@ -1,0 +1,39 @@
+{
+ "schema": "PIPD-PUBLICATION-SUBJECT-ATTESTATION/1",
+ "policy_version": "CAPC-PROMPT-CONTRACT/1",
+ "commit": "194f1774e8e852f954d141c48389a74b0f0e302a",
+ "tree": "b1ec0abf4799fdc917aaa23dc75885b302407ee5",
+ "product_digest": "53456af2cba9abd99a937bcd82e7b4719fa25b93ee1c81dcf23d1c997c6ea567",
+ "manifest_digest": "31aee9c8c07db22d3fe7fb970ae5b0b6429e1cbcf95792347282ac99fa619c5c",
+ "checker_identity": {
+  "id": "AO-R5P-INDEPENDENT-V4",
+  "model": "gpt-6.1-sol",
+  "provider": "OpenAI OAuth (sealed VERIFY front door, container, read-only product)",
+  "role": "VERIFY/SECURITY",
+  "independent_of_maker": true,
+  "passes": [
+   "V1 FAIL_partial",
+   "V2 PARTIAL",
+   "V3 PARTIAL",
+   "V4 PASS_C6_terminal"
+  ],
+  "identity_source": "ao/out/AO_VERDICT.json verifier_model_and_provider + AO_VERDICT_V{2,3,4}.json checker_id",
+  "note": "Not the value stamped by the tool: tools/publication_attestation.py reads checker_identity from .hgk/ao/FROZEN_CANDIDATE_R3.json and therefore stamps the R3 checker onto R5P subjects."
+ },
+ "generated_at": "2026-10-10T13:11:46.043312+00:00",
+ "source_manifest_seal": {
+  "path": ".hgk/artifacts/evidence_manifest.json",
+  "sha256": "298b89ec3b4a01c133b194f16ba2d78e6ecedf58bfd02cd286c1b04ea666a921",
+  "seal_path": ".hgk/artifacts/evidence_manifest.seal.json",
+  "seal_sha256": "240cb606c85dd0a476c1ead897deac444b7e5a4bd35078f879f5cb226c7986b9",
+  "seal_candidate": {
+   "repo_commit_sha": "818157b19f6661b0e80e1686b08ad6d76267d465",
+   "candidate_tree_sha": "19d26c75f1c3b78b795519d416a8c242446881c8",
+   "stage": "S0-S4",
+   "policy_version": "CAPC-PROMPT-CONTRACT/1"
+  },
+  "bound_to": "local_candidate"
+ },
+ "payload_digest": "2818b9f03307540edfe371740d2b27b8b9ec2eced093a824e5b14a7149a55024",
+ "immutable": true
+}

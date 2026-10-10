@@ -62,6 +62,17 @@ POLICY_VERSION = "CAPC-PROMPT-CONTRACT/1"
 # history remains auditable: R3 was published=3aebbbc/tree 1a7dc57f, frozen=10cb3d3/tree bba26ad0 —
 # the R3 frozen candidate was local-only and never pushed, which is why the R3-pinned tests cannot
 # run from a clone (see tests/test_publication_projection.py::setUpModule).
+#
+# R5P (post-challenge S4 repair) pin, same convention: the sidecar
+# .hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION_R5P_POSTCHALLENGE.json was written and attested against
+# r5p-post-challenge-repair @ 194f1774e8e852f954d141c48389a74b0f0e302a (tree
+# b1ec0abf4799fdc917aaa23dc75885b302407ee5) and is carried by the commit that adds it. Verify with:
+#   python tools/publication_attestation.py --verify --expect-commit 194f1774e8e852f954d141c48389a74b0f0e302a \
+#     --expect-tree b1ec0abf4799fdc917aaa23dc75885b302407ee5 \
+#     --out .hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION_R5P_POSTCHALLENGE.json
+# The sidecar's checker_identity is this round's sealed VERIFY lane, not the R3 identity the tool
+# stamps from FROZEN_CANDIDATE_R3.json (see .hgk/rounds/R5P-.../ops/bind_r5p_checker_identity.py).
+# The R5 pin above is untouched so its history stays auditable.
 PUBLISHED_COMMIT = "f4f0a02ca71a5a6e2c77c9dad1b961ccea4487df"
 PUBLISHED_TREE = "49082394d1e895e7eb5ca46a94fe217468f0a6ab"
 LOCAL_CANDIDATE_COMMIT = "818157b19f6661b0e80e1686b08ad6d76267d465"
