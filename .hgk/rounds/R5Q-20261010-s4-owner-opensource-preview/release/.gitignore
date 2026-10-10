@@ -1,0 +1,9 @@
+# Derived at publish time and uploaded as release assets — deliberately never committed.
+#
+# The source archive is `git archive` of the release commit and SHA256SUMS covers that archive
+# plus the wheel. If either were committed, the release manifest would depend on its own digest:
+# writing the file would change the tree, which would change the archive, which would change the
+# sums. Keeping them derived is what makes the identity chain (build_input_commit -> released_commit
+# -> wheel SHA256 -> source archive SHA256) verifiable instead of circular.
+pipd-ls-sp-v0.1.0-preview.1-source.zip
+SHA256SUMS
