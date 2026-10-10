@@ -390,12 +390,27 @@ def _local_size(path: str) -> int | None:
 
 
 _FROZEN_MAP: dict[str, str] | None = None
+# The pins above reproduce one historical publication tuple. A *new* candidate cannot be bound by
+# rewriting them: the tool's own file is a product path, so a pin edit would make the published tree
+# and the candidate tree differ by exactly that edit and trip Rule 2 (PRODUCT_BYTE_DRIFT) - and naming
+# the candidate commit inside the candidate commit is impossible anyway. --candidate / --candidate-tree
+# therefore override the frozen subject for one invocation, and nothing product-side has to move.
+_CANDIDATE_OVERRIDE: tuple[str, str] | None = None
+
+
+def _candidate_commit() -> str:
+    return _CANDIDATE_OVERRIDE[0] if _CANDIDATE_OVERRIDE else LOCAL_CANDIDATE_COMMIT
+
+
+def _candidate_tree() -> str:
+    return _CANDIDATE_OVERRIDE[1] if _CANDIDATE_OVERRIDE else LOCAL_CANDIDATE_TREE
 
 
 def _frozen_tree_map() -> dict[str, str]:
     global _FROZEN_MAP
     if _FROZEN_MAP is None:
-        _FROZEN_MAP = walk_tree(commit_tree(LOCAL_CANDIDATE_COMMIT))
+        tree = _candidate_tree()
+        _FROZEN_MAP = walk_tree(tree or commit_tree(_candidate_commit()))
     return _FROZEN_MAP
 
 
@@ -428,12 +443,12 @@ def build_projection(*, published_commit: str, published_tree: str) -> dict:
         },
         "published_subject": {"commit": published_commit, "tree": published_tree, "ref": PUBLISHED_REF},
         "local_candidate": {
-            "commit": LOCAL_CANDIDATE_COMMIT,
-            "tree": LOCAL_CANDIDATE_TREE,
+            "commit": _candidate_commit(),
+            "tree": _candidate_tree(),
             "role": "frozen local candidate the evidence manifest is sealed against",
         },
         "subjects_are_distinct": (
-            published_commit != LOCAL_CANDIDATE_COMMIT and published_tree != LOCAL_CANDIDATE_TREE
+            published_commit != _candidate_commit() and published_tree != _candidate_tree()
         ),
         "product_paths": list(PRODUCT_PREFIXES),
         "oversize_limit_bytes": OVERSIZE_LIMIT_BYTES,
@@ -579,6 +594,9 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Publication projection manifest (REQ-PIPD-R4-W1).")
     parser.add_argument("--commit", help="published subject commit (default: resolve r3-candidate)")
     parser.add_argument("--tree", help="published subject tree (default: from --commit)")
+    parser.add_argument("--candidate", help="frozen local candidate commit to compare the published "
+                                             "tree against (default: the pinned historical candidate)")
+    parser.add_argument("--candidate-tree", help="frozen local candidate tree (default: from --candidate)")
     parser.add_argument("--write", action="store_true", help=f"emit {PROJECTION.relative_to(ROOT)}")
     parser.add_argument("--check", action="store_true", help="verify the projection; non-zero on violation")
     parser.add_argument("--current", action="store_true",
@@ -589,6 +607,14 @@ def main(argv: list[str] | None = None) -> int:
         parser.error("at least one of --write / --check is required")
     if args.current and not args.check:
         parser.error("--current is only meaningful together with --check")
+
+    global _CANDIDATE_OVERRIDE
+    if args.candidate:
+        try:
+            _CANDIDATE_OVERRIDE = (args.candidate, args.candidate_tree or commit_tree(args.candidate))
+        except GitObjectUnavailable as exc:
+            print(json.dumps({"verdict": "FAIL", "reason": str(exc)}), file=sys.stderr)
+            return 1
 
     try:
         published_commit, published_tree = _resolve_subject(args)
