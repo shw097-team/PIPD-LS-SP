@@ -111,3 +111,39 @@ Ran 2 tests in 0.038s
 
 FAILED (errors=2)
 
+--- tracked_files heuristic (third site) ---
+
+CORRECTED ROOT CAUSE. My earlier call that this failure was "pre-existing and unrelated" was
+WRONG, and it was wrong because I only tested the commit that already contained the change.
+Measured with `git ls-tree -r --name-only <commit> | wc -l`:
+
+    9bd33a1  (the base this round started from):        996 tracked files  -> assertLess(n,1000) PASSES
+    afb29d0  (this round's commits):                   1019 tracked files  -> FAILS
+    af3f86c  (HEAD, this round's commits):             1025 tracked files  -> FAILS
+
+So this round's OWN evidence commits tripped it. The absolute cap of 1000 was already only 4 files
+away from tripping before the round began. The check's own message states its intent - detect that
+tracked_files is "counting .git internals again" - not cap the repository's size.
+
+RED (before the repair), single test:
+
+    python -m unittest \
+      tests.test_tooling_executes.TestToolingExecutes.test_tracked_file_metric_excludes_vcs_internals -v
+
+    FAIL: line 120, in test_tracked_file_metric_excludes_vcs_internals
+        self.assertLess(n, 1000, "tracked_files looks like it is counting .git internals again")
+    AssertionError: 1025 not less than 1000 :
+        tracked_files looks like it is counting .git internals again
+    Ran 1 test ... FAILED (failures=1)
+
+RED (before the repair), full suite:
+
+    Ran 318 tests ... FAILED (failures=1, skipped=3)
+
+Scratch proof that the NEW guard fires when it SHOULD (item 5; not a committed test):
+
+    poisoned = ['src/a.py', 'README.md', '.git/objects/aa/blob', '.git/config', '.gitignore']
+    flagged  = ['.git/objects/aa/blob', '.git/config']
+    # .git machinery detected -> would fail the assertion; .gitignore correctly left alone.
+    GUARD FIRES: OK
+

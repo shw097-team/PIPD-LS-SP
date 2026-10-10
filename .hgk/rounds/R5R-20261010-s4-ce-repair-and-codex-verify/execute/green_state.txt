@@ -263,3 +263,39 @@ AssertionError: 1015 not less than 1000 : tracked_files looks like it is countin
 Ran 318 tests in 101.291s
 
 FAILED (failures=1, skipped=3)
+
+--- tracked_files heuristic (third site) ---
+
+GREEN (after the repair). The check now asserts its STATED intent directly:
+
+  1. Direct `.git`-internals guard - no tracked path may be `.git/`, under `.git/`, a bare-repo
+     object/ref/pack path, or a top-level index/lock file. This is the real "counting .git
+     internals again" detector and it holds no matter how large the repo grows legitimately.
+     Failure message lists the offending paths.
+  2. Sanity upper bound set to 25,000 (was 1,000). Comment in the test explains the number: the
+     honest count is ~1k and climbs a few dozen files per round as receipts land under `.hgk/`,
+     whereas a genuine `.git`-internals miscount is a MANY-THOUSANDS jump (packed objects, refs,
+     logs). 25,000 separates the two regimes with a wide margin while still failing loudly.
+  3. `tracked_files` counting is UNCHANGED; `.hgk/` and all evidence dirs remain in the metric; the
+     test is neither skipped nor xfailed.
+
+  Added clean unit assertion `test_git_internals_guard_rejects_a_git_objects_entry` proving the
+  guard fires on a `.git/objects/...` entry and does NOT flag ordinary `.gitignore`.
+
+Single test (after):
+
+    python -m unittest tests.test_tooling_executes -v
+    Ran 7 tests in 10.980s
+    OK
+
+Full suite (after):
+
+    Ran 319 tests in 102.691s
+    OK (skipped=3)
+
+Test count: 318 (1 failing) -> 319 (OK). Count rose by 1 (the new guard unit test); not lower.
+
+Tracked-file counts, measured with `git ls-tree -r --name-only <commit> | wc -l`:
+    9bd33a1 = 996   (round base; assertLess(1000) PASSES)
+    afb29d0 = 1019  (this round's commits; assertLess(1000) FAILS)
+    af3f86c = 1025  (HEAD of this round)

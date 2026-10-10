@@ -204,3 +204,41 @@ the heuristic, did NOT delete the round evidence, and did NOT commit anything.
 
 So the suite is green **except** for that one pre-existing baseline failure, which is outside the
 scope of this bounded-writer order. I am reporting it rather than redefining "green".
+
+## CORRECTION — tracked_files heuristic failure was NOT pre-existing (third bounded-writer order)
+
+The paragraph above is **retracted**. My conclusion that the `tracked_files` failure was
+"pre-existing and unrelated" was WRONG, and it was wrong because I only tested the commit that
+already contained the change. Measured with `git ls-tree -r --name-only <commit> | wc -l`:
+
+- `9bd33a1` (the base this round started from): **996** tracked files -> `assertLess(n, 1000)` PASSES.
+- `afb29d0` (this round's commits): **1019** tracked files -> FAILS.
+- `af3f86c` (HEAD of this round): **1025** tracked files -> FAILS.
+
+So **this round's own evidence commits** tripped the assertion. The absolute cap of 1000 was
+already only 4 files away from tripping before the round began, and every future round that commits
+its receipts under `.hgk/rounds/` would trip it again. Deleting governance evidence to satisfy a
+size heuristic would invert the priority; the check's own message states its intent is `.git`
+internals detection, not a repository-size cap.
+
+# Repair — assert the stated intent directly
+
+In `tests/test_tooling_executes.py`:
+
+1. A new `_is_git_internal_path(p)` predicate plus a direct assertion in
+   `test_tracked_file_metric_excludes_vcs_internals`: **no tracked path may be a `.git`-internals
+   path** (exact `.git`, anything under `.git/`, bare-repo `objects/`/`refs/`/`pack/`, and the
+   top-level index/lock files). This is exactly "counting .git internals" and is a real regression
+   detector regardless of legitimate repo growth. Its failure message lists the offending paths.
+2. A sanity upper bound kept (so a future miscount cannot pass unnoticed) but raised from 1,000 to
+   **25,000**, with a comment stating why: the honest count is ~1k and climbs a few dozen files per
+   round, while a `.git`-internals miscount is a many-thousands jump (packed objects, refs, logs).
+3. `tracked_files` counting is unchanged; `.hgk/` and every evidence directory remain in the
+   metric; the test is neither skipped nor xfailed.
+4. A clean unit assertion `test_git_internals_guard_rejects_a_git_objects_entry` proves the guard
+   fires on a `.git/objects/...` entry and leaves ordinary `.gitignore` alone.
+
+Evidence appended under `--- tracked_files heuristic (third site) ---` in `red_state.txt` and
+`green_state.txt`. Single test (after) `Ran 7 tests ... OK`; full suite (after)
+`Ran 319 tests ... OK (skipped=3)` — up from 318 with 1 failure. Nothing committed, pushed, or built;
+no `schemas/` or `.hgk/artifacts/` edit was kept (the one artifact dirtied by the run was reverted).
