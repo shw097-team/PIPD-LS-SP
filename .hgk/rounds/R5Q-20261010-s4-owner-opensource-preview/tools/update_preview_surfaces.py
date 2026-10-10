@@ -28,6 +28,11 @@ def sha(b: bytes) -> str:
 def main() -> int:
     repo = pathlib.Path(sys.argv[1]).resolve()
     rel_dir = ROUND / "release"
+    # HEAD has moved past the release commit many times. Without this pin the rendered body would
+    # advertise whatever commit happens to be checked out, which is exactly the drift the
+    # build_input_commit/released_commit split exists to prevent.
+    if len(sys.argv) > 2:
+        m.RELEASE_COMMIT = sys.argv[2]
     token = m.load_token()
 
     st, rel = m.api("GET", f"/repos/{m.OWNER}/{m.REPO}/releases/tags/{m.TAG}", token)

@@ -74,13 +74,22 @@
 
 - [x] 6.1 Independent non-Maker checker (separate process, read-only) re-derived the decisive claims
       from the published subject: **9/9 PASS, no counterexample**, `PASS_ONLY_THE_ABOVE_CLAIMS`.
-      Frozen receipt in `evidence/R5Q_INDEPENDENT_VERIFICATION_RECEIPT.json`. Two qualifications are
-      recorded there: the checker ran on `deepseek-v4.1-flash` rather than the plan's
-      `GPT 6.1 SOL-MEDIUM` lane (no `codex`/`gh` on this host), and it predates the §11 entry-point
-      correction, which is therefore covered by the round's own anonymous readback instead.
-- [x] 6.2 Evidence pack (machine-readable) written under the round's `evidence/` root, token-free.
-- [ ] 6.3 `CORR-01..08` and the 12 TT rows each carry current truth, owner, disposition and trigger.
-- [ ] 6.4 `DEL-018` recorded as `FAIL/EVIDENCE_GAP` with its three uncovered test paths (disclosed in the
+      Frozen receipt in `evidence/R5Q_INDEPENDENT_VERIFICATION_RECEIPT.json`. Qualification: it ran
+      on `deepseek-v4.1-flash` rather than the plan's `GPT 6.1 SOL-MEDIUM` lane.
+- [x] 6.2 The lane was re-run on the specified model (`openai-codex/gpt-6.1-sol`, effort medium) as a
+      fresh read-only process. It confirmed the corrected entry point (claims 8–11 PASS) and returned
+      **`COUNTEREXAMPLE_FOUND`**: 12/12 claims PASS plus **CE-1** (`validate` does not resolve the
+      wheel's own schemas the way `doctor` does) and **CE-2** (a bundle from the compilers' own
+      unedited stdout is rejected over `_profile_meta`). The maker reproduced both against the
+      published wheel bytes; harness frozen in `evidence/ce_repro/`. Both disclosed as limitations
+      6/7 on the release body, README and preview notes. **Disposition is the owner's** — each fix
+      changes member bytes and needs a superseding release, since published tags are never rewritten.
+- [x] 6.3 The receipt-currency reservation is closed: the second receipt **postdates** the entry-point
+      correction, and the first receipt's scope is re-stated as the immutable artefact only, with the
+      mutable surfaces carried by the timestamped readback (12/12 PASS, quota clean).
+- [x] 6.4 Evidence pack (machine-readable) written under the round's `evidence/` root, token-free.
+- [ ] 6.5 `CORR-01..08` and the 12 TT rows each carry current truth, owner, disposition and trigger.
+- [ ] 6.6 `DEL-018` recorded as `FAIL/EVIDENCE_GAP` with its three uncovered test paths (disclosed in the
       release body, README and preview notes; **not** closed).
 
 ## 7. Deferred / kept open (deliberately not closed)
@@ -89,3 +98,7 @@
 - [ ] 7.2 The 10 `S4_ACTIVE_GAP` SPEC/DEL rows.
 - [ ] 7.3 The 19 `DEFERRED_BY_INSTRUCTION` rows.
 - [ ] 7.4 S5–S8 live execution, PRE-W3, host-native certification, the 22 inactive technologies.
+- [ ] 7.5 **CE-1 / CE-2 repair.** `validate` should resolve the wheel's own schemas the way `doctor`
+      does; the `PI-PKG` member and `compile-pi`'s `_profile_meta` sidecar should agree. Either change
+      moves member bytes, so the repair ships as a **superseding release**, never as a rewrite of
+      `v0.1.0-preview.1`. Disposition (repair now vs accept for the preview) is the owner's.

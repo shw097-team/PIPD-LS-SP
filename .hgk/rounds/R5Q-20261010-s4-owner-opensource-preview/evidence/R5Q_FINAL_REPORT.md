@@ -19,7 +19,7 @@ documentation and packaging changes. No new R6, no PI/PD redesign, no schema/Ski
 | `FULL_S0_S4_INDEPENDENT_PASS` | `NOT_GRANTED` |
 | `G_RELEASE_FULL_PASS` | `NOT_GRANTED` |
 | `PRODUCTION_VERIFIED` | `NOT_CLAIMED` |
-| Independent acceptance by a non-maker checker | **RECEIVED** — `PASS_ONLY_THE_ABOVE_CLAIMS`, 9/9 claims, no counterexample (see §6.1 and `evidence/R5Q_INDEPENDENT_VERIFICATION_RECEIPT.json`) |
+| Independent acceptance by a non-maker checker | **RECEIVED**, and superseded by a stricter run — first receipt `PASS_ONLY_THE_ABOVE_CLAIMS` (9/9); second run on the specified model lane **`COUNTEREXAMPLE_FOUND`** (12/12 claims PASS, 2 non-stop-ship defects). See §6.1, §6.3 |
 
 Nothing in this round upgrades the R5P technical GO into a full-gate pass. The independent checker
 returned §6.1, so the maker-side results in §4 are now corroborated from outside — for the immutable
@@ -109,7 +109,7 @@ One 404 on the first readback was a GitHub edge-cache replay of the pre-publicat
 raw endpoint returned 200 with the correct SHA and the re-run passed. Recorded here rather than
 quietly discarded, because a readback that only passes on the second attempt is worth knowing about.
 
-## 6. Independent verification — RECEIVED
+## 6. Independent verification — two runs, the second stricter
 
 ### 6.1 Independent non-Maker checker
 
@@ -123,9 +123,12 @@ What it independently confirmed: tag → `cc9bf574` with tree `da39a1ef` (via it
 API); wheel `c450dbef…` agreeing across asset digest, release body and `SHA256SUMS`, with all 40 RECORD
 rows verifying; the licence packed inside the wheel and byte-identical to the repository copy; a
 clean-venv install whose `doctor` reports `INSTALLED` and whose 19 schemas pass Draft2020-12 checks;
-the design chain and `validate` green; typed non-zero negatives when the installed schema set is
+the design chain running green; typed non-zero negatives when the installed schema set is
 corrupted or missing; the claim ceiling stated without inflation; and destination safety proven with a
 canary — including that `--allow-replace` preserves the old tree as a backup rather than deleting it.
+Its `validate` result was green **only with an explicit `--root` and a bundle whose PI-PKG member had
+had its `_profile_meta` sidecar removed**; §6.3 records what the second run found when neither
+condition was supplied, and the maker reproduced both.
 
 **Two qualifications on this receipt, both material.**
 
@@ -151,6 +154,42 @@ or signature exists — SHA-256 only); a full CVE / supply-chain scan; and `vali
 ### 6.2 Evidence pack
 
 Machine-readable, token-free, written under the round's `evidence/` root.
+
+### 6.3 Second independent run, on the model lane the plan named — COUNTEREXAMPLE_FOUND
+
+`§6.1`'s checker ran as a Hermes subagent on `deepseek-v4.1-flash`, not the `GPT 6.1 SOL-MEDIUM` lane
+the round's model plan specified. That deviation was reported, not smoothed over, and the lane was
+re-run on the specified model (`openai-codex/gpt-6.1-sol`, `reasoning_overrides` = medium) as a fresh
+read-only process with its own context and tool session.
+
+That run returned **`COUNTEREXAMPLE_FOUND`**, not a clean pass. All twelve of its claims passed, and
+it independently confirmed the corrected entry point (claims 8–11: `main` advanced `3aebbbce` →
+`de3a1d9` with a 14-line README-only diff, R3 still an ancestor, no `not touched` wording left in the
+live body, and the re-uploaded preview notes matching the branch byte-for-byte). But it also found
+two reproducible, **non-stop-ship** defects:
+
+| | finding | reproduced by the maker against the published wheel |
+|---|---|---|
+| CE-1 | `validate` does not resolve the wheel's own schemas the way `doctor` does | from a cwd with no `schemas/` and no `--root`: exit **2**, `INPUT_SHAPE_INVALID`, `FileNotFoundError: <cwd>/schemas/PI-PKG.schema.json` — while `doctor` in the **same venv** exits 0 with `schema_source.mode = INSTALLED` |
+| CE-2 | a bundle assembled from the compilers' own unedited stdout is rejected | four unmodified compiler outputs → exit **1**, `checked=4`, `PI-PKG/: Additional properties are not allowed ('_profile_meta' was unexpected)`; deleting only that sidecar → exit **0**, `checked=4`, `findings=[]` |
+
+Both were reproduced independently by the maker — a clean venv from the wheel downloaded off the
+release, the four commands run with their real exit codes, the raw bundle assembled by hand. The
+harness, the wheel it ran against and the raw results are frozen in `evidence/ce_repro/`.
+
+**Why this is not a stop-ship and why the call is not the maker's to make.** Install, licence
+packaging inside the wheel, `doctor`, the CLI, and every artefact hash are unaffected. But the owner
+grant's stop-ship list contains *"core intake → PI → PD → ECP/TQAEP chain broadly unusable"*, and a
+tool that rejects its own unedited output is on that boundary. The maker therefore **did not** rule it
+cosmetic, and **did not** repair it: either repair changes member bytes, which would require a
+superseding release, and published tags are never rewritten. Both are disclosed as limitations 6 and
+7 on the release body, README and preview notes, and the disposition — repair in a superseding
+release, or accept for the preview — is left to the owner.
+
+**Consequence for §4.** The maker-side UAT row claiming the design chain plus `validate` was green is
+**true only under an undocumented pair of conditions** (explicit `--root`; `_profile_meta` stripped).
+That qualification was missing before this run and is the reason the claim read stronger than the
+evidence.
 
 ## 7. Credential handling (disclosed)
 
@@ -182,17 +221,20 @@ PAT is advisable; the publication does not depend on it any more.
 
 ## 9. Open items and the shortest recovery path
 
-1. **Independent acceptance — RECEIVED, with qualifications.** See §6.1: 9/9 claims, no counterexample,
+1. **The two counter-examples (CE-1, CE-2) are open.** Each needs a member-byte change, so the
+   repair path is a superseding release, not a rewrite of `v0.1.0-preview.1`. Disposition is the
+   owner's: repair, or accept for the preview. Disclosed on every public surface either way.
+3. **Independent acceptance — RECEIVED, with qualifications.** See §6.1: 9/9 claims, no counterexample,
    `PASS_ONLY_THE_ABOVE_CLAIMS`. Two caveats are recorded there and matter: the checker ran on
    `deepseek-v4.1-flash` rather than the plan's `GPT 6.1 SOL-MEDIUM` lane (no `codex`/`gh` on this
    host), and it predates the §11 entry-point correction.
-2. **`DEL-018 RELEASE_MANIFEST@1` — `FAIL/EVIDENCE_GAP`.** `tools/build_publication_manifest.py
+3. **`DEL-018 RELEASE_MANIFEST@1` — `FAIL/EVIDENCE_GAP`.** `tools/build_publication_manifest.py
    --check --current` exits 1. Uncovered paths: `tests/test_git_object_reader.py`,
    `tests/test_doctor_schema_truth.py`, `tests/test_tqaep_design_positive.py`. Disclosed in the
    release body, README and preview notes.
-3. **`CORR-01..08` / 12 TT rows** — the dispositions that this round touched are recorded in the
+4. **`CORR-01..08` / 12 TT rows** — the dispositions that this round touched are recorded in the
    tasks file; the rows untouched by publication keep their R5P gaps.
-4. **Deferred, unchanged:** the 10 `S4_ACTIVE_GAP` rows, the 19 `DEFERRED_BY_INSTRUCTION` rows,
+5. **Deferred, unchanged:** the 10 `S4_ACTIVE_GAP` rows, the 19 `DEFERRED_BY_INSTRUCTION` rows,
    S5–S8 live execution, PRE-W3, host-native certification, the 22 inactive technologies, and
    Windows symlink/junction behaviour beyond the tested scope.
 
@@ -215,6 +257,9 @@ deprecation notice rather than moving or deleting `v0.1.0-preview.1`.
 | `evidence/R5Q_PUBLICATION_PREFLIGHT.json`, `R5Q_PUBLICATION.json`, `R5Q_PUBLICATION_READBACK.json` | publish + anonymous readback |
 | `evidence/R5Q_SECRET_SCAN.json` | credential sweep over the published tree |
 | `evidence/R5Q_INDEPENDENT_VERIFICATION_RECEIPT.json` | non-Maker checker's frozen receipt (9/9, no counterexample) |
+| `evidence/ce_repro/` | maker's reproduction of CE-1/CE-2: harness, the wheel it ran against, raw exit codes |
+| `evidence/R5Q_NOT_VERIFIED_LEDGER.md` | the 7-item `what_i_did_not_verify` list classified; 2 must stay open |
+| `license/R5Q_FAR_RECEIPT_CURRENCY_STUDY.md` | FAR study on closing the receipt-currency reservation |
 | `release/RELEASE_BODY.md`, `release/.gitignore` | rendered release notes template; derived assets excluded |
 
 ## 11. Correction made after review — the entry point was pointing at the wrong thing
