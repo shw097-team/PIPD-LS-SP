@@ -6,7 +6,7 @@ for that reader. **Nothing in this repository is a claim of acceptance** — see
 | item | value |
 |---|---|
 | branch to accept | `r5-s4-packreader` |
-| subject commit | the tip of branch `r5-s4-packreader`. Two bindings pin it: (a) the **sha256 of both subject files** (table below) — stable across any commit, and the same digests the independent checker verified; (b) `.hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION_R5S4_PACKREADER.json`, which seals the product and manifest digests with a `payload_digest`. That sidecar records the content commit whose tree it was computed over, and it is itself committed by the one commit immediately following it — so `git rev-parse HEAD~1` is the content commit when this branch tip is the sidecar commit. The repository's older `.hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION.json` attests the earlier R3 published subject and is deliberately left untouched. |
+| subject commit | the tip of branch `r5-s4-packreader`. Two bindings pin it, and neither depends on where a later commit sits: (a) the **sha256 of both subject files** (table below) — stable across any commit, and the same digests the independent checker verified; (b) `.hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION_R5S4_PACKREADER.json`, which carries top-level `commit` and `tree` naming the exact subject it was computed over, seals the product and manifest digests, and adds a `payload_digest` so tampering is detectable. Evidence-only commits were added after that binding to deliver the acceptance-officer re-runs; they change no product file, and the digests in (a) are unaffected. The repository's older `.hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION.json` attests the earlier R3 published subject and is deliberately left untouched. |
 | previous public state (parent) | `7f13b90dc06354a0c6b7bd013f83a8cc244bf93d`; its tree is `git rev-parse 7f13b90^{tree}` |
 | round | `R5-20261009-s4-user-operability` |
 | scope | exactly one confirmed defect (**D1**) repaired, then independently checked |
@@ -102,6 +102,16 @@ python tools/build_publication_manifest.py --check --commit "$(git rev-parse HEA
 - The round's own `openspec/specs/` directory is empty, as it is for every other change in this repository —
   changes are kept as validated proposals in `openspec/changes/`, which is the repository's convention, not
   a gap left by this round.
+- Four acceptance cases in the officer's report were `NOT_RUN`. Two of them (its labels B4 and B5) were
+  re-run after this round and both are now `PASS`; the runs, the harnesses, and **two of the maker's own
+  earlier results that were retracted** are in `.hgk/rounds/R5-20261009-s4-user-operability/ao/`
+  (`rerun_b4_verdict.json` carries the verdict and the retractions). `A10` (symlink escape) remains
+  `NOT_RUN` because it cannot be closed on this host: `os.symlink` raises `OSError WinError 1314`, the
+  account lacks the privilege. `UAT-10-source` does not apply in source mode by design.
+- Re-running B4 also showed that **no CLI subcommand surfaces an incomplete installed schema set**: the
+  guard lives in `registry.load_registry()` and works, but `src/pipd_ls_sp/cli.py` never calls it, so
+  `doctor` cannot report a missing schema. That is disclosed as an observation. It predates this repair,
+  no product file was changed for it, and it is left for the external verifier to weigh.
 
 ## Claim ceiling for this round
 
