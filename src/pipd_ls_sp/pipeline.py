@@ -20,6 +20,15 @@ from .util import canonical_json, content_id, sha256_text  # noqa: F401
 CLAIM_LADDER = ["PROMPT_COMPILE_PASS", "HGK_ADMITTED", "RUNTIME_READY", "LOCAL_QUALIFIED",
                 "INDEPENDENT_PASS", "PUBLICATION_APPROVED", "RELEASED", "PRODUCTION_VERIFIED"]
 
+# WO-S4-TQAEP-004: design-time TQAEP is a DESIGN ceiling, not independent acceptance. A checker
+# *receipt string* supplied at design time is recorded, but it is NOT independent verification --
+# that requires a live S5 runtime checker. The record's key set must stay schema-conformant
+# (schemas/TQAEP.schema.json declares additionalProperties:false), so this ceiling and the
+# not-granted flags are carried INSIDE the declared `acceptance` field, never as a new top-level
+# key and never by editing the schema.
+TQAEP_DESIGN_CEILING = "TQAEP_DESIGNED"
+TQAEP_INDEPENDENT_PROOF_REQUIRES = "S5_LIVE_RUNTIME_CHECKER"
+
 
 def _rec(kind: str, prefix: str, payload: Any, **fields: Any) -> dict[str, Any]:
     """Build a schema-conformant record whose identity is derived from its own body.
@@ -276,9 +285,20 @@ def compile_tqaep(pi: dict[str, Any], ecp: dict[str, Any], *, maker: str, checke
         raise TqOracleFail("every TQAEP test needs an oracle")
     payload = {"pi": pi["subject_id"], "ecp": ecp["subject_id"],
                "tests": [t["test_id"] for t in tests]}
-    acceptance = [{"case": "INDEPENDENT_CASE_PASS", "maker_identity": maker,
-                   "checker_identity": checker, "distinct": True,
-                   "checker_execution_receipt": checker_execution_receipt}]
+    # WO-S4-TQAEP-004: a design-time record establishes ONLY that a distinct checker identity was
+    # supplied and recorded. A receipt string is not independent verification, so the entry must
+    # NOT present it as an independently passed case; the design-time ceiling and the explicit
+    # NOT_GRANTED flags say exactly what was established and what a live checker would have to do.
+    acceptance = [{"case": "TQAEP_DESIGN_CANDIDATE",
+                   "design_time_status": "DISTINCT_CHECKER_IDENTITY_RECORDED",
+                   "maker_identity": maker, "checker_identity": checker, "distinct": True,
+                   "checker_execution_receipt": checker_execution_receipt,
+                   "claim_ceiling": TQAEP_DESIGN_CEILING,
+                   "independent_acceptance": "NOT_GRANTED",
+                   "independent_proof_requires": TQAEP_INDEPENDENT_PROOF_REQUIRES,
+                   "note": "design-time candidate only: the checker receipt is a recorded string, "
+                           "not independent verification; a live runtime checker must re-run it "
+                           "before any independent acceptance can be claimed"}]
     return _seal(_rec("TQAEP", "TQAEP", payload,
                 tests=tests, oracles=oracles, fixtures=fixtures,
                 acceptance=acceptance, requalification="affected-only"), "TQAEP")

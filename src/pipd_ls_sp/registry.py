@@ -79,33 +79,67 @@ def _persist_tree(src: Path) -> Path:
     return dst
 
 
-def _candidate_schemas_dirs() -> list[Path]:
-    """Strict resolution order: explicit override, packaged copy, source tree."""
-    candidates: list[Path] = []
+def _candidate_schemas_dirs_with_mode() -> list[tuple[str, Path]]:
+    """Strict resolution order, tagged with the surface each candidate came from.
+
+    ``OVERRIDE`` = ``$PIPD_SCHEMAS_DIR``; ``INSTALLED`` = the copy packaged inside the
+    installed wheel; ``SOURCE`` = the ``<repo>/schemas`` source-tree fallback. This is the
+    single owner of the order ``_resolve_schemas_dir`` consumes; it must never be reordered
+    (``describe_schemas_source`` reports the SAME order to the operator).
+    """
+    candidates: list[tuple[str, Path]] = []
     override = os.environ.get("PIPD_SCHEMAS_DIR")
     if override:
-        candidates.append(Path(override))
+        candidates.append(("OVERRIDE", Path(override)))
     packaged = _packaged_schemas_dir()
     if packaged is not None:
-        candidates.append(packaged)
-    candidates.append(_repo_schemas_dir())
+        candidates.append(("INSTALLED", packaged))
+    candidates.append(("SOURCE", _repo_schemas_dir()))
     return candidates
 
 
-def _resolve_schemas_dir() -> Path:
-    """First location that contains registry.json, else typed ValidationFail."""
+def _candidate_schemas_dirs() -> list[Path]:
+    """Strict resolution order: explicit override, packaged copy, source tree."""
+    return [path for _, path in _candidate_schemas_dirs_with_mode()]
+
+
+def _resolve_schemas_dir_and_mode() -> tuple[Path | None, str, list[str]]:
+    """First candidate that contains registry.json, tagged with its surface mode."""
     tried: list[str] = []
     seen: set[str] = set()
-    for cand in _candidate_schemas_dirs():
+    for mode, cand in _candidate_schemas_dirs_with_mode():
         key = str(cand)
         if key in seen:
             continue
         seen.add(key)
         tried.append(key)
         if (cand / "registry.json").is_file():
-            return cand
-    raise ValidationFail(
-        "no schemas directory containing registry.json; tried: " + "; ".join(tried))
+            return cand, mode, tried
+    return None, "NONE", tried
+
+
+def _resolve_schemas_dir() -> Path:
+    """First location that contains registry.json, else typed ValidationFail."""
+    resolved, _mode, tried = _resolve_schemas_dir_and_mode()
+    if resolved is None:
+        raise ValidationFail(
+            "no schemas directory containing registry.json; tried: " + "; ".join(tried))
+    return resolved
+
+
+def describe_schemas_source() -> dict[str, Any]:
+    """Public report of the schemas surface ``_resolve_schemas_dir`` actually selects.
+
+    ``{"mode": "OVERRIDE"|"INSTALLED"|"SOURCE"|"NONE", "path": str, "tried": [str, ...]}``.
+    ``OVERRIDE`` when ``$PIPD_SCHEMAS_DIR`` was selected, ``INSTALLED`` when the packaged
+    copy was selected, ``SOURCE`` when the source-tree fallback was selected, and ``NONE``
+    when nothing resolved (``path`` is then ``""``). ``tried`` lists the candidates in the
+    order they were probed, so a caller can see exactly which surface a verdict came from
+    instead of assuming a workspace-local ``schemas/`` convention. This never silently
+    falls back to a different copy; it reports what the resolver will consume.
+    """
+    resolved, mode, tried = _resolve_schemas_dir_and_mode()
+    return {"mode": mode, "path": str(resolved) if resolved is not None else "", "tried": tried}
 
 
 def load_registry(schemas_dir: Path | None = None) -> dict[str, Any]:

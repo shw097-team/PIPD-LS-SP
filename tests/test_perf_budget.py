@@ -110,6 +110,32 @@ class AdvisoryAndVotingRows(unittest.TestCase):
         # The rate decides: it is within its ratified budget on this candidate.
         self.assertEqual(rc, 0)
         self.assertEqual(res["verdict"], "PASS")
+        # WO-S4-CAL-003: the anti-dilution denominator, the scale fixtures and the padding probe are
+        # carried in the same verdict block, and the p95/max tail rows never vote.
+        ad = res["anti_dilution"]
+        self.assertEqual(ad["voting_row"], "bytes_per_atom")
+        self.assertEqual(ad["denominator"], "unique_obligations")
+        self.assertIn("dedup_rule", ad)
+        self.assertEqual(ad["advisory_rows"], ["per_atom_p95_bytes", "per_atom_max_bytes"])
+        self.assertNotIn("per_atom_p95_bytes", res["voting_metrics"])
+        self.assertNotIn("per_atom_max_bytes", res["voting_metrics"])
+        for scale in ("2", "237", "801"):
+            self.assertEqual(res["scales"][scale]["unique_obligations"], int(scale))
+        self.assertEqual(res["scales"]["long_clause"]["atoms"], 1)
+        self.assertEqual(res["padding_invariance"]["padding_invariance"], "PASS")
+        # Serialized/disk bytes and model-context bytes are separate; the latter is UNPROVENANCED.
+        ctx = [r for r in res["rows"] if r["metric"] == "context_entry_bytes"]
+        self.assertEqual(len(ctx), 1)
+        self.assertIsNone(ctx[0]["value"])
+        self.assertTrue(ctx[0]["uncomputable"])
+        self.assertFalse(ctx[0]["voting"])
+
+    def test_new_advisory_rows_do_not_change_the_preserved_fail_set(self):
+        # Only the context_bytes_per_artefact row preserves history; the new tail/uncomputable rows
+        # must not creep into preserved_fails.
+        self.assertNotIn("preserved", PB._row("per_atom_p95_bytes", 10.0))
+        self.assertFalse(PB.PROVENANCE["per_atom_p95_bytes"]["voting"])
+        self.assertFalse(PB.PROVENANCE["per_atom_max_bytes"]["voting"])
 
 
 class HistoricalRecordedValue(unittest.TestCase):
@@ -182,6 +208,111 @@ class HistoricalRecordedValue(unittest.TestCase):
         # The correction is present rather than the claim merely deleted.
         self.assertIn("RECORDED", source)
         self.assertIn("measured_now", source)
+
+
+class AntiDilutionUniqueObligations(unittest.TestCase):
+    """WO-S4-CAL-003: the denominator is distinct obligation identities, not raw atom count."""
+
+    def test_unique_obligations_counts_distinct_identity(self):
+        atoms = [{"subject_id": "A"}, {"subject_id": "A"}, {"subject_id": "B"}]
+        self.assertEqual(PB.unique_obligations(atoms), 2)
+
+    def test_identity_falls_back_to_canonical_json_when_subject_id_absent(self):
+        a = {"req_id": "x", "owner": "o"}
+        b = {"req_id": "x", "owner": "o"}
+        c = {"req_id": "y", "owner": "o"}
+        self.assertEqual(PB.canonical_identity(a), PB.canonical_identity(b))
+        self.assertNotEqual(PB.canonical_identity(a), PB.canonical_identity(c))
+        # The identity trio is excluded, so re-sealing does not change the obligation identity.
+        d = {"req_id": "x", "owner": "o", "subject_id": "", "content_hash": "h" * 64, "version": "1"}
+        self.assertEqual(PB.canonical_identity(a), PB.canonical_identity(d))
+
+    def test_rate_divides_by_unique_not_raw(self):
+        one = {"subject_id": "ATOM-DUP", "req_id": "REQ-DUP"}
+        pi = {"stable_semantic_contract": {"atoms": [one] * 100}}
+        prof = PB.per_atom_profile(pi)
+        self.assertEqual(prof["atoms"], 100)
+        self.assertEqual(prof["unique_obligations"], 1)
+        self.assertEqual(prof["bytes_per_atom"], prof["pi_bytes"])
+
+    def test_dedup_rule_is_reported_verbatim(self):
+        self.assertTrue(PB.DEDUP_RULE.startswith("distinct canonical identity"))
+
+
+class PaddingInvariance(unittest.TestCase):
+    """WO-S4-CAL-003: appending duplicate/filler atoms must not dilute the voting rate."""
+
+    def test_padding_does_not_bring_the_rate_to_or_below_budget(self):
+        res = PB.padding_invariance_probe()
+        self.assertEqual(res["padding_invariance"], "PASS")
+        self.assertGreater(res["after"]["bytes_per_atom"], res["budget"])
+        self.assertEqual(res["after"]["unique_obligations"], res["before"]["unique_obligations"])
+
+    def test_a_raw_atom_denominator_would_have_diluted(self):
+        # Proof the fixture actually exercises dilution: under a raw atom-count denominator the
+        # padded payload WOULD fall at or below budget.
+        res = PB.padding_invariance_probe()
+        self.assertLessEqual(res["naive_rate_if_denominator_were_raw_atoms"], res["budget"])
+
+
+class ScaleFixtures(unittest.TestCase):
+    """WO-S4-CAL-003: exercise 2 / 237 / 801 unique obligations and one long single clause."""
+
+    def test_scales_2_237_801_have_exactly_that_many_unique_obligations(self):
+        sc = PB.scale_fixtures()
+        for n in ("2", "237", "801"):
+            with self.subTest(scale=n):
+                self.assertEqual(sc[n]["unique_obligations"], int(n))
+                self.assertEqual(sc[n]["atoms"], int(n))
+                self.assertGreater(sc[n]["pi_bytes"], 0)
+
+    def test_single_long_clause_is_one_multi_thousand_char_atom(self):
+        lc = PB.scale_fixtures()["long_clause"]
+        self.assertEqual(lc["atoms"], 1)
+        self.assertEqual(lc["unique_obligations"], 1)
+        self.assertGreater(lc["clause_chars"], 2000)
+        self.assertEqual(lc["max_bytes"], lc["p95_bytes"])
+
+    def test_tail_statistics_are_advisory_and_never_replace_the_mean_row(self):
+        self.assertFalse(PB.PROVENANCE["per_atom_p95_bytes"]["voting"])
+        self.assertFalse(PB.PROVENANCE["per_atom_max_bytes"]["voting"])
+        self.assertTrue(PB.PROVENANCE["bytes_per_atom"]["voting"])
+
+
+class QuantitiesSeparated(unittest.TestCase):
+    """WO-S4-CAL-003: serialized/disk bytes vs model-context bytes are separate quantities."""
+
+    def test_context_entry_bytes_is_unprovenanced_and_not_invented(self):
+        row = PB._row("context_bytes_per_artefact", 335252.0)
+        self.assertTrue(row["preserved"])
+        # The serialized quantity IS measured.
+        self.assertEqual(row["metric"], "context_bytes_per_artefact")
+        self.assertIsNotNone(row["value"])
+
+
+class HistoricalFailPreserved(unittest.TestCase):
+    """The historical 343,547 > 20,000 FAIL row must still be present and unchanged."""
+
+    def test_recorded_absolute_fail_row_is_unchanged(self):
+        row = PB._row("context_bytes_per_artefact", 343547.0)
+        self.assertEqual(row["budget"], 20000)
+        self.assertTrue(row["exceeded"])
+        self.assertEqual(row["verdict"], "FAIL")
+        self.assertFalse(row["voting"])
+        self.assertTrue(row["preserved"])
+        self.assertEqual(row["source_of_truth"], "UNPROVENANCED")
+
+    def test_recorded_value_is_read_from_the_frozen_baseline(self):
+        baseline = json.loads(
+            (ROOT / ".hgk" / "artifacts" / "s2" / "BYTES_PER_ATOM_BASELINE.json")
+            .read_text(encoding="utf-8"))
+        row = PB._row("context_bytes_per_artefact", 1.0)  # a bogus live reading
+        hist = PB._historical_row(row, baseline)
+        self.assertTrue(hist["recorded"])
+        self.assertEqual(hist["value"], baseline["pi_bytes"])
+        self.assertEqual(hist["budget"], 20000)
+        self.assertEqual(hist["verdict"], "FAIL")
+        self.assertTrue(hist["exceeded"])
 
 
 if __name__ == "__main__":

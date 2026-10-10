@@ -34,7 +34,9 @@ This repository is a **review candidate**. Status words are kept separate on pur
 | `RELEASED` | **NOT claimed** |
 | `PRODUCTION_VERIFIED` | **NOT claimed** |
 
-`S0` and `S1` are the only stages reached. S2–S8 are not implemented.
+**Historical R3 snapshot (kept as history, not the current product state):** `S0` and `S1` are the only stages reached. S2–S8 are not implemented.
+
+> The sentence above is the **R3** snapshot. The branch **current for review** is **`r5-s4-packreader`** (`main` is still the R3 state). The current acceptance entry point is [`ACCEPTANCE.md`](ACCEPTANCE.md), which names the candidate ceiling: an **`S4` candidate, internal evaluation**, licensed **`LicenseRef-PIPD-Proprietary`** with **no public-use grant**. This note upgrades no claim level.
 
 **R4 (2026-10-09) keeps every one of those ceilings — nothing below was promoted.**
 `INDEPENDENT_PASS`, `PUBLICATION_APPROVED`, `RELEASED` and `PRODUCTION_VERIFIED` remain **NOT CLAIMED**. One repair

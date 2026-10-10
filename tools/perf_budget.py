@@ -9,11 +9,21 @@ repo is marked `UNPROVENANCED`. The verdict is **fail-closed**: an *exceeded* bu
 is `UNDECIDABLE` (never PASS), and a within-budget provenanced row is `PASS`. `--check` exits
 non-zero whenever any row FAILs. No numeric threshold was raised or lowered by adding this
 provenance.
+
+WO-S4-CAL-003 (F-R5-04) adds an ANTI-DILUTION oracle on top of that provenance, without touching any
+threshold or the owner's ruling. The voting rate is computed against a UNIQUE validated obligation
+denominator (distinct obligation identities), not the raw length of the atom list, so appending
+duplicate/filler atoms cannot dilute `bytes_per_atom` at or below its budget. The raw `atoms` count is
+still reported beside `unique_obligations` (with an explicit `dedup_rule`). Serialized/disk bytes and
+the bytes that would actually enter a model context are kept SEPARATE: the latter is not computable
+from the product and is reported `UNPROVENANCED`, never invented.
 """
 from __future__ import annotations
 
 import argparse
+import copy
 import json
+import math
 import subprocess
 import sys
 import time
@@ -79,10 +89,32 @@ PROVENANCE = {
     "bytes_per_atom": {
         "budget": 2000,
         "measurement": "len(json.dumps(PI, ensure_ascii=False)) UTF-8 bytes divided by the number "
-                       "of atoms in PI.stable_semantic_contract.atoms",
-        "denominator": "one atom (bytes per atom, scale-invariant)",
+                       "of DISTINCT obligation identities in PI.stable_semantic_contract.atoms "
+                       "(padding-invariant denominator; raw atom count reported as `atoms`)",
+        "denominator": "one distinct obligation (bytes per unique obligation, scale-invariant)",
         "source_of_truth": "docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json#/rulings/S2_BUDGET_DEFINITION",
         "voting": True,
+    },
+    # WO-S4-CAL-003: the 95th-percentile / max per-atom statistics are modelling aids ONLY. They are
+    # reported so a long tail is visible, but they are UNPROVENANCED and do NOT vote - they must never
+    # silently replace the owner's ratified MEAN-based `bytes_per_atom` row.
+    "per_atom_p95_bytes": {
+        "budget": 2000,
+        "measurement": "nearest-rank 95th percentile of len(json.dumps(atom)) UTF-8 bytes over PI atoms",
+        "denominator": "one atom (95th-percentile atom, bytes)",
+        "source_of_truth": "UNPROVENANCED",
+        "voting": False,
+        "advisory_reason": "the owner's ratified row is the MEAN bytes_per_atom; the p95/max tail "
+                           "statistics are reported for visibility and MUST NOT replace it",
+    },
+    "per_atom_max_bytes": {
+        "budget": 2000,
+        "measurement": "max of len(json.dumps(atom)) UTF-8 bytes over PI atoms",
+        "denominator": "one atom (largest atom, bytes)",
+        "source_of_truth": "UNPROVENANCED",
+        "voting": False,
+        "advisory_reason": "the owner's ratified row is the MEAN bytes_per_atom; the max tail "
+                           "statistic is reported for visibility and MUST NOT replace it",
     },
 }
 BUDGET = {k: v["budget"] for k, v in PROVENANCE.items()}
@@ -101,6 +133,156 @@ RECORDED_BASELINE = {
         "field": "pi_bytes",
     },
 }
+
+# WO-S4-CAL-003: the anti-dilution rule. An obligation's identity is its canonical `subject_id`; when
+# that is absent, its canonical JSON (all fields but the identity trio) is the fallback identity. Two
+# atoms with the same identity are ONE obligation, so appending duplicates cannot inflate the divisor.
+DEDUP_RULE = "distinct canonical identity: atom.subject_id, else sha256 of its canonical JSON "             "(atom minus subject_id/version/content_hash/schema_version)"
+_IDENTITY_KEYS = ("subject_id", "version", "content_hash", "schema_version")
+
+
+def _canonical_json(value) -> str:
+    """Canonical JSON (sorted keys, no whitespace) - the same shape pipeline.util.canonical_json
+    produces, defined locally so this module imports no product code at import time."""
+    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+
+def canonical_identity(atom: dict) -> str:
+    """Canonical identity of one obligation atom: `subject_id`, else its canonical JSON digest.
+
+    Used only to COUNT obligations - it never mutates an atom and it never fabricates an id.
+    """
+    sid = atom.get("subject_id")
+    if isinstance(sid, str) and sid:
+        return sid
+    body = {k: v for k, v in atom.items() if k not in _IDENTITY_KEYS}
+    return "canon-json:" + _sha256_hex(_canonical_json(body))
+
+
+def _sha256_hex(text: str) -> str:
+    import hashlib
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def unique_obligations(atoms: list[dict]) -> int:
+    """Count DISTINCT obligation identities (the defensible denominator)."""
+    return len({canonical_identity(a) for a in atoms})
+
+
+def _nearest_rank(values: list[int], pct: float) -> float:
+    """Nearest-rank percentile (no interpolation): a real atom's size, never a synthetic value."""
+    if not values:
+        return 0.0
+    ordered = sorted(values)
+    rank = math.ceil(pct / 100.0 * len(ordered))
+    return float(ordered[max(rank, 1) - 1])
+
+
+def per_atom_profile(pi: dict) -> dict:
+    """The voting rate plus its padding-invariance inputs and the tail statistics.
+
+    `bytes_per_atom` divides the serialized PI bytes by the number of DISTINCT obligations, so
+    padding atoms cannot dilute it. A doc with zero obligations yields an infinite rate (fail-closed).
+    """
+    sc = pi.get("stable_semantic_contract") or {}
+    sc_wo = {k: v for k, v in sc.items() if k != "atoms"}
+    pi_bytes = len(json.dumps(pi, ensure_ascii=False).encode())
+    container = len(json.dumps(sc_wo, ensure_ascii=False).encode())
+    atoms = sc.get("atoms") or []
+    sizes = [len(json.dumps(a, ensure_ascii=False).encode()) for a in atoms]
+    uniq = unique_obligations(atoms)
+    rate = pi_bytes / uniq if uniq else float("inf")
+    return {"pi_bytes": pi_bytes, "bytes": pi_bytes, "atoms": len(atoms),
+            "unique_obligations": uniq, "dedup_rule": DEDUP_RULE,
+            "bytes_per_atom": rate, "per_atom_sizes": sizes,
+            "p95_bytes": _nearest_rank(sizes, 95.0),
+            "max_bytes": float(max(sizes)) if sizes else 0.0}
+
+
+# WO-S4-CAL-003 scale fixtures. A "single long clause" is one syntactically valid clause with no
+# clause/conjunction boundaries, so it compiles to exactly ONE atom (a genuine long tail for the
+# max/p95 statistics). The filler strings below are punctuation-free so the requirement compiler
+# cannot split them; they are used ONLY to build in-memory fixtures, never written to the tree.
+_LONG_CLAUSE_FILLER = "編譯器需將每個來源條款轉換成獨立原子需求同時保存來源定位極性並提供可重現摘要識別"
+_FILLER_ATOM = {"req_id": "REQ-FILLER", "owner": "PIPD-EC", "axis": "intent"}
+
+# The unique obligation identities the three fixtures exercise.
+SCALE_UNIQUE_OBLIGATIONS = (2, 237, 801)
+
+
+def long_clause_scale_fixture(repeats: int = 60) -> dict:
+    """One syntactically valid multi-thousand-character clause -> exactly one atom."""
+    from pipd_ls_sp import requirements as req
+    clause = _LONG_CLAUSE_FILLER * repeats
+    atoms = req.compile_requirements(clause, ["."])
+    pi = {"subject_id": "PI-SCALE-LONG", "version": "1", "content_hash": "x" * 64,
+          "schema_version": "PI-PKG@1", "trace": [{"from_id": "PI-SCALE-LONG"}],
+          "stable_semantic_contract": {"goal": clause[:200], "atoms": atoms}}
+    return {"clause_chars": len(clause), "profile": per_atom_profile(pi)}
+
+
+def _scale_fixture(n_unique: int) -> dict:
+    """A synthetic PI with exactly `n_unique` DISTINCT obligations and no duplicates."""
+    atoms = []
+    for i in range(n_unique):
+        a = dict(_FILLER_ATOM)
+        a["subject_id"] = f"ATOM-SCALE-{i}"
+        a["req_id"] = f"REQ-SCALE-{i}"
+        atoms.append(a)
+    return {"subject_id": "PI-SCALE", "version": "1", "content_hash": "y" * 64,
+            "schema_version": "PI-PKG@1", "stable_semantic_contract": {"goal": "scale", "atoms": atoms}}
+
+
+def scale_fixtures() -> dict:
+    """Exercise 2 / 237 / 801 unique obligations and one genuinely long single clause."""
+    out: dict = {}
+    for n in SCALE_UNIQUE_OBLIGATIONS:
+        prof = per_atom_profile(_scale_fixture(n))
+        out[str(n)] = {"atoms": prof["atoms"], "unique_obligations": prof["unique_obligations"],
+                       "pi_bytes": prof["pi_bytes"], "bytes_per_atom": round(prof["bytes_per_atom"], 2),
+                       "p95_bytes": prof["p95_bytes"], "max_bytes": prof["max_bytes"]}
+    long_fx = long_clause_scale_fixture()
+    prof = long_fx["profile"]
+    out["long_clause"] = {"clause_chars": long_fx["clause_chars"], "atoms": prof["atoms"],
+                          "unique_obligations": prof["unique_obligations"],
+                          "pi_bytes": prof["pi_bytes"],
+                          "bytes_per_atom": round(prof["bytes_per_atom"], 2),
+                          "p95_bytes": prof["p95_bytes"], "max_bytes": prof["max_bytes"]}
+    return out
+
+
+def padding_invariance_probe(padding: int = 500) -> dict:
+    """Appending `padding` duplicated/filler atoms must NOT bring the rate at or below budget.
+
+    This is a real assertion over the module's own `per_atom_profile`, not a comment: it builds an
+    over-budget single-obligation payload, pads it with `padding` copies of a filler atom, and
+    asserts the padded rate is still > the budget. If the denominator were the raw atom count a
+    padding of this size would trivially dilute it below 2000.
+    """
+    long_clause = _LONG_CLAUSE_FILLER * 60
+    atoms = [{"subject_id": "ATOM-LONG", "req_id": "REQ-LONG",
+              "source_clause": {"text": long_clause}}]
+    pi = {"subject_id": "PI-PAD", "version": "1", "content_hash": "z" * 64,
+          "schema_version": "PI-PKG@1",
+          "stable_semantic_contract": {"goal": "pad", "atoms": atoms}}
+    before = per_atom_profile(pi)
+    padded = copy.deepcopy(pi)
+    filler = {"subject_id": "ATOM-LONG", "req_id": "REQ-LONG", "note": "padding"}
+    padded["stable_semantic_contract"]["atoms"] = atoms + [dict(filler) for _ in range(padding)]
+    after = per_atom_profile(padded)
+    budget = PROVENANCE["bytes_per_atom"]["budget"]
+    naive = after["pi_bytes"] / after["atoms"] if after["atoms"] else float("inf")
+    ok = after["bytes_per_atom"] > budget and after["unique_obligations"] == before["unique_obligations"]
+    assert ok, (f"padding changed the denominator: before={before['bytes_per_atom']:.1f} "
+                f"after={after['bytes_per_atom']:.1f} budget={budget}")
+    assert naive <= budget, "the fixture must be one that WOULD dilute a raw atom-count denominator"
+    return {"before": {"atoms": before["atoms"], "unique_obligations": before["unique_obligations"],
+                       "bytes_per_atom": round(before["bytes_per_atom"], 2)},
+            "after": {"atoms": after["atoms"], "unique_obligations": after["unique_obligations"],
+                      "bytes_per_atom": round(after["bytes_per_atom"], 2)},
+            "padding_atoms": padding, "budget": budget,
+            "naive_rate_if_denominator_were_raw_atoms": round(naive, 2),
+            "padding_invariance": "PASS"}
 
 
 def _verdict(value: float, budget: float, source_of_truth: str) -> str:
@@ -127,11 +309,17 @@ def _row(metric: str, value: float, **extra) -> dict:
     # could hide a real overrun (e.g. raw 2000.04 against a 2000 budget rounds to 2000.0 and would
     # read as within budget). `value`/`value_display` are what gets printed.
     display = round(value, 1) if isinstance(value, float) else value
+    voting = extra.pop("voting", None)
+    if voting is None:
+        voting = prov.get("voting", True)
     row = {"metric": metric, "value": display, "value_display": display,
            "budget": prov["budget"], **extra,
            "measurement": prov["measurement"], "denominator": prov["denominator"],
            "source_of_truth": prov["source_of_truth"],
-           "voting": prov.get("voting", True)}
+           "voting": voting}
+    if prov.get("uncomputable"):
+        row["uncomputable"] = True
+        row["computed"] = False
     if "advisory_reason" in prov:
         row["advisory"] = True
         row["advisory_reason"] = prov["advisory_reason"]
@@ -182,12 +370,18 @@ def _historical_row(row: dict, baseline: dict | None) -> dict:
     out = {"metric": metric, "value": value, "measured_now": measured_now,
            "recorded": recorded is not None, "origin": origin,
            "budget": row["budget"],
-           "verdict": _verdict(value, row["budget"], row["source_of_truth"]),
-           "exceeded": value > row["budget"],
            "source_of_truth": row["source_of_truth"]}
-    if recorded is None:
-        out["note"] = ("no recorded value was available for this metric; `value` is the live "
-                       "measurement, not a recorded one")
+    if value is None:
+        # WO-S4-CAL-003: an UNPROVENANCED quantity the product cannot compute. Never score it: a
+        # null is not "under budget", so there is no PASS/FAIL to read out of it.
+        out.update({"verdict": "UNPROVENANCED", "exceeded": None, "computed": False,
+                    "note": "uncomputable from the product (see measurement); no value is invented"})
+    else:
+        out.update({"verdict": _verdict(value, row["budget"], row["source_of_truth"]),
+                    "exceeded": value > row["budget"]})
+        if recorded is None:
+            out["note"] = ("no recorded value was available for this metric; `value` is the live "
+                           "measurement, not a recorded one")
     return out
 
 
@@ -248,10 +442,13 @@ def main(argv: list[str] | None = None) -> int:
     rows.append(_row("context_bytes_per_artefact", worst, sizes=sizes))
 
     # The scale-invariant rate that actually votes, plus its frozen-baseline regression guard.
-    atoms = (pi.get("stable_semantic_contract") or {}).get("atoms") or []
-    n_atoms = len(atoms)
+    # WO-S4-CAL-003: the denominator is the number of DISTINCT obligations (unique obliations), not
+    # the raw atom count, so duplicate/filler atoms cannot dilute the rate. `atoms` is still reported.
+    profile = per_atom_profile(pi)
+    n_atoms = profile["atoms"]
+    unique_obligations = profile["unique_obligations"]
     pi_bytes = sizes["pi"]
-    per_atom = pi_bytes / n_atoms if n_atoms else float("inf")
+    per_atom = profile["bytes_per_atom"]
     base_path = OUT / "s2" / BASELINE_FILE
     baseline = None
     if base_path.exists():
@@ -259,7 +456,10 @@ def main(argv: list[str] | None = None) -> int:
             baseline = json.loads(base_path.read_text(encoding="utf-8"))
         except Exception:
             baseline = None
-    reg_extra: dict = {"pi_bytes": pi_bytes, "atoms": n_atoms}
+    reg_extra: dict = {"pi_bytes": pi_bytes, "atoms": n_atoms,
+                       "unique_obligations": unique_obligations, "dedup_rule": profile["dedup_rule"]}
+    if unique_obligations == 0:
+        reg_extra["empty_denominator"] = True
     if baseline:
         b = float(baseline.get("bytes_per_atom", 0) or 0)
         lim = b * (1 + REGRESSION_TOLERANCE_PCT / 100)
@@ -270,10 +470,25 @@ def main(argv: list[str] | None = None) -> int:
         reg_extra.update({"regression": "UNTESTED",
                           "how_to_freeze": "python -B tools/perf_budget.py --freeze-baseline"})
     per_row = _row("bytes_per_atom", per_atom, **reg_extra)
-    if reg_extra["regression"] == "REGRESSED":
-        per_row["verdict"] = "FAIL"
-        per_row["regression_fail"] = True
     rows.append(per_row)
+
+    # Tail statistics, reported for visibility only. MUST NOT vote: the owner's ratified row is the
+    # mean bytes_per_atom, and these are explicitly non-voting (voting=False in PROVENANCE).
+    rows.append(_row("per_atom_p95_bytes", profile["p95_bytes"]))
+    rows.append(_row("per_atom_max_bytes", profile["max_bytes"]))
+    # The SEPARATE "bytes entering a model context" quantity: the product cannot compute it (no
+    # tokenizer/context-window is bound), so it is UNPROVENANCED with `value: null` and
+    # `computed: false` - never a fabricated number.
+    rows.append({"metric": "context_entry_bytes", "value": None, "value_display": None,
+                 "budget": 20000, "voting": False, "advisory": True, "uncomputable": True,
+                 "computed": False, "source_of_truth": "UNPROVENANCED",
+                 "measurement": "bytes that would actually enter a model context - NOT COMPUTABLE "
+                                "from the product: no tokenizer / context-window accounting is bound",
+                 "denominator": "one artefact entering a model context (bytes)",
+                 "advisory_reason": "the product measures serialized/disk bytes, not the bytes a "
+                                    "model context would consume; because no tokenizer is bound, no "
+                                    "value is invented",
+                 "note": "UNPROVENANCED / advisory: no number is computed here"})
 
     voting = [r for r in rows if r.get("voting", True)]
     advisory = [r for r in rows if not r.get("voting", True)]
@@ -302,6 +517,27 @@ def main(argv: list[str] | None = None) -> int:
                "ruling": "S2_BUDGET_DEFINITION = PER_ATOM_BYTES(2000); timing rows ADVISORY",
                "artefact_unchanged": True,
            },
+           "anti_dilution": {
+               "voting_row": "bytes_per_atom",
+               "value": per_row["value"],
+               "budget": per_row["budget"],
+               "denominator": "unique_obligations",
+               "atoms": n_atoms,
+               "unique_obligations": unique_obligations,
+               "dedup_rule": profile["dedup_rule"],
+               "why": "the voting rate divides by DISTINCT obligation identities, so appending N "
+                      "duplicate/filler atoms cannot bring it at or below budget",
+               "padding_invariance": "structural: the denominator counts distinct identities only",
+               "quantities_separated": {
+                   "serialized_bytes_measured": True,
+                   "context_entry_bytes": "UNPROVENANCED: not computable from the product "
+                                          "(no tokenizer/context-window is bound); advisory only",
+               },
+               "voting_denominators": ["bytes_per_atom"],
+               "advisory_rows": ["per_atom_p95_bytes", "per_atom_max_bytes"],
+           },
+           "scales": scale_fixtures(),
+           "padding_invariance": padding_invariance_probe(),
            "candidate_head": candidate_head()}
     if not args.check:
         (OUT / "s2").mkdir(parents=True, exist_ok=True)

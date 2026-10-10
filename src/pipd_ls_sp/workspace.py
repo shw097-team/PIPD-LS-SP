@@ -109,27 +109,85 @@ def project_surfaces(root: Path, out, *, authorized_roots=None,
     return _projection.project_surfaces(root, out, authorized_roots=authorized_roots,
                                         allow_replace=allow_replace)
 
-def doctor(root: Path) -> dict[str, Any]:
-    findings = []
+def _check_schemas_surface(schemas_dir: Path, *, label: str) -> tuple[list[str], int | None]:
+    """Validate ONE schemas surface end-to-end; return (findings, family_count).
+
+    Shared by the workspace-local ``<root>/schemas`` check and the RESOLVED-surface check
+    added for F-R5-01, so both surfaces are held to exactly the same bar: the registry-
+    declared exact 19-family set/order is present, each ``<Family>.schema.json`` is present,
+    parseable, on the 2020-12 draft, and enforces every registry-declared required field.
+    Every finding NAMES the surface label, the family and the path. A ``None`` family count
+    means the registry itself could not be loaded at that surface (a finding was emitted).
+    """
+    findings: list[str] = []
     try:
-        reg = registry.load_registry(root / "schemas")
-    except ValidationFail as exc:
-        return {"verdict": "FAIL", "findings": [str(exc)]}
+        reg = registry.load_registry(schemas_dir)
+    except (ValidationFail, OSError, ValueError) as exc:
+        return [f"{label}: registry not loadable at {schemas_dir}: {exc}"], None
     names = [f["contract"] for f in reg["families"]]
     if len(names) != len(set(names)):
-        findings.append("duplicate contract family")
+        findings.append(f"{label}: duplicate contract family at {schemas_dir}")
+    if names != registry.SOURCE_ORDER:
+        findings.append(f"{label}: family set/order diverges from the exact 19 at {schemas_dir}: {names}")
     for f in reg["families"]:
-        schema = json.loads((root / "schemas" / f"{f['contract']}.schema.json").read_text(encoding="utf-8"))
-        if schema.get("$schema", "").find("2020-12") < 0:
-            findings.append(f"{f['contract']}: schema draft is not 2020-12")
-        req = set(schema.get("required", []))
-        declared = set(f["required_fields"])
-        missing = declared - req
+        contract = f["contract"]
+        schema_path = schemas_dir / f"{contract}.schema.json"
+        try:
+            schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        except FileNotFoundError:
+            findings.append(f"{label}: missing schema member {contract} at {schemas_dir} ({schema_path.name})")
+            continue
+        except (OSError, ValueError) as exc:
+            findings.append(f"{label}: unreadable/unparseable schema member {contract} at {schemas_dir}: {exc}")
+            continue
+        if "2020-12" not in str(schema.get("$schema", "")):
+            findings.append(f"{label}: {contract} schema draft is not 2020-12 at {schemas_dir}")
+        enforced = set(schema.get("required", []))
+        declared = set(f.get("required_fields", []))
+        missing = declared - enforced
         if missing:
-            findings.append(f"{f['contract']}: registry fields not enforced by schema {sorted(missing)}")
+            findings.append(f"{label}: {contract} registry fields not enforced by schema "
+                            f"{sorted(missing)} at {schemas_dir}")
+    return findings, len(names)
+
+
+def doctor(root: Path) -> dict[str, Any]:
+    """Diagnose BOTH schemas surfaces and AND the verdict (F-R5-01 repair).
+
+    Surface 1 is the workspace-local ``<root>/schemas`` tree (the pre-existing check).
+    Surface 2 is the RESOLVED surface the CLI/registry actually consume, in order
+    ``$PIPD_SCHEMAS_DIR`` -> packaged wheel copy -> ``<repo>/schemas`` fallback, as reported
+    by ``registry.describe_schemas_source()``. The old implementation only ever read
+    ``<root>/schemas``, so installing a wheel with a torn packaged ``schemas/`` copy and
+    running ``pipd doctor`` from a healthy workspace printed PASS. The verdict is now the AND
+    of both surfaces and is NEVER rescued by a different schemas copy: a failing resolved
+    member names the family and the resolved path. ``schema_source`` tells the operator which
+    surface was inspected (mode, path, tried).
+    """
+    findings: list[str] = []
+    families: int | None = None
+
+    local = root / "schemas"
+    if local.is_dir():
+        local_findings, local_families = _check_schemas_surface(local, label="workspace-local")
+        findings.extend(local_findings)
+        families = local_families
+
+    source = registry.describe_schemas_source()
+    resolved = Path(source["path"]) if source["path"] else None
+    if resolved is None:
+        findings.append("resolved schemas surface (mode=NONE): no schemas dir containing "
+                        "registry.json was found; tried: " + "; ".join(source["tried"]))
+    else:
+        resolved_findings, resolved_families = _check_schemas_surface(
+            resolved, label=f"resolved[{source['mode']}]")
+        findings.extend(resolved_findings)
+        if resolved_families is not None:
+            families = resolved_families
+
     drift = scan_skill_drift(root)
     return {"verdict": "PASS" if not findings else "FAIL", "findings": findings,
-            "families": len(names), "skill_drift": drift}
+            "families": families, "skill_drift": drift, "schema_source": source}
 
 
 def _surface_of(path: Path, root: Path) -> str:

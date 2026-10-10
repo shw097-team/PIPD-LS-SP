@@ -150,6 +150,42 @@ class WheelDistributionTests(unittest.TestCase):
             self.assertNotEqual(os.path.commonpath([str(pydir), str(ROOT)]), str(ROOT),
                                 "imported module resolved back to the source checkout")
 
+    # --------------------------------------------------------------- doctor schema truth (F-R5-01)
+    def test_installed_doctor_diagnoses_installed_schema_surface(self) -> None:
+        """`pipd doctor` run from a scratch cwd must PASS and name the INSTALLED surface.
+
+        WO-S4-DIAG-001: the healthy wheel's packaged ``schemas/`` is the surface the CLI
+        actually resolves, so ``doctor`` must report ``schema_source.mode == "INSTALLED"``
+        and 19 families - not silently pass by reading an unrelated workspace copy.
+        """
+        reason = self._venv_unavailable_reason()
+        if reason:
+            print(f"SKIP test_installed_doctor_diagnoses_installed_schema_surface: {reason}")
+            self.skipTest(reason)
+        with tempfile.TemporaryDirectory() as td:
+            whl, _ = self._build_into(Path(td) / "dist")
+            venv = Path(td) / "venv"
+            r = subprocess.run([sys.executable, "-m", "venv", str(venv)],
+                               capture_output=True, text=True)
+            if r.returncode != 0:
+                self.skipTest(f"python -m venv failed: {r.stderr.strip()[:200]}")
+            vpy = self._venv_python(venv)
+            outside = Path(td) / "cwd"
+            outside.mkdir()
+            env = {k: v for k, v in os.environ.items() if k not in ("PYTHONPATH", "PYTHONHOME")}
+            r = subprocess.run([str(vpy), "-m", "pip", "install", "--no-index", "--no-deps", str(whl)],
+                               capture_output=True, text=True, env=env)
+            self.assertEqual(r.returncode, 0, f"pip install failed: {r.stdout + r.stderr}")
+            r = subprocess.run([str(vpy), "-m", "pipd_ls_sp.cli", "doctor"],
+                               capture_output=True, text=True, cwd=str(outside), env=env)
+            self.assertEqual(r.returncode, 0, f"doctor must exit 0 on a healthy wheel: {r.stdout + r.stderr}")
+            payload = json.loads(r.stdout)
+            self.assertEqual(payload["verdict"], "PASS")
+            self.assertEqual(payload["families"], 19)
+            self.assertEqual(payload["schema_source"]["mode"], "INSTALLED")
+            self.assertNotEqual(os.path.commonpath([payload["schema_source"]["path"], str(ROOT)]), str(ROOT),
+                                "doctor resolved the schemas surface back to the source checkout")
+
     # --------------------------------------------------------------- helpers
     def _venv_unavailable_reason(self) -> str:
         try:
