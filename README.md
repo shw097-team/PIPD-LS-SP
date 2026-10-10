@@ -1,71 +1,141 @@
-# PIPD-LS-SP — Pre-Implementation / Pre-Dev Lifecycle Skills Plugin (review candidate)
+# PIPD-LS-SP — Pre-Implementation / Pre-Dev Lifecycle Skills Plugin
 
-> ## ⚠️ This branch is the older **R3** snapshot — it is **not** the distribution entry point
->
-> The current, owner-authorised open-source preview of PIPD-LS-SP is published on the immutable tag
-> **`v0.1.0-preview.1`**, licensed **Apache-2.0**:
->
-> **→ https://github.com/shw097-team/PIPD-LS-SP/releases/tag/v0.1.0-preview.1**
->
-> Install, verification (`SHA256SUMS`), the exact release commit, the licence basis and the
-> **known limitations** are all on that release page. Do not install from this branch by default —
-> its content, licence metadata and packaging are the pre-grant R3 state.
->
-> Everything below was written for the **R3 review candidate** and is kept as a historical
-> snapshot, not as the current release description.
+A governed, contract-first toolkit for the **pre-implementation** stage of a project: it turns a
+stated intent into a validated chain of machine-readable artefacts — PI → PD →
+ConstructionContract → ECP / TQAEP — each bound to one of **19 canonical JSON Schema families**,
+and it refuses to hand you something it cannot check. It ships **8 skills** and a **13-command
+CLI** (`init` `intake` `profile` `compile-pi` `bind-pd` `compile-ecp` `compile-tqaep` `validate`
+`doctor` `project` `export` `diff` `repair`) that produce and verify those artefacts
+deterministically.
 
-Candidate artifact of a governed implementation round. Control plane: **HG-KSEOS**
-(project `PIPD-LS-SP-20261008`). Runtime / orchestration plane: **Hermes** under HGK admission.
-Contract surface: **Fabric**.
+The work was carried out as a governed implementation round: control plane **HG-KSEOS**, runtime
+and orchestration plane **Hermes** under HGK admission, contract surface **Fabric**.
+
+## Start here
+
+| | |
+|---|---|
+| **Installable preview** | tag **`v0.1.0-preview.1`**, licensed **Apache-2.0** — an owner-authorised open-source **preview / beta** |
+| **Release page** | https://github.com/shw097-team/PIPD-LS-SP/releases/tag/v0.1.0-preview.1 |
+| **This branch (`main`)** | the **R3 snapshot**, kept as history. It is **not** the distribution entry point. |
+| **What is not claimed** | see [Claim ceiling](#claim-ceiling) and the release notes for the tag |
+
+Three things about this branch are worth knowing before you read anything else:
+
+- **Installing from `main` is the wrong thing to do.** The wheel under `dist/` here is an old R3
+  build (SHA-256 `ba84115d…`), not the published one (SHA-256 `c450dbef…`).
+- **The Apache-2.0 grant does not apply to this branch.** On `main`, `LICENSE` is a non-grant
+  ("licence position") and `OWNER_LICENSE_DECISION.yaml` still reads `decision: UNSET`. The grant
+  is effective at the release commit that carries it — the preview tag, not here.
+- **A default clone of this repository gives you the old version.** That is why this page exists.
+
+## Getting the preview
+
+```bash
+# 1. Download the wheel and the checksums from the release page above:
+#      pipd_ls_sp-0.1.0-py3-none-any.whl
+#      SHA256SUMS
+# 2. Verify the bytes — this is the only integrity check offered. There is no
+#    install-time or startup cryptographic readback, and no release signature.
+sha256sum -c SHA256SUMS          # expect: pipd_ls_sp-0.1.0-py3-none-any.whl: OK
+# 3. Install
+python -m pip install ./pipd_ls_sp-0.1.0-py3-none-any.whl
+# 4. Check the install and use it
+pipd doctor
+pipd --help
+```
+
+Requires Python **>= 3.11**. The release page also carries `PREVIEW_NOTES_v0.1.0-preview.1.md`
+(what the build is, how to verify it, what it does not claim) and a source archive.
 
 ## What is in this tree
 
 | path | what it is |
 |---|---|
-| `docs/S0_CONTRACT_SPEC.md` | the frozen S0 contract spec that drives the schema set |
-| `schemas/` | 19 canonical machine-contract families + `registry.json`, written by the Codex bounded writer |
-| `src/pipd_ls_sp/` | the plugin runtime: intake, profile binding, PI→PD→ConstructionContract→ECP/TQAEP pipeline, deterministic validators, 13-command CLI |
-| `tests/` | deterministic tests: S0 contract set, LITE vertical slice, negative/adversarial, rollback, secret patterns, tooling guards, quarantine disposition (POS/NEG/EDGE), oracle-disagreement, evidence-MD hard-gate refusal — live count below, never a stale number |
-| `tools/` | governed round tooling (knowledge probe, HGK admission driver, kanban receipts, CLI smoke) |
-| `LICENSE`, `PROVENANCE.md`, `SBOM.cdx.json` | release-gate artifacts |
+| `schemas/` | the **19 canonical machine-contract families** + `registry.json` (Draft 2020-12, `additionalProperties: false`), written by the Codex bounded writer |
+| `src/pipd_ls_sp/` | the plugin runtime (12 modules): intake, profile binding, the PI→PD→ConstructionContract→ECP/TQAEP pipeline, deterministic validators, the 13-command CLI |
+| `skills/` | the **8 published skills** — `pipd-route-intake`, `pipd-profile-tailor`, `pipd-pi-compile`, `pipd-pd-bind`, `pipd-execution-contract`, `pipd-assurance-tqaep`, `pipd-authority-source`, `pipd-package-project` — each with `SKILL.md`, `references/`, `schemas/` and `tests/cases.yaml` |
+| `tests/` | deterministic tests: the S0 contract set, the LITE vertical slice, negative and adversarial cases, rollback, secret patterns, tooling guards, quarantine disposition (POS/NEG/EDGE), oracle-disagreement, evidence-MD hard-gate refusal |
+| `tools/` | governed-round tooling: knowledge probe, HGK admission driver, kanban receipts, CLI smoke, publication manifest and attestation, destructive-destination guards |
+| `docs/` | `S0_CONTRACT_SPEC.md` (the frozen spec that drives `schemas/`), the round disclosure records, and [`FRONT_PAGE_HISTORY.md`](docs/FRONT_PAGE_HISTORY.md) |
+| `fixtures/` | typed negative and golden fixtures used by the tests |
+| `openspec/` | the change proposals these rounds implemented |
+| `dist/` | **an R3-era build** — wheel, `.sha256`, `WHEEL_MANIFEST.json` and `web/` packs. Not the published preview. |
+| `.hgk/` | the rounds' governance record: admission, kanban, knowledge index, preflight, round receipts and surfaces |
+| `pyproject.toml` | packaging metadata (`pipd-ls-sp` 0.1.0, `requires-python >= 3.11`, no `license` field on this branch) |
+| `LICENSE`, `OWNER_LICENSE_DECISION.yaml`, `SBOM.cdx.json` | the licence position on **this** branch, the (unset) owner decision slot, and the machine-readable component inventory |
+| `PROVENANCE.md` | how the artefacts in this tree were produced |
+| `.agents`, `.hermes`, `.gitattributes`, `.gitignore` | agent and repository plumbing |
 
-## Claim ceiling — read this before believing anything
+## Claim ceiling
 
-This repository is a **review candidate**. Status words are kept separate on purpose:
+Status words are kept separate on purpose, and none of them is upgraded by this page.
 
 | claim | state |
 |---|---|
 | `PROMPT_COMPILE_PASS` | claimed locally, evidence in `.hgk/preflight/` |
-| `HGK_ADMITTED` | claimed locally (HGK lifecycle reached `EXECUTING`) |
+| `HGK_ADMITTED` | claimed locally — the HGK lifecycle reached `EXECUTING` |
+| `LOCAL_QUALIFIED` | claimed locally (deterministic tests + CLI smoke) |
 | `RUNTIME_READY` | **NOT claimed** |
-| `LOCAL_QUALIFIED` | claimed locally (deterministic tests + CLI smoke), scoped to S0/S1 |
-| `INDEPENDENT_PASS` | **NOT CLAIMED by the maker** — pending an independent acceptance officer receipt |
-| `PUBLICATION_APPROVED` | **NOT claimed** — no license is declared in the source corpus |
-| `RELEASED` | **NOT claimed** |
+| `INDEPENDENT_PASS` | **NOT claimed as a full pass.** Independent verifiers working only from the published bytes have returned scoped receipts — `9/9` on the published preview, and later `6/6` on a defect repair — but the S0–S4 challenge as a whole is **`PARTIAL_CHALLENGE`**, not a full pass |
+| `PUBLICATION_APPROVED` | **GRANTED for the limited preview only** — owner licence decision `Apache-2.0`, effective at the release commit. **`G-RELEASE_FULL_PASS` is NOT granted**: `DEL-018` remains an open release-evidence gap |
+| `RELEASED` | limited to `OWNER_AUTHORIZED_OPEN_SOURCE_PREVIEW_BETA_PUBLISHED`, at the preview tag |
 | `PRODUCTION_VERIFIED` | **NOT claimed** |
 
-`S0` and `S1` are the only stages reached. S2–S8 are not implemented.
+**Stage coverage.** S0 and S1 were reached; the S2–S4 work followed. **S5 (HGK live), S6 (GENIE),
+S7 (JIT), S8 (SWOF/SGM), PRE-W3 and the 22 inactive external technologies are deferred.**
 
-## R3 audit-repair status (2026-10-09, FW-10 / FW-12 / R-AUD-008 / R-AUD-012 / R-AUD-013)
+## Known limitations of the published preview
 
-True denominators, failures named — no percentage ever hides a hard FAIL:
+Stated here rather than left only on the release page, because they matter when you decide what to
+build on this:
 
-| area | state | denominator |
-|---|---|---|
-| unit suite | see `.hgk/artifacts/STATUS_R3.json#tests` | `python -B -m unittest discover -s tests -t .` — real counts + named failing tests, raw log in the round receipt |
-| knowledge readiness (`G-KNOWLEDGE-READY`) | **PARTIAL** | 160 unique sources / 153 physically indexed / 7 quarantined by the sanitizer; the 7 are now **owner-dispositioned** (2 `safe-clean`, 5 `safe-reference`, 0 undecided) in `.hgk/knowledge/QUARANTINE_DISPOSITION_R3.json`. The physical number stays 153/160 — it is NOT padded to 160/160 — until `TT-HGK-SANITIZER-UNANCHORED-KEY-PATTERN` closes |
-| quarantine negative controls | PASS | a live credential and an unframed injection are **not** released even when claimed harmless; an undecided item stays quarantined (`python tools/quarantine_review.py --report`) |
-| TT / CR register | 17 rows | 1 CLOSED (fresh-verified) · 4 PARTIAL · 9 OPEN · 2 OPEN_OWNER_GATE · 1 TEMP_CLOSED — every row carries owner, current state, raw-evidence pointer and explicit close criterion (`.hgk/artifacts/TT_REGISTER.json`) |
-| KP rule-polarity (`R-AUD-013`) | OPEN, resolved by the authorised source | `ORACLE_DISAGREEMENT` entry `OD-R3-001`: upper Evidence/Regression requirement prevails over the KP02/KP11/KP12 `MUST NOT` rows; KP files not edited; calibration negative keeps a genuine `MUST NOT` prohibition (`TT-ORACLE-DISAGREEMENT-KP-R04`) |
-| PRE-W3 cross-project | **TEMP_CLOSED** | independently closed; never derived from S0–S4 evidence (`TT-PRE-W3-CROSS-PROJECT`, HITL owner required) |
-| evidence-MD generator | refusal-protected | `tools/build_evidence_md.py` refuses to print PASS when any hard gate row is FAIL (typed `HARD_GATE_FAIL`, exit 2, no document written) |
+1. **`DEL-018 RELEASE_MANIFEST@1` is `FAIL` / `EVIDENCE_GAP`.** On the release branch,
+   `tools/build_publication_manifest.py --check --current` exits 1; the uncovered paths are
+   `tests/test_git_object_reader.py`, `tests/test_doctor_schema_truth.py` and
+   `tests/test_tqaep_design_positive.py` — **none of which are in this tree**, since this branch
+   is the R3 snapshot. This is a **release-evidence** gap, not a runtime defect — but it is
+   unresolved and must be fixed before any formal release gate.
+2. **The SPEC/DEL denominator stays `28 evidenced / 10 active gaps / 19 deferred` of 57 rows.**
+   `EVIDENCED ≠ PASS`; not every applicable row has been individually audited.
+3. **`v0.1.0-preview.1` carries two known defects**, both reproduced against the published bytes:
+   - **`validate` does not resolve the schemas installed inside the wheel the way `doctor` does.**
+     Without the global `--root`, it exits 2 with `INPUT_SHAPE_INVALID`, looking for
+     `<cwd>/schemas/PI-PKG.schema.json`.
+   - **A bundle assembled from the four compilers' unmodified stdout is rejected**, because
+     `compile-pi` emits a top-level `_profile_meta` that `PI-PKG` forbids
+     (`additionalProperties: false`). Removing only that sidecar makes the same bundle pass
+     `checked=4, findings=[]`.
+4. **Both defects are fixed on a later branch, and neither fix is published.** The repair was
+   verified locally and independently re-verified, but a published tag is never rewritten, so
+   **nothing you can download today contains the fix** — it will arrive as a superseding release.
+5. **No CVE or supply-chain scan has been performed.** The secret-pattern checks and destination
+   canaries that ran are not a vulnerability scan.
+6. **No release signature and no build attestation.** Only the published SHA-256, for manual
+   download-consistency checking — that is not provenance.
+7. **Native Windows symlink / junction / reparse behaviour is not certified** beyond the tested
+   scope (`TT-R5P-01`, `TT-R5P-06`).
 
-## License
+## Licence
 
-No license is granted — see `LICENSE`. The authoritative source corpus declares none; this is
-recorded as source gap `TT-PIPD-LICENSE-001`.
+On **this branch** no licence is granted: `LICENSE` is a non-grant text and
+`OWNER_LICENSE_DECISION.yaml` reads `decision: UNSET`.
 
+The owner granted **Apache-2.0** for the limited S4 open-source preview in round R5Q
+(`FAR-PIPD-R5Q-LICENSE-001`). That grant is effective at the release commit that carries it — the
+tag `v0.1.0-preview.1` — and the licence text, the attribution in `NOTICE` and the
+machine-readable licence all live **on that release**, not on `main`.
 
-## 8. Correction of a wording overclaim (round 2 finding)
+## History and evidence
 
-README.md previously implied the knowledge layer introduced no new store and was read-only. Both were inaccurate: derived knowledge index built through the HGK SharedSpine typed API; it is a SEPARATE physical SQLite file that carries the HGK schema but contains ZERO governance rows (0 projects/requirements/taskspecs/workorders/events) and is never written by the orchestration plane. Correct description: 'derived, non-authoritative knowledge index' - not 'read-only' and not 'no second store'.
+This page is a rewrite. Until round R6 it was an append-only log — an R3 body, an R4 section, an
+R5Q banner, and a dangling `## 8.` fragment — which is why parts of it contradicted each other (a
+"review candidate" title above an announcement that a licensed preview exists; a "no licence"
+section on a repository that had been granted one).
+
+The section that used to hold the R3 audit-repair snapshot, and the trailing fragment, are
+preserved **verbatim** in [`docs/FRONT_PAGE_HISTORY.md`](docs/FRONT_PAGE_HISTORY.md). The
+round-by-round record stays in the tree: `docs/ROUND_DISCLOSURE.md`,
+`docs/ROUND3_DISCLOSURE.md`, `docs/S0_CONTRACT_SPEC.md`, and the per-round receipts and registers
+under `.hgk/`. **Nothing was deleted to make this page read better — the history is moved, not
+removed.**
