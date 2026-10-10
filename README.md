@@ -4,6 +4,10 @@ Candidate artifact of a governed implementation round. Control plane: **HG-KSEOS
 (project `PIPD-LS-SP-20261008`). Runtime / orchestration plane: **Hermes** under HGK admission.
 Contract surface: **Fabric**.
 
+> **External acceptance entry point:** see [`ACCEPTANCE.md`](ACCEPTANCE.md). It names the branch under
+> acceptance, the subject commit, the one defect repaired in the R5 S4 round, the independent verdict and
+> the exact commands an external verifier runs — and what is explicitly **not** claimed.
+
 ## What is in this tree
 
 | path | what it is |

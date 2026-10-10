@@ -1,0 +1,27 @@
+{
+ "schema": "PIPD-D1-VARIANCE-ADJUDICATION/1",
+ "question": "Is the historical-block value non-deterministic per RUN (as first reported) or per TREE?",
+ "method": "Same commit 7f13b90. Three consecutive runs of \"python -B tools/perf_budget.py --check\" in (a) a FRESH CLONE of that commit and (b) the AUTHORING working tree at that commit; compared with the committed artifact .hgk/artifacts/s2/PERF_BUDGET.json.",
+ "results": {
+  "fresh_clone_runs": [
+   368432,
+   368432,
+   368432
+  ],
+  "authoring_runs": [
+   343547,
+   343547,
+   343547
+  ],
+  "committed_artifact_value": 343547
+ },
+ "finding": "PER-RUN variance is NOT reproduced: within one tree the value is stable across repeated runs. The value IS tree/corpus-dependent: 368432 in a clean clone of the published commit vs 343547 in the authoring worktree, while the committed record says 343547.",
+ "correction": "My earlier framing (\"the value changes every run\": 366299 then 365351) was WRONG and is withdrawn. Those two numbers came from two DIFFERENT checkouts (the AO single-branch clone vs my packed clone), not from two runs of one checkout. The independent lanes were right to push back.",
+ "defect_status": "UNCHANGED AND STRENGTHENED. The historical block reads no stored value back, so a row labelled \"the recorded verdicts are preserved verbatim and must never be rewritten\" prints a number that moves when the checkout moves: 343547 / 365351 / 368432 across three trees at the same product content. That is a record that is not a record.",
+ "corroboration": {
+  "structural": "WS-B: no code path reads .hgk/artifacts/s2/PERF_BUDGET.json (write-only, line ~260); grep 343547 finds it only in the line-33 comment.",
+  "companion_drift": "WS-C: the committed artifact record vs live differs on other rows too - sizes.pd 2447 committed vs 1385 live; timing rows compile_chain_ms 818.2 committed vs 707-805 live.",
+  "test_gap": "WS-C: tests/test_perf_budget.py hardcodes 343547.0 (line ~67) and asserts only the metric NAME in preserved_fails (line ~108), so it cannot catch this class."
+ },
+ "claim_ceiling": "LOCAL_MEASURED"
+}

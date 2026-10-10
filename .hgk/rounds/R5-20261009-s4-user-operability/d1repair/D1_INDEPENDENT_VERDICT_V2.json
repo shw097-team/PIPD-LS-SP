@@ -1,0 +1,667 @@
+{
+  "checker": {
+    "model": "gpt-6.1-sol",
+    "provider": "openai-codex",
+    "ran_via": "Hermes-native read_file/terminal/Python subprocess; VERIFY_ONLY; no maker report or prior verdict consumed",
+    "independent_of_maker": true
+  },
+  "subject": {
+    "commit": "7f13b90dc06354a0c6b7bd013f83a8cc244bf93d",
+    "branch": "r5-s4-packreader",
+    "candidate_uncommitted": true,
+    "digests": {
+      "tools/perf_budget.py": {
+        "sha256": "f90c3d8d6061f55b9807c2e8740998f98124b56fbcb5c42397f459c4368ff015",
+        "bytes": 16180
+      },
+      "tests/test_perf_budget.py": {
+        "sha256": "6c0d21fa8ce6c0a047539d2333973b88a75eea68c82ce031a96381749791d270",
+        "bytes": 9422
+      }
+    }
+  },
+  "properties": [
+    {
+      "id": "P1",
+      "statement": "Recorded historical value is invariant across checkout contexts.",
+      "verdict": "RE_DERIVED",
+      "evidence": {
+        "raw_commands": [
+          {
+            "command": "git clone --no-hardlinks --no-checkout C:\\Projects\\Agent_Workspace\\PIPD C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\p1-clone",
+            "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2",
+            "exit_code": 0
+          },
+          {
+            "command": "git -C C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\p1-clone checkout --detach 7f13b90dc06354a0c6b7bd013f83a8cc244bf93d",
+            "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2",
+            "exit_code": 0
+          },
+          {
+            "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\p1-clone\\tools\\perf_budget.py --check",
+            "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\p1-clone",
+            "exit_code": 0
+          },
+          {
+            "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\p1-clone\\tools\\perf_budget.py --check",
+            "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\p1-clone",
+            "exit_code": 0
+          },
+          {
+            "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\Projects\\Agent_Workspace\\PIPD\\tools\\perf_budget.py --check",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          }
+        ],
+        "raw_output_excerpt": {
+          "control": {
+            "metric": "context_bytes_per_artefact",
+            "value": 372224,
+            "budget": 20000,
+            "verdict": "FAIL",
+            "exceeded": true,
+            "source_of_truth": "UNPROVENANCED"
+          },
+          "overlay": {
+            "metric": "context_bytes_per_artefact",
+            "value": 343547,
+            "measured_now": 372224,
+            "recorded": true,
+            "origin": {
+              "file": ".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json",
+              "field": "pi_bytes"
+            },
+            "budget": 20000,
+            "verdict": "FAIL",
+            "exceeded": true,
+            "source_of_truth": "UNPROVENANCED"
+          },
+          "authoring": {
+            "metric": "context_bytes_per_artefact",
+            "value": 343547,
+            "measured_now": 343547,
+            "recorded": true,
+            "origin": {
+              "file": ".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json",
+              "field": "pi_bytes"
+            },
+            "budget": 20000,
+            "verdict": "FAIL",
+            "exceeded": true,
+            "source_of_truth": "UNPROVENANCED"
+          },
+          "overlay_operation": "Copied live tools/perf_budget.py and tests/test_perf_budget.py over detached clone before --check; no baseline overlay."
+        }
+      }
+    },
+    {
+      "id": "P2",
+      "statement": "Live measurement is retained and independently matches the tool live artifact path.",
+      "verdict": "RE_DERIVED",
+      "evidence": {
+        "raw_commands": [
+          {
+            "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\independent_measurement.py C:\\Projects\\Agent_Workspace\\PIPD",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          },
+          {
+            "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\independent_measurement.py C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\p1-clone",
+            "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\p1-clone",
+            "exit_code": 0
+          }
+        ],
+        "raw_output_excerpt": {
+          "authoring": {
+            "sizes": {
+              "pi": 343547,
+              "pd": 1444,
+              "cc": 442,
+              "ecp": 528,
+              "tqaep": 109888
+            },
+            "worst": 343547
+          },
+          "clone": {
+            "sizes": {
+              "pi": 372224,
+              "pd": 1502,
+              "cc": 442,
+              "ecp": 528,
+              "tqaep": 109888
+            },
+            "worst": 372224
+          },
+          "method": "Rebuilt intake, PI, PD, CC, ECP and TQAEP via pipeline; computed each len(json.dumps(..., ensure_ascii=False).encode()) and max independently, without PB.main/_row/_historical_row."
+        }
+      }
+    },
+    {
+      "id": "P3",
+      "statement": "origin.file and origin.field contain the actual recorded value.",
+      "verdict": "RE_DERIVED",
+      "evidence": {
+        "raw_commands": [
+          {
+            "command": "python -B C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\assemble_verdict.py",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          }
+        ],
+        "raw_output_excerpt": {
+          "opened_file": "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s2\\BYTES_PER_ATOM_BASELINE.json",
+          "field": "pi_bytes",
+          "read_value": 343547,
+          "row_value": 343547,
+          "file_sha256": "f09b5912555db364a4aabc7607453f032100ac18a7ebe654261fe16ad721cf37"
+        }
+      }
+    },
+    {
+      "id": "P4",
+      "statement": "Unrecorded advisory rows explicitly disclose live, not recorded, measurements.",
+      "verdict": "RE_DERIVED",
+      "evidence": {
+        "raw_commands": [
+          {
+            "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\Projects\\Agent_Workspace\\PIPD\\tools\\perf_budget.py --check",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          }
+        ],
+        "raw_output_excerpt": [
+          {
+            "metric": "compile_chain_ms",
+            "value": 753.9,
+            "measured_now": 753.9,
+            "recorded": false,
+            "origin": null,
+            "budget": 2000,
+            "verdict": "UNDECIDABLE",
+            "exceeded": false,
+            "source_of_truth": "UNPROVENANCED",
+            "note": "no recorded value was available for this metric; `value` is the live measurement, not a recorded one"
+          },
+          {
+            "metric": "validate_19_contracts_ms",
+            "value": 2.0,
+            "measured_now": 2.0,
+            "recorded": false,
+            "origin": null,
+            "budget": 3000,
+            "verdict": "UNDECIDABLE",
+            "exceeded": false,
+            "source_of_truth": "UNPROVENANCED",
+            "note": "no recorded value was available for this metric; `value` is the live measurement, not a recorded one"
+          },
+          {
+            "metric": "cli_cold_start_ms",
+            "value": 114.2,
+            "measured_now": 114.2,
+            "recorded": false,
+            "origin": null,
+            "budget": 6000,
+            "verdict": "UNDECIDABLE",
+            "exceeded": false,
+            "source_of_truth": "UNPROVENANCED",
+            "note": "no recorded value was available for this metric; `value` is the live measurement, not a recorded one"
+          }
+        ]
+      }
+    },
+    {
+      "id": "P5",
+      "statement": "No thresholds changed versus 5094939; only bytes_per_atom votes; recorded budget 20000 remains FAIL.",
+      "verdict": "RE_DERIVED",
+      "evidence": {
+        "raw_commands": [
+          {
+            "command": "git show 5094939:tools/perf_budget.py",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          },
+          {
+            "command": "git diff 5094939 -- tools/perf_budget.py tests/test_perf_budget.py",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          },
+          {
+            "command": "python -B C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\assemble_verdict.py",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          }
+        ],
+        "raw_output_excerpt": {
+          "PROVENANCE_source_byte_identical": true,
+          "parent_and_candidate_budgets": {
+            "compile_chain_ms": 2000,
+            "validate_19_contracts_ms": 3000,
+            "cli_cold_start_ms": 6000,
+            "context_bytes_per_artefact": 20000,
+            "bytes_per_atom": 2000
+          },
+          "voting_metrics": [
+            "bytes_per_atom"
+          ],
+          "recorded_budget": 20000,
+          "recorded_verdict": "FAIL",
+          "diff_file": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\subject-parent.diff",
+          "diff_sha256": "277a844fa3d579b57c26e24d9e68aa90baa8c10f581d1910621d4670189d323d",
+          "diff_used": "diff --git a/tools/perf_budget.py b/tools/perf_budget.py\nindex 9d811b5..7e4c31e 100644\n--- a/tools/perf_budget.py\n+++ b/tools/perf_budget.py\n@@ -30,7 +30,10 @@ OUT = ROOT / \".hgk\" / \"artifacts\"\n # re-specified the budget as a scale-invariant RATE (`bytes_per_atom`) and demoted the original\n # absolute row plus the three timing rows to ADVISORY: they stay measured, stay printed, and keep\n # their historical verdicts, but they no longer vote on the overall verdict. The historical\n-# 343,547 > 20,000 FAIL is preserved verbatim and is still emitted in the `historical` block.\n+# block reports the RECORDED value that the frozen BYTES_PER_ATOM_BASELINE.json supplies for a\n+# metric (`pi_bytes` = 343,547 for `context_bytes_per_artefact`), so the 343,547 > 20,000 FAIL is\n+# host-stable; the live reading is kept beside it as `measured_now`, and every row marks whether\n+# its `value` is `recorded`.\n # No threshold was raised or lowered by this change; only which rows vote changed.\n PROVENANCE = {\n     \"compile_chain_ms\": {\n"
+        }
+      }
+    },
+    {
+      "id": "P6",
+      "statement": "Targeted tests pass in a copy and go red after a scratch-only baseline perturbation; expectation is read from the file.",
+      "verdict": "RE_DERIVED",
+      "evidence": {
+        "raw_commands": [
+          {
+            "command": "shutil.copytree(p1-clone, p6-clone-copy), including cloned .git; no live suite execution",
+            "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2",
+            "exit_code": 0
+          },
+          {
+            "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -m unittest tests.test_perf_budget -v",
+            "cwd": "\\\\?\\C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\p6-clone-copy",
+            "exit_code": 0
+          },
+          {
+            "command": "Set scratch/p6-clone-copy/.hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json pi_bytes from 343547 to 1; leave other fields unchanged",
+            "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2",
+            "exit_code": 0
+          },
+          {
+            "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B tools/perf_budget.py --check",
+            "cwd": "\\\\?\\C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\p6-clone-copy",
+            "exit_code": 0
+          },
+          {
+            "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -m unittest tests.test_perf_budget -v",
+            "cwd": "\\\\?\\C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\p6-clone-copy",
+            "exit_code": 1
+          },
+          {
+            "command": "python -B C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\assemble_verdict.py",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          }
+        ],
+        "raw_output_excerpt": {
+          "positive": {
+            "ran": 13,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          "negative": {
+            "ran": 13,
+            "failures": 2,
+            "errors": 0,
+            "skipped": 0
+          },
+          "perturbed_row": {
+            "metric": "context_bytes_per_artefact",
+            "value": 1,
+            "measured_now": 375068,
+            "recorded": true,
+            "origin": {
+              "file": ".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json",
+              "field": "pi_bytes"
+            },
+            "budget": 20000,
+            "verdict": "UNDECIDABLE",
+            "exceeded": false,
+            "source_of_truth": "UNPROVENANCED"
+          },
+          "negative_failures": [
+            "FAIL: test_end_to_end_check_preserves_history_and_reports_the_rate (tests.test_perf_budget.AdvisoryAndVotingRows.test_end_to_end_check_preserves_history_and_reports_the_rate)",
+            "FAIL: test_historical_value_is_the_recorded_baseline_not_the_measurement (tests.test_perf_budget.HistoricalRecordedValue.test_historical_value_is_the_recorded_baseline_not_the_measurement)"
+          ],
+          "negative_cause": "One failure is preserved_fails [] versus historical context row; added recorded-baseline test fails at line 150 because UNDECIDABLE != FAIL. value comparison itself follows the perturbed file as designed. This establishes the specified mutation, not sensitivity to all possible baseline mutations.",
+          "expectation_lines": [
+            "tests/test_perf_budget.py:124 path = ROOT / \".hgk\" / \"artifacts\" / \"s2\" / \"BYTES_PER_ATOM_BASELINE.json\"",
+            "tests/test_perf_budget.py:126 return json.loads(path.read_text(encoding=\"utf-8\"))",
+            "tests/test_perf_budget.py:141 baseline = self._baseline()",
+            "tests/test_perf_budget.py:142 expected = baseline[\"pi_bytes\"]  # 343547, read from the artefact - never hard-coded",
+            "tests/test_perf_budget.py:144 self.assertEqual(row[\"value\"], expected)"
+          ],
+          "perturbed_copy_discarded": true,
+          "initial_plain_path_attempt": "13 tests, 4 errors before and after perturbation due to Windows long-path filesystem probes; not used as evidence of mutation sensitivity. Retried in cloned scratch copy with extended path and obtained positive-to-negative transition."
+        }
+      }
+    },
+    {
+      "id": "P7",
+      "statement": "Full suite ran only in .git-excluded live-tree copies; parent names re-derived; exactly four additions and no removals.",
+      "verdict": "RE_DERIVED",
+      "evidence": {
+        "raw_commands": [
+          {
+            "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -m unittest discover -s tests",
+            "cwd": "\\\\?\\C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\p7-copy",
+            "exit_code": 1
+          },
+          {
+            "command": "git show 5094939:tools/perf_budget.py",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          },
+          {
+            "command": "git show 5094939:tests/test_perf_budget.py",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          },
+          {
+            "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -m unittest discover -s tests",
+            "cwd": "\\\\?\\C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\p7-matched-parent",
+            "exit_code": 1
+          },
+          {
+            "command": "git show 5094939:tests/test_perf_budget.py",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          },
+          {
+            "command": "python -B C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\assemble_verdict.py",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          }
+        ],
+        "raw_output_excerpt": {
+          "candidate_suite": {
+            "ran": 283,
+            "failures": 13,
+            "errors": 1,
+            "skipped": 4
+          },
+          "matched_parent_subject_control": {
+            "ran": 279,
+            "failures": 13,
+            "errors": 1,
+            "skipped": 4
+          },
+          "matched_control_definition": "Fresh full live tree copy with only tools/perf_budget.py and tests/test_perf_budget.py replaced by git show 5094939 blobs; no .git. All failures/errors identical by test/subtest name and cause. Not asserted to be a pristine whole-parent checkout.",
+          "pristine_whole_parent_archive_supplementary": {
+            "ran": 290,
+            "failures": 13,
+            "errors": 9,
+            "skipped": 3
+          },
+          "pristine_parent_caveat": "Whole 5094939 archive additionally lacks the already committed 7f13b90 packreader fix, and ordinary-path launch encountered Windows path limitations; suite count is not the D1 delta. Raw log retained.",
+          "parent_perf_test_names_count": 9,
+          "candidate_perf_test_names_count": 13,
+          "added": [
+            "test_historical_value_is_stable_across_live_measurements",
+            "test_historical_value_is_the_recorded_baseline_not_the_measurement",
+            "test_no_source_comment_claims_verbatim_preservation_of_the_live_value",
+            "test_unrecorded_advisory_metric_says_so_instead_of_fabricating"
+          ],
+          "removed": [],
+          "failures_and_errors": [
+            {
+              "name": "ERROR: test_init_with_msys_style_dst_lands_at_drive_path (test_round_envelope.PathNormalisation.test_init_with_msys_style_dst_lands_at_drive_path)",
+              "cause": "FileNotFoundError: scratch/envelope.json not found under extended-path TMP; identical error in matched parent control.",
+              "attribution": "Pre-existing or copy/environment-dependent; independently reproduced with parent subject files, not introduced by this candidate."
+            },
+            {
+              "name": "FAIL: test_bind_pd_derives_real_repository_context (test_atomic_requirements.RepoContextBinding.test_bind_pd_derives_real_repository_context)",
+              "cause": "AssertionError: 'filesystem' != 'git'",
+              "attribution": "Pre-existing or copy/environment-dependent; independently reproduced with parent subject files, not introduced by this candidate."
+            },
+            {
+              "name": "FAIL: test_byte_level_hash_readback_matches (test_evidence_manifest.EvidenceManifestSelfExclusion.test_byte_level_hash_readback_matches)",
+              "cause": "REFUSED_STALE_OR_FOREIGN_MANIFEST: seal candidate head 818157b19f6661b0e80e1686b08ad6d76267d465 != current head (empty in .git-excluded copy).",
+              "attribution": "Pre-existing or copy/environment-dependent; independently reproduced with parent subject files, not introduced by this candidate."
+            },
+            {
+              "name": "FAIL: test_traversing_member_path_is_refused_typed (test_export_bundle.ExportBundleTests.test_traversing_member_path_is_refused_typed) (include='../evil.py')",
+              "cause": "AssertionError: ExportMemberUnsafe not raised",
+              "attribution": "Pre-existing or copy/environment-dependent; independently reproduced with parent subject files, not introduced by this candidate."
+            },
+            {
+              "name": "FAIL: test_traversing_member_path_is_refused_typed (test_export_bundle.ExportBundleTests.test_traversing_member_path_is_refused_typed) (include='src/../../evil.py')",
+              "cause": "AssertionError: ExportMemberUnsafe not raised",
+              "attribution": "Pre-existing or copy/environment-dependent; independently reproduced with parent subject files, not introduced by this candidate."
+            },
+            {
+              "name": "FAIL: test_check_fails_when_evidenced_row_gets_nonexistent_evidence (test_spec_del_crosswalk.SpecDelCrosswalkTests.test_check_fails_when_evidenced_row_gets_nonexistent_evidence)",
+              "cause": "Extended-path execution reports evidence_refs missing (first schemas/AuthorityBinding.schema.json); identical failure in matched parent control. These are copy/path-context failures, not candidate attribution.",
+              "attribution": "Pre-existing or copy/environment-dependent; independently reproduced with parent subject files, not introduced by this candidate."
+            },
+            {
+              "name": "FAIL: test_check_fails_when_evidenced_row_oracle_is_nonexistent (test_spec_del_crosswalk.SpecDelCrosswalkTests.test_check_fails_when_evidenced_row_oracle_is_nonexistent)",
+              "cause": "Extended-path execution reports evidence_refs missing (first schemas/AuthorityBinding.schema.json); identical failure in matched parent control. These are copy/path-context failures, not candidate attribution.",
+              "attribution": "Pre-existing or copy/environment-dependent; independently reproduced with parent subject files, not introduced by this candidate."
+            },
+            {
+              "name": "FAIL: test_every_evidence_ref_exists_and_evidenced_rows_have_oracle (test_spec_del_crosswalk.SpecDelCrosswalkTests.test_every_evidence_ref_exists_and_evidenced_rows_have_oracle)",
+              "cause": "Extended-path execution reports evidence_refs missing (first schemas/AuthorityBinding.schema.json); identical failure in matched parent control. These are copy/path-context failures, not candidate attribution.",
+              "attribution": "Pre-existing or copy/environment-dependent; independently reproduced with parent subject files, not introduced by this candidate."
+            },
+            {
+              "name": "FAIL: test_all_rows_present_and_no_status_changed (test_tt_summary.TtSummaryProjection.test_all_rows_present_and_no_status_changed)",
+              "cause": "--write returns 2 because HEAD is unresolvable in the required .git-excluded copy; tools/tt_summary_check.py:268-274 explicitly refuses to fabricate a candidate.",
+              "attribution": "Pre-existing or copy/environment-dependent; independently reproduced with parent subject files, not introduced by this candidate."
+            },
+            {
+              "name": "FAIL: test_round_trip_preserves_rows_ids_and_statuses (test_tt_summary.TtSummaryProjection.test_round_trip_preserves_rows_ids_and_statuses)",
+              "cause": "--write returns 2 because HEAD is unresolvable in the required .git-excluded copy; tools/tt_summary_check.py:268-274 explicitly refuses to fabricate a candidate.",
+              "attribution": "Pre-existing or copy/environment-dependent; independently reproduced with parent subject files, not introduced by this candidate."
+            },
+            {
+              "name": "FAIL: test_row_addition_fails_assert_on_total (test_tt_summary.TtSummaryProjection.test_row_addition_fails_assert_on_total)",
+              "cause": "--write returns 2 because HEAD is unresolvable in the required .git-excluded copy; tools/tt_summary_check.py:268-274 explicitly refuses to fabricate a candidate.",
+              "attribution": "Pre-existing or copy/environment-dependent; independently reproduced with parent subject files, not introduced by this candidate."
+            },
+            {
+              "name": "FAIL: test_row_removal_fails_assert_on_total (test_tt_summary.TtSummaryProjection.test_row_removal_fails_assert_on_total)",
+              "cause": "--write returns 2 because HEAD is unresolvable in the required .git-excluded copy; tools/tt_summary_check.py:268-274 explicitly refuses to fabricate a candidate.",
+              "attribution": "Pre-existing or copy/environment-dependent; independently reproduced with parent subject files, not introduced by this candidate."
+            },
+            {
+              "name": "FAIL: test_status_mutation_fails_assert (test_tt_summary.TtSummaryProjection.test_status_mutation_fails_assert)",
+              "cause": "--write returns 2 because HEAD is unresolvable in the required .git-excluded copy; tools/tt_summary_check.py:268-274 explicitly refuses to fabricate a candidate.",
+              "attribution": "Pre-existing or copy/environment-dependent; independently reproduced with parent subject files, not introduced by this candidate."
+            },
+            {
+              "name": "FAIL: test_stored_summary_equals_recomputation_after_write (test_tt_summary.TtSummaryProjection.test_stored_summary_equals_recomputation_after_write)",
+              "cause": "--write returns 2 because HEAD is unresolvable in the required .git-excluded copy; tools/tt_summary_check.py:268-274 explicitly refuses to fabricate a candidate.",
+              "attribution": "Pre-existing or copy/environment-dependent; independently reproduced with parent subject files, not introduced by this candidate."
+            }
+          ],
+          "initial_plain_path_suite": {
+            "ran": 283,
+            "failures": 7,
+            "errors": 18,
+            "skipped": 4
+          },
+          "initial_plain_path_issue_names": [
+            "test_bind_pd_derives_real_repository_context (test_atomic_requirements.RepoContextBinding.test_bind_pd_derives_real_repository_context)",
+            "test_forged_epoch_fresh_claim_is_refused (test_atomic_requirements.RepoContextBinding.test_forged_epoch_fresh_claim_is_refused)",
+            "test_missing_repo_context_fails_closed (test_atomic_requirements.RepoContextBinding.test_missing_repo_context_fails_closed)",
+            "test_spoofed_fresh_claim_is_refused (test_atomic_requirements.RepoContextBinding.test_spoofed_fresh_claim_is_refused)",
+            "test_verified_snapshot_binds (test_atomic_requirements.RepoContextBinding.test_verified_snapshot_binds)",
+            "test_writable_scope_is_reported_as_subset_check (test_atomic_requirements.RepoContextBinding.test_writable_scope_is_reported_as_subset_check)",
+            "test_end_to_end_check_preserves_history_and_reports_the_rate (test_perf_budget.AdvisoryAndVotingRows.test_end_to_end_check_preserves_history_and_reports_the_rate)",
+            "test_historical_value_is_stable_across_live_measurements (test_perf_budget.HistoricalRecordedValue.test_historical_value_is_stable_across_live_measurements)",
+            "test_historical_value_is_the_recorded_baseline_not_the_measurement (test_perf_budget.HistoricalRecordedValue.test_historical_value_is_the_recorded_baseline_not_the_measurement)",
+            "test_unrecorded_advisory_metric_says_so_instead_of_fabricating (test_perf_budget.HistoricalRecordedValue.test_unrecorded_advisory_metric_says_so_instead_of_fabricating)",
+            "test_maker_cannot_be_checker (test_s1_lite_slice.TestLiteSlice.test_maker_cannot_be_checker)",
+            "test_slice_is_replay_deterministic (test_s1_lite_slice.TestLiteSlice.test_slice_is_replay_deterministic)",
+            "test_slice_records_satisfy_their_schemas (test_s1_lite_slice.TestLiteSlice.test_slice_records_satisfy_their_schemas)",
+            "test_slice_runs_and_binds (test_s1_lite_slice.TestLiteSlice.test_slice_runs_and_binds)",
+            "test_trace_closure_has_no_orphans (test_s1_lite_slice.TestLiteSlice.test_trace_closure_has_no_orphans)",
+            "test_cli_smoke_runs (test_tooling_executes.TestToolingExecutes.test_cli_smoke_runs)",
+            "test_export_manifest_has_no_vcs_paths (test_tooling_executes.TestToolingExecutes.test_export_manifest_has_no_vcs_paths)",
+            "test_tracked_file_metric_excludes_vcs_internals (test_tooling_executes.TestToolingExecutes.test_tracked_file_metric_excludes_vcs_internals)",
+            "test_byte_level_hash_readback_matches (test_evidence_manifest.EvidenceManifestSelfExclusion.test_byte_level_hash_readback_matches)",
+            "test_all_rows_present_and_no_status_changed (test_tt_summary.TtSummaryProjection.test_all_rows_present_and_no_status_changed)",
+            "test_round_trip_preserves_rows_ids_and_statuses (test_tt_summary.TtSummaryProjection.test_round_trip_preserves_rows_ids_and_statuses)",
+            "test_row_addition_fails_assert_on_total (test_tt_summary.TtSummaryProjection.test_row_addition_fails_assert_on_total)",
+            "test_row_removal_fails_assert_on_total (test_tt_summary.TtSummaryProjection.test_row_removal_fails_assert_on_total)",
+            "test_status_mutation_fails_assert (test_tt_summary.TtSummaryProjection.test_status_mutation_fails_assert)",
+            "test_stored_summary_equals_recomputation_after_write (test_tt_summary.TtSummaryProjection.test_stored_summary_equals_recomputation_after_write)"
+          ],
+          "initial_cause_note": "18 errors were long-path filesystem traversal/copy failures in scratch; seven failures were one manifest HEAD mismatch and six TT HEAD-refusal assertions. Resolved runner path limitation by extended-path launch, without modifying product code. Extended-path-specific failures above also reproduce in parent-subject control."
+        }
+      }
+    },
+    {
+      "id": "P8",
+      "statement": "All non-evidence tracked differences are confined to the two pinned subject files; live bytes unchanged by verification.",
+      "verdict": "RE_DERIVED",
+      "evidence": {
+        "raw_commands": [
+          {
+            "command": "git status --porcelain=v1 --untracked-files=all",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          },
+          {
+            "command": "git diff --name-only HEAD",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          },
+          {
+            "command": "git rev-parse HEAD",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          },
+          {
+            "command": "git branch --show-current",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          },
+          {
+            "command": "python -B C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\assemble_verdict.py",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          }
+        ],
+        "raw_output_excerpt": {
+          "non_evidence_tracked_diff": [
+            "tests/test_perf_budget.py",
+            "tools/perf_budget.py"
+          ],
+          "evidence_tracked_diff": [
+            ".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json"
+          ],
+          "evidence_untracked_paths": [
+            ".hgk/preflight/R5-compiler/lane/log_ao.txt",
+            ".hgk/preflight/R5-compiler/lane/log_ao_attempt4_contaminated.txt",
+            ".hgk/preflight/R5-compiler/lane/log_wo1.txt",
+            ".hgk/preflight/R5-compiler/lane/log_wo2.txt",
+            ".hgk/preflight/R5-compiler/lane/log_wo3.txt",
+            ".hgk/preflight/R5-compiler/opencodex-config.backup-20261010.json",
+            ".hgk/rounds/R2-20261009-qualification/execute/knowledge/own-derived.db",
+            ".hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt1_provider_error.log",
+            ".hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt2_provider_error.log",
+            ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt4_contaminated/log_ao.txt",
+            ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt5/log_ao.txt",
+            ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt7_codex_01512_verdict/AO_LOG.ndjson",
+            ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt7_codex_01512_verdict/AO_PROGRESS.txt",
+            ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt7_codex_01512_verdict/AO_REPORT.md",
+            ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt7_codex_01512_verdict/AO_VERDICT.json",
+            ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt7_codex_01512_verdict/RAW_RUNS.jsonl",
+            ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt7_codex_01512_verdict/log_ao.txt",
+            ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt7_codex_01512_verdict/run_meta.txt",
+            ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt_codex_01512/AO_LOG.ndjson",
+            ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt_codex_01512/AO_PROGRESS.txt",
+            ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt_codex_01512/log_ao.txt",
+            ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt_codex_01512/run_meta.txt",
+            ".hgk/rounds/R5-20261009-s4-user-operability/d1repair/D1_INDEPENDENT_VERDICT.json",
+            ".hgk/rounds/R5-20261009-s4-user-operability/d1repair/D1_VARIANCE_ADJUDICATION.json",
+            ".hgk/rounds/R5-20261009-s4-user-operability/d1repair/GSTACK_OPENSPEC_ROUTE_RECEIPT.json",
+            ".hgk/rounds/R5-20261009-s4-user-operability/far/D1_PROVENANCE_AUDIT.json",
+            ".hgk/rounds/R5-20261009-s4-user-operability/far/D1_PROVENANCE_AUDIT.md",
+            ".hgk/rounds/R5-20261009-s4-user-operability/uat/RAW_RUNS.jsonl",
+            "openspec/changes/s2-historical-record-provenance/.openspec.yaml",
+            "openspec/changes/s2-historical-record-provenance/design.md",
+            "openspec/changes/s2-historical-record-provenance/proposal.md",
+            "openspec/changes/s2-historical-record-provenance/specs/pipd-s2-record-provenance/spec.md",
+            "openspec/changes/s2-historical-record-provenance/tasks.md"
+          ],
+          "live_content_changes_before_verdict": {},
+          "technology_sha256_before": "12c2b065d0d34655d8b3442869d3b9f200bfd8a7f3bf4ec8e01cdc32a61b30cf",
+          "technology_sha256_after": "12c2b065d0d34655d8b3442869d3b9f200bfd8a7f3bf4ec8e01cdc32a61b30cf",
+          "scope_ceiling": "Mechanical start/end corroboration only. No retrospective proof of who wrote pre-existing evidence dirt or timestamps; no maker attribution accepted as evidence."
+        }
+      }
+    },
+    {
+      "id": "P9",
+      "statement": "Corrected source commentary describes recorded/live separation; UNPROVENANCED existed in parent.",
+      "verdict": "RE_DERIVED",
+      "evidence": {
+        "raw_commands": [
+          {
+            "command": "git show 5094939:tools/perf_budget.py",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          },
+          {
+            "command": "git diff 5094939 -- tools/perf_budget.py tests/test_perf_budget.py",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          },
+          {
+            "command": "python -B C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker-v2\\assemble_verdict.py",
+            "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+            "exit_code": 0
+          }
+        ],
+        "raw_output_excerpt": {
+          "corrected_source_comment_tools_perf_budget_py_33_36": "# block reports the RECORDED value that the frozen BYTES_PER_ATOM_BASELINE.json supplies for a\n# metric (`pi_bytes` = 343,547 for `context_bytes_per_artefact`), so the 343,547 > 20,000 FAIL is\n# host-stable; the live reading is kept beside it as `measured_now`, and every row marks whether\n# its `value` is `recorded`.",
+          "corrected_historical_note_tools_perf_budget_py_291_295": "measured and printed but non-voting. Where a recorded baseline supplies the value for a metric (see that row's `origin`), `value` is the RECORDED number and the live reading is kept as `measured_now`; a metric with no recorded baseline keeps its live measurement and is marked `recorded: false`.",
+          "judgment": "Both true for the pinned candidate and frozen baseline: value is 343547, recorded=true, origin identifies pi_bytes, measured_now remains available. Missing recordings are marked false with explicit live note. The second corrected string is a runtime explanatory note, not a Python # comment.",
+          "implementation_lines": "tools/perf_budget.py:169-172 reads the baseline field; 178-190 retains measurement, chooses record, computes verdict, and labels fallback; 280 constructs all historical rows.",
+          "UNPROVENANCED": "Pre-existing in 5094939 PROVENANCE for all four advisory metrics and emitted in parent historical rows; candidate did not introduce or ratify this threshold authority."
+        }
+      }
+    }
+  ],
+  "falsification_attempts": [
+    {
+      "property": "P1",
+      "attempt": "Pristine detached pre-fix clone then exact two-file overlay",
+      "result": "Control recorded live 372224 with no origin; overlay and authoring record 343547 although measured_now differs."
+    },
+    {
+      "property": "P2",
+      "attempt": "Independently rebuild/serialize all five pipeline artifacts in authoring and clone contexts",
+      "result": "Independent max sizes exactly equal measured_now in each context."
+    },
+    {
+      "property": "P6",
+      "attempt": "Scratch-only pi_bytes=1 baseline mutation, targeted suite rerun, then discard copy",
+      "result": "13 tests: green before; two failures after; no product mutation."
+    },
+    {
+      "property": "P7",
+      "attempt": "Required complete live-tree copy and matched parent-subject control; retry Windows path-limit failures using extended-path cwd/TMP",
+      "result": "283 versus 279; identical 13 failures, one error, four skips; all four new tests pass in final suite."
+    }
+  ],
+  "counts": {
+    "RE_DERIVED": 9,
+    "DISAGREED": 0,
+    "UNCERTAIN": 0
+  },
+  "not_verified": [
+    "No release, promotion, publication, deployment, production operation, remote acceptance or whole-product clean-suite claim.",
+    "No retrospective author attribution for pre-existing .hgk/ or openspec dirt; start/end content only corroborated.",
+    "Mutation test establishes pi_bytes=1 sensitivity via verdict/history assertions, not arbitrary baseline corruption coverage."
+  ],
+  "claim_ceiling": "Only the nine CONTRACT-verify-D1.v2.md properties for the exact pinned uncommitted candidate were independently checked locally. ALL_PASS means this narrow contract passed, not a green full suite or any promotion, release, external acceptance, or governance-state transition.",
+  "read_only_discipline": {
+    "live_product_writes": [],
+    "live_content_changes_before_verdict": {},
+    "only_permitted_repo_write": "C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R5-20261009-s4-user-operability/d1repair/D1_INDEPENDENT_VERDICT_V2.json",
+    "scratch_writes": "Only independent-checker-v2: scripts, raw logs, snapshots, clones, tree copies, parent archive, controlled perturbation. Suites used scratch TMP/TEMP/TMPDIR; no tests run in product tree.",
+    "repairs_commits_pushes_restarts_canonical_store_writes": false,
+    "runner_failures": "Initial ordinary-path copy hit WinError 206. Retried scratch copy with Windows extended paths; subsequent evidence assembly failed on absent JSON after the blocked probe; preserved raw logs and continued independently. Product untouched."
+  },
+  "verdict": "ALL_PASS"
+}
