@@ -1,5 +1,19 @@
 # PIPD-LS-SP — Pre-Implementation / Pre-Dev Lifecycle Skills Plugin (review candidate)
 
+> ## ⚠️ This branch is the older **R3** snapshot — it is **not** the distribution entry point
+>
+> The current, owner-authorised open-source preview of PIPD-LS-SP is published on the immutable tag
+> **`v0.1.0-preview.1`**, licensed **Apache-2.0**:
+>
+> **→ https://github.com/shw097-team/PIPD-LS-SP/releases/tag/v0.1.0-preview.1**
+>
+> Install, verification (`SHA256SUMS`), the exact release commit, the licence basis and the
+> **known limitations** are all on that release page. Do not install from this branch by default —
+> its content, licence metadata and packaging are the pre-grant R3 state.
+>
+> Everything below was written for the **R3 review candidate** and is kept as a historical
+> snapshot, not as the current release description.
+
 Candidate artifact of a governed implementation round. Control plane: **HG-KSEOS**
 (project `PIPD-LS-SP-20261008`). Runtime / orchestration plane: **Hermes** under HGK admission.
 Contract surface: **Fabric**.
