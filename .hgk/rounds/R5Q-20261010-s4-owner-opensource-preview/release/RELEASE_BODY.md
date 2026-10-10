@@ -11,7 +11,7 @@ checked against real bytes. Read the **Known limitations** below before using it
 | Wheel build-input commit | `{{BUILD_INPUT_COMMIT}}` |
 | Review baseline (unchanged) | `r5p-post-challenge-repair` @ `{{REVIEW_BASELINE_COMMIT}}` |
 | Frozen candidate head | `{{CANDIDATE_HEAD}}` |
-| Default branch `main` | **not touched** — it still points at the older R3 line |
+| Default branch `main` | R3 content **preserved**, advanced only by a front-page pointer commit (`3aebbbce` → `de3a1d9`) |
 
 The earlier review wheel `{{SUPERSEDED_WHEEL_SHA_PREFIX}}…` is **superseded**. Licence metadata
 changed the member composition, so the published wheel is a different artefact; the identity

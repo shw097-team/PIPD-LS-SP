@@ -30,7 +30,9 @@
 ## 3. Release candidate and distribution
 
 - [x] 3.1 Immutable release candidate commits frozen in an isolated worktree
-      (`PIPD-r5q-release-wt`), never touching `main` or the R5P baseline.
+      (`PIPD-r5q-release-wt`), never merging into `main` or altering the R5P baseline. `main` later
+      received one additive README-only pointer commit (`3aebbbce` → `de3a1d9`) so the repository
+      front page points at the preview tag, per `TT-R5P-08`.
 - [x] 3.2 Wheel rebuilt from `c66be08`; METADATA carries `License-Expression` + `License-File`; the
       licence text, NOTICE **and the owner decision slot** are packed inside the wheel (41 members).
 - [x] 3.3 `WHEEL_MANIFEST.json` records `build_input_commit`, a distinct `released_commit` binding, the

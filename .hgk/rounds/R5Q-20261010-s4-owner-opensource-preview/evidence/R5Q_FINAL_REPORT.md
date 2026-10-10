@@ -49,8 +49,11 @@ Commit sequence in the isolated worktree `PIPD-r5q-release-wt` (branch `r5q-owne
 | `89c1c5c` | Release body becomes a rendered template (a committed literal would be stale on write) |
 | `cc9bf574` | Derived release assets kept out of the tree — stops the manifest depending on its own digest |
 
-`main` was **not** touched (it still points at the older R3 line); no force-push; no existing tag was
-moved or deleted; no second repository was created.
+The R3 line was **not rewritten**: no force-push, no existing tag moved or deleted, no second
+repository, and no merge of the release branch into `main`. `main` was advanced **only** by an
+additive README-only pointer commit (`3aebbbce` → `de3a1d9`) so the repository front page stops
+advertising the pre-grant R3 state; the R3 content itself is preserved byte-for-byte below that
+one commit (see §10).
 
 ## 3. What the licence landing actually changed
 
@@ -130,7 +133,8 @@ PAT is advisable; the publication does not depend on it any more.
 | New kanban board | Hermes `kanban.db` — `pipd-r5q-20261010` |
 | New SWARM graph | root `t_c613d284`, 5 workers, verifier, synthesizer |
 | Local worktree | `C:/Projects/Agent_Workspace/PIPD-r5q-release-wt` (branch `r5q-owner-opensource-preview`) |
-| `main` / existing tags / R5P baseline | **unchanged** |
+| `main` | advanced by **one additive README-only pointer commit**: `3aebbbce` (R3) → `de3a1d9`; no force-push, no rewrite |
+| Existing tags / R5P baseline | **unchanged** |
 
 ## 8. Open items and the shortest recovery path
 
@@ -166,3 +170,42 @@ deprecation notice rather than moving or deleting `v0.1.0-preview.1`.
 | `evidence/R5Q_PUBLICATION_PREFLIGHT.json`, `R5Q_PUBLICATION.json`, `R5Q_PUBLICATION_READBACK.json` | publish + anonymous readback |
 | `evidence/R5Q_SECRET_SCAN.json` | credential sweep over the published tree |
 | `release/RELEASE_BODY.md`, `release/.gitignore` | rendered release notes template; derived assets excluded |
+
+## 10. Correction made after review — the entry point was pointing at the wrong thing
+
+**What was wrong.** The publication left the repository front page advertising the pre-grant R3
+state: `main`'s `README.md` mentioned neither `v0.1.0-preview.1`, nor "preview", nor `Apache-2.0`.
+Anyone landing on the repository saw a version with no licence and no download pointer — which is
+precisely what the acceptance report forbids (`main = 3aebbbce / R3`: "documentation and download
+entry points must point at the new Preview tag/commit, to avoid a default clone of the old
+version"; `TT-R5P-08`: "pin the correct branch/tag at the top of the release front page, keep the
+historical positioning").
+
+**Why the round's own readback did not catch it.** The check was `readme_at_tag_points_to_tag`: it
+read `README.md` **at the tag**, which did point at the tag, and passed. It never read the README
+on the **default branch** — the one a visitor actually lands on. A check that only inspects the
+artefact you already believe is correct cannot find a gap in the entry point.
+
+**Fix.** One additive, README-only commit on `main` (`3aebbbce` → `de3a1d9`), pushed as a normal
+forward push — no force, no merge of the release branch, no other file touched. It pins a banner
+naming tag `v0.1.0-preview.1`, its `Apache-2.0` grant and the release page, and marks everything
+below as the R3 historical snapshot, as `TT-R5P-08` requires.
+
+**Checks added so this class of gap fails loudly next time:**
+
+| New readback check | What it enforces |
+|---|---|
+| `front_page_readme_points_to_tag` | the **default branch** README names the release tag |
+| `front_page_readme_marks_itself_snapshot` | historical narrative is labelled as history, not current |
+| `default_branch_not_rewritten` | the front-page commit still sits on the R3 line — advancement, never a rewrite |
+| `release_commit_reachable_from_branch_tip` | replaces `branch_points_at_release_commit`, which asserted the branch tip *equals* the release commit — an invariant that publication evidence commits necessarily break |
+
+The final readback is **12/12 PASS**.
+
+**Statement-level consequence, disclosed.** Every surface that said "`main` was not touched" was
+made false by this fix. The release body (live, re-published via the API), `README.md`,
+`ACCEPTANCE.md`, the preview-notes asset, the OpenSpec tasks/proposal and this report were all
+corrected rather than left stale. The immutable tag `v0.1.0-preview.1` still points at
+`cc9bf574`, whose tree predates this fix — that is expected for an immutable release pointer, and
+is why the corrected statements live on the mutable surfaces. The published wheel is unaffected:
+its bytes, hash and contents are identical (`c450dbef…`).

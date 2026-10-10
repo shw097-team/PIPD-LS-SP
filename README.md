@@ -3,7 +3,8 @@
 > **S4 OPEN SOURCE PREVIEW / BETA — licence granted by the owner as `Apache-2.0`.**
 >
 > The distribution entry point for this preview is the tag **`v0.1.0-preview.1`**, not the default
-> branch. `main` is still the historical R3 snapshot and must not be used to judge this preview.
+> branch. `main` carries the historical R3 content plus a front-page pointer to that tag, and must
+> not be used to judge this preview.
 >
 > | what | where |
 > |---|---|

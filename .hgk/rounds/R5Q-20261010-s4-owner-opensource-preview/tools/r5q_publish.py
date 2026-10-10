@@ -63,6 +63,11 @@ def die(msg: str) -> NoReturn:
     sys.exit(2)
 
 
+class RateLimited(RuntimeError):
+    """Raised when the anonymous GitHub API quota is exhausted. Distinct from a failed check:
+    an exhausted quota makes the readback INCONCLUSIVE, never FAIL and never PASS."""
+
+
 def load_token() -> str:
     """Read the PAT into memory only. Returns the value; never logs or stores it."""
     if not TOKEN_FILE.is_file():
@@ -102,7 +107,40 @@ def api(method: str, path: str, token: str | None, body=None, raw: bytes | None 
             payload = json.loads(payload)
         except json.JSONDecodeError:
             pass
+        msg = payload.get("message", "") if isinstance(payload, dict) else str(payload)
+        # A rate limit is NOT a failed check. Without this, an exhausted anonymous quota
+        # manufactures FAILs (or, in the other coding, silently hides real ones).
+        if e.code in (403, 429) and "rate limit" in msg.lower():
+            raise RateLimited(
+                f"GitHub API rate limit hit on {method} {url}: {msg} "
+                f"(remaining header: {e.headers.get('X-RateLimit-Remaining')}, "
+                f"reset epoch: {e.headers.get('X-RateLimit-Reset')})")
         return e.code, payload
+
+
+def raw_file(ref: str, path: str) -> str | None:
+    """Read a file through raw.githubusercontent.com. This is a CDN, NOT the REST API, so it is
+    outside the 60/hour anonymous quota — the readback should not die because a quota ran out."""
+    url = f"https://raw.githubusercontent.com/{OWNER}/{REPO}/{ref}/{path}"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return r.read().decode("utf-8", errors="replace")
+    except Exception:
+        return None
+
+
+def ls_remote(pattern: str) -> dict[str, str]:
+    """Resolve refs over the unauthenticated git protocol — also outside the REST API quota."""
+    out = subprocess.run(["git", "ls-remote", f"https://github.com/{OWNER}/{REPO}.git", pattern],
+                         capture_output=True, text=True, encoding="utf-8", errors="replace",
+                         timeout=180)
+    refs = {}
+    for line in (out.stdout or "").splitlines():
+        parts = line.split()
+        if len(parts) == 2:
+            refs[parts[1]] = parts[0]
+    return refs
 
 
 def sha256_file(p: pathlib.Path) -> str:
@@ -309,14 +347,25 @@ def readback(repo: pathlib.Path, rel_dir: pathlib.Path, out: pathlib.Path,
                "read_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
                "read_with": "anonymous GitHub API + asset download (no token, no local cache)"}
 
+    # --- refs and files through non-API channels (no quota dependence) -----------------------
+    refs = ls_remote("refs/heads/*")
+    tag_refs = ls_remote(f"refs/tags/{TAG}*")
+    tag_target = tag_refs.get(f"refs/tags/{TAG}", "")
+    branch_tip = refs.get(f"refs/heads/{BRANCH}", "")
+    default_tip = refs.get("refs/heads/main", "")
+    r["refs_via_git_ls_remote"] = {
+        "tag": tag_target, "branch_tip": branch_tip, "default_branch_tip": default_tip,
+        "tag_points_at_release_commit": tag_target == RELEASE_COMMIT,
+    }
+
     st, info = api("GET", f"/repos/{OWNER}/{REPO}", None)
     r["repo"] = {"status": st, "public": info.get("private") is False if isinstance(info, dict) else None,
                  "default_branch": info.get("default_branch") if isinstance(info, dict) else None}
 
-    st, tag = api("GET", f"/repos/{OWNER}/{REPO}/git/ref/tags/{TAG}", None)
-    tag_sha = tag.get("object", {}).get("sha") if isinstance(tag, dict) else None
-    r["tag"] = {"status": st, "ref": tag.get("ref") if isinstance(tag, dict) else None,
-                "sha": tag_sha, "points_at_release_commit": tag_sha == RELEASE_COMMIT}
+    tag_sha = tag_target
+    r["tag"] = {"status": 200 if tag_target else 404, "ref": f"refs/tags/{TAG}",
+                "sha": tag_sha, "points_at_release_commit": tag_sha == RELEASE_COMMIT,
+                "source": "git ls-remote"}
 
     st, commit = api("GET", f"/repos/{OWNER}/{REPO}/commits/{RELEASE_COMMIT}", None)
     r["commit"] = {"status": st,
@@ -324,8 +373,22 @@ def readback(repo: pathlib.Path, rel_dir: pathlib.Path, out: pathlib.Path,
                    "message_first_line": (commit.get("commit", {}).get("message", "").splitlines() or [None])[0]
                    if isinstance(commit, dict) else None}
 
+    # The branch tip is NOT expected to equal the release commit forever: publication evidence
+    # commits land on the branch afterwards, and the immutable tag is the release pointer. The
+    # invariant that actually matters is reachability — the release commit must stay an ancestor
+    # of the branch tip, so the published tree is never orphaned.
     st, br = api("GET", f"/repos/{OWNER}/{REPO}/branches/{BRANCH}", None)
-    r["branch"] = {"status": st, "sha": br.get("commit", {}).get("sha") if isinstance(br, dict) else None}
+    branch_tip = br.get("commit", {}).get("sha") if isinstance(br, dict) else None
+    st_cmp, cmp = api("GET", f"/repos/{OWNER}/{REPO}/compare/{RELEASE_COMMIT}...{BRANCH}", None)
+    cmp_status = cmp.get("status") if isinstance(cmp, dict) else None
+    r["branch"] = {
+        "status": st,
+        "tip": branch_tip,
+        "tip_is_release_commit": branch_tip == RELEASE_COMMIT,
+        "compare_status": cmp_status,
+        "release_commit_reachable_from_tip": cmp_status in ("ahead", "identical"),
+        "commits_after_release": (cmp.get("ahead_by") if isinstance(cmp, dict) else None),
+    }
 
     st, rel = api("GET", f"/repos/{OWNER}/{REPO}/releases/tags/{TAG}", None)
     r["release"] = {"status": st,
@@ -366,11 +429,48 @@ def readback(repo: pathlib.Path, rel_dir: pathlib.Path, out: pathlib.Path,
     r["all_assets_match"] = all(v.get("matches_expected") for v in got.values()) and set(got) == set(expect)
 
     # The README entry point must send a reader to the tag, not the stale default branch.
-    st, rd = api("GET", f"/repos/{OWNER}/{REPO}/contents/README.md?ref={TAG}", None)
-    import base64
-    readme = base64.b64decode(rd["content"]).decode("utf-8", errors="replace") if isinstance(rd, dict) and rd.get("content") else ""
-    r["readme_at_tag"] = {"status": st, "points_at_tag": TAG in readme,
+    readme = raw_file(TAG, "README.md") or ""
+    r["readme_at_tag"] = {"source": "raw.githubusercontent (no API quota)",
+                          "bytes": len(readme),
+                          "points_at_tag": TAG in readme,
                           "mentions_apache": "Apache-2.0" in readme}
+
+    # The DEFAULT BRANCH front page is what a visitor actually lands on. Checking only the README
+    # at the tag would pass while the repo home still advertised the pre-release state — which is
+    # exactly the gap TT-R5P-08 names ("pin the correct tag at the top of the release front page").
+    front = raw_file("HEAD", "README.md") or ""
+    r["front_page_readme"] = {
+        "source": "raw.githubusercontent (no API quota)",
+        "default_branch": r["repo"]["default_branch"],
+        "bytes": len(front),
+        "points_at_tag": TAG in front,
+        "mentions_apache": "Apache-2.0" in front,
+        "marks_itself_as_snapshot": ("snapshot" in front.lower()),
+    }
+
+    # main must never be rewritten. Proven from the commit feed (a CDN, not the REST API): the R3
+    # commit must still appear in the default branch's recent history, so the front-page commit is
+    # an advancement on top of R3 rather than a replacement of it.
+    def commit_feed_has(ref: str, sha: str) -> bool | None:
+        try:
+            req = urllib.request.Request(f"https://github.com/{OWNER}/{REPO}/commits/{ref}.atom",
+                                         headers={"User-Agent": UA})
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                return sha in resp.read().decode("utf-8", errors="replace")
+        except Exception:
+            return None
+
+    r3 = "3aebbbce948871c07b875ab92acf263d298ecf38"
+    on_main = commit_feed_has("main", r3)
+    on_branch = commit_feed_has(BRANCH, RELEASE_COMMIT)
+    r["default_branch_commit"] = {
+        "source": "commits/<ref>.atom feed (no API quota)",
+        "default_branch_tip": default_tip,
+        "r3_commit_still_in_history": on_main,
+        "still_on_r3_line": on_main is True,
+        "release_commit_in_branch_history": on_branch,
+        "inconclusive": on_main is None,
+    }
 
     # The licence basis must be inside the published wheel, not only in the repository copy.
     whl = dl / "pipd_ls_sp-0.1.0-py3-none-any.whl"
@@ -390,15 +490,19 @@ def readback(repo: pathlib.Path, rel_dir: pathlib.Path, out: pathlib.Path,
     r["licence_inside_published_wheel"] = lic_in_wheel
 
     checks = {
-        "repo_public": r["repo"]["public"] is True,
+        # Anonymous `git ls-remote` succeeding IS the proof of publicness — no API quota needed.
+        "repo_public": bool(refs),
         "tag_exists_and_targets_release_commit": r["tag"]["points_at_release_commit"] is True,
         "commit_tree_matches": r["commit"]["tree"] == EXPECTED_TREE,
-        "branch_points_at_release_commit": r["branch"]["sha"] == RELEASE_COMMIT,
+        "release_commit_reachable_from_branch_tip": r["branch"]["release_commit_reachable_from_tip"] is True,
         "release_is_prerelease": r["release"]["prerelease"] is True,
         "release_not_draft": r["release"]["draft"] is False,
         "release_body_discloses_limitations": r["release"]["body_has_known_limitations"] is True,
         "all_assets_download_and_match": r["all_assets_match"],
         "readme_at_tag_points_to_tag": r["readme_at_tag"]["points_at_tag"] is True,
+        "front_page_readme_points_to_tag": r["front_page_readme"]["points_at_tag"] is True,
+        "front_page_readme_marks_itself_snapshot": r["front_page_readme"]["marks_itself_as_snapshot"] is True,
+        "default_branch_not_rewritten": r["default_branch_commit"]["still_on_r3_line"] is True,
     }
     r["checks"] = checks
     r["verdict"] = "PASS" if all(checks.values()) else "FAIL"
@@ -440,7 +544,22 @@ def main() -> int:
         pre = json.loads(pre_path.read_text(encoding="utf-8"))
         publish(repo, rel_dir, scratch, out, pre)
         return 0
-    readback(repo, rel_dir, out, scratch)
+    try:
+        readback(repo, rel_dir, out, scratch)
+    except RateLimited as exc:
+        receipt = {
+            "schema": "PIPD-R5Q-PUBLICATION-READBACK/1",
+            "read_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "verdict": "INCONCLUSIVE_RATE_LIMITED",
+            "error": str(exc),
+            "note": ("The anonymous GitHub API quota was exhausted mid-readback. This is NOT a "
+                     "failed check and NOT a pass: nothing about the published state can be "
+                     "concluded from this run. Re-run after the quota resets."),
+        }
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(receipt, ensure_ascii=False, indent=1), encoding="utf-8")
+        print(json.dumps({"verdict": receipt["verdict"], "error": receipt["error"]}, indent=1))
+        return 4
     return 0
 
 

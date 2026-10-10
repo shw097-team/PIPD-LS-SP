@@ -1,6 +1,7 @@
 > **R5Q (2026-10-10) — read this banner first.** The owner has granted **`Apache-2.0`** over this
 > repository and authorised a limited **S4 open source preview / beta**. The distribution entry point
-> is the tag **`v0.1.0-preview.1`**; `main` is still the historical R3 snapshot. The grant, the
+> is the tag **`v0.1.0-preview.1`**; `main` carries the historical R3 content plus a front-page
+> pointer to that tag. The grant, the
 > material-class split and the exclusion policy live in [`LICENSE`](LICENSE),
 > [`NOTICE`](NOTICE), [`OWNER_LICENSE_DECISION.yaml`](OWNER_LICENSE_DECISION.yaml) and
 > [`SBOM.cdx.json`](SBOM.cdx.json) (study FAR-PIPD-R5Q-LICENSE-001).

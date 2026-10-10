@@ -67,8 +67,9 @@ combination. No other runtime dependency is declared.
    S7 (JIT routing), S8 (release / promotion / HITL), PRE-W3, the 22 inactive external technologies,
    and full host-native certification are **not** implemented or claimed.
 7. **`PRODUCTION_VERIFIED` is not claimed**, and `G-RELEASE_FULL_PASS` is not claimed.
-8. **`main` is still the historical R3 snapshot.** Do not judge this preview from the default branch;
-   this tag is the entry point.
+8. **`main` is the historical R3 line plus a front-page pointer to this tag.** Do not install from
+   the default branch or judge this preview by it; the tag is the entry point. The repository front
+   page carries a banner naming `v0.1.0-preview.1`, its `Apache-2.0` grant and the limitations.
 
 ## 4. What changed for this publication (relative to `r5p-post-challenge-repair`)
 
