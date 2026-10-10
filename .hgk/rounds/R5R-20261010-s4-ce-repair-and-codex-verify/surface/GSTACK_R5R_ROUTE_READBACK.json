@@ -74,7 +74,7 @@
    "effective_host_used": "sealed-codex-lane",
    "how_invoked": "HG-KSEOS/scripts/start-hgk-hermes.ps1 -Action Write -ModelChain deepseek-v4.1-flash, from cwd HG-KSEOS, which is the sanctioned launcher entry point and NOT a direct codex.exe invocation",
    "route_evidence": [
-    "%LOCALAPPDATA%/HG-KSEOS/logs/codex-write-*.log (4 runs)",
+    "%LOCALAPPDATA%/HG-KSEOS/logs/codex-write-*.log (FIVE runs; per-run order, log, file-change count and outcome tabulated in execute/launcher_receipts.json)",
     ".hgk/rounds/R5R-.../execute/SUMMARY.md",
     ".hgk/rounds/R5R-.../execute/red_state.txt",
     ".hgk/rounds/R5R-.../execute/green_state.txt"
@@ -198,7 +198,10 @@
  ],
 
  "side_effects_disclosed": [
-  "Four bounded-writer lane runs through the sealed EXECUTE front door, model pair locked to opencode-go/deepseek-v4.1-flash. Logs under %LOCALAPPDATA%/HG-KSEOS/logs/codex-write-*.log.",
+  "FIVE bounded-writer lane runs through the sealed EXECUTE front door, model pair locked to opencode-go/deepseek-v4.1-flash. Logs under %LOCALAPPDATA%/HG-KSEOS/logs/codex-write-*.log; per-run evidence in execute/launcher_receipts.json.",
+  "CONCURRENCY HAZARD, disclosed: run 1 (EXECUTE_PROMPT.txt) was never dead -- it completed with turn.completed=1 and 11 file_change events, and it is the run that actually performed the CE-1/CE-2 repair. The maker misjudged it as dead from an unreliable ps | grep codex.exe check plus a log idle ~222s while the model was thinking, and relaunched as run 2 (EXECUTE_PROMPT2.txt). Runs 1 and 2 then edited the same worktree CONCURRENTLY for about 11 minutes (00:52:57-01:03:46). Run 2 made 0 file changes and stopped on detecting the other writer, saying the task premise no longer matched the repository, so no artefact was corrupted -- but the round's serial model was violated and only the second writer's own caution kept the evidence coherent.",
+  "A FALSE PREMISE was supplied to run 2: its prompt asserted as established fact that the previous run had been cut off before implementing anything and that the baseline was green. By then the previous run HAD implemented the repair. Run 2's log records exactly that mismatch. Recorded in execute/launcher_receipts.json under aggravating_false_premise.",
+  "Attribute each repair to the right run: CE-1/CE-2 to run 1, the init second site to run 3, the tracked_files guard to run 4, the trace-widening closure to run 5. An earlier version of execute/launcher_receipts.json mislabelled this; the correction is recorded in that file rather than silently applied.",
   "Two independent checker runs through the CODEX CLI on native OpenAI OAuth (gpt-6.1-sol, medium) with a dedicated CODEX_HOME, which is NOT the sealed EXECUTE lane's CODEX_HOME. Their raw transcripts are in the round's verify-codex/ and verify-codex-2/.",
   "jsonschema was installed into the repo's Python 3.11 interpreter from a local offline wheelhouse by the writer lane, because the suite cannot exercise the validate path without it. Disclosed by the writer in execute/SUMMARY.md.",
   "Commits created on branch r5r-ce-repair only. main was not touched. The published tag was not touched.",
