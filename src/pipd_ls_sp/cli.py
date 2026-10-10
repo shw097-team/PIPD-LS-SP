@@ -163,7 +163,21 @@ def run(args: argparse.Namespace) -> dict:
         return out
     if cmd == "validate":
         bundle = _read_json(args.bundle, "validation bundle")
-        out = validate.validate_bundle(bundle, root / "schemas")
+        # CE-1: resolve schemas through the SAME registry chain `doctor` uses
+        # (OVERRIDE -> INSTALLED -> SOURCE), with a workspace-local `<root>/schemas`
+        # winning only when it actually contains registry.json. The chosen surface is
+        # reported so the operator can see which copy produced the verdict.
+        schemas_dir, mode, tried = registry.resolve_for_validate(root)
+        out = validate.validate_bundle(bundle, schemas_dir)
+        out["schema_source"] = {"mode": mode,
+                                "path": str(schemas_dir) if schemas_dir is not None else "",
+                                "tried": tried}
+        if schemas_dir is None:
+            out["verdict"] = "FAIL"
+            out.setdefault("findings", []).append(
+                {"contract": "*", "kind": "SCHEMA_RESOLUTION",
+                 "detail": "no schemas directory containing registry.json; tried: "
+                           + "; ".join(tried)})
         if getattr(args, "explain", False):
             out = dict(out); out.update(_explain("validate", out))
         return out

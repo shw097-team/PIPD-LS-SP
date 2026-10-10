@@ -1,0 +1,154 @@
+diff --git a/src/pipd_ls_sp/cli.py b/src/pipd_ls_sp/cli.py
+index 69095ba..4a2e13f 100644
+--- a/src/pipd_ls_sp/cli.py
++++ b/src/pipd_ls_sp/cli.py
+@@ -163,7 +163,21 @@ def run(args: argparse.Namespace) -> dict:
+         return out
+     if cmd == "validate":
+         bundle = _read_json(args.bundle, "validation bundle")
+-        out = validate.validate_bundle(bundle, root / "schemas")
++        # CE-1: resolve schemas through the SAME registry chain `doctor` uses
++        # (OVERRIDE -> INSTALLED -> SOURCE), with a workspace-local `<root>/schemas`
++        # winning only when it actually contains registry.json. The chosen surface is
++        # reported so the operator can see which copy produced the verdict.
++        schemas_dir, mode, tried = registry.resolve_for_validate(root)
++        out = validate.validate_bundle(bundle, schemas_dir)
++        out["schema_source"] = {"mode": mode,
++                                "path": str(schemas_dir) if schemas_dir is not None else "",
++                                "tried": tried}
++        if schemas_dir is None:
++            out["verdict"] = "FAIL"
++            out.setdefault("findings", []).append(
++                {"contract": "*", "kind": "SCHEMA_RESOLUTION",
++                 "detail": "no schemas directory containing registry.json; tried: "
++                           + "; ".join(tried)})
+         if getattr(args, "explain", False):
+             out = dict(out); out.update(_explain("validate", out))
+         return out
+diff --git a/src/pipd_ls_sp/pipeline.py b/src/pipd_ls_sp/pipeline.py
+index 7f21aa8..01aeaa2 100644
+--- a/src/pipd_ls_sp/pipeline.py
++++ b/src/pipd_ls_sp/pipeline.py
+@@ -16,6 +16,10 @@ from .profiles import compute_profile
+ from . import repo_context as repo_probe
+ from . import requirements as req_compile
+ from .util import canonical_json, content_id, sha256_text  # noqa: F401
++# CE-2: the non-record sidecar list is defined ONCE (validate.NON_RECORD_SIDECARS) and
++# referenced here, so the "stripped before validation" contract cannot diverge from the
++# validator's schema check again.
++from .validate import NON_RECORD_SIDECARS
+ 
+ CLAIM_LADDER = ["PROMPT_COMPILE_PASS", "HGK_ADMITTED", "RUNTIME_READY", "LOCAL_QUALIFIED",
+                 "INDEPENDENT_PASS", "PUBLICATION_APPROVED", "RELEASED", "PRODUCTION_VERIFIED"]
+@@ -172,8 +176,9 @@ def _seal(rec: dict[str, Any], prefix: str) -> dict[str, Any]:
+     not cover the body and validate.semantic_invariants correctly rejects the record.
+     """
+     # `trace` is a derived relation, not body content: it carries the parent hash, so it cannot be
+-    # inside the hash it references. The validator excludes exactly the same key set.
+-    body = {k: v for k, v in rec.items() if k not in ("subject_id", "version", "content_hash", "schema_version", "trace", "_profile_meta")}
++    # inside the hash it references. The validator excludes exactly the same key set
++    # (validate.NON_RECORD_SIDECARS) - one definition, referenced in both places.
++    body = {k: v for k, v in rec.items() if k not in NON_RECORD_SIDECARS}
+     digest = sha256_text(canonical_json(body))
+     rec["subject_id"] = f"{prefix}-{digest[:16]}"
+     rec["content_hash"] = digest
+diff --git a/src/pipd_ls_sp/registry.py b/src/pipd_ls_sp/registry.py
+index 369c828..e71043e 100644
+--- a/src/pipd_ls_sp/registry.py
++++ b/src/pipd_ls_sp/registry.py
+@@ -142,6 +142,37 @@ def describe_schemas_source() -> dict[str, Any]:
+     return {"mode": mode, "path": str(resolved) if resolved is not None else "", "tried": tried}
+ 
+ 
++def resolve_for_validate(root: "Path | str") -> tuple[Path | None, str, list[str]]:
++    """Resolve the schemas surface ``validate`` consumes, tagged with its mode.
++
++    ``validate`` used to read ``<root>/schemas`` unconditionally, so a cwd without a
++    ``schemas/`` tree (e.g. an installed wheel) failed while ``doctor`` succeeded. This
++    reuses the EXACT ``OVERRIDE -> INSTALLED -> SOURCE`` order ``_candidate_schemas_dirs_with_mode``
++    owns - no second ordering scheme - but lets a workspace-local ``<root>/schemas`` win
++    ONLY when it actually contains ``registry.json`` (reported as ``WORKSPACE``), inserted
++    ahead of the shared chain. A ``<root>/schemas`` without a ``registry.json`` is skipped
++    just like every other candidate; it never displaces a real copy. Returns the same
++    ``(path, mode, tried)`` shape as ``_resolve_schemas_dir_and_mode``.
++    """
++    tried: list[str] = []
++    seen: set[str] = set()
++    local = Path(root) / "schemas"
++    local_key = str(local)
++    seen.add(local_key)
++    tried.append(local_key)
++    if (local / "registry.json").is_file():
++        return local, "WORKSPACE", tried
++    for mode, cand in _candidate_schemas_dirs_with_mode():
++        key = str(cand)
++        if key in seen:
++            continue
++        seen.add(key)
++        tried.append(key)
++        if (cand / "registry.json").is_file():
++            return cand, mode, tried
++    return None, "NONE", tried
++
++
+ def load_registry(schemas_dir: Path | None = None) -> dict[str, Any]:
+     d = schemas_dir or _resolve_schemas_dir()
+     reg_path = d / "registry.json"
+diff --git a/src/pipd_ls_sp/validate.py b/src/pipd_ls_sp/validate.py
+index ce840ca..affd824 100644
+--- a/src/pipd_ls_sp/validate.py
++++ b/src/pipd_ls_sp/validate.py
+@@ -15,6 +15,14 @@ CLAIM_LADDER = ["PROMPT_COMPILE_PASS", "HGK_ADMITTED", "RUNTIME_READY", "LOCAL_Q
+                 "INDEPENDENT_PASS", "PUBLICATION_APPROVED", "RELEASED", "PRODUCTION_VERIFIED"]
+ RELEASE_BOUND = ("PI-PKG", "PD-PKG", "ECP", "TQAEP", "ConstructionContract")
+ 
++# The SINGLE definition of the non-record sidecar keys (CE-2 structural repair): fields the
++# pipeline emits for the operator/registry but that are NOT part of a record's schema body.
++# `_body_hash` (identity recomputation), `validate_record` (schema check on a stripped copy),
++# `validate_bundle` and `pipeline` all reference THIS object, so the list cannot be silently
++# split into a second copy again.
++NON_RECORD_SIDECARS = ("subject_id", "version", "content_hash", "schema_version", "trace",
++                       "_profile_meta")
++
+ 
+ def _validator(schema: dict[str, Any]):
+     try:
+@@ -25,11 +33,27 @@ def _validator(schema: dict[str, Any]):
+ 
+ 
+ def validate_record(contract: str, record: dict[str, Any], schemas_dir: Path | None = None) -> list[str]:
+-    """Return a list of deterministic findings; empty list == schema-valid."""
++    """Return a list of deterministic findings; empty list == schema-valid.
++
++    Schema validation runs on a COPY of the record with the non-record sidecars removed, so a
++    bundle assembled from the compilers' own stdout (which carries ``_profile_meta``) is held to
++    its declared field set instead of tripping ``additionalProperties: false``. This is exactly
++    the "stripped before validation" behavior ``pipeline`` already declares.
++
++    The sidecar list is the SAME ``NON_RECORD_SIDECARS`` object the hash path uses. A key on that
++    list that the SCHEMA ITSELF declares (the identity fields and ``trace`` are declared *and
++    required* properties) is NOT removed: it is part of the record's contract, so its presence
++    must still be schema-enforced. Only sidecars the schema does not declare - i.e. the genuine
++    non-record sidecar ``_profile_meta`` - are stripped. This closes CE-2 without weakening any
++    required-field or ``additionalProperties`` check.
++    """
+     schema = registry.load_schema(contract, schemas_dir)
+     v = _validator(schema)
++    declared = set(schema.get("properties") or {})
++    body = {k: val for k, val in record.items()
++            if k not in NON_RECORD_SIDECARS or k in declared}
+     findings = []
+-    for err in sorted(v.iter_errors(record), key=lambda e: list(e.absolute_path)):
++    for err in sorted(v.iter_errors(body), key=lambda e: list(e.absolute_path)):
+         pointer = "/" + "/".join(str(x) for x in err.absolute_path)
+         findings.append(f"{contract}{pointer}: {err.message}")
+     return findings
+@@ -45,7 +69,7 @@ def _body_hash(record: dict[str, Any]) -> str:
+     """
+     import hashlib
+     import json
+-    body = {k: v for k, v in record.items() if k not in ("subject_id", "version", "content_hash", "schema_version", "trace", "_profile_meta")}
++    body = {k: v for k, v in record.items() if k not in NON_RECORD_SIDECARS}
+     return hashlib.sha256(json.dumps(body, sort_keys=True, ensure_ascii=False,
+                                      separators=(",", ":")).encode()).hexdigest()
+ 

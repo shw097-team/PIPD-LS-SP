@@ -15,6 +15,14 @@ CLAIM_LADDER = ["PROMPT_COMPILE_PASS", "HGK_ADMITTED", "RUNTIME_READY", "LOCAL_Q
                 "INDEPENDENT_PASS", "PUBLICATION_APPROVED", "RELEASED", "PRODUCTION_VERIFIED"]
 RELEASE_BOUND = ("PI-PKG", "PD-PKG", "ECP", "TQAEP", "ConstructionContract")
 
+# The SINGLE definition of the non-record sidecar keys (CE-2 structural repair): fields the
+# pipeline emits for the operator/registry but that are NOT part of a record's schema body.
+# `_body_hash` (identity recomputation), `validate_record` (schema check on a stripped copy),
+# `validate_bundle` and `pipeline` all reference THIS object, so the list cannot be silently
+# split into a second copy again.
+NON_RECORD_SIDECARS = ("subject_id", "version", "content_hash", "schema_version", "trace",
+                       "_profile_meta")
+
 
 def _validator(schema: dict[str, Any]):
     try:
@@ -25,11 +33,27 @@ def _validator(schema: dict[str, Any]):
 
 
 def validate_record(contract: str, record: dict[str, Any], schemas_dir: Path | None = None) -> list[str]:
-    """Return a list of deterministic findings; empty list == schema-valid."""
+    """Return a list of deterministic findings; empty list == schema-valid.
+
+    Schema validation runs on a COPY of the record with the non-record sidecars removed, so a
+    bundle assembled from the compilers' own stdout (which carries ``_profile_meta``) is held to
+    its declared field set instead of tripping ``additionalProperties: false``. This is exactly
+    the "stripped before validation" behavior ``pipeline`` already declares.
+
+    The sidecar list is the SAME ``NON_RECORD_SIDECARS`` object the hash path uses. A key on that
+    list that the SCHEMA ITSELF declares (the identity fields and ``trace`` are declared *and
+    required* properties) is NOT removed: it is part of the record's contract, so its presence
+    must still be schema-enforced. Only sidecars the schema does not declare - i.e. the genuine
+    non-record sidecar ``_profile_meta`` - are stripped. This closes CE-2 without weakening any
+    required-field or ``additionalProperties`` check.
+    """
     schema = registry.load_schema(contract, schemas_dir)
     v = _validator(schema)
+    declared = set(schema.get("properties") or {})
+    body = {k: val for k, val in record.items()
+            if k not in NON_RECORD_SIDECARS or k in declared}
     findings = []
-    for err in sorted(v.iter_errors(record), key=lambda e: list(e.absolute_path)):
+    for err in sorted(v.iter_errors(body), key=lambda e: list(e.absolute_path)):
         pointer = "/" + "/".join(str(x) for x in err.absolute_path)
         findings.append(f"{contract}{pointer}: {err.message}")
     return findings
@@ -45,7 +69,7 @@ def _body_hash(record: dict[str, Any]) -> str:
     """
     import hashlib
     import json
-    body = {k: v for k, v in record.items() if k not in ("subject_id", "version", "content_hash", "schema_version", "trace", "_profile_meta")}
+    body = {k: v for k, v in record.items() if k not in NON_RECORD_SIDECARS}
     return hashlib.sha256(json.dumps(body, sort_keys=True, ensure_ascii=False,
                                      separators=(",", ":")).encode()).hexdigest()
 

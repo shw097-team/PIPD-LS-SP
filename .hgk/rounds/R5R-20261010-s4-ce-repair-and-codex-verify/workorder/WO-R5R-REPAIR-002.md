@@ -1,0 +1,96 @@
+# WO-R5R-REPAIR-002 — bounded writer work order (EXECUTE lane)
+
+Round: `R5R-20261010-s4-ce-repair-and-codex-verify`
+Requirement: `REQ-PIPD-R5R-REPAIR-002`
+FAR decision of record: `.hgk/rounds/R5R-.../far/R5R_FAR_CE_REPAIR_QUICKSTUDY.md` (§4)
+
+You are the bounded writer. **Scope is exactly the files listed below.** Do not touch anything else.
+Do not commit. Do not push. Do not build a wheel. Do not edit any file under `schemas/`.
+
+## Environment facts (read before acting)
+
+- Shell is git-bash (MSYS) but **native programs (python, git, rg) do not accept `/c/...` paths** —
+  always pass `C:/...` forward-slash native paths.
+- Run Python as a **single-line** command with an **absolute** interpreter path, or write a `.py`
+  file and run it. Never `python -`, never a heredoc, never a PowerShell here-string.
+- Interpreter: `C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe`
+- Run the test suite with `PYTHONPATH` unset and with the repo root as cwd:
+  `cd C:/Projects/Agent_Workspace/PIPD-r5r-repair-wt` then
+  `C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -m unittest discover -s tests -t .`
+- If `unset PYTHONPATH` is needed, prefix it in the same single-line command.
+
+## The two defects, already root-caused — do not re-diagnose, implement
+
+### CE-1 — `validate` does not resolve the schemas the wheel ships, while `doctor` does
+
+- `src/pipd_ls_sp/cli.py:39` — the global `--root` defaults to `Path.cwd()`.
+- `src/pipd_ls_sp/cli.py:166` — `validate` calls `validate.validate_bundle(bundle, root / "schemas")`;
+  the schema directory comes **only** from `--root`.
+- `doctor` instead goes through `registry` (`src/pipd_ls_sp/registry.py:82-115`), which tries
+  `OVERRIDE` (`$PIPD_SCHEMAS_DIR`) → `INSTALLED` (the copy packaged inside the wheel) → `SOURCE`
+  (`<repo>/schemas`), and takes the first candidate containing `registry.json`.
+
+**Required change.** Make `validate` resolve schemas through the same mechanism as `doctor`, and let a
+workspace-local `--root/schemas` still win **when it actually contains `registry.json`**. Implement it
+in `src/pipd_ls_sp/registry.py` as one new function (e.g. `resolve_for_validate(root)`), keeping the
+existing `OVERRIDE → INSTALLED → SOURCE` order intact and returning the same `(path, mode, tried)`
+shape the existing code already uses — do not invent a second ordering scheme, and do not reorder or
+weaken the existing one. `cli.py` must pass `root` to it rather than `root / "schemas"`.
+
+The choice must be **observable**: `validate`'s output must report the schema source it actually used,
+in the same spirit as `doctor`'s `schema_source`. Add that field without removing any existing field.
+
+### CE-2 — a bundle made from the compilers' own stdout is rejected
+
+- `src/pipd_ls_sp/pipeline.py:164` sets `pi["_profile_meta"]` and its comment already declares it a
+  "non-record sidecar, stripped before validation".
+- `src/pipd_ls_sp/validate.py:48` (`_body_hash`) **does** exclude `_profile_meta` (plus `subject_id`,
+  `version`, `content_hash`, `schema_version`, `trace`).
+- `src/pipd_ls_sp/validate.py:27-35` (`validate_record`) schema-checks the record **unstripped**.
+- `schemas/PI-PKG.schema.json` declares `additionalProperties: false`.
+
+**Required change.** In `validate.py`, define the non-record sidecar list **once**, as a module-level
+constant (e.g. `NON_RECORD_SIDECARS`), and make `_body_hash`, `validate_record` and
+`validate_bundle` all use it: schema validation must be performed on a copy of the record with those
+keys removed. `pipeline.py` should import and use the same constant where it strips the sidecar, so
+the list exists in exactly one place. Keep `content_hash` semantics exactly as they are today — the
+hash must still be computed over the body **excluding** identity fields and the sidecar, and the
+existing "body edited without re-issuing identity" check must still fire.
+
+Do **not**: remove `_profile_meta` from the emitted artefact; add it to any JSON schema; make the
+validator tolerate arbitrary unknown keys.
+
+## Tests (mandatory, and they must be demonstrated failing first)
+
+Add tests under `tests/` that pin both behaviours so they cannot silently return:
+
+1. **CE-1 test** — with a bundle on disk in a directory that has no `schemas/`, `validate` must
+   resolve the schemas the package ships and reach a verdict, instead of failing with a
+   `FileNotFoundError` for `<cwd>/schemas/PI-PKG.schema.json`. Also assert that a workspace-local
+   `schemas/` containing a `registry.json` still takes precedence.
+2. **CE-2 test** — a bundle assembled from the four compilers' own unmodified stdout must be accepted
+   by `validate` (`verdict == "PASS"`, `checked == 4`, `findings == []`). Use the real
+   `intake → compile-pi → bind-pd → compile-ecp → compile-tqaep` functions with a temporary git repo
+   for `bind-pd`, not hand-written fixtures.
+3. A regression test asserting the sidecar list has one definition: assert `pipeline` and `validate`
+   reference the same object (identity comparison), so a future copy-paste cannot split it again.
+4. `validate` still reports the schema source it used, and that report names the mode
+   (`INSTALLED`/`SOURCE`/`OVERRIDE`).
+
+**Demonstrate the red state.** Before implementing, run your new CE-1 and CE-2 tests against the
+unmodified tree and capture their failure. Write that raw output to
+`.hgk/rounds/R5R-20261010-s4-ce-repair-and-codex-verify/execute/red_state.txt` (create the directory).
+Then implement, and write the green run to
+`.hgk/rounds/R5R-20261010-s4-ce-repair-and-codex-verify/execute/green_state.txt`.
+
+## Definition of done
+
+- `src/pipd_ls_sp/{cli.py,validate.py,registry.py,pipeline.py}` changed as above; `tests/` extended.
+- The two new tests fail on the pre-repair tree and pass after.
+- The full suite passes (`python -m unittest discover -s tests -t .`).
+- `red_state.txt` and `green_state.txt` exist with real captured output.
+- `.hgk/rounds/R5R-.../execute/SUMMARY.md` written: what you changed, file by file, with the exact
+  test command and its real result, and an explicit list of anything you did NOT do or could not do.
+- Nothing committed, nothing pushed, no venv built, no wheel built, nothing under `schemas/` edited.
+
+If any step is blocked, say so in `SUMMARY.md` and stop rather than guessing.

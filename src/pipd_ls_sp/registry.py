@@ -142,6 +142,37 @@ def describe_schemas_source() -> dict[str, Any]:
     return {"mode": mode, "path": str(resolved) if resolved is not None else "", "tried": tried}
 
 
+def resolve_for_validate(root: "Path | str") -> tuple[Path | None, str, list[str]]:
+    """Resolve the schemas surface ``validate`` consumes, tagged with its mode.
+
+    ``validate`` used to read ``<root>/schemas`` unconditionally, so a cwd without a
+    ``schemas/`` tree (e.g. an installed wheel) failed while ``doctor`` succeeded. This
+    reuses the EXACT ``OVERRIDE -> INSTALLED -> SOURCE`` order ``_candidate_schemas_dirs_with_mode``
+    owns - no second ordering scheme - but lets a workspace-local ``<root>/schemas`` win
+    ONLY when it actually contains ``registry.json`` (reported as ``WORKSPACE``), inserted
+    ahead of the shared chain. A ``<root>/schemas`` without a ``registry.json`` is skipped
+    just like every other candidate; it never displaces a real copy. Returns the same
+    ``(path, mode, tried)`` shape as ``_resolve_schemas_dir_and_mode``.
+    """
+    tried: list[str] = []
+    seen: set[str] = set()
+    local = Path(root) / "schemas"
+    local_key = str(local)
+    seen.add(local_key)
+    tried.append(local_key)
+    if (local / "registry.json").is_file():
+        return local, "WORKSPACE", tried
+    for mode, cand in _candidate_schemas_dirs_with_mode():
+        key = str(cand)
+        if key in seen:
+            continue
+        seen.add(key)
+        tried.append(key)
+        if (cand / "registry.json").is_file():
+            return cand, mode, tried
+    return None, "NONE", tried
+
+
 def load_registry(schemas_dir: Path | None = None) -> dict[str, Any]:
     d = schemas_dir or _resolve_schemas_dir()
     reg_path = d / "registry.json"

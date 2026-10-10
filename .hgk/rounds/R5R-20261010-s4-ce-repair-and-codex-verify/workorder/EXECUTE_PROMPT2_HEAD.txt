@@ -1,0 +1,33 @@
+You are the bounded writer for a governed round on the repository at
+C:/Projects/Agent_Workspace/PIPD-r5r-repair-wt (branch r5r-ce-repair).
+
+A previous run of this exact work order was cut off before it implemented anything. It DID establish
+these facts, which you should treat as already known and NOT spend time re-deriving:
+
+- `jsonschema` was missing from `C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe` and
+  the previous run installed it offline from a local wheelhouse. It is present now.
+- The baseline is GREEN: `cd C:/Projects/Agent_Workspace/PIPD-r5r-repair-wt` then
+  `unset PYTHONPATH` and
+  `C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -m unittest discover -s tests -t .`
+  ran **311 tests, OK (skipped=3)** in ~107s. (With jsonschema present, three tests that used to skip
+  now run — that is expected and is not a regression.)
+
+Your job now is the IMPLEMENTATION half of the work order. Read the full work order at
+C:/Projects/Agent_Workspace/PIPD-r5r-repair-wt/.hgk/rounds/R5R-20261010-s4-ce-repair-and-codex-verify/workorder/WO-R5R-REPAIR-002.md
+— it is the complete brief and it is reproduced below for convenience. Execute it exactly.
+
+Do NOT re-explore the whole repository. Go straight to:
+ 1. write the two regression tests and run them against the CURRENT tree to capture the RED state;
+ 2. implement the CE-1 and CE-2 repairs;
+ 3. re-run the tests and the full suite to capture the GREEN state;
+ 4. write the SUMMARY.md the work order asks for, then stop.
+
+Environment: shell is git-bash (MSYS) but native programs (python, git) do NOT accept `/c/...` paths —
+always pass `C:/...`. Run Python as a single-line command with the absolute interpreter path, or write
+a .py file and run it. Never a heredoc piped into `python -`. Do not commit, do not push, do not build
+a wheel, do not edit anything under `schemas/`.
+
+Note on tooling: the previous run found that prefixing shell commands with `$env:PYTHONPATH=$null;` via
+a pwsh one-liner worked well for running the suite. Reuse that technique.
+
+=========================== WORK ORDER ===========================

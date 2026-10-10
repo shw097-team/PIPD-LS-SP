@@ -16,6 +16,10 @@ from .profiles import compute_profile
 from . import repo_context as repo_probe
 from . import requirements as req_compile
 from .util import canonical_json, content_id, sha256_text  # noqa: F401
+# CE-2: the non-record sidecar list is defined ONCE (validate.NON_RECORD_SIDECARS) and
+# referenced here, so the "stripped before validation" contract cannot diverge from the
+# validator's schema check again.
+from .validate import NON_RECORD_SIDECARS
 
 CLAIM_LADDER = ["PROMPT_COMPILE_PASS", "HGK_ADMITTED", "RUNTIME_READY", "LOCAL_QUALIFIED",
                 "INDEPENDENT_PASS", "PUBLICATION_APPROVED", "RELEASED", "PRODUCTION_VERIFIED"]
@@ -172,8 +176,9 @@ def _seal(rec: dict[str, Any], prefix: str) -> dict[str, Any]:
     not cover the body and validate.semantic_invariants correctly rejects the record.
     """
     # `trace` is a derived relation, not body content: it carries the parent hash, so it cannot be
-    # inside the hash it references. The validator excludes exactly the same key set.
-    body = {k: v for k, v in rec.items() if k not in ("subject_id", "version", "content_hash", "schema_version", "trace", "_profile_meta")}
+    # inside the hash it references. The validator excludes exactly the same key set
+    # (validate.NON_RECORD_SIDECARS) - one definition, referenced in both places.
+    body = {k: v for k, v in rec.items() if k not in NON_RECORD_SIDECARS}
     digest = sha256_text(canonical_json(body))
     rec["subject_id"] = f"{prefix}-{digest[:16]}"
     rec["content_hash"] = digest
