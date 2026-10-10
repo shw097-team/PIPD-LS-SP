@@ -36,10 +36,23 @@ UA = "r5q-preview-publisher"
 TOKEN_FILE = pathlib.Path(r"C:/Projects/Agent_Workspace/API KEY/Fine-grained personal access tokens.txt")
 TOKEN_SHAPE = re.compile(r"github_pat_[A-Za-z0-9_]{20,}")
 
-RELEASE_COMMIT = "74af152b0c2490901bb1d66488371a2283d50bee"
+RELEASE_COMMIT_DEFAULT = "HEAD"   # resolved with `git rev-parse` so the pin can never go stale
 BRANCH = "r5q-owner-opensource-preview"
 TAG = "v0.1.0-preview.1"
 RELEASE_NAME = "PIPD-LS-SP v0.1.0-preview.1 — S4 open source preview (BETA)"
+
+RELEASE_COMMIT = RELEASE_COMMIT_DEFAULT
+EXPECTED_TREE: str | None = None
+
+
+def resolve_release_identity(repo: pathlib.Path, pin: str | None) -> tuple[str, str]:
+    """Resolve the release commit and its tree from the repository itself, never from a literal
+    that could drift from the commit being published."""
+    commit = git(repo, "rev-parse", pin or RELEASE_COMMIT_DEFAULT).stdout.strip()
+    tree = git(repo, "rev-parse", f"{commit}^{{tree}}").stdout.strip()
+    if not commit or not tree:
+        die("could not resolve the release commit/tree from the repository")
+    return commit, tree
 
 
 from typing import NoReturn
@@ -327,10 +340,27 @@ def readback(repo: pathlib.Path, rel_dir: pathlib.Path, out: pathlib.Path,
     r["readme_at_tag"] = {"status": st, "points_at_tag": TAG in readme,
                           "mentions_apache": "Apache-2.0" in readme}
 
+    # The licence basis must be inside the published wheel, not only in the repository copy.
+    whl = dl / "pipd_ls_sp-0.1.0-py3-none-any.whl"
+    lic_in_wheel = {}
+    if whl.is_file():
+        import zipfile
+        with zipfile.ZipFile(whl) as z:
+            names = z.namelist()
+            md = z.read("pipd_ls_sp-0.1.0.dist-info/METADATA").decode("utf-8", errors="replace")
+            lic_in_wheel = {
+                "license_expression": [l.split(":", 1)[1].strip() for l in md.splitlines()
+                                       if l.startswith("License-Expression:")],
+                "license_files": [l.split(":", 1)[1].strip() for l in md.splitlines()
+                                  if l.startswith("License-File:")],
+                "packaged": sorted(n for n in names if "/licenses/" in n),
+            }
+    r["licence_inside_published_wheel"] = lic_in_wheel
+
     checks = {
         "repo_public": r["repo"]["public"] is True,
         "tag_exists_and_targets_release_commit": r["tag"]["points_at_release_commit"] is True,
-        "commit_tree_matches": r["commit"]["tree"] == "aa4665ff19e27cbf7dbde06a22853f28eed27ee8",
+        "commit_tree_matches": r["commit"]["tree"] == EXPECTED_TREE,
         "branch_points_at_release_commit": r["branch"]["sha"] == RELEASE_COMMIT,
         "release_is_prerelease": r["release"]["prerelease"] is True,
         "release_not_draft": r["release"]["draft"] is False,
@@ -351,18 +381,22 @@ def readback(repo: pathlib.Path, rel_dir: pathlib.Path, out: pathlib.Path,
 
 
 def main() -> int:
+    global RELEASE_COMMIT, EXPECTED_TREE
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo", required=True)
     ap.add_argument("--rel-dir", required=True)
     ap.add_argument("--scratch", required=True)
     ap.add_argument("--mode", choices=["preflight", "publish", "readback"], required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--release-commit", default=None,
+                    help="pin the release commit; default resolves HEAD")
     a = ap.parse_args()
     repo = pathlib.Path(a.repo).resolve()
     rel_dir = pathlib.Path(a.rel_dir).resolve()
     scratch = pathlib.Path(a.scratch).resolve()
     out = pathlib.Path(a.out)
     scratch.mkdir(parents=True, exist_ok=True)
+    RELEASE_COMMIT, EXPECTED_TREE = resolve_release_identity(repo, a.release_commit)
 
     if a.mode == "preflight":
         pre = preflight(repo, out)
