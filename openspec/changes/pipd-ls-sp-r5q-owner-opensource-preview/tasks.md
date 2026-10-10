@@ -72,9 +72,12 @@
 
 ## 6. Independent verification and evidence
 
-- [ ] 6.1 Independent non-Maker checker (separate process, read-only) re-derives the decisive claims from
-      the published subject. **Dispatched; receipt pending.** Until it lands, every maker-side PASS above
-      is unconfirmed and no `INDEPENDENT_PASS` is claimed.
+- [x] 6.1 Independent non-Maker checker (separate process, read-only) re-derived the decisive claims
+      from the published subject: **9/9 PASS, no counterexample**, `PASS_ONLY_THE_ABOVE_CLAIMS`.
+      Frozen receipt in `evidence/R5Q_INDEPENDENT_VERIFICATION_RECEIPT.json`. Two qualifications are
+      recorded there: the checker ran on `deepseek-v4.1-flash` rather than the plan's
+      `GPT 6.1 SOL-MEDIUM` lane (no `codex`/`gh` on this host), and it predates the §11 entry-point
+      correction, which is therefore covered by the round's own anonymous readback instead.
 - [x] 6.2 Evidence pack (machine-readable) written under the round's `evidence/` root, token-free.
 - [ ] 6.3 `CORR-01..08` and the 12 TT rows each carry current truth, owner, disposition and trigger.
 - [ ] 6.4 `DEL-018` recorded as `FAIL/EVIDENCE_GAP` with its three uncovered test paths (disclosed in the

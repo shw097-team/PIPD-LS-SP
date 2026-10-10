@@ -19,10 +19,11 @@ documentation and packaging changes. No new R6, no PI/PD redesign, no schema/Ski
 | `FULL_S0_S4_INDEPENDENT_PASS` | `NOT_GRANTED` |
 | `G_RELEASE_FULL_PASS` | `NOT_GRANTED` |
 | `PRODUCTION_VERIFIED` | `NOT_CLAIMED` |
-| Independent acceptance by a non-maker checker | **PENDING** — dispatched this round, receipt not yet issued |
+| Independent acceptance by a non-maker checker | **RECEIVED** — `PASS_ONLY_THE_ABOVE_CLAIMS`, 9/9 claims, no counterexample (see §6.1 and `evidence/R5Q_INDEPENDENT_VERIFICATION_RECEIPT.json`) |
 
-Nothing in this round upgrades the R5P technical GO into a full-gate pass. A maker-side PASS in this
-document is an unconfirmed claim until §8 returns.
+Nothing in this round upgrades the R5P technical GO into a full-gate pass. The independent checker
+returned §6.1, so the maker-side results in §4 are now corroborated from outside — for the immutable
+released artefact only, and on a different model lane than the plan named.
 
 ## 2. Identity chain (no reused hashes)
 
@@ -53,7 +54,7 @@ The R3 line was **not rewritten**: no force-push, no existing tag moved or delet
 repository, and no merge of the release branch into `main`. `main` was advanced **only** by an
 additive README-only pointer commit (`3aebbbce` → `de3a1d9`) so the repository front page stops
 advertising the pre-grant R3 state; the R3 content itself is preserved byte-for-byte below that
-one commit (see §10).
+one commit (see §11).
 
 ## 3. What the licence landing actually changed
 
@@ -108,7 +109,50 @@ One 404 on the first readback was a GitHub edge-cache replay of the pre-publicat
 raw endpoint returned 200 with the correct SHA and the re-run passed. Recorded here rather than
 quietly discarded, because a readback that only passes on the second attempt is worth knowing about.
 
-## 6. Credential handling (disclosed)
+## 6. Independent verification — RECEIVED
+
+### 6.1 Independent non-Maker checker
+
+A separate read-only process (own context, own tool session, no participation in the build) re-derived
+every decisive claim from the **published** subject alone: anonymous download plus its own `git clone`
+— it read no local wheel and no local evidence file. Result: **9/9 PASS, zero stop-ship
+counterexamples**, verdict `PASS_ONLY_THE_ABOVE_CLAIMS`. Frozen receipt:
+`evidence/R5Q_INDEPENDENT_VERIFICATION_RECEIPT.json`.
+
+What it independently confirmed: tag → `cc9bf574` with tree `da39a1ef` (via its own clone, not just the
+API); wheel `c450dbef…` agreeing across asset digest, release body and `SHA256SUMS`, with all 40 RECORD
+rows verifying; the licence packed inside the wheel and byte-identical to the repository copy; a
+clean-venv install whose `doctor` reports `INSTALLED` and whose 19 schemas pass Draft2020-12 checks;
+the design chain and `validate` green; typed non-zero negatives when the installed schema set is
+corrupted or missing; the claim ceiling stated without inflation; and destination safety proven with a
+canary — including that `--allow-replace` preserves the old tree as a backup rather than deleting it.
+
+**Two qualifications on this receipt, both material.**
+
+1. **Model lane deviation.** The round's model plan assigned VERIFY/SECURITY to a checker on
+   `GPT 6.1 SOL-MEDIUM` via the CODEX CLI. Neither `codex` nor `gh` is installed on this host
+   (`opencodex 2.11.0` exists but is not the `codex` CLI), so the VERIFY lane ran as an independent
+   Hermes subagent process on `deepseek-v4.1-flash`. It is genuinely independent in *process* terms —
+   separate context, separate session, read-only mandate, no access to the maker's reasoning — but it
+   is **not** the model the plan named. Strict model SoD would require re-running this lane on the
+   specified checker model.
+2. **It predates the entry-point correction.** The checker ran before §11's fix changed two *mutable*
+   surfaces: the front-page README on `main` and the live release body. Its assertions about those
+   surfaces still hold (the body still discloses the limitations and the licence; the README still
+   marks the claim ceiling), and the immutable artefact it actually verified — tag, commit, tree,
+   wheel bytes — is untouched by the fix. The fix itself is covered by the round's own anonymous
+   readback, not by this receipt.
+
+Explicitly **not** verified by it: the full test suite; the 57-row SPEC/DEL base row by row; S5–S8
+runtime, host-native or Windows symlink/junction behaviour; cryptographic provenance (no attestation
+or signature exists — SHA-256 only); a full CVE / supply-chain scan; and `validate` without a
+`schemas/` surface.
+
+### 6.2 Evidence pack
+
+Machine-readable, token-free, written under the round's `evidence/` root.
+
+## 7. Credential handling (disclosed)
 
 The owner's fine-grained PAT appeared in this round as a chat attachment. It was **not** needed to read
 anything (the repository is public) and was used once, for the authorised push, tag and release.
@@ -123,7 +167,7 @@ METADATA and packaged files: clean.
 **Standing caution:** a secret pasted into a chat transcript should be treated as exposed. Rotating this
 PAT is advisable; the publication does not depend on it any more.
 
-## 7. Side effects of this round (complete list)
+## 8. Side effects of this round (complete list)
 
 | Effect | Where |
 |---|---|
@@ -136,11 +180,12 @@ PAT is advisable; the publication does not depend on it any more.
 | `main` | advanced by **one additive README-only pointer commit**: `3aebbbce` (R3) → `de3a1d9`; no force-push, no rewrite |
 | Existing tags / R5P baseline | **unchanged** |
 
-## 8. Open items and the shortest recovery path
+## 9. Open items and the shortest recovery path
 
-1. **Independent acceptance receipt — pending.** Dispatched to a separate read-only process; it has
-   the published tag, commit and wheel as its only subjects and was told not to touch anything.
-   Until it returns, the maker-side results in §4 are unconfirmed.
+1. **Independent acceptance — RECEIVED, with qualifications.** See §6.1: 9/9 claims, no counterexample,
+   `PASS_ONLY_THE_ABOVE_CLAIMS`. Two caveats are recorded there and matter: the checker ran on
+   `deepseek-v4.1-flash` rather than the plan's `GPT 6.1 SOL-MEDIUM` lane (no `codex`/`gh` on this
+   host), and it predates the §11 entry-point correction.
 2. **`DEL-018 RELEASE_MANIFEST@1` — `FAIL/EVIDENCE_GAP`.** `tools/build_publication_manifest.py
    --check --current` exits 1. Uncovered paths: `tests/test_git_object_reader.py`,
    `tests/test_doctor_schema_truth.py`, `tests/test_tqaep_design_positive.py`. Disclosed in the
@@ -154,7 +199,7 @@ PAT is advisable; the publication does not depend on it any more.
 To withdraw the preview: the tag is immutable by policy, so issue a superseding release with a
 deprecation notice rather than moving or deleting `v0.1.0-preview.1`.
 
-## 9. Evidence inventory (this round)
+## 10. Evidence inventory (this round)
 
 | Artefact | Purpose |
 |---|---|
@@ -169,9 +214,10 @@ deprecation notice rather than moving or deleting `v0.1.0-preview.1`.
 | `evidence/R5Q_LICENCE_ORACLE.json`, `…_PUBLISHED.json` | oracle on local build and on published bytes |
 | `evidence/R5Q_PUBLICATION_PREFLIGHT.json`, `R5Q_PUBLICATION.json`, `R5Q_PUBLICATION_READBACK.json` | publish + anonymous readback |
 | `evidence/R5Q_SECRET_SCAN.json` | credential sweep over the published tree |
+| `evidence/R5Q_INDEPENDENT_VERIFICATION_RECEIPT.json` | non-Maker checker's frozen receipt (9/9, no counterexample) |
 | `release/RELEASE_BODY.md`, `release/.gitignore` | rendered release notes template; derived assets excluded |
 
-## 10. Correction made after review — the entry point was pointing at the wrong thing
+## 11. Correction made after review — the entry point was pointing at the wrong thing
 
 **What was wrong.** The publication left the repository front page advertising the pre-grant R3
 state: `main`'s `README.md` mentioned neither `v0.1.0-preview.1`, nor "preview", nor `Apache-2.0`.
