@@ -1,0 +1,64 @@
+{
+ "schema": "HGK-ROUND-RUN-PROVENANCE-ADDENDUM/1",
+ "round": "R5R-20261010-s4-ce-repair-and-codex-verify",
+ "purpose": "Corrects and completes the provenance record for the two independent checker runs. Written after the round's main report, because inspecting the checker transcripts afterwards showed the model attribution to be weaker than the report implied. The correction is recorded rather than quietly edited.",
+
+ "correction_to_the_report": {
+  "what_the_report_said": "Section 5 headed the checker evidence as 'VERIFY lane via the CODEX CLI on gpt-6.1-sol / OpenAI OAuth / medium / dedicated CODEX_HOME'.",
+  "what_is_actually_attested": "The checker was INVOKED with a CODEX_HOME whose config.toml pins model = \"gpt-6.1-sol\" and model_reasoning_effort = \"medium\", and the lane answered and produced work. That is all. It is a configuration-pinned attribution, not a model attestation.",
+  "what_is_NOT_attested": "The codex CLI's --json transcript for either checker run contains NO model or provider field at all -- grep for '\"model' and '\"provider' across both verify_run.jsonl files returns nothing. There is therefore no in-transcript self-report of the model, and (by the launcher's own standard for the writer) no backend-weights proof. The auth is the OAuth credential file present in that CODEX_HOME; the CLI does not echo which account or model served the turn.",
+  "why_it_matters": "The same ceiling the launcher declared for the writer applies symmetrically to the checker, and the checker's evidence is in fact one step weaker: the writer at least had a launcher receipt naming the sanctioned pair, while the checker has only a config file plus a completed turn.",
+  "claim_now_made": "'The independent checker ran under a dedicated CODEX_HOME pinned to gpt-6.1-sol at reasoning effort medium, using the OpenAI OAuth credential in that home, and its transcripts and verdict are recorded in full.' No stronger claim is made."
+ },
+
+ "sandbox_posture_disclosed": {
+  "both_runs": "--sandbox danger-full-access",
+  "implication": "Neither checker run was sandboxed. The checker had full filesystem and process access for the duration of its run, so its declaration that it made no source edit, rebuild, tag, commit, republish or push is a self-report, not an enforced constraint.",
+  "independent_corroboration_that_nothing_was_changed": "The subject worktree was inspected after each checker run and was clean apart from the round's own committed artefacts; the working tree was clean at the round's final commit, and remote refs were checked afterwards by anonymous ls-remote (main at de3a1d9e3a6298fa0dd29fafbf11d850e30c743a, tag v0.1.0-preview.1 at cc9bf574c3b3f0f44ea615b5c67ae40d74efee32, published wheel sha256 c450dbef1c3bfbc2048dcf0562f83d655cc5e5940511e65fd44bf9f91cf14e60) and were unchanged.",
+  "same_for_the_writer": "The sealed EXECUTE lane also runs with danger-full-access and approval_policy never. Bounded-writer scope was therefore enforced by the work order and by the maker's review of the diff, not by a sandbox. Stated so the phrase 'bounded writer' is not read as 'sandboxed writer'."
+ },
+
+ "process_exit_is_not_a_verdict": {
+  "pass_1": {"process_exit_code": 0, "verdict": "FAIL", "verdict_file": "verify-codex/verdict.json"},
+  "pass_2": {"process_exit_code": 0, "verdict": "PASS", "verdict_file": "verify-codex-2/verdict.json"},
+  "warning": "Both checker processes exited 0. Any gate that reads only the process exit code would score the FAIL run as a success. The verdict lives in the verdict.json 'overall' field and the closing 'VERDICT:' line, never in the exit status. The same holds for the maker's own runs: 'exit 0' means the command completed, not that the claim was accepted."
+ },
+
+ "checker_run_record": [
+  {
+   "pass": 1,
+   "session_id": "proc_f1438b8a0f79",
+   "prompt": "workorder/WO-R5R-CODEXVERIFY-004-FINAL.md",
+   "cod_home": "hermes cache scratch r5r-codex/verify-home",
+   "cod_home_config": {"model": "gpt-6.1-sol", "model_reasoning_effort": "medium"},
+   "sandbox": "danger-full-access",
+   "process_exit_code": 0,
+   "verdict": "FAIL",
+   "counterexamples": ["CE-CODEX-TRACE-WIDENING"],
+   "subject_wheel_sha256": "ca1f64e551d336164254a4acbdb32a6a8cafb505d5447b7a00fcc76449024a85",
+   "transcript": "verify-codex/verify_run.jsonl",
+   "raw_log": "verify-codex/raw_transcript.txt"
+  },
+  {
+   "pass": 2,
+   "session_id": "proc_643363b65175",
+   "prompt": "workorder/WO-R5R-CODEXVERIFY-005-FINAL.md",
+   "cod_home": "hermes cache scratch r5r-codex/verify-home (the same home; the run is a fresh CLI thread, not a resumed session)",
+   "cod_home_config": {"model": "gpt-6.1-sol", "model_reasoning_effort": "medium"},
+   "sandbox": "danger-full-access",
+   "process_exit_code": 0,
+   "verdict": "PASS",
+   "claims_passed": "6/6",
+   "counterexamples": [],
+   "subject_wheel_sha256": "d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f",
+   "transcript": "verify-codex-2/verify_run.jsonl",
+   "raw_log": "verify-codex-2/raw_transcript.txt"
+  }
+ ],
+
+ "checker_home_observation": {
+  "observed": "The checker's CODEX_HOME config.toml also carries a [projects.'c:\\projects\\agent_workspace\\pipd'] trust_level = \"trusted\" entry.",
+  "provenance": "Not authored by this round's work orders. It names the canonical PIPD checkout, not the r5r worktree, so it did not authorise the subject tree by trust; the run used --skip-git-repo-check and danger-full-access.",
+  "disposition": "Recorded for transparency. No trust entry was added or removed by this round as part of the recorded work, and the entry was not relied upon."
+ }
+}

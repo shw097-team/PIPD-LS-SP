@@ -68,6 +68,10 @@ registry 的拒絕條款「arm B 檢查 **PLAN 製物**時必須被拒」**未�
 
 ## 5. 獨立驗收（CODEX CLI，`gpt-6.1-sol`／OpenAI OAuth／medium／獨立 CODEX_HOME）
 
+> **本節的歸屬天花板（事後更正，見 `verify-codex/RUN_PROVENANCE_ADDENDUM.json`）**：checker 的 `--json` transcript **完全不含 `model`／`provider` 欄位**（兩份 `verify_run.jsonl` grep 皆為空）。因此可主張的僅止於：「以一個 config 釘住 `model = "gpt-6.1-sol"`、`model_reasoning_effort = "medium"` 的獨立 `CODEX_HOME`、使用該 home 內的 OpenAI OAuth 憑證、該車道有回應並產出、transcript 與裁定完整留存」。**不含**任何模型或後端權重證明。此天花板與啟動器對 writer 自設的 `transported_model_is_backend_weights_proof: false` 對稱，且 checker 的證據**更弱一步**（writer 至少有指名制裁配對的啟動器回條）。
+>
+> **沙箱狀態**：兩輪 checker 皆以 `--sandbox danger-full-access` 執行，**未沙箱**。故「未改動任何原始碼／未重簽 tag／未推送」是 checker 的**自述**，非被強制的約束；其獨立佐證是本輪在每次執行後皆檢查工作樹、最終工作樹乾淨，以及事後以匿名 `ls-remote` 確認遠端 refs 未變。
+
 **第一輪 — `VERDICT: FAIL`**（`verify-codex/verdict.json`）
 - Claims 1–7、9 **PASS**：wheel 真的裝進乾淨 venv 且 `doctor` exit 0；安裝態真的跑完整設計鏈（含 checker 自建 scratch git repo 供 `bind-pd`，自撰輸入）；CE-1 成立且帶 `registry.json` 的 `--root` 仍優先；CE-2 成立；三種篡改仍 fail-closed（缺 required identity、junk key、body 改而未重簽 `content_hash`）；`v0.1.0-preview.1` 仍指向 `cc9bf574…` 且 wheel 仍為 `c450dbef…`；新 `.git` 守衛比它取代的尺寸上限更強。
 - Claim 8 **FAIL**，反例 `CE-CODEX-TRACE-WIDENING`。checker 以**已發布 wheel 的 validator** 直接對照，故為比較性證據而非臆測。
@@ -98,6 +102,8 @@ registry 的拒絕條款「arm B 檢查 **PLAN 製物**時必須被拒」**未�
 - ❌ **修補未交付使用者**：wheel 仍 `0.1.0`、**未發布**；`v0.1.0-preview.1` 未被改寫。已發布的 preview 仍**帶著它當時出貨的 CE-1／CE-2 缺陷**。交付需在**新的 Owner grant** 下開後繼 release。
 - ❌ **「writer 跑在 deepseek-v4.1-flash」不可升級為「後端權重已驗證」**：啟動器自身的回條就載明 `transported_model: "opencode-go/"` 且 `transported_model_is_backend_weights_proof: false`。本輪對 writer 模型的主張天花板僅止於「車道被釘在該制裁配對、前門如此回報、transport 如此承載」。**無任何後端權重證明**。四趟回條原文存於 `execute/launcher_receipts.json`（四趟的 gate 來源雜湊、codex 執行檔雜湊、human config 雜湊完全一致）。
 - ❌ **checker 車道沒有對應的啟動器回條**：因啟動器的 Write 對 OAuth 路線 fail-closed，checker 是直接以自己的 CODEX_HOME 呼叫（它不是 writer）。其來源證明是 CLI 自身輸出與 `verify-codex/`、`verify-codex-2/` 內的 JSONL 與 verdict.json。此不對稱已載明，避免被誤讀為 checker 亦受啟動器認證。
+- ❌ **行程 exit code 不是裁定**：兩輪 checker 的**行程 exit code 皆為 0**，但 pass 1 裁定 **FAIL**、pass 2 裁定 **PASS**。任何只讀 exit code 的閘門會把 FAIL 那一輪計為成功。裁定只存在於 `verdict.json` 的 `overall` 欄與結尾的 `VERDICT:` 行。maker 自身亦然：「exit 0」只代表命令完成，不代表主張被接受。
+- ❌ **「bounded writer」不等於「sandboxed writer」**：受治理 EXECUTE lane 以 `--sandbox danger-full-access` ＋ `approval_policy never` 執行，checker 亦然。寫入範圍是由 work order 與 maker 對 diff 的複核所約束，**不是**由沙箱強制。
 - ❌ 未進行**安全性審查**（`cso`／`hgk-security` 角色未行使）：無供應鏈／相依／CVE 掃描。
 - ❌ registry 中 PLAN 與 EXECUTE 的 `admission_status` 仍為 **UNPROVEN**。
 - ❌ `DEL-018 RELEASE_MANIFEST@1` 仍 FAIL／EVIDENCE_GAP；`PARTIAL_CHALLENGE` 維持 28/10/19；`FULL_S0_S4_INDEPENDENT_PASS`／`G_RELEASE_FULL_PASS`／`PRODUCTION_VERIFIED` 未授予。
