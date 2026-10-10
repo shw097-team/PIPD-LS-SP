@@ -96,6 +96,8 @@ registry 的拒絕條款「arm B 檢查 **PLAN 製物**時必須被拒」**未�
 ## 7. 申報天花板（明確不主張）
 
 - ❌ **修補未交付使用者**：wheel 仍 `0.1.0`、**未發布**；`v0.1.0-preview.1` 未被改寫。已發布的 preview 仍**帶著它當時出貨的 CE-1／CE-2 缺陷**。交付需在**新的 Owner grant** 下開後繼 release。
+- ❌ **「writer 跑在 deepseek-v4.1-flash」不可升級為「後端權重已驗證」**：啟動器自身的回條就載明 `transported_model: "opencode-go/"` 且 `transported_model_is_backend_weights_proof: false`。本輪對 writer 模型的主張天花板僅止於「車道被釘在該制裁配對、前門如此回報、transport 如此承載」。**無任何後端權重證明**。四趟回條原文存於 `execute/launcher_receipts.json`（四趟的 gate 來源雜湊、codex 執行檔雜湊、human config 雜湊完全一致）。
+- ❌ **checker 車道沒有對應的啟動器回條**：因啟動器的 Write 對 OAuth 路線 fail-closed，checker 是直接以自己的 CODEX_HOME 呼叫（它不是 writer）。其來源證明是 CLI 自身輸出與 `verify-codex/`、`verify-codex-2/` 內的 JSONL 與 verdict.json。此不對稱已載明，避免被誤讀為 checker 亦受啟動器認證。
 - ❌ 未進行**安全性審查**（`cso`／`hgk-security` 角色未行使）：無供應鏈／相依／CVE 掃描。
 - ❌ registry 中 PLAN 與 EXECUTE 的 `admission_status` 仍為 **UNPROVEN**。
 - ❌ `DEL-018 RELEASE_MANIFEST@1` 仍 FAIL／EVIDENCE_GAP；`PARTIAL_CHALLENGE` 維持 28/10/19；`FULL_S0_S4_INDEPENDENT_PASS`／`G_RELEASE_FULL_PASS`／`PRODUCTION_VERIFIED` 未授予。

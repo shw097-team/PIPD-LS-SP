@@ -210,6 +210,8 @@
   "The verdict of the first checker run was FAIL on one claim. That FAIL is recorded as-is and was answered by a repair plus a re-verification; it is not erased.",
   "The repaired wheel is not published. Delivering the repair to users requires a successor release under a fresh owner grant; v0.1.0-preview.1 must never be rewritten.",
   "Registry admission_status for both PLAN and EXECUTE remains UNPROVEN.",
+  "The writer lane's model attribution is capped by the launcher's own receipt: transported_model is 'opencode-go/' and transported_model_is_backend_weights_proof is false. So 'the writer ran on opencode-go/deepseek-v4.1-flash' means the lane was pinned to that sanctioned pair and the front door transported it -- it is NOT a backend-weights attestation, and none is claimed. Raw receipts for all four Write runs are in execute/launcher_receipts.json.",
+  "The checker lane has no equivalent launcher receipt: the launcher's Write action fails closed for OAuth routes, so the checker was invoked directly with its own CODEX_HOME. Its provenance is the CLI's own session output and the verdict.json files, not a launcher attestation. The asymmetry is stated so it is not misread.",
   "The package ships no README or quickstart; the checker had to derive several non-obvious CLI usages. Recorded as a feasibility finding, not fixed in this round."
  ]
 }

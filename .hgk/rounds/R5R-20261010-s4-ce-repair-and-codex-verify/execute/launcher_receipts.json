@@ -1,0 +1,100 @@
+{
+ "schema": "HGK-EXECUTE-LANE-LAUNCHER-RECEIPTS/1",
+ "round": "R5R-20261010-s4-ce-repair-and-codex-verify",
+ "note": "Raw launcher receipts for every Write invocation of the sealed EXECUTE lane used in this round, transcribed verbatim from the launcher's own stdout. Four runs, all through the sanctioned entry point (scripts/start-hgk-hermes.ps1 -Action Write). None was a direct codex.exe invocation.",
+
+ "claim_ceiling_declared_by_the_launcher_itself": {
+  "field": "transported_model",
+  "observed_value": "opencode-go/",
+  "companion_field": "transported_model_is_backend_weights_proof",
+  "observed_value_of_companion": false,
+  "what_this_means": "The launcher's own receipt states that the transported model token does NOT prove the backend weights. Every claim in this round that the writer ran on opencode-go/deepseek-v4.1-flash therefore sits at the ceiling of 'the lane was pinned to that sanctioned pair, the front door reported it, and the transport carried it' -- NOT 'the serving weights were independently verified'. No backend-weights attestation exists for this round and none is claimed.",
+  "corroboration": "The lane registry records the same posture: a successful lane turn proves the token is routable and dispatchable, not that the model ran with its catalog metadata. Registry admission_status for EXECUTE remains UNPROVEN."
+ },
+
+ "invariants_identical_across_all_four_runs": {
+  "task_id": "HGK_CODEX_DESKTOP_HERMES_CLI_PROVIDER_LANE_ISOLATION_ONLY",
+  "codex_executable": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\2e5e00daee91c61d\\codex.exe",
+  "codex_version_readback": "codex-cli 0.162.0-alpha.17.2",
+  "codex_sha256": "D13914CED6C7AF174D8D638DB938284231227312104B06A25E9608C632A7DAEC",
+  "codex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+  "opencodex_version_readback": "opencodex 2.11.0",
+  "opencodex_port": 10101,
+  "provider": "opencode-go",
+  "model": "deepseek-v4.1-flash",
+  "openai_fallback": false,
+  "process_scoped": true,
+  "credential_source": "canonical-hermes-profile-env",
+  "write_chain": ["opencode-go/deepseek-v4.1-flash"],
+  "write_chain_exhausted": false,
+  "human_config_sha256": "92EC7F840D337912CDA20A467410F85807DE2BBA31EF3777B4F55416F5441B48",
+  "execution_gateway": {
+   "url": "http://127.0.0.1:10100/v1",
+   "upstream": "http://127.0.0.1:10101",
+   "sanctioned_provider": "opencode-go",
+   "sanctioned_model": "deepseek-v4.1-flash",
+   "frontdoor_source_sha256": "99353cd3566fac60bee9b077d83b4117865cd4fa1718de8da01677cf2a7e7b43",
+   "codex_arg_openai_base_url": "openai_base_url=http://127.0.0.1:10100/v1",
+   "request_compression": "disabled (features.enable_request_compression=false)"
+  },
+  "interpretation": "The gateway source hash, the codex binary hash and the human config hash are identical across all four runs, so the four Write invocations differ only in their prompt. Each run used exactly one attempt (index 0, exit 0); no fallback was consumed and the chain was not exhausted."
+ },
+
+ "runs": [
+  {
+   "run": 1,
+   "order": "EXECUTE_PROMPT.txt (WO-R5R-REPAIR-002)",
+   "scope": "CE-1 and CE-2 repair",
+   "write_action": "Write",
+   "write_model_used": "opencode-go/deepseek-v4.1-flash",
+   "attempt": {"index": 0, "model": "opencode-go/deepseek-v4.1-flash", "exit": 0,
+               "log": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\logs\\codex-write-20261010T165257628Z-m0.log",
+               "stderr_log": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\logs\\codex-write-20261010T165257628Z-m0.stderr.log"},
+   "delivered": "a503efe (CE-1 + CE-2 + 5 red/green regression tests)"
+  },
+  {
+   "run": 2,
+   "order": "EXECUTE_PROMPT3.txt",
+   "scope": "second CE-1-class site: init_workspace",
+   "write_action": "Write",
+   "write_model_used": "opencode-go/deepseek-v4.1-flash",
+   "attempt": {"index": 0, "model": "opencode-go/deepseek-v4.1-flash", "exit": 0,
+               "log": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\logs\\codex-write-20261010T171119351Z-m0.log",
+               "stderr_log": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\logs\\codex-write-20261010T171119351Z-m0.stderr.log"},
+   "delivered": "afb29d0 (init repair + its regression tests)"
+  },
+  {
+   "run": 3,
+   "order": "EXECUTE_PROMPT4.txt",
+   "scope": "tracked_files heuristic: assert the guard's real intent",
+   "write_action": "Write",
+   "write_model_used": "opencode-go/deepseek-v4.1-flash",
+   "attempt": {"index": 0, "model": "opencode-go/deepseek-v4.1-flash", "exit": 0,
+               "log": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\logs\\codex-write-20261010T174004713Z-m0.log",
+               "stderr_log": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\logs\\codex-write-20261010T174004713Z-m0.stderr.log"},
+   "delivered": "c18c027 (intent-based guard + a test proving the guard fires)"
+  },
+  {
+   "run": 4,
+   "order": "EXECUTE_PROMPT5.txt",
+   "scope": "close the checker's counterexample CE-CODEX-TRACE-WIDENING",
+   "write_action": "Write",
+   "write_model_used": "opencode-go/deepseek-v4.1-flash",
+   "attempt": {"index": 0, "model": "opencode-go/deepseek-v4.1-flash", "exit": 0,
+               "log": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\logs\\codex-write-20261010T180158579Z-m0.log",
+               "stderr_log": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\logs\\codex-write-20261010T180158579Z-m0.stderr.log"},
+   "delivered": "1ab17d1 (constant split closing the widening + its regression test)"
+  }
+ ],
+
+ "abandoned_attempt_disclosed": {
+  "what": "An earlier attempt invoked codex.exe directly, outside the launcher, with the governed CODEX_HOME.",
+  "outcome": "The lane answered the model call but rejected every CreateProcess, so it could read no file and run no command, and was terminated.",
+  "why_recorded": "It is a deviation that was attempted and abandoned; the round's four delivered runs are all launcher-invoked. Recording it keeps the 'all writers went through the sanctioned entry point' claim checkable."
+ },
+
+ "checker_lane_has_no_equivalent_receipt": {
+  "why": "The independent checker was invoked directly with its own CODEX_HOME, because the launcher's Write action fails closed for OAuth routes (ERR_EXECUTE_OAUTH_BOUNDED_WRITER_ADMISSION_REQUIRED) and the checker is not a writer.",
+  "consequence": "For the two checker runs there is no launcher receipt attesting the model or the gateway. Their provenance is the CLI's own session output, the JSONL transcript and the verdict.json files in verify-codex/ and verify-codex-2/. Stated so the asymmetry between the writer and checker evidence is not mistaken for the checker being launcher-attested."
+ }
+}
