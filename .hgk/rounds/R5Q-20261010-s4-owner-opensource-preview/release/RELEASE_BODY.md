@@ -1,4 +1,4 @@
-# PIPD-LS-SP `v0.1.0-preview.1` — owner-authorised S4 open-source preview (BETA)
+# PIPD-LS-SP `{{TAG}}` — owner-authorised S4 open-source preview (BETA)
 
 **This is a prerelease, not a production release.** It is the S4 *pre-implementation / pre-dev*
 contract compiler, published so that the licence grant, the packaging and the user path can be
@@ -7,16 +7,16 @@ checked against real bytes. Read the **Known limitations** below before using it
 | | |
 |---|---|
 | Licence | **Apache-2.0** — owner grant, round R5Q, 2026-10-10 (`OWNER_LICENSE_DECISION.yaml`) |
-| Release commit | `74af152b0c2490901bb1d66488371a2283d50bee` (tree `aa4665ff19e27cbf7dbde06a22853f28eed27ee8`) |
-| Wheel build-input commit | `c66be0806155eeae3c997a905885ede1e661571f` |
-| Review baseline (unchanged) | `r5p-post-challenge-repair` @ `2efc84eac8e1939092c748d5b389b6dd72267aef` |
-| Frozen candidate head | `7c5bc585c7d889cd338da853be4efc4b8f07d3b2` |
+| Release commit | `{{RELEASE_COMMIT}}` (tree `{{RELEASE_TREE}}`) |
+| Wheel build-input commit | `{{BUILD_INPUT_COMMIT}}` |
+| Review baseline (unchanged) | `r5p-post-challenge-repair` @ `{{REVIEW_BASELINE_COMMIT}}` |
+| Frozen candidate head | `{{CANDIDATE_HEAD}}` |
 | Default branch `main` | **not touched** — it still points at the older R3 line |
 
-The review SHA `bb070a6f…` is the *superseded* wheel. The licence metadata changed the member
-composition, so the published wheel is a different artefact; the identity mapping is
-`build_input_commit` → `released_commit` → wheel SHA256, never a reused hash. The `candidate_head`
-above is the frozen R5P review candidate and is deliberately **not** the release tip.
+The earlier review wheel `{{SUPERSEDED_WHEEL_SHA_PREFIX}}…` is **superseded**. Licence metadata
+changed the member composition, so the published wheel is a different artefact; the identity
+mapping is `build_input_commit` → `released_commit` → wheel SHA256, never a reused hash.
+`candidate_head` is the frozen R5P review candidate and is deliberately **not** the release tip.
 
 ## Install
 
@@ -24,7 +24,7 @@ Requires Python >= 3.11. The wheel declares `jsonschema>=4.0`.
 
 ```sh
 python -m venv venv
-venv/bin/python -m pip install pipd_ls_sp-0.1.0-py3-none-any.whl   # Windows: venv\Scripts\python
+venv/bin/python -m pip install {{WHEEL_NAME}}      # Windows: venv\Scripts\python
 venv/bin/python -m pipd_ls_sp.cli doctor
 ```
 
@@ -34,17 +34,17 @@ wheel, so an installed `pipd` is self-sufficient — there is no `PYTHONPATH` st
 ## Verify the bytes before you trust them
 
 ```sh
-sha256sum -c SHA256SUMS
+sha256sum -c {{SHA256SUMS_NAME}}
 ```
 
 Attached assets:
 
 | Asset | SHA256 |
 |---|---|
-| `pipd_ls_sp-0.1.0-py3-none-any.whl` | `c450dbef1c3bfbc2048dcf0562f83d655cc5e5940511e65fd44bf9f91cf14e60` |
-| `pipd-ls-sp-v0.1.0-preview.1-source.zip` | `95f00d91a2a9e2b2ea70e2912a0f325de08638c54c2f8d2d763eb3d142689bc2` |
-| `SHA256SUMS` | — |
-| `PREVIEW_NOTES_v0.1.0-preview.1.md` | — |
+| `{{WHEEL_NAME}}` | `{{WHEEL_SHA256}}` |
+| `{{SOURCE_NAME}}` | `{{SOURCE_SHA256}}` |
+| `{{SHA256SUMS_NAME}}` | — |
+| `{{PREVIEW_NOTES_NAME}}` | — |
 
 Inside the wheel, `pipd_ls_sp-0.1.0.dist-info/licenses/` carries `LICENSE`, `NOTICE` and
 `OWNER_LICENSE_DECISION.yaml` — the licence basis travels with the binary, so the SPDX id in the
@@ -94,6 +94,6 @@ the maker is still pending; until that receipt exists, treat every maker-side PA
 
 ## Reporting
 
-Open an issue on this repository with the version (`v0.1.0-preview.1`), the command, the exit code
-and the exact output. Real counter-examples start an affected-only repair round; this preview's
-scope is deliberately narrow, so please include the reproduction.
+Open an issue on this repository with the version (`{{TAG}}`), the command, the exit code and the
+exact output. Real counter-examples start an affected-only repair round; this preview's scope is
+deliberately narrow, so please include the reproduction.

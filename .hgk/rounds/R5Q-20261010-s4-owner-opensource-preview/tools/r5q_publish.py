@@ -174,6 +174,38 @@ def preflight(repo: pathlib.Path, out: pathlib.Path) -> dict:
     return r
 
 
+def render_release_body(template: str, repo: pathlib.Path, rel_dir: pathlib.Path) -> str:
+    """Fill the identity placeholders. A committed body that hard-codes its own commit would
+    immediately go stale (editing it makes a new commit), so the template carries the prose and
+    the publisher carries the identity."""
+    import json as _json
+    manifest = _json.loads((repo / "dist" / "WHEEL_MANIFEST.json").read_text(encoding="utf-8"))
+    wheel = repo / "dist" / "pipd_ls_sp-0.1.0-py3-none-any.whl"
+    source = rel_dir / "pipd-ls-sp-v0.1.0-preview.1-source.zip"
+    values = {
+        "TAG": TAG,
+        "RELEASE_COMMIT": RELEASE_COMMIT,
+        "RELEASE_TREE": EXPECTED_TREE or "",
+        "BUILD_INPUT_COMMIT": manifest["build_input_commit"],
+        "CANDIDATE_HEAD": manifest["candidate_head"],
+        "REVIEW_BASELINE_COMMIT": "2efc84eac8e1939092c748d5b389b6dd72267aef",
+        "SUPERSEDED_WHEEL_SHA_PREFIX": "bb070a6f",
+        "WHEEL_NAME": wheel.name,
+        "WHEEL_SHA256": sha256_file(wheel) if wheel.is_file() else "NOT_BUILT",
+        "SOURCE_NAME": source.name,
+        "SOURCE_SHA256": sha256_file(source) if source.is_file() else "NOT_BUILT",
+        "SHA256SUMS_NAME": "SHA256SUMS",
+        "PREVIEW_NOTES_NAME": "PREVIEW_NOTES_v0.1.0-preview.1.md",
+    }
+    body = template
+    for k, v in values.items():
+        body = body.replace("{{" + k + "}}", str(v))
+    leftover = re.findall(r"\{\{[A-Z0-9_]+\}\}", body)
+    if leftover:
+        die(f"release body still has unrendered placeholders: {sorted(set(leftover))}")
+    return body
+
+
 # -------------------------------------------------------------------------------------- publish
 def publish(repo: pathlib.Path, rel_dir: pathlib.Path, scratch: pathlib.Path,
             out: pathlib.Path, pre: dict) -> dict:
@@ -221,7 +253,7 @@ def publish(repo: pathlib.Path, rel_dir: pathlib.Path, scratch: pathlib.Path,
         sys.exit(3)
 
     # 3. prerelease targeting the explicit commit
-    body = (rel_dir / "RELEASE_BODY.md").read_text(encoding="utf-8")
+    body = render_release_body((rel_dir / "RELEASE_BODY.md").read_text(encoding="utf-8"), repo, rel_dir)
     st, rel = api("POST", f"/repos/{OWNER}/{REPO}/releases", token, {
         "tag_name": TAG, "target_commitish": RELEASE_COMMIT, "name": RELEASE_NAME,
         "body": body, "prerelease": True, "draft": False,
