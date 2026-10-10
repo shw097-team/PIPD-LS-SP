@@ -134,11 +134,18 @@ RECORDED_BASELINE = {
     },
 }
 
-# WO-S4-CAL-003: the anti-dilution rule. An obligation's identity is its canonical `subject_id`; when
-# that is absent, its canonical JSON (all fields but the identity trio) is the fallback identity. Two
-# atoms with the same identity are ONE obligation, so appending duplicates cannot inflate the divisor.
-DEDUP_RULE = "distinct canonical identity: atom.subject_id, else sha256 of its canonical JSON "             "(atom minus subject_id/version/content_hash/schema_version)"
+# WO-S4-CAL-003: the anti-dilution rule, strengthened after independent challenge C4 (2026-10-10).
+# An obligation's identity is the CONTENT it asserts - its normalised statement text, else its canonical
+# JSON without the identity trio. Two atoms that assert the same thing are ONE obligation no matter what
+# `subject_id`/`req_id` they carry, so neither duplicated filler nor re-stamped filler can inflate the
+# divisor. The weaker identity-addressed count is still reported beside the voting one.
+DEDUP_RULE = ("distinct VALIDATED obligation: an atom only counts as an obligation when it carries a "
+              "statement, and its identity is sha256 of that statement normalised (whitespace collapsed, "
+              "case-folded). Atoms with no statement are never obligations: they are reported separately "
+              "as `unvalidated_atom_count` and can inflate neither the divisor nor the rate. The weaker "
+              "identity-addressed count (subject_id first) is also reported, never voted on.")
 _IDENTITY_KEYS = ("subject_id", "version", "content_hash", "schema_version")
+_STATEMENT_KEYS = ("source_clause", "text", "statement", "requirement", "req_text")
 
 
 def _canonical_json(value) -> str:
@@ -147,16 +154,55 @@ def _canonical_json(value) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
 
-def canonical_identity(atom: dict) -> str:
-    """Canonical identity of one obligation atom: `subject_id`, else its canonical JSON digest.
+def obligation_statement(atom: dict) -> str:
+    """The atom's obligation statement, whitespace/case-normalised; '' when it carries none.
 
-    Used only to COUNT obligations - it never mutates an atom and it never fabricates an id.
+    Only declared statement fields are read - never free-form body fields - so a filler atom cannot
+    become an obligation by being given a `note`.
     """
-    sid = atom.get("subject_id")
-    if isinstance(sid, str) and sid:
-        return sid
-    body = {k: v for k, v in atom.items() if k not in _IDENTITY_KEYS}
-    return "canon-json:" + _sha256_hex(_canonical_json(body))
+    parts: list[str] = []
+
+    def _collect(value) -> None:
+        if isinstance(value, str):
+            parts.append(value)
+        elif isinstance(value, dict):
+            for k in sorted(value):
+                _collect(value[k])
+        elif isinstance(value, list):
+            for v in value:
+                _collect(v)
+
+    for key in _STATEMENT_KEYS:
+        if key in atom:
+            _collect(atom[key])
+    return " ".join(" ".join(parts).split()).lower()
+
+
+def canonical_identity(atom: dict) -> str:
+    """Content-addressed identity of one VALIDATED obligation, or '' when the atom asserts nothing.
+
+    Statement text is the identity. Re-stamping `subject_id`/`req_id` on identical filler does not
+    create a new obligation; neither does adding body fields to a statement-less atom.
+    """
+    text = obligation_statement(atom)
+    return ("text:" + _sha256_hex(text)) if text else ""
+
+
+def identity_addressed_count(atoms: list[dict]) -> int:
+    """The weaker (rejected) denominator: subject_id first, else the atom body.
+
+    Kept only so the round can show, in its own output, that this rule is gameable by re-stamped
+    filler. It never votes.
+    """
+    ids = set()
+    for a in atoms:
+        sid = a.get("subject_id")
+        if isinstance(sid, str) and sid:
+            ids.add("subject_id:" + sid)
+        else:
+            body = {k: v for k, v in a.items() if k not in _IDENTITY_KEYS}
+            ids.add("canon-json:" + _sha256_hex(_canonical_json(body)))
+    return len(ids)
 
 
 def _sha256_hex(text: str) -> str:
@@ -165,8 +211,13 @@ def _sha256_hex(text: str) -> str:
 
 
 def unique_obligations(atoms: list[dict]) -> int:
-    """Count DISTINCT obligation identities (the defensible denominator)."""
-    return len({canonical_identity(a) for a in atoms})
+    """Count DISTINCT VALIDATED obligations (the defensible denominator)."""
+    return len({i for i in (canonical_identity(a) for a in atoms) if i})
+
+
+def unvalidated_atom_count(atoms: list[dict]) -> int:
+    """Atoms that assert no statement at all: padding, never obligations."""
+    return sum(1 for a in atoms if not obligation_statement(a))
 
 
 def _nearest_rank(values: list[int], pct: float) -> float:
@@ -191,9 +242,13 @@ def per_atom_profile(pi: dict) -> dict:
     atoms = sc.get("atoms") or []
     sizes = [len(json.dumps(a, ensure_ascii=False).encode()) for a in atoms]
     uniq = unique_obligations(atoms)
+    by_id = identity_addressed_count(atoms)
+    unvalidated = unvalidated_atom_count(atoms)
     rate = pi_bytes / uniq if uniq else float("inf")
     return {"pi_bytes": pi_bytes, "bytes": pi_bytes, "atoms": len(atoms),
-            "unique_obligations": uniq, "dedup_rule": DEDUP_RULE,
+            "unique_obligations": uniq, "unique_obligations_by_identity": by_id,
+            "unvalidated_atom_count": unvalidated,
+            "dedup_rule": DEDUP_RULE,
             "bytes_per_atom": rate, "per_atom_sizes": sizes,
             "p95_bytes": _nearest_rank(sizes, 95.0),
             "max_bytes": float(max(sizes)) if sizes else 0.0}
@@ -228,6 +283,10 @@ def _scale_fixture(n_unique: int) -> dict:
         a = dict(_FILLER_ATOM)
         a["subject_id"] = f"ATOM-SCALE-{i}"
         a["req_id"] = f"REQ-SCALE-{i}"
+        # Each of the n_unique atoms asserts a DIFFERENT statement, which is what makes it a distinct
+        # validated obligation. A statement-less atom is filler and would not count at all.
+        a["source_clause"] = {"file": "fixtures/scale.md", "clause_id": f"clause-{i}",
+                              "text": f"obligation {i}: the service MUST satisfy requirement {i}"}
         atoms.append(a)
     return {"subject_id": "PI-SCALE", "version": "1", "content_hash": "y" * 64,
             "schema_version": "PI-PKG@1", "stable_semantic_contract": {"goal": "scale", "atoms": atoms}}
@@ -276,13 +335,41 @@ def padding_invariance_probe(padding: int = 500) -> dict:
     assert ok, (f"padding changed the denominator: before={before['bytes_per_atom']:.1f} "
                 f"after={after['bytes_per_atom']:.1f} budget={budget}")
     assert naive <= budget, "the fixture must be one that WOULD dilute a raw atom-count denominator"
+
+    # Independent challenge C4 (2026-10-10) found the weaker attack: keep the statement identical but
+    # re-stamp each filler atom with a FRESH subject_id/req_id, which defeated the identity-addressed
+    # denominator. The content-addressed rule must survive it; the forged variant is measured too, and
+    # its identity-addressed rate is reported so the weaker rule's failure stays visible.
+    forged = copy.deepcopy(pi)
+    forged_atoms = list(atoms) + [
+        {"subject_id": f"ATOM-FORGED-{i:04d}", "req_id": f"REQ-FORGED-{i:04d}",
+         "note": "padding"} for i in range(padding)]
+    forged["stable_semantic_contract"]["atoms"] = forged_atoms
+    after_forged = per_atom_profile(forged)
+    naive_forged = (after_forged["pi_bytes"] / after_forged["unique_obligations_by_identity"]
+                    if after_forged["unique_obligations_by_identity"] else float("inf"))
+    ok_forged = (after_forged["bytes_per_atom"] > budget
+                 and after_forged["unique_obligations"] == before["unique_obligations"])
+    assert ok_forged, (f"re-stamped filler changed the denominator: "
+                       f"unique={after_forged['unique_obligations']} "
+                       f"rate={after_forged['bytes_per_atom']:.1f} budget={budget}")
+    assert naive_forged <= budget, ("the forged-identity fixture must be one that WOULD dilute an "
+                                    "identity-addressed denominator")
+
     return {"before": {"atoms": before["atoms"], "unique_obligations": before["unique_obligations"],
                        "bytes_per_atom": round(before["bytes_per_atom"], 2)},
             "after": {"atoms": after["atoms"], "unique_obligations": after["unique_obligations"],
                       "bytes_per_atom": round(after["bytes_per_atom"], 2)},
+            "after_restamped_ids": {
+                "atoms": after_forged["atoms"],
+                "unique_obligations": after_forged["unique_obligations"],
+                "unique_obligations_by_identity": after_forged["unique_obligations_by_identity"],
+                "bytes_per_atom": round(after_forged["bytes_per_atom"], 2),
+                "rate_if_denominator_were_identity_addressed": round(naive_forged, 2)},
             "padding_atoms": padding, "budget": budget,
             "naive_rate_if_denominator_were_raw_atoms": round(naive, 2),
-            "padding_invariance": "PASS"}
+            "padding_invariance": "PASS",
+            "restamped_identity_invariance": "PASS"}
 
 
 def _verdict(value: float, budget: float, source_of_truth: str) -> str:

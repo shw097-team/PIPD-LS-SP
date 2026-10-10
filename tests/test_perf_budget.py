@@ -211,32 +211,48 @@ class HistoricalRecordedValue(unittest.TestCase):
 
 
 class AntiDilutionUniqueObligations(unittest.TestCase):
-    """WO-S4-CAL-003: the denominator is distinct obligation identities, not raw atom count."""
+    """WO-S4-CAL-003: the denominator is *validated* obligations, content-addressed, not raw atoms and
+    not `subject_id`s. The identity-addressed variant is the one independent challenge C4 (2026-10-10)
+    defeated by re-stamping filler; it is kept only as a reported, non-voting counter."""
 
-    def test_unique_obligations_counts_distinct_identity(self):
-        atoms = [{"subject_id": "A"}, {"subject_id": "A"}, {"subject_id": "B"}]
+    def test_unique_obligations_counts_distinct_statements(self):
+        atoms = [{"source_clause": {"text": "MUST log every request"}},
+                 {"source_clause": {"text": "must   LOG every   request"}},   # same statement
+                 {"source_clause": {"text": "MUST refuse unknown owners"}}]
         self.assertEqual(PB.unique_obligations(atoms), 2)
 
-    def test_identity_falls_back_to_canonical_json_when_subject_id_absent(self):
-        a = {"req_id": "x", "owner": "o"}
-        b = {"req_id": "x", "owner": "o"}
-        c = {"req_id": "y", "owner": "o"}
-        self.assertEqual(PB.canonical_identity(a), PB.canonical_identity(b))
-        self.assertNotEqual(PB.canonical_identity(a), PB.canonical_identity(c))
-        # The identity trio is excluded, so re-sealing does not change the obligation identity.
-        d = {"req_id": "x", "owner": "o", "subject_id": "", "content_hash": "h" * 64, "version": "1"}
-        self.assertEqual(PB.canonical_identity(a), PB.canonical_identity(d))
+    def test_restamped_ids_do_not_create_obligations(self):
+        # The exact attack independent challenge C4 used: identical filler, fresh subject_id/req_id.
+        filler = [{"subject_id": f"ATOM-{i:04d}", "req_id": f"REQ-{i:04d}", "note": "padding"}
+                  for i in range(50)]
+        self.assertEqual(PB.unique_obligations(filler), 0)
+        self.assertEqual(PB.unvalidated_atom_count(filler), 50)
+        # ...and the weaker rule this round rejected would have counted every one of them.
+        self.assertEqual(PB.identity_addressed_count(filler), 50)
+
+    def test_an_atom_without_a_statement_is_not_an_obligation(self):
+        self.assertEqual(PB.canonical_identity({"subject_id": "A", "note": "x"}), "")
+        self.assertEqual(PB.unique_obligations([{"subject_id": "A"}]), 0)
+
+    def test_identity_is_the_normalised_statement_only(self):
+        base = {"source_clause": {"text": "MUST bind the repo context"}}
+        same_statement_new_ids = dict(base, subject_id="OTHER", req_id="REQ-OTHER",
+                                     content_hash="h" * 64, version="9")
+        self.assertEqual(PB.canonical_identity(base), PB.canonical_identity(same_statement_new_ids))
+        self.assertNotEqual(PB.canonical_identity(base),
+                            PB.canonical_identity({"source_clause": {"text": "MUST bind the host context"}}))
 
     def test_rate_divides_by_unique_not_raw(self):
-        one = {"subject_id": "ATOM-DUP", "req_id": "REQ-DUP"}
+        one = {"source_clause": {"text": "MUST exist exactly once"}}
         pi = {"stable_semantic_contract": {"atoms": [one] * 100}}
         prof = PB.per_atom_profile(pi)
         self.assertEqual(prof["atoms"], 100)
         self.assertEqual(prof["unique_obligations"], 1)
+        self.assertEqual(prof["unvalidated_atom_count"], 0)
         self.assertEqual(prof["bytes_per_atom"], prof["pi_bytes"])
 
     def test_dedup_rule_is_reported_verbatim(self):
-        self.assertTrue(PB.DEDUP_RULE.startswith("distinct canonical identity"))
+        self.assertTrue(PB.DEDUP_RULE.startswith("distinct VALIDATED obligation"))
 
 
 class PaddingInvariance(unittest.TestCase):
@@ -253,6 +269,17 @@ class PaddingInvariance(unittest.TestCase):
         # padded payload WOULD fall at or below budget.
         res = PB.padding_invariance_probe()
         self.assertLessEqual(res["naive_rate_if_denominator_were_raw_atoms"], res["budget"])
+
+    def test_restamped_filler_ids_also_fail_to_dilute(self):
+        # Independent challenge C4: identical filler re-stamped with fresh ids. The content-addressed
+        # denominator must be unaffected, and the rejected identity-addressed rate is reported as the
+        # evidence that it WOULD have been diluted.
+        res = PB.padding_invariance_probe()
+        self.assertEqual(res["restamped_identity_invariance"], "PASS")
+        forged = res["after_restamped_ids"]
+        self.assertEqual(forged["unique_obligations"], res["before"]["unique_obligations"])
+        self.assertGreater(forged["bytes_per_atom"], res["budget"])
+        self.assertLessEqual(forged["rate_if_denominator_were_identity_addressed"], res["budget"])
 
 
 class ScaleFixtures(unittest.TestCase):
