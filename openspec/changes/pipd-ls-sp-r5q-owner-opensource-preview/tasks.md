@@ -4,61 +4,79 @@
       `compile`) — all four report `PROMPT_COMPILE_PASS`, `error_count=0`.
 - [x] 1.2 HGK typed admission: every R5Q requirement reaches `FROZEN` with a TaskSpec/WorkOrder through
       `admit_requirement` / `checkpoint` (no raw SQL).
-- [ ] 1.3 KANBAN board + SWARM graph created and read back for the round.
-- [ ] 1.4 GSTACK route readback recorded.
-- [ ] 1.5 This OpenSpec change created.
+- [x] 1.3 KANBAN board `pipd-r5q-20261010` + SWARM graph (root `t_c613d284`, 5 workers, verifier,
+      synthesizer) created and read back for the round.
+- [x] 1.4 GSTACK route readback recorded against the round's tooling.
+- [x] 1.5 This OpenSpec change created.
 
 ## 2. Licence landing (owner grant, `Apache-2.0`)
 
-- [x] 2.1 `LICENSE` replaced with the verbatim Apache License 2.0 text; hash compared against the
-      canonical ASF text.
+- [x] 2.1 `LICENSE` replaced with the verbatim Apache License 2.0 text; normalised digest compared
+      against the canonical ASF text (`cfc7749b…`, exact match).
 - [x] 2.2 `NOTICE` created: material-class split, donor-plugin non-assertion, third-party components,
       exclusion policy.
 - [x] 2.3 `OWNER_LICENSE_DECISION.yaml`: `decision: Apache-2.0`, with the superseded non-granting record
-      preserved verbatim (not back-dated).
+      preserved verbatim (not back-dated) and explicitly marked as superseded.
 - [x] 2.4 `pyproject.toml` declares `license` / `license-files`.
-- [x] 2.5 `SBOM.cdx.json`: project `Apache-2.0`; `jsonschema` corrected to `MIT`; licence basis updated.
+- [x] 2.5 `SBOM.cdx.json`: project `Apache-2.0` at `metadata.licenses`; `jsonschema` corrected to `MIT`;
+      licence basis / granted date / NOTICE file added as properties; scope ceiling declared.
 - [x] 2.6 `PROVENANCE.md` gains the licence layer.
 - [x] 2.7 FAR quick study recorded (FAR-PIPD-R5Q-LICENSE-001) with alternatives, criteria and the
       accepted cost of the choice.
+- [x] 2.8 Licence oracle written and green: `LIC-01..LIC-18`, 21/21 checks, including the wheel's own
+      RECORD self-manifest and a credential-shape sweep. This is the oracle the R5P crosswalk recorded
+      as missing for the licence/SBOM rows.
 
 ## 3. Release candidate and distribution
 
-- [ ] 3.1 Immutable release candidate commit frozen in an isolated worktree.
-- [ ] 3.2 Wheel rebuilt from that commit; METADATA carries `License-Expression` + `License-File`; the
-      licence text and NOTICE are packed inside the wheel.
-- [ ] 3.3 `WHEEL_MANIFEST.json` records `build_input_commit`, a distinct released-commit binding, the
-      licence and the licence files; the superseded wheel hash is not reused.
-- [ ] 3.4 `SHA256SUMS` regenerated over the wheel and the source archive.
+- [x] 3.1 Immutable release candidate commits frozen in an isolated worktree
+      (`PIPD-r5q-release-wt`), never touching `main` or the R5P baseline.
+- [x] 3.2 Wheel rebuilt from `c66be08`; METADATA carries `License-Expression` + `License-File`; the
+      licence text, NOTICE **and the owner decision slot** are packed inside the wheel (41 members).
+- [x] 3.3 `WHEEL_MANIFEST.json` records `build_input_commit`, a distinct `released_commit` binding, the
+      licence and the precise packed/declared licence file sets; the superseded `bb070a6f…` wheel hash is
+      not reused.
+- [x] 3.4 `SHA256SUMS` regenerated over the wheel and the source archive of the release commit. Both are
+      derived artefacts, deliberately not committed, so the manifest cannot depend on its own digest.
 
 ## 4. Verification against the actual published bytes
 
-- [ ] 4.1 Deterministic suite re-run on the release tree.
-- [ ] 4.2 Clean venv, no `PYTHONPATH`, outside the repository: install the wheel, `doctor` positive and
+- [x] 4.1 Deterministic suite re-run on the release tree: 311 tests, `OK (skipped=6)`.
+- [x] 4.2 Clean venv, no `PYTHONPATH`, outside the repository: install the wheel, `doctor` positive and
       missing-schema typed negative, 19-schema readback.
-- [ ] 4.3 Design chain `intake → compile-pi → bind-pd → compile-ecp → compile-tqaep`, `validate`.
-- [ ] 4.4 `project --dry-run` zero write; `project --out` to disposable scratch (5 Web + 3 Host + IR);
+- [x] 4.3 Design chain `intake → compile-pi → bind-pd → compile-ecp → compile-tqaep`, `validate`, with
+      SoD rejection.
+- [x] 4.4 `project --dry-run` zero write; `project --out` to disposable scratch (5 Web + 3 Host + IR);
       `export --out` to scratch with recomputed archive / manifest / `SHA256SUMS`.
-- [ ] 4.5 Licence consistency read out of the installed wheel's METADATA and packaged licences.
+- [x] 4.5 Licence consistency read out of the installed wheel's METADATA and packaged licences.
+- [x] 4.6 UAT matrix: 27 PASS / 2 INFO / 0 FAIL in both modes on the local build, then re-run as
+      14 PASS / 1 INFO / 0 FAIL against the wheel **downloaded from the published release**.
+- [x] 4.7 Licence oracle re-run against the downloaded published wheel: 21/21.
 
 ## 5. Publication and readback
 
-- [ ] 5.1 Tag collision checked (no tag existed).
-- [ ] 5.2 Immutable tag + GitHub prerelease created against the explicit release commit.
-- [ ] 5.3 Assets attached (source archive, wheel, `SHA256SUMS`, preview notes).
-- [ ] 5.4 Independent readback of repo / tag / commit / tree / release / assets and asset download hashes
-      from a source that never used the local release cache.
-- [ ] 5.5 Credential hygiene proven: no token value in argv, stdout, logs, evidence, prompt, git config or
-      any asset.
+- [x] 5.1 Tag collision checked (no tag and no release existed; lookup returned 404).
+- [x] 5.2 Immutable tag `v0.1.0-preview.1` created at the explicit release commit
+      `cc9bf574c3b3f0f44ea615b5c67ae40d74efee32`; GitHub **prerelease** `prerelease=true`,
+      `draft=false`.
+- [x] 5.3 Assets attached: wheel, source archive, `SHA256SUMS`, preview notes — 4/4, HTTP 201.
+- [x] 5.4 Independent readback from an anonymous source that never used the local release cache:
+      tag → release commit, commit tree, branch tip, prerelease flag, release body disclosures, README
+      entry point, and all four assets re-downloaded and re-hashed. 9/9 checks PASS.
+- [x] 5.5 Credential hygiene: the PAT was read into process memory and passed to `git` through a
+      child-process environment variable consumed by an askpass shim — never in argv, never in a remote
+      URL, never in git config, never in a log line, never in the evidence pack or an asset. Secret scan
+      over the published tree: 984 files, PASS.
 
 ## 6. Independent verification and evidence
 
 - [ ] 6.1 Independent non-Maker checker (separate process, read-only) re-derives the decisive claims from
-      the published subject.
-- [ ] 6.2 Evidence pack (machine-readable) and human-readable master written under the private evidence
-      root, token-free.
+      the published subject. **Dispatched; receipt pending.** Until it lands, every maker-side PASS above
+      is unconfirmed and no `INDEPENDENT_PASS` is claimed.
+- [x] 6.2 Evidence pack (machine-readable) written under the round's `evidence/` root, token-free.
 - [ ] 6.3 `CORR-01..08` and the 12 TT rows each carry current truth, owner, disposition and trigger.
-- [ ] 6.4 `DEL-018` recorded as `FAIL/EVIDENCE_GAP` with its three uncovered test paths.
+- [ ] 6.4 `DEL-018` recorded as `FAIL/EVIDENCE_GAP` with its three uncovered test paths (disclosed in the
+      release body, README and preview notes; **not** closed).
 
 ## 7. Deferred / kept open (deliberately not closed)
 
