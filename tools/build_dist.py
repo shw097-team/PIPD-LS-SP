@@ -145,6 +145,10 @@ def build_wheel() -> dict:
     ).encode()
     files[f"{DISTINFO}/licenses/LICENSE"] = LICENCE_TEXT.read_bytes()
     files[f"{DISTINFO}/licenses/NOTICE"] = NOTICE_TEXT.read_bytes()
+    # The SPDX id in the metadata is DERIVED from the owner decision slot, so the basis has to
+    # travel with the binary too — otherwise a consumer can only see the conclusion, not the grant.
+    # It is a governance record, not licence text, so it is shipped without a License-File header.
+    files[f"{DISTINFO}/licenses/{LICENCE_SLOT.name}"] = LICENCE_SLOT.read_bytes()
     files[f"{DISTINFO}/WHEEL"] = (
         "Wheel-Version: 1.0\nGenerator: pipd-ls-sp hand-built (PEP 427)\n"
         "Root-Is-Purelib: true\nTag: py3-none-any\n"
@@ -175,7 +179,9 @@ def build_wheel() -> dict:
         "entry_points": {"pipd": "pipd_ls_sp.cli:main"},
         "requires_dist": ["jsonschema>=4.0"],
         "licence": licence,
-        "licence_files": ["LICENSE", "NOTICE", LICENCE_SLOT.name],
+        "licence_declared_headers": ["LICENSE", "NOTICE"],
+        "licence_files_packed": sorted(f"licenses/{k.split('/licenses/')[1]}" for k in files if "/licenses/" in k),
+        "licence_basis_file": LICENCE_SLOT.name,
         "build_input_commit": _git_commit(),
         "released_commit": "SEE_PUBLICATION_BINDING_R5Q.json",
         "released_commit_note": (
@@ -198,7 +204,9 @@ def build_wheel() -> dict:
 def main() -> int:
     m = build_wheel()
     print(json.dumps({k: m[k] for k in ("artefact", "sha256", "bytes", "member_count", "product_digest",
-                                        "candidate_head", "entry_points", "licence", "licence_files",
+                                        "candidate_head", "entry_points", "licence",
+                                        "licence_declared_headers", "licence_files_packed",
+                                        "licence_basis_file",
                                         "build_input_commit", "released_commit")},
                      ensure_ascii=False, indent=1))
     return 0
