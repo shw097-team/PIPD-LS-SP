@@ -31,18 +31,18 @@
 
 ## 5. M1 — documentation change
 
-- [ ] 5.1 Add the `CLI vs Skills` path section between `Start here` and `Quickstart`
-- [ ] 5.2 Correct the `--root` statements to the real CLI surface
-- [ ] 5.3 Add a docs smoke test asserting both documented positive forms and one refused form
-- [ ] 5.4 Prove the diff touches only the admitted paths
+- [x] 5.1 Add the `CLI vs Skills` path section between `Start here` and `Quickstart`
+- [x] 5.2 Correct the `--root` statements to the real CLI surface
+- [x] 5.3 Add a docs smoke test asserting both documented positive forms and one refused form
+- [x] 5.4 Prove the diff touches only the admitted paths
 
 ## 6. M2 — isolated focused regression
 
-- [ ] 6.1 Freeze the M1 candidate commit and tree
-- [ ] 6.2 Build a byte-equivalent writable clone in admitted scratch
-- [ ] 6.3 Run the six named affected modules plus the CE and wheel positives
-- [ ] 6.4 Re-run the exact-set oracles (19 schemas + registry, 8 skill directories, 13 CLI commands)
-- [ ] 6.5 Compare the read-only subject's bytes before and after the run
+- [x] 6.1 Freeze the M1 candidate commit and tree
+- [x] 6.2 Build a byte-equivalent writable clone in admitted scratch
+- [x] 6.3 Run the six named affected modules plus the CE and wheel positives
+- [x] 6.4 Re-run the exact-set oracles (19 schemas + registry, 8 skill directories, 13 CLI commands)
+- [x] 6.5 Compare the read-only subject's bytes before and after the run
 - [ ] 6.6 Independent officer lane on a different model family re-derives the decisive figures
 
 ## 7. M3 — integration (owner gate)

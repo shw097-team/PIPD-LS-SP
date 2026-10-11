@@ -1,0 +1,56 @@
+{
+  "schema": "HGK-PROJECT-CHECKPOINT/1",
+  "checkpoint_id": "S4R2M-CKPT-20261012",
+  "round": "S4R2M-20261012-merge-and-preview3",
+  "task_id": "PIPD-LS-SP-HERMES-S4R2M-MERGE-AND-PREVIEW3-CONDITIONAL",
+  "state": "MERGE_READY_HITL_PENDING",
+  "frozen_source": {
+    "prompt": "attachments/PIPD-LS-SP_HERMES_S4R2_PREVIEW3_CONDITIONAL_MERGE_REPAIR_PROMPT_2026-10-11.md",
+    "report": "attachments/PIPD_LS_SP_S4_MVP_PostRelease_S4R2_Independent_Acceptance_and_Preview3_Gate_2026-10-11.md",
+    "digests_recorded_in": "compiler/S4R2M.CONTRACT.json#/source_scan/reviewed"
+  },
+  "candidate": {
+    "base_head": "3f6c7dc52b73cfcba03dccbe576ade75bec1890d",
+    "base_tree": "de2c8541d22d0ac5046e3cfda5a4368dfced7bd5",
+    "candidate_head": "58a1f334464675081d0573476d70e2165143bdd8",
+    "candidate_tree": "c9d96316ea7717ab8cb74f0858dd6f05d0ec7db4",
+    "worktree": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r2m-merge-wt",
+    "branch": "s4r2m-merge-and-preview3-20261012"
+  },
+  "completed_gates": [
+    {"gate": "P0-source-freeze", "state": "DONE"},
+    {"gate": "P0-cape-contract-compile", "state": "DONE", "verdict": "PROMPT_COMPILE_PASS", "errors": 0},
+    {"gate": "P0-hgk-admission", "state": "DONE", "ids": ["REQ-S4R2M-DOC-001", "REQ-S4R2M-VERIFY-002", "REQ-S4R2M-MERGE-003", "REQ-S4R2M-PREVIEW3-004"]},
+    {"gate": "KANBAN-SWARM-GSTACK-OPENSPEC", "state": "DONE", "board": "pipd-s4r2m-20261012",
+     "swarm": {"root": "t_eb48d8a8", "workers": ["t_83af60c1", "t_74c587f7", "t_bf81b3a2", "t_6643027b"], "verifier": "t_a8876c2d", "synthesizer": "t_b7328489"}},
+    {"gate": "M1-doc-change", "state": "DONE", "commit": "58a1f334464675081d0573476d70e2165143bdd8"},
+    {"gate": "M2-isolated-regression", "state": "DONE", "modules": 9, "tests": 107, "subject_unchanged": true}
+  ],
+  "open_gates": [
+    {"gate": "M2-independent-officer-verdict", "owner": "VERIFY lane", "blocker": "lane in flight at checkpoint time"},
+    {"gate": "M3-main-integration", "owner": "Owner / Repo maintainer", "blocker": "owner approval required (human gate)"},
+    {"gate": "M4-preview3-release", "owner": "Owner / Release Owner", "blocker": "owner selection of the release gate; inside the standing R5Q grant once selected"}
+  ],
+  "next_work_order": "record the officer verdict, land the evidence commit, then present the single M3 owner action",
+  "rollback_pointer": {
+    "subject_untouched": "3f6c7dc52b73cfcba03dccbe576ade75bec1890d",
+    "branch_delete": "git -C C:/Projects/Agent_Workspace/PIPD branch -D s4r2m-merge-and-preview3-20261012",
+    "worktree_remove": "git -C C:/Projects/Agent_Workspace/PIPD worktree remove worktrees/s4r2m-merge-wt",
+    "remote": "nothing was pushed by this round"
+  },
+  "workorder_ids": ["WO-REQ-S4R2M-DOC-001-1", "WO-REQ-S4R2M-VERIFY-002-2", "WO-REQ-S4R2M-MERGE-003-3", "WO-REQ-S4R2M-PREVIEW3-004-4"],
+  "tt_delta": [
+    {"id": "TT-S4R2M-CREDSRC-01", "owner": "credential broker owner", "state": "OPEN",
+     "subject": "the broker's default credential source is the dead PAT file; the live credential is only reachable through the HGK_CRED_FILE override"},
+    {"id": "TT-S4R2M-MAINGATE-02", "owner": "Owner", "state": "OPEN",
+     "subject": "M3 fast-forward approval; the standing grant names the tag/prerelease action only"},
+    {"id": "TT-S4R2M-NATIVEWEB-03", "owner": "Host/Skills Owner", "state": "OPEN", "trigger": "a host with a real native skill loader"},
+    {"id": "TT-S4R2M-VERGRAM-04", "owner": "Schema Owner", "state": "OPEN", "trigger": "an external consumer branching on version, or a normative version syntax"}
+  ],
+  "claim_ceiling": "S4_MVP_BETA_SCOPED - not production, not full-gate, not a release",
+  "notes": [
+    "the machine-readable checkpoint lives here, inside the governed candidate tree",
+    "a human-carryable copy of the round report is written beside it",
+    "nothing was pushed, tagged or published by this checkpoint"
+  ]
+}

@@ -1,0 +1,143 @@
+{
+ "schema": "PIPD-S4R2M-M2-ISOLATED-REGRESSION/1",
+ "round": "S4R2M-20261012-merge-and-preview3",
+ "candidate_head": "58a1f334464675081d0573476d70e2165143bdd8",
+ "candidate_tree": "c9d96316ea7717ab8cb74f0858dd6f05d0ec7db4",
+ "candidate_head_expected": "58a1f334464675081d0573476d70e2165143bdd8",
+ "candidate_head_matches": true,
+ "subject_root": "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4r2m-merge-wt",
+ "clone_root": "C:\\Projects\\Agent_Workspace\\var\\s4r2m-m2-clone",
+ "interpreter": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+ "claim_ceiling_note": "a green maker-side suite in a writable clone is NOT independent acceptance",
+ "subject_files": 1341,
+ "subject_digest_before": "6cdb18e3c2dcd1c4dc834ceee0ff46fa9736595f7d0fececeddaf7a23a0e0bc7",
+ "clone_create": {
+  "cmd": [
+   "git",
+   "clone",
+   "--no-hardlinks",
+   "--quiet",
+   "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4r2m-merge-wt",
+   "C:\\Projects\\Agent_Workspace\\var\\s4r2m-m2-clone"
+  ],
+  "exit": 0,
+  "seconds": 2.84,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ "clone_checkout": {
+  "cmd": [
+   "git",
+   "checkout",
+   "--quiet",
+   "58a1f334464675081d0573476d70e2165143bdd8"
+  ],
+  "exit": 0,
+  "seconds": 0.43,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ "clone_head": "58a1f334464675081d0573476d70e2165143bdd8",
+ "clone_is_byte_equivalent": true,
+ "modules": {
+  "test_s4r2_affected_only.py": {
+   "exit": 0,
+   "seconds": 2.65,
+   "summary": "",
+   "stderr_tail": "lite_record_passes) ... ok\ntest_legal_records_for_all_three_profiles_pass (test_s4r2_affected_only.PositiveLegalRecordTests.test_legal_records_for_all_three_profiles_pass) ... ok\ntest_vetoes_empty_list_is_legal (test_s4r2_affected_only.PositiveLegalRecordTests.test_vetoes_empty_list_is_legal) ... ok\n\n----------------------------------------------------------------------\nRan 18 tests in 2.472s\n\nOK\n"
+  },
+  "test_postrelease_contract_hardening.py": {
+   "exit": 0,
+   "seconds": 1.61,
+   "summary": "",
+   "stderr_tail": "t_postrelease_contract_hardening.RiskAssessmentHonestyTests.test_risk_assessment_rides_in_the_sidecar_not_the_record) ... ok\ntest_undeclared_trace_on_pd_ecp_tqaep_is_refused (test_postrelease_contract_hardening.UndeclaredTraceStillRefusedTests.test_undeclared_trace_on_pd_ecp_tqaep_is_refused) ... ok\n\n----------------------------------------------------------------------\nRan 28 tests in 1.482s\n\nOK\n"
+  },
+  "test_postrelease_quickstart.py": {
+   "exit": 0,
+   "seconds": 0.14,
+   "summary": "",
+   "stderr_tail": "guarded (test_postrelease_quickstart.QuickstartPowerShellFailFast.test_every_native_command_is_last_exit_code_guarded) ... ok\ntest_first_code_line_sets_error_action_preference_stop (test_postrelease_quickstart.QuickstartPowerShellFailFast.test_first_code_line_sets_error_action_preference_stop) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.032s\n\nOK\n"
+  },
+  "test_postrelease_web_mount.py": {
+   "exit": 0,
+   "seconds": 0.5,
+   "summary": "",
+   "stderr_tail": "ts.test_uat_evidence_file_coverage) ... ok\ntest_verify_nonexistent_zip_refused (test_postrelease_web_mount.MountPackBuildTests.test_verify_nonexistent_zip_refused) ... ok\ntest_verify_passes_and_names_nothing (test_postrelease_web_mount.MountPackBuildTests.test_verify_passes_and_names_nothing) ... ok\n\n----------------------------------------------------------------------\nRan 20 tests in 0.373s\n\nOK\n"
+  },
+  "test_postrelease_selfbootstrap.py": {
+   "exit": 0,
+   "seconds": 0.57,
+   "summary": "",
+   "stderr_tail": "hipped_cli_init_runs_in_isolated_root) ... ok\ntest_stale_context_is_refused_typed (test_postrelease_selfbootstrap.TestSelfBootstrap.test_stale_context_is_refused_typed) ... ok\ntest_trace_closure_has_no_orphans (test_postrelease_selfbootstrap.TestSelfBootstrap.test_trace_closure_has_no_orphans) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.441s\n\nOK\n"
+  },
+  "test_first_run_examples.py": {
+   "exit": 0,
+   "seconds": 3.29,
+   "summary": "",
+   "stderr_tail": "is_typed_and_writes_nothing) ... ok\ntest_positive_chain_runs_and_validates (test_first_run_examples.FirstRunExamples.test_positive_chain_runs_and_validates) ... ok\ntest_second_run_reproduces_the_same_digests (test_first_run_examples.FirstRunExamples.test_second_run_reproduces_the_same_digests) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 3.183s\n\nOK\n"
+  },
+  "test_ce_repair_regression.py": {
+   "exit": 0,
+   "seconds": 2.38,
+   "summary": "",
+   "stderr_tail": "_declared_trace_on_pi_pkg_still_tolerated (test_ce_repair_regression.CE2TraceWideningTests.test_declared_trace_on_pi_pkg_still_tolerated) ... ok\ntest_undeclared_trace_is_rejected_on_pd_ecp_tqaep (test_ce_repair_regression.CE2TraceWideningTests.test_undeclared_trace_is_rejected_on_pd_ecp_tqaep) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 2.236s\n\nOK\n"
+  },
+  "test_wheel_distribution.py": {
+   "exit": 0,
+   "seconds": 19.93,
+   "summary": "",
+   "stderr_tail": "nsistent) ... ok\ntest_required_members_present_and_hashes_match_zip (test_wheel_distribution.WheelDistributionTests.test_required_members_present_and_hashes_match_zip) ... ok\ntest_two_builds_are_byte_identical (test_wheel_distribution.WheelDistributionTests.test_two_builds_are_byte_identical) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 19.812s\n\nOK\n"
+  },
+  "test_s4r2m_docs_route.py": {
+   "exit": 0,
+   "seconds": 0.59,
+   "summary": "",
+   "stderr_tail": "cted_statement_names_project_and_export_exception (test_s4r2m_docs_route.RootWordingIsTruthful.test_corrected_statement_names_project_and_export_exception) ... ok\ntest_no_absolute_global_must_precede_claim (test_s4r2m_docs_route.RootWordingIsTruthful.test_no_absolute_global_must_precede_claim) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.484s\n\nOK\n"
+  }
+ },
+ "exact_set": {
+  "schemas_count": 19,
+  "registry_present": true,
+  "schemas_and_registry": 20,
+  "expected_schemas_and_registry": 20,
+  "skill_dirs_count": 8,
+  "expected_skill_dirs": 8,
+  "skill_dirs": [
+   "pipd-assurance-tqaep",
+   "pipd-authority-source",
+   "pipd-execution-contract",
+   "pipd-package-project",
+   "pipd-pd-bind",
+   "pipd-pi-compile",
+   "pipd-profile-tailor",
+   "pipd-route-intake"
+  ],
+  "cli_count": 13,
+  "expected_cli": 13,
+  "cli": [
+   "bind-pd",
+   "compile-ecp",
+   "compile-pi",
+   "compile-tqaep",
+   "diff",
+   "doctor",
+   "export",
+   "init",
+   "intake",
+   "profile",
+   "project",
+   "repair",
+   "validate"
+  ]
+ },
+ "exact_set_ok": true,
+ "profile_mutants": {
+  "raw": "",
+  "stderr": ".load_schema(contract, schemas_dir)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Projects\\Agent_Workspace\\var\\s4r2m-m2-clone\\src\\pipd_ls_sp\\registry.py\", line 198, in load_schema\n    return json.loads((d / f\"{contract}.schema.json\").read_text(encoding=\"utf-8\"))\n                       ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~\nTypeError: unsupported operand type(s) for /: 'str' and 'str'\n"
+ },
+ "subject_digest_after": "6cdb18e3c2dcd1c4dc834ceee0ff46fa9736595f7d0fececeddaf7a23a0e0bc7",
+ "subject_unchanged": true,
+ "subject_changed_paths": [],
+ "git_status_subject": "?? .hgk/rounds/S4R2M-20261012-merge-and-preview3/",
+ "candidate_receipt_all_modules_exit0": true
+}

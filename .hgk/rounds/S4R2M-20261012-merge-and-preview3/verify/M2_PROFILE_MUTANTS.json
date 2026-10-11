@@ -1,0 +1,53 @@
+{
+ "schema": "PIPD-S4R2M-PROFILE-MUTANT-PROBE/1",
+ "probe_defect_note": "first attempt passed schemas_dir as str; validate_record needs a Path. That TypeError was a PROBE defect, never a product defect; the probe was fixed and re-run, and the product was not touched.",
+ "subject": "var/s4r2m-m2-clone @ 58a1f334 (byte-equivalent clone)",
+ "results": {
+  "legal_record": {
+   "exit": 0,
+   "findings": []
+  },
+  "axes_is_a_string": {
+   "exit": 1,
+   "findings": [
+    "ProfileBinding/axes: 'intent' is not of type 'array'"
+   ]
+  },
+  "axes_has_non_string_item": {
+   "exit": 1,
+   "findings": [
+    "ProfileBinding/axes/1: 42 is not one of ['intent', 'knowledge', 'verification', 'release', 'trust_boundary', 'preexisting_repo', 'profile', 'tech_candidates', 'host_surface']"
+   ]
+  },
+  "profile_is_an_integer": {
+   "exit": 1,
+   "findings": [
+    "ProfileBinding/profile: 42 is not one of ['LITE', 'STANDARD', 'ASSURED']"
+   ]
+  },
+  "vetoes_is_a_string": {
+   "exit": 1,
+   "findings": [
+    "ProfileBinding/vetoes: 'veto' is not of type 'array'"
+   ]
+  },
+  "unknown_axis": {
+   "exit": 1,
+   "findings": [
+    "ProfileBinding/axes/0: 'not_a_real_axis' is not one of ['intent', 'knowledge', 'verification', 'release', 'trust_boundary', 'preexisting_repo', 'profile', 'tech_candidates', 'host_surface']"
+   ]
+  },
+  "duplicate_axis": {
+   "exit": 1,
+   "findings": [
+    "ProfileBinding/axes: ['intent', 'intent'] has non-unique elements"
+   ]
+  },
+  "illegal_artifact_depth": {
+   "exit": 1,
+   "findings": [
+    "ProfileBinding/artifact_depth: 'L2_MADE_UP' is not one of ['L1_SCHEMA_CONTRACT', 'L3_INTEGRATION_RUNTIME', 'L4_FAILURE_RECOVERY']"
+   ]
+  }
+ }
+}

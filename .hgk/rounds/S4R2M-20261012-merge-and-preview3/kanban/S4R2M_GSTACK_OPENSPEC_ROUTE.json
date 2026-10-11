@@ -1,0 +1,194 @@
+{
+ "schema": "PIPD-S4R2M-NAMED-METHOD-ROUTE-CHECK/1",
+ "round": "S4R2M-20261012-merge-and-preview3",
+ "surface": "HGK_NAMED_METHOD_ROUTER (src/hg_kseos/named_methods.py)",
+ "registry_snapshot": {
+  "openspec": {
+   "source_disposition": "ADOPT_FOR_BLUEPRINT / RUNTIME_CERT_PENDING",
+   "current_execution_scope": "USER_AUTHORIZED_ACTIVE_REQUIRED_FOR_BROWNFIELD",
+   "runtime_required_now": true,
+   "role": "BROWNFIELD_ENGINEERING_DEFINITION_ADAPTER",
+   "provider_state": "CERTIFIED_ACTIVE_BROWNFIELD",
+   "fallback": "hgk_native_prw",
+   "final_authority": false,
+   "xor_with": "spec_kit"
+  },
+  "gstack.plan-eng-review": {
+   "source_disposition": "CONDITIONAL_RECOMMENDED / SELECTIVE",
+   "current_execution_scope": "USER_AUTHORIZED_ACTIVE_SELECTED_SLICES",
+   "runtime_required_now": true,
+   "role": "ADVISORY_REVIEW_QA_SECURITY_METHOD_ADAPTER",
+   "provider_state": "CERTIFIED_ACTIVE_SELECTED_SLICES",
+   "fallback": "hgk_native_plan_review",
+   "final_authority": false,
+   "xor_with": null
+  },
+  "gstack.review": {
+   "source_disposition": "CONDITIONAL_RECOMMENDED / SELECTIVE",
+   "current_execution_scope": "USER_AUTHORIZED_ACTIVE_SELECTED_SLICES",
+   "runtime_required_now": true,
+   "role": "ADVISORY_REVIEW_QA_SECURITY_METHOD_ADAPTER",
+   "provider_state": "CERTIFIED_ACTIVE_SELECTED_SLICES",
+   "fallback": "hgk_native_review",
+   "final_authority": false,
+   "xor_with": null
+  },
+  "gstack.qa": {
+   "source_disposition": "CONDITIONAL_RECOMMENDED / SELECTIVE",
+   "current_execution_scope": "USER_AUTHORIZED_ACTIVE_SELECTED_SLICES",
+   "runtime_required_now": true,
+   "role": "ADVISORY_REVIEW_QA_SECURITY_METHOD_ADAPTER",
+   "provider_state": "CERTIFIED_ACTIVE_SELECTED_SLICES",
+   "fallback": "hgk_native_qa",
+   "final_authority": false,
+   "xor_with": null
+  },
+  "gstack.cso": {
+   "source_disposition": "CONDITIONAL_RECOMMENDED / SELECTIVE",
+   "current_execution_scope": "USER_AUTHORIZED_ACTIVE_SELECTED_SLICES",
+   "runtime_required_now": true,
+   "role": "ADVISORY_REVIEW_QA_SECURITY_METHOD_ADAPTER",
+   "provider_state": "CERTIFIED_ACTIVE_SELECTED_SLICES",
+   "fallback": "hgk_native_security",
+   "final_authority": false,
+   "xor_with": null
+  },
+  "gstack.ship": {
+   "source_disposition": "CONDITIONAL_RECOMMENDED / SELECTIVE",
+   "current_execution_scope": "USER_AUTHORIZED_ACTIVE_SELECTED_SLICES",
+   "runtime_required_now": true,
+   "role": "ADVISORY_REVIEW_QA_SECURITY_METHOD_ADAPTER",
+   "provider_state": "CERTIFIED_ACTIVE_SELECTED_SLICES",
+   "fallback": "hgk_native_release_checklist",
+   "final_authority": false,
+   "xor_with": null
+  },
+  "gstack.office-hours": {
+   "source_disposition": "CONDITIONAL_RECOMMENDED / SELECTIVE",
+   "current_execution_scope": "USER_AUTHORIZED_ACTIVE_SELECTED_SLICES",
+   "runtime_required_now": true,
+   "role": "AMBIGUITY_PRODUCT_INTERROGATION_ADVISORY",
+   "provider_state": "CERTIFIED_ACTIVE_SELECTED_SLICES",
+   "fallback": "hgk_native_prw",
+   "final_authority": false,
+   "xor_with": null
+  },
+  "gstack.retro": {
+   "source_disposition": "CONDITIONAL_RECOMMENDED / SELECTIVE",
+   "current_execution_scope": "USER_AUTHORIZED_ACTIVE_SELECTED_SLICES",
+   "runtime_required_now": true,
+   "role": "RETROSPECTIVE_LEARNING_ADVISORY",
+   "provider_state": "CERTIFIED_ACTIVE_SELECTED_SLICES",
+   "fallback": "hgk_native_retro",
+   "final_authority": false,
+   "xor_with": null
+  },
+  "spec_kit": {
+   "source_disposition": "STANDBY / GREENFIELD PROFILE",
+   "current_execution_scope": "STANDBY",
+   "runtime_required_now": false,
+   "role": "GREENFIELD_SPEC_PROJECTION",
+   "provider_state": "STANDBY",
+   "fallback": "hgk_native_prw",
+   "final_authority": false,
+   "xor_with": "openspec"
+  }
+ },
+ "activation_invariant_evaluation": {
+  "canonical_flow_named_method_without_runtime_or_certified_substitute": 0,
+  "active_named_method_missing_identity": 0,
+  "active_named_method_missing_pin": 0,
+  "active_named_method_missing_install": 0,
+  "active_named_method_missing_binding": 0,
+  "active_named_method_missing_doctor": 0,
+  "active_named_method_missing_pilot": 0,
+  "active_named_method_missing_independent_cert": 0,
+  "active_named_method_silent_fallback": 0,
+  "named_method_fake_invocation": 0,
+  "named_method_silent_fallback": 0,
+  "dual_spec_owner": 0,
+  "second_orchestrator": 0,
+  "release_authority_escape": 0
+ },
+ "routes": [
+  {
+   "flow": "brownfield change proposal for the s4-r2m conditional merge",
+   "provider": "openspec",
+   "state": "CERTIFIED_ACTIVE_BROWNFIELD",
+   "fallback": "hgk_native_prw",
+   "final_authority": true,
+   "route": "OPENSPEC"
+  },
+  {
+   "flow": "plan the narrow repair work orders",
+   "provider": "gstack.plan-eng-review",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_plan_review",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  {
+   "flow": "review the bounded writer's documentation diff",
+   "provider": "gstack.review",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_review",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  {
+   "flow": "qa the isolated affected regression",
+   "provider": "gstack.qa",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_qa",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  {
+   "flow": "security adversarial check of the admitted write-set",
+   "provider": "gstack.cso",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_security",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  {
+   "flow": "release checklist for the preview.3 gate",
+   "provider": "gstack.review",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_review",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  {
+   "flow": "ambiguity triage of the two documentation blockers",
+   "provider": "gstack.office-hours",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_prw",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  {
+   "flow": "greenfield second control plane",
+   "provider": null,
+   "state": "XOR_GREENFIELD",
+   "fallback": null,
+   "final_authority": true,
+   "route": "NATIVE"
+  },
+  {
+   "flow": "invent a new scheduling authority for this round",
+   "provider": null,
+   "state": null,
+   "fallback": null,
+   "final_authority": true,
+   "route": "NATIVE"
+  }
+ ],
+ "claim_ceiling": "CANDIDATE_ONLY",
+ "what_this_does_not_confer": [
+  "a named method is an advisory adapter, never a second control plane, scheduler or spec owner",
+  "a gstack or openspec route never promotes this round's artefacts to release or production",
+  "HG-KSEOS keeps authority, evidence, checker and release ownership (HGK_GSTACK_ROLE_MAP.yaml hard_deny names gstack Conductor, gstack /spec, gstack /ship and /land-and-deploy as denied)",
+  "an unmapped flow routes NATIVE rather than being guessed; the router's own decision object is recorded verbatim, and the few non-zero invariant counters would have failed the round closed"
+ ]
+}

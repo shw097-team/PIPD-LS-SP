@@ -1,0 +1,58 @@
+{
+  "schema": "PIPD-S4R2M-M3-READINESS/1",
+  "round": "S4R2M-20261012-merge-and-preview3",
+  "gate": "M3 main integration",
+  "decision_required_from_owner": true,
+  "reason": "advancing main is not named by the standing R5Q grant (action: create_new_immutable_tag_and_prerelease); the governing prompt sets human_gate: REQUIRED_FOR_MAIN_INTEGRATION_AND_PUBLIC_RELEASE and states that a general 'decide and execute' instruction does not clear an owner-only gate. See far/FAR-PIPD-S4R2M-RELGRANT-003.md",
+  "divergence_probe": {
+    "local_main": "4445db5a6d1b3138946fd7c4fe3b712e4faf1af7",
+    "remote_main_anonymous": "4445db5a6d1b3138946fd7c4fe3b712e4faf1af7",
+    "remote_main_with_credential": "4445db5a6d1b3138946fd7c4fe3b712e4faf1af7",
+    "matches_report_baseline": true,
+    "baseline_drift": "NONE",
+    "remote_s4r2_branch": "3f6c7dc52b73cfcba03dccbe576ade75bec1890d",
+    "preview2_tag": "8faa64e581e8c25f5ec355475e29561847da3ead",
+    "preview1_tag": "cc9bf574c3b3f0f44ea615b5c67ae40d74efee32"
+  },
+  "fast_forward_is_structurally_possible": {
+    "measured": "git merge-base --is-ancestor 4445db5a 3f6c7dc5 -> true (main is an ancestor of the s4-r2 tip)",
+    "commits_ahead": 5,
+    "commits_behind": 0,
+    "note": "after this round's candidate commit the candidate is the s4-r2 tip plus one documentation commit, so the same fast-forward still applies; no merge commit and no rewriting is needed"
+  },
+  "credential_route": {
+    "broker": "HG-KSEOS/scripts/cred/cred_broker.py (fail-closed preflight, credential injected only into the child env, never argv/stdout/log/remote URL/.git config)",
+    "declared_source_default": "C:/Projects/Agent_Workspace/API KEY/Fine-grained personal access tokens.txt",
+    "declared_source_probe": "GET /user -> 401 (dead, consistent with the R11 record that this bridge was already dead)",
+    "corrected_source_via_documented_env_override": "HGK_CRED_FILE -> the newer owner-supplied token file",
+    "corrected_source_probe": {
+      "broker_preflight": "verdict OK; cred_api_valid PASS (GET /user -> 200, login=shw097)",
+      "repo_read": "GET /repos/shw097-team/PIPD-LS-SP -> 200",
+      "ref_read": "GET /repos/.../git/refs/heads/main -> 200",
+      "git_ls_remote": "exit 0"
+    },
+    "write_scope_proof_without_mutation": {
+      "command": "git push --dry-run <repo> HEAD:refs/heads/main with the credential injected through GIT_CONFIG_* env (never argv)",
+      "result": "exit 0, reported 4445db5..3f6c7dc HEAD -> main",
+      "remote_ref_after": "4445db5a6d1b3138946fd7c4fe3b712e4faf1af7 - unchanged",
+      "reading": "the credential is accepted for the receive-pack path, i.e. it carries write, not merely read; nothing was written"
+    },
+    "round_finding": "the broker's default credential source is the dead PAT file, so a fail-closed preflight correctly refuses with the default and correctly passes once HGK_CRED_FILE names the live credential. Recorded as a TT with an owner: point the broker's declared source at the live credential (or delete the dead file) so the default path is not misleading.",
+    "secret_handling": "no value was printed, written, or placed in argv; the credential was read into a process-scope variable and injected through the environment"
+  },
+  "exact_command_that_would_run_under_owner_approval": {
+    "form": "HGK_CRED_FILE=<live credential path> python HG-KSEOS/scripts/cred/cred_broker.py run -- push origin main",
+    "preconditions": [
+      "owner approval recorded for this exact candidate commit",
+      "the candidate is the remote s4-r2 tip plus the round's commits, so the push is a fast-forward",
+      "no force, no tag move, no asset replacement"
+    ],
+    "post_actions": [
+      "read refs/heads/main back from an independent surface",
+      "confirm v0.1.0-preview.2 tag still resolves to 8faa64e581e8c25f5ec355475e29561847da3ead",
+      "confirm the release asset list is unchanged"
+    ]
+  },
+  "state": "MERGE_READY_HITL_PENDING",
+  "claim_ceiling": "LOCAL - nothing is merged, nothing is published"
+}

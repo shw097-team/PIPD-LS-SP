@@ -1,0 +1,83 @@
+{
+ "checker": "Independent Acceptance Officer",
+ "checker_model": "GPT-6; exact runtime model ID not exposed",
+ "subject_commit": "58a1f334464675081d0573476d70e2165143bdd8",
+ "subject_tree": "c9d96316ea7717ab8cb74f0858dd6f05d0ec7db4",
+ "non_mutation_verdict": "FAIL",
+ "claims": [
+  {
+   "id": "C1",
+   "result": "RE_DERIVED",
+   "command": "Initially, from the subject cwd: git rev-parse HEAD; git rev-parse 'HEAD^{tree}'; git status --porcelain=v1. Afterwards: git -C C:/Projects/Agent_Workspace/PIPD/worktrees/s4r2m-merge-wt rev-parse HEAD; git -C C:/Projects/Agent_Workspace/PIPD/worktrees/s4r2m-merge-wt rev-parse 'HEAD^{tree}'; git -C C:/Projects/Agent_Workspace/PIPD/worktrees/s4r2m-merge-wt status --porcelain=v1",
+   "observed": "Initial raw output:\n58a1f334464675081d0573476d70e2165143bdd8\nc9d96316ea7717ab8cb74f0858dd6f05d0ec7db4\n?? .hgk/rounds/S4R2M-20261012-merge-and-preview3/\nFinal raw output:\n58a1f334464675081d0573476d70e2165143bdd8\nc9d96316ea7717ab8cb74f0858dd6f05d0ec7db4\n M openspec/changes/pipd-ls-sp-s4r2m-conditional-merge/tasks.md\n?? .hgk/rounds/S4R2M-20261012-merge-and-preview3/\nInterpretation: frozen commit and tree match throughout. Tracked working files were initially clean and became dirty during the check."
+  },
+  {
+   "id": "C2",
+   "result": "DISAGREE",
+   "command": "& 'C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe' -B 'C:/Projects/Agent_Workspace/var/iao-s4r2m-20261012-6a44f13391154f4ab979c93d9110db8f/digest.py' 'C:/Projects/Agent_Workspace/var/iao-s4r2m-20261012-6a44f13391154f4ab979c93d9110db8f' before; repeat with after. The scratch script obtains git ls-tree -r --name-only HEAD, identifies mode-160000 gitlinks using git ls-tree -r HEAD, SHA-256 hashes every tracked file's working bytes, and hashes the ordered path<TAB>digest<LF> manifest. git diff -- openspec/changes/pipd-ls-sp-s4r2m-conditional-merge/tasks.md",
+   "observed": "Initial naive hashing attempt: PermissionError: [Errno 13] Permission denied: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4r2m-merge-wt\\.hgk\\rounds\\R2-20261009-qualification\\execute\\candidate'. This entry is a gitlink directory, not a tracked file blob. Corrected enumeration: tracked_entries=1345, tracked_files=1341, gitlinks=4. Each gitlink references 829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e; paths are .hgk/rounds/R2-20261009-qualification/execute/candidate and product-repair/{pristine-candidate,regression-candidate,semcheck} beneath that round.\nBefore aggregate_sha256=a314eb4fe736f91aeb4d7940d9909a1996f201816a1177bbf9206067f1f6f781\nAfter aggregate_sha256=45389d142314fec230d71ffa2f65b8ceb3be1c30a1d2a5074f51c14d08a8d443\nchanged_files=[\"openspec/changes/pipd-ls-sp-s4r2m-conditional-merge/tasks.md\"]\nfile_manifest_equal=False\nbefore_tasks_sha256=60929406f1fe3c947d881870c194c1da80c449707e556abb2bed9acba72e37ee\nafter_tasks_sha256=3720db017290abdb8a3fef40d12bce170373bb6a9c94183ca5866fcdb637e97b\nGit diff shows tasks 5.1–5.4 and 6.1–6.6 changed from [ ] to [x]. Subject bytes changed. My write commands targeted scratch only; these observations do not identify the writer."
+  },
+  {
+   "id": "C3",
+   "result": "RE_DERIVED",
+   "command": "$i=0; Get-Content README.md | ForEach-Object { $i++; '{0}: {1}' -f $i,$_ }",
+   "observed": "24: ## Choose your path: CLI or Skills\n26: The published wheel and a chat-host skill pack are **two different artefacts with two different\n27: boundaries**. Pick the one your job needs — installing the wheel does not make the eight logical\n28: skills appear in a web chat host, and mounting the pack does not put `pipd` on your machine.\n30: **CLI / headless harness** — download the immutable wheel published under the **`v0.1.0-preview.2`**\n34: The wheel carries the Python **13-command CLI** and the **19 installed schemas**; it does **not**\n35: install or auto-load the eight logical skills into a web host.\n37: **Skills / document consumption** — the versioned mount pack\n42: - **(a) native skill uploader** — a host that has a real native skill uploader could register the\n43:   pack; this path is **not yet demonstrated here**.\n44: - **(b) manual document / Knowledge attachment** — attach `SKILL.md` plus the short starter prompt\n45:   (`PIPD_LS_SP_QUICKSTART_PROMPT.md`) to a conversation or Project Knowledge. This document path\n46:   does **not** execute `pipd` on the reader's machine.\nInterpretation: two distinct onboarding paths and an explicit wheel/web-skill boundary."
+  },
+  {
+   "id": "C4",
+   "result": "RE_DERIVED",
+   "command": "rg -n 'root|add_parser|def main|parse_args' src/pipd_ls_sp/cli.py; Get-Content src/pipd_ls_sp/cli.py; numbered Get-Content README.md",
+   "observed": "Parser quotations:\n39: p.add_argument(\"--root\", type=Path, default=Path.cwd())\n69: s.add_argument(\"--root\", dest=\"sub_root\", type=Path, default=None)\n78: s.add_argument(\"--root\", dest=\"sub_root\", type=Path, default=None)\n114: root: Path = (getattr(args, \"sub_root\", None) or args.root).resolve()\nLine 69 belongs to project; line 78 belongs to export. Other subparsers have no local --root.\nREADME quotations:\n138: fixture, run from this checkout root. For `init`, `intake`, `profile`, `compile-pi`, `bind-pd`,\n139: `compile-ecp`, `compile-tqaep`, `validate` and `doctor`, `--root` is a global option and must\n140: precede the subcommand; `project` and `export` **additionally** accept `--root` after the\n141: subcommand.\n208: pipd --root ./demo init                  # exit 0 — global --root before the subcommand\n209: pipd project --root ./demo --dry-run     # exit 0 — subcommand-local --root (project only)\n210: pipd export --root ./demo --dry-run      # exit 0 — subcommand-local --root (export only)\n213: `pipd init --root ./demo` is refused (exit `2`): `init` does not accept a subcommand-local `--root`,\nInterpretation: all 13 commands accept global --root before the command. Only project/export accept it after. Local sub_root overrides global root; the result is resolved to an absolute path. diff/repair also require the global position, although the README paragraph does not list them. No contradiction found."
+  },
+  {
+   "id": "C5",
+   "result": "RE_DERIVED",
+   "command": "& 'C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe' -B 'C:/Projects/Agent_Workspace/var/iao-s4r2m-20261012-6a44f13391154f4ab979c93d9110db8f/probes.py'. The script executes pipd --root ./demo init; pipd project --root ./demo --dry-run; pipd export --root ./demo --dry-run; pipd init --root ./demo from scratch/cli. pipd is a scratch pipd.cmd launcher containing @\"C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe\" -B -m pipd_ls_sp.cli %*. PYTHONPATH is the subject/src; PYTHONDONTWRITEBYTECODE=1.",
+   "observed": "Personally produced exit codes, in requested order: 0, 0, 0, 2.\nFirst stdout includes: \"contract_families\": 19, \"created\": [\"docs\", \"schemas\", \"src\", \"tests\", \"dist\"], \"verdict\": \"PASS\".\nSecond stdout includes: \"dry_run\": true, \"verdict\": \"PASS\", \"wrote_nothing\": true.\nThird stdout includes: \"dry_run\": true, \"file_count\": 0, \"files\": [], \"manifest_sha256\": \"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\", \"mode\": \"READ_ONLY_MANIFEST\", \"secret_scan\": \"PASS\", \"wrote_nothing\": true.\nRefusal stdout:\n{\n \"code\": \"USAGE_INVALID\",\n \"message\": \"invalid command line; see --help for the 13 commands\",\n \"verdict\": \"FAIL\"\n}\nRefusal stderr ends: pipd: error: unrecognized arguments: --root ./demo\nThis checks the candidate source entry point using the pinned interpreter, not a separately installed wheel."
+  },
+  {
+   "id": "C6",
+   "result": "RE_DERIVED",
+   "command": "Pinned python -B scratch/probes.py: enumerate git ls-tree -r --name-only HEAD; count schemas/*.schema.json and distinct immediate skills/ directories; check schemas/registry.json is tracked and is a file; execute scratch pipd.cmd --help and count its brace-delimited command names.",
+   "observed": "canonical_schemas=19\nall_tree_schema_files=35\nregistry_tracked=true\nregistry_is_file=true\nskill_count=8\nskill_directories=[\"pipd-assurance-tqaep\", \"pipd-authority-source\", \"pipd-execution-contract\", \"pipd-package-project\", \"pipd-pd-bind\", \"pipd-pi-compile\", \"pipd-profile-tailor\", \"pipd-route-intake\"]\nHelp exit=0; raw command list:\n{init,intake,profile,compile-pi,bind-pd,compile-ecp,compile-tqaep,validate,doctor,project,export,diff,repair}\nHELP_COMMAND_COUNT=13\nThe three canonical counts are 19/8/13; the whole tracked tree contains 35 schema files because the eight skills each include two local schema files."
+  },
+  {
+   "id": "C7",
+   "result": "RE_DERIVED",
+   "command": "git archive --format=zip --output=\"C:/Projects/Agent_Workspace/var/iao-s4r2m-20261012-6a44f13391154f4ab979c93d9110db8f/candidate.zip\" HEAD; Expand-Archive that archive to scratch/copy. From scratch/copy, execute C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -B -m unittest tests.<module> separately for each requested module, through scratch/suites.py. PYTHONPATH=copy/src; PYTHONDONTWRITEBYTECODE=1; TEMP and TMP point to scratch.",
+   "observed": "test_s4r2_affected_only:\nRan 18 tests in 2.210s\nOK\nexit=0\n\ntest_postrelease_contract_hardening:\nRan 28 tests in 1.239s\nOK\nexit=0\n\ntest_postrelease_quickstart:\nRan 9 tests in 0.005s\nOK\nexit=0\n\ntest_postrelease_web_mount:\nRan 20 tests in 0.330s\nOK\nexit=0\n\ntest_postrelease_selfbootstrap:\nRan 7 tests in 0.392s\nOK\nexit=0\n\ntest_first_run_examples:\nRan 3 tests in 3.105s\nOK\nexit=0\n\ntest_ce_repair_regression:\nRan 9 tests in 2.003s\nOK\nexit=0\n\ntest_wheel_distribution:\nRan 6 tests in 19.036s\nOK\nexit=0\n\ntest_s4r2m_docs_route:\nRan 7 tests in 0.521s\nOK\nexit=0\n\nAll results were personally produced in the archived candidate copy. Subject untouched afterwards cannot be confirmed: C2 detected a changed tracked tasks.md."
+  },
+  {
+   "id": "C8",
+   "result": "RE_DERIVED",
+   "command": "Pinned python -B scratch/probes.py, with subject/src on PYTHONPATH and bytecode writing disabled. record, metadata = pipd_ls_sp.pipeline.profile_record('LITE', ['intent']); deep-copy record, apply each requested field mutation, and call pipd_ls_sp.validate.validate_record('ProfileBinding', record, Path('C:/Projects/Agent_Workspace/PIPD/worktrees/s4r2m-merge-wt/schemas')).",
+   "observed": "The initial probe incorrectly treated profile_record's tuple return as a dict and produced AttributeError: 'tuple' object has no attribute 'update'. The corrected probe used its generated record component; no record was hand-written.\nRaw corrected findings:\nlegal=[]\naxes_string=[\"ProfileBinding/axes: 'intent' is not of type 'array'\"]\naxes_mixed=[\"ProfileBinding/axes/1: 42 is not one of ['intent', 'knowledge', 'verification', 'release', 'trust_boundary', 'preexisting_repo', 'profile', 'tech_candidates', 'host_surface']\"]\nprofile_int=[\"ProfileBinding/profile: 42 is not one of ['LITE', 'STANDARD', 'ASSURED']\"]\nvetoes_string=[\"ProfileBinding/vetoes: 'veto' is not of type 'array'\"]\nunknown_axis=[\"ProfileBinding/axes/0: 'unknown' is not one of ['intent', 'knowledge', 'verification', 'release', 'trust_boundary', 'preexisting_repo', 'profile', 'tech_candidates', 'host_surface']\"]\nduplicated_axis=[\"ProfileBinding/axes: ['intent', 'intent'] has non-unique elements\"]\nillegal_artifact_depth=[\"ProfileBinding/artifact_depth: 'illegal' is not one of ['L1_SCHEMA_CONTRACT', 'L3_INTEGRATION_RUNTIME', 'L4_FAILURE_RECOVERY']\"]"
+  },
+  {
+   "id": "C9",
+   "result": "RE_DERIVED",
+   "command": "git diff --name-status 3f6c7dc52b73cfcba03dccbe576ade75bec1890d..58a1f334464675081d0573476d70e2165143bdd8, run from the subject cwd",
+   "observed": "M\tREADME.md\nA\topenspec/changes/pipd-ls-sp-s4r2m-conditional-merge/design.md\nA\topenspec/changes/pipd-ls-sp-s4r2m-conditional-merge/proposal.md\nA\topenspec/changes/pipd-ls-sp-s4r2m-conditional-merge/specs/pipd-s4r2m-conditional-merge/spec.md\nA\topenspec/changes/pipd-ls-sp-s4r2m-conditional-merge/tasks.md\nA\ttests/test_s4r2m_docs_route.py\nNo src/**, schemas/** or dist/** path appears."
+  },
+  {
+   "id": "C10",
+   "result": "INCONCLUSIVE",
+   "command": "After writing scratch/own-observations.txt: git grep -n -I -E '(G-RELEASE_FULL_PASS|full.gate|FULL_GATE|production.ready|PRODUCTION_VERIFIED|native.*(demonstrated|verified)|NOT_RUN|DEFERRED)' HEAD -- README.md ACCEPTANCE.md 'openspec/changes/pipd-ls-sp-s4r2m-conditional-merge/*' 'dist/mount/*'; additional case-insensitive claim-pattern search over those paths; git show HEAD:openspec/changes/pipd-ls-sp-s4r2m-conditional-merge/tasks.md; git diff -- openspec/changes/pipd-ls-sp-s4r2m-conditional-merge/tasks.md",
+   "observed": "README.md:43: pack; this path is **not yet demonstrated here**.\nREADME.md:246: **NOT claimed as a full pass.** ... **PARTIAL_CHALLENGE**\nREADME.md:247: **G-RELEASE_FULL_PASS is NOT granted.**\nREADME.md:249: **PRODUCTION_VERIFIED** ... **NOT claimed**\nACCEPTANCE.md:11: G-RELEASE_FULL_PASS and PRODUCTION_VERIFIED remain **NOT claimed**.\nACCEPTANCE.md:154: NOT_RUN ... os.symlink raises OSError WinError 1314\nFrozen tasks.md:60: - [ ] 8.4 If NO: record PREVIEW3_DEFERRED and stop; create no empty tag\nCorrectly labelled deferrals are DEFERRED_LABELLED, not PASS and not grounds for failure.\nNo full-gate, production-readiness or demonstrated-native-load assertion was found in the searched current surfaces. Historical README.md:270–276 asserts DEL-018 PASS and 1085/253/253 figures; I did not re-run those gates and cannot establish whether those assertions exceed their evidence. A candidate-wide narrative audit was not completed.\nDuring this check the working tasks.md changed: line 46, task 6.6, became checked as completed before this verdict; line 45, task 6.5, also became checked despite the observed byte change. Frozen HEAD retains both unchecked. These working-file changes are distinguished from the frozen candidate."
+  }
+ ],
+ "verdict": "INCONCLUSIVE",
+ "scope": "Personally re-derived frozen Git identity, README onboarding and parser agreement, source-entry-point CLI exits, canonical exact sets, seven validator negatives, commit diff scope, and nine passing affected suites in a scratch archive of the frozen candidate. Acceptance of an unchanged subject cannot be issued: its tracked tasks.md changed during the check. All checker writes targeted C:/Projects/Agent_Workspace/var/iao-s4r2m-20261012-6a44f13391154f4ab979c93d9110db8f; observations and raw execution records are retained there.",
+ "not_covered": [
+  "A stable, untouched subject for the entire run; the final digest and tracked status differ from the initial observations.",
+  "Gitlink directory contents; four mode-160000 entries were reported separately from the 1341 tracked file hashes.",
+  "Full-suite or full-gate acceptance, production readiness, native web skill registration, and live external integrations.",
+  "Historical DEL-018 counts, compiler/admission claims, release publication, remote refs, published downloads, upgrade and rollback gates.",
+  "An exhaustive audit of every historical narrative or author evidence file.",
+  "Exact runtime model identifier; it was not exposed."
+ ],
+ "disagreements": [
+  "The requested non-mutation condition did not hold: tasks.md changed from SHA-256 60929406f1fe3c947d881870c194c1da80c449707e556abb2bed9acba72e37ee to 3720db017290abdb8a3fef40d12bce170373bb6a9c94183ca5866fcdb637e97b.",
+  "The working tasks.md marked independent-officer task 6.6 complete before this verdict was issued. This checked state is absent from frozen HEAD and cannot be accepted as evidence of independent acceptance."
+ ]
+}
