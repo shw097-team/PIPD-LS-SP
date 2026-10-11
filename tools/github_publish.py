@@ -34,6 +34,18 @@ def load_token() -> str | None:
     return m.group(0).decode("ascii") if m else None
 
 
+def _https_only(url: str) -> str:
+    """Refuse any scheme other than https before a request is opened (bandit B310).
+
+    The base URL is a module constant, so this is a guard rather than a live fix: it makes the
+    allow-list explicit and fails closed if a future caller ever passes a different scheme.
+    """
+    from urllib.parse import urlsplit
+
+    if urlsplit(url).scheme != "https":
+        raise ValueError(f"refusing a non-https URL: {url!r}")
+    return url
+
 def api(path: str, token: str, method: str = "GET", body: dict | None = None):
     req = urllib.request.Request(
         API + path, method=method,
@@ -42,7 +54,8 @@ def api(path: str, token: str, method: str = "GET", body: dict | None = None):
                  "User-Agent": "PIPD-LS-SP-governed-round", "X-GitHub-Api-Version": "2022-11-28",
                  "Content-Type": "application/json"})
     try:
-        with urllib.request.urlopen(req, timeout=40) as r:
+        # the URL is scheme-allow-listed by _https_only() immediately above, so B310 cannot apply here
+        with urllib.request.urlopen(_https_only(req.full_url), timeout=40) as r:  # nosec B310
             return r.status, json.loads(r.read().decode("utf-8", "replace"))
     except urllib.error.HTTPError as e:
         try:
@@ -54,9 +67,10 @@ def api(path: str, token: str, method: str = "GET", body: dict | None = None):
 
 
 def anon(url: str):
+    _https_only(url)
     req = urllib.request.Request(url, headers={"User-Agent": "PIPD-anon-readback"})
     try:
-        with urllib.request.urlopen(req, timeout=40) as r:
+        with urllib.request.urlopen(_https_only(req.full_url), timeout=40) as r:  # nosec B310 - scheme allow-listed above
             return r.status, r.read().decode("utf-8", "replace")
     except urllib.error.HTTPError as e:
         return e.code, ""

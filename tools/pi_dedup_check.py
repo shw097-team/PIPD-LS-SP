@@ -79,6 +79,41 @@ def _source_sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _extract_archive_members(tf: "tarfile.TarFile", dest: Path) -> None:
+    """Materialise archive members one at a time, refusing anything that could escape ``dest``.
+
+    ``git archive HEAD`` cannot itself emit ``..``, so this is defence in depth rather than a fix
+    for a live attack: relative paths only, no absolute or drive prefix, and regular
+    files/directories only - never a symlink, hardlink, device or FIFO. ``extractall`` is
+    deliberately NOT used; every member is written by hand so no member-selection behaviour of the
+    stdlib can widen the surface.
+    """
+    import shutil as _shutil
+
+    dest = dest.resolve()
+    for member in tf.getmembers():
+        name = member.name.replace("\\", "/")
+        parts = [q for q in name.split("/") if q not in ("", ".")]
+        if (not parts or any(q == ".." for q in parts) or name.startswith("/")
+                or (len(name) > 1 and name[1] == ":")):
+            raise tarfile.TarError(f"unsafe member path refused: {member.name!r}")
+        if not (member.isfile() or member.isdir()):
+            raise tarfile.TarError(
+                f"non-file member refused: {member.name!r} (type {member.type!r})")
+        target = dest / Path(*parts)
+        if target != dest and dest not in target.parents:
+            raise tarfile.TarError(f"member escapes the destination: {member.name!r}")
+        if member.isdir():
+            target.mkdir(parents=True, exist_ok=True)
+            continue
+        target.parent.mkdir(parents=True, exist_ok=True)
+        source = tf.extractfile(member)
+        if source is None:
+            raise tarfile.TarError(f"member has no readable payload: {member.name!r}")
+        with source, open(target, "wb") as out:
+            _shutil.copyfileobj(source, out)
+
+
 def head_baseline() -> dict[str, Any] | None:
     """Materialise the REAL ``HEAD`` sources and measure the pre-change PI payload there.
 
@@ -100,7 +135,7 @@ def head_baseline() -> dict[str, Any] | None:
             return None
         try:
             with tarfile.open(fileobj=__import__("io").BytesIO(proc.stdout)) as tf:
-                tf.extractall(dest)
+                _extract_archive_members(tf, dest)
         except (tarfile.TarError, OSError):
             return None
         missing = [f for f in HEAD_BASELINE_FILES if not (dest / f).exists()]
