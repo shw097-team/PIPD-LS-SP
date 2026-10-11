@@ -6,3 +6,17 @@ __pycache__/
 
 # harness logs must not dirty a frozen candidate
 .hgk/ao/*.log
+
+# credential material must never enter the tree (HGK-SWOF-ACCEPTANCE-BRIDGE)
+Fine-grained personal access tokens*.txt
+API KEY/
+*.credentials.json
+
+# PIPD working trees live inside the repo for workspace hygiene; never tracked
+worktrees/
+
+# Workspace-level scaffolding relocated into the repo tree during the hygiene passes.
+# These are NOT product sources; they must never be swept into a commit.
+_handover/
+_control/
+CHECKPOINT_*.md
