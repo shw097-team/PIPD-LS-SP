@@ -1,0 +1,52 @@
+{
+  "schema": "PIPD-AO-VERDICT/1",
+  "checker": {
+    "id": "OPENAI-CODEX-INDEPENDENT-AO",
+    "model": "GPT-5",
+    "provider": "openai",
+    "independent_of_maker": true
+  },
+  "subject": {
+    "commit": "5094939606ba9331ed768743eb5b806ad159e639",
+    "tree": "b480182ca3c9c45fffb6d0d04cd81580d5b67c72",
+    "wheel_sha256": "e49d38e519117d67de57153658779eafa139eb0dda5a6d15f486facb44fd00e2"
+  },
+  "counts": {
+    "PASS": 46,
+    "FAIL": 2,
+    "NOT_RUN": 4
+  },
+  "falsification_attempts": [
+    {
+      "case": "A1-A16",
+      "result": "HELD",
+      "detail": "All runnable hazardous destinations were typed nonzero refusals with identical whole-fixture hashes; symlink creation was privilege-blocked; positive projection produced 5 Web + 3 Host + IR."
+    },
+    {
+      "case": "C3",
+      "result": "HELD",
+      "detail": "Fake credential shape caused typed EXPORT_SECRET_SCAN, nonzero exit, and zero output."
+    },
+    {
+      "case": "D1",
+      "result": "BROKE",
+      "detail": "perf check exits 0 and only bytes_per_atom votes, but required literal historical FAIL 343547 > 20000 is not emitted; current run instead shows 366299 > 20000."
+    },
+    {
+      "case": "E1",
+      "result": "BROKE",
+      "detail": "HEAD/tree match the frozen tuple, but git reports the claimed R4 ancestor object cd8a06e... is not a valid object, so lineage is not demonstrable from the published checkout."
+    }
+  ],
+  "blockers": [
+    "Windows denied symlink creation (WinError 1314).",
+    "ensurepip failed in fresh venvs; B4/B5 stopped after exactly three attempts each."
+  ],
+  "not_verified": [
+    "A10",
+    "B4",
+    "B5",
+    "UAT-10-source"
+  ],
+  "verdict": "FAIL_CHALLENGE"
+}

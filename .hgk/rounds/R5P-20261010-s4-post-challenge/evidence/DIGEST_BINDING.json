@@ -1,0 +1,14 @@
+{
+  "schema": "PIPD-R5P-DIGEST-BINDING/1",
+  "candidate_root": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r5p-pushed-tree",
+  "bound_definition": "product_digest = sha256 of canonical JSON (separators ',',':', ensure_ascii=False, keys n/a) of the sorted rows [[posix_relative_path, sha256_file], ...] over PRODUCT_ROOTS=[\"src\", \"tests\", \"tools\", \"schemas\", \"dist\", \"docs\", \"skills\", \"fixtures\", \"pyproject.toml\", \"README.md\", \"ACCEPTANCE.md\", \"LICENSE\", \"PROVENANCE.md\", \"SBOM.cdx.json\", \"OWNER_LICENSE_DECISION.yaml\", \"openspec\"], excluding any path with a part in EXCLUDE_DIRS=[\".agents\", \".git\", \".hermes\", \".hgk\", \".venv\", \"__pycache__\", \"node_modules\"] or a suffix in EXCLUDE_SUFFIX=[\".pyc\", \".pyo\"].",
+  "bound_product_digest": "692ad0086763eb1b424c622ff4ba0d146c92202f36f0aee586ad2e3b3ca7398d",
+  "bound_file_count": 288,
+  "rejected_alternative": {
+    "definition": "equivalence.py product digest over PRODUCT_PREFIXES=[\"src\", \"tools\", \"tests\", \"schemas\", \"skills\", \"docs\", \"dist\", \"fixtures\"]",
+    "product_digest": "7dba20852ab5811d343c72697fa315d3886a8ccdb9915c9e262f57e2fca5431b",
+    "file_count": 251,
+    "why_rejected": "narrower scope: omits packaging/legal/openspec roots, so two of the round's own scripts published different numbers for the same subject (challenge C8)"
+  },
+  "checker_reproduction": "python ops/bound_digest.py <pristine_root> then compare bound_product_digest"
+}

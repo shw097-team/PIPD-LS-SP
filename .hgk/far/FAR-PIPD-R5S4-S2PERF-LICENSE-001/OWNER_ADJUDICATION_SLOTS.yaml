@@ -1,0 +1,95 @@
+# OWNER_ADJUDICATION_SLOTS — R5 S4 FAR (S2 perf gate / licence-publication gate)
+# Prepared by FAR-PIPD-R5S4-S2PERF-LICENSE-001 on 2026-10-10.
+# NOTHING HERE IS A GRANT OR A RULING. Until the owner fills `decision`, every slot below is UNSET
+# and every affected gate stays exactly as it is today (S2 perf FAIL preserved, publication closed).
+#
+# Rule for agents: no agent may set any slot to a value that weakens a gate, raises a threshold,
+# or grants a licence. Agents may only record the owner's ruling verbatim and then execute the
+# mechanical consequences.
+
+schema: PIPD-OWNER-ADJUDICATION-SLOTS/1
+subject: PIPD-LS-SP (https://github.com/shw097-team/PIPD-LS-SP)
+candidate_head: 7c5bc585c7d889cd338da853be4efc4b8f07d3b2
+evidence: .hgk/far/FAR-PIPD-R5S4-S2PERF-LICENSE-001/EVIDENCE_S2PERF.json
+far_report: 知識庫/實作相關DOC/PIPD/實作證據/PIPD-LS-SP_R5_S4_FAR_S2PERF_LICENSE_2026-10-10.md
+
+slots:
+
+  - id: S2_BUDGET_DEFINITION
+    question: >
+      Is the context/artefact budget a scale-invariant rate or an absolute artefact bound?
+    measured_fact: >
+      PI = 334,778 B over 237 atoms = 1,412.6 B/atom. The current absolute budget 20,000 B is
+      equivalent to 14.2 atoms at today's density, i.e. the corpus is 16.7x the budget's implied
+      envelope. Removing all known lossless duplication floors at 263,653 B, still 13.2x over.
+    options:
+      - PER_ATOM_BYTES(2000)                       # recommended: scale-invariant
+      - PER_ARTEFACT_BYTES(20000, CORPUS_ATOM_CAP=14)
+      - KEEP_UNPROVENANCED                          # no change; gate stays FAIL and carries no signal
+    decision: PER_ATOM_BYTES(2000)
+    executed_utc: "2026-10-10"
+    executed_in: tools/perf_budget.py (PROVENANCE['bytes_per_atom']); see docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json
+    consequence_if_UNSET: tools/perf_budget.py --check stays FAIL; no new information is gained.
+
+  - id: S2_TIMING_THRESHOLDS
+    question: >
+      Keep, demote or delete the three timing thresholds, none of which has a consumer?
+    measured_fact: >
+      compile_chain_ms 850.7/2000 (2.35x headroom), validate_19_contracts_ms 1.9/3000 (1,579x),
+      cli_cold_start_ms 116.6/6000 (51x). All three read UNDECIDABLE and cannot fire.
+    options:
+      - ADVISORY          # recommended: keep observing, remove from the hard verdict
+      - DELETE(no_consumer)
+      - KEEP_AS_IS
+    decision: ADVISORY
+    executed_utc: "2026-10-10"
+    executed_in: >-
+      tools/perf_budget.py (voting set to False on all three rows; they stay measured and printed)
+    consequence_if_UNSET: they keep diluting the hard gate's discriminating power.
+
+  - id: S2_HISTORICAL_FAIL
+    question: May the recorded 343,547 > 20,000 FAIL be rewritten or exempted?
+    recommended: PRESERVE
+    decision: PRESERVE
+    executed_utc: "2026-10-10"
+    executed_in: >-
+      tools/perf_budget.py keeps the row as a non-voting ADVISORY and re-emits it in the
+      historical.preserved_fails block of every --check run; the recorded verdicts are verbatim
+    agent_rule: never rewrite it, never adjust a threshold to turn it green.
+
+  - id: LICENSE_DECISION
+    question: Set the machine-readable licence decision, which currently reads UNSET.
+    measured_fact: >
+      LICENSE states an explicit, class-split non-grant. R4 ruling A2 = ACCEPT_EXISTING_NO_LICENSE_NOTICE
+      already executed; TT-PIPD-LICENSE-001 is disposable by that act. The two agree in prose but
+      disagree in the machine-readable slot.
+    options:
+      - LicenseRef-PIPD-Proprietary   # recommended: non-granting; zero engineering
+      - MIT
+      - Apache-2.0
+      - UNSET
+    decision: LicenseRef-PIPD-Proprietary
+    executed_utc: "2026-10-10"
+    executed_in: OWNER_LICENSE_DECISION.yaml (repo root); the UNSET copies under the R2 round keep their bytes
+    agent_rule: >
+      An agent may write a non-granting value after the owner says so; an agent may NEVER set a
+      granting value (MIT/Apache-2.0) on the owner's behalf.
+
+  - id: PUBLICATION_BLOCKER_RESTATED_AS
+    question: Replace the vague blocker text "licence not opened" with the machine cause.
+    measured_fact: >
+      publication_manifest --check --current exits 1 with CURRENT_TREE_UNCOVERED; the local checkout
+      has no remote and the externally reviewed commit cd8a06e... is absent from the local object
+      store. Neither cause is a licence problem.
+    options:
+      - EVIDENCE_GAP                 # recommended
+      - LICENCE_NOT_OPENED           # current, factually wrong
+    decision: EVIDENCE_GAP
+    executed_utc: "2026-10-10"
+    executed_in: >-
+      docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json#/rulings/PUBLICATION_BLOCKER_RESTATED_AS and
+      the R5 S4 evidence master; the gate itself stays closed and unchanged
+
+not_granted:
+  - nothing in this file grants a licence, a release, an independent pass or production verification
+  - no gate is opened by filling a slot; each slot only states the owner's decision

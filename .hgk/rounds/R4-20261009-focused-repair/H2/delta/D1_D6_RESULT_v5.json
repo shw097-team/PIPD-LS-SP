@@ -1,0 +1,632 @@
+{
+ "harness": "PIPD-DELTA-HARNESS/5",
+ "authored_by": "orchestrator (disclosed) - checker must review and reproduce >=2 probes by hand",
+ "supersedes": "HARNESS_D1_D6.py (v3) and harness_d1_d6_v4.py - both named deficient by the independent checker",
+ "v5_changes": "D2 asserts the sandbox BEFORE deleting and derives the native path from the MSYS string; fixture git codes asserted; an exception is no longer counted as a refusal; the e2e aggregate also requires the REFUSED diagnostic and no traceback; per-hunk removed/added TEXT emitted so the checker can judge semantics",
+ "subject": {
+  "repaired_tool": {
+   "path": "C:\\w8v3delta\\repo\\tools\\round_envelope.py",
+   "sha256": "d8a24cb565ff51122cc5ecbd0f5fa814f3359da95c22f41023dedd7c7494dbd5"
+  },
+  "accepted_tool": {
+   "path": "C:\\w8v3delta\\frozen\\round_envelope_ACCEPTED.py",
+   "sha256": "0901ac0ef94ba61ff955e37c47c03754c7b98ced356cf6201c1fe0fff04efd0b"
+  },
+  "repaired_test": {
+   "sha256": "907763d3c75883fa0082185c0fe8e8277afc368ce01e0938ce7a52141bef1d84"
+  },
+  "accepted_test": {
+   "sha256": "6c1facfec6a28f71e39e7e0c6583fc42aba141b179202af90e14b96689c38f55"
+  }
+ },
+ "D1": {
+  "hunk_count": 12,
+  "hunks": [
+   {
+    "op": "insert",
+    "accepted": [
+     27,
+     26
+    ],
+    "repaired": [
+     27,
+     32
+    ],
+    "functions_touched": [
+     "<module>"
+    ],
+    "scope": "declared",
+    "removed_lines": 0,
+    "added_lines": 5,
+    "removed_text": [],
+    "added_text": [
+     "Destruction guards (H2-DEFECT-02): ``init`` additionally refuses a blank/whitespace-only ``--dst``",
+     "before normalisation (STOP-1); a resolved ``--dst`` that is the cwd, the user home, or a",
+     "filesystem/drive root (STOP-2); a ``--dst`` equal to ``--src`` or an ancestor of it (STOP-3); and an",
+     "existing non-empty ``--dst`` unless ``--allow-destroy`` is given (STOP-5). Before any removal it",
+     "prints the absolute path being destroyed (STOP-4). ``--allow-destroy`` never bypasses STOP-1..STOP-3."
+    ]
+   },
+   {
+    "op": "insert",
+    "accepted": [
+     67,
+     66
+    ],
+    "repaired": [
+     73,
+     92
+    ],
+    "functions_touched": [
+     "_norm_path",
+     "_within",
+     "guard_paths"
+    ],
+    "scope": "declared",
+    "removed_lines": 0,
+    "added_lines": 15,
+    "removed_text": [],
+    "added_text": [
+     "# An MSYS/POSIX-style path such as ``/c/Users/x`` (drive letter as the first segment).",
+     "_MSYS_RE = re.compile(r\"^/([A-Za-z])/(.*)$\")",
+     "def _norm_path(value: str | os.PathLike) -> str:",
+     "\"\"\"Normalise a CLI path argument to an expanded, drive/host-absolute string.",
+     "On Windows an MSYS-style argument (``/c/Users/x``) is rewritten to ``c:/Users/x`` *before*",
+     "normalising, so the house habit of POSIX-style paths does not silently become a relative",
+     "``\\\\c\\\\Users\\\\x`` under the current drive (defect H2-DEFECT-01). A native drive-absolute path",
+     "(``C:\\\\x`` or ``C:/x``) survives unchanged; ``~`` is expanded.",
+     "\"\"\"",
+     "text = str(value)",
+     "if os.name == \"nt\":",
+     "m = _MSYS_RE.match(text)"
+    ]
+   },
+   {
+    "op": "insert",
+    "accepted": [
+     82,
+     81
+    ],
+    "repaired": [
+     108,
+     148
+    ],
+    "functions_touched": [
+     "guard_destination",
+     "guard_paths",
+     "is_blank",
+     "is_fs_root"
+    ],
+    "scope": "declared",
+    "removed_lines": 0,
+    "added_lines": 33,
+    "removed_text": [],
+    "added_text": [
+     "return problems",
+     "def is_blank(value: object) -> bool:",
+     "\"\"\"True for a missing, empty, or whitespace-only path argument (STOP-1).",
+     "A genuinely empty argument normalises to the current working directory",
+     "(``os.path.abspath(\"\") == os.getcwd()``), which is exactly how H2-DEFECT-02 let an empty ``--dst``",
+     "resolve onto the repo root; a blank value is therefore never a valid destination and is refused",
+     "**before** any normalisation.",
+     "\"\"\"",
+     "return value is None or not str(value).strip()",
+     "def is_fs_root(path: Path) -> bool:",
+     "\"\"\"True when ``path`` is a filesystem/drive root (``C:\\\\``, ``/``): a path with no parent.\"\"\"",
+     "resolved = path.resolve()"
+    ]
+   },
+   {
+    "op": "replace",
+    "accepted": [
+     202,
+     204
+    ],
+    "repaired": [
+     269,
+     278
+    ],
+    "functions_touched": [
+     "cmd_init"
+    ],
+    "scope": "declared",
+    "removed_lines": 3,
+    "added_lines": 10,
+    "removed_text": [
+     "src = Path(args.src)",
+     "dst = Path(args.dst)",
+     "scratch = Path(args.scratch) if args.scratch else Path(tempfile.gettempdir()) / \"r4h\" / \"envelope\""
+    ],
+    "added_text": [
+     "# STOP-1: refuse a blank/whitespace-only --dst BEFORE any normalisation. _norm_path(\"\") ==",
+     "# os.path.abspath(\"\") == the cwd, so a blank destination would silently become the working",
+     "# directory and rmtree would destroy it (H2-DEFECT-02). This check precedes every other step.",
+     "if is_blank(getattr(args, \"dst\", None)):",
+     "print(\"round_envelope init: REFUSED - --dst '' is blank: an empty path is never a valid \"",
+     "\"destination\", file=sys.stderr)",
+     "return 2",
+     "src = Path(_norm_path(args.src))",
+     "dst = Path(_norm_path(args.dst))",
+     "scratch = Path(_norm_path(args.scratch)) if args.scratch else Path(tempfile.gettempdir()) / \"r4h\" / \"envelope\""
+    ]
+   },
+   {
+    "op": "replace",
+    "accepted": [
+     210,
+     210
+    ],
+    "repaired": [
+     284,
+     287
+    ],
+    "functions_touched": [
+     "cmd_init"
+    ],
+    "scope": "declared",
+    "removed_lines": 1,
+    "added_lines": 4,
+    "removed_text": [
+     "problems = guard_paths(src, dst, scratch)"
+    ],
+    "added_text": [
+     "# STOP-2 (cwd / home / drive root) and STOP-3 (dst == src, or dst an ancestor of src — the latter",
+     "# is also covered by the guard_paths containment checks below, both directions). These answer",
+     "# \"is this destination safe to destroy at all\", which the containment guards cannot.",
+     "problems = guard_destination(src, dst) + guard_paths(src, dst, scratch)"
+    ]
+   },
+   {
+    "op": "insert",
+    "accepted": [
+     216,
+     215
+    ],
+    "repaired": [
+     293,
+     299
+    ],
+    "functions_touched": [
+     "cmd_init"
+    ],
+    "scope": "declared",
+    "removed_lines": 0,
+    "added_lines": 6,
+    "removed_text": [],
+    "added_text": [
+     "# STOP-5: --allow-destroy (default OFF) merely permits destroying an existing NON-EMPTY",
+     "# destination. STOP-1..STOP-3 have already refused above, so this flag cannot bypass them.",
+     "if not args.allow_destroy and dst.is_dir() and any(dst.iterdir()):",
+     "print(f\"round_envelope init: REFUSED - --dst {dst.resolve()} exists and is non-empty: \"",
+     "\"pass --allow-destroy to replace it\", file=sys.stderr)",
+     "return 2"
+    ]
+   },
+   {
+    "op": "replace",
+    "accepted": [
+     217,
+     220
+    ],
+    "repaired": [
+     301,
+     314
+    ],
+    "functions_touched": [
+     "cmd_init"
+    ],
+    "scope": "declared",
+    "removed_lines": 4,
+    "added_lines": 14,
+    "removed_text": [
+     "if dst.exists():",
+     "shutil.rmtree(dst)",
+     "dst.mkdir(parents=True, exist_ok=True)",
+     "copied = copy_tree(src, dst)"
+    ],
+    "added_text": [
+     "# Fail closed: an uncreatable destination (e.g. a path exceeding Windows MAX_PATH, or a parent",
+     "# that is a file) must be a named refusal, not an opaque os-level traceback.",
+     "try:",
+     "if dst.exists():",
+     "# STOP-4: name the exact absolute path about to be destroyed before destroying it, so the",
+     "# destructive step is visible in the log rather than silent.",
+     "print(f\"round_envelope init: removing existing destination {dst.resolve()}\", file=sys.stderr)",
+     "shutil.rmtree(dst)",
+     "dst.mkdir(parents=True, exist_ok=True)",
+     "copied = copy_tree(src, dst)",
+     "except OSError as exc:",
+     "print(f\"round_envelope init: REFUSED: destination path too long or uncreatable: {dst} \""
+    ]
+   },
+   {
+    "op": "replace",
+    "accepted": [
+     247,
+     249
+    ],
+    "repaired": [
+     341,
+     348
+    ],
+    "functions_touched": [
+     "cmd_init"
+    ],
+    "scope": "declared",
+    "removed_lines": 3,
+    "added_lines": 8,
+    "removed_text": [
+     "scratch.mkdir(parents=True, exist_ok=True)",
+     "out = scratch / \"envelope.json\"",
+     "out.write_text(json.dumps(record, ensure_ascii=False, indent=1), encoding=\"utf-8\", newline=\"\")"
+    ],
+    "added_text": [
+     "try:",
+     "scratch.mkdir(parents=True, exist_ok=True)",
+     "out = scratch / \"envelope.json\"",
+     "out.write_text(json.dumps(record, ensure_ascii=False, indent=1), encoding=\"utf-8\", newline=\"\")",
+     "except OSError as exc:",
+     "print(f\"round_envelope init: REFUSED: scratch path too long or uncreatable: {scratch} \"",
+     "f\"({exc.__class__.__name__}: {exc})\", file=sys.stderr)",
+     "return 2"
+    ]
+   },
+   {
+    "op": "replace",
+    "accepted": [
+     261,
+     261
+    ],
+    "repaired": [
+     360,
+     360
+    ],
+    "functions_touched": [
+     "cmd_snapshot"
+    ],
+    "scope": "declared",
+    "removed_lines": 1,
+    "added_lines": 1,
+    "removed_text": [
+     "repo = Path(args.repo)"
+    ],
+    "added_text": [
+     "repo = Path(_norm_path(args.repo))"
+    ]
+   },
+   {
+    "op": "replace",
+    "accepted": [
+     266,
+     268
+    ],
+    "repaired": [
+     365,
+     372
+    ],
+    "functions_touched": [
+     "cmd_snapshot"
+    ],
+    "scope": "declared",
+    "removed_lines": 3,
+    "added_lines": 8,
+    "removed_text": [
+     "out = Path(args.out)",
+     "out.parent.mkdir(parents=True, exist_ok=True)",
+     "out.write_text(json.dumps(record, ensure_ascii=False, indent=1), encoding=\"utf-8\", newline=\"\")"
+    ],
+    "added_text": [
+     "out = Path(_norm_path(args.out))",
+     "try:",
+     "out.parent.mkdir(parents=True, exist_ok=True)",
+     "out.write_text(json.dumps(record, ensure_ascii=False, indent=1), encoding=\"utf-8\", newline=\"\")",
+     "except OSError as exc:",
+     "print(f\"round_envelope snapshot: REFUSED: output path too long or uncreatable: {out} \"",
+     "f\"({exc.__class__.__name__}: {exc})\", file=sys.stderr)",
+     "return 2"
+    ]
+   },
+   {
+    "op": "replace",
+    "accepted": [
+     276,
+     277
+    ],
+    "repaired": [
+     380,
+     381
+    ],
+    "functions_touched": [
+     "cmd_verify"
+    ],
+    "scope": "declared",
+    "removed_lines": 2,
+    "added_lines": 2,
+    "removed_text": [
+     "before = json.loads(Path(args.before).read_text(encoding=\"utf-8\"))",
+     "after = json.loads(Path(args.after).read_text(encoding=\"utf-8\"))"
+    ],
+    "added_text": [
+     "before = json.loads(Path(_norm_path(args.before)).read_text(encoding=\"utf-8\"))",
+     "after = json.loads(Path(_norm_path(args.after)).read_text(encoding=\"utf-8\"))"
+    ]
+   },
+   {
+    "op": "insert",
+    "accepted": [
+     315,
+     314
+    ],
+    "repaired": [
+     419,
+     420
+    ],
+    "functions_touched": [
+     "_build_parser"
+    ],
+    "scope": "declared",
+    "removed_lines": 0,
+    "added_lines": 2,
+    "removed_text": [],
+    "added_text": [
+     "p_init.add_argument(\"--allow-destroy\", action=\"store_true\",",
+     "help=\"permit destroying an existing non-empty --dst (STOP-1..STOP-3 still refuse)\")"
+    ]
+   }
+  ],
+  "undisclosed_hunks": [],
+  "unsafe_function_hunks": [],
+  "guards_referenced_in_source": {
+   "<module>": false,
+   "_build_parser": true,
+   "_norm_path": true,
+   "_norm_path(args.dst)": true,
+   "_within": true,
+   "cmd_init": true,
+   "cmd_snapshot": true,
+   "cmd_verify": true,
+   "guard_destination": true,
+   "guard_destination(src, dst)": true,
+   "guard_paths": true,
+   "is_blank": true,
+   "is_blank(": true,
+   "is_fs_root": true,
+   "main": true
+  },
+  "note": "scope is now decided by which FUNCTIONS a hunk touches, not by keyword presence"
+ },
+ "D2": {
+  "exit": 0,
+  "created_at_drive_path": true,
+  "destination": "C:\\w8v3delta\\scratch\\probe_msys_1980",
+  "msys_argument_passed": "/c/w8v3delta/scratch/probe_msys_1980",
+  "destination_pre_existed": false,
+  "removed_before_run": true,
+  "normalisation_regression_landing_created": false,
+  "drive_root_c_manifest_identical": true,
+  "drive_root_c_manifest_diff": {
+   "added": 0,
+   "removed": 0,
+   "changed": 0
+  },
+  "drive_root_c_entries": 10960,
+  "manifest_truncated": false,
+  "c_pre_existing": true,
+  "stderr_head": [
+   "round_envelope init: envelope written to C:\\w8v3delta\\scratch\\d2_lh0rtod0\\scr\\envelope.json"
+  ]
+ },
+ "D3": {
+  "exit": 2,
+  "line_count": 1,
+  "names_the_path": true,
+  "has_REFUSED": true,
+  "traceback_printed": false,
+  "no_tree_created_at_bad_path": true,
+  "stderr": "round_envelope init: REFUSED: destination path too long or uncreatable: C:\\w8v3delta\\scratch\\d3_rhw47_dw\\blocker\\child\\deep (FileExistsError: [WinError 183] 當檔案已存在時，無法建立該檔案。: 'C:\\\\w8v3delta\\\\scratch\\\\d3_rhw47_dw\\\\blocker')",
+  "src_untouched": true
+ },
+ "D4": {
+  "refusals": {
+   "dst_inside_src": {
+    "exit": 2,
+    "has_REFUSED": true,
+    "traceback": false,
+    "src_manifest_unchanged": true
+   },
+   "src_inside_dst": {
+    "exit": 2,
+    "has_REFUSED": true,
+    "traceback": false,
+    "src_manifest_unchanged": true
+   },
+   "scratch_inside_tree": {
+    "exit": 2,
+    "has_REFUSED": true,
+    "traceback": false,
+    "src_manifest_unchanged": true
+   }
+  },
+  "all_refused_with_exit_2": true,
+  "accepted_baseline_exit": 0,
+  "accepted_baseline_summary": [
+   "Ran 11 tests in 0.948s",
+   "OK"
+  ],
+  "fixture_git_returncodes": {
+   "init": 0,
+   "add": 0,
+   "commit": 0
+  }
+ },
+ "D5": {
+  "exit": 0,
+  "summary": [
+   "Ran 23 tests in 1.758s",
+   "OK"
+  ],
+  "failure_lines": [],
+  "weakening_audit": {
+   "accepted_tests": 11,
+   "repaired_tests": 23,
+   "added": [
+    "test_allow_destroy_does_not_bypass_stop_guards",
+    "test_blank_or_whitespace_dst_refuses_before_normalisation",
+    "test_init_with_msys_style_dst_lands_at_drive_path",
+    "test_legitimate_temp_destination_still_succeeds",
+    "test_native_drive_path_survives_unchanged",
+    "test_nonempty_existing_destination_needs_allow_destroy",
+    "test_norm_path_converts_msys_style_to_drive_absolute",
+    "test_refuses_destination_ancestor_of_source",
+    "test_refuses_destination_equal_to_cwd",
+    "test_refuses_destination_equal_to_source",
+    "test_refuses_src_inside_dst",
+    "test_uncreatable_destination_is_a_clear_refusal"
+   ],
+   "removed_preexisting": [],
+   "assertions_shrunk": {},
+   "no_test_removed": true,
+   "no_assertion_shrunk": true
+  },
+  "test_file_sha256": {
+   "accepted": "6c1facfec6a28f71e39e7e0c6583fc42aba141b179202af90e14b96689c38f55",
+   "repaired": "907763d3c75883fa0082185c0fe8e8277afc368ce01e0938ce7a52141bef1d84"
+  }
+ },
+ "D6": {
+  "unit_probes_no_destruction_risk": {
+   "home": {
+    "target": "C:\\Users\\user",
+    "problems": [
+     "--dst C:\\Users\\user is the user home directory: refusing to destroy the home directory"
+    ],
+    "refused": true,
+    "exception": null,
+    "refused_by_a_real_problem": true
+   },
+   "drive_root": {
+    "target": "C:\\",
+    "problems": [
+     "--dst C:\\ is a filesystem/drive root: refusing to destroy a root",
+     "--src C:\\w8v3delta\\scratch\\d6_75o8o6ay\\outside\\src resolves inside --dst C:\\: the source must not live in the copy",
+     "--scratch C:\\w8v3delta\\scratch\\d6_75o8o6ay\\scr resolves inside --dst C:\\: scratch must be outside the copy"
+    ],
+    "refused": true,
+    "exception": null,
+    "refused_by_a_real_problem": true
+   },
+   "cwd": {
+    "target": "C:\\w8v3delta",
+    "problems": [
+     "--dst C:\\w8v3delta is the current working directory: refusing to destroy the cwd",
+     "--src C:\\w8v3delta\\scratch\\d6_75o8o6ay\\outside\\src resolves inside --dst C:\\w8v3delta: the source must not live in the copy",
+     "--scratch C:\\w8v3delta\\scratch\\d6_75o8o6ay\\scr resolves inside --dst C:\\w8v3delta: scratch must be outside the copy"
+    ],
+    "refused": true,
+    "exception": null,
+    "refused_by_a_real_problem": true
+   },
+   "equals_src": {
+    "target": "C:\\w8v3delta\\scratch\\d6_75o8o6ay\\outside\\src",
+    "problems": [
+     "--dst C:\\w8v3delta\\scratch\\d6_75o8o6ay\\outside\\src equals --src: refusing to destroy the source tree",
+     "--dst C:\\w8v3delta\\scratch\\d6_75o8o6ay\\outside\\src resolves inside --src C:\\w8v3delta\\scratch\\d6_75o8o6ay\\outside\\src: the copy must be a separate tree",
+     "--src C:\\w8v3delta\\scratch\\d6_75o8o6ay\\outside\\src resolves inside --dst C:\\w8v3delta\\scratch\\d6_75o8o6ay\\outside\\src: the source must not live in the copy"
+    ],
+    "refused": true,
+    "exception": null,
+    "refused_by_a_real_problem": true
+   },
+   "ancestor_of_src": {
+    "target": "C:\\w8v3delta\\scratch\\d6_75o8o6ay\\outside",
+    "problems": [
+     "--src C:\\w8v3delta\\scratch\\d6_75o8o6ay\\outside\\src resolves inside --dst C:\\w8v3delta\\scratch\\d6_75o8o6ay\\outside: the source must not live in the copy"
+    ],
+    "refused": true,
+    "exception": null,
+    "refused_by_a_real_problem": true
+   },
+   "blank": {
+    "is_blank('')": true,
+    "is_blank('   ')": true,
+    "is_blank('x')": false
+   }
+  },
+  "unit_all_refused": true,
+  "e2e_probes_disposable_only": {
+   "blank_dst": {
+    "exit": 2,
+    "has_REFUSED": true,
+    "traceback": false,
+    "nothing_deleted_or_recreated": true,
+    "stderr_head": [
+     "round_envelope init: REFUSED - --dst '' is blank: an empty path is never a valid destination"
+    ]
+   },
+   "whitespace_dst": {
+    "exit": 2,
+    "has_REFUSED": true,
+    "traceback": false,
+    "nothing_deleted_or_recreated": true,
+    "stderr_head": [
+     "round_envelope init: REFUSED - --dst '' is blank: an empty path is never a valid destination"
+    ]
+   },
+   "blank_dst_with_allow_destroy": {
+    "exit": 2,
+    "has_REFUSED": true,
+    "traceback": false,
+    "nothing_deleted_or_recreated": true,
+    "stderr_head": [
+     "round_envelope init: REFUSED - --dst '' is blank: an empty path is never a valid destination"
+    ]
+   },
+   "dst_equals_cwd": {
+    "exit": 2,
+    "has_REFUSED": true,
+    "traceback": false,
+    "nothing_deleted_or_recreated": true,
+    "stderr_head": [
+     "round_envelope init: REFUSED - --dst C:\\w8v3delta\\scratch\\d6_75o8o6ay\\throwcwd is the current working directory: refusing to destroy the cwd"
+    ]
+   },
+   "dst_equals_src": {
+    "exit": 2,
+    "has_REFUSED": true,
+    "traceback": false,
+    "nothing_deleted_or_recreated": true,
+    "stderr_head": [
+     "round_envelope init: REFUSED - --dst C:\\w8v3delta\\scratch\\d6_75o8o6ay\\outside\\src equals --src: refusing to destroy the source tree"
+    ]
+   },
+   "dst_ancestor_of_src": {
+    "exit": 2,
+    "has_REFUSED": true,
+    "traceback": false,
+    "nothing_deleted_or_recreated": true,
+    "stderr_head": [
+     "round_envelope init: REFUSED - --src C:\\w8v3delta\\scratch\\d6_75o8o6ay\\outside\\src resolves inside --dst C:\\w8v3delta\\scratch\\d6_75o8o6ay\\outside: the source must not live in the copy"
+    ]
+   },
+   "dst_ancestor_with_allow_destroy": {
+    "exit": 2,
+    "has_REFUSED": true,
+    "traceback": false,
+    "nothing_deleted_or_recreated": true,
+    "stderr_head": [
+     "round_envelope init: REFUSED - --src C:\\w8v3delta\\scratch\\d6_75o8o6ay\\outside\\src resolves inside --dst C:\\w8v3delta\\scratch\\d6_75o8o6ay\\outside: the source must not live in the copy"
+    ]
+   },
+   "positive_control": {
+    "exit": 0,
+    "created": true,
+    "failed_means_guards_too_strict": false
+   }
+  },
+  "e2e_all_held": true,
+  "positive_control_ok": true,
+  "throwaway_cwd_intact": true,
+  "real_home_never_passed_to_a_destructive_path": true,
+  "drive_root_never_passed_to_a_destructive_path": true
+ }
+}

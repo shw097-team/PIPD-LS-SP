@@ -1,0 +1,52 @@
+{
+  "schema": "PIPD-LANE-INCIDENT/1",
+  "lane": "R5-AO (independent non-Maker checker, WO-S4-UAT-004 / independent acceptance)",
+  "image": "pipd-r4-writer:4 (mounted /w READ-ONLY, /ao rw)",
+  "observed_window": "2026-10-10T03:49Z..03:57Z",
+  "outcome": "both independent container checker lanes were terminated by the orchestrator after the same 429-then-frozen-log stall. A deterministic in-process checker was then run to give the round a real, if lower-grade, independent re-derivation. No INDEPENDENT_PASS is claimed.",
+  "attempts": [
+    {"attempt": 1, "started": "2026-10-10T03:49Z", "stopped": "2026-10-10T03:57Z",
+     "symptom": "log frozen 8 minutes at 'Reconnecting... 1/5'; zero bridge traffic; container Up",
+     "raw_log": ".hgk/preflight/R5-compiler/lane/log_ao_attempt1.txt"},
+    {"attempt": 2, "started": "2026-10-10T04:07Z", "stopped": "2026-10-10T04:15Z",
+     "symptom": "identical: log frozen 8 minutes, one fresh 429 in the bridge log immediately before",
+     "raw_log": ".hgk/preflight/R5-compiler/lane/log_ao_attempt2.txt"}
+  ],
+  "fallback": {
+    "what": "deterministic independent checker, run as a separate host process against the frozen candidate",
+    "path": ".hgk/rounds/R5-20261009-s4-user-operability/ao/independent_check.py",
+    "verdict_file": ".hgk/rounds/R5-20261009-s4-user-operability/ao/AO_VERDICT_DETERMINISTIC.json",
+    "verdict": "PASS_CHECK_DETERMINISTIC (17/17 cases)",
+    "grade": "LOWER than an LLM acceptance officer; it re-derives hashes, re-runs the danger matrix on a disposable copy, mutates the wheel to prove the negative paths, redoes the export recompute and replays. It cannot exercise judgement about intent or wording.",
+    "labelling": "Its verdict is marked INDEPENDENT_CHECK_DETERMINISTIC and never INDEPENDENT_PASS."
+  },
+  "threshold_breach": {
+    "rule": "remediate or pause when the same abnormal block class repeats more than 4 times",
+    "class": "upstream HTTP 429 from the model provider",
+    "count_at_decision": 6,
+    "breached": true,
+    "channel_census_full_round": {"200": 269, "404_websocket_probe": 70, "429": 6},
+    "evidence": "bridge.log status census (grep -oE 'HTTP/1.1\" [0-9]{3}' | sort | uniq -c)"
+  },
+  "remediation_attempted": [
+    {
+      "step": "switch to the lane's declared backup model (standing convention)",
+      "result": "IMPOSSIBLE — no reachable target",
+      "evidence": "GET http://127.0.0.1:10100/v1/models returns exactly 1 model: opencode-go/deepseek-v4.1-flash. The proxy exposes no other model id. The lane registry's declared EXECUTE fallback (openai-codex/gpt-6-luna) is recorded RETIRED. Switching therefore has nowhere to go; this is an environment fact, not a choice."
+    },
+    {
+      "step": "pause the stalled lane",
+      "result": "DONE — docker kill 50dddaaee4f9; no container left running"
+    },
+    {
+      "step": "continue verification work that does not touch the model",
+      "result": "DONE — the UAT-00..12 matrix runs on the host and never calls the provider"
+    },
+    {
+      "step": "retry the checker lane",
+      "result": "DEFERRED behind a backoff window, then relaunched with a fresh log; recorded as a retry rather than a silent restart"
+    }
+  ],
+  "combined_round_429_attribution": "6 occurrences spread across 5 lane runs (WO1, WO2, WO3, AO and one more), i.e. roughly one transient 429 per run rather than a sustained quota exhaustion: the bridge served 269 HTTP 200s over the same window and /v1/models answered 200 immediately after each 429.",
+  "disclosure": "No independent verdict exists for the R5 S4 candidate as of this record. Every R5 result is Maker-side (claim ceiling S4_REPAIR_CANDIDATE_LOCAL_TESTED) until a checker lane completes."
+}

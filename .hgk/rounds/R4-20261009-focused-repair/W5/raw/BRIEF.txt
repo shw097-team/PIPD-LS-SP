@@ -1,0 +1,45 @@
+# LANE W5b — finish W5: evidence for the de-duplication + perf-budget provenance
+
+An earlier lane already added these functions to `src/pipd_ls_sp/requirements.py`:
+`source_id_for`, `source_table`, `normalized_locator`, `resolve_source_clause` (and wired them in
+`src/pipd_ls_sp/pipeline.py`). Review them, keep them (or improve them), and FINISH the two deliverables.
+Do not run `unittest discover` (it costs >12 minutes here). Read only the files named below.
+Time-box: ~15 minutes. Environment: unittest, no `git` binary, python 3.11.
+
+## Deliverable 1 — prove the PI de-duplication, raw-first
+Write `tools/pi_dedup_check.py` (modes `--before`, `--after`, `--check`) and `tests/test_pi_dedup.py`
+(exactly four tests). Evidence you must produce as raw files:
+- `PERF_BEFORE.json` already exists in the raw dir — read it, and also measure the CURRENT tree:
+  for the PIPD PI sample in `fixtures/**`, count (a) how many atoms embed a `source_text` that is a
+  byte-identical copy of the clause `text`, (b) the duplicated byte total, (c) total PI payload bytes.
+- After the change, re-measure: `sources[]` holds exactly one entry per distinct clause, every atom carries
+  a `source_ref`, and (b) is 0. Write `PERF_AFTER.json` with both measurements side by side plus a
+  `duplication_eliminated` number and the `first_fail` string when it is not 0.
+- The four tests must assert: one `sources` entry per distinct clause; no atom carries `source_text`;
+  `resolve_source_clause` round-trips an atom back to its pre-dedupe locator; and a mutation test showing
+  `--check` fails if a duplicated `source_text` is re-introduced.
+
+## Deliverable 2 — perf budget provenance (do NOT change the numbers)
+In `tools/perf_budget.py` add, for every budget entry: `measurement` (how it is measured),
+`denominator` (what it is divided by) and `source_of_truth` (the file/rule the threshold comes from).
+Where a threshold has no provenance that exists in the repo, set `source_of_truth` to
+`"UNPROVENANCED"` and make `--check` report that entry as `UNDECIDABLE`, never as PASS or FAIL.
+Keep every existing numeric threshold byte-identical — do not raise or lower one. Add one test to the
+existing perf test module proving a threshold with no provenance is reported `UNDECIDABLE`, not PASS.
+
+## Verify and capture
+```
+cd /w; R=.hgk/rounds/R4-20261009-focused-repair/W5/raw; mkdir -p $R
+python3 tools/pi_dedup_check.py --before > $R/dedup_before.txt 2>&1
+python3 tools/pi_dedup_check.py --after  > $R/dedup_after.txt  2>&1
+python3 tools/pi_dedup_check.py --check  > $R/dedup_check.txt 2>&1; echo "exit=$?" >> $R/dedup_check.txt
+python3 -m unittest tests.test_pi_dedup -v > $R/unittest_dedup.txt 2>&1; echo "exit=$?" >> $R/unittest_dedup.txt
+python3 tools/perf_budget.py --check > $R/perf_check.txt 2>&1; echo "exit=$?" >> $R/perf_check.txt
+python3 -m unittest tests.test_perf_budget -v > $R/unittest_perf.txt 2>&1; echo "exit=$?" >> $R/unittest_perf.txt
+cp /briefs/W5b.md $R/BRIEF.txt
+```
+Reply in ≤10 lines: the before/after byte numbers, the perf entries marked UNPROVENANCED, and the exit codes.
+
+## Forbidden
+- Never raise/lower a numeric budget; never drop a requirement; never skip a test.
+- Do not modify `.hgk/artifacts/TT_REGISTER.json`, `fixtures/**` rows, or any other lane's files.

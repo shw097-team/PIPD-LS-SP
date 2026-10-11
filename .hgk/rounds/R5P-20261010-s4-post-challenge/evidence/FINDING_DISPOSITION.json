@@ -1,0 +1,245 @@
+{
+  "schema": "PIPD-R5P-FINDING-DISPOSITION/1",
+  "round": "R5P-20261010-s4-post-challenge",
+  "as_of": "2026-10-10T14:25:00Z",
+  "subject": {
+    "baseline": "r5-s4-packreader @ 0f06eec96386b7349db8b41ac6cf9c7455d326f1 (tree 1f7564282fd708fab2ddeadbbbe4e424a3c564be)",
+    "candidate_code_commit": "b3d08b7d651a548ae74dc45453224fe393c41269 (tree 91fd6dccd8225559ec91e2b7a2b501b0a25719e1)",
+    "candidate_packaging_commit": "0f64d1f8f84ca3f5815254353abcc039589d457d (tree 95e8bcf6940f63fa68d80ca683787402b22f5336; packaging only, no code change)",
+    "candidate_repair_commit_VERIFY_SUBJECT": "812af79422c087f0ef5a07188fbec061df6b47e0 (tree d3b79d2bc7aba08368a02a9f34204d14c9b06bbd)",
+    "governance_commit": "2f28dd4 (openspec task status; 575a9c4 openspec change proposal)",
+    "wheel_sha256": "bb070a6f525382edc521bcf7fe127579e1e329024113ab4fe2881eeeea7b0a76 (231852 bytes; unchanged by the repair - the wheel packages src/ only)",
+    "bound_product_digest": "4f5e2310766699d064a402291be2c4803c977e39fda7b65086a98a1b4793338d (288 files, tip 9caef8ec)",
+    "superseded_digest": "4a03925912da166ada3047c2e6b57e5949e49421066ffaf523b776f41586dcc7 (narrower scope published in the attempt-1 brief; rejected after challenge C8)",
+    "candidate_tip_after_review": "9caef8ec36017b4c3ca55b9a672da1fa625fff07 (tree 910f94127ee6367a6f5adff995321b353f4a6f10) - attempt 3 subject; ACCEPTANCE.md banner only"
+  },
+  "claim_ceiling": "CANDIDATE_ONLY",
+  "independent_acceptance": "SEE ao/out/AO_VERDICT.json (attempt 1) and ao/out2/AO_VERDICT_V2.json (attempt 2)",
+  "release": "NOT_GRANTED",
+  "findings": [
+    {
+      "id": "F-R5-01",
+      "title": "pipd doctor reports PASS on an installed wheel whose packaged schema surface is incomplete",
+      "verdict": "FIXED_CANDIDATE",
+      "wo": "WO-S4-DIAG-001",
+      "change": "workspace.py doctor() now reports schema_source {mode, path, origin} for the surface the resolver actually selected and hard-fails when that surface cannot satisfy its own registry (missing member, unloadable registry, member/registry mismatch). registry.py gained the resolution/consistency helpers.",
+      "evidence": [
+        "host resolver-level negative: PIPD_SCHEMAS_DIR=<mutated copy without ArtifactIdentity.schema.json> -> verdict FAIL, exit 1, mode OVERRIDE, finding names ArtifactIdentity, while the same workspace healthy copy returns PASS (UAT-00N[source] PASS; evidence/host_b4_override_doctor.json)",
+        "installed-package negative: removing ArtifactIdentity.schema.json from the installed venv's packaged schemas makes the installed CLI exit non-zero with a typed FAIL naming the family, and restoring it returns to PASS (UAT-00N[install] PASS, healthy=0 mutated=1 restored=0)",
+        "wheel-level mutations (member removed, RECORD unchanged / RECORD adjusted) built and installed by the independent lane in-container; tests/test_doctor_schema_truth.py (10 tests) passes in-container where pip is available",
+        "tests/test_wheel_distribution.py extended; SKIPPED on the host interpreter only because that interpreter has no pip (recorded as an honest skip, not a pass)"
+      ],
+      "residual": "The host-side suite cannot exercise the wheel-level mutation because its interpreter has no pip; that leg rests on the container runs (maker lane + independent lane)."
+    },
+    {
+      "id": "F-R5-02",
+      "title": "No independent re-verification bound to the latest tip",
+      "verdict": "ADDRESSED_IN_ROUND__AWAITING_EXTERNAL_RATIFICATION",
+      "wo": "WO-S4-AO-002",
+      "change": "A new immutable candidate tuple exists on branch r5p-post-challenge-repair: code commit b3d08b7d651a548ae74dc45453224fe393c41269, packaging commit 0f64d1f8f84ca3f5815254353abcc039589d457d, repair commit 812af79422c087f0ef5a07188fbec061df6b47e0 (tree d3b79d2bc7aba08368a02a9f34204d14c9b06bbd), wheel SHA256 bb070a6f525382edc521bcf7fe127579e1e329024113ab4fe2881eeeea7b0a76, bound product digest 4ee712e899e9f4aa14d46ba1d3f879eb6b45ad0ae4a8b02bf1d9847b5f8cc579 (288 files, definition in ops/bound_digest.py). An independent lane re-derived the doctor truth on the pristine export of the tip; a second independent pass re-verifies the repair commit. Neither the d1aad3e attestation nor the 5094939 first AO receipt is used as the new subject's evidence.",
+      "evidence": [
+        "lane/log_ao.txt + ao/out/AO_VERDICT.json (independent attempt 1: C1_DOCTOR_TRUTH PASS on the pristine export of 0f64d1f8)",
+        "ao/out2/AO_VERDICT_V2.json (independent attempt 2 on 812af79)",
+        "evidence/DIGEST_BINDING.json (one bound digest definition; the narrower scope that produced the earlier mismatch is labelled rejected)",
+        "evidence/EVIDENCE_RETURN_PACK.json (baseline/code/packaging/repair commits, wheel sha, bound digest, 353 raw artefact hashes)"
+      ],
+      "residual": "The lane runs under this session's orchestration and shares the workstation: it is a different process, mount, model and identity from the maker, but it is not an off-workstation ratification. Human ratification and any off-workstation re-derivation remain PENDING.",
+      "status": "PARTIAL",
+      "disposition": "PARTIAL_TT",
+      "note": "Subject binding for the R5P tip exists via EVIDENCE_RETURN_PACK.json + DIGEST_BINDING.json + wheel sha + four independent passes, but no PUBLICATION_SUBJECT_ATTESTATION in the repo names an R5P commit (verified: the four commit fields are 3aebbbce/818157b1/d1aad3e6/f4f0a02c). Corrected from CLOSED to PARTIAL on self-check. -> TT-R5P-10"
+    },
+    {
+      "id": "F-R5-03",
+      "title": "Wheel tamper / RECORD integrity has no typed install-time refusal",
+      "verdict": "PARTIAL__DISCLOSED",
+      "wo": "WO-S4-DIAG-001 (+ AO lane)",
+      "change": "None beyond the doctor-side truth: the round did not add an install-time cryptographic readback guard, which would need a packaging-contract change.",
+      "evidence": [
+        "lane/log_ao.txt B4 build/install records",
+        "prior R5 B5 observation: a truncated Python member fails with interpreter SyntaxError, which is not a typed conformance refusal"
+      ],
+      "residual": "S4 minimal contract is met only in the weaker form: the tool refuses to *report PASS* on an incomplete surface. A tampered-but-importable wheel still installs. Raised as TT-OPEN."
+    },
+    {
+      "id": "F-R5-04",
+      "title": "per-atom gate can be diluted by filler atoms",
+      "verdict": "FIXED_CANDIDATE_THEN_HARDENED_UNDER_CHALLENGE",
+      "wo": "WO-S4-CAL-003",
+      "change": "perf_budget.py votes on bytes per *unique validated obligation* rather than per raw atom; adds scale profiles at 2/237/801 atoms, a single very long clause probe, a padding-invariance probe, and separates disk/serialized bytes from model-context bytes (declared uncomputable without a bound tokenizer instead of being invented). Independent challenge C4 then defeated the first denominator by re-stamping filler atoms with fresh subject_id/req_id; the round repaired that on 2026-10-10 - the denominator is now CONTENT-addressed (sha256 of the atom's normalised statement), an atom that asserts nothing is accounted as unvalidated_atom_count and can never vote, and the rejected identity-addressed count plus the rate it would have produced are printed beside the vote.",
+      "evidence": [
+        "tools/perf_budget.py --check -> exit 0, verdict PASS, voting_row bytes_per_atom, denominator unique_obligations (evidence/perf_budget_check.json)",
+        "padding probe: 1 unique obligation / 7492 B per obligation before -> 501 atoms but still 1 unique obligation / 42492 B per obligation after; padding cannot push the row under budget",
+        "recorded historical row preserved verbatim and visible: context_bytes_per_artefact 343547 > 20000 budget, recorded=true, verdict FAIL, exceeded=true",
+        "tests/test_perf_budget.py extended; UAT-11 (source+install) PASS with s2_preserved_fail_visible=True",
+        "independent challenge C4 attack, now measured in the tool's own output: identical filler -> 1 unique obligation / 42492 B per obligation; re-stamped-id filler -> still 1 unique obligation / 49492 B per obligation, while the rejected identity-addressed denominator would have reported 98.79 B per obligation (below the 2000 budget) - i.e. the attack that passed before now fails, and its success under the old rule stays visible (evidence/perf_budget_check_after_c4.json)",
+        "tests/test_perf_budget.py: test_restamped_ids_do_not_create_obligations, test_an_atom_without_a_statement_is_not_an_obligation, test_restamped_filler_ids_also_fail_to_dilute; 29 tests OK",
+        "live measurement unchanged where it should be: 237 unique obligations, 1449.6 B per obligation, verdict PASS (the real PI's 237 atoms are 237 genuinely distinct statements)"
+      ],
+      "residual": "Scope of the claim: the rule resists filler and identity re-stamping. A payload whose filler asserts genuinely DISTINCT statements is, by construction, a payload with distinct obligations and is judged as such - it also pays bytes for each one. The 2000 B budget and PER_ATOM_BYTES(2000) owner ruling are unchanged.",
+      "recheck": "AO attempt 2 on 812af79 (brief lane/brief_ao_checker_v2.md)"
+    },
+    {
+      "id": "F-R5-05",
+      "title": "TQAEP was only exercised as a refusal; no legal design-time positive",
+      "verdict": "FIXED_CANDIDATE",
+      "wo": "WO-S4-TQAEP-004",
+      "change": "compile_tqaep() emits acceptance[0] = {case: TQAEP_DESIGN_CANDIDATE, claim_ceiling: TQAEP_DESIGNED, independent_acceptance: NOT_GRANTED, independent_proof_requires: S5_LIVE_RUNTIME_CHECKER}; the retired INDEPENDENT_CASE_PASS label is gone. schemas/ untouched (the ceiling rides inside the declared acceptance field because TQAEP.schema.json is additionalProperties:false).",
+      "evidence": [
+        "UAT-03[source] and UAT-03[install] PASS with sod=[2,2,2] (missing receipt, maker==checker alias, SELF_ATTESTED receipt) and design_positive=True",
+        "tests/test_tqaep_design_positive.py",
+        "no INDEPENDENT_CASE_PASS / INDEPENDENT_PASS token anywhere in the design-time artefact"
+      ],
+      "residual": "The receipt string is still only a recorded string: independent acceptance remains genuinely unclaimed until a live S5 runtime checker exists."
+    },
+    {
+      "id": "F-R5-06",
+      "title": "32 SPEC + 25 DEL source trace has no per-row executable oracle",
+      "verdict": "PARTIAL__S4_ACTIVE_SUBSET_ONLY",
+      "wo": "WO-S4-AO-002",
+      "change": "Unchanged denominator (32 + 25 = 57 kept). Stage> S4 rows stay DESIGN_ONLY / deferred; no aggregate PASS is claimed.",
+      "evidence": [
+        "docs/SPEC_DEL_CROSSWALK.json (unchanged)",
+        "round UAT matrix (S4-active behaviour)"
+      ],
+      "residual": "No per-row executable oracle was produced for the S4-active subset in this round; it stays an evidence gap and is raised as TT-OPEN. Nothing in this round should be read as '57 PASS'."
+    },
+    {
+      "id": "F-R5-07",
+      "title": "README first screen still reads as an R3-era product statement",
+      "verdict": "FIXED_CANDIDATE",
+      "wo": "WO-DOC-STATUS-005",
+      "change": "README.md first screen marks the 'S0 and S1 are the only stages reached' sentence as a historical R3 snapshot, names the branch actually under review (r5p-post-challenge-repair, baseline r5-s4-packreader @ 0f06eec9, main still R3), points at ACCEPTANCE.md, and restates LicenseRef-PIPD-Proprietary with no public-use grant. Existing receipts were not rewritten. The branch name was corrected after independent challenge C6 pointed out that the first repair named the baseline the candidate was cut from.",
+      "evidence": [
+        "git diff README.md (4 lines: 1 replaced + 2 added)",
+        "ACCEPTANCE.md unchanged",
+        "independent challenge C6 (attempt 1) quoted the wrong branch, confirming the wording mattered; README now names r5p-post-challenge-repair with its baseline"
+      ],
+      "residual": "None at candidate level.",
+      "recheck": "AO attempt 2 on 812af79"
+    },
+    {
+      "id": "F-R5-08",
+      "title": "Windows symlink/junction negative was NOT_RUN (no SeCreateSymbolicLinkPrivilege)",
+      "verdict": "RUN__PASS_WITH_NAMED_OBSERVATION",
+      "wo": "WO-S4-AO-002 (closed on a disposable Linux runner instead)",
+      "change": "The negative was executed in the disposable Linux container (root can create symlinks), against a scratch tree only, never against the repository.",
+      "evidence": [
+        "evidence/symlink_negative.jsonl",
+        "A1 symlink-escape destination -> refused typed UNSAFE_DESTINATION, exit 2",
+        "A2 traversal destination -> refused, exit 2",
+        "A4 destination swapped for a symlink after creation (TOCTOU shape) -> refused, exit 2",
+        "A5 genuine safe destination -> publishes (the resolver discriminates, it is not blanket-refusing)",
+        "canary file unchanged"
+      ],
+      "observation": "A3: when the *authorised root itself* is a symlink, the tool resolves it and publishes into its real target. That is self-consistent (the destination's real path stays inside the real path of the authorised root) and no victim was touched, but the tool does not warn that the authorised root is a symlink. Classified ORACLE_DISAGREEMENT for the owner: either document it as accepted behaviour or refuse symlinked authorised roots."
+    },
+    {
+      "id": "F-R5-09",
+      "title": "HGK knowledge/technology subset",
+      "verdict": "DEFERRED__UNCHANGED",
+      "wo": "out of S4 repair scope",
+      "change": "None. OFF-first is preserved; no candidate technology was activated; no pin/licence/TTL was invented.",
+      "evidence": [
+        ".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json (left exactly at HEAD; a rebuild side effect was reverted)"
+      ],
+      "residual": "Deferred to S5 by the reviewer's own §12 table."
+    },
+    {
+      "id": "F-R5-10",
+      "title": "Licence / public-use rights",
+      "verdict": "HUMAN_OWNER_GATE__UNCHANGED",
+      "wo": "not a code repair",
+      "change": "None. README now restates the no-grant position; no licence was granted, inferred or extended by this round.",
+      "evidence": [
+        "LICENSE",
+        "OWNER_LICENSE_DECISION.yaml",
+        "README.md first screen"
+      ],
+      "residual": "Requires a human rights decision; the AI cannot close it."
+    }
+  ],
+  "ao_attempt_1": {
+    "verdict": "FAIL",
+    "checks_passed": [
+      "C1_DOCTOR_TRUTH",
+      "C3_",
+      "C5_"
+    ],
+    "checks_failed": [
+      "C2_DETERMINISTIC_SUITE",
+      "C4_PER_ATOM_GATE",
+      "C6_DOCS",
+      "C7_SECURITY_FAIL_CLOSED",
+      "C8_SUBJECT_BINDING"
+    ],
+    "note": "The checker ran against 0f64d1f8 (pre-repair tip). Its C1 PASS independently confirms the F-R5-01 repair in the real installed-wheel path.",
+    "verdict_file": "ao/out/AO_VERDICT.json"
+  },
+  "repairs_after_attempt_1": [
+    {
+      "challenge": "C4",
+      "disposition": "CONFIRMED_DEFECT_IN_ROUND_OUTPUT (repaired)",
+      "action": "perf_budget denominator is now a distinct VALIDATED obligation (sha256 of the normalised statement); statement-less atoms are reported as unvalidated_atom_count and cannot inflate divisor or rate; the rejected identity-addressed count and the rate it would have produced are printed beside the vote",
+      "recheck": "awaiting AO attempt 2 on 812af79"
+    },
+    {
+      "challenge": "C6",
+      "disposition": "CONFIRMED_DEFECT_IN_ROUND_OUTPUT (repaired)",
+      "action": "README now names r5p-post-challenge-repair (baseline r5-s4-packreader @ 0f06eec9)",
+      "recheck": "awaiting AO attempt 2"
+    },
+    {
+      "challenge": "C8",
+      "disposition": "CONFIRMED_DEFECT_IN_ROUND_OUTPUT (repaired)",
+      "action": "one bound digest definition published (ops/bound_digest.py + evidence/DIGEST_BINDING.json); the narrower scope is explicitly labelled rejected",
+      "recheck": "awaiting AO attempt 2"
+    },
+    {
+      "challenge": "C2",
+      "disposition": "ORACLE_DISAGREEMENT (environment)",
+      "action": "the container has no git and mounts /w read-only, so git- and write-dependent tests cannot pass there; the suite evidence is the clean Windows worktree run",
+      "evidence": "evidence/host_fullsuite_repair.txt: Ran 311 tests, OK (skipped=6) on 812af79; evidence/host_checker_disputed_tests.txt: the 3 additional host errors are caused by the round's own Linux-created dangling symlinks under ao/out/venv_*/lib64, not by the product (skills scan reads root.rglob('SKILL.md'), unchanged code - pre-existing at 0f06eec line 150)"
+    },
+    {
+      "challenge": "C7",
+      "disposition": "ORACLE_DISAGREEMENT (platform)",
+      "action": "the disputed subject string is a Windows-absolute path that is RELATIVE on Linux; the same invariant is asserted by the in-repo test tests.test_negative_and_rollback.TestRollback.test_repair_subject_must_also_be_inside_the_authorised_root, which passes on the Windows host for this candidate",
+      "evidence": "evidence/host_checker_disputed_tests.txt"
+    }
+  ],
+  "new_findings": [
+    {
+      "id": "F-R5P-01",
+      "title": "doctor/secret-scan abort with an unhandled OSError when the walked tree contains a dangling symlink",
+      "class": "PRE_EXISTING_OBSERVATION",
+      "evidence": "python -m pipd_ls_sp.cli --root . doctor returned INPUT_SHAPE_INVALID / OSError WinError 1920 once the round's Linux-created venv symlink existed under .hgk/rounds/.../ao/out; the same rglob('SKILL.md') walk exists unchanged at baseline 0f06eec (workspace.py:150)",
+      "route": "TT to the CLI/packaging owner (skip-on-OSError is a one-line hardening, outside this round's write set)",
+      "impact_on_this_round": "none for measurement (round scratch is outside the product roots; the suite ran in a clean worktree); it does mean any host `doctor --root <repo>` run while round scratch is present is polluted"
+    }
+  ],
+  "ao_attempt_2": {
+    "verdict": "PARTIAL",
+    "verdict_file": "ao/out/AO_VERDICT_V2.json",
+    "subject": "812af79 (tree d3b79d2b)",
+    "passed": [
+      "C1 doctor truth",
+      "C4 anti-dilution",
+      "C6 README first screen",
+      "C7 withdrawn as ORACLE_DISAGREEMENT",
+      "C8 digest"
+    ],
+    "failed": [
+      "C2 EVIDENCE_GAP only (missing command/exit/subject receipt in the host raw at read time); no product defect derived"
+    ],
+    "independent_of_maker": true,
+    "human_ratification": "PENDING",
+    "claim_ceiling": "CANDIDATE_ONLY"
+  },
+  "accepted_limitations": [
+    "F-R5P-01: a dangling symlink inside the walked root aborts doctor/export with an unhandled error (pre-existing at the baseline)",
+    "F-R5-03: no install-time cryptographic readback; the repair establishes FAIL truth, not tamper resistance",
+    "F-R5-06: no per-row executable oracle for the 57-row crosswalk",
+    "Linux cannot reject every foreign Windows absolute spelling; a native Windows security verdict was not independently executed",
+    "the wheel is member-identical but not bit-reproducible across ZIP creators"
+  ]
+}

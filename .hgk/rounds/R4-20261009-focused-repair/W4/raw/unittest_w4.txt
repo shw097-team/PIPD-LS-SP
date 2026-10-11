@@ -1,0 +1,32 @@
+test_every_candidate_has_a_rejected_negative_fixture (tests.test_technology_admission.TechnologyAdmissionContract.test_every_candidate_has_a_rejected_negative_fixture) ... ok
+test_schema_covers_the_source_design_record (tests.test_technology_admission.TechnologyAdmissionContract.test_schema_covers_the_source_design_record) ... ok
+test_schema_is_typed_not_wildcard (tests.test_technology_admission.TechnologyAdmissionContract.test_schema_is_typed_not_wildcard) ... ok
+test_source_pin_gate_is_honestly_partial_not_pass (tests.test_technology_admission.TechnologyAdmissionContract.test_source_pin_gate_is_honestly_partial_not_pass) ... ok
+test_twenty_two_rulings_present_and_valid (tests.test_technology_admission.TechnologyAdmissionContract.test_twenty_two_rulings_present_and_valid) ... FAIL
+test_active_row_missing_pin_fields_fails_source_pin_gate (tests.test_technology_admission.TechnologyAdmissionHardGate.test_active_row_missing_pin_fields_fails_source_pin_gate) ... ok
+test_interpretation_and_consumer_guard_flag_reported_active_empty (tests.test_technology_admission.TechnologyAdmissionHardGate.test_interpretation_and_consumer_guard_flag_reported_active_empty) ... ok
+test_nested_hard_gate_fail_forces_overall_fail_and_nonzero_exit (tests.test_technology_admission.TechnologyAdmissionHardGate.test_nested_hard_gate_fail_forces_overall_fail_and_nonzero_exit) ... ok
+test_non_adopt_rows_are_never_reported_active (tests.test_technology_admission.TechnologyAdmissionHardGate.test_non_adopt_rows_are_never_reported_active) ... ok
+test_every_row_carries_every_required_column (tests.test_technology_admission.TechnologyAdmissionRepair.test_every_row_carries_every_required_column) ... ok
+test_mut_tech_pin_is_refused_and_named (tests.test_technology_admission.TechnologyAdmissionRepair.test_mut_tech_pin_is_refused_and_named) ... ok
+test_no_non_adopt_row_is_reported_active (tests.test_technology_admission.TechnologyAdmissionRepair.test_no_non_adopt_row_is_reported_active) ... ok
+test_non_adopt_row_reported_active_is_refused (tests.test_technology_admission.TechnologyAdmissionRepair.test_non_adopt_row_reported_active_is_refused) ... ok
+test_positive_fully_pinned_adopt_row_passes (tests.test_technology_admission.TechnologyAdmissionRepair.test_positive_fully_pinned_adopt_row_passes) ... ok
+test_unknown_licence_activation_is_blocked (tests.test_technology_admission.TechnologyAdmissionRepair.test_unknown_licence_activation_is_blocked) ... ok
+
+======================================================================
+FAIL: test_twenty_two_rulings_present_and_valid (tests.test_technology_admission.TechnologyAdmissionContract.test_twenty_two_rulings_present_and_valid)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/w/tests/test_technology_admission.py", line 50, in test_twenty_two_rulings_present_and_valid
+    self.assertEqual(res["verdict"], "PASS", f"{rec['technology_id']}: {res}")
+AssertionError: 'FAIL' != 'PASS'
+- FAIL
++ PASS
+ : CAND-01: {'verdict': 'FAIL', 'checked': 1, 'findings': [{'contract': 'TechnologyAdmission', 'kind': 'SCHEMA', 'detail': "TechnologyAdmission/security_requirements: '' is not of type 'array'"}, {'contract': 'TechnologyAdmission', 'kind': 'SEMANTIC', 'detail': 'TechnologyAdmission: identity field version must be a non-empty string'}]}
+
+----------------------------------------------------------------------
+Ran 15 tests in 2.071s
+
+FAILED (failures=1)
+exit=1

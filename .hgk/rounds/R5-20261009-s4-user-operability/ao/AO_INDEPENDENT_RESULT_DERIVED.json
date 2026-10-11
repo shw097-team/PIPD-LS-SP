@@ -1,0 +1,65 @@
+{
+  "schema": "PIPD-AO-DERIVED-RESULT/1",
+  "round": "R5-20261009-s4-user-operability",
+  "issued_utc": "2026-10-10T05:34Z",
+  "label": "DERIVED_TALLY_FROM_THE_CHECKERS_OWN_RECORDS",
+  "explicitly_not": [
+    "NOT an AO_VERDICT.json - the checker never wrote one",
+    "NOT INDEPENDENT_PASS",
+    "NOT a substitute for an independent acceptance officer's signed verdict"
+  ],
+  "why_there_is_no_verdict": "The independent checker lane ran to its 2400 s budget and was killed by `timeout` (codex_exit=124) at 2026-10-10T05:32:34Z. Everything it finished had already been appended, per its brief, to AO_PROGRESS.txt and AO_LOG.ndjson; the consolidated verdict and report were never reached. Its raw records were preserved to .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt5/ rather than being paraphrased away.",
+  "checker_identity": {
+    "runtime": "pipd-r4-writer:4, /w mounted READ-ONLY, non-Maker, scratch OUTSIDE the product tree",
+    "model": "opencode-go/deepseek-v4.1-flash via the host bridge after the credential rotation"
+  },
+  "tally_from_its_own_records": {
+    "records_parsed": 66,
+    "distinct_cases": 37,
+    "by_passed_field": {"PASS": 63, "FAIL": 2, "NOT_RUN": 1},
+    "cases_with_at_least_one_pass": 37,
+    "cases_that_ever_failed": ["B13", "UAT-12"],
+    "the_tally_undercounts_the_checkers_real_coverage": "AO_LOG.ndjson holds 37 case ids (A1-A5, B1-B14, C1-C5, UAT-00..UAT-12). The checker additionally ran an E-block of freshness/staleness adversarial cases that it reported only as prose in the raw log, so those are NOT in the machine-readable records and are NOT counted here. Its real coverage is therefore larger than this tally, and this tally must not be presented as complete.",
+    "E_block_evidence_quoted_from_the_raw_log": [
+      "bare FRESH (no epoch): REFUSED StaleProvider -> unverifiable freshness claim: currentness asserted without a currentness_epoch bound to host state",
+      "FRESH + foreign epoch: REFUSED StaleProvider -> stale currentness claim: claimed epoch != host-derived",
+      "FRESH + correct epoch: ACCEPTED verified=['currentness', 'currentness_epoch']",
+      "FRESH + correct epoch + spoofed head: REFUSED StaleProvider -> spoofed freshness claim: head='deadbeef' contradicts host truth None",
+      "StaleProvider occurs 13 times in the raw log; an independent deterministic reproducer for the E-block has NOT been written by anyone (the in-process checker §6.1 does not cover it), so the E-block currently has exactly one witness - a lane that did not write a verdict."
+    ]
+  },
+  "adjudication_of_the_two_failures": [
+    {
+      "case": "B13",
+      "outcomes_across_passes": ["FAIL", "PASS"],
+      "verdict": "CHECKER_HARNESS_DEFECT, product correct",
+      "evidence": "the FAIL record's own captured stdout_head contains \"replaced\": true and \"rollback_pointer\": \"/ao/good.pipd-backup-c1ef35ea0ed74efd\", nested under a top-level `destination` object. The checker read top-level keys `replaced` / `rollback_pointer`, got None, and reported FAIL. Its argv was `project --out /ao/good --allow-root /ao --allow-replace`, exit 0.",
+      "product_change_made": false
+    },
+    {
+      "case": "UAT-12",
+      "outcomes_across_passes": ["FAIL", "PASS", "PASS", "PASS"],
+      "verdict": "FIRST-PASS TRANSIENT; three later passes agree",
+      "evidence": "the FAIL record shows export=2 (refused), leaked=false, exp_exists=false, foreign=2 (refused), root=2 (refused) - every product signal already correct - with only `intake_inj` reading 2 instead of 0. The three subsequent passes read inj=0 and pass. Nothing in the product changed between them.",
+      "product_change_made": false
+    }
+  ],
+  "what_it_independently_reproduced": {
+    "wheel_equivalence": "A1-A3 PASS: wheel sha256+size recomputed and matched to the manifest; member_count==38; all 13 py modules byte-identical to /w/src; product_digest recomputed == manifest",
+    "falsification_A4": "PASS/HELD: wheel with ClaimCeiling.schema.json dropped -> typed ValidationFail 'schema file missing for ClaimCeiling', never a silent success",
+    "falsification_A5": "PASS/HELD: wheel with projection.py truncated by 7 bytes installs but importing it raises SyntaxError -> no working CLI",
+    "destination_danger_matrix": "B1-B12 PASS: 12 hostile destinations (copy root, cwd, /tmp, filesystem root, source descendant, blank, foreign root, symlink escape via link_to_subject, ...) all typed UNSAFE_DESTINATION with exit 2 and an unchanged whole-tree canary",
+    "replace_semantics": "B13 PASS on re-run: replaced=true with a real backup pointer (/ao/good.pipd-backup-57b463cc558e97f7) observable on disk",
+    "dry_run": "B14 PASS: wrote_nothing=true, destination not created",
+    "export": "C1-C5 PASS: archive + manifest + SHA256SUMS independently re-derived (bad=0 missing=0), READ_ONLY_MANIFEST mode writes nothing, planted credentials -> typed EXPORT_SECRET_SCAN with zero artefacts and no staging residue",
+    "uat_matrix": "UAT-00..UAT-12 PASS in the checker's environment, including UAT-07 rows=72 members=72 recomputed independently",
+    "s2_adjudication_wiring": "UAT-11 PASS: s2_check_exit=0, s2_preserved_fail_visible=true, s2_voting=['bytes_per_atom'], s2_bytes_per_atom=1414.6 - an independent process confirming the re-specified budget decides and the historical FAIL stays visible",
+    "freshness_claims": "post-progress adversarial block, all HELD: bare FRESH refused (StaleProvider, unverifiable freshness), FRESH with a foreign epoch refused, FRESH with the correct epoch accepted, FRESH with a spoofed head refused"
+  },
+  "claim_state_after_this": {
+    "S4_repair_candidate_local_tested": true,
+    "independently_reproduced_not_verdict": true,
+    "independent_pass": false,
+    "reason_no_independent_pass": "the checker's consolidated verdict was not produced; filling that gap by inference would be exactly the self-acceptance this round forbids"
+  }
+}

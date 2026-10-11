@@ -23,6 +23,26 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 
+def _is_git_internal_path(p: str) -> bool:
+    """True when a repo-relative path is version-control machinery, NOT a project file.
+
+    This is the exact intent behind the `tracked_files` guard: `tracked_files` must never count
+    `.git`-internals. It flags an exact `.git` entry, anything under a `.git/` directory, the
+    bare-repo internals (top-level `objects/`, `refs/`, `pack/` - no ref, object or pack path),
+    and the top-level index/lock files. Ordinary project files that merely begin with the same
+    four characters (`.gitignore`, `.gitattributes`) are NOT internals.
+    """
+    if p == ".git" or p.startswith(".git/") or "/.git/" in p:
+        return True
+    parts = p.split("/")
+    if parts[0] in {"objects", "refs", "pack"}:
+        return True
+    if len(parts) == 1 and parts[0] in {"index", "index.lock", "ORIG_HEAD",
+                                        "packed-refs", "COMMIT_EDITMSG"}:
+        return True
+    return False
+
+
 class TestToolingExecutes(unittest.TestCase):
     def test_every_module_compiles(self) -> None:
         bad: list[str] = []
@@ -110,6 +130,13 @@ class TestToolingExecutes(unittest.TestCase):
             r = sp.run(["git", "-C", str(root), "ls-files"], capture_output=True, text=True, env=env)
             return r.returncode, len([l for l in r.stdout.splitlines() if l.strip()])
 
+        def _git_tracked_paths(root: Path) -> list[str]:
+            # The raw subject the `.git`-internals guard inspects: the exact tracked path list.
+            r = sp.run(["git", "-C", str(root), "ls-files"], capture_output=True, text=True)
+            if r.returncode != 0:
+                return []
+            return [l for l in r.stdout.splitlines() if l.strip()]
+
         # (a) On a real git checkout the probe must report EXACTLY the git-tracked count, never
         #     rglob (which would also sweep .git). This is the branch the old test covered.
         rc, tracked = _git_tracked(ROOT)
@@ -117,7 +144,26 @@ class TestToolingExecutes(unittest.TestCase):
             n = _tracked_file_count(ROOT)
             self.assertEqual(n, tracked,
                              "on a git checkout tracked_files must equal `git ls-files` exactly")
-            self.assertLess(n, 1000, "tracked_files looks like it is counting .git internals again")
+            # (a.1) The guard's STATED intent, asserted directly: no tracked path may be a
+            #       `.git`-internals path. This is the real "counting .git internals again"
+            #       detector and it holds no matter how large the repo legitimately grows. Unlike
+            #       an absolute size cap, it does not punish a repo for committing governance
+            #       evidence under `.hgk/rounds/`.
+            internals = [p for p in _git_tracked_paths(ROOT) if _is_git_internal_path(p)]
+            self.assertEqual(
+                internals, [],
+                "tracked_files looks like it is counting .git internals again: "
+                f"these tracked paths are version-control machinery: {internals[:10]}")
+            # (a.2) Keep a sanity upper bound so a future miscount cannot slip through unnoticed.
+            #       The bound is deliberately generous against real growth: the honest count here
+            #       is ~1k and rises a few dozen files per round as receipts land under `.hgk/`.
+            #       A genuine `.git`-internals miscount is a MANY-THOUSANDS jump (packed objects,
+            #       refs, logs), not a few dozen - so 25_000 separates the two regimes with a wide
+            #       margin while still failing loudly if the metric ever walks the whole `.git/`.
+            self.assertLess(
+                n, 25_000,
+                "tracked_files is implausibly large (>= 25,000): a count this high is a "
+                ".git-internals miscount, not real repo growth")
 
         # (b) A non-git copy (no .git at all) is the exact condition that broke the old oracle.
         #     GIT_CEILING_DIRECTORIES stops git from climbing to an enclosing repo, so the subject is
@@ -153,6 +199,24 @@ class TestToolingExecutes(unittest.TestCase):
             self.assertEqual(_walk_count(syn), 2, "walk must see exactly the 2 real project files")
             self.assertEqual(_tracked_file_count(syn), 2,
                              "tracked_files must exclude .git/ internals and __pycache__/")
+
+    def test_git_internals_guard_rejects_a_git_objects_entry(self) -> None:
+        """The guard must actually FIRE: prove it flags a `.git/objects/...` path (third site).
+
+        A guard that only ever sees a clean list proves nothing. This feeds the predicate a list
+        containing a `.git/objects/...` entry and pins that it is detected, while ordinary project
+        files that merely start with `.git` (`.gitignore`) are left alone.
+        """
+        poisoned = ["src/a.py", "README.md", ".git/objects/aa/blob", ".git/config"]
+        internals = [p for p in poisoned if _is_git_internal_path(p)]
+        self.assertEqual(internals, [".git/objects/aa/blob", ".git/config"],
+                         "the .git-internals guard failed to flag .git machinery")
+        self.assertEqual([p for p in [".gitignore", ".gitattributes"] if _is_git_internal_path(p)],
+                         [], "ordinary .git* project files must NOT be flagged as internals")
+        self.assertEqual([p for p in ["objects/aa/blob", "refs/heads/main", "index", "index.lock"]
+                          if _is_git_internal_path(p)],
+                         ["objects/aa/blob", "refs/heads/main", "index", "index.lock"],
+                         "bare-repo object/ref/pack and index/lock internals must be flagged")
 
     def test_export_manifest_has_no_vcs_paths(self) -> None:
         from pipd_ls_sp import workspace

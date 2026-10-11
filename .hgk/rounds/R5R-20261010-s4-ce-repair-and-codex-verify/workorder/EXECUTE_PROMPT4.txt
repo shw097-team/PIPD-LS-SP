@@ -1,0 +1,59 @@
+Third bounded-writer order for the SAME round. Repository:
+C:/Projects/Agent_Workspace/PIPD-r5r-repair-wt (branch r5r-ce-repair).
+
+## Correction first: your earlier root-cause call was wrong
+
+In your previous run you concluded that the one failing test was "pre-existing and unrelated".
+That conclusion was **incorrect**, and it was incorrect because you only tested the commit that
+already contained the change. Measured with `git ls-tree -r --name-only <commit> | wc -l`:
+
+- `9bd33a1` (the base this round started from): **996** tracked files -> the assertion PASSES.
+- `afb29d0` (this round's commits): **1015** tracked files -> the assertion FAILS.
+
+So this round's own evidence commits tripped it. Do not restate the "pre-existing" claim.
+
+## The failing check
+
+`tests/test_tooling_executes.py`, around line 120:
+
+    self.assertLess(n, 1000, "tracked_files looks like it is counting .git internals again")
+
+## Why it should be repaired rather than the evidence dropped
+
+The check's own message states its purpose: detect that `tracked_files` is "counting .git
+internals again". Its intent is `.git`-machinery detection, not a cap on repository size. An
+absolute cap of 1000 was already only 4 files away from tripping before this round began, and every
+future round that commits its receipts under `.hgk/rounds/` will trip it again. Deleting governance
+evidence to satisfy a heuristic would invert the priority.
+
+## What to change
+
+Make the check assert its stated intent directly instead of an absolute size:
+
+1. Assert that no tracked path is a `.git`-internals path (nothing under `.git/`, no `.git/config`,
+   object, ref or pack path, no index/lock file). That is exactly "counting .git internals" and it
+   is a real regression detector regardless of how large the repository legitimately grows.
+2. Keep a sanity upper bound so a future miscount cannot pass unnoticed, but set it to a value that
+   is generous against real growth (a `.git`-internals miscount would be a many-thousands jump, not
+   a few dozen files). State in a comment why the number is what it is.
+3. Do NOT change what `tracked_files` counts, and do NOT exclude `.hgk/` or any evidence directory
+   from the metric. Do not skip or xfail the test.
+4. Keep the assertion failure messages informative.
+
+## Also required
+
+5. Show the check actually still fails when it should: temporarily prove the `.git`-internals guard
+   by feeding it a path list containing a `.git/objects/...` entry — do this in your own scratch,
+   not as a committed test, unless you can add it as a clean unit assertion.
+6. Run the single test, then the full suite: `unset PYTHONPATH` and
+   `C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -m unittest discover -s tests -t .`
+   It must be `OK`, and the test count must be unchanged or higher. Before your change this suite
+   reported 318 tests with 1 failure; after your change it must report OK.
+7. Append the before/after evidence to
+   `.hgk/rounds/R5R-20261010-s4-ce-repair-and-codex-verify/execute/red_state.txt` and
+   `green_state.txt` under a heading `--- tracked_files heuristic (third site) ---`, and append a
+   section to `execute/SUMMARY.md` that states the corrected root cause above (this round's own
+   commits, 996 -> 1015).
+8. Do NOT commit, do NOT push, do NOT build a wheel, do NOT edit anything under `schemas/`, and do
+   NOT edit `.hgk/artifacts/`. If running the toolchain dirties a tracked artifact, revert it.
+9. Do not spend time on any other investigation. Finish and stop.

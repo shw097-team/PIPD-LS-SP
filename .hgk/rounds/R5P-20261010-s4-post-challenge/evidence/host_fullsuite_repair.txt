@@ -1,0 +1,206 @@
+...............................{
+ "occurrences_total": 1,
+ "policy_mention_count": 1,
+ "writer_usage_count": 0,
+ "policy_mention_files": [
+  "prompt.md"
+ ],
+ "writer_usage_files": [],
+ "r4_writer_usage": [],
+ "r4_scope": ".hgk/",
+ "verdict": "PASS"
+}
+.{
+ "occurrences_total": 3,
+ "policy_mention_count": 1,
+ "writer_usage_count": 2,
+ "policy_mention_files": [
+  "contract/R4.CONTRACT.json"
+ ],
+ "writer_usage_files": [
+  ".hgk/codex/writer.log",
+  "logs/run.log"
+ ],
+ "r4_writer_usage": [
+  {
+   "path": ".hgk/codex/writer.log",
+   "line": 1,
+   "classification": "WRITER_USAGE"
+  }
+ ],
+ "r4_scope": ".hgk/",
+ "verdict": "FAIL"
+}
+.SKIP test_b4_wheel_mutation_installed_doctor_fails: pip unavailable in test interpreter: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\venv\Scripts\python
+s...s.....{
+ "error": "HARD_GATE_FAIL",
+ "verdict": "FAIL",
+ "refusal": "the acceptance evidence MD is NOT generated: a hard gate row is FAIL and this tool refuses to print PASS (or bury a hard FAIL behind a percentage). The failing rows are listed verbatim below.",
+ "hard_gates": [
+  {
+   "id": "G-TESTS-UNIT-SUITE",
+   "state": "FAIL",
+   "evidence": "unittest discover: Ran 47 tests, failures 2, errors 1; failing: tests.test_alpha.TestAlpha.test_one, tests.test_s0_contracts.TestS0Contracts.test_two, tests.test_beta.TestBeta.test_three"
+  },
+  {
+   "id": "G-S0-CONTRACTS-19",
+   "state": "FAIL",
+   "evidence": "failing S0 tests: tests.test_s0_contracts.TestS0Contracts.test_two"
+  },
+  {
+   "id": "G-S1-LITE-SLICE",
+   "state": "PASS",
+   "evidence": "trace_verdict=PASS, artifact_validation=PASS"
+  },
+  {
+   "id": "G-CLI-SMOKE-13",
+   "state": "PASS",
+   "evidence": "13/13 commands, nonzero_exit=0, verdicts={'init': 'PASS'}"
+  },
+  {
+   "id": "G-KNOWLEDGE-READY",
+   "state": "PASS",
+   "evidence": "KNOWLEDGE_READY_REPORT verdict=PASS, clean_coverage=True"
+  },
+  {
+   "id": "G-EVIDENCE-MANIFEST",
+   "state": "PASS",
+   "evidence": "evidence_manifest sha256=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+ ],
+ "failing_rows": [
+  "G-TESTS-UNIT-SUITE",
+  "G-S0-CONTRACTS-19"
+ ]
+}
+..{
+ "out": "C:\\Users\\user\\AppData\\Local\\Temp\\tmp1s8_xmej\\EVIDENCE.md",
+ "bytes": 8410,
+ "sha256": "b260d9b3ca76abef92dd7e95c8997016214dda7e6c7f307d26d9a9e8afa4e82c",
+ "head": "0000000000000000000000000000000000000000",
+ "verdict": "PASS",
+ "hard_gates": [
+  "G-TESTS-UNIT-SUITE",
+  "G-S0-CONTRACTS-19",
+  "G-S1-LITE-SLICE",
+  "G-CLI-SMOKE-13",
+  "G-KNOWLEDGE-READY",
+  "G-EVIDENCE-MANIFEST"
+ ]
+}
+{
+ "verdict": "PASS",
+ "hard_gates": [
+  {
+   "id": "G-TESTS-UNIT-SUITE",
+   "state": "PASS",
+   "evidence": "unittest discover: Ran 47 tests, failures 0, errors 0"
+  },
+  {
+   "id": "G-S0-CONTRACTS-19",
+   "state": "PASS",
+   "evidence": "tests/test_s0_contracts.py green in the recorded run"
+  },
+  {
+   "id": "G-S1-LITE-SLICE",
+   "state": "PASS",
+   "evidence": "trace_verdict=PASS, artifact_validation=PASS"
+  },
+  {
+   "id": "G-CLI-SMOKE-13",
+   "state": "PASS",
+   "evidence": "13/13 commands, nonzero_exit=0, verdicts={'init': 'PASS'}"
+  },
+  {
+   "id": "G-KNOWLEDGE-READY",
+   "state": "PASS",
+   "evidence": "KNOWLEDGE_READY_REPORT verdict=PASS, clean_coverage=True"
+  },
+  {
+   "id": "G-EVIDENCE-MANIFEST",
+   "state": "PASS",
+   "evidence": "evidence_manifest sha256=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+ ]
+}
+.........................................................................{
+ "mode": "check",
+ "first_fail": "atom REQ-22e825b09314d34b7865 still carries source_text",
+ "fails": [
+  "atom REQ-22e825b09314d34b7865 still carries source_text",
+  "duplicated source_text bytes remain: 24"
+ ],
+ "residual_duplicate_atoms": 10,
+ "residual_duplicated_bytes": 249,
+ "baseline_source": "HEAD",
+ "baseline_bytes": 24013,
+ "baseline_head_sha256": {
+  "src/pipd_ls_sp/pipeline.py": "620a5f4f03458697d2af20d75632488df44b0f6a375741d84baf59d2b8c7be44",
+  "src/pipd_ls_sp/requirements.py": "1ac3a64c655d93e02e2511456d08972801a89b788eec635289b51e0e7de88121"
+ },
+ "shrinkage_claimed": false,
+ "pre_change_pi_bytes": 26131,
+ "current_pi_bytes": 26120,
+ "current_resolved_materialized_bytes": 28224,
+ "serialized_delta_bytes": -11,
+ "resolved_delta_bytes": 2093,
+ "current_tree_larger": true,
+ "verdict": "FAIL"
+}
+...{
+ "mode": "check",
+ "first_fail": "atoms lost vs baseline: 1 requirement id(s) absent, e.g. ['REQ-22e825b09314d34b7865']",
+ "fails": [
+  "atoms lost vs baseline: 1 requirement id(s) absent, e.g. ['REQ-22e825b09314d34b7865']"
+ ],
+ "residual_duplicate_atoms": 9,
+ "residual_duplicated_bytes": 225,
+ "baseline_source": "HEAD",
+ "baseline_bytes": 24013,
+ "baseline_head_sha256": {
+  "src/pipd_ls_sp/pipeline.py": "620a5f4f03458697d2af20d75632488df44b0f6a375741d84baf59d2b8c7be44",
+  "src/pipd_ls_sp/requirements.py": "1ac3a64c655d93e02e2511456d08972801a89b788eec635289b51e0e7de88121"
+ },
+ "shrinkage_claimed": false,
+ "pre_change_pi_bytes": 25078,
+ "current_pi_bytes": 25152,
+ "current_resolved_materialized_bytes": 27171,
+ "serialized_delta_bytes": 74,
+ "resolved_delta_bytes": 2093,
+ "current_tree_larger": true,
+ "verdict": "FAIL"
+}
+......................................................s.s...................................deny_scan exit=0
+verdict: PASS (0 hits, 2 files scanned)
+.{
+ "schema": "PIPD-ROUND-SELFSCAN/1",
+ "as_of": "2026-10-10T12:32:12.476988+00:00",
+ "scanned_paths": [
+  "C:\\Users\\user\\AppData\\Local\\Temp\\tmpc_q7zro9"
+ ],
+ "files_scanned": 2,
+ "hits": [],
+ "counts": {
+  "by_kind": {},
+  "total": 0
+ },
+ "deny_scan": {
+  "ran": true,
+  "exit_code": 1,
+  "tail": "stub deny hit"
+ },
+ "verdict": "HIT"
+}
+deny_scan exit=1
+verdict: HIT (0 hits, 2 files scanned)
+...................................VIOLATION: PIPD-SP-SPEC-001: evidence_ref missing: does/not/exist/mutation.json
+check failed: 1 violation(s)
+.VIOLATION: PIPD-SP-SPEC-001: EVIDENCED oracle file missing: tests/ORACLE_DOES_NOT_EXIST.py
+check failed: 1 violation(s)
+........................................................SKIP test_installed_doctor_diagnoses_installed_schema_surface: pip unavailable in test interpreter: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\venv\Scripts\python
+sSKIP test_installed_package_is_self_sufficient: pip unavailable in test interpreter: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\venv\Scripts\python
+s....
+----------------------------------------------------------------------
+Ran 311 tests in 59.608s
+
+OK (skipped=6)

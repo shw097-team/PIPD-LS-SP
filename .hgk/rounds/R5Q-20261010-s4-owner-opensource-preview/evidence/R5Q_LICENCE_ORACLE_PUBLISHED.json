@@ -1,0 +1,176 @@
+{
+ "schema": "PIPD-R5Q-LICENCE-ORACLE/1",
+ "generated_at": "2026-10-10T15:35:15Z",
+ "repo": "C:\\Projects\\Agent_Workspace\\PIPD-r5q-release-wt",
+ "wheel": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5q-publish\\readback_dl\\pipd_ls_sp-0.1.0-py3-none-any.whl",
+ "wheel_sha256": "c450dbef1c3bfbc2048dcf0562f83d655cc5e5940511e65fd44bf9f91cf14e60",
+ "decision": "Apache-2.0",
+ "licence_distributed_with_binary": true,
+ "required": 21,
+ "passed": 21,
+ "failed": 0,
+ "verdict": "PASS",
+ "checks": [
+  {
+   "check_id": "LIC-01",
+   "requirement": "one machine-readable owner licence decision exists and names an SPDX id",
+   "verdict": "PASS",
+   "actual": "OWNER_LICENSE_DECISION.yaml decision='Apache-2.0' current_position='Apache-2.0'",
+   "evidence": {
+    "path": "C:\\Projects\\Agent_Workspace\\PIPD-r5q-release-wt\\OWNER_LICENSE_DECISION.yaml",
+    "sha256": "1c5da3dc52e3aa917a825b69a689be5e7258b2fdb7e5ee38af8cb41107b5018f"
+   }
+  },
+  {
+   "check_id": "LIC-02",
+   "requirement": "the superseded proprietary placeholder is not the operative licence",
+   "verdict": "PASS",
+   "actual": "operative fields=[('decision', 'Apache-2.0'), ('current_position', 'Apache-2.0')], placeholder found as operative in none",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-02b",
+   "requirement": "where the placeholder is still named, it sits in an explicit supersession note",
+   "verdict": "PASS",
+   "actual": "previous_decision.decision='LicenseRef-PIPD-Proprietary' superseded_declared=True",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-03",
+   "requirement": "LICENSE is the canonical Apache-2.0 text (normalised digest)",
+   "verdict": "PASS",
+   "actual": "LICENSE normalised sha256=cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 (canonical=cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30)",
+   "evidence": {
+    "path": "C:\\Projects\\Agent_Workspace\\PIPD-r5q-release-wt\\LICENSE",
+    "bytes": 11358,
+    "raw_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+   }
+  },
+  {
+   "check_id": "LIC-04",
+   "requirement": "LICENSE is a full licence text, not a stub or a pointer",
+   "verdict": "PASS",
+   "actual": "bytes=11358, contains 'Apache License'=True",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-05",
+   "requirement": "NOTICE exists, is non-empty and names the copyright holder",
+   "verdict": "PASS",
+   "actual": "bytes=3571, contains 'Copyright'=True",
+   "evidence": {
+    "path": "C:\\Projects\\Agent_Workspace\\PIPD-r5q-release-wt\\NOTICE",
+    "sha256": "ab07de025ce64621963831d19acf3525596362a18d6c72606d0341239206ea7d"
+   }
+  },
+  {
+   "check_id": "LIC-06",
+   "requirement": "SBOM root component licence equals the decision",
+   "verdict": "PASS",
+   "actual": "SBOM metadata.licenses ids=['Apache-2.0'] decision='Apache-2.0'",
+   "evidence": {
+    "path": "C:\\Projects\\Agent_Workspace\\PIPD-r5q-release-wt\\SBOM.cdx.json",
+    "sha256": "2a4ce341cb3e1447568ba79ab98767c4427988d0d13660452a1c9ae21dfc94b1"
+   }
+  },
+  {
+   "check_id": "LIC-07",
+   "requirement": "SBOM is anchored to its basis, grant date and NOTICE file",
+   "verdict": "PASS",
+   "actual": "licence properties present=['pipd:licence:basis', 'pipd:licence:granted_utc', 'pipd:licence:notice_file']",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-08",
+   "requirement": "third-party components carry their own upstream licence, not the project's",
+   "verdict": "PASS",
+   "actual": "component licences={'jsonschema': ['MIT']}",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-09",
+   "requirement": "SBOM declares its own scope ceiling instead of implying a full closure",
+   "verdict": "PASS",
+   "actual": "top-level properties=['pipd:sbom_scope']",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-10",
+   "requirement": "wheel METADATA declares the decision as License-Expression",
+   "verdict": "PASS",
+   "actual": "License-Expression='Apache-2.0' decision='Apache-2.0' Metadata-Version=['2.4']",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-11",
+   "requirement": "wheel METADATA lists both licence files (PEP 639 License-File)",
+   "verdict": "PASS",
+   "actual": "License-File=['LICENSE', 'NOTICE']",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-12-LICENSE",
+   "requirement": "wheel ships LICENSE byte-identical to the repository copy",
+   "verdict": "PASS",
+   "actual": "present=True byte_identical=True member=pipd_ls_sp-0.1.0.dist-info/licenses/LICENSE",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-12-NOTICE",
+   "requirement": "wheel ships NOTICE byte-identical to the repository copy",
+   "verdict": "PASS",
+   "actual": "present=True byte_identical=True member=pipd_ls_sp-0.1.0.dist-info/licenses/NOTICE",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-13",
+   "requirement": "the licence travels inside the wheel, not only in the repo",
+   "verdict": "PASS",
+   "actual": "licence-bearing members=['pipd_ls_sp-0.1.0.dist-info/licenses/LICENSE', 'pipd_ls_sp-0.1.0.dist-info/licenses/NOTICE', 'pipd_ls_sp-0.1.0.dist-info/licenses/OWNER_LICENSE_DECISION.yaml']",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-17",
+   "requirement": "the owner decision the SPDX id is derived from ships with the binary",
+   "verdict": "PASS",
+   "actual": "member=pipd_ls_sp-0.1.0.dist-info/licenses/OWNER_LICENSE_DECISION.yaml present=True byte_identical=True",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-18",
+   "requirement": "METADATA License-File headers match the licence texts actually packed",
+   "verdict": "PASS",
+   "actual": "packed licence texts=['pipd_ls_sp-0.1.0.dist-info/licenses/LICENSE', 'pipd_ls_sp-0.1.0.dist-info/licenses/NOTICE']",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-14",
+   "requirement": "the wheel's own RECORD accounts for every member and every hash agrees",
+   "verdict": "PASS",
+   "actual": "RECORD rows=41 unlisted_members=[] hash_mismatches=[]",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-15b",
+   "requirement": "no credential shape is embedded in the wheel metadata or included files",
+   "verdict": "PASS",
+   "actual": "clean",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-15",
+   "requirement": "no credential-shaped string is carried inside any licence artifact",
+   "verdict": "PASS",
+   "actual": "clean",
+   "evidence": {}
+  },
+  {
+   "check_id": "LIC-16",
+   "requirement": "the decision slot is self-consistent (current_position == decision)",
+   "verdict": "PASS",
+   "actual": "current_position='Apache-2.0' decision='Apache-2.0'",
+   "evidence": {}
+  }
+ ],
+ "claim_ceiling": "This oracle verifies the licence chain this repository controls: the decision slot, the licence text, NOTICE, the SBOM root licence, the wheel metadata and the packaged licence files, and that no credential shape rides inside them. It does NOT verify the provenance or authorship of the source material, and it does not compute the wheel's transitive dependency closure (see the SBOM scope property)."
+}

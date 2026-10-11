@@ -1,0 +1,78 @@
+{
+  "schema": "PIPD-ROUND-CHECKPOINT/1",
+  "round": "R5-20261009-s4-user-operability",
+  "continuation": "R5-continuation-2026-10-10 (user re-order with explicit model plan)",
+  "state": "ROUND_COMPLETE_CANDIDATE_ONLY",
+  "terminal_state": "COMPLETE for the candidate layer. NOT a release, NOT an independent pass, NOT a production verdict.",
+  "as_of": "2026-10-10T04:22:00Z",
+  "claim_ceiling": "S4_REPAIR_CANDIDATE_LOCAL_TESTED",
+  "headline": {
+    "P0 F-R4-S4-01 project --out destructive delete": "closed (typed refusals, staged publish, no rmtree of a caller path)",
+    "P0 F-R4-S4-02 stale wheel / schema resources": "closed (wheel rebuilt 225170 B / 38 members / 19 schemas; registry install-safe)",
+    "P1 F-R4-S4-03 export --out had no effect": "closed (real archive + manifest + checksums, independently recomputed)",
+    "P1 F-R4-S4-04 no end-user acceptance matrix": "closed for the matrix (25 PASS / 0 FAIL / 2 INFO); LLM checker could not complete",
+    "P1 F-R4-S2-05 context budget": "CLOSED BY OWNER ADJUDICATION 2026-10-10: PER_ATOM_BYTES(2000) is now the deciding row (bytes_per_atom 1,449.6/2,000 PASS); the three timing rows and the old absolute row are ADVISORY; the historical 343,547 > 20,000 FAIL is preserved verbatim in historical.preserved_fails; a frozen-baseline regression guard was added. The gate passes because the DEFINITION was re-specified, NOT because the artefact improved (byte-identical 334,778 B).",
+    "P1 F-R4-PUB-06 publication projection": "blocked (publication_manifest --check --current exit 1; no remote; reviewed commit absent locally)",
+    "P1 F-R4-HARNESS-07 native path safety": "conditional (S4 lanes cannot hit the failure mode; HGK boundary hardening stays an S5 owner gate)",
+    "P2 F-R4-TRACE-08 / F-R4-GOV-09": "deferred (57-row baseline 42/11/4 preserved untouched)",
+    "F-R4-RELEASE-10": "out_of_scope (no RELEASE / INDEPENDENT_PASS / PRODUCTION claim; PRE-W3 stays independently TEMP_CLOSED)"
+  },
+  "verification_state": {
+    "host_suite": "Ran 285 tests, OK (skipped=2)",
+    "cli_surface": "13/13 commands + 6/6 extras PASS (tools/cli_surface_check.py exit 0)",
+    "web_host_pack": "tools/web_pack_check.py PASS; tools/host_projection_check.py PASS",
+    "portable_install": "tools/portable_install_check.py 14/14 PASS",
+    "uat_matrix": "25 PASS / 0 FAIL / 2 INFO across 13 cases x (source, install)",
+    "independent_deterministic_check": "PASS_CHECK_DETERMINISTIC, 17/17 cases, recomputed from scratch",
+    "publication_manifest_check_current": "exit 1 CURRENT_TREE_UNCOVERED (EVIDENCE_GAP stands)",
+    "s2_perf_check": "exit 0 — bytes_per_atom 1449.6/2000 PASS (voting); historical context_bytes_per_artefact 343547/20000 FAIL preserved as non-voting ADVISORY",
+    "s2_adjudication": "docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json (executed 2026-10-10)",
+    "license_decision": "LicenseRef-PIPD-Proprietary (non-granting; OWNER_LICENSE_DECISION.yaml at repo root)"
+  },
+  "candidate_binding": {
+    "frozen_base_commit": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+    "frozen_base_tree": "b2d5faf52a1b7b37f85c0a83162cbaaa896edb37",
+    "product_delta": "added 4 / changed 13 / removed 0 (snapshots/before_r5_exec.json -> snapshots/final.json)",
+    "product_delta_digest": "6725c84d27c414ef5e51139fc2f68eea6fe51c46adf6282bead9b1dec042232e",
+    "wheel": "dist/pipd_ls_sp-0.1.0-py3-none-any.whl",
+    "wheel_sha256": "e49d38e519117d67de57153658779eafa139eb0dda5a6d15f486facb44fd00e2",
+    "committed": false,
+    "pushed": false,
+    "remote_configured": false
+  },
+  "evidence_master": {
+    "path": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/實作證據/PIPD-LS-SP_R5_S4_USER_USABILITY_REPAIR_EVIDENCE.md",
+    "sha256": "5d6458bb4fb98cd94b8b3958f4ab746de06bc49a51b5b7eb32f0253725d0d3ff",
+    "bytes": 34873,
+    "sidecar": "PIPD-LS-SP_R5_S4_USER_USABILITY_REPAIR_EVIDENCE.md.sha256"
+  },
+  "round_artifacts": {
+    "finding_ledger": ".hgk/rounds/R5-20261009-s4-user-operability/ledger/R5_S4_FINDING_LEDGER.json",
+    "candidate_tuple": ".hgk/rounds/R5-20261009-s4-user-operability/CANDIDATE_TUPLE.json",
+    "uat": ".hgk/rounds/R5-20261009-s4-user-operability/uat/{UAT_MATRIX.json,UAT_MATRIX.md,RAW_RUNS.jsonl,uat_matrix.py}",
+    "independent_check": ".hgk/rounds/R5-20261009-s4-user-operability/ao/{independent_check.py,AO_VERDICT_DETERMINISTIC.json,AO_REPORT_DETERMINISTIC.md}",
+    "incidents": ["WO3_LANE_INCIDENT.json", "AO_LANE_INCIDENT.json"],
+    "observations": "OBSERVATIONS.json",
+    "compiler": ".hgk/preflight/R5-compiler/{R5.CONTRACT.json,compiled/,compiled-r2/}",
+    "lanes": ".hgk/preflight/R5-compiler/lane/{brief_wo1_dest.md,brief_wo2_dist.md,brief_wo3_export.md,brief_wo4_ao.md,log_wo1.txt,log_wo2.txt,log_wo3.txt,log_ao_attempt1.txt,log_ao_attempt2.txt,bridge.py,run_lane2.sh,run_checker.sh}"
+  },
+  "blocking_conditions_this_round": [
+    {"class": "upstream HTTP 429", "occurrences": 7, "threshold": 4, "breached": true,
+     "remediation": "backup-model switch was impossible (the proxy exposes exactly one model id); stalled lanes were killed and the work continued on non-model paths"},
+    {"class": "lane stalled with frozen log after a 429", "lanes": ["WO3", "AO attempt 1", "AO attempt 2"],
+     "remediation": "kill + host-side independent re-verification of whatever the lane had already written"}
+  ],
+  "open_items": [
+    "S2 four-threshold provenance and the context budget FAIL -> perf / canonical budget owner",
+    "F-R4-PUB-06 publication projection -> evidence / publication owner (needs the reviewed subject or a remote)",
+    "OBS-01 export secret-scan bluntness (whole tree, count-only message) -> PIPD-EC CLI owner",
+    "LLM-grade independent acceptance not performed in this environment"
+  ],
+  "resume": [
+    "cd C:/Projects/Agent_Workspace/PIPD",
+    "python -B -m unittest discover -s tests -q",
+    "python -B .hgk/rounds/R5-20261009-s4-user-operability/uat/uat_matrix.py --out .hgk/rounds/R5-20261009-s4-user-operability/uat --mode both",
+    "python -B .hgk/rounds/R5-20261009-s4-user-operability/ao/independent_check.py",
+    "python -B .hgk/rounds/R5-20261009-s4-user-operability/build_evidence_md.py"
+  ]
+}

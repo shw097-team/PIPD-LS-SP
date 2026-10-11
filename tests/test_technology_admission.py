@@ -8,9 +8,14 @@ disposition, and only a pinned ADOPT row may be reported active (MUT-TECH-PIN is
 """
 from __future__ import annotations
 
+import contextlib
 import copy
+import io
 import json
+import shutil
+import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -144,6 +149,124 @@ class TechnologyAdmissionRepair(unittest.TestCase):
         self.assertEqual(v["disposition"], "REFERENCE")
         self.assertTrue(v["active_refused"],
                         "a non-ADOPT (REFERENCE) row reported active was not refused")
+
+
+def _run_report() -> tuple[int, dict]:
+    """Run the tool end-to-end via subprocess and parse the JSON it prints to stdout."""
+    proc = subprocess.run([sys.executable, str(ROOT / "tools" / "admit_technologies.py"),
+                           "--report"], capture_output=True, text=True)
+    return proc.returncode, json.loads(proc.stdout)
+
+
+def _report_with_row(mutate) -> dict:
+    """Run the report pipeline with one mutated row, without touching the frozen artifact."""
+    import admit_technologies as A
+    real = A.load_source_records()
+    rows = [json.loads(json.dumps(r)) for r in real]
+    mutate(rows)
+    saved_loader, saved_out, saved_src = A.load_source_records, A.OUT, A.SRC
+    sandbox = Path(tempfile.mkdtemp())
+    A.load_source_records = lambda: [json.loads(json.dumps(r)) for r in rows]
+    A.OUT = sandbox
+    # Keep the frozen artefact out of the sandbox path but still reachable as the fallback source.
+    shutil.copy(str(saved_out / "TECHNOLOGY_ADMISSIONS.json"),
+                str(sandbox / "TECHNOLOGY_ADMISSIONS.json"))
+    A.SRC = sandbox / "unreachable-source.md"
+    try:
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            A.main(["--report"])
+        return json.loads(buf.getvalue())
+    finally:
+        A.load_source_records, A.OUT, A.SRC = saved_loader, saved_out, saved_src
+        shutil.rmtree(sandbox, ignore_errors=True)
+
+
+class TechnologyAdmissionHardGate(unittest.TestCase):
+    """W4: a nested hard-gate FAIL must surface as overall_verdict FAIL and a non-zero exit."""
+
+    def test_nested_hard_gate_fail_forces_overall_fail_and_nonzero_exit(self) -> None:
+        code, report = _run_report()
+        hgv = report["hard_gate_verdicts"]
+        nested_fail = [e for e in hgv.values() if e["verdict"] == "FAIL"]
+        self.assertTrue(nested_fail, "expected at least one hard gate to FAIL (G-TECH-SOURCE-PIN)")
+        self.assertEqual(report["overall_verdict"], "FAIL")
+        self.assertNotEqual(code, 0, "overall FAIL must exit non-zero")
+        self.assertEqual(report["artefact_consistency_verdict"], report["verdict"])
+        self.assertEqual(hgv["G-TECH-SOURCE-PIN"]["gate_id"], "G-TECH-SOURCE-PIN")
+        for gate in hgv.values():
+            self.assertEqual(set(gate), {"gate_id", "denominator", "passed", "failed",
+                                         "verdict", "first_fail_reason"})
+        self.assertTrue(report["gate_summary"]["G-TECH-SOURCE-PIN"].startswith("0/22"))
+
+    def test_active_row_missing_pin_fields_fails_source_pin_gate(self) -> None:
+        # Build the mutation from a REAL admissions[] row (the rows that carry
+        # pin_license_currentness live in the s1 artefact), strip its pin/licence fields so exactly
+        # one row is admitted active with no pin, and run the tool against a temporary COPY of the
+        # artefact so the frozen product artefact is never touched.
+        adm = json.loads((ROOT / ".hgk" / "artifacts" / "s1" / "TECHNOLOGY_ADMISSIONS.json")
+                         .read_text(encoding="utf-8"))
+        rows = adm["admissions"]
+        for rec in rows:
+            plc = rec["pin_license_currentness"]
+            if plc.get("disposition") == "ADOPT":
+                plc["reported_active"] = True
+                plc["pin_verified"] = False
+                plc["pin"] = {"value": "UNAVAILABLE", "repository": "UNAVAILABLE",
+                              "reason_code": "MISSING", "reason": "mutation: missing pin"}
+                plc["license"] = {"value": "UNKNOWN", "known": False,
+                                  "blocks_activation": True,
+                                  "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"}
+                plc["licence_known"] = False
+                for col in ("ttl_security_note", "fallback", "exit_criterion",
+                            "permission_scope", "provider_off_behaviour"):
+                    plc[col] = ""
+                break
+        else:
+            self.fail("no ADOPT row in the s1 admissions artefact")
+
+        sandbox = Path(tempfile.mkdtemp())
+        try:
+            tmp_artifact = sandbox / "TECHNOLOGY_ADMISSIONS.json"
+            tmp_artifact.write_text(json.dumps(adm, ensure_ascii=False, indent=1),
+                                    encoding="utf-8")
+            proc = subprocess.run(
+                [sys.executable, str(ROOT / "tools" / "admit_technologies.py"),
+                 "--report", "--artifact", str(tmp_artifact)],
+                capture_output=True, text=True)
+            report = json.loads(proc.stdout)
+            gate = report["hard_gate_verdicts"]["G-TECH-SOURCE-PIN"]
+            self.assertEqual(gate["verdict"], "FAIL")
+            self.assertGreater(gate["failed"], 0)
+            self.assertEqual(report["overall_verdict"], "FAIL")
+            self.assertNotEqual(proc.returncode, 0, "overall FAIL must exit non-zero")
+        finally:
+            shutil.rmtree(sandbox, ignore_errors=True)
+
+    def test_non_adopt_rows_are_never_reported_active(self) -> None:
+        report = _run_report()[1]
+        for rec in report["admissions"]:
+            plc = rec["pin_license_currentness"]
+            if plc["disposition"] in ("REFERENCE", "EVAL_ONLY", "REJECT", "QUARANTINE"):
+                self.assertFalse(plc["reported_active"],
+                                 f"{rec['technology_id']} ({plc['disposition']}) reported active")
+                self.assertNotIn(rec["technology_id"], report["reported_active"])
+        self.assertEqual(report["reported_active"], [])
+        self.assertEqual(len(report["admissions"]), 22)
+
+    def test_interpretation_and_consumer_guard_flag_reported_active_empty(self) -> None:
+        report = _run_report()[1]
+        summary = report["source_pin_summary"]
+        interp = summary["interpretation"].lower()
+        guard = report["consumer_guard"].lower()
+        self.assertIn("reported_active", interp)
+        self.assertIn("22/22", interp)
+        self.assertTrue("not" in interp or "no row" in interp)
+        self.assertIn("reported_active", guard)
+        self.assertIn("22/22", guard)
+        self.assertEqual(summary["active_rows"], [])
+        self.assertEqual(summary["total"], 22)
+        self.assertEqual(summary["pin_verified"], 0)
 
 
 if __name__ == "__main__":

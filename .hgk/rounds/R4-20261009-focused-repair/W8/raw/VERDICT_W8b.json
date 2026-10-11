@@ -1,0 +1,82 @@
+{
+ "schema": "R4-INDEPENDENT-VERDICT/2",
+ "verdict": "FAIL_CHALLENGE",
+ "supersedes": "FAIL_CHALLENGE",
+ "items": [
+  {
+   "id": "C1'",
+   "method": "Run unittest discovery; independently enumerate test IDs; inspect skip decorators, short test bodies, and tracked test changes.",
+   "observed": "Ran 184 tests in 52.448 seconds; OK; exit 0. Discovery yielded 184 unique IDs. No runtime skips. One conditional skip decorator exists but did not skip in this environment. No concrete count padding or assertion weakening found in the inspected tests.",
+   "status": "VERIFIED",
+   "evidence": "python -B -m unittest discover -s tests -q; exit 0. Tracked technology-admission test changes add assertions rather than remove existing assertions."
+  },
+  {
+   "id": "C5'",
+   "method": "Run published-subject and current-tree checks; inspect their emitted reports and persisted manifest.",
+   "observed": "Published-subject --check exits 0; --check --current exits 1. Both reports explicitly emit subject_scope and current_tree_coverage. Coverage reports 235 product paths, 222 covered, and 13 uncovered, including the new crosswalk and repair tools/tests. Omission is no longer silent. The coverage block is emitted by check reports, not stored in the manifest itself.",
+   "status": "VERIFIED",
+   "evidence": "python -B tools/build_publication_manifest.py --check; exit 0. python -B tools/build_publication_manifest.py --check --current; exit 1."
+  },
+  {
+   "id": "C6'",
+   "method": "Run --check; delete a compiled atom in an isolated copy and invoke the checker; independently compare current versus actual HEAD compiler output at the same copied root.",
+   "observed": "Baseline check exits 0 and reports 10 residual duplicate atoms / 249 bytes. Deleting REQ-af5d9925da4de82a99da causes FAIL and exit 1. The removed-source_text claim is scoped and residual copies are disclosed. However, the reported pre-change size is reconstructed from current output, not actual HEAD output: in the same isolated root actual HEAD PI is 24276 bytes and current PI is 24909 bytes, a 633-byte increase, while the tool reports pre_change_pi_bytes=24963 and serialized_delta_bytes=-54. Thus its serialized size-effect report is not an honest HEAD comparison.",
+   "status": "FALSIFIED",
+   "evidence": "tools/pi_dedup_check.py:59 constructs the baseline from compile_after_pi(); same-root historical compilation and --before/--after outputs are recorded in W8B_EVIDENCE.json."
+  },
+  {
+   "id": "C7'",
+   "method": "Run --check; raise the copied context budget to 1000000000; compare numeric budgets with git HEAD; challenge a just-over-budget floating-point measurement.",
+   "observed": "Baseline exits 1: context_bytes_per_artefact=364877 exceeds 20000 and appears in both exceeded and failed. candidate_head resolves to the specified git HEAD. All four numeric budgets match HEAD exactly. Raising the copied context budget yields exit 0, failed=[], exceeded=[], but overall UNDECIDABLE, not the claimed PASS, because provenance remains UNPROVENANCED. More importantly, _row rounds before comparison: raw 2000.04 against budget 2000 becomes 2000.0, exceeded=false, and UNDECIDABLE instead of FAIL; with test-only provenance it becomes PASS.",
+   "status": "FALSIFIED",
+   "evidence": "tools/perf_budget.py:78 and tools/perf_budget.py:83. Reproduced raw_value=2000.04 with budget=2000; raised-budget and exact HEAD budget comparison outputs saved."
+  },
+  {
+   "id": "C9'",
+   "method": "Run baseline scan; plant a conventional invocation, then realistic quoted-config and TOML directives under the exact R4 scope; remove all planted files.",
+   "observed": "Baseline exits 0 with 17 policy mentions, 5 historical writer usages, and no R4 writer usages. A planted codex exec --sandbox danger-full-access invocation correctly causes exit 1. Counterexample: codex exec --config 'sandbox_mode=\"danger-full-access\"' is classified POLICY_MENTION and exits 0. A TOML line sandbox_mode = \"danger-full-access\" # configuration for this writer also exits 0 as POLICY_MENTION; Python tomllib independently parses its sandbox_mode as danger-full-access. Both are missed writer-setting forms.",
+   "status": "FALSIFIED",
+   "evidence": "tools/deny_list_scan.py:39, tools/deny_list_scan.py:41, and tools/deny_list_scan.py:57. R4 mutation scan outputs recorded; planted files removed; final scan returns baseline exit 0."
+  },
+  {
+   "id": "A3'",
+   "method": "Prepare an isolated copy with required evidence files; confirm baseline; rename an existing oracle file out of the way and rerun --check.",
+   "observed": "Copied baseline exits 0. Removing tests/test_s0_contracts.py causes exit 1 with five explicit EVIDENCED oracle-file-missing violations, including PIPD-SP-SPEC-001. Oracle restored afterward.",
+   "status": "VERIFIED",
+   "evidence": "python -B tools/build_spec_del_crosswalk.py --check in isolated copy; baseline exit 0, missing-oracle exit 1."
+  },
+  {
+   "id": "FROZEN_DIGESTS",
+   "method": "Compute SHA-256 prefixes and byte sizes for all 22 listed files before running the suite.",
+   "observed": "All 22 byte sizes match. Twenty SHA-256 prefixes match. Two already differ before tests: PUBLICATION_PROJECTION_MANIFEST.json is 15b40638f01e6414, not 5b9f480d28c8f558; PUBLICATION_SUBJECT_ATTESTATION.json is 2270f0df62f8a59d, not e3b1be44b7936ebe.",
+   "status": "FALSIFIED",
+   "evidence": "Complete initial 22-file digest/size inventory in W8B_EVIDENCE.json. Git HEAD independently resolves to 7c5bc585c7d889cd338da853be4efc4b8f07d3b2."
+  },
+  {
+   "id": "OTHER_REQUIRED_CHECKS",
+   "method": "Execute and capture the remaining requested commands without treating exit zero as universal acceptance.",
+   "observed": "TT summary asserts successfully: total=22, unknown=0, blocking_count=18. Technology report exits 1 with overall FAIL and source-pin gate 0/22; its separately scoped artefact-consistency alias remains PASS. Secret scan prints PASS and exits 0.",
+   "status": "VERIFIED",
+   "evidence": "Exact commands and exits printed before this verdict; full stdout/stderr saved."
+  }
+ ],
+ "still_falsified": [
+  "C6'",
+  "C7'",
+  "C9'"
+ ],
+ "newly_found": [
+  "PI serialized size comparison uses a synthetic current-derived baseline rather than actual HEAD; reported shrinkage contrasts with independently measured growth.",
+  "Performance threshold comparison rounds raw measurements before deciding failure, hiding small real overruns.",
+  "Deny-list classification misses quoted config arguments and valid TOML settings with trailing comments.",
+  "Two supplied frozen publication digests do not match the initially observed candidate bytes."
+ ],
+ "residual_risks": [
+  "Thirteen current product paths remain uncovered by the publication crosswalk.",
+  "Ten byte-identical atom/table clause copies remain, totaling 249 residual duplicated bytes in the sample.",
+  "Technology source pins remain unverified at 0/22; performance budgets remain UNPROVENANCED.",
+  "The suite rewrites publication manifest and attestation artifacts without restoring their prior bytes; final prefixes became 441088c116f2ad1a and 6166f4aec4c43b94 respectively.",
+  "Historical size comparison isolates the HEAD versions of pipeline.py and requirements.py with identical copied fixtures, schemas, goal, and root; it is not a complete historical checkout."
+ ],
+ "rounding_check": "No finding was rounded up to PASS by this challenge. The candidate performance checker itself rounds an over-budget raw value down to the threshold and can incorrectly produce PASS when provenance is supplied."
+}

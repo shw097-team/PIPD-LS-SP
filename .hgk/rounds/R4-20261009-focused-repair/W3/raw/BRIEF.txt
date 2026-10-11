@@ -1,0 +1,57 @@
+## Environment note (read first)
+This repository uses **unittest**, not pytest, and the writer image has no `git` binary.
+- single module: `python3 -m unittest tests.test_tt_summary -v` (module path, not file path)
+- full suite  : `python3 -m unittest discover -s tests -q`   (baseline: 138 tests passed)
+- `git rev-parse HEAD` is unavailable; read `.git/refs/heads/master` or use the tool's degraded head probe.
+Replace every `python3 -m pytest ...` in this brief with the unittest equivalent above.
+
+# LANE W3 — TT status projection (R3-EXT-04 / R-AUD-012)
+
+You are the admitted bounded writer for PIPD requirement `REQ-PIPD-R4-W3`.
+Work ONLY inside the repository root (`/w`). Do not touch anything outside it.
+
+## Confirmed defect
+`.hgk/artifacts/TT_REGISTER.json` contains **22** rows in `tts[]`, but `status_summary` describes only **17**
+(`total: 17`, `as_of_round: R3-20261009-audit-repair`) and there is no `as_of_candidate` bound to the head.
+Actual histogram of the rows: OPEN 16, OPEN_OWNER_GATE 2, PARTIAL_CLOSED 1, PARTIAL 1, CLOSED 1, TEMP_CLOSED 1.
+Note `PARTIAL_CLOSED` is NOT in the declared `state_vocabulary` — that is a second, smaller defect.
+
+## Deliverable 1 — `tools/tt_summary_check.py` (new)
+- `--assert`  : recompute the summary **from `tts[]` only** and compare with the stored `status_summary`;
+                on any difference print a precise diff (key, stored, recomputed) and exit **non-zero**.
+- `--write`   : regenerate the stored `status_summary` + `as_of_candidate` from `tts[]` and write the file back
+                (stable key order, UTF-8, trailing newline, no other field touched).
+- Recompute at least: `total` (= len(tts)), `count`, `closed`, `partial`, `open`, `open_owner_gate`,
+  `temp_closed`, `unknown`, `blocking_count` (= open + open_owner_gate), and `as_of_candidate`
+  (= `git rev-parse HEAD`, full 40-hex).
+- Unknown/out-of-vocabulary statuses must be **counted visibly** (e.g. into `unknown` plus a
+  `unmapped_statuses` map), NEVER dropped. Do not rename or remap any row's `status`.
+- If you extend `state_vocabulary`, add the mapping for `PARTIAL_CLOSED` explicitly and say so in the receipt.
+
+## Deliverable 2 — `tests/test_tt_summary.py` (new)
+1. stored summary equals the recomputation (after `--write`).
+2. mutation: change one row's `status` in memory → the stale stored summary must make `--assert` fail first.
+3. mutation: remove one row / add one row → `total` mismatch must fail.
+4. round-trip: load → dump → load preserves `len(tts)`, all row `id`s and all row `status` values.
+5. all 22 rows still present and no row's `status` was closed/changed by the tool.
+
+## Acceptance commands (run them and capture raw output)
+```
+python3 -m pytest tests/test_tt_summary.py -q
+python3 tools/tt_summary_check.py --write
+python3 tools/tt_summary_check.py --assert
+python3 -m pytest tests/ -q          # the whole suite must stay green (baseline was 138 passed)
+```
+Write raw stdout/stderr/exit codes to `.hgk/rounds/R4-20261009-focused-repair/W3/raw/`
+(files: `tt_write.txt`, `tt_assert.txt`, `pytest_w3.txt`, `pytest_full.txt`, `mutations.txt`,
+plus `BRIEF.txt` = a copy of this brief, and `CHANGED.txt` = `git status --porcelain` + `git diff --stat`).
+
+## Hard constraints
+- Do NOT modify `src/pipd_ls_sp/**` or any other `.hgk/artifacts/*` file.
+- Do NOT weaken, delete or skip any existing test. Do NOT change any TT row's state or evidence.
+- Do NOT raise any threshold. No network access is available.
+- `PYTHONPATH` is not required; run tools/tests from the repo root.
+- If something is impossible, stop and write the reason into `raw/BLOCKED.txt` instead of working around it.
+
+## Report back (short)
+Files changed · exact commands run · exit codes · test counts · anything you could NOT do and why.

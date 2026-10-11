@@ -1,0 +1,219 @@
+{
+  "checker_id": "AO-R5P-INDEPENDENT-V3",
+  "subject_commit": "9caef8ec36017b4c3ca55b9a672da1fa625fff07",
+  "subject_tree": "910f94127ee6367a6f5adff995321b353f4a6f10",
+  "subject_identity_basis": "commit/tree 取自凍結 brief；無 .git 的 /w 以本輪 bound digest 獨立重算驗證檔案範圍，未聲稱自行 rev-parse。",
+  "checks": [
+    {
+      "id": "C2",
+      "verdict": "PASS",
+      "evidence": [
+        "/round/evidence/host_fullsuite_repair_bound.txt",
+        "/briefs/brief_ao_checker_v3.md",
+        "/ao/v3/raw/brief_read.stdout",
+        "/ao/v3/raw/c2_hash.stdout",
+        "/ao/v3/raw/c2_read.stdout",
+        "/ao/v3/raw/c2_write_context.stdout",
+        "/ao/v3/raw/c8_script.stdout",
+        "/ao/v3/raw/previous.stdout"
+      ],
+      "commands": [
+        {
+          "command": [
+            "cat",
+            "/briefs/brief_ao_checker_v3.md"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/brief_read.stdout",
+          "stderr": "/ao/v3/raw/brief_read.stderr"
+        },
+        {
+          "command": [
+            "sha256sum",
+            "/round/evidence/host_fullsuite_repair_bound.txt"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c2_hash.stdout",
+          "stderr": "/ao/v3/raw/c2_hash.stderr"
+        },
+        {
+          "command": [
+            "cat",
+            "/round/evidence/host_fullsuite_repair_bound.txt"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c2_read.stdout",
+          "stderr": "/ao/v3/raw/c2_read.stderr"
+        },
+        {
+          "command": [
+            "python3",
+            "-c",
+            "from pathlib import Path\nfor f,a,b in [('/w/tests/test_technology_admission.py',135,159),('/w/tools/admit_technologies.py',510,526),('/w/tests/test_tqaep_design_positive.py',40,65)]:\n print(f)\n for i,l in enumerate(Path(f).read_text().splitlines(),1):\n  if a<=i<=b: print(f'{i}: {l}')"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c2_write_context.stdout",
+          "stderr": "/ao/v3/raw/c2_write_context.stderr"
+        },
+        {
+          "command": [
+            "cat",
+            "/round/ops/bound_digest.py"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c8_script.stdout",
+          "stderr": "/ao/v3/raw/c8_script.stderr"
+        },
+        {
+          "command": [
+            "cat",
+            "/ao/AO_VERDICT_V2.json"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/previous.stdout",
+          "stderr": "/ao/v3/raw/previous.stderr"
+        }
+      ],
+      "note": "PASS（收據證據足夠，限定承接 attempt 2 的測試主體）。自行讀取與 SHA-256 雜湊均退出 0；收據 SHA-256 為 a21ce57638c78a627b343ef69203e7279d6f86aada4ef0599461516e44de12cb，與 attempt 2 已保存的值相同，故不聲稱原始收據本輪有所更新。內文完整記錄命令 python -B -m unittest discover -s tests -t .（PYTHONPATH=src）、Windows cwd、HEAD 812af79422c087f0ef5a07188fbec061df6b47e0／tree d3b79d2bc7aba08368a02a9f34204d14c9b06bbd、Python 3.11.17、開始 2026-10-10T12:42:16Z／結束 2026-10-10T12:43:14Z；Ran 311 tests in 57.621s、OK (skipped=6) 後有 # exit_code: 0。具名 SKIP 行為 test_installed_doctor_diagnoses_installed_schema_surface 與 test_installed_package_is_self_sufficient，理由為該解譯器無 pip；不推論六項全部執行。收據自身只寫 status 為 2 lines；本輪 brief 才補明 .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json modified 與 .hgk/artifacts/tqaep_design_tmp/ untracked，並說明是 suite 產物。已讀原始測試／工具確認這兩條寫入路徑，且 bound scope 排除 .hgk；因此接受 brief 的路徑／處置說明，原未命名工作樹變更缺口可關閉，不要求非產品產物 hash。主機 status 未在此獨立重跑；此收據不是 9caef8ec 的重跑。依凍結 brief，本次僅 ACCEPTANCE.md 橫幅有變，故在本次窄範圍沿用上次測試證據；不提升為新主體全套測試或 Windows 獨立執行宣稱。"
+    },
+    {
+      "id": "C6",
+      "verdict": "FAIL",
+      "evidence": [
+        "/w/README.md",
+        "/w/ACCEPTANCE.md",
+        "/briefs/brief_ao_checker_v3.md",
+        "/ao/v3/raw/brief_read.stdout",
+        "/ao/v3/raw/c6_read.stdout",
+        "/ao/v3/raw/c8_run.stdout"
+      ],
+      "commands": [
+        {
+          "command": [
+            "cat",
+            "/briefs/brief_ao_checker_v3.md"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/brief_read.stdout",
+          "stderr": "/ao/v3/raw/brief_read.stderr"
+        },
+        {
+          "command": [
+            "bash",
+            "-c",
+            "nl -ba /w/README.md | head -n 100; nl -ba /w/ACCEPTANCE.md | head -n 100"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c6_read.stdout",
+          "stderr": "/ao/v3/raw/c6_read.stderr"
+        },
+        {
+          "command": [
+            "python3",
+            "-B",
+            "/round/ops/bound_digest.py",
+            "/w"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c8_run.stdout",
+          "stderr": "/ao/v3/raw/c8_run.stderr"
+        }
+      ],
+      "note": "FAIL（目前凍結主體的文件綁定仍不一致）。README 第 39 行清楚標明 r5p-post-challenge-repair、基線、S4 internal evaluation、LicenseRef-PIPD-Proprietary／no public-use grant，且第 7、39 行連至 ACCEPTANCE.md。ACCEPTANCE.md 第 1–13 行的新橫幅清楚將下方 R5/D1 標為基線歷史，並提供 R5P round evidence 位置；這關閉原先基線／R5P 混淆的註記。但第 6–8 行仍以「post-challenge repair subject」標記舊 commit 812af79422c087f0ef5a07188fbec061df6b47e0、舊 tree d3b79d2bc7aba08368a02a9f34204d14c9b06bbd、舊 digest 4ee712e899e9f4aa14d46ba1d3f879eb6b45ad0ae4a8b02bf1d9847b5f8cc579，未說明它們是 attempt 2 身分。因此首屏可辨識分支、授權限制及驗收位置，卻不能辨識本輪 9caef8ec36017b4c3ca55b9a672da1fa625fff07／910f94127ee6367a6f5adff995321b353f4a6f10 的確切主體。尚需明示 attempt 2 與目前凍結主體的關係，並提供目前主體的外部綁定入口；不要求文件在自身 commit 內自指雜湊。此為文件主體綁定缺口，未判定 runtime 產品缺陷。"
+    },
+    {
+      "id": "C8",
+      "verdict": "PASS",
+      "evidence": [
+        "/round/ops/bound_digest.py",
+        "/round/evidence/DIGEST_BINDING.json",
+        "/ao/v3/raw/c8_run.stdout",
+        "/ao/v3/raw/c8_binding.stdout",
+        "/ao/v3/raw/c8_compare.stdout",
+        "/ao/v3/raw/previous.stdout",
+        "/ao/v3/raw/brief_read.stdout"
+      ],
+      "commands": [
+        {
+          "command": [
+            "python3",
+            "-B",
+            "/round/ops/bound_digest.py",
+            "/w"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c8_run.stdout",
+          "stderr": "/ao/v3/raw/c8_run.stderr"
+        },
+        {
+          "command": [
+            "cat",
+            "/round/evidence/DIGEST_BINDING.json"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c8_binding.stdout",
+          "stderr": "/ao/v3/raw/c8_binding.stderr"
+        },
+        {
+          "command": [
+            "python3",
+            "-c",
+            "import json\nfrom pathlib import Path\na=json.loads(Path('/ao/v3/raw/c8_run.stdout').read_text());b=json.loads(Path('/round/evidence/DIGEST_BINDING.json').read_text())\nfor k in ['schema','bound_definition','bound_product_digest','bound_file_count','rejected_alternative']:\n assert a[k]==b[k],k\n print(k+': MATCH')\nassert a['rejected_alternative']['why_rejected']\nprint('narrower definition: REJECTED; candidate_root differs only by execution location')"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/c8_compare.stdout",
+          "stderr": "/ao/v3/raw/c8_compare.stderr"
+        },
+        {
+          "command": [
+            "cat",
+            "/ao/AO_VERDICT_V2.json"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/previous.stdout",
+          "stderr": "/ao/v3/raw/previous.stderr"
+        },
+        {
+          "command": [
+            "cat",
+            "/briefs/brief_ao_checker_v3.md"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v3/raw/brief_read.stdout",
+          "stderr": "/ao/v3/raw/brief_read.stderr"
+        }
+      ],
+      "note": "PASS。執行 python3 -B /round/ops/bound_digest.py /w，退出 0；逐欄比較命令亦退出 0。新 bound_product_digest = 4f5e2310766699d064a402291be2c4803c977e39fda7b65086a98a1b4793338d，288 files；schema、bound_definition、digest、file_count 與 rejected_alternative 全部符合 /round/evidence/DIGEST_BINDING.json，candidate_root 僅執行位置不同。較窄 251-file 定義仍置於 rejected_alternative，保留 why_rejected，digest 為 d2a90ad3500e7681dcf9c8e097480adc847f218b7293aabd8369d6d50223b672；它沒有取代綁定定義。相較 attempt 2 的 4ee712e8…，綁定值已改變；變更只涉及 ACCEPTANCE.md 的說明依據為凍結 brief，本輪未重做完整版本差異審查。"
+    }
+  ],
+  "overall": "PARTIAL",
+  "classification": {
+    "C2": "NON_BLOCKING_OBSERVATION",
+    "C6": "EVIDENCE_GAP",
+    "C8": "NON_BLOCKING_OBSERVATION"
+  },
+  "independent_of_maker": true,
+  "independence_scope": "本 checker 獨立讀檔、計算雜湊、執行綁定腳本及比較；host full suite 為外部收據，非本 checker 重跑。非產品 status 路徑及唯一文件變更的判斷明示依賴凍結 brief。",
+  "human_ratification": "PENDING",
+  "claim_ceiling": "CANDIDATE_ONLY",
+  "bound_product_digest": "4f5e2310766699d064a402291be2c4803c977e39fda7b65086a98a1b4793338d",
+  "bound_file_count": 288,
+  "host_bound_suite_raw_sha256": "a21ce57638c78a627b343ef69203e7279d6f86aada4ef0599461516e44de12cb",
+  "commands_index": "/ao/v3/commands.jsonl",
+  "log": "/ao/v3/審查紀錄.md",
+  "scope": "僅 C2／C6／C8；C1／C4／C5／C7 不重審。"
+}

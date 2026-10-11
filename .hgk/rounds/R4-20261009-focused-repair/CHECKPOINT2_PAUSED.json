@@ -1,0 +1,151 @@
+{
+ "schema": "R4-CHECKPOINT/2",
+ "state": "CHECKPOINT_PAUSED",
+ "paused_at": "2026-10-09T16:31:00+08:00",
+ "pause_reason": "user shutdown (pause #2)",
+ "round": "R4-20261009-focused-repair",
+ "instruction_id": "PIPD-LS-SP-HERMES-R4-FOCUSED-REPAIR-20261009",
+ "claim_ceiling": "CANDIDATE_ONLY",
+ "git": {
+  "head": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+  "branch": "master",
+  "dirty_entries": 26,
+  "committed": false,
+  "pushed": false,
+  "remote_changes": false,
+  "published_main": "3aebbbce948871c07b875ab92acf263d298ecf38",
+  "historical_candidate": "10cb3d31fcbd54fffe64152f4b17085866d0d75e"
+ },
+ "model_sod": {
+  "plan": "deepseek-v4.1-flash (opencode-go)",
+  "execute": "CODEX CLI, opencode-go/deepseek-v4.1-flash (container lane)",
+  "verify": "CODEX CLI host, gpt-6.1-sol, effort medium, OpenAI OAuth (user-directed 2026-10-09; endpoint 10102 lists gpt-5.6-sol — id mapping is an explicit assumption)"
+ },
+ "closed_workorders": {
+  "W1": "publication projection + attestation (exit 0, violations [])",
+  "W2": "container OS-level write-scope matrix",
+  "W3": "TT status projection 22 rows / blocking 18 / unmapped {}",
+  "W4": "tech admission fail-closed (overall FAIL + exit 1, artefact PASS, 0/22, dispositions unchanged)",
+  "W5": "PI de-dup (honest residual reporting) + perf budget provenance",
+  "W7": "32 SPEC + 25 DEL crosswalk (check exit 0)",
+  "W9": "repair of W8 falsifications (perf fail-closed, publication coverage, crosswalk oracle, deny-list tool)",
+  "W10": "repair of W8b falsifications (perf raw compare, real-HEAD baseline, deny-list quoted/TOML forms, publication artifact stability)"
+ },
+ "verification_rounds": {
+  "W8": "FAIL_CHALLENGE — falsified C1,C5,C6,C7,C9; digests 19/19 matched; C2,C3 VERIFIED",
+  "W8b": "FAIL_CHALLENGE — C1',C5',A3' VERIFIED; C6',C7',C9',FROZEN_DIGESTS falsified; ran inside a disposable byte-copy",
+  "W8c": "NOT_COMPLETED — 2 attempts aborted by upstream provider error"
+ },
+ "host_acceptance": {
+  "suite": "Ran 188 tests / OK / exit 0",
+  "exit_codes": {
+   "tt_summary --assert": 0,
+   "admit_technologies --report": 1,
+   "build_spec_del_crosswalk --check": 0,
+   "deny_list_scan": 0,
+   "pi_dedup_check --check": 0,
+   "perf_budget --check": 1,
+   "build_publication_manifest --check": 0,
+   "... --check --current": 1,
+   "publication_attestation --verify": 0
+  }
+ },
+ "rounds_present": [
+  "W1",
+  "W2",
+  "W3",
+  "W4",
+  "W5",
+  "W7",
+  "W8",
+  "W9",
+  "W10"
+ ],
+ "blockers": [
+  {
+   "id": "B1",
+   "what": "Docker daemon DOWN at pause time",
+   "impact": "container lanes/receipt application unavailable; host CODEX CLI path unaffected",
+   "resume": "start Docker Desktop, verify: docker ps; image pipd-r4-writer:4 must exist (else rebuild from scratch/pipd-r4/writer.Dockerfile)"
+  },
+  {
+   "id": "B2",
+   "what": "W8c (3rd independent round) aborted twice with upstream provider error",
+   "detail": "Provider error 400: The `reasoning_content` in the thinking mode must be passed back to the API — with codex-cli 0.162.0-alpha.2 against the local adapter 127.0.0.1:10102; the previously working binary dir f544b3844e0f14e9 was removed by a desktop update",
+   "resume": "retry with -c model_reasoning_effort=low (or without the override), or with --model gpt-5.6-sol, or wait for the desktop app to ship a fixed build; the round-2 verdict stands until then"
+  },
+  {
+   "id": "B3",
+   "what": "EVIDENCE_IDENTITY_MISMATCH",
+   "detail": "challenge report claims evidence master sha e6bbd32d…; no on-site version reproduces it (current 9cf08e2309feff64, 23,674 B)"
+  },
+  {
+   "id": "B4",
+   "what": "perf thresholds UNPROVENANCED",
+   "detail": "context_bytes_per_artefact 20000 has no in-repo derivation; gate now FAILs on exceedance (fail-closed) while the threshold authority stays owner-ratifiable"
+  },
+  {
+   "id": "B5",
+   "what": "source pins 0/22 + 13 uncovered current product paths + 10 residual duplicate atoms (249 B)",
+   "detail": "all disclosed, none hidden; see the evidence master §4/§5"
+  }
+ ],
+ "deliverables": {
+  "evidence_master": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\PIPD\\實作證據\\PIPD-LS-SP_R4_FOCUSED_REPAIR_EVIDENCE_2026-10-09.md",
+  "finding_ledger": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\PIPD\\實作證據\\PIPD-LS-SP_R4_FINDING_LEDGER_2026-10-09.json",
+  "checkpoint_md": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\PIPD\\實作證據\\PIPD-LS-SP_R4_CHECKPOINT2_PAUSED_2026-10-09.md",
+  "repo_checkpoint": ".hgk/rounds/R4-20261009-focused-repair/CHECKPOINT2_PAUSED.json",
+  "checker_copy": "...\\hermes\\cache\\scratch\\pipd-accept (328 MB, disposable byte-copy of the candidate)"
+ },
+ "resume_order": [
+  "1) confirm environment: git -C C:/Projects/Agent_Workspace/PIPD rev-parse HEAD == 7c5bc585c7d889cd338da853be4efc4b8f07d3b2 ; git status --porcelain | wc -l == 26",
+  "2) start Docker Desktop if container lanes are needed; docker ps; docker images | grep pipd-r4-writer",
+  "3) re-run host acceptance: python -m unittest discover -s tests -q  (expect Ran 188 tests / OK)",
+  "4) finish the 3rd independent round (W8c) on the host CODEX CLI in the disposable copy; if the provider error persists, record it and keep round-2's verdict",
+  "5) if W8c still finds falsifications, raise repair round W11 and re-verify",
+  "6) re-issue receipts into .hgk/rounds/R4-20261009-focused-repair/**/raw/",
+  "7) only after a PASS_CHALLENGE may the round move on; commit/push remain unauthorized (owner decision), and W6 stays OWNER_GATED"
+ ],
+ "hgk_shared_spine": {
+  "project_id": "PIPD-LS-SP-20261008",
+  "checkpoint_id": "CK-20261008-063CEF72",
+  "state": "EXECUTING",
+  "previous_checkpoints": [
+   "CK-20261008-B7066666",
+   "CK-20261008-86FEE549"
+  ],
+  "evidence_refs_count": 4
+ },
+ "self_sha256": "f947af2e6c4405626970761fbbd06e65b5c2d54286f003d4622bc14d75770d25",
+ "deliverables_after_resume": {
+  "far": {
+   "path": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\PIPD\\實作證據\\PIPD-LS-SP_R4_FAILURE_ANALYSIS_FAR_2026-10-09.md",
+   "sha256": "04b33556aa210da9477be517d98f211c7346d9ffc3b44f0ea7ad863afabee12e",
+   "bytes": 14886,
+   "per_class_events": {
+    "C1": 3,
+    "C2": 2,
+    "C3": 2,
+    "C4": 3,
+    "C5": 3,
+    "C6": 3,
+    "C7": 2,
+    "C8": 3
+   },
+   "events_total": 22,
+   "events_with_retained_evidence": 21,
+   "proposed_solutions": [
+    "S1 preflight",
+    "S2 envelope",
+    "S3 self-scan",
+    "S4 brief v2 + watchdog",
+    "S5 model/SoD pinning assertion",
+    "S6 digest determinism",
+    "S7 deviation register",
+    "S8 upstream/scope"
+   ],
+   "status": "PROPOSED_NOT_IMPLEMENTED"
+  }
+ },
+ "status": "CHECKPOINT/RESUMED-THEN-FAR (round-3 verification still incomplete)"
+}

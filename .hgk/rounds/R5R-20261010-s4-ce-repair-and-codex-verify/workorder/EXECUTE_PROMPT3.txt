@@ -1,0 +1,62 @@
+Follow-up bounded-writer order for the SAME round. Repository:
+C:/Projects/Agent_Workspace/PIPD-r5r-repair-wt (branch r5r-ce-repair).
+
+You previously repaired CE-1 (validate) and CE-2 on this tree. The maker then ran a real
+end-to-end check against an actual wheel install, from a working directory that contains no
+`schemas/` directory and with no `--root` argument. `doctor` and `validate` behaved correctly.
+But it found a THIRD instance of the same CE-1 class that your repair did not cover:
+
+  $ python -m ... > pipd init          (cwd = a directory with no schemas/)
+  exit=2
+  {"code": "VALIDATION_FAIL",
+   "message": "registry missing: <cwd>\\schemas\\registry.json",
+   "verdict": "FAIL"}
+
+## Why that is the same class
+
+`src/pipd_ls_sp/workspace.py`, `init_workspace(root)`, creates the skeleton directories
+(`docs`, `schemas`, `src`, `tests`, `dist`) and then calls
+`registry.load_registry(root / "schemas")` — passing the `<root>/schemas` directory it has JUST
+created, which is empty. So `init` can never succeed on a fresh or installed root. The stated job
+of the function is "create the skeleton and report how many contract families exist"; it must
+therefore read the registry from wherever the registry actually is, exactly as `doctor` and
+`validate` now do.
+
+## What to change
+
+1. `workspace.init_workspace` must resolve the schemas surface through the SAME resolver the rest
+   of the CLI now uses — do not hand-roll a second lookup, and do not read
+   `<root>/schemas` unconditionally. `registry.load_registry()` with no argument already resolves
+   through the shared chain; use the shared resolution path and keep one order of preference.
+2. Report which surface produced the family list, in the same `{mode, path, tried}` shape the
+   other commands use, so an operator can see it. Do not remove or rename any field that is
+   already in the returned dict (`verdict`, `root`, `created`, `contract_families` must survive).
+3. If no surface resolves, fail closed with a typed code and a message that names what was tried —
+   the same posture you used for `validate`. Do not raise a bare `FileNotFoundError`/traceback.
+4. A workspace-local `<root>/schemas` that genuinely carries a `registry.json` must still win, so
+   an initialised workspace keeps reading its own copy. Do not break that.
+
+## Explicitly out of scope — do NOT change
+
+`src/pipd_ls_sp/projection.py` also reads `root / "schemas" / "registry.json"`. That is NOT the
+same class: that function's contract is to load the canonical objects out of one specified
+canonical tree, so requiring that tree to carry its registry is correct. Leave it alone and say so
+in your summary.
+
+## Also required
+
+5. Add a regression test that fails on the current tree: calling `init_workspace` on a fresh
+   temporary root that has no `schemas/` must succeed and report the family count, and the
+   resolved source must be reported. Put it in `tests/test_ce_repair_regression.py` alongside the
+   existing five tests, in the same style.
+6. Run the new test alone, then the whole file, then the full suite:
+   `unset PYTHONPATH` and
+   `C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -m unittest discover -s tests -t .`
+   The suite baseline is 316 tests, `OK (skipped=3)`. It must stay green and the count must rise by
+   the number of tests you add. Append the new red/green evidence to
+   `.hgk/rounds/R5R-20261010-s4-ce-repair-and-codex-verify/execute/red_state.txt` and
+   `green_state.txt` under a clearly-labelled `--- init (second CE-1-class site) ---` heading, and
+   append a section to `execute/SUMMARY.md`.
+7. Do NOT commit, do NOT push, do NOT build a wheel, do NOT edit anything under `schemas/`, and do
+   NOT edit `.hgk/artifacts/`. If running the toolchain dirties a tracked artifact, revert it.
+8. Stop as soon as the suite is green and the evidence files are updated.

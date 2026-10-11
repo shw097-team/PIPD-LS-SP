@@ -1,0 +1,328 @@
+{
+ "rows": [
+  {
+   "metric": "compile_chain_ms",
+   "value": 659.3,
+   "value_display": 659.3,
+   "budget": 2000,
+   "measurement": "wall-clock perf_counter around intake->compile_pi->bind_pd->compile_construction_contract->compile_ecp->compile_tqaep, ms",
+   "denominator": "",
+   "source_of_truth": "UNPROVENANCED",
+   "voting": false,
+   "advisory": true,
+   "advisory_reason": "no consumer was ever named for this bound; measured headroom 2.35x, and no entity in the product depends on the number",
+   "exceeded": false,
+   "verdict": "UNDECIDABLE",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
+  },
+  {
+   "metric": "validate_19_contracts_ms",
+   "value": 1.9,
+   "value_display": 1.9,
+   "budget": 3000,
+   "contracts": 19,
+   "measurement": "wall-clock perf_counter loading every registry family schema, ms",
+   "denominator": "19 registry families (registry.json)",
+   "source_of_truth": "UNPROVENANCED",
+   "voting": false,
+   "advisory": true,
+   "advisory_reason": "measured headroom 1,579x - the row cannot fire and carries no signal",
+   "exceeded": false,
+   "verdict": "UNDECIDABLE",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
+  },
+  {
+   "metric": "cli_cold_start_ms",
+   "value": 105.5,
+   "value_display": 105.5,
+   "budget": 6000,
+   "measurement": "wall-clock perf_counter of `python -B -m pipd_ls_sp.cli --help` in a fresh interpreter, ms",
+   "denominator": "",
+   "source_of_truth": "UNPROVENANCED",
+   "voting": false,
+   "advisory": true,
+   "advisory_reason": "measured headroom 51x - the row cannot fire and carries no signal",
+   "exceeded": false,
+   "verdict": "UNDECIDABLE",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
+  },
+  {
+   "metric": "context_bytes_per_artefact",
+   "value": 343547,
+   "value_display": 343547,
+   "budget": 20000,
+   "sizes": {
+    "pi": 343547,
+    "pd": 1599,
+    "cc": 442,
+    "ecp": 528,
+    "tqaep": 110280
+   },
+   "measurement": "max of len(json.dumps(artefact)) in UTF-8 bytes over PI/PD/CC/ECP/TQAEP",
+   "denominator": "one artefact (bytes per artefact, not per atom)",
+   "source_of_truth": "UNPROVENANCED",
+   "voting": false,
+   "advisory": true,
+   "advisory_reason": "superseded by the owner re-specification of 2026-10-10: the budget is now the scale-invariant rate bytes_per_atom. The absolute reading is kept because its historical FAIL must stay visible, not to decide.",
+   "preserved": true,
+   "exceeded": true,
+   "verdict": "FAIL",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
+  },
+  {
+   "metric": "bytes_per_atom",
+   "value": 1449.6,
+   "value_display": 1449.6,
+   "budget": 2000,
+   "pi_bytes": 343547,
+   "atoms": 237,
+   "unique_obligations": 237,
+   "dedup_rule": "distinct canonical identity: atom.subject_id, else sha256 of its canonical JSON (atom minus subject_id/version/content_hash/schema_version)",
+   "baseline_bytes_per_atom": 1449.57,
+   "tolerance_pct": 10.0,
+   "baseline_limit": 1594.5,
+   "regression": "WITHIN_TOLERANCE",
+   "measurement": "len(json.dumps(PI, ensure_ascii=False)) UTF-8 bytes divided by the number of DISTINCT obligation identities in PI.stable_semantic_contract.atoms (padding-invariant denominator; raw atom count reported as `atoms`)",
+   "denominator": "one distinct obligation (bytes per unique obligation, scale-invariant)",
+   "source_of_truth": "docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json#/rulings/S2_BUDGET_DEFINITION",
+   "voting": true,
+   "exceeded": false,
+   "verdict": "PASS"
+  },
+  {
+   "metric": "per_atom_p95_bytes",
+   "value": 1049.0,
+   "value_display": 1049.0,
+   "budget": 2000,
+   "measurement": "nearest-rank 95th percentile of len(json.dumps(atom)) UTF-8 bytes over PI atoms",
+   "denominator": "one atom (95th-percentile atom, bytes)",
+   "source_of_truth": "UNPROVENANCED",
+   "voting": false,
+   "advisory": true,
+   "advisory_reason": "the owner's ratified row is the MEAN bytes_per_atom; the p95/max tail statistics are reported for visibility and MUST NOT replace it",
+   "exceeded": false,
+   "verdict": "UNDECIDABLE",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
+  },
+  {
+   "metric": "per_atom_max_bytes",
+   "value": 1297.0,
+   "value_display": 1297.0,
+   "budget": 2000,
+   "measurement": "max of len(json.dumps(atom)) UTF-8 bytes over PI atoms",
+   "denominator": "one atom (largest atom, bytes)",
+   "source_of_truth": "UNPROVENANCED",
+   "voting": false,
+   "advisory": true,
+   "advisory_reason": "the owner's ratified row is the MEAN bytes_per_atom; the max tail statistic is reported for visibility and MUST NOT replace it",
+   "exceeded": false,
+   "verdict": "UNDECIDABLE",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
+  },
+  {
+   "metric": "context_entry_bytes",
+   "value": null,
+   "value_display": null,
+   "budget": 20000,
+   "voting": false,
+   "advisory": true,
+   "uncomputable": true,
+   "computed": false,
+   "source_of_truth": "UNPROVENANCED",
+   "measurement": "bytes that would actually enter a model context - NOT COMPUTABLE from the product: no tokenizer / context-window accounting is bound",
+   "denominator": "one artefact entering a model context (bytes)",
+   "advisory_reason": "the product measures serialized/disk bytes, not the bytes a model context would consume; because no tokenizer is bound, no value is invented",
+   "note": "UNPROVENANCED / advisory: no number is computed here"
+  }
+ ],
+ "verdict": "PASS",
+ "voting_metrics": [
+  "bytes_per_atom"
+ ],
+ "advisory_metrics": [
+  "compile_chain_ms",
+  "validate_19_contracts_ms",
+  "cli_cold_start_ms",
+  "context_bytes_per_artefact",
+  "per_atom_p95_bytes",
+  "per_atom_max_bytes",
+  "context_entry_bytes"
+ ],
+ "undecidable": [],
+ "failed": [],
+ "exceeded": [],
+ "historical": {
+  "note": "measured and printed but non-voting. Where a recorded baseline supplies the value for a metric (see that row's `origin`), `value` is the RECORDED number and the live reading is kept as `measured_now`; a metric with no recorded baseline keeps its live measurement and is marked `recorded: false`.",
+  "rows": [
+   {
+    "metric": "compile_chain_ms",
+    "value": 659.3,
+    "measured_now": 659.3,
+    "recorded": false,
+    "origin": null,
+    "budget": 2000,
+    "source_of_truth": "UNPROVENANCED",
+    "verdict": "UNDECIDABLE",
+    "exceeded": false,
+    "note": "no recorded value was available for this metric; `value` is the live measurement, not a recorded one"
+   },
+   {
+    "metric": "validate_19_contracts_ms",
+    "value": 1.9,
+    "measured_now": 1.9,
+    "recorded": false,
+    "origin": null,
+    "budget": 3000,
+    "source_of_truth": "UNPROVENANCED",
+    "verdict": "UNDECIDABLE",
+    "exceeded": false,
+    "note": "no recorded value was available for this metric; `value` is the live measurement, not a recorded one"
+   },
+   {
+    "metric": "cli_cold_start_ms",
+    "value": 105.5,
+    "measured_now": 105.5,
+    "recorded": false,
+    "origin": null,
+    "budget": 6000,
+    "source_of_truth": "UNPROVENANCED",
+    "verdict": "UNDECIDABLE",
+    "exceeded": false,
+    "note": "no recorded value was available for this metric; `value` is the live measurement, not a recorded one"
+   },
+   {
+    "metric": "context_bytes_per_artefact",
+    "value": 343547,
+    "measured_now": 343547,
+    "recorded": true,
+    "origin": {
+     "file": ".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json",
+     "field": "pi_bytes"
+    },
+    "budget": 20000,
+    "source_of_truth": "UNPROVENANCED",
+    "verdict": "FAIL",
+    "exceeded": true
+   },
+   {
+    "metric": "per_atom_p95_bytes",
+    "value": 1049.0,
+    "measured_now": 1049.0,
+    "recorded": false,
+    "origin": null,
+    "budget": 2000,
+    "source_of_truth": "UNPROVENANCED",
+    "verdict": "UNDECIDABLE",
+    "exceeded": false,
+    "note": "no recorded value was available for this metric; `value` is the live measurement, not a recorded one"
+   },
+   {
+    "metric": "per_atom_max_bytes",
+    "value": 1297.0,
+    "measured_now": 1297.0,
+    "recorded": false,
+    "origin": null,
+    "budget": 2000,
+    "source_of_truth": "UNPROVENANCED",
+    "verdict": "UNDECIDABLE",
+    "exceeded": false,
+    "note": "no recorded value was available for this metric; `value` is the live measurement, not a recorded one"
+   },
+   {
+    "metric": "context_entry_bytes",
+    "value": null,
+    "measured_now": null,
+    "recorded": false,
+    "origin": null,
+    "budget": 20000,
+    "source_of_truth": "UNPROVENANCED",
+    "verdict": "UNPROVENANCED",
+    "exceeded": null,
+    "computed": false,
+    "note": "uncomputable from the product (see measurement); no value is invented"
+   }
+  ],
+  "preserved_fails": [
+   "context_bytes_per_artefact"
+  ]
+ },
+ "adjudication": {
+  "authority": "docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json",
+  "ruling": "S2_BUDGET_DEFINITION = PER_ATOM_BYTES(2000); timing rows ADVISORY",
+  "artefact_unchanged": true
+ },
+ "anti_dilution": {
+  "voting_row": "bytes_per_atom",
+  "value": 1449.6,
+  "budget": 2000,
+  "denominator": "unique_obligations",
+  "atoms": 237,
+  "unique_obligations": 237,
+  "dedup_rule": "distinct canonical identity: atom.subject_id, else sha256 of its canonical JSON (atom minus subject_id/version/content_hash/schema_version)",
+  "why": "the voting rate divides by DISTINCT obligation identities, so appending N duplicate/filler atoms cannot bring it at or below budget",
+  "padding_invariance": "structural: the denominator counts distinct identities only",
+  "quantities_separated": {
+   "serialized_bytes_measured": true,
+   "context_entry_bytes": "UNPROVENANCED: not computable from the product (no tokenizer/context-window is bound); advisory only"
+  },
+  "voting_denominators": [
+   "bytes_per_atom"
+  ],
+  "advisory_rows": [
+   "per_atom_p95_bytes",
+   "per_atom_max_bytes"
+  ]
+ },
+ "scales": {
+  "2": {
+   "atoms": 2,
+   "unique_obligations": 2,
+   "pi_bytes": 404,
+   "bytes_per_atom": 202.0,
+   "p95_bytes": 93.0,
+   "max_bytes": 93.0
+  },
+  "237": {
+   "atoms": 237,
+   "unique_obligations": 237,
+   "pi_bytes": 23457,
+   "bytes_per_atom": 98.97,
+   "p95_bytes": 97.0,
+   "max_bytes": 97.0
+  },
+  "801": {
+   "atoms": 801,
+   "unique_obligations": 801,
+   "pi_bytes": 79293,
+   "bytes_per_atom": 98.99,
+   "p95_bytes": 97.0,
+   "max_bytes": 97.0
+  },
+  "long_clause": {
+   "clause_chars": 2400,
+   "atoms": 1,
+   "unique_obligations": 1,
+   "pi_bytes": 37431,
+   "bytes_per_atom": 37431.0,
+   "p95_bytes": 36574.0,
+   "max_bytes": 36574.0
+  }
+ },
+ "padding_invariance": {
+  "before": {
+   "atoms": 1,
+   "unique_obligations": 1,
+   "bytes_per_atom": 7492.0
+  },
+  "after": {
+   "atoms": 501,
+   "unique_obligations": 1,
+   "bytes_per_atom": 42492.0
+  },
+  "padding_atoms": 500,
+  "budget": 2000,
+  "naive_rate_if_denominator_were_raw_atoms": 84.81,
+  "padding_invariance": "PASS"
+ },
+ "candidate_head": "0f06eec96386b7349db8b41ac6cf9c7455d326f1"
+}

@@ -54,8 +54,16 @@ def main() -> int:
         ["doctor"],
         # R-AUD-015 guard: never let the smoke write the delivered tree; the product
         # projection goes to a scratch dir so the real dist/web stays canonical.
-        ["project", "--out", str(ART / "web_projection")],
-        ["export"],
+        # R5-WO1: the destination resolver refuses a target outside every authorised root,
+        # so the scratch surface must be authorised explicitly.
+        # --allow-replace keeps the run idempotent across repeated invocations
+        # (the scratch target survives from a prior run).
+        ["project", "--out", str(ART / "web_projection"), "--allow-root", str(ART),
+         "--allow-replace"],
+        # R5-WO3: exercise the new portable-bundle path (`--out` + `--allow-root`),
+        # still exactly 13 commands. The product tree is never the target.
+        ["export", "--out", str(ART / "export_bundle"), "--allow-root", str(ART),
+         "--allow-replace"],
         ["diff", "--a", str(ART / "claim_ceiling.json"), "--b", str(ART / "claim_ceiling.json")],
         ["repair", "--subject", "PI-PKG", "--scope", "src/**", "--maker", "HERMES-MAKER",
          "--authorized-root", str(ROOT)],

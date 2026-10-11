@@ -1,0 +1,120 @@
+{
+  "schema": "R5P-INCIDENT-LEDGER/1",
+  "round": "R5P-20261010-s4-post-challenge",
+  "as_of": "2026-10-10T15:35:00Z",
+  "disclosure_policy": "Every side effect of the round is disclosed here, including ones the round did not intend and ones it reverted. Nothing in this file is an acceptance claim.",
+  "incidents": [
+    {
+      "id": "INC-R5P-01",
+      "kind": "ROUTE_TRANSPORT_DISCLOSURE",
+      "title": "Container lanes reach the declared model through the sanctioned sealed front doors via an explicit loopback bridge",
+      "observed": "run_writer.sh writes a CODEX_HOME config with model = \"opencode-go/deepseek-v4.1-flash\", model_provider = \"hgk_execute_door\", base_url = \"http://host.docker.internal:10110/v1\", wire_api = \"responses\". Port 10110 is bridge2.py on the host, which forwards to the sanctioned sealed EXECUTE front door on 127.0.0.1:10100. The VERIFY lane uses the same pattern to 127.0.0.1:10103 with model gpt-6.1-sol.",
+      "impact": "The declared provider/model is what the lane requests; the transport is an explicit, disclosed loopback bridge, not a direct provider dial and not an unlogged route.",
+      "disposition": "DISCLOSED, accepted for this round; no product effect."
+    },
+    {
+      "id": "INC-R5P-02",
+      "kind": "PREEXISTING_TEST_FAILURE",
+      "title": "tests/test_publication_projection.py::CurrentTreeCoverage::test_attestation_build_then_verify_exits_zero fails on the untouched baseline",
+      "observed": "Host full suite: Ran 305 tests in 85.097s -> FAILED (failures=1, skipped=5). The single failure is a publication-subject binding check: attested commit 5094939606ba9331ed768743eb5b806ad159e639 / tree b480182ca3c9c45fffb6d0d04cd81580d5b67c72 vs expected f4f0a02ca71a5a6e2c77c9dad1b961ccea4487df / 49082394d1e895e7eb5ca46a94fe217468f0a6ab.",
+      "root_cause": "tools/build_publication_manifest.py pins PUBLISHED_COMMIT/PUBLISHED_TREE to f4f0a02c (the former tip of local branch r5-s4-candidate, see git reflog r5-s4-candidate@{1}); the branch tip is now 5094939 (reflog r5-s4-candidate@{0}). The tool resolves the branch ref for --build and compares it to the hard-coded constant, so the check cannot pass while the local branch has moved past the pinned commit.",
+      "not_caused_by_this_round": "Reproduced on a pristine detached worktree of the untouched baseline 0f06eec96386b7349db8b41ac6cf9c7455d326f1 (git worktree add <scratch> 0f06eec): python -B tools/publication_attestation.py --build --verify -> verdict FAIL with the same subject mismatch. The round's edits are uncommitted working-tree changes and are not read by that tool.",
+      "classification": "PRE_EXISTING_EVIDENCE_GAP",
+      "disposition": "OUT_OF_SCOPE for the bounded WOs of this round. Routed as TT-OPEN in the round's TT list (owner: release packaging + external VERIFY lane). The R5P candidate must not be read as having introduced it, and it must not be silently repaired by rewriting the pinned constant."
+    },
+    {
+      "id": "INC-R5P-03",
+      "kind": "TEST_SIDE_EFFECT_REVERTED",
+      "title": "Running the full suite rewrites a tracked evidence artifact",
+      "observed": "After the host full-suite run, .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json showed a one-line diff: candidate_head 7c5bc585c7d889cd338da853be4efc4b8f07d3b2 -> 0f06eec96386b7349db8b41ac6cf9c7455d326f1.",
+      "root_cause": "tests/test_technology_admission.py invokes tools/admit_technologies.py through subprocess (line ~156); that tool regenerates .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json in place as a side effect, stamping candidate_head from the current HEAD.",
+      "disposition": "REVERTED to HEAD by the orchestrator (git checkout -- .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json) so that the round's candidate diff contains authorised paths only. Reported here so the revert is not mistaken for a hidden edit. Routed as TT-OPEN (test hygiene: a read-only assertion should not rewrite a tracked ledger)."
+    },
+    {
+      "id": "INC-R5P-04",
+      "kind": "LANE_TERMINATED_BY_OWN_TIMEOUT",
+      "title": "WO-S4-DIAG-001 writer lane was killed by its 2400s budget before emitting its receipt",
+      "observed": "The container lane ran 2026-10-10T10:40:13Z -> 11:20:16Z and exited with codex_exit=124 (timeout). Product edits had already landed and the lane's targeted tests reported OK in-container; the lane died during a second, unnecessary re-run of the full suite (that suite takes ~25 minutes inside the container because of the Windows bind mount).",
+      "impact": "No maker receipt JSON for WO-S4-DIAG-001. The product change is unaffected; the round supplies its own raw evidence instead (host full suite, targeted tests, live B4 negatives).",
+      "disposition": "DISCLOSED. Maker self-report was not a valid acceptance input in any case (maker != checker); the independent lane re-derives everything from the artifacts."
+    },
+    {
+      "id": "INC-R5P-05",
+      "kind": "HARNESS_DEFECT_FOUND_AND_FIXED",
+      "title": "First UAT run measured the wrong wheel and two harness oracles were mis-specified",
+      "observed": "Run 1 of the round's UAT harness reported {BLOCKED:1, FAIL:2, INFO:2, PASS:24}. All three non-green rows were harness faults, not candidate faults: (a) the harness defaulted to the checked-in dist/pipd_ls_sp-0.1.0-py3-none-any.whl, i.e. the R5-era wheel built from candidate 7c5bc585 -- so every install-mode case was exercising the OLD product, which is why install-mode compile-tqaep still emitted INDEPENDENT_CASE_PASS while source mode did not; (b) UAT-00N(install) looked for site-packages under <venv>/Scripts/Lib/site-packages instead of <venv>/Lib/site-packages, so it BLOCKED on a wrong path; (c) UAT-03 negative 3 asserted that a checker *identity* literally named SELF_ATTESTED must be refused, but the product matches the self-attestation sentinel in the RECEIPT field (checker_execution_receipt.upper() == 'SELF_ATTESTED').",
+      "root_cause": "Harness copy carried over from the R5 runner without re-checking its wheel default; my two added oracles were written from prose instead of from the parser/guard source.",
+      "disposition": "All three fixed before any acceptance reading was taken: the wheel is now passed explicitly with --wheel and the run records its sha256; the site-packages path is derived from the venv root with a site-packages-filtered rglob fallback; the SELF_ATTESTED negative now drives the receipt field, and the identity-sentinel asymmetry is recorded as an ungated observation inside UAT-03. Run 2 against the R5P wheel: {INFO:2, PASS:27}, exit 0. The run-1 artefacts are kept (uat/out/) and the run-2 artefacts are separate (uat/out2/) so the correction is auditable.",
+      "lesson": "An install-mode case is only evidence about the artefact actually installed; the wheel identity must be pinned per run, never defaulted."
+    },
+    {
+      "id": "INC-R5P-06",
+      "kind": "OBSERVATION",
+      "title": "The self-attestation sentinel is matched in the receipt field, not in the checker identity",
+      "observed": "compile_tqaep() refuses when checker_execution_receipt is empty or equals SELF_ATTESTED, and when maker == checker case/whitespace-insensitively. A checker identity literally labelled SELF_ATTESTED is accepted as a label when a real receipt string is supplied.",
+      "impact": "No independent claim can arise from it: the record's acceptance entry carries claim_ceiling=TQAEP_DESIGNED and independent_acceptance=NOT_GRANTED regardless. Classified NON_BLOCKING_OBSERVATION; the reviewer may disagree (ORACLE_DISAGREEMENT is a first-class result).",
+      "disposition": "Recorded as an ungated observation inside UAT-03 in both modes; not repaired, because the round is not authorised to widen the TQAEP guard beyond the design-time ceiling."
+    },
+    {
+      "id": "INC-R5P-07",
+      "kind": "NEW_OBSERVATION_PREEXISTING",
+      "title": "pipd doctor aborts on a dangling symlink inside the tree it walks (pre-existing, not a regression)",
+      "observed": "With the round's Linux-created scratch venv present under .hgk/rounds/R5P-.../ao/out/, `pipd doctor --root .` from the repository returns {\"code\": \"INPUT_SHAPE_INVALID\", \"message\": \"OSError: [WinError 1920] ... ao/out/venv_control/lib64/SKILL.md\", \"verdict\": \"FAIL\"}, exit 2, instead of skipping the entry or reporting a typed diagnostic.",
+      "attribution": "Not caused by this round: `for s in root.rglob(\"SKILL.md\")` is present unchanged in the baseline workspace.py (line 150 at 0f06eec; line 208 after this round's insertion above it). The crash needs a dangling symlink in the walked tree, which the Windows host cannot create itself (WinError 1314) but a Linux container writes into a shared bind mount.",
+      "impact": "A real S4 user whose workspace contains a dangling symlink would get an aborted diagnostic rather than a verdict. The round's own evidence is unaffected: every doctor/UAT run in this round executes from a scratch cwd or a scratch root outside the repository, and the UAT run predates the scratch venvs.",
+      "disposition": "Recorded and raised as TT-OPEN (robustness: the walk must skip unreadable/dangling entries and report them as a finding). Not repaired here: the walk is outside this round's authorised write set and the repair would need its own focused UAT."
+    },
+    {
+      "disclosed": true,
+      "class": "GOVERNANCE_DISCLOSURE",
+      "round": "R5P-20261010-s4-post-challenge",
+      "id": "INC-R5P-06",
+      "title": "CAPC compile receipt ceiling label",
+      "summary": "The CAPC compile receipt for R5P inherits the R5 contract shape and reports claim_ceiling=EXTERNAL_ACCEPTANCE, while the round's operative ceiling is CANDIDATE_ONLY. The receipt is a raw compiler output and was not edited; the operative ceiling in this round is CANDIDATE_ONLY and no claim was promoted on the strength of that field.",
+      "residue": "TT: align the compile-receipt ceiling vocabulary with the round ceiling at the next contract build."
+    },
+    {
+      "disclosed": true,
+      "class": "GOVERNANCE_DISCLOSURE",
+      "round": "R5P-20261010-s4-post-challenge",
+      "id": "INC-R5P-07",
+      "title": "wheel manifest candidate_head provenance",
+      "summary": "dist/WHEEL_MANIFEST.json carries candidate_head=7c5bc585cd... i.e. the R5 frozen local source identity, not the R5P tip. The R5P subject is bound by wheel sha256 plus the bound product digest instead; the checker verified both. This is a provenance-binding weakness in the manifest, not a fabricated PASS.",
+      "residue": "TT: have build_dist.py record the build tree/commit it actually read, or declare the manifest's candidate_head as 'frozen source of the packaged modules' and bind the tip elsewhere."
+    },
+    {
+      "disclosed": true,
+      "class": "GOVERNANCE_DISCLOSURE",
+      "round": "R5P-20261010-s4-post-challenge",
+      "id": "INC-R5P-08",
+      "title": "two writer lanes ended at their own budget",
+      "summary": "Both bounded writer lanes were collected by their own timeout (codex_exit=124) while running their final acceptance command, so neither lane's own closing receipt is trustworthy; the gate-bearing measurements were re-run independently by the PLAN side (perf_budget --check exit 0, 29 unit tests OK). Disclosed so no lane self-report is treated as gate evidence.",
+      "residue": "none - standing practice: re-run gate measurements on the PLAN side"
+    },
+    {
+      "id": "INC-R5P-09",
+      "class": "EVIDENCE_PRESERVATION_LAPSE",
+      "disclosed": true,
+      "title": "first writer lane ran unsealed host-side and its raw output was overwritten",
+      "summary": "The first bounded-writer attempt was launched directly on the host with -s workspace-write and wrote to lane/log_wo1_diag.txt; the sanctioned sealed container lane later wrote to the SAME path, so the first attempt's raw output is gone. Process capture for that session is also empty. All branch commits carry role identities (HERMES-R5P-MAKER/PACKAGER/PLAN/DOCS) and the baseline..tip diff is the 18 intended paths, so no unauthored change is visible - but that is an observation, not proof of absence.",
+      "residue": "TT: give每个 lane attempt its own immutable log path; never reuse a log file name across attempts."
+    },
+    {
+      "id": "INC-R5P-10",
+      "class": "SIDE_EFFECT_CLOSED",
+      "disclosed": true,
+      "title": "round-scoped model bridges stopped at round close",
+      "summary": "Two loopback bridges opened for the lanes (10110 -> 10100 writer, 10111 -> 10103 checker router) were terminated after all lanes exited. Verified afterwards: 10110 and 10111 no longer answer (curl http=000, no listening socket), and the shared router on 10103 is untouched (http=200). No other serving surface from this round remains.",
+      "residue": "none"
+    },
+    {
+      "id": "INC-R5P-11",
+      "class": "PUBLICATION_SIDE_EFFECT",
+      "disclosed": true,
+      "title": "branch r5p-post-challenge-repair pushed to the public GitHub repository",
+      "summary": "Pushed f06b0e7 to https://github.com/shw097-team/PIPD-LS-SP (non-main, new branch, no PR). The branch is publicly readable. The PAT was used only through a GIT_ASKPASS helper reading a 0600 staging file, never printed and never written to argv, the remote URL, .git/config or any evidence file; staging was deleted after readback. Readback: remote tip/tree == local tip/tree; main and r5-s4-packreader unchanged; the pushed attestation blob re-verifies PASS.",
+      "residue": "TT-R5P-13 (projection coverage red on the pushed branch), TT-R5P-14 (CLI default mismatch); both disclosed to any reviewer."
+    }
+  ],
+  "count": 13
+}

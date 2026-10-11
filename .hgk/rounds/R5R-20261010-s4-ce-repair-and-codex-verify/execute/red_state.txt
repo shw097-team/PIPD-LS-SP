@@ -1,0 +1,183 @@
+# RED STATE - pre-repair tree (pristine HEAD 9bd33a1), new CE regression tests
+# Captured in a detached git worktree of HEAD so the failing behaviour is the UNREPAIRED source.
+# command: python -m unittest tests.test_ce_repair_regression -v   (cwd = pristine HEAD checkout)
+# result: FAILED (failures=3, errors=2)
+# ---------------------------------------------------------------------------
+test_validate_reports_schema_source_mode (tests.test_ce_repair_regression.CE1ValidateSchemaResolutionTests.test_validate_reports_schema_source_mode) ... ERROR
+test_validate_resolves_shipped_schemas_without_workspace_schemas (tests.test_ce_repair_regression.CE1ValidateSchemaResolutionTests.test_validate_resolves_shipped_schemas_without_workspace_schemas) ... FAIL
+test_workspace_local_schemas_still_takes_precedence (tests.test_ce_repair_regression.CE1ValidateSchemaResolutionTests.test_workspace_local_schemas_still_takes_precedence) ... ERROR
+test_compilers_own_stdout_bundle_is_accepted (tests.test_ce_repair_regression.CE2CompilerStdoutTests.test_compilers_own_stdout_bundle_is_accepted) ... FAIL
+test_sidecar_list_has_one_definition (tests.test_ce_repair_regression.CE2CompilerStdoutTests.test_sidecar_list_has_one_definition)
+A future copy-paste must not be able to split the sidecar list again. ... FAIL
+
+======================================================================
+ERROR: test_validate_reports_schema_source_mode (tests.test_ce_repair_regression.CE1ValidateSchemaResolutionTests.test_validate_reports_schema_source_mode)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\AppData\Local\Temp\redcheck-6c8a8d34\wt\tests\test_ce_repair_regression.py", line 159, in test_validate_reports_schema_source_mode
+    src = payload["schema_source"]
+          ~~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: 'schema_source'
+
+======================================================================
+ERROR: test_workspace_local_schemas_still_takes_precedence (tests.test_ce_repair_regression.CE1ValidateSchemaResolutionTests.test_workspace_local_schemas_still_takes_precedence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\AppData\Local\Temp\redcheck-6c8a8d34\wt\tests\test_ce_repair_regression.py", line 147, in test_workspace_local_schemas_still_takes_precedence
+    self.assertEqual(payload["schema_source"]["mode"], "WORKSPACE")
+                     ~~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: 'schema_source'
+
+======================================================================
+FAIL: test_validate_resolves_shipped_schemas_without_workspace_schemas (tests.test_ce_repair_regression.CE1ValidateSchemaResolutionTests.test_validate_resolves_shipped_schemas_without_workspace_schemas)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\AppData\Local\Temp\redcheck-6c8a8d34\wt\tests\test_ce_repair_regression.py", line 124, in test_validate_resolves_shipped_schemas_without_workspace_schemas
+    self.assertEqual(r.returncode, 0,
+AssertionError: 2 != 0 : validate must reach a verdict; stdout={
+ "code": "INPUT_SHAPE_INVALID",
+ "message": "FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\tmp_dqpcvtw\\\\cwd\\\\schemas\\\\PI-PKG.schema.json'",
+ "verdict": "FAIL"
+}
+ stderr=
+
+======================================================================
+FAIL: test_compilers_own_stdout_bundle_is_accepted (tests.test_ce_repair_regression.CE2CompilerStdoutTests.test_compilers_own_stdout_bundle_is_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\AppData\Local\Temp\redcheck-6c8a8d34\wt\tests\test_ce_repair_regression.py", line 88, in test_compilers_own_stdout_bundle_is_accepted
+    self.assertEqual(res["findings"], [], str(res["findings"])[:800])
+AssertionError: Lists differ: [{'contract': 'PI-PKG', 'kind': 'SCHEMA', [88 chars]d)"}] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+{'contract': 'PI-PKG', 'kind': 'SCHEMA', 'detail': "PI-PKG/: Additional properties are not allowed ('_profile_meta' was unexpected)"}
+
++ []
+- [{'contract': 'PI-PKG',
+-   'detail': "PI-PKG/: Additional properties are not allowed ('_profile_meta' "
+-             'was unexpected)',
+-   'kind': 'SCHEMA'}] : [{'contract': 'PI-PKG', 'kind': 'SCHEMA', 'detail': "PI-PKG/: Additional properties are not allowed ('_profile_meta' was unexpected)"}]
+
+======================================================================
+FAIL: test_sidecar_list_has_one_definition (tests.test_ce_repair_regression.CE2CompilerStdoutTests.test_sidecar_list_has_one_definition)
+A future copy-paste must not be able to split the sidecar list again.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\user\AppData\Local\Temp\redcheck-6c8a8d34\wt\tests\test_ce_repair_regression.py", line 94, in test_sidecar_list_has_one_definition
+    self.assertTrue(hasattr(validate, "NON_RECORD_SIDECARS"),
+AssertionError: False is not true : validate must expose the single sidecar definition
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.533s
+
+FAILED (failures=3, errors=2)
+
+--- init (second CE-1-class site) ---
+# RED on the pre-repair workspace.init_workspace: it read the registry from the
+# ``<root>/schemas`` dir it had JUST created empty, so ``pipd init`` could never succeed
+# on a fresh/installed root. command: python -m unittest tests.test_ce_repair_regression.CE1InitSecondSiteSchemaResolutionTests -v
+# (the fix was temporarily reverted to capture this; the raw error is the reported one)
+# result: FAILED (errors=2)
+# ---------------------------------------------------------------------------
+test_init_reports_workspace_local_schemas_when_present (tests.test_ce_repair_regression.CE1InitSecondSiteSchemaResolutionTests.test_init_reports_workspace_local_schemas_when_present) ... ERROR
+test_init_succeeds_on_fresh_root_without_schemas (tests.test_ce_repair_regression.CE1InitSecondSiteSchemaResolutionTests.test_init_succeeds_on_fresh_root_without_schemas) ... ERROR
+
+======================================================================
+ERROR: test_init_reports_workspace_local_schemas_when_present (tests.test_ce_repair_regression.CE1InitSecondSiteSchemaResolutionTests.test_init_reports_workspace_local_schemas_when_present)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\tests\test_ce_repair_regression.py", line 203, in test_init_reports_workspace_local_schemas_when_present
+    self.assertEqual(out["schema_source"]["mode"], "WORKSPACE")
+                     ~~~^^^^^^^^^^^^^^^^^
+KeyError: 'schema_source'
+
+======================================================================
+ERROR: test_init_succeeds_on_fresh_root_without_schemas (tests.test_ce_repair_regression.CE1InitSecondSiteSchemaResolutionTests.test_init_succeeds_on_fresh_root_without_schemas)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\tests\test_ce_repair_regression.py", line 180, in test_init_succeeds_on_fresh_root_without_schemas
+    out = workspace.init_workspace(root)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\src\pipd_ls_sp\workspace.py", line 52, in init_workspace
+    reg = registry.load_registry(root / "schemas")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD-r5r-repair-wt\src\pipd_ls_sp\registry.py", line 180, in load_registry
+    raise ValidationFail(f"registry missing: {reg_path}")
+pipd_ls_sp.errors.ValidationFail: registry missing: C:\Users\user\AppData\Local\Temp\tmp2b0fflyn\fresh\schemas\registry.json
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.038s
+
+FAILED (errors=2)
+
+--- tracked_files heuristic (third site) ---
+
+CORRECTED ROOT CAUSE. My earlier call that this failure was "pre-existing and unrelated" was
+WRONG, and it was wrong because I only tested the commit that already contained the change.
+Measured with `git ls-tree -r --name-only <commit> | wc -l`:
+
+    9bd33a1  (the base this round started from):        996 tracked files  -> assertLess(n,1000) PASSES
+    afb29d0  (this round's commits):                   1019 tracked files  -> FAILS
+    af3f86c  (HEAD, this round's commits):             1025 tracked files  -> FAILS
+
+So this round's OWN evidence commits tripped it. The absolute cap of 1000 was already only 4 files
+away from tripping before the round began. The check's own message states its intent - detect that
+tracked_files is "counting .git internals again" - not cap the repository's size.
+
+RED (before the repair), single test:
+
+    python -m unittest \
+      tests.test_tooling_executes.TestToolingExecutes.test_tracked_file_metric_excludes_vcs_internals -v
+
+    FAIL: line 120, in test_tracked_file_metric_excludes_vcs_internals
+        self.assertLess(n, 1000, "tracked_files looks like it is counting .git internals again")
+    AssertionError: 1025 not less than 1000 :
+        tracked_files looks like it is counting .git internals again
+    Ran 1 test ... FAILED (failures=1)
+
+RED (before the repair), full suite:
+
+    Ran 318 tests ... FAILED (failures=1, skipped=3)
+
+Scratch proof that the NEW guard fires when it SHOULD (item 5; not a committed test):
+
+    poisoned = ['src/a.py', 'README.md', '.git/objects/aa/blob', '.git/config', '.gitignore']
+    flagged  = ['.git/objects/aa/blob', '.git/config']
+    # .git machinery detected -> would fail the assertion; .gitignore correctly left alone.
+    GUARD FIRES: OK
+
+--- trace widening (checker counterexample CE-CODEX-TRACE-WIDENING) ---
+
+FOURTH bounded-writer order, same round. The independent checker (GPT 6.1 SOL, separate
+CODEX_HOME) returned **FAIL on Claim 8**: adding an undeclared `trace` key to a `PD-PKG`,
+`ECP` or `TQAEP` record now returns verdict=PASS, checked=4, findings=[], exit 0. The PUBLISHED
+validator (loaded from the downloaded wheel) rejects the exact same records with
+"Additional properties are not allowed (trace was unexpected)".
+
+Root cause: the CE-2 repair conflated two distinct concepts in ONE constant
+(`NON_RECORD_SIDECARS` = the HASH-EXCLUSION list: subject_id, version, content_hash,
+schema_version, trace, _profile_meta). `validate_record` stripped every key on that list minus
+the ones the schema itself declares, so `trace` was dropped for PD-PKG/ECP/TQAEP (which do NOT
+declare it) and `additionalProperties: false` never fired. "Fields excluded from the body hash"
+and "fields that are not part of the record at all" are different sets that only overlap on
+`_profile_meta`.
+
+RED (before the fix), the checker's own counterexample pinned as a test on the pre-fix tree
+(sources temporarily restored from git to capture the starting state):
+
+    python -m unittest tests.test_ce_repair_regression.CE2TraceWideningTests \
+        tests.test_ce_repair_regression.CE2CompilerStdoutTests.test_sidecar_list_has_one_definition -v
+
+    test_declared_trace_on_pi_pkg_still_tolerated ... ok
+    test_undeclared_trace_is_rejected_on_pd_ecp_tqaep ... FAIL
+        AssertionError: 'PASS' != 'FAIL'
+        : {'verdict': 'PASS', 'checked': 4, 'findings': []}
+    test_sidecar_list_has_one_definition ... FAIL
+        AssertionError: False is not true : validate must expose the single hash-exclusion definition
+
+    Ran 3 tests ... FAILED (failures=2)
+
+So the widening is reproduced exactly as the checker reported: the undeclared `trace` is accepted
+(`verdict=PASS`), and the source still lacks the separated constant the fix introduces.
+

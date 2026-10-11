@@ -1,0 +1,35 @@
+{
+  "schema": "PIPD-LANE-INCIDENT/1",
+  "incident_id": "VERIFIER-SCOPE-CONTAMINATION-R5S4",
+  "raised_at": "2026-10-10T04:52Z",
+  "raised_by": "orchestrator (R5 S4 continuation)",
+  "class": "VERIFIER_SCOPE_CONTAMINATION",
+  "severity": "high — it made real product commands fail and would have corrupted the independent verdict",
+  "status": "FIXED and re-verified",
+  "what_happened": {
+    "trigger": "run_checker.sh mounted the independent checker's writable scratch at $LANE/ao_out, which is INSIDE the product tree (C:/Projects/Agent_Workspace/PIPD/.hgk/preflight/R5-compiler/lane/ao_out).",
+    "observed": [
+      "the checker created a Python venv under that path; on Windows the venv contains a lib64 reparse point that cannot be traversed",
+      "`pipd doctor` then failed with OSDError [WinError 1920] on ao_out/venv/lib64/SKILL.md",
+      "`pipd export` failed with the same WinError on ao_out/venv/lib64",
+      "tools/cli_surface_check.py reported doctor FAIL and export FAIL (exit 2 on the success path)",
+      "the host suite reported 3 errors: copytree unable to copy ao_out/venv/bin/python3 (Errno 22) and venv/lib64 (WinError 1920)",
+      "the checker itself also discovered the recursion and said so in its own log before being killed: it found a nested copy at ao_out/subject/.hgk/preflight/R5-compiler/lane/ao_out/subject and reported 'Nesting is bounded to 2 levels' - i.e. the subject copy contained the previous attempt's scratch, because the scratch lived inside the subject"
+    ],
+    "why_it_matters": "the failures were NOT product defects. The verifier's own artefacts were sitting inside the subject tree and were being walked by the product's own commands, so the verifier's presence looked like a product regression. This is the same defect class as the R4 incidents the round's own FAR named RC-2 (verifier and subject sharing one tree, three events). It is a recurrence, not a new discovery."
+  },
+  "action_taken": [
+    "killed the contaminated checker container af3219a10d28 and preserved its partial log to .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt4_contaminated/",
+    "moved the offending ao_out out of the product tree to the Hermes scratch area (r5-ao-lane/ao_out_contaminated)",
+    "rewrote run_checker.sh so AO_OUT defaults OUTSIDE the product tree and added a hard guard: if AO_OUT sits inside the product path the launcher REFUSES to start (exit 4) with an explanatory message, so the defect cannot silently return",
+    "re-ran the host suite and the gates with no container running: 290 tests OK (skipped=2), cli_surface 13/13 + 6/6 extras PASS, cli_smoke exit 0, portable_install 14/14 PASS, pipd doctor PASS",
+    "confirmed the fixed lane is genuinely out-of-tree: while the new checker runs, `pipd doctor` still returns PASS"
+  ],
+  "residual": "none for the product. The lesson is recorded in run_checker.sh itself rather than in a document nobody reads at launch time.",
+  "the_checkers_own_workaround_and_why_it_was_not_enough": {
+    "what_it_did": "before being killed, the checker correctly diagnosed the recursion from inside the container and wrote /ao/work/mksubject.py with SKIP={'.hgk'} and the comment 'contains this very /ao (9p alias) -> would recurse', then copied the subject without .hgk",
+    "why_that_is_a_mitigation_not_a_fix": "excluding .hgk fixes the checker's OWN copy. It does nothing about the product's own walkers, because `pipd doctor` and `pipd export` walk the real tree, not the copy. A competent agent reaching for SKIP={'.hgk'} would therefore have kept the product broken while making its own view look clean - i.e. the workaround would have hidden the defect it was working around.",
+    "conclusion": "the fix has to be at the mount boundary (scratch outside the tree, refused at launch if it is not), not in a copy filter inside the subject"
+  },
+  "secret_handling": "no credential was involved in this incident; nothing was read, written or reproduced."
+}

@@ -1,0 +1,28 @@
+[egress] admission ACTIVE — loopback + gateway 192.168.65.254 ALLOW; all other egress DROP
+[egress] state=locked:192.168.65.254 
+[probe] whoami=root cwd=/w python=Python 3.11.2
+[probe] image_tools codex=codex-cli 0.162.0 git=ABSENT
+[probe] codex_config_written=1
+<stdin>:3: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+[probe] jsonschema=4.26.0
+[probe] admitted_write=SUCCEEDED
+[probe] ro_mount_write=DENIED
+[probe] unmounted_write=DENIED
+[probe] symlink_escape=DENIED
+[probe] foreign_abs_write=DENIED
+[probe] secret_path=ABSENT
+[probe] egress_external=TIMEOUT
+/briefs/probe.sh: line 46: curl: command not found
+[probe] model_endpoint=FAIL
+[probe] codex_exit=0
+[probe] lane_codex=CODEX_R5_LANE_OK
+codex
+CODEX_R5_LANE_OK
+tokens used
+7,317
+CODEX_R5_LANE_OK
+[egress] admission ACTIVE — loopback + gateway 192.168.65.254 ALLOW; all other egress DROP
+[egress] state=locked:192.168.65.254 
+[egress] model_endpoint=HTTP200
+[egress] external_http=URLError:<urlopen error [Errno -3] Temporary failure in name resoluti
+[egress] dns_external=BLOCKED:gaierror

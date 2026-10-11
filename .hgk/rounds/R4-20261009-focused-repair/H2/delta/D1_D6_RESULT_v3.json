@@ -1,0 +1,335 @@
+{
+ "harness": "PIPD-DELTA-HARNESS/1",
+ "authored_by": "orchestrator (disclosed) - the checker must review this file and re-run >=2 probes by hand",
+ "subject": {
+  "repaired_tool": {
+   "path": "C:\\w8v3delta\\repo\\tools\\round_envelope.py",
+   "sha256": "d8a24cb565ff51122cc5ecbd0f5fa814f3359da95c22f41023dedd7c7494dbd5"
+  },
+  "accepted_tool": {
+   "path": "C:\\w8v3delta\\frozen\\round_envelope_ACCEPTED.py",
+   "sha256": "0901ac0ef94ba61ff955e37c47c03754c7b98ced356cf6201c1fe0fff04efd0b"
+  },
+  "repaired_test": {
+   "path": "C:\\w8v3delta\\repo\\tests\\test_round_envelope.py",
+   "sha256": "907763d3c75883fa0082185c0fe8e8277afc368ce01e0938ce7a52141bef1d84"
+  },
+  "accepted_test": {
+   "path": "C:\\w8v3delta\\frozen\\test_round_envelope_ACCEPTED.py",
+   "sha256": "6c1facfec6a28f71e39e7e0c6583fc42aba141b179202af90e14b96689c38f55"
+  }
+ },
+ "D1": {
+  "hunks": [
+   {
+    "op": "insert",
+    "accepted_lines": [
+     27,
+     26
+    ],
+    "repaired_lines": [
+     27,
+     32
+    ],
+    "added": 5,
+    "removed": 0,
+    "classified_as": "defect02:blank_guard,defect02:destination_guard,defect02:allow_destroy"
+   },
+   {
+    "op": "insert",
+    "accepted_lines": [
+     67,
+     66
+    ],
+    "repaired_lines": [
+     73,
+     92
+    ],
+    "added": 15,
+    "removed": 0,
+    "classified_as": "defect01:normalisation"
+   },
+   {
+    "op": "insert",
+    "accepted_lines": [
+     82,
+     81
+    ],
+    "repaired_lines": [
+     108,
+     148
+    ],
+    "added": 33,
+    "removed": 0,
+    "classified_as": "defect01:normalisation,defect02:blank_guard,defect02:destination_guard"
+   },
+   {
+    "op": "replace",
+    "accepted_lines": [
+     202,
+     204
+    ],
+    "repaired_lines": [
+     269,
+     278
+    ],
+    "added": 10,
+    "removed": 3,
+    "classified_as": "defect01:normalisation,defect01:fail_closed,defect02:blank_guard"
+   },
+   {
+    "op": "replace",
+    "accepted_lines": [
+     210,
+     210
+    ],
+    "repaired_lines": [
+     284,
+     287
+    ],
+    "added": 4,
+    "removed": 1,
+    "classified_as": "defect02:destination_guard"
+   },
+   {
+    "op": "insert",
+    "accepted_lines": [
+     216,
+     215
+    ],
+    "repaired_lines": [
+     293,
+     299
+    ],
+    "added": 6,
+    "removed": 0,
+    "classified_as": "defect01:fail_closed,defect02:allow_destroy"
+   },
+   {
+    "op": "replace",
+    "accepted_lines": [
+     217,
+     220
+    ],
+    "repaired_lines": [
+     301,
+     314
+    ],
+    "added": 14,
+    "removed": 4,
+    "classified_as": "defect01:fail_closed,defect02:announce"
+   },
+   {
+    "op": "replace",
+    "accepted_lines": [
+     247,
+     249
+    ],
+    "repaired_lines": [
+     341,
+     348
+    ],
+    "added": 8,
+    "removed": 3,
+    "classified_as": "defect01:fail_closed"
+   },
+   {
+    "op": "replace",
+    "accepted_lines": [
+     261,
+     261
+    ],
+    "repaired_lines": [
+     360,
+     360
+    ],
+    "added": 1,
+    "removed": 1,
+    "classified_as": "defect01:normalisation"
+   },
+   {
+    "op": "replace",
+    "accepted_lines": [
+     266,
+     268
+    ],
+    "repaired_lines": [
+     365,
+     372
+    ],
+    "added": 8,
+    "removed": 3,
+    "classified_as": "defect01:normalisation,defect01:fail_closed"
+   },
+   {
+    "op": "replace",
+    "accepted_lines": [
+     276,
+     277
+    ],
+    "repaired_lines": [
+     380,
+     381
+    ],
+    "added": 2,
+    "removed": 2,
+    "classified_as": "defect01:normalisation"
+   },
+   {
+    "op": "insert",
+    "accepted_lines": [
+     315,
+     314
+    ],
+    "repaired_lines": [
+     419,
+     420
+    ],
+    "added": 2,
+    "removed": 0,
+    "classified_as": "defect02:allow_destroy"
+   }
+  ],
+  "hunk_counts": {
+   "defect02:blank_guard": 3,
+   "defect02:destination_guard": 3,
+   "defect02:allow_destroy": 3,
+   "defect01:normalisation": 6,
+   "defect01:fail_closed": 5,
+   "defect02:announce": 1
+  },
+  "undisclosed_hunks": [],
+  "guards_present": {
+   "_within": true,
+   "_norm_path": true,
+   "_norm_path(args.dst)": true,
+   "guard_paths": true,
+   "guard_destination": true,
+   "is_blank": true,
+   "REFUSED": true,
+   "allow-destroy": true
+  },
+  "changed_lines_total": {
+   "accepted": 337,
+   "repaired": 443
+  }
+ },
+ "D2": {
+  "exit": 0,
+  "destination_removed_first": true,
+  "created_at_drive_path": true,
+  "msys_dst_argument": "/c/w8v3delta/scratch/probe_msys_5220",
+  "resolved_expected": "C:\\w8v3delta\\scratch\\probe_msys_5220",
+  "drive_root_c_path": "C:\\c",
+  "drive_root_c_pre_existing": true,
+  "drive_root_c_mtime_moved": false,
+  "verdict_note": "MSYS-style --dst must land on C:/w8v3delta/... and must NOT write into C:\\c",
+  "stderr_head": [
+   "round_envelope init: envelope written to C:\\w8v3delta\\scratch\\d2_dy11mc2j\\scr\\envelope.json"
+  ]
+ },
+ "D3": {
+  "exit": 2,
+  "single_refusal_line": true,
+  "names_path": true,
+  "traceback_printed": false,
+  "stderr": "round_envelope init: REFUSED: destination path too long or uncreatable: C:\\w8v3delta\\scratch\\d3_bsqenxcf\\blocker\\child\\deepdeepdeep (FileExistsError: [WinError 183] 當檔案已存在時，無法建立該檔案。: 'C:\\\\w8v3delta\\\\scratch\\\\d3_bsqenxcf\\\\blocker')"
+ },
+ "D4": {
+  "refusal_exit_codes": {
+   "dst_inside_src": 2,
+   "src_inside_dst": 2,
+   "scratch_inside_tree": 2
+  },
+  "all_refused": true,
+  "accepted_baseline_exit": 0,
+  "accepted_suite_result": [
+   "Ran 11 tests in 0.910s",
+   "OK"
+  ]
+ },
+ "D5": {
+  "exit": 0,
+  "summary": [
+   "Ran 23 tests in 1.715s",
+   "OK"
+  ],
+  "failures": []
+ },
+ "D6": {
+  "blank_dst": {
+   "exit": 2,
+   "refused": true,
+   "traceback": false,
+   "stderr_head": [
+    "round_envelope init: REFUSED - --dst '' is blank: an empty path is never a valid destination"
+   ]
+  },
+  "whitespace_dst": {
+   "exit": 2,
+   "refused": true,
+   "traceback": false,
+   "stderr_head": [
+    "round_envelope init: REFUSED - --dst '' is blank: an empty path is never a valid destination"
+   ]
+  },
+  "blank_dst_with_allow_destroy": {
+   "exit": 2,
+   "refused": true,
+   "traceback": false,
+   "stderr_head": [
+    "round_envelope init: REFUSED - --dst '' is blank: an empty path is never a valid destination"
+   ]
+  },
+  "dst_equals_cwd": {
+   "exit": 2,
+   "refused": true,
+   "traceback": false,
+   "stderr_head": [
+    "round_envelope init: REFUSED - --dst C:\\w8v3delta\\scratch\\d6_90s1bgg6\\throwcwd is the current working directory: refusing to destroy the cwd"
+   ]
+  },
+  "dst_equals_src": {
+   "exit": 2,
+   "refused": true,
+   "traceback": false,
+   "stderr_head": [
+    "round_envelope init: REFUSED - --dst C:\\w8v3delta\\scratch\\d6_90s1bgg6\\outside\\src equals --src: refusing to destroy the source tree"
+   ]
+  },
+  "dst_ancestor_of_src": {
+   "exit": 2,
+   "refused": true,
+   "traceback": false,
+   "stderr_head": [
+    "round_envelope init: REFUSED - --src C:\\w8v3delta\\scratch\\d6_90s1bgg6\\outside\\src resolves inside --dst C:\\w8v3delta\\scratch\\d6_90s1bgg6\\outside: the source must not live in the copy"
+   ]
+  },
+  "dst_ancestor_with_allow_destroy": {
+   "exit": 2,
+   "refused": true,
+   "traceback": false,
+   "stderr_head": [
+    "round_envelope init: REFUSED - --src C:\\w8v3delta\\scratch\\d6_90s1bgg6\\outside\\src resolves inside --dst C:\\w8v3delta\\scratch\\d6_90s1bgg6\\outside: the source must not live in the copy"
+   ]
+  },
+  "dst_home": {
+   "exit": 2,
+   "refused": true,
+   "traceback": false,
+   "stderr_head": [
+    "round_envelope init: REFUSED - --dst C:\\Users\\user is the user home directory: refusing to destroy the home directory"
+   ]
+  },
+  "positive_control": {
+   "exit": 0,
+   "created": true,
+   "stderr_head": [
+    "round_envelope init: envelope written to C:\\w8v3delta\\scratch\\d6_90s1bgg6\\s\\envelope.json"
+   ]
+  },
+  "all_guards_held": true,
+  "throwaway_cwd_intact": true,
+  "src_intact": true
+ }
+}

@@ -1,0 +1,820 @@
+{
+ "schema": "PIPD-R5S4-COMMIT-SET-POLICY/1",
+ "base_commit": "cd8a06e4c066a40398a4012b7b3908ac11408a2b",
+ "generated_for": "R5 S4 focused repair candidate",
+ "counts": {
+  "include": 133,
+  "exclude": 102,
+  "restore_from_base": 1
+ },
+ "restore_from_base": [
+  "README.md"
+ ],
+ "excluded": [
+  {
+   "path": ".hgk/rounds/R2-20261009-qualification/execute/knowledge/own-derived.db",
+   "disposition": "EXCLUDE",
+   "reason": "BINARY_DB: matches the repo's own .gitignore intent (.hgk/knowledge/*.db)",
+   "bytes": 136409088
+  },
+  {
+   "path": ".hgk/preflight/R5-compiler/lane/log_wo1.txt",
+   "disposition": "EXCLUDE",
+   "reason": "LARGE_RAW (>262144 B): hash-indexed instead of committed (R5 prompt §8)",
+   "bytes": 3382862
+  },
+  {
+   "path": ".hgk/rounds/R5-20261009-s4-user-operability/uat/RAW_RUNS.jsonl",
+   "disposition": "EXCLUDE",
+   "reason": "LARGE_RAW (>262144 B): hash-indexed instead of committed (R5 prompt §8)",
+   "bytes": 1875509
+  },
+  {
+   "path": ".hgk/preflight/R5-compiler/lane/log_ao.txt",
+   "disposition": "EXCLUDE",
+   "reason": "LARGE_RAW (>262144 B): hash-indexed instead of committed (R5 prompt §8)",
+   "bytes": 1797877
+  },
+  {
+   "path": ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt5/log_ao.txt",
+   "disposition": "EXCLUDE",
+   "reason": "LARGE_RAW (>262144 B): hash-indexed instead of committed (R5 prompt §8)",
+   "bytes": 1797877
+  },
+  {
+   "path": ".hgk/preflight/R5-compiler/lane/log_ao_attempt4_contaminated.txt",
+   "disposition": "EXCLUDE",
+   "reason": "LARGE_RAW (>262144 B): hash-indexed instead of committed (R5 prompt §8)",
+   "bytes": 1166495
+  },
+  {
+   "path": ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt4_contaminated/log_ao.txt",
+   "disposition": "EXCLUDE",
+   "reason": "LARGE_RAW (>262144 B): hash-indexed instead of committed (R5 prompt §8)",
+   "bytes": 1166495
+  },
+  {
+   "path": ".hgk/preflight/R5-compiler/lane/log_wo3.txt",
+   "disposition": "EXCLUDE",
+   "reason": "LARGE_RAW (>262144 B): hash-indexed instead of committed (R5 prompt §8)",
+   "bytes": 1140266
+  },
+  {
+   "path": ".hgk/preflight/R5-compiler/lane/log_wo2.txt",
+   "disposition": "EXCLUDE",
+   "reason": "LARGE_RAW (>262144 B): hash-indexed instead of committed (R5 prompt §8)",
+   "bytes": 753895
+  },
+  {
+   "path": ".hgk/artifacts/s1/export_bundle.pipd-backup-3feaaca5e389b0be/export_bundle.tar.gz",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 140256
+  },
+  {
+   "path": ".hgk/artifacts/s1/export_bundle.pipd-backup-5a77354e23b3ce72/export_bundle.tar.gz",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 140256
+  },
+  {
+   "path": ".hgk/r5-lane-probe/e2e.ppMiEq/bundle/bundle.tar.gz",
+   "disposition": "EXCLUDE",
+   "reason": "SCRATCH: lane reachability probe, not round evidence",
+   "bytes": 140256
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-4b635169004d87a7/PROJECTION_IR.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 102934
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-8edaef833c67a176/PROJECTION_IR.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 102934
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-be263ff80c5c08a6/PROJECTION_IR.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 102934
+  },
+  {
+   "path": "dist/web.pipd-backup-1585c31d9f4a8fd2/PROJECTION_IR.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 102934
+  },
+  {
+   "path": "dist/web.pipd-backup-e9be9f6bc5170c17/PROJECTION_IR.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 102934
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-4b635169004d87a7/PIPD_CANONICAL_CORE.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 19076
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-8edaef833c67a176/PIPD_CANONICAL_CORE.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 19076
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-be263ff80c5c08a6/PIPD_CANONICAL_CORE.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 19076
+  },
+  {
+   "path": "dist/web.pipd-backup-1585c31d9f4a8fd2/PIPD_CANONICAL_CORE.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 19076
+  },
+  {
+   "path": "dist/web.pipd-backup-e9be9f6bc5170c17/PIPD_CANONICAL_CORE.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 19076
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-4b635169004d87a7/PIPD_BOOTSTRAP.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 17541
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-8edaef833c67a176/PIPD_BOOTSTRAP.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 17541
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-be263ff80c5c08a6/PIPD_BOOTSTRAP.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 17541
+  },
+  {
+   "path": "dist/web.pipd-backup-1585c31d9f4a8fd2/PIPD_BOOTSTRAP.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 17541
+  },
+  {
+   "path": "dist/web.pipd-backup-e9be9f6bc5170c17/PIPD_BOOTSTRAP.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 17541
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-4b635169004d87a7/PIPD_ARTIFACT_SCHEMAS.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 16773
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-8edaef833c67a176/PIPD_ARTIFACT_SCHEMAS.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 16773
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-be263ff80c5c08a6/PIPD_ARTIFACT_SCHEMAS.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 16773
+  },
+  {
+   "path": "dist/web.pipd-backup-1585c31d9f4a8fd2/PIPD_ARTIFACT_SCHEMAS.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 16773
+  },
+  {
+   "path": "dist/web.pipd-backup-e9be9f6bc5170c17/PIPD_ARTIFACT_SCHEMAS.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 16773
+  },
+  {
+   "path": ".hgk/artifacts/s1/export_bundle.pipd-backup-3feaaca5e389b0be/export_manifest.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 11009
+  },
+  {
+   "path": ".hgk/artifacts/s1/export_bundle.pipd-backup-5a77354e23b3ce72/export_manifest.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 11009
+  },
+  {
+   "path": ".hgk/r5-lane-probe/e2e.ppMiEq/bundle/export_manifest.json",
+   "disposition": "EXCLUDE",
+   "reason": "SCRATCH: lane reachability probe, not round evidence",
+   "bytes": 11002
+  },
+  {
+   "path": ".hgk/r5-lane-probe/PORTABLE_INSTALL.json",
+   "disposition": "EXCLUDE",
+   "reason": "SCRATCH: lane reachability probe, not round evidence",
+   "bytes": 9802
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-4b635169004d87a7/host_hgk-receiver/receiver-map.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7457
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-8edaef833c67a176/host_hgk-receiver/receiver-map.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7457
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-be263ff80c5c08a6/host_hgk-receiver/receiver-map.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7457
+  },
+  {
+   "path": "dist/web.pipd-backup-1585c31d9f4a8fd2/host_hgk-receiver/receiver-map.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7457
+  },
+  {
+   "path": "dist/web.pipd-backup-e9be9f6bc5170c17/host_hgk-receiver/receiver-map.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7457
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-4b635169004d87a7/PIPD_EVAL_HANDOFF.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7249
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-8edaef833c67a176/PIPD_EVAL_HANDOFF.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7249
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-be263ff80c5c08a6/PIPD_EVAL_HANDOFF.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7249
+  },
+  {
+   "path": "dist/web.pipd-backup-1585c31d9f4a8fd2/PIPD_EVAL_HANDOFF.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7249
+  },
+  {
+   "path": "dist/web.pipd-backup-e9be9f6bc5170c17/PIPD_EVAL_HANDOFF.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7249
+  },
+  {
+   "path": ".hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt1_provider_error.log",
+   "disposition": "EXCLUDE",
+   "reason": "NOT_THIS_ROUND: untracked in cd8a06e too; left as the R4 round left it",
+   "bytes": 7248
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-4b635169004d87a7/host_generic-skills/SKILL.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7198
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-8edaef833c67a176/host_generic-skills/SKILL.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7198
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-be263ff80c5c08a6/host_generic-skills/SKILL.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7198
+  },
+  {
+   "path": "dist/web.pipd-backup-1585c31d9f4a8fd2/host_generic-skills/SKILL.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7198
+  },
+  {
+   "path": "dist/web.pipd-backup-e9be9f6bc5170c17/host_generic-skills/SKILL.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7198
+  },
+  {
+   "path": ".hgk/artifacts/s1/export_bundle.pipd-backup-3feaaca5e389b0be/SHA256SUMS",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7039
+  },
+  {
+   "path": ".hgk/artifacts/s1/export_bundle.pipd-backup-5a77354e23b3ce72/SHA256SUMS",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 7039
+  },
+  {
+   "path": ".hgk/r5-lane-probe/e2e.ppMiEq/bundle/SHA256SUMS",
+   "disposition": "EXCLUDE",
+   "reason": "SCRATCH: lane reachability probe, not round evidence",
+   "bytes": 7032
+  },
+  {
+   "path": ".hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt2_provider_error.log",
+   "disposition": "EXCLUDE",
+   "reason": "NOT_THIS_ROUND: untracked in cd8a06e too; left as the R4 round left it",
+   "bytes": 6507
+  },
+  {
+   "path": ".hgk/preflight/R5-compiler/opencodex-config.backup-20261010.json",
+   "disposition": "EXCLUDE",
+   "reason": "SECRET: carries /providers/opencode-go/apiKey",
+   "bytes": 6284
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-4b635169004d87a7/host_genie-adapter/object-crosswalk.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 5433
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-8edaef833c67a176/host_genie-adapter/object-crosswalk.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 5433
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-be263ff80c5c08a6/host_genie-adapter/object-crosswalk.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 5433
+  },
+  {
+   "path": "dist/web.pipd-backup-1585c31d9f4a8fd2/host_genie-adapter/object-crosswalk.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 5433
+  },
+  {
+   "path": "dist/web.pipd-backup-e9be9f6bc5170c17/host_genie-adapter/object-crosswalk.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 5433
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-4b635169004d87a7/PIPD_ROUTER_PROFILES.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 3905
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-8edaef833c67a176/PIPD_ROUTER_PROFILES.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 3905
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-be263ff80c5c08a6/PIPD_ROUTER_PROFILES.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 3905
+  },
+  {
+   "path": "dist/web.pipd-backup-1585c31d9f4a8fd2/PIPD_ROUTER_PROFILES.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 3905
+  },
+  {
+   "path": "dist/web.pipd-backup-e9be9f6bc5170c17/PIPD_ROUTER_PROFILES.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 3905
+  },
+  {
+   "path": ".hgk/r5-lane-probe/e2e.ppMiEq/receipt.json",
+   "disposition": "EXCLUDE",
+   "reason": "SCRATCH: lane reachability probe, not round evidence",
+   "bytes": 792
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-4b635169004d87a7/OPTIONAL_SITE_UI/README.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 326
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-8edaef833c67a176/OPTIONAL_SITE_UI/README.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 326
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-be263ff80c5c08a6/OPTIONAL_SITE_UI/README.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 326
+  },
+  {
+   "path": "dist/web.pipd-backup-1585c31d9f4a8fd2/OPTIONAL_SITE_UI/README.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 326
+  },
+  {
+   "path": "dist/web.pipd-backup-e9be9f6bc5170c17/OPTIONAL_SITE_UI/README.md",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 326
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-4b635169004d87a7/OPTIONAL_SITE_UI/app.js",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 284
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-8edaef833c67a176/OPTIONAL_SITE_UI/app.js",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 284
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-be263ff80c5c08a6/OPTIONAL_SITE_UI/app.js",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 284
+  },
+  {
+   "path": "dist/web.pipd-backup-1585c31d9f4a8fd2/OPTIONAL_SITE_UI/app.js",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 284
+  },
+  {
+   "path": "dist/web.pipd-backup-e9be9f6bc5170c17/OPTIONAL_SITE_UI/app.js",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 284
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-4b635169004d87a7/OPTIONAL_SITE_UI/index.html",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 245
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-8edaef833c67a176/OPTIONAL_SITE_UI/index.html",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 245
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-be263ff80c5c08a6/OPTIONAL_SITE_UI/index.html",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 245
+  },
+  {
+   "path": "dist/web.pipd-backup-1585c31d9f4a8fd2/OPTIONAL_SITE_UI/index.html",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 245
+  },
+  {
+   "path": "dist/web.pipd-backup-e9be9f6bc5170c17/OPTIONAL_SITE_UI/index.html",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 245
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-4b635169004d87a7/OPTIONAL_SITE_UI/manifest.webmanifest",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 163
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-8edaef833c67a176/OPTIONAL_SITE_UI/manifest.webmanifest",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 163
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-be263ff80c5c08a6/OPTIONAL_SITE_UI/manifest.webmanifest",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 163
+  },
+  {
+   "path": "dist/web.pipd-backup-1585c31d9f4a8fd2/OPTIONAL_SITE_UI/manifest.webmanifest",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 163
+  },
+  {
+   "path": "dist/web.pipd-backup-e9be9f6bc5170c17/OPTIONAL_SITE_UI/manifest.webmanifest",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 163
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-4b635169004d87a7/OPTIONAL_SITE_UI/styles.css",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 157
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-8edaef833c67a176/OPTIONAL_SITE_UI/styles.css",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 157
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-be263ff80c5c08a6/OPTIONAL_SITE_UI/styles.css",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 157
+  },
+  {
+   "path": "dist/web.pipd-backup-1585c31d9f4a8fd2/OPTIONAL_SITE_UI/styles.css",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 157
+  },
+  {
+   "path": "dist/web.pipd-backup-e9be9f6bc5170c17/OPTIONAL_SITE_UI/styles.css",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 157
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-4b635169004d87a7/.pipd-generated-surface.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 150
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection/.pipd-generated-surface.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: wall-clock run marker, non-deterministic, absent from cd8a06e",
+   "bytes": 150
+  },
+  {
+   "path": "dist/web.pipd-backup-1585c31d9f4a8fd2/.pipd-generated-surface.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 150
+  },
+  {
+   "path": "dist/web/.pipd-generated-surface.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: wall-clock run marker, non-deterministic, absent from cd8a06e",
+   "bytes": 150
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-8edaef833c67a176/.pipd-generated-surface.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 117
+  },
+  {
+   "path": ".hgk/artifacts/s1/web_projection.pipd-backup-be263ff80c5c08a6/.pipd-generated-surface.json",
+   "disposition": "EXCLUDE",
+   "reason": "RESIDUE: backup tree left by the --allow-replace safety tests",
+   "bytes": 117
+  },
+  {
+   "path": ".hgk/r5-lane-probe/e2e_path.txt",
+   "disposition": "EXCLUDE",
+   "reason": "SCRATCH: lane reachability probe, not round evidence",
+   "bytes": 33
+  },
+  {
+   "path": ".hgk/r5-lane-probe/admitted.txt",
+   "disposition": "EXCLUDE",
+   "reason": "SCRATCH: lane reachability probe, not round evidence",
+   "bytes": 20
+  },
+  {
+   "path": ".hgk/r5-lane-probe/danger_probe.txt",
+   "disposition": "EXCLUDE",
+   "reason": "SCRATCH: lane reachability probe, not round evidence",
+   "bytes": 18
+  }
+ ],
+ "included": [
+  ".hgk/artifacts/cli/CLI_SMOKE.json",
+  ".hgk/artifacts/s1/export_bundle/SHA256SUMS",
+  ".hgk/artifacts/s1/export_bundle/export_bundle.tar.gz",
+  ".hgk/artifacts/s1/export_bundle/export_manifest.json",
+  ".hgk/artifacts/s1/web_projection/OPTIONAL_SITE_UI/README.md",
+  ".hgk/artifacts/s1/web_projection/OPTIONAL_SITE_UI/app.js",
+  ".hgk/artifacts/s1/web_projection/OPTIONAL_SITE_UI/index.html",
+  ".hgk/artifacts/s1/web_projection/OPTIONAL_SITE_UI/manifest.webmanifest",
+  ".hgk/artifacts/s1/web_projection/OPTIONAL_SITE_UI/styles.css",
+  ".hgk/artifacts/s1/web_projection/PIPD_ARTIFACT_SCHEMAS.md",
+  ".hgk/artifacts/s1/web_projection/PIPD_BOOTSTRAP.md",
+  ".hgk/artifacts/s1/web_projection/PIPD_CANONICAL_CORE.md",
+  ".hgk/artifacts/s1/web_projection/PIPD_EVAL_HANDOFF.md",
+  ".hgk/artifacts/s1/web_projection/PIPD_ROUTER_PROFILES.md",
+  ".hgk/artifacts/s1/web_projection/PROJECTION_IR.json",
+  ".hgk/artifacts/s1/web_projection/host_generic-skills/SKILL.md",
+  ".hgk/artifacts/s1/web_projection/host_genie-adapter/object-crosswalk.json",
+  ".hgk/artifacts/s1/web_projection/host_hgk-receiver/receiver-map.json",
+  ".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json",
+  ".hgk/artifacts/s2/PERF_BUDGET.json",
+  ".hgk/artifacts/s3/HOST_PROJECTIONS.json",
+  ".hgk/artifacts/s3/WEB_PACK.json",
+  ".hgk/artifacts/s4/CLI_SURFACE.json",
+  ".hgk/far/FAR-PIPD-R5S4-GAPCLOSURE-001/EVIDENCE_GAPCLOSURE.json",
+  ".hgk/far/FAR-PIPD-R5S4-GAPCLOSURE-001/PIPD-LS-SP_R5_S4_FAR_GAPCLOSURE_FEASIBILITY_2026-10-10.md",
+  ".hgk/far/FAR-PIPD-R5S4-GAPCLOSURE-001/PIPD-LS-SP_R5_S4_FAR_GAPCLOSURE_FEASIBILITY_2026-10-10.md.sha256",
+  ".hgk/far/FAR-PIPD-R5S4-S2PERF-LICENSE-001/EVIDENCE_S2PERF.json",
+  ".hgk/far/FAR-PIPD-R5S4-S2PERF-LICENSE-001/OWNER_ADJUDICATION_SLOTS.yaml",
+  ".hgk/kanban/canonical_completion.json",
+  ".hgk/kanban/canonical_dag.json",
+  ".hgk/preflight/R5-compiler/R5.CONTRACT.json",
+  ".hgk/preflight/R5-compiler/admission/r5_admission.json",
+  ".hgk/preflight/R5-compiler/compiled-r2/compiler-receipt.json",
+  ".hgk/preflight/R5-compiler/compiled-r2/compiler-report.json",
+  ".hgk/preflight/R5-compiler/compiled-r2/thin-prompt.md",
+  ".hgk/preflight/R5-compiler/compiled/R5.acceptance.json",
+  ".hgk/preflight/R5-compiler/compiled/R5.activation.json",
+  ".hgk/preflight/R5-compiler/compiled/R5.compile.log",
+  ".hgk/preflight/R5-compiler/compiled/R5.duplication.json",
+  ".hgk/preflight/R5-compiler/compiled/R5.lint.json",
+  ".hgk/preflight/R5-compiler/compiled/compiler-receipt.json",
+  ".hgk/preflight/R5-compiler/compiled/compiler-report.json",
+  ".hgk/preflight/R5-compiler/compiled/thin-prompt.md",
+  ".hgk/preflight/R5-compiler/hgk_r5_admission.py",
+  ".hgk/preflight/R5-compiler/lane/bridge.log",
+  ".hgk/preflight/R5-compiler/lane/bridge.py",
+  ".hgk/preflight/R5-compiler/lane/brief_wo1_dest.md",
+  ".hgk/preflight/R5-compiler/lane/brief_wo2_dist.md",
+  ".hgk/preflight/R5-compiler/lane/brief_wo3_export.md",
+  ".hgk/preflight/R5-compiler/lane/brief_wo4_ao.md",
+  ".hgk/preflight/R5-compiler/lane/egress_probe.sh",
+  ".hgk/preflight/R5-compiler/lane/gpt6luna_codex_probe_20261009.txt",
+  ".hgk/preflight/R5-compiler/lane/log_ao_attempt1.txt",
+  ".hgk/preflight/R5-compiler/lane/log_ao_attempt2.txt",
+  ".hgk/preflight/R5-compiler/lane/log_ao_attempt3_superseded.txt",
+  ".hgk/preflight/R5-compiler/lane/log_smoke.txt",
+  ".hgk/preflight/R5-compiler/lane/log_wo1_resume.txt",
+  ".hgk/preflight/R5-compiler/lane/log_wo1_resume2.txt",
+  ".hgk/preflight/R5-compiler/lane/probe.sh",
+  ".hgk/preflight/R5-compiler/lane/probe_result.txt",
+  ".hgk/preflight/R5-compiler/lane/run_checker.sh",
+  ".hgk/preflight/R5-compiler/lane/run_lane.sh",
+  ".hgk/preflight/R5-compiler/lane/run_lane2.sh",
+  ".hgk/preflight/R5-compiler/lane/smoke.md",
+  ".hgk/preflight/R5-compiler/make_r5_contract.py",
+  ".hgk/preflight/R5-compiler/rollback/wo1/cli.py",
+  ".hgk/preflight/R5-compiler/rollback/wo1/projection.py",
+  ".hgk/preflight/R5-compiler/rollback/wo1/workspace.py",
+  ".hgk/preflight/R5-compiler/snapshot.py",
+  ".hgk/preflight/R5-compiler/snapshots/after_wo1abort.json",
+  ".hgk/preflight/R5-compiler/snapshots/after_wo1wo2.json",
+  ".hgk/preflight/R5-compiler/snapshots/after_wo3.json",
+  ".hgk/preflight/R5-compiler/snapshots/before_r5_exec.json",
+  ".hgk/preflight/R5-compiler/snapshots/before_wo1.json",
+  ".hgk/preflight/R5-compiler/snapshots/final.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/AO_LANE_INCIDENT.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/CANDIDATE_TUPLE.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/CHECKPOINT_MODEL_ROUTE_BLOCKED.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/CHECKPOINT_PAUSED.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/CHECKPOINT_R5_CONTINUATION.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/FROZEN_SOURCE.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/MAKER_SELFREPORT_CORRECTION_WO2.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/MODEL_CREDENTIAL_ROTATION.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/OBSERVATIONS.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/VERIFIER_SCOPE_INCIDENT.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/WO1_WO2_DELTA.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/WO3_LANE_INCIDENT.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/ao/AO_INDEPENDENT_RESULT_DERIVED.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/ao/AO_REPORT_DETERMINISTIC.md",
+  ".hgk/rounds/R5-20261009-s4-user-operability/ao/AO_VERDICT_DETERMINISTIC.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt5/AO_LOG.ndjson",
+  ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt5/AO_PROGRESS.txt",
+  ".hgk/rounds/R5-20261009-s4-user-operability/ao/independent_check.py",
+  ".hgk/rounds/R5-20261009-s4-user-operability/build_evidence_md.py",
+  ".hgk/rounds/R5-20261009-s4-user-operability/checks/cli_surface.txt",
+  ".hgk/rounds/R5-20261009-s4-user-operability/checks/host_proj.txt",
+  ".hgk/rounds/R5-20261009-s4-user-operability/checks/web_pack.txt",
+  ".hgk/rounds/R5-20261009-s4-user-operability/host/unittest_full.txt",
+  ".hgk/rounds/R5-20261009-s4-user-operability/host/unittest_full2.txt",
+  ".hgk/rounds/R5-20261009-s4-user-operability/ledger/R5_S4_FINDING_LEDGER.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/ledger/perf_check.txt",
+  ".hgk/rounds/R5-20261009-s4-user-operability/ledger/publication_check.txt",
+  ".hgk/rounds/R5-20261009-s4-user-operability/route/gstack/route_readback.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/stage_commit_set.py",
+  ".hgk/rounds/R5-20261009-s4-user-operability/uat/UAT_MATRIX.json",
+  ".hgk/rounds/R5-20261009-s4-user-operability/uat/UAT_MATRIX.md",
+  ".hgk/rounds/R5-20261009-s4-user-operability/uat/uat_matrix.py",
+  "OWNER_LICENSE_DECISION.yaml",
+  "dist/WHEEL_MANIFEST.json",
+  "dist/pipd_ls_sp-0.1.0-py3-none-any.whl",
+  "dist/pipd_ls_sp-0.1.0-py3-none-any.whl.sha256",
+  "docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json",
+  "openspec/changes/pipd-ls-sp-r5-s4-usability-repair/.openspec.yaml",
+  "openspec/changes/pipd-ls-sp-r5-s4-usability-repair/design.md",
+  "openspec/changes/pipd-ls-sp-r5-s4-usability-repair/proposal.md",
+  "openspec/changes/pipd-ls-sp-r5-s4-usability-repair/specs/pipd-s4-usability-repair/spec.md",
+  "openspec/changes/pipd-ls-sp-r5-s4-usability-repair/tasks.md",
+  "pyproject.toml",
+  "src/pipd_ls_sp/cli.py",
+  "src/pipd_ls_sp/errors.py",
+  "src/pipd_ls_sp/export_bundle.py",
+  "src/pipd_ls_sp/projection.py",
+  "src/pipd_ls_sp/registry.py",
+  "src/pipd_ls_sp/workspace.py",
+  "tests/test_export_bundle.py",
+  "tests/test_perf_budget.py",
+  "tests/test_project_destination_safety.py",
+  "tests/test_wheel_distribution.py",
+  "tools/build_dist.py",
+  "tools/cli_smoke.py",
+  "tools/cli_surface_check.py",
+  "tools/perf_budget.py",
+  "tools/portable_install_check.py"
+ ],
+ "raw_log_hash_index": [
+  {
+   "path": ".hgk/rounds/R2-20261009-qualification/execute/knowledge/own-derived.db",
+   "bytes": 136409088,
+   "sha256": "5b730d9f502b4a4834b3b6e5c7c4226309bc30eae730c11a5c655b6434d59a70"
+  },
+  {
+   "path": ".hgk/preflight/R5-compiler/lane/log_wo1.txt",
+   "bytes": 3382862,
+   "sha256": "b33142aaf579c1f68488f59cefa1fea52451051b26aadc675029b1ee255f6c7a"
+  },
+  {
+   "path": ".hgk/rounds/R5-20261009-s4-user-operability/uat/RAW_RUNS.jsonl",
+   "bytes": 1875509,
+   "sha256": "be6ec2280f3e3335967aedeeba3a44f99769d9e2108157454dd130385a9c84bf"
+  },
+  {
+   "path": ".hgk/preflight/R5-compiler/lane/log_ao.txt",
+   "bytes": 1797877,
+   "sha256": "ebb312139f74999b6e242a4ab7874b1a1762c6e1a02a888687b22f735f883ca1"
+  },
+  {
+   "path": ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt5/log_ao.txt",
+   "bytes": 1797877,
+   "sha256": "ebb312139f74999b6e242a4ab7874b1a1762c6e1a02a888687b22f735f883ca1"
+  },
+  {
+   "path": ".hgk/preflight/R5-compiler/lane/log_ao_attempt4_contaminated.txt",
+   "bytes": 1166495,
+   "sha256": "2819930eeacf19c520ee7016fda7c36d687cb1f05a7dbf0776a4c98232535486"
+  },
+  {
+   "path": ".hgk/rounds/R5-20261009-s4-user-operability/ao/attempt4_contaminated/log_ao.txt",
+   "bytes": 1166495,
+   "sha256": "2819930eeacf19c520ee7016fda7c36d687cb1f05a7dbf0776a4c98232535486"
+  },
+  {
+   "path": ".hgk/preflight/R5-compiler/lane/log_wo3.txt",
+   "bytes": 1140266,
+   "sha256": "1dc50ab9f2aa5abd3be44d99338348ff3f56cc5f0615dc026e0c0963aed45703"
+  },
+  {
+   "path": ".hgk/preflight/R5-compiler/lane/log_wo2.txt",
+   "bytes": 753895,
+   "sha256": "e992450b68726709bdd663be2d64f1028843b7b379aab95e273267509250d0e6"
+  }
+ ],
+ "secret_scan": {
+  "patterns": [
+   "github_pat_*",
+   "ghp_*",
+   "oc_sk_*",
+   "nvapi-*",
+   "apiKey-json-value"
+  ],
+  "hits_outside_excluded": 0,
+  "note": "the only hit in the whole delta was the excluded opencodex config backup"
+ }
+}

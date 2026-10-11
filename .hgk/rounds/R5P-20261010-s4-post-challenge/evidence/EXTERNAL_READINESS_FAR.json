@@ -1,0 +1,127 @@
+{
+  "schema": "PIPD-R5P-EXTERNAL-READINESS-FAR/1",
+  "as_of": "2026-10-10T16:45:00Z",
+  "question": "Can an external acceptance officer accept the pushed branch now, and what would make it fail?",
+  "method": "clean clone of the pushed branch (single-branch, no local refs, no round scratch) and ran what an officer would run; every claim below is a recorded exit code",
+  "clone": {
+    "repo": "https://github.com/shw097-team/PIPD-LS-SP.git",
+    "branch": "r5p-post-challenge-repair",
+    "head": [
+      "f06b0e7b5f287e1b83cc737061da4bfad94acdf8",
+      "e1c98195ae50d58ec07ffd67fde585b860e119fd"
+    ],
+    "tracked_paths": 44
+  },
+  "checks_on_clean_clone": {
+    "clone": {
+      "exit": 0,
+      "seconds": 2.2
+    },
+    "rev-parse": {
+      "exit": 0,
+      "seconds": 0.0
+    },
+    "evidence_census": {
+      "exit": 0,
+      "seconds": 0.0
+    },
+    "full_suite_clean_clone": {
+      "exit": 0,
+      "seconds": 67.5
+    },
+    "publication_check_current": {
+      "exit": 1,
+      "seconds": 0.1
+    },
+    "attestation_verify_r5p": {
+      "exit": 0,
+      "seconds": 1.2
+    },
+    "perf_budget_check": {
+      "exit": 0,
+      "seconds": 1.2
+    },
+    "venv_create": {
+      "exit": 0,
+      "seconds": 11.8
+    },
+    "wheel_install": {
+      "exit": 0,
+      "seconds": 3.6
+    },
+    "doctor_as_installed_user": {
+      "exit": 0,
+      "seconds": 0.2
+    }
+  },
+  "green": [
+    "full suite: Ran 311 tests, OK (skipped=6), exit 0 - the local single failure is ref-dependent and skips in a clone",
+    "publication_attestation.py --verify against the R5P sidecar: exit 0",
+    "perf_budget.py --check: exit 0",
+    "python -m venv + pip install dist/pipd_ls_sp-0.1.0-py3-none-any.whl: exit 0",
+    "doctor as an installed user in a fresh root: exit 0",
+    "R5P evidence now reachable in-tree: 63 curated paths under .hgk/rounds/R5P-20261010-s4-post-challenge/"
+  ],
+  "red": [
+    {
+      "check": "tools/build_publication_manifest.py --check --current",
+      "exit": 1,
+      "violations": [
+        "CURRENT_TREE_UNCOVERED: tests/test_git_object_reader.py (absent from the evidence manifest although it exists at the baseline -> pre-existing)",
+        "CURRENT_TREE_UNCOVERED: tests/test_doctor_schema_truth.py (added by this round)",
+        "CURRENT_TREE_UNCOVERED: tests/test_tqaep_design_positive.py (added by this round)"
+      ],
+      "root_cause": "tools/build_evidence_manifest.py::iter_files() globs ROOT.rglob('*') and excludes only .git, __pycache__, .pyc/.db and the manifest+seal. Regenerating the manifest for this round would sweep in the round's live Codex homes (lane/writer-home, lane/checker-home - the latter contains auth.json) and the 9,674 container artefacts under ao/out (162 MB, including reproducible venvs), listing their paths and hashes in a committed file. That is why the R5 round left the check red too, and it is the reason a reseal must first relocate that scratch out of the product tree.",
+      "fix_sequence": [
+        "move lane/writer-home, lane/checker-home and the container venv/scratch trees out of .hgk/rounds/R5P-... (keep the four AO verdict JSONs and the v2/v3/v4 raw runs the verdicts cite)",
+        "python tools/build_evidence_manifest.py --seal  (manifest + seal regenerated over a clean tree)",
+        "python tools/build_publication_manifest.py --write --commit <tip> --tree <tip tree>",
+        "python tools/build_publication_manifest.py --check --current  (expect exit 0)",
+        "rebuild the R5P sidecar via tools/publication_attestation.py + ops/bind_r5p_checker_identity.py so its source_manifest_seal matches the new seal",
+        "commit, push, read back - and this is a new subject, so the AO pass is invalidated for it"
+      ],
+      "classification": "IN_SCOPE_AS_DEL-018 / NOT_A_DOCUMENT_NAMED_GATE / PRE-EXISTING_AT_BASELINE"
+    },
+    {
+      "check": "digest definition duality",
+      "exit": null,
+      "note": "the round's bound product digest counts 288 files over PRODUCT_ROOTS (worktree bytes, LF-normalised), while the publication tool's product_digest counts its own PRODUCT_PREFIXES over git blobs. The two are different rules, disclosed in evidence/PUBLICATION_BINDING_R5P.json; an officer must not equate them."
+    },
+    {
+      "check": "wheel reproducibility",
+      "exit": null,
+      "note": "the shipped wheel is member-identical but not byte-identical when rebuilt by another ZIP creator; the committed wheel sha is the binding."
+    }
+  ],
+  "verdict": "ACCEPTANCE_CAN_PROCEED (documented denominator satisfiable with declared EVIDENCE_GAP rows)",
+  "not_a_blocker_for_reading": [
+    "the officer can now clone, read the round evidence, run the suite, the UAT matrix runner, the attestation verify, the perf gate and the installed-user doctor path"
+  ],
+  "is_a_blocker_for_an_official_pass": [
+    "--check --current exit 1 (TT-R5P-13) unless the officer's gate excludes the publication projection check or the reseal+republish is done first"
+  ],
+  "document_scope_check": {
+    "question": "Is the projection/manifest red light among the instructions, requirements, findings or recommendations of the two source documents?",
+    "method": "grepped both attachments and read the 57-row repo crosswalk docs/SPEC_DEL_CROSSWALK.json",
+    "as_a_named_gate": "NO - neither document names tools/build_publication_manifest.py --check --current; the prompt mentions PUBLICATION_PROJECTION_MANIFEST exactly once (section 6.3 line 148) and only as the record for evidence-only commits after publish, requiring the no-code-change path and the product hash equivalence proof, which this round did produce",
+    "in_substance": "YES - the gap maps onto DEL-018 RELEASE_MANIFEST@1 ('.hgk/artifacts/evidence_manifest.json + seal; public binding gap', status EVIDENCE_GAP, stage S4) which the challenge document lists in its own deliverables table, and it falls under F-R5-06 'S4 active rows 補證' (prompt section 6.2 line 110); only stage>S4 rows are deferred (prompt section 4)",
+    "pre_existing": "PROVEN - the baseline evidence manifest (0f06eec9:.hgk/artifacts/evidence_manifest.json, 1916 entries) does not list tests/test_git_object_reader.py although that file exists at the baseline, so the check was already red on the frozen candidate; the round's two new test files (both required by the WO write sets) widen it from 1 to 3",
+    "corrected_severity": "IN_SCOPE_EVIDENCE_GAP_ROW (DEL-018), not a foreign gate; cannot by itself fail a documented acceptance that expects declared EVIDENCE_GAP rows, but it must be declared and must not be rounded up"
+  },
+  "documented_denominator": {
+    "findings": "F-R5-01..10",
+    "crosswalk": "57 rows = 32 SPEC + 25 DEL; S4-active 38, of which 28 have a resolvable oracle+negative in the subject and 10 carry EVIDENCE_GAP, 19 deferred by instruction",
+    "uat": "UAT-00..12 in both source and install mode",
+    "cli": "13 commands",
+    "termination": "prompt section 9 (a)-(f)",
+    "evidence_pack": "prompt section 8"
+  },
+  "residual_document_derived_open_items": [
+    "F-R5-06 / DEL-018 RELEASE_MANIFEST@1 public binding gap at stage S4 (this round's manifest reseal) - closure path recorded in fix_sequence",
+    "F-R5-06 other S4-active EVIDENCE_GAP rows: SPEC-002, SPEC-020, SPEC-023, SPEC-030, SPEC-032, DEL-004, DEL-015, DEL-019, DEL-021",
+    "F-R5-03 install-time cryptographic readback - the prompt explicitly permits a TT here",
+    "F-R5-10 human owner gate (license, public release)",
+    "F-R5P-09 checker independence path not independently verified by the checker",
+    "F-R5P-11 local-ref-dependent projection test (skips in a clean clone, so it does not reach the officer)"
+  ]
+}

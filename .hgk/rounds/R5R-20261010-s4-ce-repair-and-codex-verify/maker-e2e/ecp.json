@@ -1,0 +1,27 @@
+{
+ "content_hash": "f919637c887d143d4d3bc5bdb33a6d0d77aeb4646ecd5977820dbc1b823b1d07",
+ "effect_intent": "apply bounded edits inside the writable scope",
+ "idempotency": {
+  "guarantee": "at_most_once",
+  "key": "IDEM-9630989198c83adf"
+ },
+ "permission": {
+  "scope": "src/**",
+  "token_required": true
+ },
+ "readback": {
+  "kind": "residue_scan",
+  "required": true
+ },
+ "retries": {
+  "backoff": "none",
+  "max": 1
+ },
+ "rollback": {
+  "pointer": "baseline_commit",
+  "required": true
+ },
+ "schema_version": "ECP@1",
+ "subject_id": "ECP-f919637c887d143d",
+ "version": "1"
+}

@@ -1,0 +1,113 @@
+{
+ "schema": "pipd-r5s4-ao-rerun/2",
+ "why": "B4/B5 were NOT_RUN because their prerequisite (a fresh venv with pip) failed at ensurepip. ensurepip exits 0 here, so they are re-run.",
+ "v1_correction": "The first attempt produced false PASSes: the mutated wheel was named B4.whl / B5.whl and pip rejects that on the filename alone, so the mutation was never exercised. v1 is kept as rerun_b4_b5_v1_falsepass.json.",
+ "wheel": "C:\\Projects\\Agent_Workspace\\PIPD\\dist\\pipd_ls_sp-0.1.0-py3-none-any.whl",
+ "wheel_sha256": "e49d38e519117d67de57153658779eafa139eb0dda5a6d15f486facb44fd00e2",
+ "wheel_members": 38,
+ "ensurepip_probe": "pip 24.0",
+ "cases": [
+  {
+   "case": "B4",
+   "variant": "record_untouched",
+   "mutation": {
+    "dropped": "pipd_ls_sp/schemas/ArtifactIdentity.schema.json"
+   },
+   "mutated_sha256": "6e94fd687864a1db8b4c71017d15783b1dd65f8db5c70c177eac3fb37f86a7f2",
+   "mutated_bytes": 72826,
+   "venv": {
+    "exit": 0,
+    "pip_present": true
+   },
+   "install_exit": 0,
+   "install_tail": "Processing c:\\users\\user\\appdata\\local\\temp\\ao-b4b5-5d_d927d\\b4-record_untouched\\pipd_ls_sp-0.1.0-py3-none-any.whl\nInstalling collected packages: pipd-ls-sp\nSuccessfully installed pipd-ls-sp-0.1.0\n",
+   "run_exit": 0,
+   "run_tail": "{\n \"families\": 19,\n \"findings\": [],\n \"skill_drift\": [\n  \"duplicate Skill name host_generic-skills x5 inside surface .hgk\",\n  \"duplicate Skill name openspec-apply-change x8 inside surface .hgk\",\n  \"duplicate Skill name openspec-archive-change x8 inside surface .hgk\",\n  \"duplicate Skill name openspec-explore x8 inside surface .hgk\",\n  \"duplicate Skill name openspec-propose x8 inside surface .hgk\",\n  \"duplicate Skill name openspec-sync-specs x8 inside surface .hgk\",\n  \"duplicate Skill name openspec-update-change x8 inside surface .hgk\"\n ],\n \"verdict\": \"PASS\"\n}\n",
+   "install_succeeded": true,
+   "silently_succeeded": true,
+   "outcome": "FAIL",
+   "interpretation": "the mutated wheel produced a working CLI - the guard does not hold"
+  },
+  {
+   "case": "B4",
+   "variant": "record_fixed",
+   "mutation": {
+    "dropped": "pipd_ls_sp/schemas/ArtifactIdentity.schema.json",
+    "record_row_removed": "pipd_ls_sp/schemas/ArtifactIdentity.schema.json"
+   },
+   "mutated_sha256": "fca18250af61145a5d483d4b70ca4f460799ec1b8ea95565b82a480a1535b2a8",
+   "mutated_bytes": 72776,
+   "venv": {
+    "exit": 0,
+    "pip_present": true
+   },
+   "install_exit": 0,
+   "install_tail": "Processing c:\\users\\user\\appdata\\local\\temp\\ao-b4b5-5d_d927d\\b4-record_fixed\\pipd_ls_sp-0.1.0-py3-none-any.whl\nInstalling collected packages: pipd-ls-sp\nSuccessfully installed pipd-ls-sp-0.1.0\n",
+   "run_exit": 0,
+   "run_tail": "{\n \"families\": 19,\n \"findings\": [],\n \"skill_drift\": [\n  \"duplicate Skill name host_generic-skills x5 inside surface .hgk\",\n  \"duplicate Skill name openspec-apply-change x8 inside surface .hgk\",\n  \"duplicate Skill name openspec-archive-change x8 inside surface .hgk\",\n  \"duplicate Skill name openspec-explore x8 inside surface .hgk\",\n  \"duplicate Skill name openspec-propose x8 inside surface .hgk\",\n  \"duplicate Skill name openspec-sync-specs x8 inside surface .hgk\",\n  \"duplicate Skill name openspec-update-change x8 inside surface .hgk\"\n ],\n \"verdict\": \"PASS\"\n}\n",
+   "install_succeeded": true,
+   "silently_succeeded": true,
+   "outcome": "FAIL",
+   "interpretation": "the mutated wheel produced a working CLI - the guard does not hold"
+  },
+  {
+   "case": "B5",
+   "variant": "record_untouched",
+   "mutation": {
+    "truncated": {
+     "member": "pipd_ls_sp/__init__.py",
+     "before": 363,
+     "after": 356
+    }
+   },
+   "mutated_sha256": "8bd2f166c22df4e011e42346713c4dfc96c95fe470cbeb8e4c9e1fd762196110",
+   "mutated_bytes": 73320,
+   "venv": {
+    "exit": 0,
+    "pip_present": true
+   },
+   "install_exit": 0,
+   "install_tail": "Processing c:\\users\\user\\appdata\\local\\temp\\ao-b4b5-5d_d927d\\b5-record_untouched\\pipd_ls_sp-0.1.0-py3-none-any.whl\nInstalling collected packages: pipd-ls-sp\nSuccessfully installed pipd-ls-sp-0.1.0\n",
+   "run_exit": 1,
+   "run_tail": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 189, in _run_module_as_main\n  File \"<frozen runpy>\", line 112, in _get_module_details\n  File \"C:\\Users\\user\\AppData\\Local\\Temp\\ao-b4b5-5d_d927d\\B5-record_untouched\\venv\\Lib\\site-packages\\pipd_ls_sp\\__init__.py\", line 8\n    SCHEMA = \"PIPD-LS\n             ^\nSyntaxError: unterminated string literal (detected at line 8)\n",
+   "install_succeeded": true,
+   "silently_succeeded": false,
+   "outcome": "PASS",
+   "detected_by": [
+    "installed CLI refused to run"
+   ],
+   "interpretation": "mutation detected: installed CLI refused to run"
+  },
+  {
+   "case": "B5",
+   "variant": "record_fixed",
+   "mutation": {
+    "truncated": {
+     "member": "pipd_ls_sp/__init__.py",
+     "before": 363,
+     "after": 356
+    },
+    "record_rows_repaired": [
+     "pipd_ls_sp/__init__.py"
+    ]
+   },
+   "mutated_sha256": "3c5c7aaf657bfabcedb2b463fc0002d2e5d391ff5d1227453c114ecaa76e32eb",
+   "mutated_bytes": 73320,
+   "venv": {
+    "exit": 0,
+    "pip_present": true
+   },
+   "install_exit": 0,
+   "install_tail": "Processing c:\\users\\user\\appdata\\local\\temp\\ao-b4b5-5d_d927d\\b5-record_fixed\\pipd_ls_sp-0.1.0-py3-none-any.whl\nInstalling collected packages: pipd-ls-sp\nSuccessfully installed pipd-ls-sp-0.1.0\n",
+   "run_exit": 1,
+   "run_tail": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 189, in _run_module_as_main\n  File \"<frozen runpy>\", line 112, in _get_module_details\n  File \"C:\\Users\\user\\AppData\\Local\\Temp\\ao-b4b5-5d_d927d\\B5-record_fixed\\venv\\Lib\\site-packages\\pipd_ls_sp\\__init__.py\", line 8\n    SCHEMA = \"PIPD-LS\n             ^\nSyntaxError: unterminated string literal (detected at line 8)\n",
+   "install_succeeded": true,
+   "silently_succeeded": false,
+   "outcome": "PASS",
+   "detected_by": [
+    "installed CLI refused to run"
+   ],
+   "interpretation": "mutation detected: installed CLI refused to run"
+  }
+ ]
+}

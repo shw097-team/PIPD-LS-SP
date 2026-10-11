@@ -1,0 +1,57 @@
+{
+ "schema": "ROUTE-CHECK-RECEIPT/1",
+ "task": "R4 low-resistance hardening (S1 preflight / S2 envelope / S3 self-scan) + round-3 independent acceptance, candidate HEAD 7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+ "selected_route": "NATIVE",
+ "reason_code": "HGK_HERMES_ORCHESTRATES_DIRECTLY_NO_SPECIALIZED_PROVIDER_AUTO_SELECTED",
+ "registry_source_basis": "hg_kseos.named_methods.ACTIVE_SELECTED + route(flow), re-derived live through the repo venv (not copied from a prior receipt)",
+ "gstack_openspec_state": {
+  "ACTIVE_SELECTED": [
+   "gstack.cso",
+   "gstack.office-hours",
+   "gstack.plan-eng-review",
+   "gstack.qa",
+   "gstack.retro",
+   "gstack.review",
+   "gstack.ship",
+   "openspec"
+  ],
+  "note": "8 named methods are ACTIVE_SELECTED; route() nevertheless returns NATIVE for every flow below because no specialised provider is auto-selected for this flow"
+ },
+ "route_flows": {
+  "acceptance": "NATIVE",
+  "kanban-swarm-execution": "NATIVE",
+  "r4-low-resistance-hardening": "NATIVE",
+  "code-repair": "NATIVE"
+ },
+ "lane_note": "lane=NATIVE does NOT license skipping the Kanban / Swarm / gstack-check / OpenSpec / Codex surfaces; all execution surfaces still apply (HGK invariant #6)",
+ "workorder_ids": [
+  "REQ-R4-HARDEN-S1S3-20261009",
+  "TS-req-r4-harden-s1s3-20261009",
+  "WO-TS-req-r4-harden-s1s3-20261009"
+ ],
+ "surface_evidence": {
+  "KANBAN": {
+   "board": "r4-hardening-20261009",
+   "root": "t_55775415",
+   "workers": {
+    "t_0b3b757c": "S1 preflight_check.py + tests",
+    "t_54833dda": "S2 verifier envelope + boundary assert",
+    "t_cedcce5a": "S3 round self-scan + tests",
+    "t_f64a09cd": "GSTACK/OPENSPEC route evidence + board readback"
+   },
+   "verifier": "t_1bd3ff20",
+   "synthesizer": "t_ef00bfbf"
+  },
+  "SWARM": "kanban swarm graph t_55775415 with 4 worker lanes + 1 verifier + 1 synthesizer (real DAG, ids recorded)",
+  "GSTACK": "registry ACTIVE_SELECTED (8) + route(flow) evidence re-derived from hg_kseos.named_methods; role map HGK/HGK_GSTACK_ROLE_MAP.yaml (RP002-GSTACK-ROLE-MAP/1) with hard_deny honoured",
+  "OPENSPEC": {
+   "change": "r4-low-resistance-hardening",
+   "validate": "openspec validate --strict -> 'Change is valid'",
+   "tasks": "0/16 at proposal time"
+  },
+  "CODEX": "writer=codex (CODEX CLI, model pinned opencode-go/deepseek-v4.1-flash, effort=minimal); checker=codex (gpt-6.1-sol)"
+ },
+ "fallback_degrade": "none",
+ "claim_ceiling": "CANDIDATE_ONLY",
+ "recorded_at": "2026-10-09T18:12:16+08:00"
+}

@@ -1,0 +1,186 @@
+{
+ "schema": "PIPD-R5P-EXTERNAL-DRYRUN/1",
+ "as_of": "2026-10-10T13:23:35Z",
+ "repo": "https://github.com/shw097-team/PIPD-LS-SP.git",
+ "branch": "r5p-post-challenge-repair",
+ "clone": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5p-external-clone",
+ "checks": [
+  {
+   "name": "clone",
+   "cmd": [
+    "git",
+    "clone",
+    "--quiet",
+    "--branch",
+    "r5p-post-challenge-repair",
+    "--single-branch",
+    "https://github.com/shw097-team/PIPD-LS-SP.git",
+    "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5p-external-clone"
+   ],
+   "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch",
+   "exit": 0,
+   "seconds": 2.2,
+   "stdout_tail": "",
+   "stderr_tail": ""
+  },
+  {
+   "name": "rev-parse",
+   "cmd": [
+    "git",
+    "rev-parse",
+    "HEAD",
+    "HEAD^{tree}"
+   ],
+   "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5p-external-clone",
+   "exit": 0,
+   "seconds": 0.0,
+   "stdout_tail": "f06b0e7b5f287e1b83cc737061da4bfad94acdf8\ne1c98195ae50d58ec07ffd67fde585b860e119fd\n",
+   "stderr_tail": ""
+  },
+  {
+   "name": "evidence_census",
+   "cmd": [
+    "git",
+    "ls-files"
+   ],
+   "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5p-external-clone",
+   "exit": 0,
+   "seconds": 0.0,
+   "stdout_tail": "44 tracked paths (full list not stored)",
+   "stderr_tail": ""
+  },
+  {
+   "name": "full_suite_clean_clone",
+   "cmd": [
+    "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-t",
+    "."
+   ],
+   "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5p-external-clone",
+   "exit": 0,
+   "seconds": 67.5,
+   "summary": [
+    "Ran 311 tests in 66.571s",
+    "OK (skipped=6)"
+   ],
+   "failures": [],
+   "skips_named": [
+    "OK (skipped=6)"
+   ]
+  },
+  {
+   "name": "publication_check_current",
+   "cmd": [
+    "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+    "tools/build_publication_manifest.py",
+    "--check",
+    "--current"
+   ],
+   "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5p-external-clone",
+   "exit": 1,
+   "seconds": 0.1,
+   "stdout_tail": "",
+   "stderr_tail": "{\"verdict\": \"FAIL\", \"reason\": \"cannot resolve ref 'r5-s4-candidate' in C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r5p-external-clone\\\\.git\"}\n"
+  },
+  {
+   "name": "attestation_verify_r5p",
+   "cmd": [
+    "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+    "tools/publication_attestation.py",
+    "--verify",
+    "--out",
+    ".hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION_R5P_POSTCHALLENGE.json",
+    "--expect-commit",
+    "194f1774e8e852f954d141c48389a74b0f0e302a",
+    "--expect-tree",
+    "b1ec0abf4799fdc917aaa23dc75885b302407ee5"
+   ],
+   "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5p-external-clone",
+   "exit": 0,
+   "seconds": 1.2,
+   "stdout_tail": "{\n \"verdict\": \"PASS\",\n \"attested\": {\n  \"commit\": \"194f1774e8e852f954d141c48389a74b0f0e302a\",\n  \"tree\": \"b1ec0abf4799fdc917aaa23dc75885b302407ee5\"\n },\n \"expected\": {\n  \"commit\": \"194f1774e8e852f954d141c48389a74b0f0e302a\",\n  \"tree\": \"b1ec0abf4799fdc917aaa23dc75885b302407ee5\"\n },\n \"product_digest\": \"53456af2cba9abd99a937bcd82e7b4719fa25b93ee1c81dcf23d1c997c6ea567\",\n \"manifest_digest\": \"31aee9c8c07db22d3fe7fb970ae5b0b6429e1cbcf95792347282ac99fa619c5c\",\n \"payload_digest\": \"2818b9f03307540edfe371740d2b27b8b9ec2eced093a824e5b14a7149a55024\",\n \"violations\": []\n}\n",
+   "stderr_tail": ""
+  },
+  {
+   "name": "perf_budget_check",
+   "cmd": [
+    "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+    "-B",
+    "tools/perf_budget.py",
+    "--check"
+   ],
+   "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5p-external-clone",
+   "exit": 0,
+   "seconds": 1.2,
+   "stdout_tail": ": 230.0,\n   \"max_bytes\": 230.0\n  },\n  \"237\": {\n   \"atoms\": 237,\n   \"unique_obligations\": 237,\n   \"pi_bytes\": 57018,\n   \"bytes_per_atom\": 240.58,\n   \"p95_bytes\": 240.0,\n   \"max_bytes\": 240.0\n  },\n  \"801\": {\n   \"atoms\": 801,\n   \"unique_obligations\": 801,\n   \"pi_bytes\": 193506,\n   \"bytes_per_atom\": 241.58,\n   \"p95_bytes\": 240.0,\n   \"max_bytes\": 240.0\n  },\n  \"long_clause\": {\n   \"clause_chars\": 2400,\n   \"atoms\": 1,\n   \"unique_obligations\": 1,\n   \"pi_bytes\": 37431,\n   \"bytes_per_atom\": 37431.0,\n   \"p95_bytes\": 36574.0,\n   \"max_bytes\": 36574.0\n  }\n },\n \"padding_invariance\": {\n  \"before\": {\n   \"atoms\": 1,\n   \"unique_obligations\": 1,\n   \"bytes_per_atom\": 7492.0\n  },\n  \"after\": {\n   \"atoms\": 501,\n   \"unique_obligations\": 1,\n   \"bytes_per_atom\": 42492.0\n  },\n  \"after_restamped_ids\": {\n   \"atoms\": 501,\n   \"unique_obligations\": 1,\n   \"unique_obligations_by_identity\": 501,\n   \"bytes_per_atom\": 49492.0,\n   \"rate_if_denominator_were_identity_addressed\": 98.79\n  },\n  \"padding_atoms\": 500,\n  \"budget\": 2000,\n  \"naive_rate_if_denominator_were_raw_atoms\": 84.81,\n  \"padding_invariance\": \"PASS\",\n  \"restamped_identity_invariance\": \"PASS\"\n },\n \"candidate_head\": \"f06b0e7b5f287e1b83cc737061da4bfad94acdf8\"\n}\n",
+   "stderr_tail": ""
+  },
+  {
+   "name": "venv_create",
+   "cmd": [
+    "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+    "-m",
+    "venv",
+    "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5p-external-venv"
+   ],
+   "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch",
+   "exit": 0,
+   "seconds": 11.8,
+   "stdout_tail": "",
+   "stderr_tail": ""
+  },
+  {
+   "name": "wheel_install",
+   "cmd": [
+    "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5p-external-venv\\Scripts\\python.exe",
+    "-m",
+    "pip",
+    "install",
+    "--quiet",
+    "--disable-pip-version-check",
+    "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5p-external-clone\\dist\\pipd_ls_sp-0.1.0-py3-none-any.whl"
+   ],
+   "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch",
+   "exit": 0,
+   "seconds": 3.6,
+   "stdout_tail": "",
+   "stderr_tail": ""
+  },
+  {
+   "name": "doctor_as_installed_user",
+   "cmd": [
+    "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5p-external-venv\\Scripts\\python.exe",
+    "-m",
+    "pipd_ls_sp.cli",
+    "--root",
+    "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5p-external-doctor",
+    "doctor"
+   ],
+   "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r5p-external-doctor",
+   "exit": 0,
+   "seconds": 0.2,
+   "stdout_tail": "{\n \"families\": 19,\n \"findings\": [],\n \"schema_source\": {\n  \"mode\": \"INSTALLED\",\n  \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r5p-external-venv\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\",\n  \"tried\": [\n   \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r5p-external-venv\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\"\n  ]\n },\n \"skill_drift\": [],\n \"verdict\": \"PASS\"\n}\n",
+   "stderr_tail": ""
+  }
+ ],
+ "clone_head": [
+  "f06b0e7b5f287e1b83cc737061da4bfad94acdf8",
+  "e1c98195ae50d58ec07ffd67fde585b860e119fd"
+ ],
+ "tracked_file_count": 44,
+ "round_evidence_in_repo": {
+  "hgk_rounds_r5p_present": false,
+  "uat_runner_present": [],
+  "ao_verdict_files": []
+ },
+ "non_zero_checks": [
+  "publication_check_current"
+ ],
+ "verdict": "NOT_READY"
+}

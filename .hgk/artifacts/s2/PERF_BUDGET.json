@@ -2,37 +2,149 @@
  "rows": [
   {
    "metric": "compile_chain_ms",
-   "value": 935.8,
+   "value": 818.2,
+   "value_display": 818.2,
    "budget": 2000,
-   "verdict": "PASS"
+   "measurement": "wall-clock perf_counter around intake->compile_pi->bind_pd->compile_construction_contract->compile_ecp->compile_tqaep, ms",
+   "denominator": "",
+   "source_of_truth": "UNPROVENANCED",
+   "voting": false,
+   "advisory": true,
+   "advisory_reason": "no consumer was ever named for this bound; measured headroom 2.35x, and no entity in the product depends on the number",
+   "exceeded": false,
+   "verdict": "UNDECIDABLE",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
   },
   {
    "metric": "validate_19_contracts_ms",
-   "value": 1.9,
+   "value": 2.0,
+   "value_display": 2.0,
    "budget": 3000,
    "contracts": 19,
-   "verdict": "PASS"
+   "measurement": "wall-clock perf_counter loading every registry family schema, ms",
+   "denominator": "19 registry families (registry.json)",
+   "source_of_truth": "UNPROVENANCED",
+   "voting": false,
+   "advisory": true,
+   "advisory_reason": "measured headroom 1,579x - the row cannot fire and carries no signal",
+   "exceeded": false,
+   "verdict": "UNDECIDABLE",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
   },
   {
    "metric": "cli_cold_start_ms",
-   "value": 114.3,
+   "value": 110.4,
+   "value_display": 110.4,
    "budget": 6000,
-   "verdict": "PASS"
+   "measurement": "wall-clock perf_counter of `python -B -m pipd_ls_sp.cli --help` in a fresh interpreter, ms",
+   "denominator": "",
+   "source_of_truth": "UNPROVENANCED",
+   "voting": false,
+   "advisory": true,
+   "advisory_reason": "measured headroom 51x - the row cannot fire and carries no signal",
+   "exceeded": false,
+   "verdict": "UNDECIDABLE",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
   },
   {
    "metric": "context_bytes_per_artefact",
-   "value": 355119,
+   "value": 343547,
+   "value_display": 343547,
    "budget": 20000,
    "sizes": {
-    "pi": 355119,
-    "pd": 3512,
+    "pi": 343547,
+    "pd": 2447,
     "cc": 442,
     "ecp": 528,
     "tqaep": 109888
    },
-   "verdict": "FAIL"
+   "measurement": "max of len(json.dumps(artefact)) in UTF-8 bytes over PI/PD/CC/ECP/TQAEP",
+   "denominator": "one artefact (bytes per artefact, not per atom)",
+   "source_of_truth": "UNPROVENANCED",
+   "voting": false,
+   "advisory": true,
+   "advisory_reason": "superseded by the owner re-specification of 2026-10-10: the budget is now the scale-invariant rate bytes_per_atom. The absolute reading is kept because its historical FAIL must stay visible, not to decide.",
+   "preserved": true,
+   "exceeded": true,
+   "verdict": "FAIL",
+   "note": "threshold authority is unratified: no in-repo source_of_truth; the row is decided by the measurement alone (an over-budget value still FAILs)"
+  },
+  {
+   "metric": "bytes_per_atom",
+   "value": 1449.6,
+   "value_display": 1449.6,
+   "budget": 2000,
+   "pi_bytes": 343547,
+   "atoms": 237,
+   "baseline_bytes_per_atom": 1449.57,
+   "tolerance_pct": 10.0,
+   "baseline_limit": 1594.5,
+   "regression": "WITHIN_TOLERANCE",
+   "measurement": "len(json.dumps(PI, ensure_ascii=False)) UTF-8 bytes divided by the number of atoms in PI.stable_semantic_contract.atoms",
+   "denominator": "one atom (bytes per atom, scale-invariant)",
+   "source_of_truth": "docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json#/rulings/S2_BUDGET_DEFINITION",
+   "voting": true,
+   "exceeded": false,
+   "verdict": "PASS"
   }
  ],
- "verdict": "FAIL",
- "candidate_head": "10cb3d31fcbd54fffe64152f4b17085866d0d75e"
+ "verdict": "PASS",
+ "voting_metrics": [
+  "bytes_per_atom"
+ ],
+ "advisory_metrics": [
+  "compile_chain_ms",
+  "validate_19_contracts_ms",
+  "cli_cold_start_ms",
+  "context_bytes_per_artefact"
+ ],
+ "undecidable": [],
+ "failed": [],
+ "exceeded": [],
+ "historical": {
+  "note": "measured and printed but non-voting; the recorded verdicts are preserved verbatim and must never be rewritten",
+  "rows": [
+   {
+    "metric": "compile_chain_ms",
+    "value": 818.2,
+    "budget": 2000,
+    "verdict": "UNDECIDABLE",
+    "exceeded": false,
+    "source_of_truth": "UNPROVENANCED"
+   },
+   {
+    "metric": "validate_19_contracts_ms",
+    "value": 2.0,
+    "budget": 3000,
+    "verdict": "UNDECIDABLE",
+    "exceeded": false,
+    "source_of_truth": "UNPROVENANCED"
+   },
+   {
+    "metric": "cli_cold_start_ms",
+    "value": 110.4,
+    "budget": 6000,
+    "verdict": "UNDECIDABLE",
+    "exceeded": false,
+    "source_of_truth": "UNPROVENANCED"
+   },
+   {
+    "metric": "context_bytes_per_artefact",
+    "value": 343547,
+    "budget": 20000,
+    "verdict": "FAIL",
+    "exceeded": true,
+    "source_of_truth": "UNPROVENANCED"
+   }
+  ],
+  "preserved_fails": [
+   "context_bytes_per_artefact"
+  ]
+ },
+ "adjudication": {
+  "authority": "docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json",
+  "ruling": "S2_BUDGET_DEFINITION = PER_ATOM_BYTES(2000); timing rows ADVISORY",
+  "artefact_unchanged": true
+ },
+ "candidate_head": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2"
 }

@@ -1,0 +1,222 @@
+{
+ "schema": "R4-CHECKPOINT/1",
+ "state": "CHECKPOINT/PAUSED",
+ "reason": "model/context budget exhausted mid-round (user-ordered pause); NOT a completion",
+ "round": {
+  "instruction_id": "PIPD-LS-SP-HERMES-R4-FOCUSED-REPAIR-20261009",
+  "generated_at": "2026-10-09T10:59:02+08:00",
+  "independent_challenge_state": "NOT_GRANTED",
+  "release_state": "NOT_GRANTED",
+  "production_state": "NOT_GRANTED"
+ },
+ "sources_frozen": {
+  "r4_repair_prompt_sha256": "9c7fd3617ef0c50b9f3442ae4bc37dc3136c026627971a5fd945ab2b67af83e5",
+  "r3_challenge_report_sha256": "ebe7d375b4c501e817b8c0c8bca3416a4dc31d3b18940e7f2d8f8c8d035a0e88",
+  "evidence_master_current_sha256": "9cf08e2309feff6490014d959d6a2cb093b02ca207da13b99a49dafd04d1a3c4",
+  "evidence_master_reviewer_claimed_sha256": "e6bbd32d7047bc71e1f43a312c8b5845a719de5367c6aeb4f874c0a61cd1f4f3",
+  "evidence_identity": "EVIDENCE_IDENTITY_MISMATCH — no local revision reproduces the reviewer's claimed digest (registered, not resolved; the shortest falsifiable step is to ask the reviewer to re-hash the exact bytes they received)"
+ },
+ "git": {
+  "local_head": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+  "local_tree": "b2d5faf52a1b7b37f85c0a83162cbaaa896edb37",
+  "dirty_lines": 4,
+  "dirty": [
+   "M .hgk/artifacts/evidence_manifest.json",
+   " M .hgk/artifacts/evidence_manifest.seal.json",
+   "?? .hgk/preflight/R4-compiler/",
+   "?? .hgk/preflight/R4-w2/"
+  ],
+  "published_main": "3aebbbce948871c07b875ab92acf263d298ecf38",
+  "published_tree": "1a7dc57f9403202c32d1bc01deb1925ac1f6412e",
+  "r3_local_candidate": "10cb3d31fcbd54fffe64152f4b17085866d0d75e",
+  "rollback_pointer": {
+   "branch": "r3-candidate = 3aebbbce (published view)",
+   "local_master_untouched": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+   "note": "no history rewrite; r4 work is uncommitted at pause"
+  }
+ },
+ "compiler_receipt": {
+  "verdict": "PROMPT_COMPILE_PASS",
+  "contract_sha256": "776994c95c73f812083e0154e6fa66e6fffb200d72a11ad49f7a75099f6b2f09",
+  "prompt_sha256": "2b1c4229a0c36b23a9a5ab794d1adce5125857737110e507babd5119b3cac2f1",
+  "compiler_sha256": "2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9",
+  "lint_activation_acceptance_errors": 0,
+  "duplication_PL-001_ratio": 0.001595
+ },
+ "hgk_admission": {
+  "project_id": "PIPD-LS-SP-20261008",
+  "checkpoint": "CK-20261008-B7066666",
+  "state_after": "EXECUTING",
+  "base_head": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+  "admitted_count": 33,
+  "denominator": {
+   "requirements_total": 75,
+   "requirements_frozen": 75,
+   "taskspecs_total": 80,
+   "workorders_total": 80,
+   "workorders_open_count": 79,
+   "acceptances_total": 75
+  },
+  "workorders_sample": [
+   {
+    "requirement": "REQ-PIPD-R4-W1",
+    "taskspec": "TS-req-pipd-r4-w1",
+    "workorder": "WO-TS-req-pipd-r4-w1",
+    "write_scope": [
+     "tools/build_publication_manifest.py",
+     "tools/publication_attestation.py",
+     ".hgk/ao/pub/**",
+     "tests/test_publication_projection.py"
+    ]
+   },
+   {
+    "requirement": "REQ-PIPD-R4-W2",
+    "taskspec": "TS-req-pipd-r4-w2",
+    "workorder": "WO-TS-req-pipd-r4-w2",
+    "write_scope": [
+     "tools/writeset_probe.py",
+     "tests/test_writeset_scope.py",
+     ".hgk/rounds/R4-*/W2/**"
+    ]
+   },
+   {
+    "requirement": "REQ-PIPD-R4-W3",
+    "taskspec": "TS-req-pipd-r4-w3",
+    "workorder": "WO-TS-req-pipd-r4-w3",
+    "write_scope": [
+     "tools/tt_summary_check.py",
+     "tests/test_tt_summary.py",
+     ".hgk/artifacts/TT_REGISTER.json"
+    ]
+   }
+  ],
+  "workorder_ids": [
+   "WO-TS-req-pipd-r4-w1",
+   "WO-TS-req-pipd-r4-w2",
+   "WO-TS-req-pipd-r4-w3",
+   "WO-TS-req-pipd-r4-w4",
+   "WO-TS-req-pipd-r4-w5",
+   "WO-TS-req-pipd-r4-w6",
+   "WO-TS-req-pipd-r4-w7",
+   "WO-TS-req-pipd-r4-w8",
+   "WO-TS-req-pipd-r4-ext-01",
+   "WO-TS-req-pipd-r4-ext-02",
+   "WO-TS-req-pipd-r4-ext-03",
+   "WO-TS-req-pipd-r4-ext-04",
+   "WO-TS-req-pipd-r4-ext-05",
+   "WO-TS-req-pipd-r4-ext-06",
+   "WO-TS-req-pipd-r4-ext-07",
+   "WO-TS-req-pipd-r4-ext-08",
+   "WO-TS-req-pipd-r4-ext-09",
+   "WO-TS-req-pipd-r4-ext-10",
+   "WO-TS-req-pipd-r4-aud-001",
+   "WO-TS-req-pipd-r4-aud-002",
+   "WO-TS-req-pipd-r4-aud-003",
+   "WO-TS-req-pipd-r4-aud-004",
+   "WO-TS-req-pipd-r4-aud-005",
+   "WO-TS-req-pipd-r4-aud-006",
+   "WO-TS-req-pipd-r4-aud-007",
+   "WO-TS-req-pipd-r4-aud-008",
+   "WO-TS-req-pipd-r4-aud-009",
+   "WO-TS-req-pipd-r4-aud-010",
+   "WO-TS-req-pipd-r4-aud-011",
+   "WO-TS-req-pipd-r4-aud-012",
+   "WO-TS-req-pipd-r4-aud-013",
+   "WO-TS-req-pipd-r4-aud-014",
+   "WO-TS-req-pipd-r4-aud-015"
+  ]
+ },
+ "w2_host_enforced_writeset": {
+  "status": "CLOSED_WITH_EVIDENCE",
+  "writer_image": "pipd-r4-writer:3@sha256:773244d871116e518315f72a514eef5242161a0c2a89a43d8d2a5f3eec5fc798",
+  "mechanism": "docker container: PIPD mounted rw only; other host roots ro/absent; iptables egress allowlist (loopback + gateway:10100 only); no git and no credentials in the image",
+  "matrix": {
+   "admitted_write": "SUCCEEDED",
+   "outside_root_write": "DENIED_RO_FS",
+   "subshell_escape": "DENIED_RO_FS",
+   "symlink_traversal": "DENIED_RO_FS",
+   "secret_path": "ABSENT",
+   "external_egress": "DROP",
+   "model_endpoint": "HTTP 200",
+   "in_lane_codex_call": "CODEX_LANE_OK"
+  },
+  "host_codex_sandbox_finding": "codex -s workspace-write on THIS host degrades to read-only for both in-workspace and outside writes -> unusable as a writer sandbox; recorded as R3-EXT-08 evidence",
+  "host_truth": "no escape file on disk for any probe"
+ },
+ "tests": {
+  "r3_historical_receipt": "138 tests OK (R3 raw receipt, not re-run this round)",
+  "r4_new_tests_written": 0,
+  "r4_lanes_started": 0,
+  "pending_acceptance": [
+   "tests/test_tt_summary.py",
+   "tests/test_writeset_scope.py",
+   "tests/test_publication_projection.py",
+   "tests/test_spec_del_crosswalk.py",
+   "tests/test_perf_budget.py",
+   "tests/test_technology_admission.py (extend)"
+  ]
+ },
+ "tt_cr_state": {
+  "rows": 22,
+  "actual_histogram": {
+   "OPEN": 16,
+   "OPEN_OWNER_GATE": 2,
+   "PARTIAL_CLOSED": 1,
+   "PARTIAL": 1,
+   "CLOSED": 1,
+   "TEMP_CLOSED": 1
+  },
+  "stored_summary_total": 17,
+  "note": "R3-EXT-04 / R-AUD-012 confirmed defect still OPEN (stale 17-row summary over 22 rows)"
+ },
+ "pending_work": [
+  {
+   "id": "W1",
+   "status": "NOT_STARTED",
+   "detail": "publication projection manifest + sidecar subject attestation"
+  },
+  {
+   "id": "W3",
+   "status": "NOT_STARTED",
+   "briefed": true,
+   "detail": "TT status projection recompute + invariant test"
+  },
+  {
+   "id": "W4",
+   "status": "NOT_STARTED",
+   "briefed": true,
+   "detail": "artefact-consistency vs hard-gate separation, nonzero exit, only-selected-active pins"
+  },
+  {
+   "id": "W5",
+   "status": "NOT_STARTED",
+   "detail": "perf threshold provenance + payload de-duplication without semantic loss"
+  },
+  {
+   "id": "W6",
+   "status": "OWNER_GATED",
+   "detail": "HGK knowledge sanitizer needs an HGK-scoped owner WorkOrder; read-only analysis only so far"
+  },
+  {
+   "id": "W7",
+   "status": "NOT_STARTED",
+   "detail": "32 SPEC + 25 DEL row crosswalk generated from live IR"
+  },
+  {
+   "id": "W8",
+   "status": "NOT_STARTED",
+   "detail": "fresh independent challenge on one frozen published candidate"
+  }
+ ],
+ "blockers": [
+  "MODEL_BUDGET_EXHAUSTED (pause cause)",
+  "PERF_ORACLE_UNRATIFIED: the 20000 context-byte threshold has no located upstream authority",
+  "LICENSE_OWNER_PENDING + PUBLICATION_HITL_PENDING: human licence/publication decision not taken",
+  "EVIDENCE_SUBJECT_MISMATCH: reviewer-claimed evidence digest unreproduced",
+  "KNOWLEDGE_QUARANTINE_UNRESOLVED: 153/160 indexed, 7 quarantined owner-gated",
+  "W6 scope sits in HG-KSEOS, not PIPD: needs a separate HG-KSEOS-scoped WorkOrder"
+ ],
+ "claim_ceiling": "CANDIDATE_ONLY",
+ "resume_command": "docker run --rm --cap-add=NET_ADMIN --add-host=host.docker.internal:host-gateway -v C:/Projects/Agent_Workspace/PIPD:/w -v <briefs>:/briefs:ro -v C:/Users/user/AppData/Local/HG-KSEOS/codex-hermes:/cx:ro pipd-r4-writer:3 bash -lc 'cd /w && codex exec -s workspace-write --skip-git-repo-check \"$(cat /briefs/<BRIEF>)\"'",
+ "self_sha256": "96bba9c03a9846fa09bd2d9c4af1af69604b335c9ad7a41ff8d1f9ebd4bdc6aa"
+}

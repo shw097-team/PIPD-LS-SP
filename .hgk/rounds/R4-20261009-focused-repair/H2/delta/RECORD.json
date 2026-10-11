@@ -1,0 +1,184 @@
+{
+ "schema": "PIPD-DELTA-HARNESS-RECORD/1",
+ "delta_id": "H2-DEFECT-01+02",
+ "harness_authored_by": "orchestrator (DISCLOSED) - the checker lane reviews it and reproduces two probes by hand",
+ "why_a_harness": "two checker lanes died mid-run (codex websocket 426 to the local adapter at :127.0.0.1:10102 - substrate drift, FAR class C1) after writing only the verdict skeleton; the checks are mechanical, so the shape was changed to cut the lane's context to three small files",
+ "artifacts": {
+  "HARNESS_D1_D6.py": {
+   "path": "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R4-20261009-focused-repair\\H2\\delta\\HARNESS_D1_D6.py",
+   "sha256": "9ded7432233bdcab9f57cf92ad191166659d21c00d5e43e28f423082a7d5e4cd"
+  },
+  "D1_D6_RESULT_v3.json": {
+   "path": "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R4-20261009-focused-repair\\H2\\delta\\D1_D6_RESULT_v3.json",
+   "sha256": "83c62b74baeb82a563af85fb7b0f4233f322bf82c91201560b496c01b34dc525"
+  }
+ },
+ "subject": {
+  "repaired_tool": {
+   "path": "C:\\w8v3delta\\repo\\tools\\round_envelope.py",
+   "sha256": "d8a24cb565ff51122cc5ecbd0f5fa814f3359da95c22f41023dedd7c7494dbd5"
+  },
+  "accepted_tool": {
+   "path": "C:\\w8v3delta\\frozen\\round_envelope_ACCEPTED.py",
+   "sha256": "0901ac0ef94ba61ff955e37c47c03754c7b98ced356cf6201c1fe0fff04efd0b"
+  },
+  "repaired_test": {
+   "path": "C:\\w8v3delta\\repo\\tests\\test_round_envelope.py",
+   "sha256": "907763d3c75883fa0082185c0fe8e8277afc368ce01e0938ce7a52141bef1d84"
+  },
+  "accepted_test": {
+   "path": "C:\\w8v3delta\\frozen\\test_round_envelope_ACCEPTED.py",
+   "sha256": "6c1facfec6a28f71e39e7e0c6583fc42aba141b179202af90e14b96689c38f55"
+  }
+ },
+ "rows": {
+  "D1": {
+   "hunks": 12,
+   "undisclosed": 0,
+   "guards_all_present": true
+  },
+  "D2": {
+   "exit": 0,
+   "created_at_drive_path": true,
+   "drive_root_c_mtime_moved": false
+  },
+  "D3": {
+   "exit": 2,
+   "no_traceback": true
+  },
+  "D4": {
+   "refusals": {
+    "dst_inside_src": 2,
+    "src_inside_dst": 2,
+    "scratch_inside_tree": 2
+   },
+   "accepted_baseline": [
+    "Ran 11 tests in 0.910s",
+    "OK"
+   ]
+  },
+  "D5": {
+   "summary": [
+    "Ran 23 tests in 1.715s",
+    "OK"
+   ]
+  },
+  "D6": {
+   "all_guards_held": true,
+   "throwaway_cwd_intact": true,
+   "src_intact": true
+  }
+ },
+ "probe_bugs_found_and_fixed_in_the_harness": [
+  "v1 D2 probe looked for a literal '\\c' under scratch instead of at the drive root (C:\\c) - fixed by watching C:\\c's mtime",
+  "v1 D4 baseline ran the accepted tests without the accepted module importable ('import round_envelope as E') -> a spurious 1-test FAILED; fixed by staging the accepted tool as round_envelope.py in a temp dir -> Ran 11 tests OK"
+ ],
+ "pre_existing_host_artifact": {
+  "path": "C:\\c",
+  "created": "2026-08-10 (contains c\\Users=08-14, c\\Projects=08-08)",
+  "note": "predates this session by ~2 months and was NOT modified today; it is exactly where the literal-path bug would land, which is why the D2 probe must watch mtime and not existence. Not ours - not touched."
+ },
+ "side_effects": "each harness run verified to leave C:/Projects/Agent_Workspace/PIPD untouched: HEAD 7c5bc585, 33 porcelain lines identical to the frozen subject, assume-unchanged 0, .git/logs 64, .git/config 251 B",
+ "claim_ceiling": "CANDIDATE_ONLY",
+ "status": "H2_DELTA_INDEPENDENTLY_PASSED__CANDIDATE_ONLY",
+ "v3_verdict": {
+  "verdict": "FAIL",
+  "by": "independent checker (gpt-6.1-sol lane)",
+  "findings": [
+   "D6 FAIL: the harness's home probe targeted the REAL home - a guard regression could destroy it; the checker refused to run it",
+   "D2 FAIL: root-mtime-only evidence cannot establish that C:\\c descendants were untouched",
+   "D1/D3/D4/D5 PASS with caveats: keyword hunk scope; exit-code-only checks; test weakening not auditable in the authorised 3-file review"
+  ],
+  "trusted_as_acceptance_oracle": false,
+  "could_destroy_real_data": true
+ },
+ "v4_rebuild": {
+  "supersedes": "HARNESS_D1_D6.py (v3)",
+  "answers": [
+   "dangerous destinations (home/drive root/cwd/src/ancestor) are now probed ONLY against the pure guard functions - zero destruction risk",
+   "every end-to-end probe wrapped in assert_sandbox()",
+   "D2 now diffs a RECURSIVE manifest of C:\\c (10960 entries) before/after",
+   "diagnostics text asserted; manifest equality proves nothing was deleted or recreated",
+   "drive-root refusal added as a unit probe",
+   "fixture git return codes asserted",
+   "hunk scope decided by the functions a hunk touches, with the declared set taken from the repair records (undisclosed: 0)",
+   "D5 audits the test source: 12 tests added, 0 removed, 0 assertions shrunk"
+  ],
+  "row_results": {
+   "D1": "12 hunks, 0 undisclosed",
+   "D2": "exit 0, drive path, C:\\c manifest identical",
+   "D3": "exit 2, 1 line, names path, no traceback, src untouched",
+   "D4": "3 refusals exit 2, accepted baseline Ran 11 OK, fixture git rc 0/0/0",
+   "D5": "Ran 23 OK, no test removed, no assertion shrunk",
+   "D6": "unit_all_refused, e2e_all_held, positive control OK, cwd intact",
+   "repo_untouched": "HEAD 7c5bc585, dirty 33, porcelain identical to the frozen subject"
+  },
+  "harness_self_bugs_found_during_rebuild": [
+   "manifest() returned a tuple where callers expected a dict",
+   "a regex built from a guard name containing parentheses was invalid",
+   "the D6 cwd unit probe passed an arbitrary directory, but guard_destination compares against the live Path.cwd() - fixed to use the live cwd (the e2e probe already covered it correctly)"
+  ]
+ },
+ "v4_verdict": {
+  "verdict": "FAIL",
+  "only_failing_row": "D1",
+  "rows": {
+   "D1": "FAIL - function-membership is not semantic scope verification; independent source reading was not authorised",
+   "D2": "PASS (manifest accepted; caveats: no content hashes, link traversal, transient recreation)",
+   "D3": "PASS",
+   "D4": "PASS",
+   "D5": "PASS",
+   "D6": "PASS (harness safety defect fixed and accepted)"
+  },
+  "test_weakening_audit": "No weakening found in the full authorised accepted-to-repaired test-source audit (11->23 tests, 0 removed, 0 assertions deleted or relaxed, no skip/xfail added)",
+  "new_instrument_findings": [
+   "D2 called shutil.rmtree BEFORE assert_sandbox",
+   "D2 watched a hard-coded native path while passing the raw MSYS string to init",
+   "D3/D6 positive control/imports/D4-D5 subprocesses lack sandbox wrapping",
+   "fixture git return codes were recorded, not asserted",
+   "a unit probe exception was counted as a refusal",
+   "e2e aggregate checked exit codes, not the diagnostic or traceback"
+  ]
+ },
+ "v5_rebuild": {
+  "changes": [
+   "D2 asserts the sandbox BEFORE any removal and derives the watch path from the MSYS string; reports whether C:\\c\\w8v3delta was created",
+   "fixture git non-zero return code now raises",
+   "an exception is no longer counted as a refusal (refused_by_a_real_problem)",
+   "e2e aggregate also requires the REFUSED diagnostic and no traceback",
+   "each hunk now carries removed_text/added_text for semantic review",
+   "the checker is AUTHORISED to read the subject source in full - the actual fix for D1"
+  ],
+  "row_results": {
+   "D1": "12 hunks / 0 undisclosed (hunk text now emitted)",
+   "D2": "exit 0, drive path, pre_existed false, regression landing NOT created, C:\\c manifest identical",
+   "D3": "exit 2, 1 line, names path, no traceback",
+   "D4": "3 refusals exit 2, fixture git 0/0/0 asserted, baseline Ran 11 OK",
+   "D5": "Ran 23 OK, no test removed, no assertion shrunk",
+   "D6": "unit all refused by real problems, e2e all held (diagnostic required), positive control OK, cwd intact"
+  },
+  "repo_and_host_untouched": "HEAD 7c5bc585, dirty 33, porcelain identical to the frozen subject; C:\\c mtime 2026-08-10 08:36:24"
+ },
+ "v5_verdict": {
+  "verdict": "PASS",
+  "rows": {
+   "D1": "PASS",
+   "D2": "PASS",
+   "D3": "PASS",
+   "D4": "PASS",
+   "D5": "PASS",
+   "D6": "PASS"
+  },
+  "d1_basis": "independent semantic hunk review: both full revisions read, 12 hunks reconstructed by SequenceMatcher and classified; unaccounted_lines []",
+  "self_limits": {
+   "sound_oracle": false,
+   "usable_with_independent_review": true,
+   "residual": "the frozen accepted test source was outside the authorised reading for v5; its weakening audit rests on the v4 audit + the harness's internal read"
+  },
+  "unfinished": [],
+  "undisclosed_scope": [],
+  "weakening_found": false,
+  "claim_ceiling": "CANDIDATE_ONLY",
+  "sha256": "bd5f1d6a57dd69ae7075929c39da5d683515693339589ecf31bf9050e1dac67d"
+ }
+}

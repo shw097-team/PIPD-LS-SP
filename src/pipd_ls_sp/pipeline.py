@@ -16,9 +16,23 @@ from .profiles import compute_profile
 from . import repo_context as repo_probe
 from . import requirements as req_compile
 from .util import canonical_json, content_id, sha256_text  # noqa: F401
+# CE-2: the field lists are defined ONCE in validate and referenced here, so the hash body and
+# the "stripped before validation" contract cannot diverge from the validator again.
+#   HASH_EXCLUDED_FIELDS - the fields `_seal` does not hash (identity + derived `trace` + sidecar).
+#   NON_RECORD_SIDECARS  - re-exported (validate defines it); the fields the schema check strips.
+from .validate import HASH_EXCLUDED_FIELDS, NON_RECORD_SIDECARS  # noqa: F401
 
 CLAIM_LADDER = ["PROMPT_COMPILE_PASS", "HGK_ADMITTED", "RUNTIME_READY", "LOCAL_QUALIFIED",
                 "INDEPENDENT_PASS", "PUBLICATION_APPROVED", "RELEASED", "PRODUCTION_VERIFIED"]
+
+# WO-S4-TQAEP-004: design-time TQAEP is a DESIGN ceiling, not independent acceptance. A checker
+# *receipt string* supplied at design time is recorded, but it is NOT independent verification --
+# that requires a live S5 runtime checker. The record's key set must stay schema-conformant
+# (schemas/TQAEP.schema.json declares additionalProperties:false), so this ceiling and the
+# not-granted flags are carried INSIDE the declared `acceptance` field, never as a new top-level
+# key and never by editing the schema.
+TQAEP_DESIGN_CEILING = "TQAEP_DESIGNED"
+TQAEP_INDEPENDENT_PROOF_REQUIRES = "S5_LIVE_RUNTIME_CHECKER"
 
 
 def _rec(kind: str, prefix: str, payload: Any, **fields: Any) -> dict[str, Any]:
@@ -129,7 +143,8 @@ def compile_pi(card: dict[str, Any], profile_name: str = "LITE") -> dict[str, An
     for a in src_atoms:
         atoms.append(_rec("RequirementAtom", "ATOM",
                           {"req": a["req_id"], "goal": card["content_hash"]},
-                          req_id=a["req_id"], source_clause=a["source_clause"],
+                          req_id=a["req_id"],
+                          source_clause=req_compile.normalized_locator(a["source_clause"]),
                           owner=a.get("owner", "PIPD-EC"),
                           acceptance_cue=a["acceptance_cue"],
                           risk_guard=a["risk_guard"]))
@@ -139,7 +154,10 @@ def compile_pi(card: dict[str, Any], profile_name: str = "LITE") -> dict[str, An
                "profile": pb["profile"]}
     pi = _rec("PI-PKG", "PI", payload)
     pi["stable_semantic_contract"] = {"contract": "stable", "profile_binding": pb,
-                                      "atoms": atoms, "goal": card["goal"]}
+                                      "atoms": atoms, "goal": card["goal"],
+                                      # normalized source table: one entry per source clause, so no
+                                      # atom has to embed a full copy of its clause (payload economy)
+                                      "sources": req_compile.source_table(src_atoms)}
     pi["acceptance"] = {"mode": "bound", "oracle_source": "DOC-03 DOMAIN_ORACLES"}
     _seal(pi, "PI")
     pi["trace"] = [_rec("TraceLink", "TL", {"f": pi["subject_id"], "t": a["subject_id"]},
@@ -159,8 +177,9 @@ def _seal(rec: dict[str, Any], prefix: str) -> dict[str, Any]:
     not cover the body and validate.semantic_invariants correctly rejects the record.
     """
     # `trace` is a derived relation, not body content: it carries the parent hash, so it cannot be
-    # inside the hash it references. The validator excludes exactly the same key set.
-    body = {k: v for k, v in rec.items() if k not in ("subject_id", "version", "content_hash", "schema_version", "trace", "_profile_meta")}
+    # inside the hash it references. The validator excludes exactly the same key set
+    # (validate.HASH_EXCLUDED_FIELDS) - one definition, referenced in both places.
+    body = {k: v for k, v in rec.items() if k not in HASH_EXCLUDED_FIELDS}
     digest = sha256_text(canonical_json(body))
     rec["subject_id"] = f"{prefix}-{digest[:16]}"
     rec["content_hash"] = digest
@@ -272,9 +291,20 @@ def compile_tqaep(pi: dict[str, Any], ecp: dict[str, Any], *, maker: str, checke
         raise TqOracleFail("every TQAEP test needs an oracle")
     payload = {"pi": pi["subject_id"], "ecp": ecp["subject_id"],
                "tests": [t["test_id"] for t in tests]}
-    acceptance = [{"case": "INDEPENDENT_CASE_PASS", "maker_identity": maker,
-                   "checker_identity": checker, "distinct": True,
-                   "checker_execution_receipt": checker_execution_receipt}]
+    # WO-S4-TQAEP-004: a design-time record establishes ONLY that a distinct checker identity was
+    # supplied and recorded. A receipt string is not independent verification, so the entry must
+    # NOT present it as an independently passed case; the design-time ceiling and the explicit
+    # NOT_GRANTED flags say exactly what was established and what a live checker would have to do.
+    acceptance = [{"case": "TQAEP_DESIGN_CANDIDATE",
+                   "design_time_status": "DISTINCT_CHECKER_IDENTITY_RECORDED",
+                   "maker_identity": maker, "checker_identity": checker, "distinct": True,
+                   "checker_execution_receipt": checker_execution_receipt,
+                   "claim_ceiling": TQAEP_DESIGN_CEILING,
+                   "independent_acceptance": "NOT_GRANTED",
+                   "independent_proof_requires": TQAEP_INDEPENDENT_PROOF_REQUIRES,
+                   "note": "design-time candidate only: the checker receipt is a recorded string, "
+                           "not independent verification; a live runtime checker must re-run it "
+                           "before any independent acceptance can be claimed"}]
     return _seal(_rec("TQAEP", "TQAEP", payload,
                 tests=tests, oracles=oracles, fixtures=fixtures,
                 acceptance=acceptance, requalification="affected-only"), "TQAEP")

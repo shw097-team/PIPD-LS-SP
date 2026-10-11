@@ -1,0 +1,53 @@
+{
+ "schema": "PIPD-R5Q-INDEPENDENT-VERIFICATION-RECEIPT/1",
+ "round": "R5Q-20261010-s4-owner-opensource-preview",
+ "issued_at_utc": "2026-10-10T15:40:56Z",
+ "subject": {
+  "repo": "https://github.com/shw097-team/PIPD-LS-SP",
+  "tag": "v0.1.0-preview.1",
+  "release_commit": "cc9bf574c3b3f0f44ea615b5c67ae40d74efee32",
+  "release_tree": "da39a1effe8cb2d73fb63ba45b5ae73685ee93e6",
+  "wheel_asset": "pipd_ls_sp-0.1.0-py3-none-any.whl",
+  "wheel_sha256": "c450dbef1c3bfbc2048dcf0562f83d655cc5e5940511e65fd44bf9f91cf14e60"
+ },
+ "evaluator": {
+  "role": "VERIFY_ONLY independent checker; did not participate in the build",
+  "process": "separate Hermes subagent process with its own context and tool session",
+  "model": "deepseek-v4.1-flash",
+  "cod independence": "read only; created no tag, changed no release, pushed nothing; wrote only inside TMPDIR",
+  "sources_used": "anonymous GitHub download + independent git clone; no local wheel or evidence cache was read"
+ },
+ "overall": "PASS_ONLY_THE_ABOVE_CLAIMS",
+ "claims": [
+  {"id": 1, "verdict": "PASS", "claim": "tag resolves to the release commit and the tree matches",
+   "evidence": "ls-remote + API ref -> cc9bf574 (type commit); independent `git clone --branch v0.1.0-preview.1` then `git cat-file -p HEAD` shows tree da39a1e…, agreeing with the API commit object rather than trusting it."},
+  {"id": 2, "verdict": "PASS", "claim": "release is a prerelease and discloses limitations and licence",
+   "evidence": "draft=false, prerelease=true; body contains a 'Known limitations' section, 'Apache-2.0', and 'are **NOT GRANTED**'."},
+  {"id": 3, "verdict": "PASS", "claim": "published bytes hash-verify three ways",
+   "evidence": "downloaded wheel sha256 c450dbef…; `sha256sum -c SHA256SUMS` OK for wheel and source.zip; agrees with the release asset digest, the release body table and the SHA256SUMS header. All 40 wheel RECORD rows verify."},
+  {"id": 4, "verdict": "PASS", "claim": "the licence is inside the wheel and byte-identical to the repo",
+   "evidence": "METADATA carries License-Expression: Apache-2.0 and both License-File headers; dist-info/licenses/ packs LICENSE (11358 B, cfc7749b…), NOTICE (3571 B, ab07de02…) and OWNER_LICENSE_DECISION.yaml (4931 B, 1c5da3dc…), each byte-identical to the repository copy."},
+  {"id": 5, "verdict": "PASS", "claim": "clean-venv install works and the schema set travels with it",
+   "evidence": "venv built with no PYTHONPATH and cwd outside the repo; install pulled jsonschema 4.26.0; `python -m pipd_ls_sp.cli doctor` exit 0 with schema_source.mode=INSTALLED; all 19 installed schemas readable and passing Draft2020-12 metaschema checks, registry families=19; console script `pipd.exe doctor` also exit 0."},
+  {"id": 6, "verdict": "PASS", "claim": "the design chain and validate run green",
+   "evidence": "intake -> compile-pi -> bind-pd -> compile-ecp -> compile-tqaep all exit 0 with normal subject_ids (PD readiness=PREDEV_READY, probe=git); `validate --bundle` exit 0, verdict=PASS, checked=4, findings=[]."},
+  {"id": 7, "verdict": "PASS", "claim": "typed negative when the installed schema set is damaged",
+   "evidence": "corrupting ArtifactIdentity.schema.json -> exit 1 with typed JSON findings ('unreadable/unparseable schema member') and empty stderr (no traceback); removing WorkOrderCandidate.schema.json -> exit 1 ('registry not loadable … schema file missing'). Restoring the baseline returns to exit 0, so it is not a false positive."},
+  {"id": 8, "verdict": "PASS", "claim": "the claim ceiling is stated honestly",
+   "evidence": "release body lists FULL_S0_S4_INDEPENDENT_PASS / G_RELEASE_FULL_PASS / PRODUCTION_VERIFIED as NOT GRANTED; README marks PRODUCTION_VERIFIED and G-RELEASE_FULL_PASS 'NOT claimed' and DEL-018 'FAIL/EVIDENCE_GAP'; OWNER_LICENSE_DECISION.yaml states the same ceiling."},
+  {"id": 9, "verdict": "PASS", "claim": "no stop-ship counterexample found",
+   "evidence": "unsafe destinations (unauthorised roots, $HOME, C:\\, foreign trees, MSYS paths) all exit 2 with UNSAFE_DESTINATION and leave the canary intact; even --allow-replace preserves the old tree as canary.pipd-backup-<token> rather than deleting it. Secret scan: repo 0 hits; wheel and source.zip (1266 entries) 0 hits against PAT/OpenAI/AWS/PEM/bearer patterns. Declared environment installs; core chain usable; published hashes consistent."}
+ ],
+ "counterexamples": [],
+ "not_verified": [
+  "the repository's full test suite was not re-run",
+  "the 57-row SPEC/DEL base (28 evidenced / 10 active gaps / 19 deferred) was not audited row by row",
+  "S5-S8 runtime, host-native and Windows symlink/junction/reparse behaviour",
+  "no attestation or signature exists, so provenance was not cryptographically verified (manual SHA-256 only)",
+  "no full CVE / supply-chain vulnerability scan (targeted secret patterns and destination safety only)",
+  "behaviour of `validate` in a workspace without a schemas/ surface",
+  "the MSYS-path guard's dedicated message was not reached because argparse converts --out to WindowsPath first (still fail-closed, not a security gap)"
+ ],
+ "scope_note": "This receipt covers the immutable released artefact: tag v0.1.0-preview.1, commit cc9bf574, tree da39a1ef, and the wheel bytes c450dbef. It was issued BEFORE the post-review entry-point correction changed two MUTABLE surfaces (the repository front-page README on main, and the live release body). Those corrections are additive and the specific facts this receipt asserts about them still hold, but the correction itself is not covered here — it is covered by the round's own anonymous readback.",
+ "claim_ceiling": "Independent PASS_ONLY_THE_ABOVE_CLAIMS. This is NOT a full-gate acceptance: FULL_S0_S4_INDEPENDENT_PASS, G_RELEASE_FULL_PASS and PRODUCTION_VERIFIED remain NOT GRANTED, and DEL-018 RELEASE_MANIFEST@1 remains FAIL/EVIDENCE_GAP."
+}

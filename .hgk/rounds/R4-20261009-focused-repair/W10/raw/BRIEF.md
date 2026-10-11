@@ -1,0 +1,61 @@
+# LANE W10 — close the four findings the round-2 independent challenge still falsified
+
+Work only in `/w`. unittest, no `git` binary in this container (use `.git` ref files if you truly need the head,
+otherwise let the tool degrade and say so). **Do not run `unittest discover`.** Run only the modules named.
+Time-box ~20 minutes.
+
+## F1 — performance comparison must not round away a real overrun (C7')
+An independent checker reproduced a raw value of **2000.04 against a 2000 budget** and the gate did **not** flag it,
+because the raw value is rounded before the `exceeded` comparison. Fix `tools/perf_budget.py`:
+- the `exceeded` decision must use the **unrounded** raw measurement; rounding may only be applied to what is
+  printed (`value_display`);
+- keep all four numeric budgets byte-identical;
+- add a test asserting raw `2000.04` vs budget `2000` ⇒ `exceeded: true`, `verdict: "FAIL"`, non-zero exit.
+
+## F2 — the de-duplication size baseline must be real, or declared synthetic (C6')
+`tools/pi_dedup_check.py` reconstructs the "before" size from the **current** code path, so it reports a shrinkage
+while an independent comparison against the actual `HEAD` sources measured **growth**. Fix:
+- materialise the real `HEAD` version of `src/pipd_ls_sp/pipeline.py` and `src/pipd_ls_sp/requirements.py`
+  (e.g. `git show HEAD:<path>` into a temp dir, or `git archive`) and compile the PI there; report
+  `baseline_source: "HEAD"` together with the sha256 of the two files it actually compiled;
+- when git is unavailable (this container), do **not** claim shrinkage: set
+  `baseline_source: "SYNTHETIC_FROM_CURRENT"`, set `shrinkage_claimed: false`, and keep the honest
+  `current_tree_larger: true` field;
+- add a test for the synthetic path asserting `shrinkage_claimed` is false.
+
+## F3 — deny-list classifier misses a real writer-usage form (C9')
+The checker showed that a codex invocation whose sandbox mode is set to the forbidden value is classified `POLICY_MENTION` and the
+tool exits 0. Fix `tools/deny_list_scan.py` to classify as `WRITER_USAGE` at least:
+- a `--config`/`-c` argument whose value sets `sandbox_mode` to the forbidden value (single or double quoted);
+- a TOML setting `sandbox_mode = "the-forbidden-sandbox-mode"`, with or without a trailing `#` comment;
+- keep `POLICY_MENTION` for prose that forbids the flag (e.g. "the-forbidden-sandbox-mode 禁止再用") and for contract text;
+- add tests for both new usage forms plus the forbidden-prose case, and keep the R4-scope non-zero rule.
+
+## F4 — publication artifacts must be byte-stable across suite runs (FROZEN_DIGESTS)
+Running the test suite rewrites `.hgk/ao/pub/PUBLICATION_PROJECTION_MANIFEST.json` and
+`.hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION.json` and does not restore their prior bytes, so their digests are not
+reproducible (observed `15b40638f01e6414` / `2270f0df62f8a59d` instead of the recorded values). Fix the tests (not
+the gate) so they never write to those repository paths: write to a temporary directory, or restore the original
+bytes in a `finally` block. Then verify byte-stability:
+```
+cd /w; R=.hgk/rounds/R4-20261009-focused-repair/W10/raw; mkdir -p $R
+sha256sum .hgk/ao/pub/PUBLICATION_PROJECTION_MANIFEST.json .hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION.json > $R/pub_digests_before.txt
+python3 -m unittest tests.test_publication_projection -q > $R/unittest_pub.txt 2>&1; echo "exit=$?" >> $R/unittest_pub.txt
+sha256sum .hgk/ao/pub/PUBLICATION_PROJECTION_MANIFEST.json .hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION.json > $R/pub_digests_after.txt
+diff $R/pub_digests_before.txt $R/pub_digests_after.txt && echo "STABLE" | tee -a $R/pub_digests_after.txt
+```
+
+## Verify and capture
+```
+cd /w; R=.hgk/rounds/R4-20261009-focused-repair/W10/raw; mkdir -p $R
+python3 tools/perf_budget.py --check > $R/perf_check.txt 2>&1; echo "exit=$?" >> $R/perf_check.txt
+python3 tools/pi_dedup_check.py --check > $R/dedup_check.txt 2>&1; echo "exit=$?" >> $R/dedup_check.txt
+python3 tools/deny_list_scan.py > $R/deny_scan.txt 2>&1; echo "exit=$?" >> $R/deny_scan.txt
+python3 -m unittest tests.test_perf_budget tests.test_pi_dedup tests.test_deny_list_scan tests.test_publication_projection -v > $R/unittest_w10.txt 2>&1; echo "exit=$?" >> $R/unittest_w10.txt
+cp /briefs/W10.md $R/BRIEF.txt
+```
+Report in ≤12 lines: each exit code, whether F1/F2/F3/F4 are closed, and anything you could not do.
+
+## Forbidden
+- Never change a numeric budget; never delete or skip a test; never weaken an existing assertion.
+- Do not modify `fixtures/**`, `.hgk/artifacts/TT_REGISTER.json`, or another lane's files.

@@ -1,0 +1,74 @@
+## Environment note (read first)
+This repository uses **unittest**, not pytest, and the writer image has no `git` binary.
+- single module: `python3 -m unittest tests.test_tt_summary -v` (module path, not file path)
+- full suite  : `python3 -m unittest discover -s tests -q`   (baseline: 138 tests passed)
+- `git rev-parse HEAD` is unavailable; read `.git/refs/heads/master` or use the tool's degraded head probe.
+Replace every `python3 -m pytest ...` in this brief with the unittest equivalent above.
+
+# LANE W1 — publication projection manifest + immutable subject attestation (R3-EXT-01 / R-AUD-006,014)
+
+You are the admitted bounded writer for PIPD requirement `REQ-PIPD-R4-W1`.
+Work ONLY inside the repository root (`/w`). **No network access is available** — use the local git object store only.
+
+## Confirmed defect (external challenge §2)
+Two different subjects are being conflated:
+- local verified candidate: commit `10cb3d31fcbd54fffe64152f4b17085866d0d75e`, tree `bba26ad0634e46169270e81109f9db22c967602a`
+- published GitHub subject: commit `3aebbbce948871c07b875ab92acf263d298ecf38`, tree `1a7dc57f9403202c32d1bc01deb1925ac1f6412e`
+The local evidence manifest (1,667 entries, sealed against `10cb…`) is presented as if it described the published
+subject; 593 entries are located on GitHub, 1,074 are not (mostly `.hgk/rounds`, 8 `.hgk/ao`). `.hgk/artifacts/evidence_manifest.seal.json`
+still names the local candidate. Reading that seal as a statement about the published commit/tree must FAIL.
+
+Both commits exist locally (`git cat-file -e <sha>` succeeds), so all digests can be computed offline.
+
+## Deliverable 1 — `tools/build_publication_manifest.py` (new)
+CLI:
+- `--commit <sha> --tree <sha>` : the published subject (defaults to the published tuple above; resolve `r3-candidate` if the SHA is not given).
+- `--check`  : verify the projection; exit non-zero on any violation.
+- `--write`  : emit `.hgk/ao/pub/PUBLICATION_PROJECTION_MANIFEST.json`.
+
+The projection must contain, for **every** entry of the local evidence manifest:
+`path`, `local_sha256`, `disposition` in {`PUBLIC_IN_PUBLISHED_TREE`, `PRIVATE_ARCHIVE`, `EXCLUDED_OVERSIZE`, `NOT_PUBLISHED`},
+`published_blob_sha256` (when applicable, computed with `git cat-file -p <tree>:<path>`), and `reason` + `reference`
+(e.g. private archive path + sha, or the exclusion rule for `.hgk/rounds/R2-…/own-derived.db` = 130.09 MB > 100 MB GitHub limit).
+Also emit: `counts` (total / per disposition), `crosswalk_digest`, and `policy_version`.
+
+`--check` must FAIL (non-zero) when any of these hold:
+1. an entry claims `PUBLIC_IN_PUBLISHED_TREE` but the blob is absent from the published tree;
+2. the local product paths (`src/ tools/ tests/ schemas/ skills/ docs/ dist/ fixtures`) for the published commit differ
+   by even one byte from the same paths in the frozen local candidate `10cb3d31…` (product-path equality);
+3. counts do not reconcile to the local manifest total (no entry silently dropped);
+4. a seal/manifest that names a *different* candidate is used to assert the published subject.
+
+## Deliverable 2 — `tools/publication_attestation.py` (new)
+- `--build` : write the immutable sidecar `.hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION.json` containing
+  `commit`, `tree`, `product_digest` (sha256 over the sorted list of `path\0blob_sha256` for the product paths),
+  `manifest_digest`, `policy_version`, `checker_identity`, `generated_at`, `source_manifest_seal`.
+  Avoid any self-hash cycle: digest the payload, then store the digest next to it (never inside the digested bytes).
+- `--verify`: recompute from the local git objects and exit non-zero if commit, tree, product_digest or manifest_digest differ.
+
+## Deliverable 3 — `tests/test_publication_projection.py` (new)
+1. published-subject product paths are byte-identical to the frozen candidate's product paths.
+2. negative: an attestation built for commit `10cb3d31…` / tree `bba26ad0…` must **FAIL** verification against
+   the published `3aebbbce…` / `1a7dc57f…` subject.
+3. negative: marking a private `.hgk/rounds/...` path as public must FAIL `--check`.
+4. counts reconcile to the local manifest total; every entry has exactly one disposition and a reason.
+
+## Acceptance commands (capture raw output)
+```
+python3 tools/build_publication_manifest.py --write --check ; echo "exit=$?"
+python3 tools/publication_attestation.py --build --verify    ; echo "exit=$?"
+python3 -m pytest tests/test_publication_projection.py -q
+python3 -m pytest tests/ -q
+```
+Raw receipts to `.hgk/rounds/R4-20261009-focused-repair/W1/raw/` (`manifest_check.txt`, `attestation.txt`,
+`negatives.txt`, `pytest_w1.txt`, `pytest_full.txt`, `BRIEF.txt`, `CHANGED.txt`).
+
+## Hard constraints
+- Read-only git usage: `rev-parse`, `cat-file`, `ls-tree`, `diff`. **Never** commit, push, checkout, reset or rewrite anything.
+- Do NOT modify `.hgk/artifacts/evidence_manifest.json` or its seal — bind to them, never rewrite them.
+- Do NOT claim anywhere that the whole 1,667-entry manifest is publicly available.
+- Do NOT touch `tools/admit_technologies.py`, `tools/perf_budget.py`, `tools/tt_summary_check.py`, `src/pipd_ls_sp/**`.
+- If a digest cannot be computed offline, record `UNAVAILABLE` with the reason — never invent a digest.
+
+## Report back (short)
+Files added · the published tuple and product digest · counts per disposition · negative-mutation exit codes · anything not done.

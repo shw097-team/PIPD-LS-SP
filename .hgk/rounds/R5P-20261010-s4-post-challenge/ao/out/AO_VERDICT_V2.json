@@ -1,0 +1,107 @@
+{
+  "checker_id": "AO-R5P-INDEPENDENT-V2",
+  "subject_commit": "812af79422c087f0ef5a07188fbec061df6b47e0",
+  "subject_tree": "d3b79d2bc7aba08368a02a9f34204d14c9b06bbd",
+  "subject_identity_basis": "Commit/tree identifiers supplied by frozen-subject brief; no git state used. File identity independently re-derived using the declared bound scope.",
+  "wheel_sha256": "bb070a6f525382edc521bcf7fe127579e1e329024113ab4fe2881eeeea7b0a76",
+  "rebuilt_wheel_sha256": "1d04e2badb980bbfd8a727d0209e0882a3fd14e74e3af3ced0695517411edb55",
+  "wheel_bytes": 231852,
+  "checks": [
+    {
+      "id": "C1",
+      "verdict": "PASS",
+      "evidence": "/ao/v2/C1.json",
+      "note": "PASS independently confirmed: three local wheel installations exit 0; health doctor exit 0 with 19 families; both missing-ArtifactIdentity mutations exit 1 with JSON FAIL naming ArtifactIdentity, including from healthy /w. Fresh venvs use system-site-packages solely for existing offline jsonschema dependencies; product origins are in the new venvs. Rebuilt and exported wheels have identical 38 payloads; SHA difference is entirely ZIP creator-system metadata."
+    },
+    {
+      "id": "C4",
+      "verdict": "PASS",
+      "evidence": "/ao/v2/C4.json",
+      "note": "PASS repair confirmed: voting bytes_per_atom denominator stays 237, 10000 unvalidated fillers never vote. Identical filler 5338.616033755275 FAIL; exact attempt-1 subject_id restamping 6979.502109704641 FAIL; both subject_id/req_id restamping 6890.430379746836 FAIL; budget 2000. Rejected identity rates 5316.18487394958 / 161.5846439386539 / 159.5225163622155. Historical 343547 > 20000 FAIL remains recorded and non-voting. Gate --check exit 0 for healthy input; only git metadata callback bypassed to obey no-git-state rule."
+    },
+    {
+      "id": "C6",
+      "verdict": "PASS",
+      "evidence": "/ao/v2/C6.json",
+      "note": "PASS for the specified README first-screen check: line 39 names r5p-post-challenge-repair and exact baseline; states S4 internal evaluation / LicenseRef-PIPD-Proprietary / no public-use grant; lines 7 and 39 point to ACCEPTANCE.md. Non-blocking scoped limitation: ACCEPTANCE.md itself still describes the baseline r5-s4-packreader D1 round, not this R5P subject; do not treat that baseline receipt as current acceptance."
+    },
+    {
+      "id": "C7",
+      "verdict": "PASS",
+      "evidence": "/ao/v2/C7.json",
+      "note": "PASS for native-platform resolved-path containment; attempt-1 security-defect oracle withdrawn. Exact argv and cwd=/w still exit 0 CANDIDATE on Linux; exact test fails 1 subtest at line 88. Linux resolves C:/Windows/system32/x.dll to /w/C:/Windows/system32/x.dll, inside the authorised root. From cwd=/ao, the same drive-prefixed spelling is rejected (exit 2); /etc/passwd and ../../escape.py rejected with REPAIR_SCOPE (exit 2). Windows spelling is absolute and outside a normal repository root; native Windows execution not independently run here. Product code recognises a drive prefix but uses native Path.resolve; thus rejection of all foreign Windows absolute spellings on Linux is NOT established and cannot be claimed. No outside-root write or actual native-path escape demonstrated."
+    },
+    {
+      "id": "C8",
+      "verdict": "PASS",
+      "evidence": "/ao/v2/C8.json",
+      "note": "PASS independently recomputed: one explicit product_snapshot.walk definition, 288 files, 4ee712e899e9f4aa14d46ba1d3f879eb6b45ad0ae4a8b02bf1d9847b5f8cc579. Round script and independent AO implementation both match DIGEST_BINDING.json. Narrow 251-file digest d2a90ad3500e7681dcf9c8e097480adc847f218b7293aabd8369d6d50223b672 explicitly rejected."
+    },
+    {
+      "id": "C2",
+      "verdict": "FAIL",
+      "evidence": "/ao/v2/C2.json",
+      "note": "FAIL / EVIDENCE_GAP, not a confirmed product defect. Container is not a valid full-suite environment (no git/.git, read-only /w, inaccessible Windows fixture locator); full suite deliberately not rerun. Original required host raw reports 311 tests in 59.608s, OK (skipped=6). A new host_fullsuite_repair_bound.txt appeared during the AO turn and completed: command and interpreter disclosed, supplied subject commit/tree stated, 311 tests in 57.621s, OK (skipped=6), reported process exit 0. This resolves the original missing command/exit metadata gap. However line 6 explicitly records a non-clean pre-run worktree (2 status lines), without naming the paths or hashing the executed working files. Therefore correspondence of the executed host working tree to the frozen /w snapshot is still unestablished. Require the two status paths plus their disposition/file hashes, or a clean pre-run product-snapshot-bound host receipt, alongside the raw file. No confirmed product defects from the 25 attempt-1 failure/error events: missing git/writes/Windows fixture locator explain 24, and C7 is platform oracle disagreement. Six skips remain scoped omissions; no independently executed Windows/full-suite claim."
+    }
+  ],
+  "attempt1_recheck": [
+    {
+      "id": "C1",
+      "attempt1": "PASS",
+      "now": "PASS",
+      "why": "PASS independently confirmed: three local wheel installations exit 0; health doctor exit 0 with 19 families; both missing-ArtifactIdentity mutations exit 1 with JSON FAIL naming ArtifactIdentity, including from healthy /w. Fresh venvs use system-site-packages solely for existing offline jsonschema dependencies; product origins are in the new venvs. Rebuilt and exported wheels have identical 38 payloads; SHA difference is entirely ZIP creator-system metadata."
+    },
+    {
+      "id": "C4",
+      "attempt1": "FAIL",
+      "now": "PASS",
+      "why": "PASS repair confirmed: voting bytes_per_atom denominator stays 237, 10000 unvalidated fillers never vote. Identical filler 5338.616033755275 FAIL; exact attempt-1 subject_id restamping 6979.502109704641 FAIL; both subject_id/req_id restamping 6890.430379746836 FAIL; budget 2000. Rejected identity rates 5316.18487394958 / 161.5846439386539 / 159.5225163622155. Historical 343547 > 20000 FAIL remains recorded and non-voting. Gate --check exit 0 for healthy input; only git metadata callback bypassed to obey no-git-state rule."
+    },
+    {
+      "id": "C6",
+      "attempt1": "FAIL",
+      "now": "PASS",
+      "why": "PASS for the specified README first-screen check: line 39 names r5p-post-challenge-repair and exact baseline; states S4 internal evaluation / LicenseRef-PIPD-Proprietary / no public-use grant; lines 7 and 39 point to ACCEPTANCE.md. Non-blocking scoped limitation: ACCEPTANCE.md itself still describes the baseline r5-s4-packreader D1 round, not this R5P subject; do not treat that baseline receipt as current acceptance."
+    },
+    {
+      "id": "C7",
+      "attempt1": "FAIL",
+      "now": "PASS",
+      "why": "PASS for native-platform resolved-path containment; attempt-1 security-defect oracle withdrawn. Exact argv and cwd=/w still exit 0 CANDIDATE on Linux; exact test fails 1 subtest at line 88. Linux resolves C:/Windows/system32/x.dll to /w/C:/Windows/system32/x.dll, inside the authorised root. From cwd=/ao, the same drive-prefixed spelling is rejected (exit 2); /etc/passwd and ../../escape.py rejected with REPAIR_SCOPE (exit 2). Windows spelling is absolute and outside a normal repository root; native Windows execution not independently run here. Product code recognises a drive prefix but uses native Path.resolve; thus rejection of all foreign Windows absolute spellings on Linux is NOT established and cannot be claimed. No outside-root write or actual native-path escape demonstrated."
+    },
+    {
+      "id": "C8",
+      "attempt1": "FAIL",
+      "now": "PASS",
+      "why": "PASS independently recomputed: one explicit product_snapshot.walk definition, 288 files, 4ee712e899e9f4aa14d46ba1d3f879eb6b45ad0ae4a8b02bf1d9847b5f8cc579. Round script and independent AO implementation both match DIGEST_BINDING.json. Narrow 251-file digest d2a90ad3500e7681dcf9c8e097480adc847f218b7293aabd8369d6d50223b672 explicitly rejected."
+    },
+    {
+      "id": "C2",
+      "attempt1": "FAIL",
+      "now": "FAIL",
+      "why": "FAIL / EVIDENCE_GAP, not a confirmed product defect. Container is not a valid full-suite environment (no git/.git, read-only /w, inaccessible Windows fixture locator); full suite deliberately not rerun. Original required host raw reports 311 tests in 59.608s, OK (skipped=6). A new host_fullsuite_repair_bound.txt appeared during the AO turn and completed: command and interpreter disclosed, supplied subject commit/tree stated, 311 tests in 57.621s, OK (skipped=6), reported process exit 0. This resolves the original missing command/exit metadata gap. However line 6 explicitly records a non-clean pre-run worktree (2 status lines), without naming the paths or hashing the executed working files. Therefore correspondence of the executed host working tree to the frozen /w snapshot is still unestablished. Require the two status paths plus their disposition/file hashes, or a clean pre-run product-snapshot-bound host receipt, alongside the raw file. No confirmed product defects from the 25 attempt-1 failure/error events: missing git/writes/Windows fixture locator explain 24, and C7 is platform oracle disagreement. Six skips remain scoped omissions; no independently executed Windows/full-suite claim."
+    }
+  ],
+  "classification": {
+    "C1": "NON_BLOCKING_OBSERVATION",
+    "C2": "EVIDENCE_GAP",
+    "C4": "NON_BLOCKING_OBSERVATION",
+    "C6": "NON_BLOCKING_OBSERVATION",
+    "C7": "ORACLE_DISAGREEMENT",
+    "C8": "NON_BLOCKING_OBSERVATION"
+  },
+  "excluded_checks": {
+    "C3": "OUT_OF_SCOPE: attempt-1 PASS, not rerun on repair subject",
+    "C5": "OUT_OF_SCOPE: attempt-1 PASS, not rerun on repair subject"
+  },
+  "overall": "PARTIAL",
+  "independent_of_maker": true,
+  "independence_scope": "All focused measurements independently run against /w. Host full-suite raw file was read, not independently executed; it remains candidate evidence and C2 is not accepted.",
+  "human_ratification": "PENDING",
+  "claim_ceiling": "CANDIDATE_ONLY",
+  "bound_product_digest": "4ee712e899e9f4aa14d46ba1d3f879eb6b45ad0ae4a8b02bf1d9847b5f8cc579",
+  "bound_file_count": 288,
+  "host_suite_raw_sha256": "46091621d18c747da67848fd83c8e392dccf8c8e00d579f8b3d357bd93e894d9",
+  "commands_index": "/ao/v2/commands.jsonl",
+  "host_bound_suite_raw_sha256": "a21ce57638c78a627b343ef69203e7279d6f86aada4ef0599461516e44de12cb"
+}

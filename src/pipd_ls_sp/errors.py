@@ -95,6 +95,24 @@ class ExportSecretFound(PipdError):
     code = "EXPORT_SECRET_SCAN"
 
 
+class ExportMemberUnsafe(PipdError):
+    """A member of the export file set has an absolute, escaping or ``..`` path.
+
+    R5-WO3 (REQ-PIPD-R5-EXPORT-003): the portable bundle refuses the whole export,
+    typing the refusal and writing nothing, rather than shipping a traversing path.
+    """
+    code = "EXPORT_MEMBER_UNSAFE"
+
+
+class ExportVerificationFailed(PipdError):
+    """The staged bundle failed independent re-verification of its archive.
+
+    R5-WO3: the published bundle is only published after re-opening the archive and
+    recomputing every member digest; a mismatch is a typed refusal.
+    """
+    code = "EXPORT_VERIFY_FAILED"
+
+
 class DiffIncompatible(PipdError):
     code = "DIFF_INCOMPATIBLE_SCHEMA"
 

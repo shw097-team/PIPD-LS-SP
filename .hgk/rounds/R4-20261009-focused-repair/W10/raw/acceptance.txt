@@ -1,0 +1,12 @@
+tools/tt_summary_check.py --assert -> exit=0
+tools/admit_technologies.py --report -> exit=1
+tools/build_spec_del_crosswalk.py --check -> exit=0
+tools/deny_list_scan.py -> exit=0
+tools/pi_dedup_check.py --check -> exit=0
+tools/perf_budget.py --check -> exit=1
+tools/build_publication_manifest.py --check -> exit=0
+tools/build_publication_manifest.py --check --current -> exit=1
+tools/publication_attestation.py --verify -> exit=0
+check failed: 1 violation(s)
+VIOLATION: PIPD-SP-SPEC-001: EVIDENCED oracle file missing: tests/ORACLE_DOES_NOT_EXIST.py
+check failed: 1 violation(s)

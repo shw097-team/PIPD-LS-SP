@@ -1,0 +1,184 @@
+{
+ "schema": "HGK-EXECUTE-LANE-LAUNCHER-RECEIPTS/2",
+ "supersedes": "HGK-EXECUTE-LANE-LAUNCHER-RECEIPTS/1 at this same path. Version 1 was WRONG; it is corrected here rather than deleted, so the correction itself is auditable.",
+ "round": "R5R-20261010-s4-ce-repair-and-codex-verify",
+
+ "correction_notice": {
+  "what_version_1_claimed": "Four Write runs. Run 1 = EXECUTE_PROMPT.txt with log T165257628Z-m0, credited with delivering the CE-1/CE-2 repair in commit a503efe. The round narrative also stated that the first lane run 'died' and was relaunched, and that the relaunch completed the repair.",
+  "what_is_actually_true": "There were FIVE Write runs, not four, and the attribution was inverted. The ORIGINAL run (EXECUTE_PROMPT.txt, log T163343790Z-m0) is the one that performed the CE-1/CE-2 repair. The run I relaunched as a supposed replacement (EXECUTE_PROMPT2.txt, log T165257628Z-m0) made ZERO file changes and stopped on purpose after detecting that another writer was mutating the same worktree. Version 1 also paired run 1 with the wrong log file.",
+  "how_it_was_caught": "A delayed completion notification arrived for proc_79e06a8b6ac0 reporting exit code 0, contradicting this round's own record that the run had died. The logs settled it: codex-write-20261010T163343790Z-m0.log contains turn.completed=1, 32 agent messages and 11 file_change events, closing with 'Done -- both defects repaired, tested red-green'. The 'died' verdict had come from a ps | grep codex.exe liveness check returning no match, plus a log idle for about 222 seconds while the model was thinking. That check is unreliable and the run was never dead."
+ },
+
+ "operational_hazard_recorded": {
+  "hazard": "Two bounded writers edited the same worktree CONCURRENTLY.",
+  "window": "Run 1 created 00:33:43, last written 01:03:46. Run 2 created 00:52:57, last written 01:24:41. They overlapped 00:52:57-01:03:46, about 11 minutes.",
+  "cause": "The maker misdiagnosed run 1 as dead and relaunched the same order before run 1 had finished.",
+  "consequence": "Benign in this instance only. Run 2 wrote nothing (0 file_change events) and reported: 'A concurrent writer has been actively mutating this same worktree throughout my session... I need to stop here rather than continue, because the premise of this task no longer matches the repository.' No partial or interleaved write from run 2 appears in any commit.",
+  "why_it_matters_anyway": "Had run 2 proceeded, two writers would have been patching src/ and tests/ simultaneously and the red/green evidence in execute/ would have belonged to no single run. The round's serial model was violated; the artefacts stayed coherent because of the second writer's own caution, not because of any control.",
+  "aggravating_false_premise": "The prompt given to run 2 asserted as established fact that 'A previous run of this exact work order was cut off before it implemented anything... jsonschema is present now... The baseline is GREEN'. By the time run 2 read it, the previous run HAD implemented the repair, so the premise was false. Run 2's log records exactly this: 'The premise of this task no longer matches the repository.' A false premise was supplied to a bounded writer as fact.",
+  "prevention_rule": "Judge a lane dead from its log's terminal event (turn.completed present, or a JSONL ending on an unanswered item.started), never from ps output or log idleness. A model call in flight shows no process of its own and no log growth for minutes at a time."
+ },
+
+ "claim_ceiling_declared_by_the_launcher_itself": {
+  "field": "transported_model",
+  "observed_value": "opencode-go/",
+  "companion_field": "transported_model_is_backend_weights_proof",
+  "observed_value_of_companion": false,
+  "what_this_means": "The launcher's own receipt states that the transported model token does NOT prove the backend weights. Every claim in this round that the writer ran on opencode-go/deepseek-v4.1-flash therefore sits at the ceiling of 'the lane was pinned to that sanctioned pair, the front door reported it, and the transport carried it' -- NOT 'the serving weights were independently verified'. No backend-weights attestation exists for this round and none is claimed.",
+  "corroboration": "The lane registry records the same posture: a successful lane turn proves the token is routable and dispatchable, not that the model ran with its catalog metadata. Registry admission_status for EXECUTE remains UNPROVEN."
+ },
+
+ "invariants_identical_across_all_five_runs": {
+  "task_id": "HGK_CODEX_DESKTOP_HERMES_CLI_PROVIDER_LANE_ISOLATION_ONLY",
+  "codex_executable": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\2e5e00daee91c61d\\codex.exe",
+  "codex_version_readback": "codex-cli 0.162.0-alpha.17.2",
+  "codex_sha256": "D13914CED6C7AF174D8D638DB938284231227312104B06A25E9608C632A7DAEC",
+  "codex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+  "opencodex_version_readback": "opencodex 2.11.0",
+  "opencodex_port": 10101,
+  "provider": "opencode-go",
+  "model": "deepseek-v4.1-flash",
+  "openai_fallback": false,
+  "process_scoped": true,
+  "credential_source": "canonical-hermes-profile-env",
+  "write_chain": ["opencode-go/deepseek-v4.1-flash"],
+  "write_chain_exhausted": false,
+  "human_config_sha256": "92EC7F840D337912CDA20A467410F85807DE2BBA31EF3777B4F55416F5441B48",
+  "execution_gateway": {
+   "url": "http://127.0.0.1:10100/v1",
+   "upstream": "http://127.0.0.1:10101",
+   "sanctioned_provider": "opencode-go",
+   "sanctioned_model": "deepseek-v4.1-flash",
+   "frontdoor_source_sha256": "99353cd3566fac60bee9b077d83b4117865cd4fa1718de8da01677cf2a7e7b43",
+   "codex_arg_openai_base_url": "openai_base_url=http://127.0.0.1:10100/v1",
+   "request_compression": "disabled (features.enable_request_compression=false)"
+  },
+  "interpretation": "The gateway source hash, the codex binary hash and the human config hash are identical across all five runs, so the five Write invocations differ only in their prompt. Each run used exactly one attempt (index 0, exit 0); no fallback was consumed and the chain was not exhausted."
+ },
+
+ "runs": [
+  {
+   "run": 1,
+   "process_session": "proc_79e06a8b6ac0",
+   "order": "EXECUTE_PROMPT.txt (WO-R5R-REPAIR-002, the original order)",
+   "scope": "CE-1 and CE-2 repair",
+   "write_action": "Write",
+   "write_model_used": "opencode-go/deepseek-v4.1-flash",
+   "log": "codex-write-20261010T163343790Z-m0.log",
+   "log_created_local": "00:33:43",
+   "log_last_written_local": "01:03:46",
+   "log_bytes": 289300,
+   "turn_completed": true,
+   "agent_messages": 32,
+   "file_change_events": 11,
+   "files_touched": [
+    "tests/test_ce_repair_regression.py (added)",
+    "src/pipd_ls_sp/registry.py",
+    "src/pipd_ls_sp/validate.py",
+    "src/pipd_ls_sp/pipeline.py",
+    "src/pipd_ls_sp/cli.py",
+    "execute/SUMMARY.md",
+    "execute/proposed_patch.diff"
+   ],
+   "closing_message": "Everything required is in place. Here's where the round landed. ## Done -- both defects repaired, tested red-green",
+   "outcome": "THIS RUN PERFORMED THE REPAIR. Its output is what commit a503efe records.",
+   "maker_error_about_this_run": "The maker declared it dead and relaunched. It was never dead; it completed."
+  },
+  {
+   "run": 2,
+   "process_session": "proc_80a9c90348b0",
+   "order": "EXECUTE_PROMPT2.txt (the unnecessary relaunch)",
+   "scope": "intended to perform the same repair",
+   "write_action": "Write",
+   "write_model_used": "opencode-go/deepseek-v4.1-flash",
+   "log": "codex-write-20261010T165257628Z-m0.log",
+   "log_created_local": "00:52:57",
+   "log_last_written_local": "01:24:41",
+   "log_bytes": 299011,
+   "turn_completed": true,
+   "agent_messages": 40,
+   "file_change_events": 0,
+   "files_touched": [],
+   "closing_message": "I need to stop here rather than continue, because the premise of this task no longer matches the repository, and another writer is active in the very same worktree.",
+   "outcome": "WROTE NOTHING and stopped by design. This is the correct behaviour under the circumstances and it is what kept the artefacts coherent. This is the run version 1 of this file wrongly credited with the repair."
+  },
+  {
+   "run": 3,
+   "process_session": "proc_6a8c74548ae8",
+   "order": "EXECUTE_PROMPT3.txt",
+   "scope": "second CE-1-class site: init_workspace",
+   "write_action": "Write",
+   "write_model_used": "opencode-go/deepseek-v4.1-flash",
+   "log": "codex-write-20261010T171119351Z-m0.log",
+   "log_created_local": "01:11:19",
+   "log_last_written_local": "01:38:43",
+   "log_bytes": 266413,
+   "turn_completed": true,
+   "file_change_events": 9,
+   "files_touched": [
+    "src/pipd_ls_sp/workspace.py",
+    "tests/test_ce_repair_regression.py",
+    "execute/SUMMARY.md",
+    "execute/red_state.txt",
+    "execute/green_state.txt",
+    "(two temporary helper scripts, removed again by the run itself)"
+   ],
+   "outcome": "commit afb29d0"
+  },
+  {
+   "run": 4,
+   "process_session": "proc_5611538d2eee",
+   "order": "EXECUTE_PROMPT4.txt",
+   "scope": "tracked_files heuristic: assert the guard's real intent",
+   "write_action": "Write",
+   "write_model_used": "opencode-go/deepseek-v4.1-flash",
+   "log": "codex-write-20261010T174004713Z-m0.log",
+   "log_created_local": "01:40:04",
+   "log_last_written_local": "01:49:25",
+   "log_bytes": 81200,
+   "turn_completed": true,
+   "file_change_events": 7,
+   "files_touched": [
+    "tests/test_tooling_executes.py",
+    "execute/red_state.txt",
+    "execute/green_state.txt",
+    "execute/SUMMARY.md"
+   ],
+   "outcome": "commit c18c027"
+  },
+  {
+   "run": 5,
+   "process_session": "proc_2a3923325f2a",
+   "order": "EXECUTE_PROMPT5.txt",
+   "scope": "close the checker's counterexample CE-CODEX-TRACE-WIDENING",
+   "write_action": "Write",
+   "write_model_used": "opencode-go/deepseek-v4.1-flash",
+   "log": "codex-write-20261010T180158579Z-m0.log",
+   "log_created_local": "02:01:58",
+   "log_last_written_local": "02:10:51",
+   "log_bytes": 98506,
+   "turn_completed": true,
+   "file_change_events": 7,
+   "files_touched": [
+    "src/pipd_ls_sp/validate.py",
+    "src/pipd_ls_sp/pipeline.py",
+    "tests/test_ce_repair_regression.py",
+    "execute/red_state.txt",
+    "execute/green_state.txt",
+    "execute/SUMMARY.md"
+   ],
+   "outcome": "commit 1ab17d1"
+  }
+ ],
+
+ "abandoned_attempt_disclosed": {
+  "what": "Before any launcher run, codex.exe was invoked directly with the governed CODEX_HOME.",
+  "outcome": "The lane answered the model call but rejected every CreateProcess, so it could read no file and run no command, and was terminated. It produced no change.",
+  "why_recorded": "It is a deviation that was attempted and abandoned; the round's five Write runs are all launcher-invoked. Recording it keeps the 'all writers went through the sanctioned entry point' claim checkable."
+ },
+
+ "checker_lane_has_no_equivalent_receipt": {
+  "why": "The independent checker was invoked directly with its own CODEX_HOME, because the launcher's Write action fails closed for OAuth routes (ERR_EXECUTE_OAUTH_BOUNDED_WRITER_ADMISSION_REQUIRED) and the checker is not a writer.",
+  "consequence": "For the two checker runs there is no launcher receipt attesting the model or the gateway. Their provenance is the CLI's own session output, the JSONL transcript and the verdict.json files in verify-codex/ and verify-codex-2/. Stated so the asymmetry between the writer and checker evidence is not mistaken for the checker being launcher-attested."
+ }
+}

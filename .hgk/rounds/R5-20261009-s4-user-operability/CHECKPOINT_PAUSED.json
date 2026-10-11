@@ -1,0 +1,179 @@
+{
+ "schema": "PIPD-ROUND-CHECKPOINT/1",
+ "round": "R5-20261009-s4-user-operability",
+ "instruction_id": "PIPD-LS-SP-HERMES-R5-S4-USER-OPERABILITY-FOCUSED-REPAIR",
+ "state": "CHECKPOINT_PAUSED",
+ "pause_reason": "USER_ORDERED_PAUSE (out-of-band: 我要暫停任務，你必須先下CHECK POINT)",
+ "paused_at": "2026-10-09T21:14+08:00 (2026-10-09T13:14Z)",
+ "claim_ceiling": "REPAIR_CANDIDATE_ONLY (compiler PASS + admission only; no independent acceptance)",
+ "governance": {
+  "owner_control_plane": "HG-KSEOS_ONLY",
+  "policy_consumption_trace": "HGK doctor",
+  "hgk_doctor": "verdict PASS, blocking []",
+  "hgk_project_id": "PIPD-LS-SP-20261008",
+  "hgk_state": "EXECUTING",
+  "hgk_checkpoint_id": "CK-20261008-B1083733",
+  "engineering_write_scope": "PIPD repo mounted rw into the writer container (container mount allowlist = primary boundary); per-path restriction carried in the workorder brief",
+  "independent_pass": "NOT_GRANTED",
+  "released": "NOT_GRANTED",
+  "production_verified": "NOT_GRANTED",
+  "pre_w3": "TEMP_CLOSED (independent)"
+ },
+ "frozen_inputs": {
+  "R5_repair_prompt": {
+   "path": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/attachments/PIPD-LS-SP_HERMES_R5_S4_USER_USABILITY_FOCUSED_REPAIR_PROMPT_2026-10-09.md",
+   "sha256": "4e9f7180c29c450f37a1cf0b1e35a3c8ba67ddf40bb81da1edab46cce90f9f75",
+   "bytes": 27271
+  },
+  "R4_external_challenge_report": {
+   "path": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/attachments/PIPD_LS_SP_R4_S4_User_Usability_PostRepair_External_Acceptance_2026-10-09.md",
+   "sha256": "34b0347454d2ee723996d3e1949583f288eb4b3e8c13e3464bb3ee72ae70e55f",
+   "bytes": 54382,
+   "kb_mirror_identical": true
+  },
+  "R4_evidence_master": {
+   "path": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/實作證據/PIPD-LS-SP_R4_FOCUSED_REPAIR_EVIDENCE_2026-10-09.md",
+   "sha256": "1ec7e834da244a280a2ffb89a1c1c7876bbf3281c355c68475ffbaf2ab3190f7"
+  },
+  "compiler_bundle": "C:/projects/Agent_Workspace/知識庫/工程基座/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler (SKILL + 6 references + prompt-contract.schema.json + scripts/prompt_contract_compiler.py)",
+  "compiler_sha256": "2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9"
+ },
+ "prompt_compiler_gate": {
+  "contract_path": ".hgk/preflight/R5-compiler/R5.CONTRACT.json",
+  "contract_sha256": "f74779091b1be471e134fc5eeb4fbf370078455fb55eb4242a4a88cb7cf60095",
+  "rendered_prompt_sha256": "c17d956b1f8f0a0d0530c21f67f862a2d6a95e1ef22bf124df6e28d5c0d9ea2c",
+  "lint_exit": 0,
+  "activation_exit": 0,
+  "acceptance_exit": 0,
+  "compile_exit": 0,
+  "duplication_exit": 0,
+  "duplication_ratios": {"R5_prompt": 0.005286, "R4_report": 0.0},
+  "receipt_verdict": "PROMPT_COMPILE_PASS",
+  "receipt_independent_claim": "NOT_EVALUATED",
+  "receipt_runtime_claim": "NOT_EVALUATED",
+  "receipt_production_claim": "NOT_CLAIMED",
+  "rejected_iterations": 0,
+  "first_iteration_note": "passed on the first submitted contract (no gate relaxation, no validator edit)"
+ },
+ "hgk_admission": {
+  "artifact": ".hgk/preflight/R5-compiler/admission/r5_admission.json",
+  "admitted": [
+   {"requirement_id": "REQ-PIPD-R5-DEST-001", "state": "FROZEN", "taskspec": "TS-req-pipd-r5-dest-001", "workorder": "WO-TS-req-pipd-r5-dest-001", "owner": "PIPD-EC", "priority": "P0"},
+   {"requirement_id": "REQ-PIPD-R5-DIST-002", "state": "FROZEN", "taskspec": "TS-req-pipd-r5-dist-002", "workorder": "WO-TS-req-pipd-r5-dist-002", "owner": "PKG-08", "priority": "P0"},
+   {"requirement_id": "REQ-PIPD-R5-EXPORT-003", "state": "FROZEN", "taskspec": "TS-req-pipd-r5-export-003", "workorder": "WO-TS-req-pipd-r5-export-003", "owner": "PIPD-EC", "priority": "P1"},
+   {"requirement_id": "REQ-PIPD-R5-UAT-004", "state": "FROZEN", "taskspec": "TS-req-pipd-r5-uat-004", "workorder": "WO-TS-req-pipd-r5-uat-004", "owner": "TQAEP-CHECKER", "priority": "P1"},
+   {"requirement_id": "REQ-PIPD-R5-PERF-005", "state": "FROZEN", "taskspec": "TS-req-pipd-r5-perf-005", "workorder": "WO-TS-req-pipd-r5-perf-005", "owner": "PERF-OWNER", "priority": "P1"},
+   {"requirement_id": "REQ-PIPD-R5-PUBLISH-006", "state": "FROZEN", "taskspec": "TS-req-pipd-r5-publish-006", "workorder": "WO-TS-req-pipd-r5-publish-006", "owner": "EVIDENCE-OWNER", "priority": "P1"},
+   {"requirement_id": "REQ-PIPD-R5-ORCH-007", "state": "FROZEN", "taskspec": "TS-req-pipd-r5-orch-007", "workorder": "WO-TS-req-pipd-r5-orch-007", "owner": "HGK-ORCH-OWNER", "priority": "P1"}
+  ],
+  "errors": [],
+  "execution_binding": "not separately issued; the writer's enforcement is the container mount allowlist recorded under writer_lane.image_digest"
+ },
+ "baseline_git_state": {
+  "repo": "C:/Projects/Agent_Workspace/PIPD",
+  "branch": "master",
+  "head": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+  "head_subject": "r3: evidence-only close-out after independent verification (code delta = 0)",
+  "refs": {"master": "7c5bc58", "r3-candidate": "3aebbbc (matches the published 'main' named in the R4 report)"},
+  "remote": "none (never configured) — the published GitHub subject cd8a06e4c066a40398a4012b7b3908ac11408a2b does NOT exist as a local git object; `git cat-file -t cd8a06e...` -> fatal: could not get object info",
+  "porcelain_entries_before_round": 156,
+  "porcelain_entries_at_pause": 162,
+  "product_files_hashed": 248,
+  "product_files_changed_by_this_round": 0,
+  "uncommitted": true,
+  "pushed": false,
+  "worktrees": ["C:/Projects/Agent_Workspace/PIPD (master)", "C:/tmp/ao_wt_5e3409b (detached)", "C:/tmp/ao_wt_911c93a (detached)"]
+ },
+ "writer_lane": {
+  "image": "pipd-r4-writer:4",
+  "image_id": "sha256:e4075381df34",
+  "codex_cli_in_image": "codex-cli 0.162.0",
+  "model": "opencode-go/deepseek-v4.1-flash",
+  "model_endpoint": "host.docker.internal:10100 (openai_base_url) — HTTP200 under the egress lock",
+  "mounts": [
+   "C:/Projects/Agent_Workspace/PIPD:/w (rw — the admitted WriteSet)",
+   "C:/Users/user/AppData/Local/HG-KSEOS/codex-hermes:/cx:ro",
+   "C:/Projects/Agent_Workspace/PIPD/.hgk/preflight/R5-compiler/lane:/briefs:ro"
+  ],
+  "egress_lock": "ACTIVE — loopback + gateway 192.168.65.254 ALLOW, all other egress DROP (verified: external HTTP/DNS blocked, model endpoint HTTP200)",
+  "credentials_in_image": "none",
+  "git_in_image": "absent",
+  "negative_matrix": {
+   "admitted_write": "SUCCEEDED (visible on the host)",
+   "ro_mount_write": "DENIED",
+   "unmounted_path_write": "DENIED",
+   "symlink_escape": "DENIED",
+   "foreign_absolute_write": "DENIED",
+   "secret_path": "ABSENT",
+   "egress_external": "BLOCKED (DNS gaierror; HTTP refused)",
+   "model_endpoint": "HTTP200",
+   "lane_codex_call": "CODEX_R5_LANE_OK"
+  },
+  "enforcement_caveat": "codex `-s workspace-write` CANNOT be used in this container: `unshare -U` is EPERM and /usr/bin/bwrap is absent, so bubblewrap cannot create a namespace and every tool call fails. Verified both ways. The lane therefore ran with `-s danger-full-access -c approval_policy=never` INSIDE the container, where the enforced OS boundary is the container mount allowlist (+ egress lock + no credentials + no git) — the same pattern recorded as validated for this stack. The per-path WriteSet is carried by the workorder brief, not by codex's sandbox."
+ },
+ "workorders": {
+  "WO-S4-DEST-001": {"requirement": "REQ-PIPD-R5-DEST-001", "status": "ATTEMPTED_THEN_ABORTED_BY_PAUSE_ORDER", "brief": ".hgk/preflight/R5-compiler/lane/brief_wo1_dest.md", "raw_log": ".hgk/preflight/R5-compiler/lane/log_wo1.txt", "first_attempt": "PROMPT-only sandbox attempt aborted: the writer reported the bwrap failure and made no write", "second_attempt": "launched with the container-boundary pattern, then killed on the user's pause order while still in the read-only exploration phase", "files_written_by_lane": [], "verified": false},
+  "WO-S4-DIST-002": {"requirement": "REQ-PIPD-R5-DIST-002", "status": "NOT_STARTED"},
+  "WO-S4-EXPORT-003": {"requirement": "REQ-PIPD-R5-EXPORT-003", "status": "NOT_STARTED"},
+  "WO-S4-UAT-004": {"requirement": "REQ-PIPD-R5-UAT-004", "status": "NOT_STARTED"},
+  "WO-S2-PERF-005": {"requirement": "REQ-PIPD-R5-PERF-005", "status": "OWNER_GATED (unchanged; standing FAIL 343547 > 20000 must stay visible)"},
+  "WO-R4-PUBLISH-006": {"requirement": "REQ-PIPD-R5-PUBLISH-006", "status": "NOT_STARTED"},
+  "WO-HGK-ORCH-007": {"requirement": "REQ-PIPD-R5-ORCH-007", "status": "CONDITIONAL — triggered in practice by the lane finding below"}
+ },
+ "tests": {
+  "done": ["native prompt-contract compiler gate (5 subcommands, all exit 0)", "HGK doctor (blocking [])", "HGK admission + checkpoint readback", "container lane negative matrix + model/codex probe"],
+  "pending": ["tests.test_project_destination_safety (not written yet)", "tests.test_web_pack / test_host_projection / test_cli_typed_errors regression after WO-1", "full unittest discover baseline", "UAT-00..12 (13 cases, 3 profiles, 2-process replay)", "fresh-venv wheel install matrix", "export bundle verification", "independent officer re-run on the frozen candidate"]
+ },
+ "rollback_pointer": {
+  "purpose": "restore the WO-1 WriteSet to its pre-lane bytes",
+  "dir": ".hgk/preflight/R5-compiler/rollback/wo1",
+  "files": {
+   "cli.py": "6428e9763e40a49289b71c324f3427bbc1fc278530b7cf0959d84c8ba3938609",
+   "projection.py": "8b02bc9b13b31e0a79d03bfab1e7ca4638505c30cc42f97d8dcda7ce0fd13e96",
+   "workspace.py": "27fa6c1b3c9001ffdc6d1109119eea8ff9a21e5c5d16ade093d0fb278bbafa5a"
+  },
+  "snapshot_before": ".hgk/preflight/R5-compiler/snapshots/before_wo1.json",
+  "snapshot_at_pause": ".hgk/preflight/R5-compiler/snapshots/after_wo1abort.json",
+  "abort_cleanliness": "0/248 product files changed; no partial edit to recover"
+ },
+ "model_sod": {
+  "mandated": {
+   "plan": "GPT 6.1 SOL-MEDIUM (OpenAI OAuth)",
+   "execute": "CODEX CLI / opencode-go / deepseek-v4.1-flash",
+   "verify_security": "CODEX CLI / GPT 6.1 SOL-MEDIUM (OpenAI OAuth)"
+  },
+  "hkg_lane_assignment_readback": "config/model-lane-assignment.json revision 15 + lane-routing-registry.yaml (PLAN=openai-codex/gpt-6.1-sol OAuth medium; EXECUTE=codex-cli opencode-go/deepseek-v4.1-flash; VERIFY_SECURITY arm A=opencode-go/glm-5.3-flash primary, arm B=openai-codex/gpt-6.1-sol OAuth operator-selectable-only)",
+  "actually_invoked": {
+   "plan": "no gpt-6.1-sol turn was invoked — the contract, admission wording and this checkpoint were authored in the governed Hermes orchestrator session running opencode-go/deepseek-v4.1-flash (transport deviation, disclosed; same deviation R4 declared)",
+   "execute": "CODEX CLI in the container, model opencode-go/deepseek-v4.1-flash (verified by provider receipt token 'tokens used 31,392' in log_wo1.txt + usage.jsonl), no writes landed",
+   "verify": "NOT_INVOKED — the independent officer lane has not run in this round"
+  },
+  "open_question": "the live OpenAI-OAuth endpoint on this host (127.0.0.1:10102) lists gpt-5.3-codex-spark / gpt-5.6-sol / gpt-5.6-terra / gpt-5.6-luna — it does not list 'gpt-6.1-sol'. Selecting the VERIFY arm B therefore needs an explicit id mapping confirmed by the owner."
+ },
+ "tt_cr_state": {
+  "new_tt_this_round": [],
+  "carried_from_r4": [
+   "owner decisions A1-A5 pending (A3 budget 20000 recommendation)",
+   "TT-PIPD-R4-V7-UNTRACKED-GATE-BASELINE (needs commit authorisation)",
+   "S2 perf gate FAIL 343547 > 20000 (UNPROVENANCED thresholds)",
+   "R4 publication tuple not re-bound to any published subject"
+  ]
+ },
+ "blockers": [
+  {"id": "B1", "class": "HARNESS_SANDBOX", "what": "codex `-s workspace-write` is unusable inside this container (unshare -U EPERM, no bwrap)", "impact": "the per-path sandbox layer cannot be the enforcement; the container mount allowlist carries it", "owner": "HGK/Hermes executor owner (WO-HGK-ORCH-007 class)", "action_needed": "ratify or replace the enforcement statement for R5 lanes"},
+  {"id": "B2", "class": "MODEL_LANE", "what": "PLAN lane model gpt-6.1-sol was not invoked (orchestrator model authored the artefacts)", "impact": "PLAN-lane SoD is declared, not proven, for this round", "owner": "owner (model routing)"},
+  {"id": "B3", "class": "MODEL_IDENTIFIER", "what": "endpoint 10102 exposes gpt-5.6-sol, not gpt-6.1-sol", "impact": "VERIFY arm B model id is an assumption", "owner": "owner (model routing)"},
+  {"id": "B4", "class": "PUBLICATION_SUBJECT", "what": "the externally reviewed GitHub commit cd8a06e is not present in the local repository and no remote is configured", "impact": "local publication readback cannot reproduce the reviewed subject", "owner": "evidence/publication owner (WO-R4-PUBLISH-006)"},
+  {"id": "B5", "class": "PERF_GATE", "what": "S2 context budget 343547 > 20000 with unprovenanced thresholds", "impact": "G-S2-LOCAL stays FAIL; no global PASS may be claimed", "owner": "perf/spec budget owner"}
+ ],
+ "side_effects_disclosed": [
+  "HGK SharedSpine: 7 requirements registered+FROZEN, 7 taskspecs, 7 workorders created; 1 checkpoint CK-20261008-B1083733 written (typed API only, no raw SQL)",
+  "PIPD evidence tree writes: .hgk/preflight/R5-compiler/** (contract, compiler receipts, admission log, lane tooling+logs, snapshots, rollback copies) and .hgk/r5-lane-probe/** (lane probe artefacts)",
+  "Writing-container runs: 4 (1 workspace-write probe, 1 unshare/host-gateway probe, 2 egress probes) + 2 codex lanes (1 aborted, 1 killed on the pause order)",
+  "No product file was created, modified or deleted; no commit, no push, no publication, no secret touched"
+ ],
+ "resume_command": "cd /c/projects/Agent_Workspace/PIPD/.hgk/preflight/R5-compiler/lane && bash run_lane.sh brief_wo1_dest.md log_wo1.txt   # container-boundary pattern; then host-side: python -m unittest tests.test_project_destination_safety -v",
+ "resume_readback_command": "cd /c/projects/Agent_Workspace/HG-KSEOS && \".venv\\Scripts\\python.exe\" -c \"import sys;sys.path.insert(0,r'C:\\Projects\\Agent_Workspace\\HG-KSEOS\\src');from pathlib import Path;from hg_kseos.spine import SharedSpine;from hg_kseos.lifecycle import ProjectLifecycleController;r=Path(r'C:\\Projects\\Agent_Workspace\\HG-KSEOS');print(ProjectLifecycleController(SharedSpine(r/'var'/'shared-spine'/'hg-kseos.db', r/'src'/'hg_kseos'/'schema.sql')).status('PIPD-LS-SP-20261008'))\"",
+ "next_work_order": "WO-S4-DEST-001 (container lane re-run), then host regression, then WO-S4-EXPORT-003, then WO-S4-DIST-002, then WO-S4-UAT-004, then the independent officer lane",
+ "terminal_state_of_this_file": "CHECKPOINT (not a completion; nothing in this round may be reported as done)"
+}

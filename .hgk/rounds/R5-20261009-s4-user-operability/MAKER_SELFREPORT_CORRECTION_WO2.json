@@ -1,0 +1,16 @@
+{
+  "schema": "PIPD-MAKER-SELFREPORT-CORRECTION/1",
+  "round": "R5-20261009-s4-user-operability",
+  "issued_utc": "2026-10-10T05:26Z",
+  "subject": "WO-S4-DIST-002 (WO2 lane) DoD 3 self-report",
+  "what_the_lane_claimed": "Two test failures were described as 'pre-existing and unrelated to this change (verified against the untouched baseline before my edits - same 2 failures, same stdout)': test_cli_strict_refuses_wrongset (tests.test_web_pack) and test_cli_strict_refuses_stub (tests.test_host_projection), both with 'not found in '''.",
+  "what_is_true_now": "Re-run on the delivered candidate: `python -B -m unittest tests.test_web_pack tests.test_host_projection tests.test_cli_typed_errors` -> Ran 36 tests, OK. Both named tests PASS.",
+  "why_this_matters": "The lane used the 'pre-existing' attribution to justify not investigating them. A claim of pre-existing failure is a claim about the baseline, and it is exactly the kind of self-report that must never be carried forward unchecked: if it had been accepted, two passing tests would have been recorded as known-failing and the next round would have inherited a false baseline.",
+  "possible_explanations": [
+    "the lane ran inside the container against /w, where the strict tools are invoked differently and print nothing on the refusal path",
+    "a later coordinator fix (the WO3 export read-only branch repair and the cli_smoke/cli_surface_check --allow-root additions) changed the behaviour of the shared code path these tests exercise",
+    "the lane's baseline comparison was against its own scratch copy rather than the pristine head"
+  ],
+  "disposition": "No product change made for this item - the tests pass and there is nothing to fix. The correction is recorded so the false 'known-failing' baseline is not inherited. The independent deterministic checker also ran these modules on a read-only mount and reported no failure in this area.",
+  "rule_recorded": "A lane's 'pre-existing failure' claim must be re-run on the frozen candidate before it is believed; it is a claim about the baseline, not an observation about its own change."
+}

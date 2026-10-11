@@ -1,0 +1,41 @@
+{
+ "schema": "R4-CHECKER-RECEIPT/1",
+ "role": "INDEPENDENT_ACCEPTANCE_OFFICER",
+ "tool": "CODEX_CLI_HOST",
+ "cli": "codex-cli 0.160.0",
+ "model": "gpt-6.1-sol",
+ "model_reasoning_effort": "medium",
+ "auth": "OPENAI_OAUTH (host ~/.codex/auth.json)",
+ "sandbox_flag": "-s read-only",
+ "command": "codex exec -s read-only -c model_reasoning_effort=medium --skip-git-repo-check <briefs/W8.md>",
+ "cwd": "C:/Projects/Agent_Workspace/PIPD",
+ "exit_code": 0,
+ "verdict": "FAIL_CHALLENGE",
+ "falsified": [
+  "C1",
+  "C5",
+  "C6",
+  "C7",
+  "C9"
+ ],
+ "verified": [
+  "C2",
+  "C3"
+ ],
+ "environment_blocked": [
+  "C4"
+ ],
+ "unverified": [
+  "C8"
+ ],
+ "digest_check": {
+  "checked": 19,
+  "matching_digests": 19,
+  "matching_byte_sizes": 19,
+  "mismatches": [],
+  "missing": []
+ },
+ "log_sha256": "07c1b8bc77f50fefb22dc1a90eac76064c7ba129663b2ce972116cf90ed22f1b",
+ "log_bytes": 1183720,
+ "note": "container path to the same OpenAI endpoint was blocked (cross-origin data-plane request blocked), so the checker ran on the host CLI read-only"
+}

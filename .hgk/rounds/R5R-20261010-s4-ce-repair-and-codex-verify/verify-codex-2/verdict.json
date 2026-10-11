@@ -1,0 +1,47 @@
+{
+  "overall": "PASS",
+  "claims": [
+    {
+      "id": 1,
+      "verdict": "PASS",
+      "evidence": "Exact prior compiler stdout and byte-for-byte prior counterexample files reused from codex-verify-004; reconstructed objects verified equal. Only trace added, every original field including content_hash preserved. Installed new pipd.exe: PD-PKG, ECP, TQAEP each exit 1, verdict FAIL, checked 4, with SCHEMA finding: \"<contract>/: Additional properties are not allowed ('trace' was unexpected)\". Complete raw stdout/stderr/exit codes and fixture bodies in raw_transcript.txt. Fifteen further value variants (null, [], false, empty string, {}) also fail naming trace. Freshly installed published wheel produces identical trace findings on these three records."
+    },
+    {
+      "id": 2,
+      "verdict": "PASS",
+      "evidence": "Exact unchanged four-record bundle includes PI-PKG _profile_meta. New installed CLI exits 0, verdict PASS, checked 4, findings []. Fresh new-wheel compiler outputs are individually equal to all four prior stdout JSON objects, and their assembled bundle also exits 0 with PASS/4/[]."
+    },
+    {
+      "id": 3,
+      "verdict": "PASS",
+      "evidence": "New isolated scratch cwd codex-verify-005 has no schemas directory. PYTHONPATH and PYTHONHOME unset before every CLI/repo command; PIPD_SCHEMAS_DIR removed from harness environment. Installed pipd validate without --root reaches PASS via schema_source.mode INSTALLED. A separate --root with schemas/registry.json and a PI-PKG required-field sentinel returns mode WORKSPACE and FAIL naming checker_override_required, proving local schema consumption and precedence."
+    },
+    {
+      "id": 4,
+      "verdict": "PASS",
+      "evidence": "Exact prior missing-identity fixture exits 1 with required subject_id schema finding plus semantic missing identity. Junk-key fixture exits 1 naming undeclared_junk (also hash mismatch). Schema-valid ECP body-tamper-only fixture exits 1 solely for content_hash mismatch, isolating integrity enforcement. All four new-wheel compiler commands exit 0, outputs equal prior records; fresh bundle validation and doctor both exit 0/PASS. Raw command evidence recorded; no suite result used as acceptance evidence."
+    },
+    {
+      "id": 5,
+      "verdict": "PASS",
+      "evidence": "Read validate.py, pipeline.py and registry.py directly from the new wheel; compared with published bytes and pre-repair tracked source, without executing the superseded wheel. NON_RECORD_SIDECARS is now exactly (_profile_meta,), while HASH_EXCLUDED_FIELDS retains the old six-field hash exclusion set and is shared by pipeline._seal and validator._body_hash. validate_record preserves every other field for schema validation and retains its declared-property guard. All 19 packaged schemas are byte-identical to published; all declare all four identity fields. For those schemas, shrinking the stripping set changes only the acceptance of undeclared trace, and rejects no schema-legitimate input previously accepted. PI-PKG trace remains declared and its original compiler trace passes. _profile_meta is genuinely operator/profile metadata added after record sealing, absent from all 19 record schemas, and excluded from the digest; tolerance is NOT a PI-PKG special case. Adding it to PD-PKG, ECP or TQAEP also passes with unchanged hashes. A workspace schema declaring _profile_meta as string correctly rejects the compiler object sidecar instead of stripping it. Observation disclosed: PI-PKG trace has schema {}, so an object-shaped trace also passes both new and published validators (published probe removes only the known sidecar to isolate behavior). This unchanged declared-property permissiveness is not the undeclared-trace widening."
+    },
+    {
+      "id": 6,
+      "verdict": "PASS",
+      "evidence": "Live git ls-remote resolves refs/tags/v0.1.0-preview.1 directly to cc9bf574c3b3f0f44ea615b5c67ae40d74efee32 (no peeled annotated-tag ref). Fresh download from the specified published release URL hashes to c450dbef1c3bfbc2048dcf0562f83d655cc5e5940511e65fd44bf9f91cf14e60. Published wheel freshly installed separately for comparator runs; repository/release not mutated. Release page also advertises matching commit and wheel hash."
+    }
+  ],
+  "counterexamples": [],
+  "what_i_did_not_verify": "Nothing outside the six claims in VERIFY brief 2 was verified. No broader original-brief acceptance, full suite qualification, arbitrary schema/runtime/trace-graph completeness, other hosts, S5-S8, build provenance, or downstream execution/publication certification is claimed. The superseded ca1f64e5... wheel was not re-tested.",
+  "evaluator": "independent process; did not participate in the build",
+  "checker_lane_disclosure": "Same checker lane that found and filed CE-CODEX-TRACE-WIDENING in the previous pass. (a) I did not write the fix. (b) I am re-testing my own finding on the new d6c3e295... artefact. (c) I have not verified anything outside the claims above.",
+  "subject": {
+    "wheel": "C:/Projects/Agent_Workspace/PIPD-r5r-repair-wt/dist/pipd_ls_sp-0.1.0-py3-none-any.whl",
+    "sha256": "d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f",
+    "branch": "r5r-ce-repair",
+    "observed_head": "6f9d87f7bbae8262794b1c26ce735125fc656c31"
+  },
+  "unverified_claim_ids": [],
+  "raw_transcript": "C:/Projects/Agent_Workspace/PIPD-r5r-repair-wt/.hgk/rounds/R5R-20261010-s4-ce-repair-and-codex-verify/verify-codex-2/raw_transcript.txt"
+}

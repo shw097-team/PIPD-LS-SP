@@ -1,0 +1,82 @@
+# W8b — INDEPENDENT RE-CHALLENGE (round 2, after the maker repaired your five falsifications)
+
+You are the same kind of independent acceptance officer: a **different model from the maker**, adversarial,
+and you may not soften or average away a finding. Your first round returned `FAIL_CHALLENGE` and falsified
+C1, C5, C6, C7, C9. The maker produced a repair round (W9). Re-challenge it.
+
+## Where you are
+- **Work in the current directory**: `...\hermes\cache\scratch\pipd-accept` — an exact byte copy of the candidate
+  (git HEAD `7c5bc585c7d889cd338da853be4efc4b8f07d3b2`, full working tree, `.git` and `.hgk` included).
+  **You MAY write here** (temporary mutations, copies, test runs) — this directory is disposable.
+- **Never touch** `C:\Projects\Agent_Workspace\PIPD` (the product). It is read-only for you.
+- `git` IS available. `python` is 3.11 (use `-B`). The suite is `unittest`, there is no pytest.
+- Do not trust maker receipts. Recompute. Anything you cannot verify is `UNVERIFIED` with the reason.
+- Time-box ~25 minutes.
+
+## What the maker claims changed (verify each; try to falsify)
+
+C1'. The full suite in this copy is **184 tests, OK, exit 0** (it was 168 when you last counted 173 — the count
+    grew as the repair lanes added tests). Run it. If a test is skipped, weakened, or the count is padded, say so.
+
+C5'. `tools/build_publication_manifest.py` now emits `subject_scope` and a `current_tree_coverage` block;
+    `--check` (published subject) still exits 0, and `--check --current` now exits **non-zero** while current
+    product paths are `UNCOVERED`. Verify all three, and verify the omission is no longer *silent*.
+
+C6'. `tools/pi_dedup_check.py` now reports **residual** duplication separately from removed duplication, reports
+    the honest size effect (the maker admits the current PI is *larger* than HEAD), and `evaluate()` refuses a PI
+    that lost a baseline requirement id. Verify: run `--check`; then, in a temp copy, delete one atom from the
+    compiled PI and show the checker now fails; say whether residual byte-identical copies still exist and whether
+    the tool ever claims an elimination it did not achieve.
+
+C7'. `tools/perf_budget.py`: exceeding a budget is now `FAIL` with a **non-zero exit**, provenance is still
+    reported as `UNPROVENANCED` where it is, and `candidate_head` resolves through git. Verify:
+    (a) run `--check` — expect exit 1 with `context_bytes_per_artefact` in both `exceeded` and `failed`;
+    (b) falsification attempt: in a temp copy, set a budget far above the measured value and show the tool PASSes
+    (proving it is not merely hard-coded to FAIL);
+    (c) confirm no numeric budget changed versus `git show HEAD:tools/perf_budget.py`.
+
+C9'. `tools/deny_list_scan.py` now distinguishes `POLICY_MENTION` from `WRITER_USAGE` and exits non-zero only on a
+    `WRITER_USAGE` inside the R4 rounds scope. Verify by running it, then falsify it: plant a realistic
+    writer-usage line in a temp file under `.hgk/rounds/R4-20261009-focused-repair/` **in this copy** and confirm
+    the scanner exits non-zero; then remove it.
+
+A3'. `tools/build_spec_del_crosswalk.py --check` now fails when an `EVIDENCED` row's oracle file does not exist.
+    Verify by mutation in a temp copy.
+
+## Also re-run, in this copy (raw command + exit code)
+1. `python -B tools/tt_summary_check.py --assert`     2. `python -B tools/admit_technologies.py --report`
+3. `python -B tools/build_spec_del_crosswalk.py --check` 4. `python -B tools/deny_list_scan.py`
+5. `python -B tools/pi_dedup_check.py --check`        6. `python -B tools/perf_budget.py --check`
+7. `python -B -c "import sys,pathlib;sys.path.insert(0,'src');from pipd_ls_sp import workspace as W;print(W.secret_scan(pathlib.Path('.'))['verdict'])"`
+8. `python -B -m unittest discover -s tests -q`
+
+## Frozen digests (first 16 hex of sha256 of the CURRENT candidate files; recompute)
+
+```json
+{".hgk/artifacts/TT_REGISTER.json":"94e4b82ea6bcfdbd",".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json":"f6269eb6e4b7f310",
+ ".hgk/ao/pub/PUBLICATION_PROJECTION_MANIFEST.json":"5b9f480d28c8f558",".hgk/ao/pub/PUBLICATION_SUBJECT_ATTESTATION.json":"e3b1be44b7936ebe",
+ "docs/SPEC_DEL_CROSSWALK.json":"d98e3b65c8064ef8","tools/tt_summary_check.py":"99e8872ee95019be","tests/test_tt_summary.py":"1010ea1f837310cc",
+ "tools/admit_technologies.py":"1173be279cb5e379","tests/test_technology_admission.py":"7b6afec23dccd144",
+ "tools/build_publication_manifest.py":"875f5d9f2736506f","tools/publication_attestation.py":"a10df44074027997",
+ "tests/test_publication_projection.py":"2a20a7734a14f7a6","tools/build_spec_del_crosswalk.py":"1f8ea6b4b46da9c1",
+ "tests/test_spec_del_crosswalk.py":"d4591d9034ed4a96","tools/pi_dedup_check.py":"3e5399cec8e638ce","tests/test_pi_dedup.py":"b3f4fbe59411474d",
+ "tools/perf_budget.py":"269f3bafe55a4474","tests/test_perf_budget.py":"a8b4814123d76210","tools/deny_list_scan.py":"3c0025cd5f7dc5a7",
+ "tests/test_deny_list_scan.py":"aa9c598bcbc19ba5","src/pipd_ls_sp/requirements.py":"1ac3a64c655d93e0","src/pipd_ls_sp/pipeline.py":"183b213d57541300"}
+```
+Sizes: TT_REGISTER 41235, s1 116041, manifest 860770, attestation 1333, crosswalk 41668, tt_summary_check 14583,
+test_tt_summary 8866, admit_technologies 26559, test_technology_admission 14104, build_publication_manifest 27990,
+publication_attestation 10109, test_publication_projection 12797, build_spec_del_crosswalk 25503,
+test_spec_del_crosswalk 3474, pi_dedup_check 14290, test_pi_dedup 5523, perf_budget 7799, test_perf_budget 2359,
+deny_list_scan 5800, test_deny_list_scan 2608, requirements 13407, pipeline 18630.
+
+## Deliver (print last)
+
+```json
+{"schema":"R4-INDEPENDENT-VERDICT/2","verdict":"PASS_CHALLENGE|PARTIAL_CHALLENGE|FAIL_CHALLENGE",
+ "supersedes":"FAIL_CHALLENGE",
+ "items":[{"id":"C1'","method":"...","observed":"...","status":"VERIFIED|FALSIFIED|UNVERIFIED|ENVIRONMENT_BLOCKED","evidence":"..."}],
+ "still_falsified":[],"newly_found":[],"residual_risks":[],
+ "rounding_check":"state whether anything was rounded up to PASS"}
+```
+Then ≤15 lines of prose. Report `FALSIFIED` on the first counterexample. Never state `INDEPENDENT_PASS`,
+`RELEASED` or `PRODUCTION_VERIFIED` — the ceiling is a candidate-level challenge verdict.

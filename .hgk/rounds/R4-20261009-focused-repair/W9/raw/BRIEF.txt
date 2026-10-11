@@ -1,0 +1,83 @@
+# LANE W9 — repair the five defects an independent checker FALSIFIED
+
+An independent acceptance officer (different model, read-only) falsified five claims about this tree. Repair the
+defects below. Work only in `/w`. unittest, no `git` binary in this container, python 3.11.
+**Do not run `unittest discover`** (it takes >12 min here and some tests write files). Run only the modules named.
+Time-box ~20 minutes. Read only the files you need.
+
+## P1 — performance gate must stay fail-closed (this is the critical one)
+`tools/perf_budget.py` currently returns `UNDECIDABLE` for any threshold whose provenance is missing, **even when
+the measured value exceeds the budget**, and then exits 0. An over-budget artefact (343,547 bytes vs a 20,000
+budget) therefore no longer fails the run — that is a weakened gate.
+Required behaviour, keeping every numeric budget byte-identical:
+- each row gets `exceeded` (bool, `value > budget`) and a `verdict`;
+- `verdict = "FAIL"` whenever `exceeded` is true, **regardless of provenance**; the row still carries
+  `source_of_truth: "UNPROVENANCED"` and a note that the threshold's authority is unratified;
+- `verdict = "UNDECIDABLE"` only for a **non-exceeded** row without provenance; `"PASS"` for a provenanced row
+  within budget;
+- overall `verdict = "FAIL"` if any row FAILs; process exit code **non-zero** when the overall verdict is FAIL;
+  exit 0 only for PASS, or for UNDECIDABLE with no exceeded row.
+- fix `candidate_head`: it currently prints `UNBOUND_NO_GIT_BINARY` even where git exists. Resolve it with
+  `git -C <repo> rev-parse HEAD` and fall back to the honest string only when git is genuinely unavailable.
+- extend the perf test module: an exceeded budget ⇒ `FAIL` + non-zero exit; a non-exceeded unprovenanced budget ⇒
+  `UNDECIDABLE` and not `PASS`.
+
+## P2 — the de-duplication claim was overstated; measure it honestly
+`tools/pi_dedup_check.py` only counts copies held in `source_text`, so it misses an atom whose `source_clause.text`
+is byte-identical to its source-table entry (the checker found `REQ-17aaa2060430cfc8016f`, both equal to
+`系統交付發行說明`). Also its `evaluate()` accepts a PI that has **lost an atom**.
+Required:
+- measure duplication on the resolved view: for every atom, compare its stored locator text with the text of the
+  source-table entry it points at, and count any byte-identical copy as **residual duplication**; report
+  `residual_duplicate_atoms` / `residual_duplicated_bytes` as separate fields, and do **not** claim
+  `duplication_eliminated` for bytes you did not remove.
+- report the honest size effect: serialized PI bytes for the pre-change shape and the current shape, including the
+  case where the current tree is **larger** (the checker measured +633 bytes). A larger PI must be reported as such,
+  not presented as payload economy.
+- `evaluate()` must take the pre-change baseline requirement-id set and FAIL (`first_fail` set, non-zero exit) when
+  any baseline requirement id is missing from the PI.
+- extend `tests/test_pi_dedup.py`: (a) an atom whose stored text duplicates its table entry is reported as residual,
+  (b) a PI with one atom deleted ⇒ `first_fail` set and non-zero exit.
+
+## P3 — the publication manifest silently omits the current tree
+`tools/build_publication_manifest.py --check` exits 0 with `violations: []` while the current R4 product files
+(`tools/tt_summary_check.py`, `tools/build_spec_del_crosswalk.py`, `tools/pi_dedup_check.py`,
+`tools/publication_attestation.py`, `tools/build_publication_manifest.py`, `docs/SPEC_DEL_CROSSWALK.json`, and five
+new test modules) have **no** disposition — 11 uncovered non-bytecode paths, plus 44 bytecode files.
+Required, without breaking the existing published-subject check:
+- emit an explicit `subject_scope` naming what the check covers (the published commit) and a
+  `current_tree_coverage` block listing every current product path with its disposition or `UNCOVERED`;
+- `--check` (published subject) keeps its current verdict but the coverage block is always printed — the omission is
+  never silent;
+- add `--check --current` (or equivalent) which FAILS non-zero while any current product path is `UNCOVERED`;
+- add a test asserting an uncovered current path produces a non-zero `--current` result.
+
+## P4 — crosswalk checker blind spot (independent finding A3)
+`tools/build_spec_del_crosswalk.py --check` accepted an in-memory mutation that replaced an `EVIDENCED` row's oracle
+with a non-existent path. Add that assertion (missing oracle file ⇒ violation ⇒ non-zero) and one test for it.
+
+## P5 — deny-list: mention vs usage
+17 lines in the tree contain `danger-full-access`. Produce `tools/deny_list_scan.py` that classifies each occurrence
+as `POLICY_MENTION` (instruction/policy/contract text, e.g. the R4 contract and compiled prompt, which forbid it) or
+`WRITER_USAGE` (an actual codex invocation or sandbox setting that enables it), lists the files, and exits non-zero
+**only** if a `WRITER_USAGE` exists inside `.hgk/rounds/R4-20261009-focused-repair/**`. Add one test with both cases
+constructed in a temporary directory.
+
+## Verify and capture
+```
+cd /w; R=.hgk/rounds/R4-20261009-focused-repair/W9/raw; mkdir -p $R
+python3 tools/perf_budget.py --check > $R/perf_check.txt 2>&1; echo "exit=$?" >> $R/perf_check.txt
+python3 tools/pi_dedup_check.py --check > $R/dedup_check.txt 2>&1; echo "exit=$?" >> $R/dedup_check.txt
+python3 tools/build_publication_manifest.py --check --current > $R/pub_current.txt 2>&1; echo "exit=$?" >> $R/pub_current.txt
+python3 tools/build_spec_del_crosswalk.py --check > $R/crosswalk_check.txt 2>&1; echo "exit=$?" >> $R/crosswalk_check.txt
+python3 tools/deny_list_scan.py > $R/deny_scan.txt 2>&1; echo "exit=$?" >> $R/deny_scan.txt
+python3 -m unittest tests.test_perf_budget tests.test_pi_dedup tests.test_publication_projection tests.test_spec_del_crosswalk -v > $R/unittest_w9.txt 2>&1; echo "exit=$?" >> $R/unittest_w9.txt
+cp /briefs/W9.md $R/BRIEF.txt
+```
+Report in ≤12 lines: each exit code, the perf row verdicts, the residual duplication numbers, the uncovered-path
+count for `--current`, and anything you could not do.
+
+## Forbidden
+- Never raise the 20,000 byte budget or any other numeric threshold; never delete a test; never skip a test.
+- Do not modify `fixtures/**` rows, `.hgk/artifacts/TT_REGISTER.json`, or another lane's files.
+- Do not touch `src/pipd_ls_sp/**` behaviour beyond what P2 requires.

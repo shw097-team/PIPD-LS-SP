@@ -1,0 +1,556 @@
+{
+ "schema": "PIPD-D1-INDEPENDENT-VERDICT/1",
+ "checker": {
+  "id": "D1-INDEPENDENT-HERMES-VERIFY-ONLY-20261010-CURRENT-RUN",
+  "model": "gpt-6.1-sol",
+  "provider": "openai-codex",
+  "independent_of_maker": true,
+  "ran_via": "hermes_native_not_codex_cli"
+ },
+ "subject": {
+  "commit": "7f13b90dc06354a0c6b7bd013f83a8cc244bf93d",
+  "branch": "r5-s4-packreader",
+  "files": [
+   "tools/perf_budget.py",
+   "tests/test_perf_budget.py"
+  ],
+  "digests": {
+   "tools/perf_budget.py": "f90c3d8d6061f55b9807c2e8740998f98124b56fbcb5c42397f459c4368ff015",
+   "tests/test_perf_budget.py": "6c0d21fa8ce6c0a047539d2333973b88a75eea68c82ce031a96381749791d270"
+  }
+ },
+ "properties": [
+  {
+   "id": 1,
+   "statement": "Pristine 7f13b90 clone 與 authoring worktree historical value 相同，且等於 baseline pi_bytes。",
+   "verdict": "DISAGREED",
+   "evidence": {
+    "raw_commands": [
+     {
+      "key": "clone",
+      "command": "git clone --no-hardlinks --no-checkout C:\\Projects\\Agent_Workspace\\PIPD C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\pristine-clone",
+      "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#clone"
+     },
+     {
+      "key": "clone_checkout",
+      "command": "git -C C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\pristine-clone checkout --detach 7f13b90dc06354a0c6b7bd013f83a8cc244bf93d",
+      "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#clone_checkout"
+     },
+     {
+      "key": "clone_status",
+      "command": "git -C C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\pristine-clone status --porcelain",
+      "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#clone_status"
+     },
+     {
+      "key": "pristine_check",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\pristine-clone\\tools\\perf_budget.py --check",
+      "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\pristine-clone",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#pristine_check"
+     },
+     {
+      "key": "authoring_check",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\Projects\\Agent_Workspace\\PIPD\\tools\\perf_budget.py --check",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#authoring_check"
+     },
+     {
+      "key": "read_input_3",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -c \"from pathlib import Path; import sys; print(Path(sys.argv[1]).read_text(encoding=\\\"utf-8\\\"))\" C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s2\\BYTES_PER_ATOM_BASELINE.json",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#read_input_3"
+     },
+     {
+      "key": "overlaid_clone_status",
+      "command": "git -C C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\pristine-clone status --porcelain",
+      "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#overlaid_clone_status"
+     },
+     {
+      "key": "overlaid_candidate_check",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\pristine-clone\\tools\\perf_budget.py --check",
+      "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\pristine-clone",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#overlaid_candidate_check"
+     }
+    ],
+    "raw_output_excerpt": "COMMAND clone; exit_code=0\nCloning into 'C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\pristine-clone'...\ndone.\n\nCOMMAND clone_checkout; exit_code=0\nHEAD is now at 7f13b90 fix(publication): read packed objects, not only loose ones\n\nCOMMAND clone_status; exit_code=0\n\nCOMMAND pristine_check; exit_code=0\n   {\n    \"metric\": \"context_bytes_per_artefact\",\n    \"value\": 372935,\n    \"budget\": 20000,\n    \"verdict\": \"FAIL\",\n    \"exceeded\": true,\n    \"source_of_truth\": \"UNPROVENANCED\"\n   }\nCOMMAND authoring_check; exit_code=0\n   {\n    \"metric\": \"context_bytes_per_artefact\",\n    \"value\": 343547,\n    \"measured_now\": 343547,\n    \"recorded\": true,\n    \"origin\": {\n     \"file\": \".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json\",\n     \"field\": \"pi_bytes\"\n    },\n    \"budget\": 20000,\n    \"verdict\": \"FAIL\",\n    \"exceeded\": true,\n    \"source_of_truth\": \"UNPROVENANCED\"\n   }\nCOMMAND read_input_3; exit_code=0\n{\n \"bytes_per_atom\": 1449.57,\n \"atoms\": 237,\n \"pi_bytes\": 343547,\n \"tolerance_pct\": 10.0,\n \"frozen_head\": \"7c5bc585c7d889cd338da853be4efc4b8f07d3b2\"\n}\n\nCOMMAND overlaid_clone_status; exit_code=0\n M tests/test_perf_budget.py\n M tools/perf_budget.py\n\nCOMMAND overlaid_candidate_check; exit_code=0\n   {\n    \"metric\": \"context_bytes_per_artefact\",\n    \"value\": 343547,\n    \"measured_now\": 372935,\n    \"recorded\": true,\n    \"origin\": {\n     \"file\": \".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json\",\n     \"field\": \"pi_bytes\"\n    },\n    \"budget\": 20000,\n    \"verdict\": \"FAIL\",\n    \"exceeded\": true,\n    \"source_of_truth\": \"UNPROVENANCED\"\n   }"
+   },
+   "findings": {
+    "pristine_value": 372935,
+    "authoring_value": 343547,
+    "baseline_pi_bytes": 343547,
+    "literal_equality": false,
+    "explanation": "契約原文的 pristine commit 不含 uncommitted 修正，因此原文 assertion 不成立。clone 的路徑與既有對照不同，實測值不得改寫成契約舊數字。補充實驗在完成 pristine 測量後，只將兩個 candidate files 原樣複製到 scratch clone；相同 candidate historical value 保持 343547，live measured_now 為 372935。補充實驗不是 pristine run，也不是 authoring repo repair。"
+   }
+  },
+  {
+   "id": 2,
+   "statement": "live measurement 保留在 measured_now 且 recorded:true；自行重算 live measurement。",
+   "verdict": "RE_DERIVED",
+   "evidence": {
+    "raw_commands": [
+     {
+      "key": "authoring_check",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\Projects\\Agent_Workspace\\PIPD\\tools\\perf_budget.py --check",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#authoring_check"
+     },
+     {
+      "key": "independent_live_measurement",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -c \"import json; from pathlib import Path; from pipd_ls_sp import pipeline as P; r=Path(\\\"C:/Projects/Agent_Workspace/PIPD\\\"); card=P.intake(\\\"Implement the lifecycle compiler and verify it against the source spec.\\\",sources=[str(r/\\\"docs/S0_CONTRACT_SPEC.md\\\")]); pi=P.compile_pi(card,\\\"STANDARD\\\"); pd=P.bind_pd(pi,{\\\"root\\\":str(r),\\\"head\\\":\\\"x\\\",\\\"tracked_files\\\":1,\\\"writable_scope\\\":\\\"src/**\\\"}); cc=P.compile_construction_contract(pd); ecp=P.compile_ecp(pd,pi); tq=P.compile_tqaep(pi,ecp,maker=\\\"M\\\",checker=\\\"C\\\",checker_execution_receipt=\\\"r\\\"); sizes={k:len(json.dumps(v,ensure_ascii=False).encode()) for k,v in [(\\\"pi\\\",pi),(\\\"pd\\\",pd),(\\\"cc\\\",cc),(\\\"ecp\\\",ecp),(\\\"tqaep\\\",tq)]}; print(json.dumps({\\\"sizes\\\":sizes,\\\"live_max\\\":max(sizes.values())},indent=1))\"",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#independent_live_measurement"
+     },
+     {
+      "key": "overlaid_candidate_check",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\pristine-clone\\tools\\perf_budget.py --check",
+      "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\pristine-clone",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#overlaid_candidate_check"
+     }
+    ],
+    "raw_output_excerpt": "COMMAND authoring_check; exit_code=0\n   {\n    \"metric\": \"context_bytes_per_artefact\",\n    \"value\": 343547,\n    \"measured_now\": 343547,\n    \"recorded\": true,\n    \"origin\": {\n     \"file\": \".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json\",\n     \"field\": \"pi_bytes\"\n    },\n    \"budget\": 20000,\n    \"verdict\": \"FAIL\",\n    \"exceeded\": true,\n    \"source_of_truth\": \"UNPROVENANCED\"\n   }\nCOMMAND independent_live_measurement; exit_code=0\n{\n \"sizes\": {\n  \"pi\": 343547,\n  \"pd\": 1444,\n  \"cc\": 442,\n  \"ecp\": 528,\n  \"tqaep\": 109888\n },\n \"live_max\": 343547\n}\n\nCOMMAND overlaid_candidate_check; exit_code=0\n   {\n    \"metric\": \"context_bytes_per_artefact\",\n    \"value\": 343547,\n    \"measured_now\": 372935,\n    \"recorded\": true,\n    \"origin\": {\n     \"file\": \".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json\",\n     \"field\": \"pi_bytes\"\n    },\n    \"budget\": 20000,\n    \"verdict\": \"FAIL\",\n    \"exceeded\": true,\n    \"source_of_truth\": \"UNPROVENANCED\"\n   }"
+   },
+   "findings": {
+    "measured_now": 343547,
+    "independent_live_max": 343547,
+    "recorded": true,
+    "relocated_measured_now": 372935
+   }
+  },
+  {
+   "id": 3,
+   "statement": "origin 的 file + field 實際含有 historical value。",
+   "verdict": "RE_DERIVED",
+   "evidence": {
+    "raw_commands": [
+     {
+      "key": "read_input_3",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -c \"from pathlib import Path; import sys; print(Path(sys.argv[1]).read_text(encoding=\\\"utf-8\\\"))\" C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\artifacts\\s2\\BYTES_PER_ATOM_BASELINE.json",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#read_input_3"
+     },
+     {
+      "key": "authoring_check",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\Projects\\Agent_Workspace\\PIPD\\tools\\perf_budget.py --check",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#authoring_check"
+     }
+    ],
+    "raw_output_excerpt": "COMMAND read_input_3; exit_code=0\n{\n \"bytes_per_atom\": 1449.57,\n \"atoms\": 237,\n \"pi_bytes\": 343547,\n \"tolerance_pct\": 10.0,\n \"frozen_head\": \"7c5bc585c7d889cd338da853be4efc4b8f07d3b2\"\n}\n\nCOMMAND authoring_check; exit_code=0\n   {\n    \"metric\": \"context_bytes_per_artefact\",\n    \"value\": 343547,\n    \"measured_now\": 343547,\n    \"recorded\": true,\n    \"origin\": {\n     \"file\": \".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json\",\n     \"field\": \"pi_bytes\"\n    },\n    \"budget\": 20000,\n    \"verdict\": \"FAIL\",\n    \"exceeded\": true,\n    \"source_of_truth\": \"UNPROVENANCED\"\n   }"
+   },
+   "findings": {
+    "origin": {
+     "file": ".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json",
+     "field": "pi_bytes"
+    },
+    "actual_value": 343547,
+    "matches": true
+   }
+  },
+  {
+   "id": 4,
+   "statement": "至少一個無 recorded counterpart 的 metric recorded:false 且明示未取得 recorded value。",
+   "verdict": "RE_DERIVED",
+   "evidence": {
+    "raw_commands": [
+     {
+      "key": "authoring_check",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\Projects\\Agent_Workspace\\PIPD\\tools\\perf_budget.py --check",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#authoring_check"
+     },
+     {
+      "key": "read_input_0",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -c \"from pathlib import Path; import sys; print(Path(sys.argv[1]).read_text(encoding=\\\"utf-8\\\"))\" C:\\Projects\\Agent_Workspace\\PIPD\\tools\\perf_budget.py",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#read_input_0"
+     }
+    ],
+    "raw_output_excerpt": "COMMAND authoring_check; exit_code=0\n   {\n    \"metric\": \"compile_chain_ms\",\n    \"value\": 661.4,\n    \"measured_now\": 661.4,\n    \"recorded\": false,\n    \"origin\": null,\n    \"budget\": 2000,\n    \"verdict\": \"UNDECIDABLE\",\n    \"exceeded\": false,\n    \"source_of_truth\": \"UNPROVENANCED\",\n    \"note\": \"no recorded value was available for this metric; `value` is the live measurement, not a recorded one\"\n   }"
+   },
+   "findings": {
+    "unrecorded_metrics": [
+     "compile_chain_ms",
+     "validate_19_contracts_ms",
+     "cli_cold_start_ms"
+    ],
+    "all_have_note": true,
+    "all_origin_null": true,
+    "all_value_equals_live": true
+   }
+  },
+  {
+   "id": 5,
+   "statement": "所有 PROVENANCE budgets 對指定 parent 無變更，voting_metrics 精確為 bytes_per_atom，recorded budget=20000 且 FAIL。",
+   "verdict": "RE_DERIVED",
+   "evidence": {
+    "raw_commands": [
+     {
+      "key": "parent_source",
+      "command": "git -C C:\\Projects\\Agent_Workspace\\PIPD show 5094939606ba9331ed768743eb5b806ad159e639:tools/perf_budget.py",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#parent_source"
+     },
+     {
+      "key": "budget_compare",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -c \"import json,sys; a=json.loads(sys.argv[1]); b=json.loads(sys.argv[2]); print(json.dumps({\\\"parent_budgets\\\":a,\\\"working_budgets\\\":b,\\\"changes\\\":{k:{\\\"old\\\":a.get(k),\\\"new\\\":b.get(k)} for k in sorted(set(a)|set(b)) if a.get(k)!=b.get(k)}},indent=1)); sys.exit(a!=b)\" \"{\\\"compile_chain_ms\\\": 2000, \\\"validate_19_contracts_ms\\\": 3000, \\\"cli_cold_start_ms\\\": 6000, \\\"context_bytes_per_artefact\\\": 20000, \\\"bytes_per_atom\\\": 2000}\" \"{\\\"compile_chain_ms\\\": 2000, \\\"validate_19_contracts_ms\\\": 3000, \\\"cli_cold_start_ms\\\": 6000, \\\"context_bytes_per_artefact\\\": 20000, \\\"bytes_per_atom\\\": 2000}\"",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#budget_compare"
+     },
+     {
+      "key": "authoring_check",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\Projects\\Agent_Workspace\\PIPD\\tools\\perf_budget.py --check",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#authoring_check"
+     }
+    ],
+    "raw_output_excerpt": "COMMAND budget_compare; exit_code=0\n{\n \"parent_budgets\": {\n  \"compile_chain_ms\": 2000,\n  \"validate_19_contracts_ms\": 3000,\n  \"cli_cold_start_ms\": 6000,\n  \"context_bytes_per_artefact\": 20000,\n  \"bytes_per_atom\": 2000\n },\n \"working_budgets\": {\n  \"compile_chain_ms\": 2000,\n  \"validate_19_contracts_ms\": 3000,\n  \"cli_cold_start_ms\": 6000,\n  \"context_bytes_per_artefact\": 20000,\n  \"bytes_per_atom\": 2000\n },\n \"changes\": {}\n}\n\nCOMMAND authoring_check; exit_code=0\n \"voting_metrics\": [\n  \"bytes_per_atom\"\n ],\n\nCOMMAND authoring_check; exit_code=0\n   {\n    \"metric\": \"context_bytes_per_artefact\",\n    \"value\": 343547,\n    \"measured_now\": 343547,\n    \"recorded\": true,\n    \"origin\": {\n     \"file\": \".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json\",\n     \"field\": \"pi_bytes\"\n    },\n    \"budget\": 20000,\n    \"verdict\": \"FAIL\",\n    \"exceeded\": true,\n    \"source_of_truth\": \"UNPROVENANCED\"\n   }"
+   },
+   "findings": {
+    "parent_commit_used": "5094939606ba9331ed768743eb5b806ad159e639",
+    "every_budget": {
+     "compile_chain_ms": 2000,
+     "validate_19_contracts_ms": 3000,
+     "cli_cold_start_ms": 6000,
+     "context_bytes_per_artefact": 20000,
+     "bytes_per_atom": 2000
+    },
+    "changes": [],
+    "voting_metrics": [
+     "bytes_per_atom"
+    ],
+    "recorded_budget": 20000,
+    "recorded_verdict": "FAIL"
+   }
+  },
+  {
+   "id": 6,
+   "statement": "回歸測試執行成功、expectation 在測試時讀 recorded file，修改 scratch copy recorded value 能使測試變紅並丟棄 copy。",
+   "verdict": "RE_DERIVED",
+   "evidence": {
+    "raw_commands": [
+     {
+      "key": "unit_tests",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -m unittest tests.test_perf_budget -v",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#unit_tests"
+     },
+     {
+      "key": "read_input_1",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -c \"from pathlib import Path; import sys; print(Path(sys.argv[1]).read_text(encoding=\\\"utf-8\\\"))\" C:\\Projects\\Agent_Workspace\\PIPD\\tests\\test_perf_budget.py",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#read_input_1"
+     },
+     {
+      "key": "scratch_unit_control",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -m unittest tests.test_perf_budget -v",
+      "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\falsification-copy",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#scratch_unit_control"
+     },
+     {
+      "key": "mutated_baseline_read",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -c \"from pathlib import Path; import sys; print(Path(sys.argv[1]).read_text(encoding=\\\"utf-8\\\"))\" C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\falsification-copy\\.hgk\\artifacts\\s2\\BYTES_PER_ATOM_BASELINE.json",
+      "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\falsification-copy",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#mutated_baseline_read"
+     },
+     {
+      "key": "scratch_unit_mutated",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -m unittest tests.test_perf_budget -v",
+      "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\falsification-copy",
+      "exit_code": 1,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#scratch_unit_mutated"
+     },
+     {
+      "key": "copy_removed",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -c \"from pathlib import Path; import sys; p=Path(sys.argv[1]); print(\\\"exists=\\\"+str(p.exists())); sys.exit(p.exists())\" C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\falsification-copy",
+      "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#copy_removed"
+     }
+    ],
+    "raw_output_excerpt": "COMMAND unit_tests; exit_code=0\ntest_advisory_rows_cannot_turn_the_gate_green (tests.test_perf_budget.AdvisoryAndVotingRows.test_advisory_rows_cannot_turn_the_gate_green) ... ok\ntest_bytes_per_atom_is_the_voting_row_with_a_ratified_source (tests.test_perf_budget.AdvisoryAndVotingRows.test_bytes_per_atom_is_the_voting_row_with_a_ratified_source) ... ok\ntest_end_to_end_check_preserves_history_and_reports_the_rate (tests.test_perf_budget.AdvisoryAndVotingRows.test_end_to_end_check_preserves_history_and_reports_the_rate) ... ok\ntest_the_rate_still_fails_over_its_budget (tests.test_perf_budget.AdvisoryAndVotingRows.test_the_rate_still_fails_over_its_budget) ... ok\ntest_the_recorded_absolute_fail_is_advisory_not_voting (tests.test_perf_budget.AdvisoryAndVotingRows.test_the_recorded_absolute_fail_is_advisory_not_voting) ... ok\ntest_historical_value_is_stable_across_live_measurements (tests.test_perf_budget.HistoricalRecordedValue.test_historical_value_is_stable_across_live_measurements) ... ok\ntest_historical_value_is_the_recorded_baseline_not_the_measurement (tests.test_perf_budget.HistoricalRecordedValue.test_historical_value_is_the_recorded_baseline_not_the_measurement) ... ok\ntest_no_source_comment_claims_verbatim_preservation_of_the_live_value (tests.test_perf_budget.HistoricalRecordedValue.test_no_source_comment_claims_verbatim_preservation_of_the_live_value) ... ok\ntest_unrecorded_advisory_metric_says_so_instead_of_fabricating (tests.test_perf_budget.HistoricalRecordedValue.test_unrecorded_advisory_metric_says_so_instead_of_fabricating) ... ok\ntest_exceeded_unprovenanced_budget_is_fail_and_exits_nonzero (tests.test_perf_budget.PerfBudgetProvenance.test_exceeded_unprovenanced_budget_is_fail_and_exits_nonzero) ... ok\ntest_raw_overrun_not_rounded_away (tests.test_perf_budget.PerfBudgetProvenance.test_raw_overrun_not_rounded_away) ... ok\ntest_under_budget_unprovenanced_budget_is_undecidable_not_pass (tests.test_perf_budget.PerfBudgetProvenance.test_under_budget_unprovenanced_budget_is_undecidable_not_pass) ... ok\ntest_unprovenanced_threshold_is_undecidable_not_pass (tests.test_perf_budget.PerfBudgetProvenance.test_unprovenanced_threshold_is_undecidable_not_pass) ... ok\n\n----------------------------------------------------------------------\nRan 13 tests in 3.923s\n\nOK\n\nCOMMAND read_input_1; exit_code=0\n    def _baseline(self):\n        path = ROOT / \".hgk\" / \"artifacts\" / \"s2\" / \"BYTES_PER_ATOM_BASELINE.json\"\n        self.assertTrue(path.exists(), f\"baseline artefact must exist: {path}\")\n        return json.loads(path.read_text(encoding=\"utf-8\"))\n\n    def _historical_row(self, metric):\n        import contextlib\n        import io\n        buf = io.StringIO()\n        with contextlib.redirect_stdout(buf):\n            rc = PB.main([\"--check\"])\n        self.assertEqual(rc, 0)\n        res = json.loads(buf.getvalue())\n        rows = {r[\"metric\"]: r for r in res[\"historical\"][\"rows\"]}\n        self.assertIn(metric, rows)\n        return rows[metric]\n\n    def test_historical_value_is_the_recorded_baseline_not_the_measurement(self):\n        baseline = self._baseline()\n        expected = baseline[\"pi_bytes\"]  # 343547, read from the artefact - never hard-coded\n        row = self._historical_row(\"context_bytes_per_artefact\")\n        self.assertEqual(row[\"value\"], expected)\n        self.assertTrue(row[\"recorded\"])\n        self.assertEqual(row[\"origin\"],\n                         {\"file\": \".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json\",\n                          \"field\": \"pi_bytes\"})\n        # The verdict is decided from the RECORDED value against the UNCHANGED budget.\n        self.assertEqual(row[\"verdict\"], \"FAIL\")\n        self.assertEqual(row[\"budget\"], 20000)\n        self.assertTrue(row[\"exceeded\"])\nCOMMAND scratch_unit_control; exit_code=0\nerfBudgetProvenance.test_unprovenanced_threshold_is_undecidable_not_pass) ... ok\n\n----------------------------------------------------------------------\nRan 13 tests in 4.778s\n\nOK\n\nCOMMAND mutated_baseline_read; exit_code=0\n{\n \"bytes_per_atom\": 1449.57,\n \"atoms\": 237,\n \"pi_bytes\": 1,\n \"tolerance_pct\": 10.0,\n \"frozen_head\": \"7c5bc585c7d889cd338da853be4efc4b8f07d3b2\"\n}\n\nCOMMAND scratch_unit_mutated; exit_code=1\n======================================================================\nFAIL: test_end_to_end_check_preserves_history_and_reports_the_rate (tests.test_perf_budget.AdvisoryAndVotingRows.test_end_to_end_check_preserves_history_and_reports_the_rate)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\falsification-copy\\tests\\test_perf_budget.py\", line 108, in test_end_to_end_check_preserves_history_and_reports_the_rate\n    self.assertEqual(res[\"historical\"][\"preserved_fails\"], [\"context_bytes_per_artefact\"])\nAssertionError: Lists differ: [] != ['context_bytes_per_artefact']\n\nSecond list contains 1 additional elements.\nFirst extra element 0:\n'context_bytes_per_artefact'\n\n- []\n+ ['context_bytes_per_artefact']\n\n======================================================================\nFAIL: test_historical_value_is_the_recorded_baseline_not_the_measurement (tests.test_perf_budget.HistoricalRecordedValue.test_historical_value_is_the_recorded_baseline_not_the_measurement)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\falsification-copy\\tests\\test_perf_budget.py\", line 150, in test_historical_value_is_the_recorded_baseline_not_the_measurement\n    self.assertEqual(row[\"verdict\"], \"FAIL\")\nAssertionError: 'UNDECIDABLE' != 'FAIL'\n- UNDECIDABLE\n+ FAIL\n\n\n----------------------------------------------------------------------\nRan 13 tests in 3.910s\n\nFAILED (failures=2)\n\nCOMMAND copy_removed; exit_code=0\nexists=False\n"
+   },
+   "findings": {
+    "targeted_counts": {
+     "ran": 13,
+     "failures": 0,
+     "errors": 0,
+     "skips": 0
+    },
+    "expectation_source": "_baseline() reads json at test time; expected = baseline[\"pi_bytes\"], not a hard-coded expectation. Literal 343547 only appears in the new explanatory comment/docstring.",
+    "mutation": {
+     "field": "pi_bytes",
+     "before": 343547,
+     "after": 1,
+     "ran": 13,
+     "failures": 2,
+     "errors": 0,
+     "exit_code": 1,
+     "discarded": true
+    },
+    "falsification_limit": "變紅原因為固定歷史 verdict FAIL 與 preserved_fails assertions；動態 value equality 本身仍通過。這次實驗不能證明任意 recorded value 的變更都會被拒絕。"
+   }
+  },
+  {
+   "id": 7,
+   "statement": "完整 suite 計數與 failure/error/skip 對照契約 pre-fix baseline，解釋 count delta 與失敗原因。",
+   "verdict": "DISAGREED",
+   "evidence": {
+    "raw_commands": [
+     {
+      "key": "full_suite",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -m unittest discover -s tests",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 1,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#full_suite"
+     },
+     {
+      "key": "test_count_delta",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -c \"import json,sys; a=json.loads(sys.argv[1]); b=json.loads(sys.argv[2]); print(json.dumps({\\\"before_perf_tests\\\":len(a),\\\"after_perf_tests\\\":len(b),\\\"added\\\":sorted(set(b)-set(a)),\\\"removed\\\":sorted(set(a)-set(b)),\\\"delta\\\":len(b)-len(a)},indent=1))\" \"[\\\"test_advisory_rows_cannot_turn_the_gate_green\\\", \\\"test_bytes_per_atom_is_the_voting_row_with_a_ratified_source\\\", \\\"test_end_to_end_check_preserves_history_and_reports_the_rate\\\", \\\"test_exceeded_unprovenanced_budget_is_fail_and_exits_nonzero\\\", \\\"test_raw_overrun_not_rounded_away\\\", \\\"test_the_rate_still_fails_over_its_budget\\\", \\\"test_the_recorded_absolute_fail_is_advisory_not_voting\\\", \\\"test_under_budget_unprovenanced_budget_is_undecidable_not_pass\\\", \\\"test_unprovenanced_threshold_is_undecidable_not_pass\\\"]\" \"[\\\"test_advisory_rows_cannot_turn_the_gate_green\\\", \\\"test_bytes_per_atom_is_the_voting_row_with_a_ratified_source\\\", \\\"test_end_to_end_check_preserves_history_and_reports_the_rate\\\", \\\"test_exceeded_unprovenanced_budget_is_fail_and_exits_nonzero\\\", \\\"test_historical_value_is_stable_across_live_measurements\\\", \\\"test_historical_value_is_the_recorded_baseline_not_the_measurement\\\", \\\"test_no_source_comment_claims_verbatim_preservation_of_the_live_value\\\", \\\"test_raw_overrun_not_rounded_away\\\", \\\"test_the_rate_still_fails_over_its_budget\\\", \\\"test_the_recorded_absolute_fail_is_advisory_not_voting\\\", \\\"test_under_budget_unprovenanced_budget_is_undecidable_not_pass\\\", \\\"test_unprovenanced_threshold_is_undecidable_not_pass\\\", \\\"test_unrecorded_advisory_metric_says_so_instead_of_fabricating\\\"]\"",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#test_count_delta"
+     },
+     {
+      "key": "clone_attestation_control",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -m unittest tests.test_publication_projection.CurrentTreeCoverage.test_attestation_build_then_verify_exits_zero -v",
+      "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\pristine-clone",
+      "exit_code": 1,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#clone_attestation_control"
+     }
+    ],
+    "raw_output_excerpt": "COMMAND full_suite; exit_code=1\nERROR: test_cli_smoke_runs (test_tooling_executes.TestToolingExecutes.test_cli_smoke_runs)\nThe 13-command CLI surface must actually execute, not just import.\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Projects\\Agent_Workspace\\PIPD\\tests\\test_tooling_executes.py\", line 51, in test_cli_smoke_runs\n    _sh.copytree(ROOT, dst, ignore=_sh.ignore_patterns(\".git\", \"__pycache__\", \"*.db\", \"*.pyc\"))\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\.hermes-runtime\\python\\cpython-3.11.17-windows-x86_64-none\\Lib\\shutil.py\", line 573, in copytree\n    return _copytree(entries=entries, src=src, dst=dst, symlinks=symlinks,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\.hermes-runtime\\python\\cpython-3.11.17-windows-x86_64-none\\Lib\\shutil.py\", line 527, in _copytree\n    raise Error(errors)\nshutil.Error: [('C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\.hgk\\\\rounds\\\\R2-20261009-qualification\\\\execute\\\\candidate\\\\.hgk\\\\ao\\\\_aoverif_frozen_snapshot\\\\s2pilots_GOLDEN_PILOTS.json', 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c\nCOMMAND full_suite; exit_code=1\nERROR: test_cli_smoke_runs (test_tooling_executes.TestToolingExecutes.test_cli_smoke_runs)\nERROR: test_tracked_file_metric_excludes_vcs_internals (test_tooling_executes.TestToolingExecutes.test_tracked_file_metric_excludes_vcs_internals)\nCOMMAND full_suite; exit_code=1\nFAIL: test_attestation_build_then_verify_exits_zero (test_publication_projection.CurrentTreeCoverage.test_attestation_build_then_verify_exits_zero)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Projects\\Agent_Workspace\\PIPD\\tests\\test_publication_projection.py\", line 284, in test_attestation_build_then_verify_exits_zero\n    self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)\nAssertionError: 1 != 0 : wrote C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\tmp4lg9rx2l\\PUBLICATION_SUBJECT_ATTESTATION.json (payload_digest=81f1652ed85b57c5b0711e08473a269f055f9704c8b8d27d4f5e5010ccb3357d)\n{\n \"verdict\": \"FAIL\",\n \"attested\": {\n  \"commit\": \"5094939606ba9331ed768743eb5b806ad159e639\",\n  \"tree\": \"b480182ca3c9c45fffb6d0d04cd81580d5b67c72\"\n },\n \"expected\": {\n  \"commit\": \"f4f0a02ca71a5a6e2c77c9dad1b961ccea4487df\",\n  \"tree\": \"49082394d1e895e7eb5ca46a94fe217468f0a6ab\"\n },\n \"product_digest\": \"454cf0623eabea20e6637ef2fa0cf2c065528c2b1fdad4c12e4635aed80beb4a\",\n \"manifest_digest\": \"8eb66c4770a5064f3cf126213c3cb06c713ed314adf70a99b2cb785972599fd1\",\n \"payload_digest\": \"81f1652ed85b57c5b0711e08473a269f055f9704c8b8d27d4f5e5010ccb3357d\",\n \"violations\": [\n  \"SUBJECT_COMMIT_MISMATCH: attestation commit 5094939606ba9331ed768743eb5b806ad159e639 != expected f4f0a02ca71a5a6e2c77c9dad1b961ccea4487df\",\n  \"SUBJECT_TREE_MISMATCH: attestation tree b480182ca3c9c45fffb6d0d04cd81580d5b67c72 != expected 49082394d1e895e7eb5ca46a94fe217468f0a6ab\"\n ]\n}\n\n\n----------------------------------------------------------------------\nRan 300 tests in 58.458s\n\nFAILED (failures=1, errors=2, skipped=3)\n\nCOMMAND test_count_delta; exit_code=0\n{\n \"before_perf_tests\": 9,\n \"after_perf_tests\": 13,\n \"added\": [\n  \"test_historical_value_is_stable_across_live_measurements\",\n  \"test_historical_value_is_the_recorded_baseline_not_the_measurement\",\n  \"test_no_source_comment_claims_verbatim_preservation_of_the_live_value\",\n  \"test_unrecorded_advisory_metric_says_so_instead_of_fabricating\"\n ],\n \"removed\": [],\n \"delta\": 4\n}\n\nCOMMAND clone_attestation_control; exit_code=1\ntest_attestation_build_then_verify_exits_zero (tests.test_publication_projection.CurrentTreeCoverage.test_attestation_build_then_verify_exits_zero) ... FAIL\n\n======================================================================\nFAIL: test_attestation_build_then_verify_exits_zero (tests.test_publication_projection.CurrentTreeCoverage.test_attestation_build_then_verify_exits_zero)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\pristine-clone\\tests\\test_publication_projection.py\", line 284, in test_attestation_build_then_verify_exits_zero\n    self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)\nAssertionError: 1 != 0 : {\"verdict\": \"FAIL\", \"reason\": \"cannot resolve ref 'r5-s4-candidate' in C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\d1repair\\\\independent-checker\\\\pristine-clone\\\\.git\"}\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.109s\n\nFAILED (failures=1)\n"
+   },
+   "findings": {
+    "observed": {
+     "ran": 300,
+     "failures": 1,
+     "errors": 2,
+     "skips": 3,
+     "exit_code": 1
+    },
+    "contract_baseline_claim": {
+     "ran": 296,
+     "failures": 1,
+     "errors": 0,
+     "skips": 3,
+     "cause": "CURRENT_TREE_UNCOVERED: tests/test_git_object_reader.py has no disposition in the manifest"
+    },
+    "count_delta": 4,
+    "why": "自行用 AST 比較 HEAD test file 與 working test file，9 -> 13，新加四個 test methods。",
+    "actual_failure_causes": [
+     "SUBJECT_COMMIT_MISMATCH",
+     "SUBJECT_TREE_MISMATCH"
+    ],
+    "extra_error_tests": [
+     "ERROR: test_cli_smoke_runs (test_tooling_executes.TestToolingExecutes.test_cli_smoke_runs)",
+     "ERROR: test_tracked_file_metric_excludes_vcs_internals (test_tooling_executes.TestToolingExecutes.test_tracked_file_metric_excludes_vcs_internals)"
+    ],
+    "extra_errors_attribution": "test_tooling_executes 的 copytree 在長 scratch 路徑遭遇 WinError 206 / Errno 2 / WinError 3；這是本驗證環境下的實際錯誤，不聲稱由 candidate 修正造成。",
+    "pre_existing_cause_not_proven": "沒有自行重跑相同 refs 與相同 authoring tree 的 pre-fix full suite。scratch clone 單獨 attestation test 因缺少 local r5-s4-candidate ref 失敗，不能用來證明 authoring mismatch 是 pre-existing。",
+    "verifier_readonly_violation": "原地 full discover 實際執行了會寫 repo 的既有 tests。test_publication_projection.py:224-232 --write 後 restore canonical projection；test_s0_contracts.py:71-89 在 repo 下建立、修改與移除暫存 schemas。這違反 contract 的 read-only/write-only-scratch 規則。tracked hashes 最終相同不等於期間沒有寫入；此 run 不能宣稱嚴格 VERIFY_ONLY 執行合規。未修復或重跑以掩蓋此違規。"
+   }
+  },
+  {
+   "id": 8,
+   "statement": "git status 只含 writer 本輪兩個 subject 變動；列出其他變動並歸因。",
+   "verdict": "UNCERTAIN",
+   "evidence": {
+    "raw_commands": [
+     {
+      "key": "initial_status",
+      "command": "git -C C:\\Projects\\Agent_Workspace\\PIPD status --porcelain",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#initial_status"
+     },
+     {
+      "key": "final_readonly_status",
+      "command": "git -C C:\\Projects\\Agent_Workspace\\PIPD status --porcelain",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#final_readonly_status"
+     },
+     {
+      "key": "repository_digest_compare",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -c \"import json,sys; d=json.loads(sys.argv[1]); print(json.dumps(d,indent=1)); sys.exit(bool(d))\" {}",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#repository_digest_compare"
+     }
+    ],
+    "raw_output_excerpt": "COMMAND initial_status; exit_code=0\n M .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json\n M tests/test_perf_budget.py\n M tools/perf_budget.py\n?? .hgk/preflight/R5-compiler/lane/log_ao.txt\n?? .hgk/preflight/R5-compiler/lane/log_ao_attempt4_contaminated.txt\n?? .hgk/preflight/R5-compiler/lane/log_wo1.txt\n?? .hgk/preflight/R5-compiler/lane/log_wo2.txt\n?? .hgk/preflight/R5-compiler/lane/log_wo3.txt\n?? .hgk/preflight/R5-compiler/opencodex-config.backup-20261010.json\n?? .hgk/rounds/R2-20261009-qualification/execute/knowledge/own-derived.db\n?? .hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt1_provider_error.log\n?? .hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt2_provider_error.log\n?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt4_contaminated/\n?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt5/log_ao.txt\n?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt7_codex_01512_verdict/\n?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt_codex_01512/\n?? .hgk/rounds/R5-20261009-s4-user-operability/d1repair/\n?? .hgk/rounds/R5-20261009-s4-user-operability/far/\n?? .hgk/rounds/R5-20261009-s4-user-operability/uat/RAW_RUNS.jsonl\n?? openspec/changes/s2-historical-record-provenance/\n\nCOMMAND final_readonly_status; exit_code=0\n M .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json\n M tests/test_perf_budget.py\n M tools/perf_budget.py\n?? .hgk/preflight/R5-compiler/lane/log_ao.txt\n?? .hgk/preflight/R5-compiler/lane/log_ao_attempt4_contaminated.txt\n?? .hgk/preflight/R5-compiler/lane/log_wo1.txt\n?? .hgk/preflight/R5-compiler/lane/log_wo2.txt\n?? .hgk/preflight/R5-compiler/lane/log_wo3.txt\n?? .hgk/preflight/R5-compiler/opencodex-config.backup-20261010.json\n?? .hgk/rounds/R2-20261009-qualification/execute/knowledge/own-derived.db\n?? .hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt1_provider_error.log\n?? .hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt2_provider_error.log\n?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt4_contaminated/\n?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt5/log_ao.txt\n?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt7_codex_01512_verdict/\n?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt_codex_01512/\n?? .hgk/rounds/R5-20261009-s4-user-operability/d1repair/\n?? .hgk/rounds/R5-20261009-s4-user-operability/far/\n?? .hgk/rounds/R5-20261009-s4-user-operability/uat/RAW_RUNS.jsonl\n?? openspec/changes/s2-historical-record-provenance/\n\nCOMMAND repository_digest_compare; exit_code=0\n{}\n"
+   },
+   "findings": {
+    "other_entries": [
+     " M .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json",
+     "?? .hgk/preflight/R5-compiler/lane/log_ao.txt",
+     "?? .hgk/preflight/R5-compiler/lane/log_ao_attempt4_contaminated.txt",
+     "?? .hgk/preflight/R5-compiler/lane/log_wo1.txt",
+     "?? .hgk/preflight/R5-compiler/lane/log_wo2.txt",
+     "?? .hgk/preflight/R5-compiler/lane/log_wo3.txt",
+     "?? .hgk/preflight/R5-compiler/opencodex-config.backup-20261010.json",
+     "?? .hgk/rounds/R2-20261009-qualification/execute/knowledge/own-derived.db",
+     "?? .hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt1_provider_error.log",
+     "?? .hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt2_provider_error.log",
+     "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt4_contaminated/",
+     "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt5/log_ao.txt",
+     "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt7_codex_01512_verdict/",
+     "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt_codex_01512/",
+     "?? .hgk/rounds/R5-20261009-s4-user-operability/d1repair/",
+     "?? .hgk/rounds/R5-20261009-s4-user-operability/far/",
+     "?? .hgk/rounds/R5-20261009-s4-user-operability/uat/RAW_RUNS.jsonl",
+     "?? openspec/changes/s2-historical-record-provenance/"
+    ],
+    "attribution": "其他 entries 全部在本 checker 初始 status 已存在；沒有 maker 開始前獨立 snapshot，git status 不包含作者資訊，不能歸因給 maker 或其他人。",
+    "only_two_dirty_files": false,
+    "status_unchanged_before_verdict": true,
+    "tracked_digest_changes": {},
+    "transient_write_warning": "零最終 digest 差異不是 write-free 證據，full-suite 暫時寫入已另行揭露。"
+   }
+  },
+  {
+   "id": 9,
+   "statement": "引用兩個 corrected comments/note 並判斷是否符合目前程式行為。",
+   "verdict": "RE_DERIVED",
+   "evidence": {
+    "raw_commands": [
+     {
+      "key": "comment_quotes",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -c \"from pathlib import Path; import sys,json; s=Path(sys.argv[1]).read_text(encoding=\\\"utf-8\\\").splitlines(); print(\\\"COMMENT 1\\n\\\"+\\\"\\n\\\".join(s[32:36])); print(\\\"CORRECTED OUTPUT NOTE SOURCE\\n\\\"+\\\"\\n\\\".join(s[290:295])); print(\\\"RECORDED MAPPING COMMENT\\n\\\"+\\\"\\n\\\".join(s[94:97]))\" C:\\Projects\\Agent_Workspace\\PIPD\\tools\\perf_budget.py",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#comment_quotes"
+     },
+     {
+      "key": "read_input_0",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -c \"from pathlib import Path; import sys; print(Path(sys.argv[1]).read_text(encoding=\\\"utf-8\\\"))\" C:\\Projects\\Agent_Workspace\\PIPD\\tools\\perf_budget.py",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#read_input_0"
+     },
+     {
+      "key": "authoring_check",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\Projects\\Agent_Workspace\\PIPD\\tools\\perf_budget.py --check",
+      "cwd": "C:\\Projects\\Agent_Workspace\\PIPD",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#authoring_check"
+     },
+     {
+      "key": "overlaid_candidate_check",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\pristine-clone\\tools\\perf_budget.py --check",
+      "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\pristine-clone",
+      "exit_code": 0,
+      "full_raw_output": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json#overlaid_candidate_check"
+     }
+    ],
+    "raw_output_excerpt": "COMMAND comment_quotes; exit_code=0\nCOMMENT 1\n# block reports the RECORDED value that the frozen BYTES_PER_ATOM_BASELINE.json supplies for a\n# metric (`pi_bytes` = 343,547 for `context_bytes_per_artefact`), so the 343,547 > 20,000 FAIL is\n# host-stable; the live reading is kept beside it as `measured_now`, and every row marks whether\n# its `value` is `recorded`.\nCORRECTED OUTPUT NOTE SOURCE\n               \"note\": \"measured and printed but non-voting. Where a recorded baseline supplies \"\n                       \"the value for a metric (see that row's `origin`), `value` is the RECORDED \"\n                       \"number and the live reading is kept as `measured_now`; a metric with no \"\n                       \"recorded baseline keeps its live measurement and is marked \"\n                       \"`recorded: false`.\",\nRECORDED MAPPING COMMENT\n# Advisory (historical) metrics whose `value` must come from a FROZEN recording, not from a fresh\n# measurement on this host: a recorded verdict that moves with the machine is not a record. Only\n# metrics listed here are recorded; everything else keeps its live measurement (recorded: false).\n\nCOMMAND overlaid_candidate_check; exit_code=0\n   {\n    \"metric\": \"context_bytes_per_artefact\",\n    \"value\": 343547,\n    \"measured_now\": 372935,\n    \"recorded\": true,\n    \"origin\": {\n     \"file\": \".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json\",\n     \"field\": \"pi_bytes\"\n    },\n    \"budget\": 20000,\n    \"verdict\": \"FAIL\",\n    \"exceeded\": true,\n    \"source_of_truth\": \"UNPROVENANCED\"\n   }"
+   },
+   "findings": {
+    "quoted_statements": [
+     {
+      "quote": "# block reports the RECORDED value that the frozen BYTES_PER_ATOM_BASELINE.json supplies for a\n# metric (`pi_bytes` = 343,547 for `context_bytes_per_artefact`), so the 343,547 > 20,000 FAIL is\n# host-stable; the live reading is kept beside it as `measured_now`, and every row marks whether\n# its `value` is `recorded`.",
+      "true_of_current_code": true
+     },
+     {
+      "quote": "measured and printed but non-voting. Where a recorded baseline supplies the value for a metric (see that row's `origin`), `value` is the RECORDED number and the live reading is kept as `measured_now`; a metric with no recorded baseline keeps its live measurement and is marked `recorded: false`.",
+      "true_of_current_code": true
+     }
+    ],
+    "reason": "main 讀取 frozen baseline；_recorded_value 回傳 pi_bytes 及 file/field；_historical_row 使用 recorded value，旁列 measured_now，未記錄的三個 timing metrics 回退 live 並標記 recorded:false。候選在 relocated scratch checkout 的實測支持這兩段說明。",
+    "limits": "host-stable 以相同 baseline 可讀、未改動為前提；不是保證 baseline 永遠不可被修改。"
+   }
+  }
+ ],
+ "counts": {
+  "RE_DERIVED": 6,
+  "DISAGREED": 2,
+  "UNCERTAIN": 1
+ },
+ "falsification_attempts": [
+  {
+   "id": "literal_pristine_vs_worktree",
+   "pristine_value": 372935,
+   "worktree_value": 343547,
+   "baseline_pi_bytes": 343547,
+   "result": "DISAGREED"
+  },
+  {
+   "id": "same_candidate_relocated_after_pristine_run",
+   "value": 343547,
+   "measured_now": 372935,
+   "result": "recorded value stable despite changed live reading; supplementary, not pristine assertion"
+  },
+  {
+   "id": "scratch_pi_bytes_to_1",
+   "exit_code": 1,
+   "failures": 2,
+   "discarded": true
+  }
+ ],
+ "verdict": "FAIL_CHALLENGE",
+ "claim_ceiling": "VERIFY_ONLY 的測量結果，不授予 promotion、release、external acceptance。六項 RE_DERIVED、兩項 DISAGREED、一項 UNCERTAIN。候選的 recorded-value 行為得到實測支持，但 literal pristine 對照不成立，suite 結果不同於契約 baseline；checker 本身亦因原地 full-suite 的 transient repo writes 違反 read-only contract，不能宣稱合規獨立 acceptance。",
+ "not_verified": [
+  "沒有 maker 啟動前 snapshot，無法獨立確認其他 dirty paths 的 writer 歸因。",
+  "沒有 independently reproduced pre-fix full-suite run；契約描述的 CURRENT_TREE_UNCOVERED 原因本次未重現。",
+  "Full suite 兩個 tooling tests 因 scratch 路徑 copytree 錯誤未完成其 assertions。",
+  "不能聲稱原 repo 未被寫入：原地 full suite 觸發既有 write/restore 與 repo-local temporary schemas。",
+  "tracked file hashes 僅涵蓋排除 .env/credential/secret/token filename 後的 tracked files；未全面驗證 ignored、untracked 與 git metadata。",
+  "未驗證 remote、deployment、publication 或 external acceptance。"
+ ],
+ "execution_disclosures": {
+  "scratch_root": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker",
+  "command_environment": {
+   "PYTHONDONTWRITEBYTECODE": "1",
+   "PYTHONPATH": "C:\\Projects\\Agent_Workspace\\PIPD\\src",
+   "TMP": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker",
+   "TEMP": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker",
+   "TMPDIR": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker"
+  },
+  "raw_commands_log": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\commands.json",
+  "runner_files": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\run_checks.py",
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\additional_checks.py",
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\build_verdict.py"
+  ],
+  "pristine_clone_initially_clean": true,
+  "clone_later_overlaid_with_two_candidate_files": true,
+  "clone_retained": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\pristine-clone",
+  "falsification_copy_removed": true,
+  "final_tracked_digest_changes": {},
+  "canonical_store_writes": "Full suite invoked build_publication_manifest.py --write --check and finally restored original projection bytes. No final tracked hash difference. This is a contract violation, not a repair.",
+  "repo_local_temp_writes": "TestS0Reconciliation.run_check created/modified/deleted temp schema copies under .hgk/rounds/R3-20261009-audit-repair/FW-02. This is a contract violation.",
+  "prior_verdict_backup_untrusted_not_evidence": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\d1repair\\independent-checker\\prior_verdict_UNTRUSTED_NOT_EVIDENCE.json",
+  "output_write_exception": "只將 Required output 指定 verdict JSON 視為 repo write 的明確例外；既有 verdict 已先備份至 scratch，不採為證據。",
+  "repairs": [],
+  "commits": [],
+  "pushes": [],
+  "new_branches": [],
+  "runtime_restarts": [],
+  "output_path": "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R5-20261009-s4-user-operability\\d1repair\\D1_INDEPENDENT_VERDICT.json"
+ }
+}

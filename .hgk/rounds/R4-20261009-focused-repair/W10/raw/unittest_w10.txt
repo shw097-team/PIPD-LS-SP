@@ -1,0 +1,113 @@
+test_exceeded_unprovenanced_budget_is_fail_and_exits_nonzero (tests.test_perf_budget.PerfBudgetProvenance.test_exceeded_unprovenanced_budget_is_fail_and_exits_nonzero) ... ok
+test_raw_overrun_not_rounded_away (tests.test_perf_budget.PerfBudgetProvenance.test_raw_overrun_not_rounded_away) ... ok
+test_under_budget_unprovenanced_budget_is_undecidable_not_pass (tests.test_perf_budget.PerfBudgetProvenance.test_under_budget_unprovenanced_budget_is_undecidable_not_pass) ... ok
+test_unprovenanced_threshold_is_undecidable_not_pass (tests.test_perf_budget.PerfBudgetProvenance.test_unprovenanced_threshold_is_undecidable_not_pass) ... ok
+test_atom_text_duplicating_its_table_entry_is_reported_as_residual (tests.test_pi_dedup.PiDedup.test_atom_text_duplicating_its_table_entry_is_reported_as_residual) ... ok
+test_check_fails_when_a_duplicated_source_text_is_reintroduced (tests.test_pi_dedup.PiDedup.test_check_fails_when_a_duplicated_source_text_is_reintroduced) ... ok
+test_no_atom_carries_source_text (tests.test_pi_dedup.PiDedup.test_no_atom_carries_source_text) ... ok
+test_one_sources_entry_per_distinct_clause (tests.test_pi_dedup.PiDedup.test_one_sources_entry_per_distinct_clause) ... ok
+test_pi_missing_a_baseline_atom_fails (tests.test_pi_dedup.PiDedup.test_pi_missing_a_baseline_atom_fails) ... ok
+test_resolve_source_clause_round_trips_pre_dedupe_locator (tests.test_pi_dedup.PiDedup.test_resolve_source_clause_round_trips_pre_dedupe_locator) ... ok
+test_size_effect_is_reported_honestly_when_current_tree_is_larger (tests.test_pi_dedup.PiDedup.test_size_effect_is_reported_honestly_when_current_tree_is_larger) ... ok
+test_synthetic_baseline_does_not_claim_shrinkage (tests.test_pi_dedup.PiDedup.test_synthetic_baseline_does_not_claim_shrinkage) ... ok
+test_config_invocation_and_toml_setting_are_writer_usage (tests.test_deny_list_scan.DenyListClassification.test_config_invocation_and_toml_setting_are_writer_usage) ... ok
+test_forbidden_prose_stays_a_mention (tests.test_deny_list_scan.DenyListClassification.test_forbidden_prose_stays_a_mention) ... ok
+test_mention_only_tree_is_not_fatal (tests.test_deny_list_scan.DenyListClassification.test_mention_only_tree_is_not_fatal) ... ok
+test_mention_vs_usage_both_cases (tests.test_deny_list_scan.DenyListClassification.test_mention_vs_usage_both_cases) ... ok
+test_cli_build_for_local_candidate_then_verify_against_published_exits_nonzero (tests.test_publication_projection.AttestationSubjectSeparation.test_cli_build_for_local_candidate_then_verify_against_published_exits_nonzero) ... ok
+test_local_candidate_attestation_fails_against_published_subject (tests.test_publication_projection.AttestationSubjectSeparation.test_local_candidate_attestation_fails_against_published_subject) ... ok
+test_published_attestation_verifies_against_published_subject (tests.test_publication_projection.AttestationSubjectSeparation.test_published_attestation_verifies_against_published_subject) ... ok
+test_write_then_check_exits_zero (tests.test_publication_projection.CliSmoke.test_write_then_check_exits_zero) ... ok
+test_an_injected_uncovered_path_fails_current (tests.test_publication_projection.CurrentTreeCoverage.test_an_injected_uncovered_path_fails_current) ... ok
+test_attestation_build_then_verify_exits_zero (tests.test_publication_projection.CurrentTreeCoverage.test_attestation_build_then_verify_exits_zero) ... ok
+test_check_always_prints_current_tree_coverage (tests.test_publication_projection.CurrentTreeCoverage.test_check_always_prints_current_tree_coverage) ... ok
+test_current_check_fails_while_any_current_product_path_is_uncovered (tests.test_publication_projection.CurrentTreeCoverage.test_current_check_fails_while_any_current_product_path_is_uncovered) ... ok
+test_checker_flags_a_seal_named_as_the_published_subject (tests.test_publication_projection.PrivatePathMustNotBePublic.test_checker_flags_a_seal_named_as_the_published_subject) ... ok
+test_cli_check_on_a_mutated_projection_exits_nonzero (tests.test_publication_projection.PrivatePathMustNotBePublic.test_cli_check_on_a_mutated_projection_exits_nonzero) ... ok
+test_promoting_a_private_rounds_path_to_public_fails_check (tests.test_publication_projection.PrivatePathMustNotBePublic.test_promoting_a_private_rounds_path_to_public_fails_check) ... ok
+test_published_and_frozen_product_paths_are_byte_identical (tests.test_publication_projection.ProductPathEquality.test_published_and_frozen_product_paths_are_byte_identical) ... ok
+test_subjects_are_distinct_but_product_equal (tests.test_publication_projection.ProductPathEquality.test_subjects_are_distinct_but_product_equal) ... ok
+test_counts_reconcile_to_local_manifest_total (tests.test_publication_projection.ProjectionReconciliation.test_counts_reconcile_to_local_manifest_total) ... ok
+test_every_entry_has_one_disposition_and_a_reason (tests.test_publication_projection.ProjectionReconciliation.test_every_entry_has_one_disposition_and_a_reason) ... ok
+test_no_entry_silently_dropped (tests.test_publication_projection.ProjectionReconciliation.test_no_entry_silently_dropped) ... ok
+test_projection_check_passes_clean (tests.test_publication_projection.ProjectionReconciliation.test_projection_check_passes_clean) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 56.664s
+
+OK
+{
+ "mode": "check",
+ "first_fail": "atom REQ-0997c50892a16e212457 still carries source_text",
+ "fails": [
+  "atom REQ-0997c50892a16e212457 still carries source_text",
+  "duplicated source_text bytes remain: 24"
+ ],
+ "residual_duplicate_atoms": 10,
+ "residual_duplicated_bytes": 249,
+ "baseline_source": "SYNTHETIC_FROM_CURRENT",
+ "baseline_bytes": 24083,
+ "baseline_head_sha256": {},
+ "shrinkage_claimed": false,
+ "pre_change_pi_bytes": 24083,
+ "current_pi_bytes": 24072,
+ "current_resolved_materialized_bytes": 26176,
+ "serialized_delta_bytes": -11,
+ "resolved_delta_bytes": 2093,
+ "current_tree_larger": true,
+ "verdict": "FAIL"
+}
+{
+ "mode": "check",
+ "first_fail": "atoms lost vs baseline: 1 requirement id(s) absent, e.g. ['REQ-0997c50892a16e212457']",
+ "fails": [
+  "atoms lost vs baseline: 1 requirement id(s) absent, e.g. ['REQ-0997c50892a16e212457']"
+ ],
+ "residual_duplicate_atoms": 9,
+ "residual_duplicated_bytes": 225,
+ "baseline_source": "SYNTHETIC_FROM_CURRENT",
+ "baseline_bytes": 23158,
+ "baseline_head_sha256": {},
+ "shrinkage_claimed": false,
+ "pre_change_pi_bytes": 23158,
+ "current_pi_bytes": 23232,
+ "current_resolved_materialized_bytes": 25251,
+ "serialized_delta_bytes": 74,
+ "resolved_delta_bytes": 2093,
+ "current_tree_larger": true,
+ "verdict": "FAIL"
+}
+{
+ "occurrences_total": 1,
+ "policy_mention_count": 1,
+ "writer_usage_count": 0,
+ "policy_mention_files": [
+  "prompt.md"
+ ],
+ "writer_usage_files": [],
+ "r4_writer_usage": [],
+ "r4_scope": ".hgk/",
+ "verdict": "PASS"
+}
+{
+ "occurrences_total": 3,
+ "policy_mention_count": 1,
+ "writer_usage_count": 2,
+ "policy_mention_files": [
+  "contract/R4.CONTRACT.json"
+ ],
+ "writer_usage_files": [
+  ".hgk/codex/writer.log",
+  "logs/run.log"
+ ],
+ "r4_writer_usage": [
+  {
+   "path": ".hgk/codex/writer.log",
+   "line": 1,
+   "classification": "WRITER_USAGE"
+  }
+ ],
+ "r4_scope": ".hgk/",
+ "verdict": "FAIL"
+}
+exit=0

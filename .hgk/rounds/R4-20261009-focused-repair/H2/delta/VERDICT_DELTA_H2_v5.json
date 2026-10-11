@@ -1,0 +1,598 @@
+{
+  "schema": "PIPD-DELTA-VERDICT/1",
+  "delta_id": "H2-DEFECT-01+02",
+  "checker_model_declared": "OpenAI ChatGPT (exact model identifier unavailable)",
+  "verdict": "PASS",
+  "checks": {
+    "D1": {
+      "id": "D1",
+      "status": "PASS",
+      "evidence": [
+        "Both authorised tool revisions read in full; 12 actual SequenceMatcher hunks reconstructed and matched against original/recheck output.",
+        {
+          "repaired_tool": {
+            "path": "C:\\w8v3delta\\repo\\tools\\round_envelope.py",
+            "sha256": "d8a24cb565ff51122cc5ecbd0f5fa814f3359da95c22f41023dedd7c7494dbd5"
+          },
+          "accepted_tool": {
+            "path": "C:\\w8v3delta\\frozen\\round_envelope_ACCEPTED.py",
+            "sha256": "0901ac0ef94ba61ff955e37c47c03754c7b98ced356cf6201c1fe0fff04efd0b"
+          },
+          "repaired_test": {
+            "sha256": "907763d3c75883fa0082185c0fe8e8277afc368ce01e0938ce7a52141bef1d84"
+          },
+          "accepted_test": {
+            "sha256": "6c1facfec6a28f71e39e7e0c6583fc42aba141b179202af90e14b96689c38f55"
+          }
+        },
+        "AST equality independently confirms unchanged containment, copy, snapshot and delta-classification helpers."
+      ],
+      "note": "Independent semantic judgement, not function membership: 10 required, 2 harmless by-products, 0 unexplained. All changed lines accounted for, including 26 nonblank added lines omitted by harness samples."
+    },
+    "D2": {
+      "id": "D2",
+      "status": "PASS",
+      "evidence": [
+        {
+          "exit": 0,
+          "created_at_drive_path": true,
+          "destination": "C:\\w8v3delta\\scratch\\probe_msys_18280",
+          "msys_argument_passed": "/c/w8v3delta/scratch/probe_msys_18280",
+          "destination_pre_existed": false,
+          "removed_before_run": true,
+          "normalisation_regression_landing_created": false,
+          "drive_root_c_manifest_identical": true,
+          "drive_root_c_manifest_diff": {
+            "added": 0,
+            "removed": 0,
+            "changed": 0
+          },
+          "drive_root_c_entries": 10960,
+          "manifest_truncated": false,
+          "c_pre_existing": true,
+          "stderr_head": [
+            "round_envelope init: envelope written to C:\\w8v3delta\\scratch\\d2_9w40s8_j\\scr\\envelope.json"
+          ]
+        }
+      ],
+      "note": "MSYS destination lands at derived native drive path. C:/c recursive metadata manifest has 10,960 entries, no truncation and zero changes; regression landing absent. Pre-delete confinement/watch-derivation caveats removed. Metadata-only/non-exhaustive coverage caveats remain."
+    },
+    "D3": {
+      "id": "D3",
+      "status": "PASS",
+      "evidence": [
+        {
+          "exit": 2,
+          "line_count": 1,
+          "names_the_path": true,
+          "has_REFUSED": true,
+          "traceback_printed": false,
+          "no_tree_created_at_bad_path": true,
+          "stderr": "round_envelope init: REFUSED: destination path too long or uncreatable: C:\\w8v3delta\\scratch\\d3_1cuvc16c\\blocker\\child\\deep (FileExistsError: [WinError 183] \u7576\u6a94\u6848\u5df2\u5b58\u5728\u6642\uff0c\u7121\u6cd5\u5efa\u7acb\u8a72\u6a94\u6848\u3002: 'C:\\\\w8v3delta\\\\scratch\\\\d3_1cuvc16c\\\\blocker')",
+          "src_untouched": true
+        }
+      ],
+      "note": "Parent-file destination failure yields one named REFUSED line, exit 2, no traceback, no bad tree and unchanged probe manifest. Scope is the demonstrated uncreatable-destination error; not every filesystem error, path-resolution failure or race."
+    },
+    "D4": {
+      "id": "D4",
+      "status": "PASS",
+      "evidence": [
+        {
+          "refusals": {
+            "dst_inside_src": {
+              "exit": 2,
+              "has_REFUSED": true,
+              "traceback": false,
+              "src_manifest_unchanged": true
+            },
+            "src_inside_dst": {
+              "exit": 2,
+              "has_REFUSED": true,
+              "traceback": false,
+              "src_manifest_unchanged": true
+            },
+            "scratch_inside_tree": {
+              "exit": 2,
+              "has_REFUSED": true,
+              "traceback": false,
+              "src_manifest_unchanged": true
+            }
+          },
+          "all_refused_with_exit_2": true,
+          "accepted_baseline_exit": 0,
+          "accepted_baseline_summary": [
+            "Ran 11 tests in 0.764s",
+            "OK"
+          ],
+          "fixture_git_returncodes": {
+            "init": 0,
+            "add": 0,
+            "commit": 0
+          }
+        }
+      ],
+      "note": "Each containment refusal independently checked for exit 2, REFUSED, no traceback and unchanged manifest, rather than trusting the exit-only aggregate. Accepted baseline: 11 tests OK. Fixture git failures now abort acceptance evidence."
+    },
+    "D5": {
+      "id": "D5",
+      "status": "PASS",
+      "evidence": [
+        {
+          "exit": 0,
+          "summary": [
+            "Ran 23 tests in 1.380s",
+            "OK"
+          ],
+          "failure_lines": [],
+          "weakening_audit": {
+            "accepted_tests": 11,
+            "repaired_tests": 23,
+            "added": [
+              "test_allow_destroy_does_not_bypass_stop_guards",
+              "test_blank_or_whitespace_dst_refuses_before_normalisation",
+              "test_init_with_msys_style_dst_lands_at_drive_path",
+              "test_legitimate_temp_destination_still_succeeds",
+              "test_native_drive_path_survives_unchanged",
+              "test_nonempty_existing_destination_needs_allow_destroy",
+              "test_norm_path_converts_msys_style_to_drive_absolute",
+              "test_refuses_destination_ancestor_of_source",
+              "test_refuses_destination_equal_to_cwd",
+              "test_refuses_destination_equal_to_source",
+              "test_refuses_src_inside_dst",
+              "test_uncreatable_destination_is_a_clear_refusal"
+            ],
+            "removed_preexisting": [],
+            "assertions_shrunk": {},
+            "no_test_removed": true,
+            "no_assertion_shrunk": true
+          },
+          "test_file_sha256": {
+            "accepted": "6c1facfec6a28f71e39e7e0c6583fc42aba141b179202af90e14b96689c38f55",
+            "repaired": "907763d3c75883fa0082185c0fe8e8277afc368ce01e0938ce7a52141bef1d84"
+          }
+        }
+      ],
+      "note": "Repaired suite: 23 tests OK; existing tests retained, no counted assertion shrink. Current test source read and declared final hash verified. Prior v4 semantic test audit is carried forward as authorised by this task; counts alone are not a semantic weakening oracle."
+    },
+    "D6": {
+      "id": "D6",
+      "status": "PASS",
+      "evidence": [
+        {
+          "unit_all_refused": true,
+          "e2e_all_held": true,
+          "positive_control_ok": true,
+          "unit_exceptions": {
+            "home": null,
+            "drive_root": null,
+            "cwd": null,
+            "equals_src": null,
+            "ancestor_of_src": null
+          },
+          "disposable_e2e_cases": [
+            "blank_dst",
+            "whitespace_dst",
+            "blank_dst_with_allow_destroy",
+            "dst_equals_cwd",
+            "dst_equals_src",
+            "dst_ancestor_of_src",
+            "dst_ancestor_with_allow_destroy",
+            "positive_control"
+          ],
+          "own_probe_ids": [
+            "blank_dst_real_argv",
+            "drive_root_pure_guard"
+          ]
+        }
+      ],
+      "note": "Pure home/root/cwd/equality/ancestor guards give actual problems, not exceptions. Seven disposable E2E refusals require diagnostics, no traceback and preservation; positive control succeeds. Own blank-argv subprocess and root-only pure guard both pass. Real home/root never used as destructive destinations."
+    }
+  },
+  "semantic_hunk_review": {
+    "basis": "Independent reading of both entire authorised revisions plus full real-file hunk ranges, not truncated harness text or the function whitelist.",
+    "hunks": [
+      {
+        "hunk": 1,
+        "accepted_lines": [
+          27,
+          26
+        ],
+        "repaired_lines": [
+          27,
+          32
+        ],
+        "classification": "HARMLESS_BY_PRODUCT",
+        "declared_repairs": [
+          "H2-DEFECT-02"
+        ],
+        "reason": "Module docstring describes STOP-1 through STOP-5; no executable behaviour changes.",
+        "full_source_cross_checked": true,
+        "unaccounted_lines": []
+      },
+      {
+        "hunk": 2,
+        "accepted_lines": [
+          67,
+          66
+        ],
+        "repaired_lines": [
+          73,
+          92
+        ],
+        "classification": "REQUIRED",
+        "declared_repairs": [
+          "H2-DEFECT-01"
+        ],
+        "reason": "Adds the MSYS drive-letter pattern and Windows rewrite before expanduser/abspath; all helper lines, including the omitted tail, implement the declared normalisation.",
+        "full_source_cross_checked": true,
+        "unaccounted_lines": []
+      },
+      {
+        "hunk": 3,
+        "accepted_lines": [
+          82,
+          81
+        ],
+        "repaired_lines": [
+          108,
+          148
+        ],
+        "classification": "REQUIRED",
+        "declared_repairs": [
+          "H2-DEFECT-02"
+        ],
+        "reason": "Adds is_blank, root detection and pure cwd/home/root/source-equality refusals. The apparent inserted return problems is diff alignment: guard_paths remains identical; the shared trailing return now also terminates guard_destination.",
+        "full_source_cross_checked": true,
+        "unaccounted_lines": []
+      },
+      {
+        "hunk": 4,
+        "accepted_lines": [
+          202,
+          204
+        ],
+        "repaired_lines": [
+          269,
+          278
+        ],
+        "classification": "REQUIRED",
+        "declared_repairs": [
+          "H2-DEFECT-01",
+          "H2-DEFECT-02"
+        ],
+        "reason": "Refuses missing/blank/whitespace dst before normalisation or writes; normalises src, dst and explicit scratch.",
+        "full_source_cross_checked": true,
+        "unaccounted_lines": []
+      },
+      {
+        "hunk": 5,
+        "accepted_lines": [
+          210,
+          210
+        ],
+        "repaired_lines": [
+          284,
+          287
+        ],
+        "classification": "REQUIRED",
+        "declared_repairs": [
+          "H2-DEFECT-02"
+        ],
+        "reason": "Combines independent dangerous-destination refusals with unchanged containment refusals before destruction.",
+        "full_source_cross_checked": true,
+        "unaccounted_lines": []
+      },
+      {
+        "hunk": 6,
+        "accepted_lines": [
+          216,
+          215
+        ],
+        "repaired_lines": [
+          293,
+          299
+        ],
+        "classification": "REQUIRED",
+        "declared_repairs": [
+          "H2-DEFECT-02"
+        ],
+        "reason": "STOP-5 refuses non-empty destination unless explicitly allowed; earlier mandatory guards cannot be bypassed.",
+        "full_source_cross_checked": true,
+        "unaccounted_lines": []
+      },
+      {
+        "hunk": 7,
+        "accepted_lines": [
+          217,
+          220
+        ],
+        "repaired_lines": [
+          301,
+          314
+        ],
+        "classification": "REQUIRED",
+        "declared_repairs": [
+          "H2-DEFECT-01",
+          "H2-DEFECT-02"
+        ],
+        "reason": "Wraps destination removal/mkdir/copy in OSError refusal with exit 2; names the resolved destruction target before rmtree. No unrelated copy semantics changed.",
+        "full_source_cross_checked": true,
+        "unaccounted_lines": []
+      },
+      {
+        "hunk": 8,
+        "accepted_lines": [
+          247,
+          249
+        ],
+        "repaired_lines": [
+          341,
+          348
+        ],
+        "classification": "REQUIRED",
+        "declared_repairs": [
+          "H2-DEFECT-01"
+        ],
+        "reason": "Wraps scratch mkdir/envelope write in declared OSError refusal and exit 2.",
+        "full_source_cross_checked": true,
+        "unaccounted_lines": []
+      },
+      {
+        "hunk": 9,
+        "accepted_lines": [
+          261,
+          261
+        ],
+        "repaired_lines": [
+          360,
+          360
+        ],
+        "classification": "REQUIRED",
+        "declared_repairs": [
+          "H2-DEFECT-01"
+        ],
+        "reason": "Normalises snapshot repo argument as required for every path argument.",
+        "full_source_cross_checked": true,
+        "unaccounted_lines": []
+      },
+      {
+        "hunk": 10,
+        "accepted_lines": [
+          266,
+          268
+        ],
+        "repaired_lines": [
+          365,
+          372
+        ],
+        "classification": "REQUIRED",
+        "declared_repairs": [
+          "H2-DEFECT-01"
+        ],
+        "reason": "Normalises snapshot out argument and catches mkdir/write OSError with named refusal and exit 2.",
+        "full_source_cross_checked": true,
+        "unaccounted_lines": []
+      },
+      {
+        "hunk": 11,
+        "accepted_lines": [
+          276,
+          277
+        ],
+        "repaired_lines": [
+          380,
+          381
+        ],
+        "classification": "REQUIRED",
+        "declared_repairs": [
+          "H2-DEFECT-01"
+        ],
+        "reason": "Normalises verify before/after paths; classification and allow-rule behaviour remain unchanged.",
+        "full_source_cross_checked": true,
+        "unaccounted_lines": []
+      },
+      {
+        "hunk": 12,
+        "accepted_lines": [
+          315,
+          314
+        ],
+        "repaired_lines": [
+          419,
+          420
+        ],
+        "classification": "HARMLESS_BY_PRODUCT",
+        "declared_repairs": [
+          "H2-DEFECT-02"
+        ],
+        "reason": "Declared argparse store_true plumbing and help for --allow-destroy; default false, with mandatory guards enforced separately.",
+        "full_source_cross_checked": true,
+        "unaccounted_lines": []
+      }
+    ],
+    "counts": {
+      "required": 10,
+      "harmless_by_product": 2,
+      "unexplained": 0
+    },
+    "unexplained": [],
+    "unexplained_empty": true,
+    "unchanged_functions_ast_verified": [
+      "_within",
+      "guard_paths",
+      "_git",
+      "git_head",
+      "git_dirty_count",
+      "sha256_file",
+      "copy_tree",
+      "snapshot_repo",
+      "classify_delta",
+      "_print_named",
+      "main",
+      "_now"
+    ]
+  },
+  "harness_reviewed": {
+    "authored_by": "Orchestrator, disclosed; not treated as independent acceptance authority.",
+    "sound_oracle": false,
+    "usable_with_independent_review": true,
+    "recheck": {
+      "command": "python -B scratch/harness_d1_d6_v5.py > scratch/D1_D6_RESULT_v5_recheck.json",
+      "cwd": "C:/w8v3delta",
+      "environment_removed": [
+        "PYTHONPATH",
+        "PYTHONHOME"
+      ],
+      "runs": 1,
+      "exit": 0,
+      "output": "C:/w8v3delta/scratch/D1_D6_RESULT_v5_recheck.json"
+    },
+    "instrument_claims": [
+      {
+        "claim": 1,
+        "status": "CONFIRMED",
+        "source": "d2 derives real from msys.replace and checks assert_sandbox(real) before its only pre-probe shutil.rmtree. It reports regression_landing.exists().",
+        "output": "Native destination created; landing-zone flag false; 10,960-entry watch identical/untruncated. Pre-existing-destination deletion branch was not exercised in this run."
+      },
+      {
+        "claim": 2,
+        "status": "CONFIRMED",
+        "source": "make_repo raises RuntimeError when any fixture git return code is nonzero (after executing the fixture commands).",
+        "output": "Harness finished and D4 init/add/commit are all 0. Failure branch confirmed statically, not fault-injected."
+      },
+      {
+        "claim": 3,
+        "status": "CONFIRMED",
+        "source": "d6 exception branch sets probs=[] and exception name; refused is bool(probs), so an exception cannot satisfy unit_all_refused. refused_by_a_real_problem is separate.",
+        "output": "All five unit exceptions null and refused_by_a_real_problem true. Exception branch not fault-injected."
+      },
+      {
+        "claim": 4,
+        "status": "CONFIRMED",
+        "source": "d6 e2e_all_held requires exit 2, preservation, has_REFUSED and not traceback.",
+        "output": "All seven refusal cases meet these conditions; positive control exit 0 and created true."
+      },
+      {
+        "claim": 5,
+        "status": "PARTIALLY_CONFIRMED",
+        "source": "Every hunk has removed_text/added_text, but each field strips indentation/blank lines and truncates to 12 nonblank lines. The implication of complete changed-line text is false.",
+        "output": "Hunk 2 emits 12/15 added nonblank lines; hunk 3 emits 12/33; hunk 7 emits 12/14. Total omitted: 26 nonblank added lines. Independently reviewed all real-file ranges."
+      }
+    ],
+    "remaining_weaknesses": [
+      "D1 still relies on permissive function membership including <module>; its text fields are samples, not full hunks. Independent full-source review closes D1 for this candidate only.",
+      "Harness manifests compare size/mtime/type, omit root metadata and content/inode, skip stat errors and cannot prove absence of transient mutation. Own blank probe additionally compares root metadata, inode and file SHA-256.",
+      "Test-name/assertion-count regex cannot detect altered expectations, ineffective assertions, skips or changed fixtures. It supplements, not replaces, the prior v4 semantic audit and current source inspection.",
+      "D4 all_refused_with_exit_2 remains exit-only; this verdict independently checks its diagnostic/traceback/preservation fields.",
+      "Confinement checks are path checks, not an OS sandbox for imports/subprocesses or protection against symlink changes/TOCTOU. Reviewed source/tests and disposable destinations justify these specific runs.",
+      "Coverage is finite: one MSYS destination and parent-file failure, not all platforms, path forms, filesystem failures or concurrency. No whole-repository or incident-restoration audit claimed.",
+      "The landing-zone flag tests existence, not a before/after creation transition; false here establishes absence. Successful fixture output does not dynamically exercise failure branches."
+    ]
+  },
+  "own_probes": [
+    {
+      "id": "blank_dst_real_argv",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B C:\\w8v3delta\\repo\\tools\\round_envelope.py init --src C:\\w8v3delta\\scratch\\acceptance_v5_epf_5ccv\\src --dst \"\" --scratch C:\\w8v3delta\\scratch\\acceptance_v5_epf_5ccv\\scratch_output",
+      "cwd": "C:\\w8v3delta\\scratch\\acceptance_v5_epf_5ccv\\throwaway",
+      "environment_removed": [
+        "PYTHONPATH",
+        "PYTHONHOME"
+      ],
+      "raw_output": {
+        "exit": 2,
+        "stdout": "",
+        "stderr": "round_envelope init: REFUSED - --dst '' is blank: an empty path is never a valid destination\n"
+      },
+      "manifest_before": {
+        ".": {
+          "size": 0,
+          "mtime_ns": 1791547032579613700,
+          "inode": 562949953724960,
+          "is_dir": true,
+          "sha256": null
+        },
+        "nested": {
+          "size": 0,
+          "mtime_ns": 1791547032580702700,
+          "inode": 562949953724961,
+          "is_dir": true,
+          "sha256": null
+        },
+        "nested\\keep.txt": {
+          "size": 14,
+          "mtime_ns": 1791547032580702700,
+          "inode": 562949953724962,
+          "is_dir": false,
+          "sha256": "59aa7389c14bc821294d36e2f6ebd64fe4398b581ec47d8563d0528675f7e1ff"
+        }
+      },
+      "manifest_after": {
+        ".": {
+          "size": 0,
+          "mtime_ns": 1791547032579613700,
+          "inode": 562949953724960,
+          "is_dir": true,
+          "sha256": null
+        },
+        "nested": {
+          "size": 0,
+          "mtime_ns": 1791547032580702700,
+          "inode": 562949953724961,
+          "is_dir": true,
+          "sha256": null
+        },
+        "nested\\keep.txt": {
+          "size": 14,
+          "mtime_ns": 1791547032580702700,
+          "inode": 562949953724962,
+          "is_dir": false,
+          "sha256": "59aa7389c14bc821294d36e2f6ebd64fe4398b581ec47d8563d0528675f7e1ff"
+        }
+      },
+      "identical": true,
+      "scratch_absent": true,
+      "source_sentinel_intact": true,
+      "pass": true
+    },
+    {
+      "id": "drive_root_pure_guard",
+      "command": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -B -c \"import importlib.util,json; from pathlib import Path; spec=importlib.util.spec_from_file_location(\\\"subject\\\",'C:\\\\w8v3delta\\\\repo\\\\tools\\\\round_envelope.py'); subject=importlib.util.module_from_spec(spec); spec.loader.exec_module(subject); print(json.dumps(subject.guard_destination(Path('C:\\\\w8v3delta\\\\scratch\\\\acceptance_v5_epf_5ccv\\\\src'),Path(\\\"C:/\\\"))))\"",
+      "cwd": "C:\\w8v3delta\\scratch\\acceptance_v5_epf_5ccv\\throwaway",
+      "raw_output": {
+        "exit": 0,
+        "stdout": "[\"--dst C:\\\\ is a filesystem/drive root: refusing to destroy a root\"]\n",
+        "stderr": ""
+      },
+      "pass": true,
+      "destructive_function_called": false
+    }
+  ],
+  "test_weakening_audit": {
+    "status": "PASS",
+    "basis": "User-provided prior v4 semantic audit carried forward; authorised current test file read in full; harness count comparison reproduced.",
+    "current_sha256": "907763d3c75883fa0082185c0fe8e8277afc368ce01e0938ce7a52141bef1d84",
+    "matches_final_repair_declaration": true,
+    "removed_preexisting": [],
+    "assertions_shrunk": {},
+    "weakening_found": false,
+    "limitation": "Frozen accepted test source was not independently read because it is outside authorised reading; the explicitly requested harness reads it internally. Counts are not proof of semantic equivalence."
+  },
+  "undisclosed_scope": [],
+  "weakening_found": false,
+  "unfinished": [],
+  "claim_ceiling": "CANDIDATE_ONLY",
+  "supersedes": "DELTA-VERIFY v4 FAIL on D1; independent semantic review now completes that missing judgement.",
+  "safety_check": {
+    "head_command": "git -C C:/Projects/Agent_Workspace/PIPD rev-parse HEAD",
+    "head_output": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2\n",
+    "status_command": "git -C C:/Projects/Agent_Workspace/PIPD status --porcelain",
+    "status_porcelain_line_count": 33,
+    "status_stderr": "",
+    "c_mtime_command": "(Get-Item -LiteralPath C:\\c).LastWriteTime.ToString(\"yyyy-MM-dd HH:mm:ss\")",
+    "c_mtime_local": "2026-08-10 08:36:24",
+    "pass": true
+  },
+  "scope_note": "Candidate-only two-repair acceptance. No repository exploration; only authorised evidence files, generated evidence and explicitly requested safety metadata were read. A patch utility launcher was inspected solely to resolve Windows apply_patch transport before the skeleton was successfully written; no subject evidence was read before the skeleton.",
+  "skeleton_written_first": true
+}

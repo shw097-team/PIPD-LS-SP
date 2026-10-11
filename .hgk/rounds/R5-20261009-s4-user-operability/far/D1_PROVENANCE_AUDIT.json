@@ -1,0 +1,231 @@
+{
+ "schema": "PIPD-D1-PROVENANCE-AUDIT/1",
+ "audit_id": "D1_PROVENANCE_AUDIT",
+ "round": "R5-20261009-s4-user-operability",
+ "branch": "r5-s4-packreader",
+ "kind": "read-only static provenance audit",
+ "question": "Find every place that PRESENTS a recorded/frozen/historical value but actually COMPUTES it live, starting from the confirmed instance in tools/perf_budget.py.",
+ "method": {
+  "empirical": "tools/perf_budget.py --check was executed 4 times to establish whether the 'historical' block's values are stable and equal to the committed artifact.",
+  "coverage_limit": "A static search cannot PROVE absence of the pattern. It bounds the search: within the files opened and the tokens grepped, the ONLY construct that presents a recorded/frozen/historical value while computing it live is the perf_budget `historical` block. Files listed as grep-only were not read line-by-line."
+ },
+ "anchor_confirmed_instance": {
+  "path": "C:/Projects/Agent_Workspace/PIPD/tools/perf_budget.py",
+  "status": "CONFIRMED",
+  "identifiers": [
+   "res[\"historical\"]",
+   "res[\"historical\"][\"rows\"][*][\"value\"]",
+   "res[\"historical\"][\"rows\"][*][\"value_display\"]"
+  ],
+  "read_or_compute": "COMPUTE",
+  "lines": {
+   "comment_asserts_literal_still_emitted": "32-34",
+   "live_measurement_rows_built": "182,193,199,200-203",
+   "historical_block_note": "245-246",
+   "historical_block_rows_built_from_live_values": "244-251"
+  },
+  "code_reason": "The block note says 'the recorded verdicts are preserved verbatim and must never be rewritten' (lines 245-246) and the module comment says the 343,547 literal is 'preserved verbatim and is still emitted' (lines 32-33). But the block is built as [... for r in advisory] taking r['value'], and every advisory row's value comes from a live measurement earlier in main(): context_bytes_per_artefact from worst = max(sizes.values()) (line 202-203), and the timing rows from perf_counter deltas (lines 176-199). Nothing here reads .hgk/artifacts/s2/PERF_BUDGET.json or BYTES_PER_ATOM_BASELINE.json to recover the recorded number.",
+  "stored_counterpart": {
+   "file": ".hgk/artifacts/s2/PERF_BUDGET.json",
+   "field": "historical.rows[<metric>].value",
+   "values": {
+    "context_bytes_per_artefact": 343547,
+    "compile_chain_ms": 818.2,
+    "validate_19_contracts_ms": 2.0,
+    "cli_cold_start_ms": 110.4
+   }
+  },
+  "frozen_counterpart_secondary": {
+   "file": ".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json",
+   "field": "pi_bytes",
+   "value": 343547,
+   "note": "read correctly for the regression baseline (line 219) but the row field pi_bytes at line 217 is set from the LIVE sizes['pi'], not from this stored pi_bytes."
+  },
+  "measured_evidence": {
+   "runs": 4,
+   "context_bytes_per_artefact_committed": 343547,
+   "context_bytes_per_artefact_live_4_runs": [
+    343547,
+    343547,
+    343547,
+    343547
+   ],
+   "timing_committed": {
+    "compile_chain_ms": 818.2,
+    "validate_19_contracts_ms": 2.0,
+    "cli_cold_start_ms": 110.4
+   },
+   "timing_live_sample": [
+    [
+     805.4,
+     2.0,
+     126.0
+    ],
+    [
+     744.1,
+     2.1,
+     109.0
+    ],
+    [
+     707.4,
+     2.0,
+     123.7
+    ]
+   ],
+   "honest_reading": "On THIS checkout the context_bytes_per_artefact value is deterministic and happens to equal the recorded 343547 (artefact size is a function of the source spec, and the committed artifact was regenerated 2026-10-10 13:43). The parent brief's claim that two runs printed 366299 and 365351 did NOT reproduce here (4 runs printed 343547). The DEMONSTRABLY drifting rows are the three timing rows, which differ from the committed record on every run."
+  },
+  "affected_rows": [
+   "context_bytes_per_artefact",
+   "compile_chain_ms",
+   "validate_19_contracts_ms",
+   "cli_cold_start_ms"
+  ],
+  "blast_radius": [
+   {
+    "consumer": "tests/test_perf_budget.py",
+    "reads": [
+     "PB._row(\"context_bytes_per_artefact\", 343547.0) (line 67)",
+     "PB.main([\"--check\"]) then res[\"historical\"][\"preserved_fails\"] (lines 99-112)"
+    ],
+    "why_it_cannot_catch_drift": "The guard hardcodes the value 343547 as its input (line 67) and the end-to-end test only asserts the METRIC NAME appears in preserved_fails (line 108) - it never reads the committed value 343547 nor pins the emitted number to it. Any large live value still yields verdict FAIL and preserved_fails==['context_bytes_per_artefact'], so the test passes while the emitted record drifts."
+   },
+   {
+    "consumer": "docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json",
+    "ruling": "S2_HISTORICAL_FAIL: PRESERVE",
+    "why": "The ruling asserts the recorded FAIL 'is measured, printed and never rewritten' and the block note says the recorded verdicts are 'preserved verbatim'. A reader or gate taking historical.rows as the frozen record is misled whenever the live measurement differs."
+   },
+   {
+    "consumer": "docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json#/disclosure",
+    "why": "The disclosure list item 'the historical FAIL was not rewritten' is only half-true: the verdict is not rewritten, but the underlying measured value is regenerated, not preserved."
+   }
+  ],
+  "severity": "HIGH",
+  "severity_reason": "It can make an acceptance claim FALSE: the owner ruling S2_HISTORICAL_FAIL: PRESERVE and the tool's own note both assert a recorded value is preserved verbatim, while the emitted value is a fresh measurement."
+ },
+ "adjacent_findings_low_severity": [
+  {
+   "path": "C:/Projects/Agent_Workspace/PIPD/tools/build_evidence_md.py",
+   "line": 124,
+   "identifier": "G-S0-CONTRACTS-19 evidence string 'tests/test_s0_contracts.py green in the recorded run'",
+   "read_or_compute": "STATIC_LITERAL",
+   "why": "A hard-coded prose claim about a 'recorded run' embedded in an evidence cell. It is not a live-computed value (the opposite failure class: a frozen narrative that can go stale), so it is NOT a confirmed instance - but it is a recorded-claim the reader cannot re-derive.",
+   "severity": "LOW"
+  },
+  {
+   "path": "C:/Projects/Agent_Workspace/PIPD/tools/build_evidence_md_r2.py",
+   "line": 121,
+   "identifier": "denominator table row ('unit tests', '47')",
+   "read_or_compute": "STATIC_LITERAL",
+   "why": "A hard-coded denominator presented in the acceptance MD; not live-computed, not a provenance/live confusion. LOW.",
+   "severity": "LOW"
+  },
+  {
+   "path": "C:/Projects/Agent_Workspace/PIPD/tools/quarantine_review.py",
+   "line": 385,
+   "identifier": "payload['frozen_candidate'] = 'db2299118c791c5b251ed90d1d8d40171ce82aca'",
+   "read_or_compute": "STATIC_LITERAL",
+   "why": "A hard-coded frozen-candidate SHA emitted as if bound, while the release decisions ARE re-derived from file bytes. The field is static, not computed-live, so not an instance; note only.",
+   "severity": "LOW"
+  }
+ ],
+ "clean_files_searched_and_judged_clean": [
+  "tools/run_r3_qualification.py -> measurement harness; records its own fresh count, never substitutes a historical PASS",
+  "tools/build_publication_manifest.py -> pinned commit/tree constants are READ; content digests are computed AND named 'digest'; the seal 'recorded' sha256 is read from the seal file and compared to the recomputed one",
+  "tools/publication_attestation.py -> stored commit/tree/product_digest/manifest_digest are READ; verification recomputes and compares (correct pattern)",
+  "tools/build_evidence_manifest.py -> seal 'recorded' sha256 READ and compared to the recomputed actual",
+  "tools/tt_summary_check.py -> --write recomputes the summary and stores it; --assert compares stored vs recomputed; as_of_round is READ from the stored summary (correct pattern)",
+  "tools/knowledge_ready_probe.py -> reads frozen manifest sha256 and compares to a freshly computed digest; drift is reported, not hidden",
+  "tools/round_envelope.py -> 'as_of' is a live UTC timestamp (honestly named); a snapshot records current state by definition",
+  "tools/preflight_check.py -> 'as_of' is a live UTC timestamp (honestly named); checks are live drivers",
+  "tools/round_selfscan.py -> 'as_of' is a live UTC timestamp (honestly named)",
+  "tools/edge_selfcheck.py -> candidate_of_record is a static descriptive string; edges are recomputed live",
+  "tools/run_golden_pilots.py -> each verdict recomputed from produced bytes",
+  "tools/run_nrtv_judge.py -> fresh evaluation; no stored verdict presented",
+  "tools/cli_surface_check.py -> fresh CLI surface exercise",
+  "tools/portable_install_check.py -> _candidate_head() READS .hgk/rounds/.../FROZEN_SOURCE.json ('never invented, never derived from git')",
+  "tools/build_dist.py -> candidate_head READS FROZEN_SOURCE.json; wheel member hashes computed and named as digests",
+  "tools/registry_reconcile.py -> registry recomputed FROM schemas; --check compares to the on-disk registry and refuses drift",
+  "tools/build_spec_del_crosswalk.py -> rows built from transcribed tables; --check verifies evidence_refs/oracles resolve",
+  "tools/admit_technologies.py -> --report recomputes the per-row verdict from the artefact; candidate_head/source_sha256 fall back to a READ of the cached artefact",
+  "tools/hgk_admission_driver.py -> drives the live HG-KSEOS lifecycle; no stored value presented as computed",
+  "tools/build_s5_s8_backlog.py -> live_status is the literal NOT_RUN (honest absent-value claim)",
+  "tools/web_pack_check.py / tools/host_projection_check.py -> regenerate-then-check / strict-as-is; stale sources are named MUT-STALE-SOURCE",
+  "tools/skill_pack_check.py -> discover/load/route checker over live packs",
+  "src/pipd_ls_sp/pipeline.py, validate.py, repo_context.py, projection.py, export_bundle.py, requirements.py, workspace.py, cli.py -> no labelled-recorded-but-computed JSON field; 'recorded'/'preserved'/'baseline' occurrences are prose comments or unverified-claim labels, not stored-value presentations"
+ ],
+ "summary": {
+  "confirmed_live_computed_masquerading_as_recorded": 1,
+  "confirmed_instance_paths": [
+   "C:/Projects/Agent_Workspace/PIPD/tools/perf_budget.py"
+  ],
+  "affected_row_values_in_the_one_instance": 4,
+  "adjacent_static_literal_findings": 3,
+  "highest_severity": "HIGH",
+  "highest_severity_one_sentence": "tools/perf_budget.py emits the `historical` block - labelled 'the recorded verdicts are preserved verbatim and must never be rewritten' and blessed by the owner ruling S2_HISTORICAL_FAIL: PRESERVE - from live measurements instead of from the frozen artefact, so the four advisory row values (three timing rows demonstrably, and the bytes row by construction) are regenerated, not preserved.",
+  "files_opened_and_read_in_full": 28
+ },
+ "coverage": {
+  "greps_run_over": "whole repository (C:/Projects/Agent_Workspace/PIPD), tools/**, src/**, docs/**, tests/**, .hgk/**",
+  "grep_patterns": [
+   "historical|recorded|frozen|preserved|verbatim|must never be rewritten|value_display",
+   "as_of|previous|prior_round|last_round|at_time_of|snapshot|frozen_head|pinned|candidate_of_record|recompute|recomputed|live|freshly",
+   "'\"(historical|recorded|frozen|preserved|baseline|as_of|previous|prior|snapshot|recomputed_at_write)\"' (word used as a JSON key)"
+  ],
+  "files_opened_and_read_in_full": 28,
+  "files_opened_list": [
+   "tools/perf_budget.py",
+   "tools/run_r3_qualification.py",
+   "tools/build_publication_manifest.py",
+   "tools/build_evidence_manifest.py",
+   "tools/tt_summary_check.py",
+   "tools/knowledge_ready_probe.py",
+   "tools/build_evidence_md.py",
+   "tools/edge_selfcheck.py",
+   "tools/preflight_check.py",
+   "tools/replay_check.py",
+   "tools/host_projection_check.py",
+   "tools/cli_surface_check.py",
+   "tools/portable_install_check.py",
+   "tools/run_golden_pilots.py",
+   "tools/build_evidence_md_r2.py",
+   "tools/run_nrtv_judge.py",
+   "tools/round_selfscan.py",
+   "tools/quarantine_review.py",
+   "tools/publication_attestation.py",
+   "tools/round_envelope.py",
+   "tools/registry_reconcile.py",
+   "tools/skill_pack_check.py",
+   "tools/web_pack_check.py",
+   "tools/build_dist.py",
+   "tools/build_spec_del_crosswalk.py",
+   "tools/admit_technologies.py",
+   "tools/hgk_admission_driver.py",
+   "tests/test_perf_budget.py"
+  ],
+  "files_grepped_only_not_opened_individually": [
+   "tools/cli_smoke.py",
+   "tools/deny_list_scan.py",
+   "tools/github_publish.py",
+   "tools/history_secret_scan.py",
+   "tools/pi_dedup_check.py",
+   "tools/run_s1_slice.py",
+   "tools/build_s5_s8_backlog.py",
+   "tools/kanban_canonical_complete.py",
+   "src/pipd_ls_sp/__init__.py",
+   "src/pipd_ls_sp/errors.py",
+   "src/pipd_ls_sp/profiles.py",
+   "src/pipd_ls_sp/registry.py",
+   "src/pipd_ls_sp/util.py",
+   "src/pipd_ls_sp/pipeline.py",
+   "src/pipd_ls_sp/validate.py",
+   "src/pipd_ls_sp/repo_context.py",
+   "src/pipd_ls_sp/projection.py",
+   "src/pipd_ls_sp/export_bundle.py",
+   "src/pipd_ls_sp/requirements.py",
+   "src/pipd_ls_sp/workspace.py",
+   "src/pipd_ls_sp/cli.py"
+  ],
+  "files_searched_total_reach": "whole repo grepped; 28 files read line-by-line; 21 files matched a token but were decided from the grep context plus their callers",
+  "coverage_limit": "A static search cannot PROVE absence of the pattern. It bounds the search: within the files opened and the tokens grepped, the ONLY construct that presents a recorded/frozen/historical value while computing it live is the perf_budget `historical` block. Files listed as grep-only were not read line-by-line."
+ }
+}

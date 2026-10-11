@@ -1,0 +1,46 @@
+{
+ "schema": "pipd-r5s4-ao-b4probe/1",
+ "victim_member": "pipd_ls_sp/schemas/ArtifactIdentity.schema.json",
+ "mutation": {
+  "dropped": "pipd_ls_sp/schemas/ArtifactIdentity.schema.json",
+  "record_row_removed": "pipd_ls_sp/schemas/ArtifactIdentity.schema.json"
+ },
+ "wheel_sha256": "f87622b9d3d7142edffadb5aa70beb6ff2d7d57b4c15f91f79efc3c5a60cb54c",
+ "install_exit": 0,
+ "installed_package_probe": {
+  "raw": "{\"schemas_dir_has_victim\": false, \"registry_lists_victim\": false, \"listed_count\": 0}",
+  "stderr": ""
+ },
+ "commands": [
+  {
+   "argv": [
+    "validate"
+   ],
+   "exit": 2,
+   "names_missing_schema": false,
+   "typed_error": false,
+   "tail": "{\n \"code\": \"USAGE_INVALID\",\n \"message\": \"invalid command line; see --help for the 13 commands\",\n \"verdict\": \"FAIL\"\n}\nusage: pipd validate [-h] --bundle BUNDLE [--explain]\npipd validate: error: the following arguments are required: --bundle\n"
+  },
+  {
+   "argv": [
+    "compile-pi"
+   ],
+   "exit": 2,
+   "names_missing_schema": false,
+   "typed_error": false,
+   "tail": "{\n \"code\": \"USAGE_INVALID\",\n \"message\": \"invalid command line; see --help for the 13 commands\",\n \"verdict\": \"FAIL\"\n}\nusage: pipd compile-pi [-h] --intent INTENT [--profile PROFILE] [--explain]\n                       [--replay]\npipd compile-pi: error: the following arguments are required: --intent\n"
+  },
+  {
+   "argv": [
+    "doctor",
+    "--root",
+    "C:\\Users\\user\\AppData\\Local\\Temp\\b4probe-d2jlxfah"
+   ],
+   "exit": 2,
+   "names_missing_schema": false,
+   "typed_error": false,
+   "tail": "\": \"invalid command line; see --help for the 13 commands\",\n \"verdict\": \"FAIL\"\n}\nusage: pipd [-h] [--root ROOT]\n            {init,intake,profile,compile-pi,bind-pd,compile-ecp,compile-tqaep,validate,doctor,project,export,diff,repair}\n            ...\npipd: error: unrecognized arguments: --root C:\\Users\\user\\AppData\\Local\\Temp\\b4probe-d2jlxfah --root C:\\Users\\user\\AppData\\Local\\Temp\\b4probe-d2jlxfah\n"
+  }
+ ],
+ "conclusion": "at least one subcommand refuses to run with the schema missing: validate, compile-pi, doctor --root C:\\Users\\user\\AppData\\Local\\Temp\\b4probe-d2jlxfah"
+}

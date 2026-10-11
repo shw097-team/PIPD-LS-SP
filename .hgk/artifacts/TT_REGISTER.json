@@ -429,27 +429,32 @@
   }
  ],
  "status_summary": {
-  "total": 17,
+  "total": 22,
   "closed": 1,
-  "partial": 4,
-  "open": 9,
+  "partial": 2,
+  "open": 16,
   "open_owner_gate": 2,
   "temp_closed": 1,
   "unknown": 0,
-  "blocking_count": 11,
+  "unmapped_statuses": {},
+  "blocking_count": 18,
   "state_vocabulary": [
    "CLOSED (fresh verification required and re-done)",
    "PARTIAL (stays visible)",
+   "PARTIAL_CLOSED (alias of PARTIAL: a close that failed fresh verification and was re-opened)",
    "OPEN",
    "OPEN_OWNER_GATE",
    "TEMP_CLOSED (independently closed)",
    "UNKNOWN (stays visible)"
   ],
-  "count": 17,
+  "vocabulary_aliases": {
+   "PARTIAL_CLOSED": "partial"
+  },
+  "count": 22,
   "as_of_round": "R3-20261009-audit-repair",
   "note": "true denominator: every row carries owner / state / raw_evidence / close_criterion and a this-round re-verification. No row is closed on history alone and no FAIL is hidden behind a percentage."
  },
- "as_of_candidate": "db2299118c791c5b251ed90d1d8d40171ce82aca",
+ "as_of_candidate": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
  "evidence_commit": "db2299118c791c5b251ed90d1d8d40171ce82aca",
  "previous_evidence_commit": "ede2c19ffcbe0e81739b28eb4c13a9717af1ca8d",
  "r3_reverification_round": "R3-20261009-audit-repair",

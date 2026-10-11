@@ -1,0 +1,126 @@
+{
+  "overall": "FAIL",
+  "claims": [
+    {
+      "id": 1,
+      "verdict": "PASS",
+      "evidence": "Subject SHA256 ca1f64e551d336164254a4acbdb32a6a8cafb505d5447b7a00fcc76449024a85. Outside checkout in scratch/codex-verify-004, unset PYTHONPATH and PYTHONHOME; Python311 -m venv scratch/venv exited 0; venv/Scripts/python.exe -m pip install --no-cache-dir C:/Projects/Agent_Workspace/PIPD-r5r-repair-wt/dist/pipd_ls_sp-0.1.0-py3-none-any.whl exited 0. Doctor exited 0, families=19, findings=[], verdict=PASS, schema_source.mode=INSTALLED. Import path/sys.path exclude checkout. Exact absolute commands/stdout/stderr are in raw_transcript.txt."
+    },
+    {
+      "id": 2,
+      "verdict": "PASS",
+      "evidence": "Installed CLI intake, compile-pi, bind-pd, compile-ecp and compile-tqaep all exited 0 using independently authored greeting goal and scratch/my-repo/src/widget.py; git scratch repo has own committed head. Initial --source independent-checker-input refused AUTHORITY_UNKNOWN (2); corrected to existing absolute scratch file. Without --checker-receipt, compile-tqaep refused TQ_SOD (2); supplied fixture-maker, independent-codex-checker, independent-design-review-004 and it exited 0. Receipt is only a design fixture string, not proof of executed independent acceptance. All commands and full output retained."
+    },
+    {
+      "id": 3,
+      "verdict": "PASS",
+      "evidence": "CWD scratch/codex-verify-004 has no schemas directory. Installed CLI validate --bundle scratch/bundle.json with no --root exited 0: PASS, checked=4, findings=[], schema_source.mode=INSTALLED. Scratch override-root/schemas copied from installed package, includes registry.json and a checker-specific required property. --root scratch/override-root validate --bundle scratch/bundle.json exited 1 with mode=WORKSPACE and exact finding PI-PKG/: checker_override_required is a required property (quoted in raw output), proving chosen schemas actually enforce local override."
+    },
+    {
+      "id": 4,
+      "verdict": "PASS",
+      "evidence": "Four stdout objects assembled without changes; equality asserted against JSON parsed directly from each verbatim stdout file. Raw bundle validate exited 0, verdict=PASS, checked=4, findings=[]. PI-PKG._profile_meta remains present. Complete raw key sets included below and in transcript.",
+      "raw_bundle_keys": {
+        "PI-PKG": [
+          "_profile_meta",
+          "acceptance",
+          "content_hash",
+          "schema_version",
+          "stable_semantic_contract",
+          "subject_id",
+          "trace",
+          "version"
+        ],
+        "PD-PKG": [
+          "RepoContext",
+          "content_hash",
+          "currentness",
+          "late_bound_construction_binding",
+          "schema_version",
+          "subject_id",
+          "version"
+        ],
+        "ECP": [
+          "content_hash",
+          "effect_intent",
+          "idempotency",
+          "permission",
+          "readback",
+          "retries",
+          "rollback",
+          "schema_version",
+          "subject_id",
+          "version"
+        ],
+        "TQAEP": [
+          "acceptance",
+          "content_hash",
+          "fixtures",
+          "oracles",
+          "requalification",
+          "schema_version",
+          "subject_id",
+          "tests",
+          "version"
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "verdict": "PASS",
+      "evidence": "Changed only existing ECP.effect_intent to edited after identity issuance, retaining original hash. validate --bundle scratch/body-tamper-only.json exited 1, checked=4, verdict=FAIL; sole finding kind=SEMANTIC: ECP: content_hash does not match the record body (body edited without re-issuing identity). No traceback. Optional installed-schema corruption test not performed."
+    },
+    {
+      "id": 6,
+      "verdict": "PASS",
+      "evidence": "Anonymous git ls-remote https://github.com/shw097-team/PIPD-LS-SP.git refs/tags/v0.1.0-preview.1 returned cc9bf574c3b3f0f44ea615b5c67ae40d74efee32. Anonymous curl GitHub release API returned corresponding html_url, tag_name and target_commitish equal same commit; anonymous curl -fL wheel asset download exited 0, and downloaded bytes SHA256=c450dbef1c3bfbc2048dcf0562f83d655cc5e5940511e65fd44bf9f91cf14e60. This confirms stated current baseline, not all historical tag activity."
+    },
+    {
+      "id": 7,
+      "verdict": "PASS",
+      "evidence": "Yes: another person with Python 3.11, Git, network dependency access and this repaired wheel can install and execute the design chain today, as demonstrated. Qualification: this is design output, not execution/runtime certification. Wheel contains no README/quickstart/preview notes; CLI help only lists flags. I needed to know --source is an existing file locator rather than an arbitrary label, save stdout JSON files and wrap four records by contract family, create a committed git repo for bind-pd, and supply distinct maker/checker plus a nonempty receipt for compile-tqaep. Typed errors helped with source and receipt; installed source review clarified receipt is a design-only string. Package documentation does not provide an end-to-end quickstart. Repaired wheel public availability was not established; published baseline is a different wheel."
+    },
+    {
+      "id": 8,
+      "verdict": "FAIL",
+      "evidence": "Required identity enforcement works: missing PI-PKG.subject_id => CLI exit 1, SCHEMA PI-PKG/: subject_id is a required property, SEMANTIC missing universal identity field subject_id. Junk enforcement works: PD-PKG.undeclared_junk => exit 1, SCHEMA Additional properties are not allowed (undeclared_junk was unexpected), plus hash mismatch. Schema-valid body edit => exit 1, ECP hash mismatch. But adding trace={undeclared: silently accepted, not_a_trace_list: true} separately to PD-PKG, ECP and TQAEP (without hash changes) => each full bundle CLI exit 0, PASS, checked=4, findings=[]. The published wheel validator rejects the exact same individual records with Additional properties are not allowed (trace was unexpected); subject validator passes them. Baseline module loaded directly from downloaded published wheel, using installed identical contract schemas. This is a real widening, not speculation. Installed pipeline inspection and observed full chain confirm only PI-PKG receives trace; bind-pd/compile-ecp/compile-tqaep do not emit it normally. Thus the widening is latent in normal generator output, but externally supplied records exercise it now. I would not call this repair safe for a strict contract validator, because undeclared trace bypasses both schema rejection and body hashing."
+    },
+    {
+      "id": 9,
+      "verdict": "PASS",
+      "evidence": "Reviewed exact source diff published commit cc9bf574... to 6f40174: equality with git count preserved; old n<1000 replaced by path rejection and n<25000. Executed actual helper and actual checkout-branch assertions extracted by AST, with independently constructed mocked tracked lists (omitted later whole-tree-copy tests). Poisoned 4-entry list (.git/objects/ab/blob, .git/config, nested/.git/refs/heads/main) fails the actual assertEqual(internals,[]) despite being below old cap. Bare objects/refs/pack/index/index.lock also rejected. Ordinary .gitignore/.gitattributes pass; 1015 ordinary paths pass. Direct detector is stronger for stated version-control-machinery purpose; size cap was a mis-specified proxy. No assertion that the enlarged numeric limit retains the old arbitrary size policy."
+    }
+  ],
+  "counterexamples": [
+    {
+      "id": "CE-CODEX-TRACE-WIDENING",
+      "claim": 8,
+      "contracts": [
+        "PD-PKG",
+        "ECP",
+        "TQAEP"
+      ],
+      "fixture_change": "Add undeclared trace object; retain all original fields and original content_hash",
+      "actual": "PASS; checked=4; findings=[]; exit 0 in each installed CLI run",
+      "expected": "Reject undeclared trace under additionalProperties:false, as published validator does",
+      "pipeline_reachability": "No normal shipped compiler emits trace on these contracts; validator accepts caller-provided bundle JSON",
+      "safety_ruling": "Latent in generator output but real widening of accepted input; repair cannot be independently accepted as preserving strict enforcement"
+    }
+  ],
+  "what_i_did_not_verify": "Did not run full unit suite, runtime/live S5+ checker execution, production/host certification, other platforms, optional installed-schema corruption alternative, historical tag immutability beyond checking current tag and release bytes, or public availability of the repaired subject wheel. Baseline wheel was downloaded and its validator executed directly, not fully installed. Complete guard test with whole-tree temporary copies was not run; actual relevant assertions were executed with adversarial mock lists. These are outside the required demonstrations; all nine requested claims have explicit rulings.",
+  "evaluator": "independent process; did not participate in the build",
+  "provenance": {
+    "verdict": "PASS",
+    "commit": "6f40174da146067620a76e018f11a28b5ad54356",
+    "wheel_sha256": "ca1f64e551d336164254a4acbdb32a6a8cafb505d5447b7a00fcc76449024a85",
+    "record_rows": 41,
+    "record_mismatches": [],
+    "unlisted_members": [],
+    "package_sources_and_schemas_equal_source_commit_and_install": true,
+    "unpackaged_python_modules": []
+  },
+  "scratch_directory": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/codex-verify-004",
+  "raw_transcript": "raw_transcript.txt",
+  "unverified_claim_ids": [],
+  "checker_harness_notes": "Recorded failed locator attempt and missing receipt attempt; fixed scratch inspect.py stdlib-shadowing error without modifying package. Existing repository dirty paths were observed before and after unchanged. No source edits, rebuild, tag, commit, republish or push performed in subject repository."
+}

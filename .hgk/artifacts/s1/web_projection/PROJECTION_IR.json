@@ -1,0 +1,3298 @@
+{
+ "adapter_mapping": {
+  "hosts": {
+   "host:generic-skills": {
+    "allowed_permissions": [
+     "read:canonical-objects",
+     "emit:projection"
+    ],
+    "capability_loss": [
+     {
+      "capability": "skill execution authority",
+      "loss_id": "LOSS-GS-01",
+      "reason": "projection carries the skill contract only; execution stays with the host",
+      "record_type": "CapabilityLoss",
+      "severity": "DECLARED"
+     }
+    ],
+    "compatibility_source": null,
+    "dir": "host_generic-skills",
+    "entry_file": "SKILL.md",
+    "entry_kind": "skill_projection",
+    "field_contract_sources": [
+     "S0:SurfaceProjectionManifest",
+     "S0:ProfileBinding"
+    ],
+    "loader": "skill_projection_v1",
+    "nack": [
+     {
+      "basis": "S5/S6 NOT_AUTHORISED",
+      "nack_id": "NACK-GS-01",
+      "record_type": "NACK",
+      "statement": "effective load is a fixture/mock contract load, not a live generic host run"
+     },
+     {
+      "basis": "S5/S6 NOT_AUTHORISED",
+      "nack_id": "NACK-GS-02",
+      "record_type": "NACK",
+      "statement": "no live HGK/GENIE integration PASS is claimed by this projection"
+     }
+    ],
+    "provider": {
+     "admission_state": "FIXTURE_MOCK",
+     "basis": "adapter checks use fixture/mock contracts only",
+     "live_integration": false,
+     "provider_id": "generic-skill-host"
+    },
+    "required_mappings": [
+     "S0:SurfaceProjectionManifest",
+     "S0:ProfileBinding"
+    ],
+    "skill_id": "pipd-surface-projection",
+    "source_objects": [
+     "S0:SurfaceProjectionManifest",
+     "S0:ProfileBinding",
+     "PROFILE:TRIO",
+     "ADAPTER:MAPPING"
+    ]
+   },
+   "host:genie-adapter": {
+    "allowed_permissions": [
+     "read:canonical-objects",
+     "emit:projection",
+     "emit:object-crosswalk"
+    ],
+    "capability_loss": [
+     {
+      "capability": "truth writeback",
+      "loss_id": "LOSS-GA-01",
+      "reason": "GENIE target refs are reference-only; no truth writeback by contract",
+      "record_type": "CapabilityLoss",
+      "severity": "DECLARED"
+     },
+     {
+      "capability": "live GENIE integration",
+      "loss_id": "LOSS-GA-02",
+      "reason": "S6 GENIE live integration NOT_AUTHORISED; seam schema only",
+      "record_type": "CapabilityLoss",
+      "severity": "DECLARED"
+     }
+    ],
+    "compatibility_source": "SEAM:S6",
+    "dir": "host_genie-adapter",
+    "entry_file": "object-crosswalk.json",
+    "entry_kind": "object_crosswalk",
+    "field_contract_sources": [
+     "S0:GENIEProjectionRef",
+     "S0:ArtifactIdentity"
+    ],
+    "loader": "object_crosswalk_v1",
+    "nack": [
+     {
+      "basis": "S6 NOT_AUTHORISED",
+      "nack_id": "NACK-GA-01",
+      "record_type": "NACK",
+      "statement": "object-crosswalk effective load is a fixture/mock contract load, not a live GENIE run"
+     },
+     {
+      "basis": "S6 NOT_AUTHORISED",
+      "nack_id": "NACK-GA-02",
+      "record_type": "NACK",
+      "statement": "no live GENIE integration PASS is claimed by this projection"
+     }
+    ],
+    "provider": {
+     "admission_state": "OFF",
+     "basis": "S6 GENIE live integration NOT_AUTHORISED",
+     "live_integration": false,
+     "provider_id": "genie-live-integration"
+    },
+    "required_mappings": [
+     "S0:PD-PKG",
+     "S0:ProfileBinding",
+     "S0:PI-PKG",
+     "S0:ArtifactIdentity"
+    ],
+    "required_targets_from": "S0:GENIEProjectionRef",
+    "source_objects": [
+     "S0:GENIEProjectionRef",
+     "S0:ArtifactIdentity",
+     "S0:ProfileBinding",
+     "S0:PI-PKG",
+     "S0:PD-PKG",
+     "SEAM:S6",
+     "ADAPTER:MAPPING"
+    ]
+   },
+   "host:hgk-receiver": {
+    "allowed_permissions": [
+     "read:canonical-objects",
+     "emit:projection",
+     "emit:receiver-map"
+    ],
+    "capability_loss": [
+     {
+      "capability": "runtime authority",
+      "loss_id": "LOSS-HR-01",
+      "reason": "the typed receiver map is contract-only; the receiver is never executed here",
+      "record_type": "CapabilityLoss",
+      "severity": "DECLARED"
+     },
+     {
+      "capability": "live receiver ack",
+      "loss_id": "LOSS-HR-02",
+      "reason": "S5 receiver canary NOT_AUTHORISED; ack/nack state stays contract-level",
+      "record_type": "CapabilityLoss",
+      "severity": "DECLARED"
+     }
+    ],
+    "compatibility_source": "SEAM:S5",
+    "dir": "host_hgk-receiver",
+    "entry_file": "receiver-map.json",
+    "entry_kind": "receiver_map",
+    "field_contract_sources": [
+     "S0:ExecutionHandoff",
+     "S0:ExecutionBindingRef",
+     "S0:WorkOrderCandidate"
+    ],
+    "loader": "receiver_map_v1",
+    "nack": [
+     {
+      "basis": "S5 NOT_AUTHORISED",
+      "nack_id": "NACK-HR-01",
+      "record_type": "NACK",
+      "statement": "receiver-map effective load is a fixture/mock contract load, not a live HGK run"
+     },
+     {
+      "basis": "S5 NOT_AUTHORISED",
+      "nack_id": "NACK-HR-02",
+      "record_type": "NACK",
+      "statement": "no live HGK integration PASS is claimed by this projection"
+     }
+    ],
+    "provider": {
+     "admission_state": "OFF",
+     "basis": "S5 HGK execution receiver canary NOT_AUTHORISED",
+     "live_integration": false,
+     "provider_id": "hgk-execution-receiver"
+    },
+    "required_mappings": [
+     "S0:ExecutionHandoff",
+     "S0:ExecutionBindingRef",
+     "S0:WorkOrderCandidate"
+    ],
+    "source_objects": [
+     "S0:ExecutionHandoff",
+     "S0:ExecutionBindingRef",
+     "S0:WorkOrderCandidate",
+     "SEAM:S5",
+     "ADAPTER:MAPPING"
+    ]
+   }
+  },
+  "routing": {
+   "ASSURED": [
+    "host:generic-skills",
+    "host:hgk-receiver",
+    "host:genie-adapter"
+   ],
+   "LITE": [
+    "host:generic-skills"
+   ],
+   "STANDARD": [
+    "host:generic-skills",
+    "host:hgk-receiver",
+    "host:genie-adapter"
+   ]
+  },
+  "schema": "PIPD-ADAPTER-MAPPING/1",
+  "version": "1",
+  "writable_scope": [
+   "dist/web/**"
+  ]
+ },
+ "artifacts": [
+  {
+   "artifact_id": "web:PIPD_BOOTSTRAP",
+   "capability_loss": [
+    {
+     "capability": "runtime authority",
+     "loss_id": "LOSS-WEB-01",
+     "reason": "the Web pack is a read-only semantic surface; it executes nothing",
+     "record_type": "CapabilityLoss",
+     "severity": "DECLARED"
+    }
+   ],
+   "denominator": true,
+   "kind": "WEB_DOC",
+   "nack": [
+    {
+     "basis": "claim ceiling: DESIGN/FILE_PRESENT/SCHEMA_VALID only",
+     "nack_id": "NACK-WEB-01",
+     "record_type": "NACK",
+     "statement": "this document carries contracts and provenance only; it has no runtime effect"
+    },
+    {
+     "basis": "S5/S6 NOT_AUTHORISED",
+     "nack_id": "NACK-WEB-02",
+     "record_type": "NACK",
+     "statement": "no live HGK/GENIE integration PASS is claimed; S5/S6 seams are fixture/mock only"
+    }
+   ],
+   "path": "PIPD_BOOTSTRAP.md",
+   "payload": {
+    "doc_id": "PIPD_BOOTSTRAP",
+    "sections": [
+     {
+      "columns": [
+       "object_id",
+       "schema",
+       "schema_version",
+       "source_path",
+       "source_hash"
+      ],
+      "heading": "Canonical Source Inventory",
+      "rows": [
+       [
+        "REGISTRY:CONTRACT-FAMILIES",
+        "PIPD-S0-CONTRACT-REGISTRY/1",
+        "1",
+        "schemas/registry.json",
+        "85100a8e5ba6320f6648d33a14099fb999b2c452a94aff1652854d2550065e9d"
+       ],
+       [
+        "S0:ArtifactIdentity",
+        "urn:pipd:s0:ArtifactIdentity:1",
+        "1",
+        "schemas/ArtifactIdentity.schema.json",
+        "67d26f18d26307410bf0be5369949eb525d477e053ee3a7091e54b97f6d4ad4c"
+       ],
+       [
+        "S0:AuthorityBinding",
+        "urn:pipd:s0:AuthorityBinding:1",
+        "1",
+        "schemas/AuthorityBinding.schema.json",
+        "66f1b3ce91d7f12ad6a6350a6628afd6c600e3e7ff62408b714c6fa0f1898ded"
+       ],
+       [
+        "S0:RequirementAtom",
+        "urn:pipd:s0:RequirementAtom:1",
+        "1",
+        "schemas/RequirementAtom.schema.json",
+        "021f6a30cf178190281176138686447e492640cf97b125f9c21a0aa2fa31c684"
+       ],
+       [
+        "S0:ProfileBinding",
+        "urn:pipd:s0:ProfileBinding:1",
+        "1",
+        "schemas/ProfileBinding.schema.json",
+        "b559fb70bb6ceb9d491c989cb5ec031f44d15bcad5b40e75d6649aa059a93556"
+       ],
+       [
+        "S0:TechnologyAdmission",
+        "urn:pipd:s0:TechnologyAdmission:1",
+        "1",
+        "schemas/TechnologyAdmission.schema.json",
+        "40703552af4fb14c7aa87dd68ead6eac1cf7d272541fda273cf22b8fb109c4d6"
+       ],
+       [
+        "S0:PI-PKG",
+        "urn:pipd:s0:PI-PKG:1",
+        "1",
+        "schemas/PI-PKG.schema.json",
+        "3e797d4eac04a04fee65add1ca6cb196154490ccd848b9b1cc561f24feaefb57"
+       ],
+       [
+        "S0:PD-PKG",
+        "urn:pipd:s0:PD-PKG:1",
+        "1",
+        "schemas/PD-PKG.schema.json",
+        "37291e8790e03839308a7c36125f9576d14da725a27480c9759ef5362d255541"
+       ],
+       [
+        "S0:TraceLink",
+        "urn:pipd:s0:TraceLink:1",
+        "1",
+        "schemas/TraceLink.schema.json",
+        "ff6ef713b95a1a2812bd31d2b10cdcc064671c986d29d0e69318dc5a9f54e5e4"
+       ],
+       [
+        "S0:TaskSpecSeed",
+        "urn:pipd:s0:TaskSpecSeed:1",
+        "1",
+        "schemas/TaskSpecSeed.schema.json",
+        "c6e086aef0e4f21179cba52c5187c33a3873b18732c669c4d03bcad057e9b6cc"
+       ],
+       [
+        "S0:ConstructionContract",
+        "urn:pipd:s0:ConstructionContract:1",
+        "1",
+        "schemas/ConstructionContract.schema.json",
+        "1c56f15abd6e30d06f914f021b0b813f441689f9d47989ef48c7d7325557f0f2"
+       ],
+       [
+        "S0:WorkOrderCandidate",
+        "urn:pipd:s0:WorkOrderCandidate:1",
+        "1",
+        "schemas/WorkOrderCandidate.schema.json",
+        "03a8692f183f106ec7e4739b925c980ba07d68551627ca6af315fa9f9e2caf54"
+       ],
+       [
+        "S0:ECP",
+        "urn:pipd:s0:ECP:1",
+        "1",
+        "schemas/ECP.schema.json",
+        "7ecd9e92e6d43dba9675bb93ff0dddd178a0a17c8c3bc3f143696594dc945505"
+       ],
+       [
+        "S0:TQAEP",
+        "urn:pipd:s0:TQAEP:1",
+        "1",
+        "schemas/TQAEP.schema.json",
+        "d14092817befb5e81c470449b9ac5160b6fba7e3fcde450ec00d1cadc21820cd"
+       ],
+       [
+        "S0:ExecutionHandoff",
+        "urn:pipd:s0:ExecutionHandoff:1",
+        "1",
+        "schemas/ExecutionHandoff.schema.json",
+        "7fa36d3e7fe6e7416111b975381a42f3f5ad46cc81d97b610f317548815bd77b"
+       ],
+       [
+        "S0:EvidenceExpectation",
+        "urn:pipd:s0:EvidenceExpectation:1",
+        "1",
+        "schemas/EvidenceExpectation.schema.json",
+        "02327839c21d5ba24d08dd52f9caa31a07616965c6235cece58487a810b99b7f"
+       ],
+       [
+        "S0:ClaimCeiling",
+        "urn:pipd:s0:ClaimCeiling:1",
+        "1",
+        "schemas/ClaimCeiling.schema.json",
+        "dbb2ce4dd322da99ca3b3067274b85928b995aba59ca3f04802d5e8ba253ab85"
+       ],
+       [
+        "S0:SurfaceProjectionManifest",
+        "urn:pipd:s0:SurfaceProjectionManifest:1",
+        "1",
+        "schemas/SurfaceProjectionManifest.schema.json",
+        "87f8057e8dac68f304ed4e9c2dd118a26c69428015769ab09d39398d34dcb57d"
+       ],
+       [
+        "S0:GENIEProjectionRef",
+        "urn:pipd:s0:GENIEProjectionRef:1",
+        "1",
+        "schemas/GENIEProjectionRef.schema.json",
+        "22c88a0f9ec4ea4747967546f9a5ea7f19f0285be60ac42567fae2ca0b1c36ed"
+       ],
+       [
+        "S0:ExecutionBindingRef",
+        "urn:pipd:s0:ExecutionBindingRef:1",
+        "1",
+        "schemas/ExecutionBindingRef.schema.json",
+        "7c98cebfee30d9719cb8fd2d565c44120ce8d1be5b231071c19528cae1e95f50"
+       ],
+       [
+        "PROFILE:TRIO",
+        "PIPD-PROFILE-TRIO/1",
+        "1",
+        "src/pipd_ls_sp/profiles.py",
+        "2631eac7f6cb2b48dba0ed6628c4d7d7e94b7843ac29353950c2d51172789070"
+       ],
+       [
+        "SEAM:S5",
+        "PIPD-SEAM-COMPAT/1",
+        "1",
+        "fixtures/s5_s8/s5_compat.json",
+        "5aa6aa3e4f360ab6e898e5034ec3871e731ec48137ae8af50fc2138871faf3ec"
+       ],
+       [
+        "SEAM:S6",
+        "PIPD-SEAM-COMPAT/1",
+        "1",
+        "fixtures/s5_s8/s6_compat.json",
+        "a2541b4b73f054d5557dcaeaca1544a3665fb9e5ddcd7264be383b59c4c39b37"
+       ],
+       [
+        "SEAM:S7",
+        "PIPD-SEAM-COMPAT/1",
+        "1",
+        "fixtures/s5_s8/s7_compat.json",
+        "185c160092e751e66c075222326378124e7c55f569d725fb64392cebb224b515"
+       ],
+       [
+        "SEAM:S8",
+        "PIPD-SEAM-COMPAT/1",
+        "1",
+        "fixtures/s5_s8/s8_compat.json",
+        "53492fe85d88aff6e837572ba90d5b3ccba0fccd6d11375928f307fb072a2ffe"
+       ],
+       [
+        "ADAPTER:MAPPING",
+        "PIPD-ADAPTER-MAPPING/1",
+        "1",
+        "src/pipd_ls_sp/projection.py#ADAPTER_MAPPING",
+        "ae939d979559985dfe692bf7f8638fc571d07013270fc15e734951b37b2af1ab"
+       ]
+      ]
+     },
+     {
+      "columns": [
+       "surface",
+       "dir",
+       "entry_file",
+       "loader",
+       "provider_admission_state",
+       "live_integration"
+      ],
+      "heading": "Host Surfaces",
+      "rows": [
+       [
+        "host:generic-skills",
+        "host_generic-skills",
+        "SKILL.md",
+        "skill_projection_v1",
+        "FIXTURE_MOCK",
+        "false"
+       ],
+       [
+        "host:hgk-receiver",
+        "host_hgk-receiver",
+        "receiver-map.json",
+        "receiver_map_v1",
+        "OFF",
+        "false"
+       ],
+       [
+        "host:genie-adapter",
+        "host_genie-adapter",
+        "object-crosswalk.json",
+        "object_crosswalk_v1",
+        "OFF",
+        "false"
+       ]
+      ]
+     },
+     {
+      "columns": [
+       "files",
+       "kind",
+       "count",
+       "in_denominator"
+      ],
+      "heading": "Web Denominator",
+      "rows": [
+       [
+        "PIPD_BOOTSTRAP.md..PIPD_EVAL_HANDOFF.md",
+        "WEB_DOC",
+        "5",
+        "true"
+       ],
+       [
+        "OPTIONAL_SITE_UI/index.html, app.js, styles.css, manifest.webmanifest, README.md",
+        "OPTIONAL_SITE_UI",
+        "5",
+        "false"
+       ]
+      ]
+     },
+     {
+      "columns": [
+       "profile",
+       "host_surfaces"
+      ],
+      "heading": "Profile Routing",
+      "rows": [
+       [
+        "ASSURED",
+        "host:generic-skills, host:hgk-receiver, host:genie-adapter"
+       ],
+       [
+        "LITE",
+        "host:generic-skills"
+       ],
+       [
+        "STANDARD",
+        "host:generic-skills, host:hgk-receiver, host:genie-adapter"
+       ]
+      ]
+     }
+    ],
+    "title": "PIPD-LS-SP Bootstrap"
+   },
+   "scope": [
+    "dist/web/**"
+   ],
+   "source_hash": "6c2f263e8b918d5499a9bbe1caff6dc6a154fa39516a8bcbbdbcd78e759057b7",
+   "source_objects": [
+    {
+     "object_id": "REGISTRY:CONTRACT-FAMILIES",
+     "schema": "PIPD-S0-CONTRACT-REGISTRY/1",
+     "schema_version": "1",
+     "source_hash": "85100a8e5ba6320f6648d33a14099fb999b2c452a94aff1652854d2550065e9d",
+     "source_path": "schemas/registry.json"
+    },
+    {
+     "object_id": "S0:ArtifactIdentity",
+     "schema": "urn:pipd:s0:ArtifactIdentity:1",
+     "schema_version": "1",
+     "source_hash": "67d26f18d26307410bf0be5369949eb525d477e053ee3a7091e54b97f6d4ad4c",
+     "source_path": "schemas/ArtifactIdentity.schema.json"
+    },
+    {
+     "object_id": "S0:AuthorityBinding",
+     "schema": "urn:pipd:s0:AuthorityBinding:1",
+     "schema_version": "1",
+     "source_hash": "66f1b3ce91d7f12ad6a6350a6628afd6c600e3e7ff62408b714c6fa0f1898ded",
+     "source_path": "schemas/AuthorityBinding.schema.json"
+    },
+    {
+     "object_id": "S0:RequirementAtom",
+     "schema": "urn:pipd:s0:RequirementAtom:1",
+     "schema_version": "1",
+     "source_hash": "021f6a30cf178190281176138686447e492640cf97b125f9c21a0aa2fa31c684",
+     "source_path": "schemas/RequirementAtom.schema.json"
+    },
+    {
+     "object_id": "S0:ProfileBinding",
+     "schema": "urn:pipd:s0:ProfileBinding:1",
+     "schema_version": "1",
+     "source_hash": "b559fb70bb6ceb9d491c989cb5ec031f44d15bcad5b40e75d6649aa059a93556",
+     "source_path": "schemas/ProfileBinding.schema.json"
+    },
+    {
+     "object_id": "S0:TechnologyAdmission",
+     "schema": "urn:pipd:s0:TechnologyAdmission:1",
+     "schema_version": "1",
+     "source_hash": "40703552af4fb14c7aa87dd68ead6eac1cf7d272541fda273cf22b8fb109c4d6",
+     "source_path": "schemas/TechnologyAdmission.schema.json"
+    },
+    {
+     "object_id": "S0:PI-PKG",
+     "schema": "urn:pipd:s0:PI-PKG:1",
+     "schema_version": "1",
+     "source_hash": "3e797d4eac04a04fee65add1ca6cb196154490ccd848b9b1cc561f24feaefb57",
+     "source_path": "schemas/PI-PKG.schema.json"
+    },
+    {
+     "object_id": "S0:PD-PKG",
+     "schema": "urn:pipd:s0:PD-PKG:1",
+     "schema_version": "1",
+     "source_hash": "37291e8790e03839308a7c36125f9576d14da725a27480c9759ef5362d255541",
+     "source_path": "schemas/PD-PKG.schema.json"
+    },
+    {
+     "object_id": "S0:TraceLink",
+     "schema": "urn:pipd:s0:TraceLink:1",
+     "schema_version": "1",
+     "source_hash": "ff6ef713b95a1a2812bd31d2b10cdcc064671c986d29d0e69318dc5a9f54e5e4",
+     "source_path": "schemas/TraceLink.schema.json"
+    },
+    {
+     "object_id": "S0:TaskSpecSeed",
+     "schema": "urn:pipd:s0:TaskSpecSeed:1",
+     "schema_version": "1",
+     "source_hash": "c6e086aef0e4f21179cba52c5187c33a3873b18732c669c4d03bcad057e9b6cc",
+     "source_path": "schemas/TaskSpecSeed.schema.json"
+    },
+    {
+     "object_id": "S0:ConstructionContract",
+     "schema": "urn:pipd:s0:ConstructionContract:1",
+     "schema_version": "1",
+     "source_hash": "1c56f15abd6e30d06f914f021b0b813f441689f9d47989ef48c7d7325557f0f2",
+     "source_path": "schemas/ConstructionContract.schema.json"
+    },
+    {
+     "object_id": "S0:WorkOrderCandidate",
+     "schema": "urn:pipd:s0:WorkOrderCandidate:1",
+     "schema_version": "1",
+     "source_hash": "03a8692f183f106ec7e4739b925c980ba07d68551627ca6af315fa9f9e2caf54",
+     "source_path": "schemas/WorkOrderCandidate.schema.json"
+    },
+    {
+     "object_id": "S0:ECP",
+     "schema": "urn:pipd:s0:ECP:1",
+     "schema_version": "1",
+     "source_hash": "7ecd9e92e6d43dba9675bb93ff0dddd178a0a17c8c3bc3f143696594dc945505",
+     "source_path": "schemas/ECP.schema.json"
+    },
+    {
+     "object_id": "S0:TQAEP",
+     "schema": "urn:pipd:s0:TQAEP:1",
+     "schema_version": "1",
+     "source_hash": "d14092817befb5e81c470449b9ac5160b6fba7e3fcde450ec00d1cadc21820cd",
+     "source_path": "schemas/TQAEP.schema.json"
+    },
+    {
+     "object_id": "S0:ExecutionHandoff",
+     "schema": "urn:pipd:s0:ExecutionHandoff:1",
+     "schema_version": "1",
+     "source_hash": "7fa36d3e7fe6e7416111b975381a42f3f5ad46cc81d97b610f317548815bd77b",
+     "source_path": "schemas/ExecutionHandoff.schema.json"
+    },
+    {
+     "object_id": "S0:EvidenceExpectation",
+     "schema": "urn:pipd:s0:EvidenceExpectation:1",
+     "schema_version": "1",
+     "source_hash": "02327839c21d5ba24d08dd52f9caa31a07616965c6235cece58487a810b99b7f",
+     "source_path": "schemas/EvidenceExpectation.schema.json"
+    },
+    {
+     "object_id": "S0:ClaimCeiling",
+     "schema": "urn:pipd:s0:ClaimCeiling:1",
+     "schema_version": "1",
+     "source_hash": "dbb2ce4dd322da99ca3b3067274b85928b995aba59ca3f04802d5e8ba253ab85",
+     "source_path": "schemas/ClaimCeiling.schema.json"
+    },
+    {
+     "object_id": "S0:SurfaceProjectionManifest",
+     "schema": "urn:pipd:s0:SurfaceProjectionManifest:1",
+     "schema_version": "1",
+     "source_hash": "87f8057e8dac68f304ed4e9c2dd118a26c69428015769ab09d39398d34dcb57d",
+     "source_path": "schemas/SurfaceProjectionManifest.schema.json"
+    },
+    {
+     "object_id": "S0:GENIEProjectionRef",
+     "schema": "urn:pipd:s0:GENIEProjectionRef:1",
+     "schema_version": "1",
+     "source_hash": "22c88a0f9ec4ea4747967546f9a5ea7f19f0285be60ac42567fae2ca0b1c36ed",
+     "source_path": "schemas/GENIEProjectionRef.schema.json"
+    },
+    {
+     "object_id": "S0:ExecutionBindingRef",
+     "schema": "urn:pipd:s0:ExecutionBindingRef:1",
+     "schema_version": "1",
+     "source_hash": "7c98cebfee30d9719cb8fd2d565c44120ce8d1be5b231071c19528cae1e95f50",
+     "source_path": "schemas/ExecutionBindingRef.schema.json"
+    },
+    {
+     "object_id": "PROFILE:TRIO",
+     "schema": "PIPD-PROFILE-TRIO/1",
+     "schema_version": "1",
+     "source_hash": "2631eac7f6cb2b48dba0ed6628c4d7d7e94b7843ac29353950c2d51172789070",
+     "source_path": "src/pipd_ls_sp/profiles.py"
+    },
+    {
+     "object_id": "SEAM:S5",
+     "schema": "PIPD-SEAM-COMPAT/1",
+     "schema_version": "1",
+     "source_hash": "5aa6aa3e4f360ab6e898e5034ec3871e731ec48137ae8af50fc2138871faf3ec",
+     "source_path": "fixtures/s5_s8/s5_compat.json"
+    },
+    {
+     "object_id": "SEAM:S6",
+     "schema": "PIPD-SEAM-COMPAT/1",
+     "schema_version": "1",
+     "source_hash": "a2541b4b73f054d5557dcaeaca1544a3665fb9e5ddcd7264be383b59c4c39b37",
+     "source_path": "fixtures/s5_s8/s6_compat.json"
+    },
+    {
+     "object_id": "SEAM:S7",
+     "schema": "PIPD-SEAM-COMPAT/1",
+     "schema_version": "1",
+     "source_hash": "185c160092e751e66c075222326378124e7c55f569d725fb64392cebb224b515",
+     "source_path": "fixtures/s5_s8/s7_compat.json"
+    },
+    {
+     "object_id": "SEAM:S8",
+     "schema": "PIPD-SEAM-COMPAT/1",
+     "schema_version": "1",
+     "source_hash": "53492fe85d88aff6e837572ba90d5b3ccba0fccd6d11375928f307fb072a2ffe",
+     "source_path": "fixtures/s5_s8/s8_compat.json"
+    },
+    {
+     "object_id": "ADAPTER:MAPPING",
+     "schema": "PIPD-ADAPTER-MAPPING/1",
+     "schema_version": "1",
+     "source_hash": "ae939d979559985dfe692bf7f8638fc571d07013270fc15e734951b37b2af1ab",
+     "source_path": "src/pipd_ls_sp/projection.py#ADAPTER_MAPPING"
+    }
+   ]
+  },
+  {
+   "artifact_id": "web:PIPD_CANONICAL_CORE",
+   "capability_loss": [
+    {
+     "capability": "runtime authority",
+     "loss_id": "LOSS-WEB-01",
+     "reason": "the Web pack is a read-only semantic surface; it executes nothing",
+     "record_type": "CapabilityLoss",
+     "severity": "DECLARED"
+    }
+   ],
+   "denominator": true,
+   "kind": "WEB_DOC",
+   "nack": [
+    {
+     "basis": "claim ceiling: DESIGN/FILE_PRESENT/SCHEMA_VALID only",
+     "nack_id": "NACK-WEB-01",
+     "record_type": "NACK",
+     "statement": "this document carries contracts and provenance only; it has no runtime effect"
+    },
+    {
+     "basis": "S5/S6 NOT_AUTHORISED",
+     "nack_id": "NACK-WEB-02",
+     "record_type": "NACK",
+     "statement": "no live HGK/GENIE integration PASS is claimed; S5/S6 seams are fixture/mock only"
+    }
+   ],
+   "path": "PIPD_CANONICAL_CORE.md",
+   "payload": {
+    "doc_id": "PIPD_CANONICAL_CORE",
+    "sections": [
+     {
+      "columns": [
+       "index",
+       "contract",
+       "owner",
+       "consumers",
+       "materialization",
+       "schema_file"
+      ],
+      "heading": "Contract Families",
+      "rows": [
+       [
+        "01",
+        "ArtifactIdentity",
+        "PIPD",
+        "all planes",
+        "REQUIRED_NOW",
+        "schemas/ArtifactIdentity.schema.json"
+       ],
+       [
+        "02",
+        "AuthorityBinding",
+        "PIPD",
+        "all compilers/adapters",
+        "REQUIRED_NOW",
+        "schemas/AuthorityBinding.schema.json"
+       ],
+       [
+        "03",
+        "RequirementAtom",
+        "PIPD",
+        "PI compiler/TQAEP",
+        "REQUIRED_NOW",
+        "schemas/RequirementAtom.schema.json"
+       ],
+       [
+        "04",
+        "ProfileBinding",
+        "PIPD",
+        "Skills/JIT/HGK",
+        "REQUIRED_NOW",
+        "schemas/ProfileBinding.schema.json"
+       ],
+       [
+        "05",
+        "TechnologyAdmission",
+        "PIPD",
+        "tool/provider adapters",
+        "REQUIRED_NOW",
+        "schemas/TechnologyAdmission.schema.json"
+       ],
+       [
+        "06",
+        "PI-PKG",
+        "PIPD",
+        "PD binder",
+        "REQUIRED_NOW",
+        "schemas/PI-PKG.schema.json"
+       ],
+       [
+        "07",
+        "PD-PKG",
+        "PIPD",
+        "execution handoff",
+        "REQUIRED_NOW",
+        "schemas/PD-PKG.schema.json"
+       ],
+       [
+        "08",
+        "TraceLink",
+        "PIPD/TQAEP",
+        "validators/checkers",
+        "REQUIRED_NOW",
+        "schemas/TraceLink.schema.json"
+       ],
+       [
+        "09",
+        "TaskSpecSeed",
+        "PIPD",
+        "receiver adapter",
+        "REQUIRED_NOW",
+        "schemas/TaskSpecSeed.schema.json"
+       ],
+       [
+        "10",
+        "ConstructionContract",
+        "PIPD",
+        "HGK adapter",
+        "REQUIRED_NOW",
+        "schemas/ConstructionContract.schema.json"
+       ],
+       [
+        "11",
+        "WorkOrderCandidate",
+        "PIPD",
+        "HGK admission",
+        "REQUIRED_NOW_NONAUTHORITY",
+        "schemas/WorkOrderCandidate.schema.json"
+       ],
+       [
+        "12",
+        "ECP",
+        "PIPD/ECP semantics",
+        "HGK/TQAEP",
+        "REQUIRED_NOW",
+        "schemas/ECP.schema.json"
+       ],
+       [
+        "13",
+        "TQAEP",
+        "PIPD/TQAEP semantics",
+        "Independent checker/release",
+        "REQUIRED_NOW",
+        "schemas/TQAEP.schema.json"
+       ],
+       [
+        "14",
+        "ExecutionHandoff",
+        "PIPD",
+        "HGK/other receiver",
+        "REQUIRED_NOW",
+        "schemas/ExecutionHandoff.schema.json"
+       ],
+       [
+        "15",
+        "EvidenceExpectation",
+        "PIPD/TQAEP",
+        "HGK/CI/provider",
+        "REQUIRED_NOW",
+        "schemas/EvidenceExpectation.schema.json"
+       ],
+       [
+        "16",
+        "ClaimCeiling",
+        "PIPD",
+        "all planes",
+        "REQUIRED_NOW",
+        "schemas/ClaimCeiling.schema.json"
+       ],
+       [
+        "17",
+        "SurfaceProjectionManifest",
+        "PIPD",
+        "surface compiler",
+        "REQUIRED_NOW",
+        "schemas/SurfaceProjectionManifest.schema.json"
+       ],
+       [
+        "18",
+        "GENIEProjectionRef",
+        "GENIE adapter",
+        "GENIE compiler",
+        "SCHEMA_SEAM_ONLY_UNTIL_S6",
+        "schemas/GENIEProjectionRef.schema.json"
+       ],
+       [
+        "19",
+        "ExecutionBindingRef",
+        "HGK adapter",
+        "HGK",
+        "SCHEMA_SEAM_ONLY_UNTIL_S5",
+        "schemas/ExecutionBindingRef.schema.json"
+       ]
+      ]
+     },
+     {
+      "columns": [
+       "contract",
+       "required_fields"
+      ],
+      "heading": "Required Fields — Registry Declaration",
+      "rows": [
+       [
+        "ArtifactIdentity",
+        "subject_id, version, content_hash, schema_version, supersedes, invalidates"
+       ],
+       [
+        "AuthorityBinding",
+        "source_id, authority_rank, locator, supersession, conflict_state, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "RequirementAtom",
+        "req_id, source_clause, owner, acceptance_cue, risk_guard, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "ProfileBinding",
+        "profile, axes, vetoes, artifact_depth, assurance, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "TechnologyAdmission",
+        "capability_need, candidate, disposition, pin_license_currentness, fallback_exit, subject_id, version, content_hash, schema_version, technology_id, external_name, capability_slot, license, immutable_pin"
+       ],
+       [
+        "PI-PKG",
+        "stable_semantic_contract, trace, acceptance, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "PD-PKG",
+        "RepoContext, currentness, late_bound_construction_binding, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "TraceLink",
+        "from_type, from_id, from_hash, to_type, to_id, to_hash, rationale, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "TaskSpecSeed",
+        "goal, inputs, outputs, constraints, dependencies, tests, rollback, evidence, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "ConstructionContract",
+        "subject, writable_scope, expected_changes, tests, rollback, evidence_expectations, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "WorkOrderCandidate",
+        "candidate_only, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "ECP",
+        "effect_intent, permission, retries, idempotency, readback, rollback, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "TQAEP",
+        "tests, oracles, fixtures, acceptance, requalification, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "ExecutionHandoff",
+        "receiver, abi_version, payload_refs, ack_nack_state, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "EvidenceExpectation",
+        "expected_evidence_type, producer, postcondition, freshness, claim_effect, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "ClaimCeiling",
+        "allowed_claims, forbidden_escalation, close_conditions, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "SurfaceProjectionManifest",
+        "surface, source_hashes, generated_files, parity_loss, stale_rule, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "GENIEProjectionRef",
+        "target_refs, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "ExecutionBindingRef",
+        "receiver_binding_id, receiver_binding_version, receiver_binding_hash, lease, state, subject_id, version, content_hash, schema_version"
+       ]
+      ]
+     },
+     {
+      "columns": [
+       "object_id",
+       "schema_id",
+       "schema_draft",
+       "required_fields"
+      ],
+      "heading": "Required Fields — Schema Declaration",
+      "rows": [
+       [
+        "S0:ArtifactIdentity",
+        "urn:pipd:s0:ArtifactIdentity:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "subject_id, version, content_hash, schema_version, supersedes, invalidates"
+       ],
+       [
+        "S0:AuthorityBinding",
+        "urn:pipd:s0:AuthorityBinding:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "source_id, authority_rank, locator, supersession, conflict_state, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:RequirementAtom",
+        "urn:pipd:s0:RequirementAtom:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "req_id, source_clause, owner, acceptance_cue, risk_guard, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:ProfileBinding",
+        "urn:pipd:s0:ProfileBinding:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "profile, axes, vetoes, artifact_depth, assurance, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:TechnologyAdmission",
+        "urn:pipd:s0:TechnologyAdmission:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "capability_need, candidate, disposition, pin_license_currentness, fallback_exit, subject_id, version, content_hash, schema_version, technology_id, external_name, capability_slot, license, immutable_pin"
+       ],
+       [
+        "S0:PI-PKG",
+        "urn:pipd:s0:PI-PKG:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "stable_semantic_contract, trace, acceptance, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:PD-PKG",
+        "urn:pipd:s0:PD-PKG:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "RepoContext, currentness, late_bound_construction_binding, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:TraceLink",
+        "urn:pipd:s0:TraceLink:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "from_type, from_id, from_hash, to_type, to_id, to_hash, rationale, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:TaskSpecSeed",
+        "urn:pipd:s0:TaskSpecSeed:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "goal, inputs, outputs, constraints, dependencies, tests, rollback, evidence, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:ConstructionContract",
+        "urn:pipd:s0:ConstructionContract:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "subject, writable_scope, expected_changes, tests, rollback, evidence_expectations, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:WorkOrderCandidate",
+        "urn:pipd:s0:WorkOrderCandidate:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "candidate_only, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:ECP",
+        "urn:pipd:s0:ECP:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "effect_intent, permission, retries, idempotency, readback, rollback, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:TQAEP",
+        "urn:pipd:s0:TQAEP:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "tests, oracles, fixtures, acceptance, requalification, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:ExecutionHandoff",
+        "urn:pipd:s0:ExecutionHandoff:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "receiver, abi_version, payload_refs, ack_nack_state, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:EvidenceExpectation",
+        "urn:pipd:s0:EvidenceExpectation:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "expected_evidence_type, producer, postcondition, freshness, claim_effect, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:ClaimCeiling",
+        "urn:pipd:s0:ClaimCeiling:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "allowed_claims, forbidden_escalation, close_conditions, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:SurfaceProjectionManifest",
+        "urn:pipd:s0:SurfaceProjectionManifest:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "surface, source_hashes, generated_files, parity_loss, stale_rule, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:GENIEProjectionRef",
+        "urn:pipd:s0:GENIEProjectionRef:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "target_refs, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:ExecutionBindingRef",
+        "urn:pipd:s0:ExecutionBindingRef:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "receiver_binding_id, receiver_binding_version, receiver_binding_hash, lease, state, subject_id, version, content_hash, schema_version"
+       ]
+      ]
+     }
+    ],
+    "title": "PIPD Canonical Core Objects"
+   },
+   "scope": [
+    "dist/web/**"
+   ],
+   "source_hash": "92c311edf883527e573a2dd5c7942ae1279ccf2dc1ad77bab3ac8b5f25d8244c",
+   "source_objects": [
+    {
+     "object_id": "REGISTRY:CONTRACT-FAMILIES",
+     "schema": "PIPD-S0-CONTRACT-REGISTRY/1",
+     "schema_version": "1",
+     "source_hash": "85100a8e5ba6320f6648d33a14099fb999b2c452a94aff1652854d2550065e9d",
+     "source_path": "schemas/registry.json"
+    },
+    {
+     "object_id": "S0:ArtifactIdentity",
+     "schema": "urn:pipd:s0:ArtifactIdentity:1",
+     "schema_version": "1",
+     "source_hash": "67d26f18d26307410bf0be5369949eb525d477e053ee3a7091e54b97f6d4ad4c",
+     "source_path": "schemas/ArtifactIdentity.schema.json"
+    },
+    {
+     "object_id": "S0:AuthorityBinding",
+     "schema": "urn:pipd:s0:AuthorityBinding:1",
+     "schema_version": "1",
+     "source_hash": "66f1b3ce91d7f12ad6a6350a6628afd6c600e3e7ff62408b714c6fa0f1898ded",
+     "source_path": "schemas/AuthorityBinding.schema.json"
+    },
+    {
+     "object_id": "S0:RequirementAtom",
+     "schema": "urn:pipd:s0:RequirementAtom:1",
+     "schema_version": "1",
+     "source_hash": "021f6a30cf178190281176138686447e492640cf97b125f9c21a0aa2fa31c684",
+     "source_path": "schemas/RequirementAtom.schema.json"
+    },
+    {
+     "object_id": "S0:ProfileBinding",
+     "schema": "urn:pipd:s0:ProfileBinding:1",
+     "schema_version": "1",
+     "source_hash": "b559fb70bb6ceb9d491c989cb5ec031f44d15bcad5b40e75d6649aa059a93556",
+     "source_path": "schemas/ProfileBinding.schema.json"
+    },
+    {
+     "object_id": "S0:TechnologyAdmission",
+     "schema": "urn:pipd:s0:TechnologyAdmission:1",
+     "schema_version": "1",
+     "source_hash": "40703552af4fb14c7aa87dd68ead6eac1cf7d272541fda273cf22b8fb109c4d6",
+     "source_path": "schemas/TechnologyAdmission.schema.json"
+    },
+    {
+     "object_id": "S0:PI-PKG",
+     "schema": "urn:pipd:s0:PI-PKG:1",
+     "schema_version": "1",
+     "source_hash": "3e797d4eac04a04fee65add1ca6cb196154490ccd848b9b1cc561f24feaefb57",
+     "source_path": "schemas/PI-PKG.schema.json"
+    },
+    {
+     "object_id": "S0:PD-PKG",
+     "schema": "urn:pipd:s0:PD-PKG:1",
+     "schema_version": "1",
+     "source_hash": "37291e8790e03839308a7c36125f9576d14da725a27480c9759ef5362d255541",
+     "source_path": "schemas/PD-PKG.schema.json"
+    },
+    {
+     "object_id": "S0:TraceLink",
+     "schema": "urn:pipd:s0:TraceLink:1",
+     "schema_version": "1",
+     "source_hash": "ff6ef713b95a1a2812bd31d2b10cdcc064671c986d29d0e69318dc5a9f54e5e4",
+     "source_path": "schemas/TraceLink.schema.json"
+    },
+    {
+     "object_id": "S0:TaskSpecSeed",
+     "schema": "urn:pipd:s0:TaskSpecSeed:1",
+     "schema_version": "1",
+     "source_hash": "c6e086aef0e4f21179cba52c5187c33a3873b18732c669c4d03bcad057e9b6cc",
+     "source_path": "schemas/TaskSpecSeed.schema.json"
+    },
+    {
+     "object_id": "S0:ConstructionContract",
+     "schema": "urn:pipd:s0:ConstructionContract:1",
+     "schema_version": "1",
+     "source_hash": "1c56f15abd6e30d06f914f021b0b813f441689f9d47989ef48c7d7325557f0f2",
+     "source_path": "schemas/ConstructionContract.schema.json"
+    },
+    {
+     "object_id": "S0:WorkOrderCandidate",
+     "schema": "urn:pipd:s0:WorkOrderCandidate:1",
+     "schema_version": "1",
+     "source_hash": "03a8692f183f106ec7e4739b925c980ba07d68551627ca6af315fa9f9e2caf54",
+     "source_path": "schemas/WorkOrderCandidate.schema.json"
+    },
+    {
+     "object_id": "S0:ECP",
+     "schema": "urn:pipd:s0:ECP:1",
+     "schema_version": "1",
+     "source_hash": "7ecd9e92e6d43dba9675bb93ff0dddd178a0a17c8c3bc3f143696594dc945505",
+     "source_path": "schemas/ECP.schema.json"
+    },
+    {
+     "object_id": "S0:TQAEP",
+     "schema": "urn:pipd:s0:TQAEP:1",
+     "schema_version": "1",
+     "source_hash": "d14092817befb5e81c470449b9ac5160b6fba7e3fcde450ec00d1cadc21820cd",
+     "source_path": "schemas/TQAEP.schema.json"
+    },
+    {
+     "object_id": "S0:ExecutionHandoff",
+     "schema": "urn:pipd:s0:ExecutionHandoff:1",
+     "schema_version": "1",
+     "source_hash": "7fa36d3e7fe6e7416111b975381a42f3f5ad46cc81d97b610f317548815bd77b",
+     "source_path": "schemas/ExecutionHandoff.schema.json"
+    },
+    {
+     "object_id": "S0:EvidenceExpectation",
+     "schema": "urn:pipd:s0:EvidenceExpectation:1",
+     "schema_version": "1",
+     "source_hash": "02327839c21d5ba24d08dd52f9caa31a07616965c6235cece58487a810b99b7f",
+     "source_path": "schemas/EvidenceExpectation.schema.json"
+    },
+    {
+     "object_id": "S0:ClaimCeiling",
+     "schema": "urn:pipd:s0:ClaimCeiling:1",
+     "schema_version": "1",
+     "source_hash": "dbb2ce4dd322da99ca3b3067274b85928b995aba59ca3f04802d5e8ba253ab85",
+     "source_path": "schemas/ClaimCeiling.schema.json"
+    },
+    {
+     "object_id": "S0:SurfaceProjectionManifest",
+     "schema": "urn:pipd:s0:SurfaceProjectionManifest:1",
+     "schema_version": "1",
+     "source_hash": "87f8057e8dac68f304ed4e9c2dd118a26c69428015769ab09d39398d34dcb57d",
+     "source_path": "schemas/SurfaceProjectionManifest.schema.json"
+    },
+    {
+     "object_id": "S0:GENIEProjectionRef",
+     "schema": "urn:pipd:s0:GENIEProjectionRef:1",
+     "schema_version": "1",
+     "source_hash": "22c88a0f9ec4ea4747967546f9a5ea7f19f0285be60ac42567fae2ca0b1c36ed",
+     "source_path": "schemas/GENIEProjectionRef.schema.json"
+    },
+    {
+     "object_id": "S0:ExecutionBindingRef",
+     "schema": "urn:pipd:s0:ExecutionBindingRef:1",
+     "schema_version": "1",
+     "source_hash": "7c98cebfee30d9719cb8fd2d565c44120ce8d1be5b231071c19528cae1e95f50",
+     "source_path": "schemas/ExecutionBindingRef.schema.json"
+    }
+   ]
+  },
+  {
+   "artifact_id": "web:PIPD_ROUTER_PROFILES",
+   "capability_loss": [
+    {
+     "capability": "runtime authority",
+     "loss_id": "LOSS-WEB-01",
+     "reason": "the Web pack is a read-only semantic surface; it executes nothing",
+     "record_type": "CapabilityLoss",
+     "severity": "DECLARED"
+    }
+   ],
+   "denominator": true,
+   "kind": "WEB_DOC",
+   "nack": [
+    {
+     "basis": "claim ceiling: DESIGN/FILE_PRESENT/SCHEMA_VALID only",
+     "nack_id": "NACK-WEB-01",
+     "record_type": "NACK",
+     "statement": "this document carries contracts and provenance only; it has no runtime effect"
+    },
+    {
+     "basis": "S5/S6 NOT_AUTHORISED",
+     "nack_id": "NACK-WEB-02",
+     "record_type": "NACK",
+     "statement": "no live HGK/GENIE integration PASS is claimed; S5/S6 seams are fixture/mock only"
+    }
+   ],
+   "path": "PIPD_ROUTER_PROFILES.md",
+   "payload": {
+    "doc_id": "PIPD_ROUTER_PROFILES",
+    "sections": [
+     {
+      "columns": [
+       "profile",
+       "artifact_depth",
+       "assurance",
+       "target_resolution",
+       "max_axes"
+      ],
+      "heading": "Profile Trio",
+      "rows": [
+       [
+        "ASSURED",
+        "L4_FAILURE_RECOVERY",
+        "deterministic_validator, negative_security, adversarial, independent_checker",
+        "runtime",
+        "10"
+       ],
+       [
+        "LITE",
+        "L1_SCHEMA_CONTRACT",
+        "deterministic_validator",
+        "package",
+        "3"
+       ],
+       [
+        "STANDARD",
+        "L3_INTEGRATION_RUNTIME",
+        "deterministic_validator, negative_security",
+        "integration",
+        "6"
+       ]
+      ]
+     },
+     {
+      "columns": [
+       "axis"
+      ],
+      "heading": "Router Axes",
+      "rows": [
+       [
+        "intent"
+       ],
+       [
+        "knowledge"
+       ],
+       [
+        "verification"
+       ],
+       [
+        "release"
+       ],
+       [
+        "trust_boundary"
+       ],
+       [
+        "preexisting_repo"
+       ],
+       [
+        "profile"
+       ],
+       [
+        "tech_candidates"
+       ],
+       [
+        "host_surface"
+       ]
+      ]
+     },
+     {
+      "columns": [
+       "profile",
+       "host_surface",
+       "entry_kind"
+      ],
+      "heading": "Router Matrix",
+      "rows": [
+       [
+        "ASSURED",
+        "host:generic-skills",
+        "skill_projection"
+       ],
+       [
+        "ASSURED",
+        "host:hgk-receiver",
+        "receiver_map"
+       ],
+       [
+        "ASSURED",
+        "host:genie-adapter",
+        "object_crosswalk"
+       ],
+       [
+        "LITE",
+        "host:generic-skills",
+        "skill_projection"
+       ],
+       [
+        "STANDARD",
+        "host:generic-skills",
+        "skill_projection"
+       ],
+       [
+        "STANDARD",
+        "host:hgk-receiver",
+        "receiver_map"
+       ],
+       [
+        "STANDARD",
+        "host:genie-adapter",
+        "object_crosswalk"
+       ]
+      ]
+     },
+     {
+      "columns": [
+       "object_id",
+       "schema",
+       "schema_version",
+       "source_hash"
+      ],
+      "heading": "Profile Binding Sources",
+      "rows": [
+       [
+        "PROFILE:TRIO",
+        "PIPD-PROFILE-TRIO/1",
+        "1",
+        "2631eac7f6cb2b48dba0ed6628c4d7d7e94b7843ac29353950c2d51172789070"
+       ],
+       [
+        "ADAPTER:MAPPING",
+        "PIPD-ADAPTER-MAPPING/1",
+        "1",
+        "ae939d979559985dfe692bf7f8638fc571d07013270fc15e734951b37b2af1ab"
+       ]
+      ]
+     }
+    ],
+    "title": "PIPD Router Profiles"
+   },
+   "scope": [
+    "dist/web/**"
+   ],
+   "source_hash": "4fb12beb1f804700e9ae751d3ca3b657115258996f4a71524dc3480ecbdb434c",
+   "source_objects": [
+    {
+     "object_id": "PROFILE:TRIO",
+     "schema": "PIPD-PROFILE-TRIO/1",
+     "schema_version": "1",
+     "source_hash": "2631eac7f6cb2b48dba0ed6628c4d7d7e94b7843ac29353950c2d51172789070",
+     "source_path": "src/pipd_ls_sp/profiles.py"
+    },
+    {
+     "object_id": "ADAPTER:MAPPING",
+     "schema": "PIPD-ADAPTER-MAPPING/1",
+     "schema_version": "1",
+     "source_hash": "ae939d979559985dfe692bf7f8638fc571d07013270fc15e734951b37b2af1ab",
+     "source_path": "src/pipd_ls_sp/projection.py#ADAPTER_MAPPING"
+    }
+   ]
+  },
+  {
+   "artifact_id": "web:PIPD_ARTIFACT_SCHEMAS",
+   "capability_loss": [
+    {
+     "capability": "runtime authority",
+     "loss_id": "LOSS-WEB-01",
+     "reason": "the Web pack is a read-only semantic surface; it executes nothing",
+     "record_type": "CapabilityLoss",
+     "severity": "DECLARED"
+    }
+   ],
+   "denominator": true,
+   "kind": "WEB_DOC",
+   "nack": [
+    {
+     "basis": "claim ceiling: DESIGN/FILE_PRESENT/SCHEMA_VALID only",
+     "nack_id": "NACK-WEB-01",
+     "record_type": "NACK",
+     "statement": "this document carries contracts and provenance only; it has no runtime effect"
+    },
+    {
+     "basis": "S5/S6 NOT_AUTHORISED",
+     "nack_id": "NACK-WEB-02",
+     "record_type": "NACK",
+     "statement": "no live HGK/GENIE integration PASS is claimed; S5/S6 seams are fixture/mock only"
+    }
+   ],
+   "path": "PIPD_ARTIFACT_SCHEMAS.md",
+   "payload": {
+    "doc_id": "PIPD_ARTIFACT_SCHEMAS",
+    "sections": [
+     {
+      "columns": [
+       "object_id",
+       "schema_id",
+       "schema_draft",
+       "additional_properties",
+       "required_fields",
+       "properties"
+      ],
+      "heading": "Schema Contracts",
+      "rows": [
+       [
+        "S0:ArtifactIdentity",
+        "urn:pipd:s0:ArtifactIdentity:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "subject_id, version, content_hash, schema_version, supersedes, invalidates",
+        "subject_id, version, content_hash, schema_version, supersedes, invalidates"
+       ],
+       [
+        "S0:AuthorityBinding",
+        "urn:pipd:s0:AuthorityBinding:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "source_id, authority_rank, locator, supersession, conflict_state, subject_id, version, content_hash, schema_version",
+        "source_id, authority_rank, locator, supersession, conflict_state, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:RequirementAtom",
+        "urn:pipd:s0:RequirementAtom:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "req_id, source_clause, owner, acceptance_cue, risk_guard, subject_id, version, content_hash, schema_version",
+        "req_id, source_clause, owner, acceptance_cue, risk_guard, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:ProfileBinding",
+        "urn:pipd:s0:ProfileBinding:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "profile, axes, vetoes, artifact_depth, assurance, subject_id, version, content_hash, schema_version",
+        "profile, axes, vetoes, artifact_depth, assurance, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:TechnologyAdmission",
+        "urn:pipd:s0:TechnologyAdmission:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "capability_need, candidate, disposition, pin_license_currentness, fallback_exit, subject_id, version, content_hash, schema_version, technology_id, external_name, capability_slot, license, immutable_pin",
+        "capability_need, candidate, disposition, pin_license_currentness, fallback_exit, subject_id, version, content_hash, schema_version, technology_id, external_name, internal_short_name, capability_slot, source_repository, license, observed_version, selected_baseline, immutable_pin, adoption_owner, integration_owner, translation_method, adapter_contract, known_limitations, security_requirements, verification_suite, install_plan, enablement_plan, rollback_plan, fallback, reselection_trigger, current_design_state, current_runtime_state, design_selection_state, adapter_materialization_state, runtime_admission_state, upstream_disposition, adapter_ref, output_ref, schema_ref, fixture_ref, oracle_ref, acceptance_gate_ref, rollback_target"
+       ],
+       [
+        "S0:PI-PKG",
+        "urn:pipd:s0:PI-PKG:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "stable_semantic_contract, trace, acceptance, subject_id, version, content_hash, schema_version",
+        "stable_semantic_contract, trace, acceptance, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:PD-PKG",
+        "urn:pipd:s0:PD-PKG:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "RepoContext, currentness, late_bound_construction_binding, subject_id, version, content_hash, schema_version",
+        "RepoContext, currentness, late_bound_construction_binding, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:TraceLink",
+        "urn:pipd:s0:TraceLink:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "from_type, from_id, from_hash, to_type, to_id, to_hash, rationale, subject_id, version, content_hash, schema_version",
+        "from_type, from_id, from_hash, to_type, to_id, to_hash, rationale, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:TaskSpecSeed",
+        "urn:pipd:s0:TaskSpecSeed:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "goal, inputs, outputs, constraints, dependencies, tests, rollback, evidence, subject_id, version, content_hash, schema_version",
+        "goal, inputs, outputs, constraints, dependencies, tests, rollback, evidence, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:ConstructionContract",
+        "urn:pipd:s0:ConstructionContract:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "subject, writable_scope, expected_changes, tests, rollback, evidence_expectations, subject_id, version, content_hash, schema_version",
+        "subject, writable_scope, expected_changes, tests, rollback, evidence_expectations, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:WorkOrderCandidate",
+        "urn:pipd:s0:WorkOrderCandidate:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "candidate_only, subject_id, version, content_hash, schema_version",
+        "candidate_only, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:ECP",
+        "urn:pipd:s0:ECP:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "effect_intent, permission, retries, idempotency, readback, rollback, subject_id, version, content_hash, schema_version",
+        "effect_intent, permission, retries, idempotency, readback, rollback, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:TQAEP",
+        "urn:pipd:s0:TQAEP:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "tests, oracles, fixtures, acceptance, requalification, subject_id, version, content_hash, schema_version",
+        "tests, oracles, fixtures, acceptance, requalification, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:ExecutionHandoff",
+        "urn:pipd:s0:ExecutionHandoff:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "receiver, abi_version, payload_refs, ack_nack_state, subject_id, version, content_hash, schema_version",
+        "receiver, abi_version, payload_refs, ack_nack_state, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:EvidenceExpectation",
+        "urn:pipd:s0:EvidenceExpectation:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "expected_evidence_type, producer, postcondition, freshness, claim_effect, subject_id, version, content_hash, schema_version",
+        "expected_evidence_type, producer, postcondition, freshness, claim_effect, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:ClaimCeiling",
+        "urn:pipd:s0:ClaimCeiling:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "allowed_claims, forbidden_escalation, close_conditions, subject_id, version, content_hash, schema_version",
+        "allowed_claims, forbidden_escalation, close_conditions, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:SurfaceProjectionManifest",
+        "urn:pipd:s0:SurfaceProjectionManifest:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "surface, source_hashes, generated_files, parity_loss, stale_rule, subject_id, version, content_hash, schema_version",
+        "surface, source_hashes, generated_files, parity_loss, stale_rule, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:GENIEProjectionRef",
+        "urn:pipd:s0:GENIEProjectionRef:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "target_refs, subject_id, version, content_hash, schema_version",
+        "target_refs, subject_id, version, content_hash, schema_version"
+       ],
+       [
+        "S0:ExecutionBindingRef",
+        "urn:pipd:s0:ExecutionBindingRef:1",
+        "https://json-schema.org/draft/2020-12/schema",
+        "false",
+        "receiver_binding_id, receiver_binding_version, receiver_binding_hash, lease, state, subject_id, version, content_hash, schema_version",
+        "receiver_binding_id, receiver_binding_version, receiver_binding_hash, lease, state, subject_id, version, content_hash, schema_version"
+       ]
+      ]
+     }
+    ],
+    "title": "PIPD Artifact Schemas"
+   },
+   "scope": [
+    "dist/web/**"
+   ],
+   "source_hash": "0ad0967c367decf715755cbd26a229f8bdec54a8a54483b8a1465d0c7d006ae8",
+   "source_objects": [
+    {
+     "object_id": "S0:ArtifactIdentity",
+     "schema": "urn:pipd:s0:ArtifactIdentity:1",
+     "schema_version": "1",
+     "source_hash": "67d26f18d26307410bf0be5369949eb525d477e053ee3a7091e54b97f6d4ad4c",
+     "source_path": "schemas/ArtifactIdentity.schema.json"
+    },
+    {
+     "object_id": "S0:AuthorityBinding",
+     "schema": "urn:pipd:s0:AuthorityBinding:1",
+     "schema_version": "1",
+     "source_hash": "66f1b3ce91d7f12ad6a6350a6628afd6c600e3e7ff62408b714c6fa0f1898ded",
+     "source_path": "schemas/AuthorityBinding.schema.json"
+    },
+    {
+     "object_id": "S0:RequirementAtom",
+     "schema": "urn:pipd:s0:RequirementAtom:1",
+     "schema_version": "1",
+     "source_hash": "021f6a30cf178190281176138686447e492640cf97b125f9c21a0aa2fa31c684",
+     "source_path": "schemas/RequirementAtom.schema.json"
+    },
+    {
+     "object_id": "S0:ProfileBinding",
+     "schema": "urn:pipd:s0:ProfileBinding:1",
+     "schema_version": "1",
+     "source_hash": "b559fb70bb6ceb9d491c989cb5ec031f44d15bcad5b40e75d6649aa059a93556",
+     "source_path": "schemas/ProfileBinding.schema.json"
+    },
+    {
+     "object_id": "S0:TechnologyAdmission",
+     "schema": "urn:pipd:s0:TechnologyAdmission:1",
+     "schema_version": "1",
+     "source_hash": "40703552af4fb14c7aa87dd68ead6eac1cf7d272541fda273cf22b8fb109c4d6",
+     "source_path": "schemas/TechnologyAdmission.schema.json"
+    },
+    {
+     "object_id": "S0:PI-PKG",
+     "schema": "urn:pipd:s0:PI-PKG:1",
+     "schema_version": "1",
+     "source_hash": "3e797d4eac04a04fee65add1ca6cb196154490ccd848b9b1cc561f24feaefb57",
+     "source_path": "schemas/PI-PKG.schema.json"
+    },
+    {
+     "object_id": "S0:PD-PKG",
+     "schema": "urn:pipd:s0:PD-PKG:1",
+     "schema_version": "1",
+     "source_hash": "37291e8790e03839308a7c36125f9576d14da725a27480c9759ef5362d255541",
+     "source_path": "schemas/PD-PKG.schema.json"
+    },
+    {
+     "object_id": "S0:TraceLink",
+     "schema": "urn:pipd:s0:TraceLink:1",
+     "schema_version": "1",
+     "source_hash": "ff6ef713b95a1a2812bd31d2b10cdcc064671c986d29d0e69318dc5a9f54e5e4",
+     "source_path": "schemas/TraceLink.schema.json"
+    },
+    {
+     "object_id": "S0:TaskSpecSeed",
+     "schema": "urn:pipd:s0:TaskSpecSeed:1",
+     "schema_version": "1",
+     "source_hash": "c6e086aef0e4f21179cba52c5187c33a3873b18732c669c4d03bcad057e9b6cc",
+     "source_path": "schemas/TaskSpecSeed.schema.json"
+    },
+    {
+     "object_id": "S0:ConstructionContract",
+     "schema": "urn:pipd:s0:ConstructionContract:1",
+     "schema_version": "1",
+     "source_hash": "1c56f15abd6e30d06f914f021b0b813f441689f9d47989ef48c7d7325557f0f2",
+     "source_path": "schemas/ConstructionContract.schema.json"
+    },
+    {
+     "object_id": "S0:WorkOrderCandidate",
+     "schema": "urn:pipd:s0:WorkOrderCandidate:1",
+     "schema_version": "1",
+     "source_hash": "03a8692f183f106ec7e4739b925c980ba07d68551627ca6af315fa9f9e2caf54",
+     "source_path": "schemas/WorkOrderCandidate.schema.json"
+    },
+    {
+     "object_id": "S0:ECP",
+     "schema": "urn:pipd:s0:ECP:1",
+     "schema_version": "1",
+     "source_hash": "7ecd9e92e6d43dba9675bb93ff0dddd178a0a17c8c3bc3f143696594dc945505",
+     "source_path": "schemas/ECP.schema.json"
+    },
+    {
+     "object_id": "S0:TQAEP",
+     "schema": "urn:pipd:s0:TQAEP:1",
+     "schema_version": "1",
+     "source_hash": "d14092817befb5e81c470449b9ac5160b6fba7e3fcde450ec00d1cadc21820cd",
+     "source_path": "schemas/TQAEP.schema.json"
+    },
+    {
+     "object_id": "S0:ExecutionHandoff",
+     "schema": "urn:pipd:s0:ExecutionHandoff:1",
+     "schema_version": "1",
+     "source_hash": "7fa36d3e7fe6e7416111b975381a42f3f5ad46cc81d97b610f317548815bd77b",
+     "source_path": "schemas/ExecutionHandoff.schema.json"
+    },
+    {
+     "object_id": "S0:EvidenceExpectation",
+     "schema": "urn:pipd:s0:EvidenceExpectation:1",
+     "schema_version": "1",
+     "source_hash": "02327839c21d5ba24d08dd52f9caa31a07616965c6235cece58487a810b99b7f",
+     "source_path": "schemas/EvidenceExpectation.schema.json"
+    },
+    {
+     "object_id": "S0:ClaimCeiling",
+     "schema": "urn:pipd:s0:ClaimCeiling:1",
+     "schema_version": "1",
+     "source_hash": "dbb2ce4dd322da99ca3b3067274b85928b995aba59ca3f04802d5e8ba253ab85",
+     "source_path": "schemas/ClaimCeiling.schema.json"
+    },
+    {
+     "object_id": "S0:SurfaceProjectionManifest",
+     "schema": "urn:pipd:s0:SurfaceProjectionManifest:1",
+     "schema_version": "1",
+     "source_hash": "87f8057e8dac68f304ed4e9c2dd118a26c69428015769ab09d39398d34dcb57d",
+     "source_path": "schemas/SurfaceProjectionManifest.schema.json"
+    },
+    {
+     "object_id": "S0:GENIEProjectionRef",
+     "schema": "urn:pipd:s0:GENIEProjectionRef:1",
+     "schema_version": "1",
+     "source_hash": "22c88a0f9ec4ea4747967546f9a5ea7f19f0285be60ac42567fae2ca0b1c36ed",
+     "source_path": "schemas/GENIEProjectionRef.schema.json"
+    },
+    {
+     "object_id": "S0:ExecutionBindingRef",
+     "schema": "urn:pipd:s0:ExecutionBindingRef:1",
+     "schema_version": "1",
+     "source_hash": "7c98cebfee30d9719cb8fd2d565c44120ce8d1be5b231071c19528cae1e95f50",
+     "source_path": "schemas/ExecutionBindingRef.schema.json"
+    }
+   ]
+  },
+  {
+   "artifact_id": "web:PIPD_EVAL_HANDOFF",
+   "capability_loss": [
+    {
+     "capability": "runtime authority",
+     "loss_id": "LOSS-WEB-01",
+     "reason": "the Web pack is a read-only semantic surface; it executes nothing",
+     "record_type": "CapabilityLoss",
+     "severity": "DECLARED"
+    }
+   ],
+   "denominator": true,
+   "kind": "WEB_DOC",
+   "nack": [
+    {
+     "basis": "claim ceiling: DESIGN/FILE_PRESENT/SCHEMA_VALID only",
+     "nack_id": "NACK-WEB-01",
+     "record_type": "NACK",
+     "statement": "this document carries contracts and provenance only; it has no runtime effect"
+    },
+    {
+     "basis": "S5/S6 NOT_AUTHORISED",
+     "nack_id": "NACK-WEB-02",
+     "record_type": "NACK",
+     "statement": "no live HGK/GENIE integration PASS is claimed; S5/S6 seams are fixture/mock only"
+    }
+   ],
+   "path": "PIPD_EVAL_HANDOFF.md",
+   "payload": {
+    "doc_id": "PIPD_EVAL_HANDOFF",
+    "sections": [
+     {
+      "columns": [
+       "stage",
+       "seam_schemas",
+       "fixture_kind",
+       "live_status",
+       "asserted"
+      ],
+      "heading": "Seam Compatibility Fixtures",
+      "rows": [
+       [
+        "S5",
+        "ExecutionHandoff, ExecutionBindingRef, ArtifactIdentity",
+        "compatibility",
+        "NOT_RUN",
+        "{\"itch_contract_only\":true,\"no_live_receiver_ack\":true,\"no_world_effect\":true}"
+       ],
+       [
+        "S6",
+        "GENIEProjectionRef, SurfaceProjectionManifest",
+        "compatibility",
+        "NOT_RUN",
+        "{\"itch_contract_only\":true,\"no_live_receiver_ack\":true,\"no_world_effect\":true}"
+       ],
+       [
+        "S7",
+        "SurfaceProjectionManifest, ProfileBinding",
+        "compatibility",
+        "NOT_RUN",
+        "{\"itch_contract_only\":true,\"no_live_receiver_ack\":true,\"no_world_effect\":true}"
+       ],
+       [
+        "S8",
+        "AuthorityBinding, WorkOrderCandidate, TaskSpecSeed",
+        "compatibility",
+        "NOT_RUN",
+        "{\"itch_contract_only\":true,\"no_live_receiver_ack\":true,\"no_world_effect\":true}"
+       ]
+      ]
+     },
+     {
+      "columns": [
+       "object_id",
+       "schema",
+       "schema_version",
+       "source_hash"
+      ],
+      "heading": "Eval Oracle Objects",
+      "rows": [
+       [
+        "S0:ClaimCeiling",
+        "urn:pipd:s0:ClaimCeiling:1",
+        "1",
+        "dbb2ce4dd322da99ca3b3067274b85928b995aba59ca3f04802d5e8ba253ab85"
+       ],
+       [
+        "S0:TQAEP",
+        "urn:pipd:s0:TQAEP:1",
+        "1",
+        "d14092817befb5e81c470449b9ac5160b6fba7e3fcde450ec00d1cadc21820cd"
+       ],
+       [
+        "S0:EvidenceExpectation",
+        "urn:pipd:s0:EvidenceExpectation:1",
+        "1",
+        "02327839c21d5ba24d08dd52f9caa31a07616965c6235cece58487a810b99b7f"
+       ]
+      ]
+     },
+     {
+      "columns": [
+       "gate",
+       "command",
+       "mode",
+       "denominator"
+      ],
+      "heading": "Gate Entrypoints",
+      "rows": [
+       [
+        "G-S3-WEB",
+        "tools/web_pack_check.py --strict",
+        "STRICT_CHECK_ONLY",
+        "five PIPD documents; OPTIONAL_SITE_UI excluded"
+       ],
+       [
+        "G-S3-HOST",
+        "tools/host_projection_check.py --strict",
+        "STRICT_CHECK_ONLY",
+        "three host effective loads; fixture/mock only"
+       ]
+      ]
+     },
+     {
+      "columns": [
+       "profile",
+       "assurance"
+      ],
+      "heading": "Profile Assurance",
+      "rows": [
+       [
+        "ASSURED",
+        "deterministic_validator, negative_security, adversarial, independent_checker"
+       ],
+       [
+        "LITE",
+        "deterministic_validator"
+       ],
+       [
+        "STANDARD",
+        "deterministic_validator, negative_security"
+       ]
+      ]
+     },
+     {
+      "columns": [
+       "claim",
+       "state"
+      ],
+      "heading": "Claim Ceiling",
+      "rows": [
+       [
+        "adapter_checks",
+        "FIXTURE_MOCK_ONLY"
+       ],
+       [
+        "live_hgk_genie_integration",
+        "NOT_CLAIMED"
+       ],
+       [
+        "live_status",
+        "NOT_RUN"
+       ],
+       [
+        "s5_s6",
+        "NOT_AUTHORISED"
+       ]
+      ]
+     }
+    ],
+    "title": "PIPD Evaluation Handoff"
+   },
+   "scope": [
+    "dist/web/**"
+   ],
+   "source_hash": "a6c9b737e756d891ef0c73b7faa65bdaf6e7b1c20499d3e59868ae6ec83865ca",
+   "source_objects": [
+    {
+     "object_id": "SEAM:S5",
+     "schema": "PIPD-SEAM-COMPAT/1",
+     "schema_version": "1",
+     "source_hash": "5aa6aa3e4f360ab6e898e5034ec3871e731ec48137ae8af50fc2138871faf3ec",
+     "source_path": "fixtures/s5_s8/s5_compat.json"
+    },
+    {
+     "object_id": "SEAM:S6",
+     "schema": "PIPD-SEAM-COMPAT/1",
+     "schema_version": "1",
+     "source_hash": "a2541b4b73f054d5557dcaeaca1544a3665fb9e5ddcd7264be383b59c4c39b37",
+     "source_path": "fixtures/s5_s8/s6_compat.json"
+    },
+    {
+     "object_id": "SEAM:S7",
+     "schema": "PIPD-SEAM-COMPAT/1",
+     "schema_version": "1",
+     "source_hash": "185c160092e751e66c075222326378124e7c55f569d725fb64392cebb224b515",
+     "source_path": "fixtures/s5_s8/s7_compat.json"
+    },
+    {
+     "object_id": "SEAM:S8",
+     "schema": "PIPD-SEAM-COMPAT/1",
+     "schema_version": "1",
+     "source_hash": "53492fe85d88aff6e837572ba90d5b3ccba0fccd6d11375928f307fb072a2ffe",
+     "source_path": "fixtures/s5_s8/s8_compat.json"
+    },
+    {
+     "object_id": "ADAPTER:MAPPING",
+     "schema": "PIPD-ADAPTER-MAPPING/1",
+     "schema_version": "1",
+     "source_hash": "ae939d979559985dfe692bf7f8638fc571d07013270fc15e734951b37b2af1ab",
+     "source_path": "src/pipd_ls_sp/projection.py#ADAPTER_MAPPING"
+    },
+    {
+     "object_id": "PROFILE:TRIO",
+     "schema": "PIPD-PROFILE-TRIO/1",
+     "schema_version": "1",
+     "source_hash": "2631eac7f6cb2b48dba0ed6628c4d7d7e94b7843ac29353950c2d51172789070",
+     "source_path": "src/pipd_ls_sp/profiles.py"
+    },
+    {
+     "object_id": "S0:ClaimCeiling",
+     "schema": "urn:pipd:s0:ClaimCeiling:1",
+     "schema_version": "1",
+     "source_hash": "dbb2ce4dd322da99ca3b3067274b85928b995aba59ca3f04802d5e8ba253ab85",
+     "source_path": "schemas/ClaimCeiling.schema.json"
+    },
+    {
+     "object_id": "S0:TQAEP",
+     "schema": "urn:pipd:s0:TQAEP:1",
+     "schema_version": "1",
+     "source_hash": "d14092817befb5e81c470449b9ac5160b6fba7e3fcde450ec00d1cadc21820cd",
+     "source_path": "schemas/TQAEP.schema.json"
+    },
+    {
+     "object_id": "S0:EvidenceExpectation",
+     "schema": "urn:pipd:s0:EvidenceExpectation:1",
+     "schema_version": "1",
+     "source_hash": "02327839c21d5ba24d08dd52f9caa31a07616965c6235cece58487a810b99b7f",
+     "source_path": "schemas/EvidenceExpectation.schema.json"
+    }
+   ]
+  },
+  {
+   "artifact_id": "host:host:generic-skills",
+   "capability_loss": [
+    {
+     "capability": "skill execution authority",
+     "loss_id": "LOSS-GS-01",
+     "reason": "projection carries the skill contract only; execution stays with the host",
+     "record_type": "CapabilityLoss",
+     "severity": "DECLARED"
+    }
+   ],
+   "denominator": false,
+   "kind": "HOST_PROJECTION",
+   "nack": [
+    {
+     "basis": "S5/S6 NOT_AUTHORISED",
+     "nack_id": "NACK-GS-01",
+     "record_type": "NACK",
+     "statement": "effective load is a fixture/mock contract load, not a live generic host run"
+    },
+    {
+     "basis": "S5/S6 NOT_AUTHORISED",
+     "nack_id": "NACK-GS-02",
+     "record_type": "NACK",
+     "statement": "no live HGK/GENIE integration PASS is claimed by this projection"
+    }
+   ],
+   "path": "host_generic-skills/SKILL.md",
+   "payload": {
+    "capability_loss": [
+     {
+      "capability": "skill execution authority",
+      "loss_id": "LOSS-GS-01",
+      "reason": "projection carries the skill contract only; execution stays with the host",
+      "record_type": "CapabilityLoss",
+      "severity": "DECLARED"
+     }
+    ],
+    "compatibility": {
+     "asserted": {
+      "itch_contract_only": true,
+      "no_live_receiver_ack": true,
+      "no_world_effect": true
+     },
+     "fixture_kind": "compatibility",
+     "live_status": "NOT_RUN",
+     "mode": "FIXTURE_MOCK",
+     "seam_schemas": [
+      "SurfaceProjectionManifest",
+      "ProfileBinding"
+     ],
+     "seam_source": "ADAPTER:MAPPING"
+    },
+    "contract_version": "1",
+    "entry_kind": "skill_projection",
+    "field_contract": [
+     {
+      "name": "surface",
+      "required": true,
+      "source_object_id": "S0:SurfaceProjectionManifest",
+      "type": "object"
+     },
+     {
+      "name": "source_hashes",
+      "required": true,
+      "source_object_id": "S0:SurfaceProjectionManifest",
+      "type": "object"
+     },
+     {
+      "name": "generated_files",
+      "required": true,
+      "source_object_id": "S0:SurfaceProjectionManifest",
+      "type": "object"
+     },
+     {
+      "name": "parity_loss",
+      "required": true,
+      "source_object_id": "S0:SurfaceProjectionManifest",
+      "type": "object"
+     },
+     {
+      "name": "stale_rule",
+      "required": true,
+      "source_object_id": "S0:SurfaceProjectionManifest",
+      "type": "object"
+     },
+     {
+      "name": "subject_id",
+      "required": true,
+      "source_object_id": "S0:SurfaceProjectionManifest",
+      "type": "object"
+     },
+     {
+      "name": "version",
+      "required": true,
+      "source_object_id": "S0:SurfaceProjectionManifest",
+      "type": "object"
+     },
+     {
+      "name": "content_hash",
+      "required": true,
+      "source_object_id": "S0:SurfaceProjectionManifest",
+      "type": "object"
+     },
+     {
+      "name": "schema_version",
+      "required": true,
+      "source_object_id": "S0:SurfaceProjectionManifest",
+      "type": "object"
+     },
+     {
+      "name": "profile",
+      "required": true,
+      "source_object_id": "S0:ProfileBinding",
+      "type": "object"
+     },
+     {
+      "name": "axes",
+      "required": true,
+      "source_object_id": "S0:ProfileBinding",
+      "type": "object"
+     },
+     {
+      "name": "vetoes",
+      "required": true,
+      "source_object_id": "S0:ProfileBinding",
+      "type": "object"
+     },
+     {
+      "name": "artifact_depth",
+      "required": true,
+      "source_object_id": "S0:ProfileBinding",
+      "type": "object"
+     },
+     {
+      "name": "assurance",
+      "required": true,
+      "source_object_id": "S0:ProfileBinding",
+      "type": "object"
+     }
+    ],
+    "nack": [
+     {
+      "basis": "S5/S6 NOT_AUTHORISED",
+      "nack_id": "NACK-GS-01",
+      "record_type": "NACK",
+      "statement": "effective load is a fixture/mock contract load, not a live generic host run"
+     },
+     {
+      "basis": "S5/S6 NOT_AUTHORISED",
+      "nack_id": "NACK-GS-02",
+      "record_type": "NACK",
+      "statement": "no live HGK/GENIE integration PASS is claimed by this projection"
+     }
+    ],
+    "payload": {
+     "contract_refs": [
+      "S0:SurfaceProjectionManifest",
+      "S0:ProfileBinding",
+      "PROFILE:TRIO",
+      "ADAPTER:MAPPING"
+     ],
+     "input_object_id": "S0:SurfaceProjectionManifest",
+     "non_trigger": [
+      "live HGK execution or GENIE integration requests (S5/S6 NOT_AUTHORISED)",
+      "requirement compilation or pipeline entry points (owned by another lane)"
+     ],
+     "output_object_id": "S0:ProfileBinding",
+     "skill_id": "pipd-surface-projection",
+     "trigger": [
+      "user asks to project canonical PIPD objects onto Web or host surfaces",
+      "a surface pack or host projection must be (re)generated from canonical sources"
+     ]
+    },
+    "permissions": [
+     "read:canonical-objects",
+     "emit:projection"
+    ],
+    "provider": {
+     "admission_state": "FIXTURE_MOCK",
+     "basis": "adapter checks use fixture/mock contracts only",
+     "live_integration": false,
+     "provider_id": "generic-skill-host"
+    },
+    "schema": "PIPD-HOST-PROJECTION/1",
+    "schema_version": "1",
+    "scope": [
+     "dist/web/**"
+    ],
+    "source_refs": [
+     {
+      "object_id": "S0:SurfaceProjectionManifest",
+      "schema": "urn:pipd:s0:SurfaceProjectionManifest:1",
+      "schema_version": "1",
+      "source_hash": "87f8057e8dac68f304ed4e9c2dd118a26c69428015769ab09d39398d34dcb57d",
+      "source_path": "schemas/SurfaceProjectionManifest.schema.json"
+     },
+     {
+      "object_id": "S0:ProfileBinding",
+      "schema": "urn:pipd:s0:ProfileBinding:1",
+      "schema_version": "1",
+      "source_hash": "b559fb70bb6ceb9d491c989cb5ec031f44d15bcad5b40e75d6649aa059a93556",
+      "source_path": "schemas/ProfileBinding.schema.json"
+     },
+     {
+      "object_id": "PROFILE:TRIO",
+      "schema": "PIPD-PROFILE-TRIO/1",
+      "schema_version": "1",
+      "source_hash": "2631eac7f6cb2b48dba0ed6628c4d7d7e94b7843ac29353950c2d51172789070",
+      "source_path": "src/pipd_ls_sp/profiles.py"
+     },
+     {
+      "object_id": "ADAPTER:MAPPING",
+      "schema": "PIPD-ADAPTER-MAPPING/1",
+      "schema_version": "1",
+      "source_hash": "ae939d979559985dfe692bf7f8638fc571d07013270fc15e734951b37b2af1ab",
+      "source_path": "src/pipd_ls_sp/projection.py#ADAPTER_MAPPING"
+     }
+    ],
+    "surface": "host:generic-skills"
+   },
+   "scope": [
+    "dist/web/**"
+   ],
+   "source_hash": "cc2b8e9e981be35392d56d59509b11846d18ef9984762e3169aefcec35430874",
+   "source_objects": [
+    {
+     "object_id": "S0:SurfaceProjectionManifest",
+     "schema": "urn:pipd:s0:SurfaceProjectionManifest:1",
+     "schema_version": "1",
+     "source_hash": "87f8057e8dac68f304ed4e9c2dd118a26c69428015769ab09d39398d34dcb57d",
+     "source_path": "schemas/SurfaceProjectionManifest.schema.json"
+    },
+    {
+     "object_id": "S0:ProfileBinding",
+     "schema": "urn:pipd:s0:ProfileBinding:1",
+     "schema_version": "1",
+     "source_hash": "b559fb70bb6ceb9d491c989cb5ec031f44d15bcad5b40e75d6649aa059a93556",
+     "source_path": "schemas/ProfileBinding.schema.json"
+    },
+    {
+     "object_id": "PROFILE:TRIO",
+     "schema": "PIPD-PROFILE-TRIO/1",
+     "schema_version": "1",
+     "source_hash": "2631eac7f6cb2b48dba0ed6628c4d7d7e94b7843ac29353950c2d51172789070",
+     "source_path": "src/pipd_ls_sp/profiles.py"
+    },
+    {
+     "object_id": "ADAPTER:MAPPING",
+     "schema": "PIPD-ADAPTER-MAPPING/1",
+     "schema_version": "1",
+     "source_hash": "ae939d979559985dfe692bf7f8638fc571d07013270fc15e734951b37b2af1ab",
+     "source_path": "src/pipd_ls_sp/projection.py#ADAPTER_MAPPING"
+    }
+   ]
+  },
+  {
+   "artifact_id": "host:host:hgk-receiver",
+   "capability_loss": [
+    {
+     "capability": "runtime authority",
+     "loss_id": "LOSS-HR-01",
+     "reason": "the typed receiver map is contract-only; the receiver is never executed here",
+     "record_type": "CapabilityLoss",
+     "severity": "DECLARED"
+    },
+    {
+     "capability": "live receiver ack",
+     "loss_id": "LOSS-HR-02",
+     "reason": "S5 receiver canary NOT_AUTHORISED; ack/nack state stays contract-level",
+     "record_type": "CapabilityLoss",
+     "severity": "DECLARED"
+    }
+   ],
+   "denominator": false,
+   "kind": "HOST_PROJECTION",
+   "nack": [
+    {
+     "basis": "S5 NOT_AUTHORISED",
+     "nack_id": "NACK-HR-01",
+     "record_type": "NACK",
+     "statement": "receiver-map effective load is a fixture/mock contract load, not a live HGK run"
+    },
+    {
+     "basis": "S5 NOT_AUTHORISED",
+     "nack_id": "NACK-HR-02",
+     "record_type": "NACK",
+     "statement": "no live HGK integration PASS is claimed by this projection"
+    }
+   ],
+   "path": "host_hgk-receiver/receiver-map.json",
+   "payload": {
+    "capability_loss": [
+     {
+      "capability": "runtime authority",
+      "loss_id": "LOSS-HR-01",
+      "reason": "the typed receiver map is contract-only; the receiver is never executed here",
+      "record_type": "CapabilityLoss",
+      "severity": "DECLARED"
+     },
+     {
+      "capability": "live receiver ack",
+      "loss_id": "LOSS-HR-02",
+      "reason": "S5 receiver canary NOT_AUTHORISED; ack/nack state stays contract-level",
+      "record_type": "CapabilityLoss",
+      "severity": "DECLARED"
+     }
+    ],
+    "compatibility": {
+     "asserted": {
+      "itch_contract_only": true,
+      "no_live_receiver_ack": true,
+      "no_world_effect": true
+     },
+     "fixture_kind": "compatibility",
+     "live_status": "NOT_RUN",
+     "mode": "FIXTURE_MOCK",
+     "seam_schemas": [
+      "ExecutionHandoff",
+      "ExecutionBindingRef",
+      "ArtifactIdentity"
+     ],
+     "seam_source": "SEAM:S5"
+    },
+    "contract_version": "1",
+    "entry_kind": "receiver_map",
+    "field_contract": [
+     {
+      "name": "receiver",
+      "required": true,
+      "source_object_id": "S0:ExecutionHandoff",
+      "type": "object"
+     },
+     {
+      "name": "abi_version",
+      "required": true,
+      "source_object_id": "S0:ExecutionHandoff",
+      "type": "object"
+     },
+     {
+      "name": "payload_refs",
+      "required": true,
+      "source_object_id": "S0:ExecutionHandoff",
+      "type": "object"
+     },
+     {
+      "name": "ack_nack_state",
+      "required": true,
+      "source_object_id": "S0:ExecutionHandoff",
+      "type": "object"
+     },
+     {
+      "name": "subject_id",
+      "required": true,
+      "source_object_id": "S0:ExecutionHandoff",
+      "type": "object"
+     },
+     {
+      "name": "version",
+      "required": true,
+      "source_object_id": "S0:ExecutionHandoff",
+      "type": "object"
+     },
+     {
+      "name": "content_hash",
+      "required": true,
+      "source_object_id": "S0:ExecutionHandoff",
+      "type": "object"
+     },
+     {
+      "name": "schema_version",
+      "required": true,
+      "source_object_id": "S0:ExecutionHandoff",
+      "type": "object"
+     },
+     {
+      "name": "receiver_binding_id",
+      "required": true,
+      "source_object_id": "S0:ExecutionBindingRef",
+      "type": "object"
+     },
+     {
+      "name": "receiver_binding_version",
+      "required": true,
+      "source_object_id": "S0:ExecutionBindingRef",
+      "type": "object"
+     },
+     {
+      "name": "receiver_binding_hash",
+      "required": true,
+      "source_object_id": "S0:ExecutionBindingRef",
+      "type": "object"
+     },
+     {
+      "name": "lease",
+      "required": true,
+      "source_object_id": "S0:ExecutionBindingRef",
+      "type": "object"
+     },
+     {
+      "name": "state",
+      "required": true,
+      "source_object_id": "S0:ExecutionBindingRef",
+      "type": "object"
+     },
+     {
+      "name": "candidate_only",
+      "required": true,
+      "source_object_id": "S0:WorkOrderCandidate",
+      "type": "object"
+     }
+    ],
+    "nack": [
+     {
+      "basis": "S5 NOT_AUTHORISED",
+      "nack_id": "NACK-HR-01",
+      "record_type": "NACK",
+      "statement": "receiver-map effective load is a fixture/mock contract load, not a live HGK run"
+     },
+     {
+      "basis": "S5 NOT_AUTHORISED",
+      "nack_id": "NACK-HR-02",
+      "record_type": "NACK",
+      "statement": "no live HGK integration PASS is claimed by this projection"
+     }
+    ],
+    "payload": {
+     "abi_version": "PIPD-HGK-RECEIVER-ABI/1",
+     "receivers": [
+      {
+       "ack_state": "NACK_ONLY",
+       "entry": "receive_executionhandoff",
+       "fields": [
+        {
+         "name": "receiver",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "abi_version",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "payload_refs",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "ack_nack_state",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "subject_id",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "version",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "content_hash",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "schema_version",
+         "required": true,
+         "type": "object"
+        }
+       ],
+       "receiver_id": "hgk.executionhandoff",
+       "source_object_id": "S0:ExecutionHandoff"
+      },
+      {
+       "ack_state": "NACK_ONLY",
+       "entry": "receive_executionbindingref",
+       "fields": [
+        {
+         "name": "receiver_binding_id",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "receiver_binding_version",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "receiver_binding_hash",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "lease",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "state",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "subject_id",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "version",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "content_hash",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "schema_version",
+         "required": true,
+         "type": "object"
+        }
+       ],
+       "receiver_id": "hgk.executionbindingref",
+       "source_object_id": "S0:ExecutionBindingRef"
+      },
+      {
+       "ack_state": "NACK_ONLY",
+       "entry": "receive_workordercandidate",
+       "fields": [
+        {
+         "name": "candidate_only",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "subject_id",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "version",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "content_hash",
+         "required": true,
+         "type": "object"
+        },
+        {
+         "name": "schema_version",
+         "required": true,
+         "type": "object"
+        }
+       ],
+       "receiver_id": "hgk.workordercandidate",
+       "source_object_id": "S0:WorkOrderCandidate"
+      }
+     ]
+    },
+    "permissions": [
+     "read:canonical-objects",
+     "emit:projection",
+     "emit:receiver-map"
+    ],
+    "provider": {
+     "admission_state": "OFF",
+     "basis": "S5 HGK execution receiver canary NOT_AUTHORISED",
+     "live_integration": false,
+     "provider_id": "hgk-execution-receiver"
+    },
+    "schema": "PIPD-HOST-PROJECTION/1",
+    "schema_version": "1",
+    "scope": [
+     "dist/web/**"
+    ],
+    "source_refs": [
+     {
+      "object_id": "S0:ExecutionHandoff",
+      "schema": "urn:pipd:s0:ExecutionHandoff:1",
+      "schema_version": "1",
+      "source_hash": "7fa36d3e7fe6e7416111b975381a42f3f5ad46cc81d97b610f317548815bd77b",
+      "source_path": "schemas/ExecutionHandoff.schema.json"
+     },
+     {
+      "object_id": "S0:ExecutionBindingRef",
+      "schema": "urn:pipd:s0:ExecutionBindingRef:1",
+      "schema_version": "1",
+      "source_hash": "7c98cebfee30d9719cb8fd2d565c44120ce8d1be5b231071c19528cae1e95f50",
+      "source_path": "schemas/ExecutionBindingRef.schema.json"
+     },
+     {
+      "object_id": "S0:WorkOrderCandidate",
+      "schema": "urn:pipd:s0:WorkOrderCandidate:1",
+      "schema_version": "1",
+      "source_hash": "03a8692f183f106ec7e4739b925c980ba07d68551627ca6af315fa9f9e2caf54",
+      "source_path": "schemas/WorkOrderCandidate.schema.json"
+     },
+     {
+      "object_id": "SEAM:S5",
+      "schema": "PIPD-SEAM-COMPAT/1",
+      "schema_version": "1",
+      "source_hash": "5aa6aa3e4f360ab6e898e5034ec3871e731ec48137ae8af50fc2138871faf3ec",
+      "source_path": "fixtures/s5_s8/s5_compat.json"
+     },
+     {
+      "object_id": "ADAPTER:MAPPING",
+      "schema": "PIPD-ADAPTER-MAPPING/1",
+      "schema_version": "1",
+      "source_hash": "ae939d979559985dfe692bf7f8638fc571d07013270fc15e734951b37b2af1ab",
+      "source_path": "src/pipd_ls_sp/projection.py#ADAPTER_MAPPING"
+     }
+    ],
+    "surface": "host:hgk-receiver"
+   },
+   "scope": [
+    "dist/web/**"
+   ],
+   "source_hash": "adb4b588f9fcd4c5a89ed7c550d99aff9f9ee9fd62075e41a93e8f5ac3349e87",
+   "source_objects": [
+    {
+     "object_id": "S0:ExecutionHandoff",
+     "schema": "urn:pipd:s0:ExecutionHandoff:1",
+     "schema_version": "1",
+     "source_hash": "7fa36d3e7fe6e7416111b975381a42f3f5ad46cc81d97b610f317548815bd77b",
+     "source_path": "schemas/ExecutionHandoff.schema.json"
+    },
+    {
+     "object_id": "S0:ExecutionBindingRef",
+     "schema": "urn:pipd:s0:ExecutionBindingRef:1",
+     "schema_version": "1",
+     "source_hash": "7c98cebfee30d9719cb8fd2d565c44120ce8d1be5b231071c19528cae1e95f50",
+     "source_path": "schemas/ExecutionBindingRef.schema.json"
+    },
+    {
+     "object_id": "S0:WorkOrderCandidate",
+     "schema": "urn:pipd:s0:WorkOrderCandidate:1",
+     "schema_version": "1",
+     "source_hash": "03a8692f183f106ec7e4739b925c980ba07d68551627ca6af315fa9f9e2caf54",
+     "source_path": "schemas/WorkOrderCandidate.schema.json"
+    },
+    {
+     "object_id": "SEAM:S5",
+     "schema": "PIPD-SEAM-COMPAT/1",
+     "schema_version": "1",
+     "source_hash": "5aa6aa3e4f360ab6e898e5034ec3871e731ec48137ae8af50fc2138871faf3ec",
+     "source_path": "fixtures/s5_s8/s5_compat.json"
+    },
+    {
+     "object_id": "ADAPTER:MAPPING",
+     "schema": "PIPD-ADAPTER-MAPPING/1",
+     "schema_version": "1",
+     "source_hash": "ae939d979559985dfe692bf7f8638fc571d07013270fc15e734951b37b2af1ab",
+     "source_path": "src/pipd_ls_sp/projection.py#ADAPTER_MAPPING"
+    }
+   ]
+  },
+  {
+   "artifact_id": "host:host:genie-adapter",
+   "capability_loss": [
+    {
+     "capability": "truth writeback",
+     "loss_id": "LOSS-GA-01",
+     "reason": "GENIE target refs are reference-only; no truth writeback by contract",
+     "record_type": "CapabilityLoss",
+     "severity": "DECLARED"
+    },
+    {
+     "capability": "live GENIE integration",
+     "loss_id": "LOSS-GA-02",
+     "reason": "S6 GENIE live integration NOT_AUTHORISED; seam schema only",
+     "record_type": "CapabilityLoss",
+     "severity": "DECLARED"
+    }
+   ],
+   "denominator": false,
+   "kind": "HOST_PROJECTION",
+   "nack": [
+    {
+     "basis": "S6 NOT_AUTHORISED",
+     "nack_id": "NACK-GA-01",
+     "record_type": "NACK",
+     "statement": "object-crosswalk effective load is a fixture/mock contract load, not a live GENIE run"
+    },
+    {
+     "basis": "S6 NOT_AUTHORISED",
+     "nack_id": "NACK-GA-02",
+     "record_type": "NACK",
+     "statement": "no live GENIE integration PASS is claimed by this projection"
+    }
+   ],
+   "path": "host_genie-adapter/object-crosswalk.json",
+   "payload": {
+    "capability_loss": [
+     {
+      "capability": "truth writeback",
+      "loss_id": "LOSS-GA-01",
+      "reason": "GENIE target refs are reference-only; no truth writeback by contract",
+      "record_type": "CapabilityLoss",
+      "severity": "DECLARED"
+     },
+     {
+      "capability": "live GENIE integration",
+      "loss_id": "LOSS-GA-02",
+      "reason": "S6 GENIE live integration NOT_AUTHORISED; seam schema only",
+      "record_type": "CapabilityLoss",
+      "severity": "DECLARED"
+     }
+    ],
+    "compatibility": {
+     "asserted": {
+      "itch_contract_only": true,
+      "no_live_receiver_ack": true,
+      "no_world_effect": true
+     },
+     "fixture_kind": "compatibility",
+     "live_status": "NOT_RUN",
+     "mode": "FIXTURE_MOCK",
+     "seam_schemas": [
+      "GENIEProjectionRef",
+      "SurfaceProjectionManifest"
+     ],
+     "seam_source": "SEAM:S6"
+    },
+    "contract_version": "1",
+    "entry_kind": "object_crosswalk",
+    "field_contract": [
+     {
+      "name": "target_refs",
+      "required": true,
+      "source_object_id": "S0:GENIEProjectionRef",
+      "type": "object"
+     },
+     {
+      "name": "subject_id",
+      "required": true,
+      "source_object_id": "S0:GENIEProjectionRef",
+      "type": "object"
+     },
+     {
+      "name": "version",
+      "required": true,
+      "source_object_id": "S0:GENIEProjectionRef",
+      "type": "object"
+     },
+     {
+      "name": "content_hash",
+      "required": true,
+      "source_object_id": "S0:GENIEProjectionRef",
+      "type": "object"
+     },
+     {
+      "name": "schema_version",
+      "required": true,
+      "source_object_id": "S0:GENIEProjectionRef",
+      "type": "object"
+     },
+     {
+      "name": "supersedes",
+      "required": true,
+      "source_object_id": "S0:ArtifactIdentity",
+      "type": "object"
+     },
+     {
+      "name": "invalidates",
+      "required": true,
+      "source_object_id": "S0:ArtifactIdentity",
+      "type": "object"
+     }
+    ],
+    "nack": [
+     {
+      "basis": "S6 NOT_AUTHORISED",
+      "nack_id": "NACK-GA-01",
+      "record_type": "NACK",
+      "statement": "object-crosswalk effective load is a fixture/mock contract load, not a live GENIE run"
+     },
+     {
+      "basis": "S6 NOT_AUTHORISED",
+      "nack_id": "NACK-GA-02",
+      "record_type": "NACK",
+      "statement": "no live GENIE integration PASS is claimed by this projection"
+     }
+    ],
+    "payload": {
+     "crosswalk_version": "PIPD-GENIE-CROSSWALK/1",
+     "mappings": [
+      {
+       "direction": "REFERENCE_ONLY",
+       "source_object_id": "S0:PD-PKG",
+       "source_schema": "urn:pipd:s0:PD-PKG:1",
+       "source_version": "1",
+       "target": "ProductGraph",
+       "target_ref": "urn:genie:seam:ProductGraph"
+      },
+      {
+       "direction": "REFERENCE_ONLY",
+       "source_object_id": "S0:ProfileBinding",
+       "source_schema": "urn:pipd:s0:ProfileBinding:1",
+       "source_version": "1",
+       "target": "Profile",
+       "target_ref": "urn:genie:seam:Profile"
+      },
+      {
+       "direction": "REFERENCE_ONLY",
+       "source_object_id": "S0:PI-PKG",
+       "source_schema": "urn:pipd:s0:PI-PKG:1",
+       "source_version": "1",
+       "target": "Bundle",
+       "target_ref": "urn:genie:seam:Bundle"
+      },
+      {
+       "direction": "REFERENCE_ONLY",
+       "source_object_id": "S0:ArtifactIdentity",
+       "source_schema": "urn:pipd:s0:ArtifactIdentity:1",
+       "source_version": "1",
+       "target": "GENIEArtifact",
+       "target_ref": "urn:genie:seam:GENIEArtifact"
+      }
+     ],
+     "required_targets": [
+      "ProductGraph",
+      "Profile",
+      "Bundle",
+      "GENIEArtifact"
+     ]
+    },
+    "permissions": [
+     "read:canonical-objects",
+     "emit:projection",
+     "emit:object-crosswalk"
+    ],
+    "provider": {
+     "admission_state": "OFF",
+     "basis": "S6 GENIE live integration NOT_AUTHORISED",
+     "live_integration": false,
+     "provider_id": "genie-live-integration"
+    },
+    "schema": "PIPD-HOST-PROJECTION/1",
+    "schema_version": "1",
+    "scope": [
+     "dist/web/**"
+    ],
+    "source_refs": [
+     {
+      "object_id": "S0:GENIEProjectionRef",
+      "schema": "urn:pipd:s0:GENIEProjectionRef:1",
+      "schema_version": "1",
+      "source_hash": "22c88a0f9ec4ea4747967546f9a5ea7f19f0285be60ac42567fae2ca0b1c36ed",
+      "source_path": "schemas/GENIEProjectionRef.schema.json"
+     },
+     {
+      "object_id": "S0:ArtifactIdentity",
+      "schema": "urn:pipd:s0:ArtifactIdentity:1",
+      "schema_version": "1",
+      "source_hash": "67d26f18d26307410bf0be5369949eb525d477e053ee3a7091e54b97f6d4ad4c",
+      "source_path": "schemas/ArtifactIdentity.schema.json"
+     },
+     {
+      "object_id": "S0:ProfileBinding",
+      "schema": "urn:pipd:s0:ProfileBinding:1",
+      "schema_version": "1",
+      "source_hash": "b559fb70bb6ceb9d491c989cb5ec031f44d15bcad5b40e75d6649aa059a93556",
+      "source_path": "schemas/ProfileBinding.schema.json"
+     },
+     {
+      "object_id": "S0:PI-PKG",
+      "schema": "urn:pipd:s0:PI-PKG:1",
+      "schema_version": "1",
+      "source_hash": "3e797d4eac04a04fee65add1ca6cb196154490ccd848b9b1cc561f24feaefb57",
+      "source_path": "schemas/PI-PKG.schema.json"
+     },
+     {
+      "object_id": "S0:PD-PKG",
+      "schema": "urn:pipd:s0:PD-PKG:1",
+      "schema_version": "1",
+      "source_hash": "37291e8790e03839308a7c36125f9576d14da725a27480c9759ef5362d255541",
+      "source_path": "schemas/PD-PKG.schema.json"
+     },
+     {
+      "object_id": "SEAM:S6",
+      "schema": "PIPD-SEAM-COMPAT/1",
+      "schema_version": "1",
+      "source_hash": "a2541b4b73f054d5557dcaeaca1544a3665fb9e5ddcd7264be383b59c4c39b37",
+      "source_path": "fixtures/s5_s8/s6_compat.json"
+     },
+     {
+      "object_id": "ADAPTER:MAPPING",
+      "schema": "PIPD-ADAPTER-MAPPING/1",
+      "schema_version": "1",
+      "source_hash": "ae939d979559985dfe692bf7f8638fc571d07013270fc15e734951b37b2af1ab",
+      "source_path": "src/pipd_ls_sp/projection.py#ADAPTER_MAPPING"
+     }
+    ],
+    "surface": "host:genie-adapter"
+   },
+   "scope": [
+    "dist/web/**"
+   ],
+   "source_hash": "c14b130cba61873d6b61420aed1aeeeaf2e4aee5fcb3711bb5be8707024c0569",
+   "source_objects": [
+    {
+     "object_id": "S0:GENIEProjectionRef",
+     "schema": "urn:pipd:s0:GENIEProjectionRef:1",
+     "schema_version": "1",
+     "source_hash": "22c88a0f9ec4ea4747967546f9a5ea7f19f0285be60ac42567fae2ca0b1c36ed",
+     "source_path": "schemas/GENIEProjectionRef.schema.json"
+    },
+    {
+     "object_id": "S0:ArtifactIdentity",
+     "schema": "urn:pipd:s0:ArtifactIdentity:1",
+     "schema_version": "1",
+     "source_hash": "67d26f18d26307410bf0be5369949eb525d477e053ee3a7091e54b97f6d4ad4c",
+     "source_path": "schemas/ArtifactIdentity.schema.json"
+    },
+    {
+     "object_id": "S0:ProfileBinding",
+     "schema": "urn:pipd:s0:ProfileBinding:1",
+     "schema_version": "1",
+     "source_hash": "b559fb70bb6ceb9d491c989cb5ec031f44d15bcad5b40e75d6649aa059a93556",
+     "source_path": "schemas/ProfileBinding.schema.json"
+    },
+    {
+     "object_id": "S0:PI-PKG",
+     "schema": "urn:pipd:s0:PI-PKG:1",
+     "schema_version": "1",
+     "source_hash": "3e797d4eac04a04fee65add1ca6cb196154490ccd848b9b1cc561f24feaefb57",
+     "source_path": "schemas/PI-PKG.schema.json"
+    },
+    {
+     "object_id": "S0:PD-PKG",
+     "schema": "urn:pipd:s0:PD-PKG:1",
+     "schema_version": "1",
+     "source_hash": "37291e8790e03839308a7c36125f9576d14da725a27480c9759ef5362d255541",
+     "source_path": "schemas/PD-PKG.schema.json"
+    },
+    {
+     "object_id": "SEAM:S6",
+     "schema": "PIPD-SEAM-COMPAT/1",
+     "schema_version": "1",
+     "source_hash": "a2541b4b73f054d5557dcaeaca1544a3665fb9e5ddcd7264be383b59c4c39b37",
+     "source_path": "fixtures/s5_s8/s6_compat.json"
+    },
+    {
+     "object_id": "ADAPTER:MAPPING",
+     "schema": "PIPD-ADAPTER-MAPPING/1",
+     "schema_version": "1",
+     "source_hash": "ae939d979559985dfe692bf7f8638fc571d07013270fc15e734951b37b2af1ab",
+     "source_path": "src/pipd_ls_sp/projection.py#ADAPTER_MAPPING"
+    }
+   ]
+  },
+  {
+   "artifact_id": "ui:OPTIONAL_SITE_UI",
+   "capability_loss": [
+    {
+     "capability": "semantic document status",
+     "loss_id": "LOSS-UI-01",
+     "reason": "site UI five files are OPTIONAL_SITE_UI and carry no PIPD semantic contract",
+     "record_type": "CapabilityLoss",
+     "severity": "DECLARED"
+    }
+   ],
+   "denominator": false,
+   "kind": "OPTIONAL_SITE_UI",
+   "nack": [
+    {
+     "basis": "R-AUD-003",
+     "nack_id": "NACK-UI-01",
+     "record_type": "NACK",
+     "statement": "OPTIONAL_SITE_UI files are excluded from the Web denominator and cannot pass G-S3-WEB"
+    }
+   ],
+   "path": "OPTIONAL_SITE_UI/",
+   "payload": {
+    "category": "OPTIONAL_SITE_UI",
+    "excluded_from_web_denominator": true,
+    "files": [
+     "index.html",
+     "app.js",
+     "styles.css",
+     "manifest.webmanifest",
+     "README.md"
+    ],
+    "web_denominator": [
+     "PIPD_BOOTSTRAP.md",
+     "PIPD_CANONICAL_CORE.md",
+     "PIPD_ROUTER_PROFILES.md",
+     "PIPD_ARTIFACT_SCHEMAS.md",
+     "PIPD_EVAL_HANDOFF.md"
+    ]
+   },
+   "scope": [
+    "dist/web/**"
+   ],
+   "source_hash": "d5650cd1da1275ca21d71930bfa43a16e9d1f4f6476fa5407ef488d1caae4872",
+   "source_objects": [
+    {
+     "object_id": "ADAPTER:MAPPING",
+     "schema": "PIPD-ADAPTER-MAPPING/1",
+     "schema_version": "1",
+     "source_hash": "ae939d979559985dfe692bf7f8638fc571d07013270fc15e734951b37b2af1ab",
+     "source_path": "src/pipd_ls_sp/projection.py#ADAPTER_MAPPING"
+    }
+   ]
+  }
+ ],
+ "profile": {
+  "axes": [
+   "intent",
+   "knowledge",
+   "verification",
+   "release",
+   "trust_boundary",
+   "preexisting_repo",
+   "profile",
+   "tech_candidates",
+   "host_surface"
+  ],
+  "profiles": {
+   "ASSURED": {
+    "artifact_depth": "L4_FAILURE_RECOVERY",
+    "assurance": [
+     "deterministic_validator",
+     "negative_security",
+     "adversarial",
+     "independent_checker"
+    ],
+    "max_axes": 10,
+    "target_resolution": "runtime"
+   },
+   "LITE": {
+    "artifact_depth": "L1_SCHEMA_CONTRACT",
+    "assurance": [
+     "deterministic_validator"
+    ],
+    "max_axes": 3,
+    "target_resolution": "package"
+   },
+   "STANDARD": {
+    "artifact_depth": "L3_INTEGRATION_RUNTIME",
+    "assurance": [
+     "deterministic_validator",
+     "negative_security"
+    ],
+    "max_axes": 6,
+    "target_resolution": "integration"
+   }
+  },
+  "routing": {
+   "ASSURED": [
+    "host:generic-skills",
+    "host:hgk-receiver",
+    "host:genie-adapter"
+   ],
+   "LITE": [
+    "host:generic-skills"
+   ],
+   "STANDARD": [
+    "host:generic-skills",
+    "host:hgk-receiver",
+    "host:genie-adapter"
+   ]
+  }
+ },
+ "projection_parity_sha256": "37f14491038f1249f2e073e414d12bc5dcf146afdcbe6af3abe5a7a9bc5f9ce5",
+ "schema": "PIPD-PROJECTION-IR/1",
+ "schema_version": "1",
+ "source_index": [
+  {
+   "object_id": "REGISTRY:CONTRACT-FAMILIES",
+   "schema": "PIPD-S0-CONTRACT-REGISTRY/1",
+   "schema_version": "1",
+   "source_hash": "85100a8e5ba6320f6648d33a14099fb999b2c452a94aff1652854d2550065e9d",
+   "source_path": "schemas/registry.json"
+  },
+  {
+   "object_id": "S0:ArtifactIdentity",
+   "schema": "urn:pipd:s0:ArtifactIdentity:1",
+   "schema_version": "1",
+   "source_hash": "67d26f18d26307410bf0be5369949eb525d477e053ee3a7091e54b97f6d4ad4c",
+   "source_path": "schemas/ArtifactIdentity.schema.json"
+  },
+  {
+   "object_id": "S0:AuthorityBinding",
+   "schema": "urn:pipd:s0:AuthorityBinding:1",
+   "schema_version": "1",
+   "source_hash": "66f1b3ce91d7f12ad6a6350a6628afd6c600e3e7ff62408b714c6fa0f1898ded",
+   "source_path": "schemas/AuthorityBinding.schema.json"
+  },
+  {
+   "object_id": "S0:RequirementAtom",
+   "schema": "urn:pipd:s0:RequirementAtom:1",
+   "schema_version": "1",
+   "source_hash": "021f6a30cf178190281176138686447e492640cf97b125f9c21a0aa2fa31c684",
+   "source_path": "schemas/RequirementAtom.schema.json"
+  },
+  {
+   "object_id": "S0:ProfileBinding",
+   "schema": "urn:pipd:s0:ProfileBinding:1",
+   "schema_version": "1",
+   "source_hash": "b559fb70bb6ceb9d491c989cb5ec031f44d15bcad5b40e75d6649aa059a93556",
+   "source_path": "schemas/ProfileBinding.schema.json"
+  },
+  {
+   "object_id": "S0:TechnologyAdmission",
+   "schema": "urn:pipd:s0:TechnologyAdmission:1",
+   "schema_version": "1",
+   "source_hash": "40703552af4fb14c7aa87dd68ead6eac1cf7d272541fda273cf22b8fb109c4d6",
+   "source_path": "schemas/TechnologyAdmission.schema.json"
+  },
+  {
+   "object_id": "S0:PI-PKG",
+   "schema": "urn:pipd:s0:PI-PKG:1",
+   "schema_version": "1",
+   "source_hash": "3e797d4eac04a04fee65add1ca6cb196154490ccd848b9b1cc561f24feaefb57",
+   "source_path": "schemas/PI-PKG.schema.json"
+  },
+  {
+   "object_id": "S0:PD-PKG",
+   "schema": "urn:pipd:s0:PD-PKG:1",
+   "schema_version": "1",
+   "source_hash": "37291e8790e03839308a7c36125f9576d14da725a27480c9759ef5362d255541",
+   "source_path": "schemas/PD-PKG.schema.json"
+  },
+  {
+   "object_id": "S0:TraceLink",
+   "schema": "urn:pipd:s0:TraceLink:1",
+   "schema_version": "1",
+   "source_hash": "ff6ef713b95a1a2812bd31d2b10cdcc064671c986d29d0e69318dc5a9f54e5e4",
+   "source_path": "schemas/TraceLink.schema.json"
+  },
+  {
+   "object_id": "S0:TaskSpecSeed",
+   "schema": "urn:pipd:s0:TaskSpecSeed:1",
+   "schema_version": "1",
+   "source_hash": "c6e086aef0e4f21179cba52c5187c33a3873b18732c669c4d03bcad057e9b6cc",
+   "source_path": "schemas/TaskSpecSeed.schema.json"
+  },
+  {
+   "object_id": "S0:ConstructionContract",
+   "schema": "urn:pipd:s0:ConstructionContract:1",
+   "schema_version": "1",
+   "source_hash": "1c56f15abd6e30d06f914f021b0b813f441689f9d47989ef48c7d7325557f0f2",
+   "source_path": "schemas/ConstructionContract.schema.json"
+  },
+  {
+   "object_id": "S0:WorkOrderCandidate",
+   "schema": "urn:pipd:s0:WorkOrderCandidate:1",
+   "schema_version": "1",
+   "source_hash": "03a8692f183f106ec7e4739b925c980ba07d68551627ca6af315fa9f9e2caf54",
+   "source_path": "schemas/WorkOrderCandidate.schema.json"
+  },
+  {
+   "object_id": "S0:ECP",
+   "schema": "urn:pipd:s0:ECP:1",
+   "schema_version": "1",
+   "source_hash": "7ecd9e92e6d43dba9675bb93ff0dddd178a0a17c8c3bc3f143696594dc945505",
+   "source_path": "schemas/ECP.schema.json"
+  },
+  {
+   "object_id": "S0:TQAEP",
+   "schema": "urn:pipd:s0:TQAEP:1",
+   "schema_version": "1",
+   "source_hash": "d14092817befb5e81c470449b9ac5160b6fba7e3fcde450ec00d1cadc21820cd",
+   "source_path": "schemas/TQAEP.schema.json"
+  },
+  {
+   "object_id": "S0:ExecutionHandoff",
+   "schema": "urn:pipd:s0:ExecutionHandoff:1",
+   "schema_version": "1",
+   "source_hash": "7fa36d3e7fe6e7416111b975381a42f3f5ad46cc81d97b610f317548815bd77b",
+   "source_path": "schemas/ExecutionHandoff.schema.json"
+  },
+  {
+   "object_id": "S0:EvidenceExpectation",
+   "schema": "urn:pipd:s0:EvidenceExpectation:1",
+   "schema_version": "1",
+   "source_hash": "02327839c21d5ba24d08dd52f9caa31a07616965c6235cece58487a810b99b7f",
+   "source_path": "schemas/EvidenceExpectation.schema.json"
+  },
+  {
+   "object_id": "S0:ClaimCeiling",
+   "schema": "urn:pipd:s0:ClaimCeiling:1",
+   "schema_version": "1",
+   "source_hash": "dbb2ce4dd322da99ca3b3067274b85928b995aba59ca3f04802d5e8ba253ab85",
+   "source_path": "schemas/ClaimCeiling.schema.json"
+  },
+  {
+   "object_id": "S0:SurfaceProjectionManifest",
+   "schema": "urn:pipd:s0:SurfaceProjectionManifest:1",
+   "schema_version": "1",
+   "source_hash": "87f8057e8dac68f304ed4e9c2dd118a26c69428015769ab09d39398d34dcb57d",
+   "source_path": "schemas/SurfaceProjectionManifest.schema.json"
+  },
+  {
+   "object_id": "S0:GENIEProjectionRef",
+   "schema": "urn:pipd:s0:GENIEProjectionRef:1",
+   "schema_version": "1",
+   "source_hash": "22c88a0f9ec4ea4747967546f9a5ea7f19f0285be60ac42567fae2ca0b1c36ed",
+   "source_path": "schemas/GENIEProjectionRef.schema.json"
+  },
+  {
+   "object_id": "S0:ExecutionBindingRef",
+   "schema": "urn:pipd:s0:ExecutionBindingRef:1",
+   "schema_version": "1",
+   "source_hash": "7c98cebfee30d9719cb8fd2d565c44120ce8d1be5b231071c19528cae1e95f50",
+   "source_path": "schemas/ExecutionBindingRef.schema.json"
+  },
+  {
+   "object_id": "PROFILE:TRIO",
+   "schema": "PIPD-PROFILE-TRIO/1",
+   "schema_version": "1",
+   "source_hash": "2631eac7f6cb2b48dba0ed6628c4d7d7e94b7843ac29353950c2d51172789070",
+   "source_path": "src/pipd_ls_sp/profiles.py"
+  },
+  {
+   "object_id": "SEAM:S5",
+   "schema": "PIPD-SEAM-COMPAT/1",
+   "schema_version": "1",
+   "source_hash": "5aa6aa3e4f360ab6e898e5034ec3871e731ec48137ae8af50fc2138871faf3ec",
+   "source_path": "fixtures/s5_s8/s5_compat.json"
+  },
+  {
+   "object_id": "SEAM:S6",
+   "schema": "PIPD-SEAM-COMPAT/1",
+   "schema_version": "1",
+   "source_hash": "a2541b4b73f054d5557dcaeaca1544a3665fb9e5ddcd7264be383b59c4c39b37",
+   "source_path": "fixtures/s5_s8/s6_compat.json"
+  },
+  {
+   "object_id": "SEAM:S7",
+   "schema": "PIPD-SEAM-COMPAT/1",
+   "schema_version": "1",
+   "source_hash": "185c160092e751e66c075222326378124e7c55f569d725fb64392cebb224b515",
+   "source_path": "fixtures/s5_s8/s7_compat.json"
+  },
+  {
+   "object_id": "SEAM:S8",
+   "schema": "PIPD-SEAM-COMPAT/1",
+   "schema_version": "1",
+   "source_hash": "53492fe85d88aff6e837572ba90d5b3ccba0fccd6d11375928f307fb072a2ffe",
+   "source_path": "fixtures/s5_s8/s8_compat.json"
+  },
+  {
+   "object_id": "ADAPTER:MAPPING",
+   "schema": "PIPD-ADAPTER-MAPPING/1",
+   "schema_version": "1",
+   "source_hash": "ae939d979559985dfe692bf7f8638fc571d07013270fc15e734951b37b2af1ab",
+   "source_path": "src/pipd_ls_sp/projection.py#ADAPTER_MAPPING"
+  }
+ ]
+}

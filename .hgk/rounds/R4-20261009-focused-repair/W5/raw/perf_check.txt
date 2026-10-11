@@ -1,0 +1,58 @@
+{
+ "rows": [
+  {
+   "metric": "compile_chain_ms",
+   "value": 34829.6,
+   "budget": 2000,
+   "measurement": "wall-clock perf_counter around intake->compile_pi->bind_pd->compile_construction_contract->compile_ecp->compile_tqaep, ms",
+   "denominator": "",
+   "source_of_truth": "UNPROVENANCED",
+   "verdict": "UNDECIDABLE"
+  },
+  {
+   "metric": "validate_19_contracts_ms",
+   "value": 30.2,
+   "budget": 3000,
+   "contracts": 19,
+   "measurement": "wall-clock perf_counter loading every registry family schema, ms",
+   "denominator": "19 registry families (registry.json)",
+   "source_of_truth": "UNPROVENANCED",
+   "verdict": "UNDECIDABLE"
+  },
+  {
+   "metric": "cli_cold_start_ms",
+   "value": 140.5,
+   "budget": 6000,
+   "measurement": "wall-clock perf_counter of `python -B -m pipd_ls_sp.cli --help` in a fresh interpreter, ms",
+   "denominator": "",
+   "source_of_truth": "UNPROVENANCED",
+   "verdict": "UNDECIDABLE"
+  },
+  {
+   "metric": "context_bytes_per_artefact",
+   "value": 335252,
+   "budget": 20000,
+   "sizes": {
+    "pi": 335252,
+    "pd": 1325,
+    "cc": 442,
+    "ecp": 528,
+    "tqaep": 109888
+   },
+   "measurement": "max of len(json.dumps(artefact)) in UTF-8 bytes over PI/PD/CC/ECP/TQAEP",
+   "denominator": "one artefact (bytes per artefact, not per atom)",
+   "source_of_truth": "UNPROVENANCED",
+   "verdict": "UNDECIDABLE"
+  }
+ ],
+ "verdict": "UNDECIDABLE",
+ "undecidable": [
+  "compile_chain_ms",
+  "validate_19_contracts_ms",
+  "cli_cold_start_ms",
+  "context_bytes_per_artefact"
+ ],
+ "failed": [],
+ "candidate_head": "UNBOUND_NO_GIT_BINARY"
+}
+exit=0

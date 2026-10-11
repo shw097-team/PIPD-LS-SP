@@ -1,0 +1,155 @@
+{
+  "checker_id": "AO-R5P-INDEPENDENT-V4",
+  "subject_commit": "194f1774e8e852f954d141c48389a74b0f0e302a",
+  "subject_tree": "b1ec0abf4799fdc917aaa23dc75885b302407ee5",
+  "checks": [
+    {
+      "id": "C6",
+      "verdict": "PASS",
+      "evidence": [
+        "/w/ACCEPTANCE.md",
+        "/w/README.md",
+        "/briefs/brief_ao_checker_v4.md",
+        "/round/CHECKPOINT_R5P.json",
+        "/round/evidence/DIGEST_BINDING.json",
+        "/round/ops/bound_digest.py",
+        "/w/dist/pipd_ls_sp-0.1.0-py3-none-any.whl",
+        "/ao/v4/raw/brief.stdout",
+        "/ao/v4/raw/first_screen.stdout",
+        "/ao/v4/raw/external_entry.stdout",
+        "/ao/v4/raw/definition.stdout",
+        "/ao/v4/raw/mount_mapping.stdout",
+        "/ao/v4/raw/bound_reproduction.stdout",
+        "/ao/v4/raw/wheel_hash.stdout",
+        "/ao/v4/raw/binding_comparison.stdout"
+      ],
+      "commands": [
+        {
+          "command": [
+            "cat",
+            "/briefs/brief_ao_checker_v4.md"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v4/raw/brief.stdout",
+          "stderr": "/ao/v4/raw/brief.stderr"
+        },
+        {
+          "command": [
+            "python3",
+            "-B",
+            "-c",
+            "from pathlib import Path\nfor f,n in [('/w/ACCEPTANCE.md',34),('/w/README.md',44)]:\n print(f)\n for i,l in enumerate(Path(f).read_text().splitlines()[:n],1): print(f'{i}: {l}')"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v4/raw/first_screen.stdout",
+          "stderr": "/ao/v4/raw/first_screen.stderr"
+        },
+        {
+          "command": [
+            "cat",
+            "/round/CHECKPOINT_R5P.json",
+            "/round/evidence/DIGEST_BINDING.json"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v4/raw/external_entry.stdout",
+          "stderr": "/ao/v4/raw/external_entry.stderr"
+        },
+        {
+          "command": [
+            "cat",
+            "/round/ops/bound_digest.py"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v4/raw/definition.stdout",
+          "stderr": "/ao/v4/raw/definition.stderr"
+        },
+        {
+          "command": [
+            "python3",
+            "-B",
+            "-c",
+            "from pathlib import Path\nfor l in Path('/proc/self/mountinfo').read_text().splitlines():\n if l.split()[4] in ['/w','/round','/briefs','/ao']: print(l)\nprint('export_git_exists:',Path('/w/.git').exists())\nprint('export_round_exists:',Path('/w/.hgk/rounds/R5P-20261010-s4-post-challenge').exists())"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v4/raw/mount_mapping.stdout",
+          "stderr": "/ao/v4/raw/mount_mapping.stderr"
+        },
+        {
+          "command": [
+            "python3",
+            "-B",
+            "/round/ops/bound_digest.py",
+            "/w"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v4/raw/bound_reproduction.stdout",
+          "stderr": "/ao/v4/raw/bound_reproduction.stderr"
+        },
+        {
+          "command": [
+            "sha256sum",
+            "/w/dist/pipd_ls_sp-0.1.0-py3-none-any.whl"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v4/raw/wheel_hash.stdout",
+          "stderr": "/ao/v4/raw/wheel_hash.stderr"
+        },
+        {
+          "command": [
+            "python3",
+            "-B",
+            "-c",
+            "import json,hashlib\nfrom pathlib import Path\nf=json.loads(Path('/round/CHECKPOINT_R5P.json').read_text())['frozen_subject'];b=json.loads(Path('/round/evidence/DIGEST_BINDING.json').read_text());r=json.loads(Path('/ao/v4/raw/bound_reproduction.stdout').read_text())\nassert f['head']=='194f1774e8e852f954d141c48389a74b0f0e302a'\nassert f['head_tree']=='b1ec0abf4799fdc917aaa23dc75885b302407ee5'\nassert f['bound_product_digest']==b['bound_product_digest']==r['bound_product_digest']\nassert b['bound_file_count']==r['bound_file_count']==288\nassert b['bound_definition']==r['bound_definition']\nassert '\".hgk\"' in b['bound_definition']\nassert f['wheel_sha256']==hashlib.sha256(Path('/w/dist/pipd_ls_sp-0.1.0-py3-none-any.whl').read_bytes()).hexdigest()\nfor k in ['head','head_tree','wheel_sha256','bound_product_digest']: print(k+': '+f[k])\nprint('外部身分符合凍結 brief；產品 digest 與 wheel 雜湊重算一致；.hgk 排除於綁定範圍。')"
+          ],
+          "cwd": "/ao",
+          "exit_code": 0,
+          "stdout": "/ao/v4/raw/binding_comparison.stdout",
+          "stderr": "/ao/v4/raw/binding_comparison.stderr"
+        }
+      ],
+      "note": "PASS。本 subject 的本輪文件綁定已關閉。ACCEPTANCE 第 3–6 行區分基線歷史及目前 r5p-post-challenge-repair 分支，第 30–31 行明示 CANDIDATE_ONLY、LicenseRef-PIPD-Proprietary、no public-use grant；README 第 7 行導向入口，第 39 行重申目前分支及授權／候選上限。ACCEPTANCE 第 24–28 行明示 attempt-2 commit/tree/wheel/digest 為 superseded history，不再當作目前身分。第 14–18 行提供排除於產品 digest 的外部 checkpoint、digest 定義及重現命令。讀取 /round/CHECKPOINT_R5P.json 的 frozen_subject，head/tree 符合本次 brief；wheel_sha256 為 bb070a6f525382edc521bcf7fe127579e1e329024113ab4fe2881eeeea7b0a76，bound_product_digest 為 6120cf3775ae522fbabb550f12b39bb6b682d88d8dabc8b247ec093f41775c0e。獨立執行 bound_digest.py /w 得 288 files 並符合外部定義／綁定值，wheel SHA-256 亦符合。此重算僅佐證 C6 外部入口，不重審 C8。第 8–12 行明示目前身分不內嵌，第 24–28 行的固定 digest 僅為歷史，因此後續提交不使橫幅的當前 digest 斷言失效；不要求自指其 digest。全部記錄命令退出 0。殘餘限制具名列出，終端裁決不要求另一循環。"
+    }
+  ],
+  "overall": "PASS",
+  "classification": {
+    "C6": "NON_BLOCKING_OBSERVATION"
+  },
+  "residual_limitations": [
+    {
+      "name": "RL-C6-GIT-IDENTITY-READONLY",
+      "scope": "本次 subject 的 Git commit/tree、分支 tip、工作樹潔淨及 attempt-3→4 唯一變更。",
+      "note": "/w 是無 .git 的唯讀 export；commit/tree 由凍結 brief 與外部 checkpoint 交叉核對，未自行 rev-parse 或重建完整 Git tree。產品 digest 與 wheel 雜湊已獨立重算；唯一文件變更依據為 brief。"
+    },
+    {
+      "name": "RL-C6-EXTERNAL-ENTRY-MOUNT",
+      "scope": "原 repository 相對路徑及後續提交的外部身分維護。",
+      "note": "/w 不含 .hgk/rounds；已由 mountinfo 確認 /round 掛載原 round 目錄並讀取其 checkpoint。未在原 host checkout 直接執行相對路徑命令，亦不能確認未來提交後 checkpoint 會被更新。橫幅避免當前 digest 自指，穩定性僅指此設計；每個新 subject 仍須更新外部綁定。"
+    },
+    {
+      "name": "RL-C6-HISTORICAL-WORDING",
+      "scope": "首屏導讀及外部 checkpoint 的周邊歷史敘述；不影響 frozen_subject 身分四元組。",
+      "note": "README 第 8 行仍以舊 R5 S4 導讀敘述 acceptance 內容，後續表格亦保留歷史說法；第 39 行已明示目前分支、S4 candidate 及授權，ACCEPTANCE 新橫幅明示下方為基線歷史。Checkpoint 周邊仍有 attempt-2 in flight 等舊流程文字；本次採用明確 frozen_subject 與新版 brief，不將舊文字視為目前裁決。"
+    },
+    {
+      "name": "RL-C6-RECEIPT-AND-RATIFICATION",
+      "scope": "橫幅連結的過往 checker / host suite 收據及人工核准。",
+      "note": "橫幅所列 V1–V3 是歷次裁決，其中 V3 的 C6 曾 FAIL；host suite 收據綁定舊 subject。它們不構成本 subject 的全套重跑或整輪新 PASS。本次只關閉 C6 文件綁定；既有其他檢查不重開，人工核准仍 PENDING，宣稱上限仍 CANDIDATE_ONLY。"
+    }
+  ],
+  "independent_of_maker": true,
+  "independence_scope": "本 checker 以唯讀產品／證據 mount 獨立讀檔、重算產品及 wheel 雜湊並交叉核對；未修改產品或外部證據。commit/tree 依 brief/checkpoint，不宣稱獨立 Git 物件驗證。",
+  "human_ratification": "PENDING",
+  "claim_ceiling": "CANDIDATE_ONLY",
+  "scope": "終端 pass 僅 C6；overall PASS 限於本次 C6 文件綁定，C1/C2/C4/C5/C7/C8 維持既有裁決，不重開。",
+  "bound_product_digest": "6120cf3775ae522fbabb550f12b39bb6b682d88d8dabc8b247ec093f41775c0e",
+  "bound_file_count": 288,
+  "commands_index": "/ao/v4/commands.jsonl",
+  "log": "/ao/v4/審查紀錄.md"
+}
