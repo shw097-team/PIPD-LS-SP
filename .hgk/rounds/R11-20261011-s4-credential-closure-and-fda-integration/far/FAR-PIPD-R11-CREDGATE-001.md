@@ -57,8 +57,33 @@ been exercised against the configuration it was supposed to govern.
 
 The gate resolves the effective source exactly as `acquire()` does and requires **that** source's validity.
 The App is probed by minting its installation token and calling the repository endpoint - presence is not
-validity, and a configured-but-unprobed App is **refused**, not passed. The PAT bridge is still reported,
-but a dead PAT no longer gates a healthy App.
+validity, and a configured-but-unprobed App is **refused on the default path**, not passed. The PAT bridge
+is still reported, but a dead PAT no longer gates a healthy App.
+
+**Correction issued during independent verification (R11, checker `openai-codex/gpt-6.1-sol`).** An
+earlier draft of this FAR, and the verification brief built from it, asserted flatly that "a
+configured-but-unprobed App is REFUSED". **That assertion is false as written**, and the checker
+disproved it by executing the committed source rather than reading it:
+
+```
+--no-probe  (an EXPLICIT operator flag, help: "skip the network validity probe")
+  effective_source=app, app_cred_valid=SKIP, required=["app_cred_valid"],
+  failed_required=[], verdict=OK, abort=false
+```
+
+So the exact behaviour is: **the default path refuses** (no getter -> `app_cred_valid: FAIL` ->
+`FAIL_CLOSED`), and the **explicit `--no-probe` opt-out** converts the check to `SKIP`, which
+`_verdict()` does not count as a FAIL, so the run reports `OK` over a credential that was configured and
+**never proven**. That is the same "presence is not validity" class the fix was aimed at, surviving
+through a flag, and the code's own comment on the getter-less path says it "refuses to pass on presence
+alone" - which is not true of this branch.
+
+Disposition, and its reason: the **claim** was corrected here (it was mine, and wrong); the **flag
+semantics were NOT changed in this round**. `--no-probe` is an explicit, self-describing opt-out that an
+offline operator may legitimately need, and altering what `verdict: OK` means would change a contract that
+other readers (`INSTALL_MANIFEST.json` V3/V4, external consumers) encode - a control-plane change that
+belongs in its own admitted round, exactly as the dispatcher-guard defect does. It is recorded as an OPEN
+residual, with the reproduction above, not smoothed over.
 
 Test fixtures were **realigned, not weakened**. The `absent file => abort` expectations in `selftest.py`
 and `verify_offline.py` encoded the superseded PAT-only contract, and they were also **non-hermetic** -
@@ -102,6 +127,19 @@ and only the former is evidence. This FAR relies solely on the ref move.
 - It does not claim the App is "activated"; it is a working capability that nothing calls (see
   `evidence/BROKER_ACTIVATION_ANALYSIS.md`).
 - It does not claim the PAT was "retired by revoking it" - there is nothing on this account to revoke.
+- It does not claim the gate is unconditionally sound. The `--no-probe` opt-out above is an OPEN residual.
+- It does not claim the write's **attribution**. The independent checker established, correctly, that a
+  credential-free `ls-remote` of a PUBLIC repository proves only the advertised refs - it cannot show who
+  pushed, which credential authenticated, whether the ref moved during this round, or that write
+  permission existed. The ref move (`1136a69..ae08136`) is evidence that **something with write access**
+  moved the ref while the helper was blanked and the broker supplied the App token; the step from that to
+  "the App token did it" is corroboration, not proof, and is labelled as such here.
+- It does not claim the suites were independently re-run. The checker refused to execute `selftest.py` and
+  `verify_offline.py` because both write temporary files and the brief ordered VERIFY_ONLY - it reported
+  `UNCERTAIN` rather than adopting this FAR's numbers. The 7/7 and `PASS_OFFLINE_T5_UNPROVEN` figures below
+  remain **maker-reported**; what the checker DID re-derive independently is the manifest pin set (7/7
+  resolve, both from the working tree and from the blobs in the commit).
 
 **Claim ceiling:**
-`CREDENTIAL_GATE_REQUIRED_THE_WRONG_SOURCE__FIXED_AND_REPROVEN__APP_TOKEN_WRITE_CONFIRMED_BY_A_REF_MOVE__HOST_MANAGER_CREDENTIAL_IDENTIFIED_AND_LEFT_IN_PLACE`.
+`CREDENTIAL_GATE_REQUIRED_THE_WRONG_SOURCE__SOURCE_SELECTION_CORRECTED_AND_REPROVEN_ON_THE_DEFAULT_PATH__APP_TOKEN_WRITE_SHOWN_BY_A_REF_MOVE_WITH_WRITER_ATTRIBUTION_CORROBORATED_NOT_PROVEN__no-probe_OPT_OUT_LEFT_OPEN__SUITE_RESULTS_MAKER_REPORTED__HOST_MANAGER_CREDENTIAL_IDENTIFIED_AND_LEFT_IN_PLACE`.
+

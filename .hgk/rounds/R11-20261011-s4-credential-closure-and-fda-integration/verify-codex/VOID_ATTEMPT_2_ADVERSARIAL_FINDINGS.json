@@ -1,0 +1,96 @@
+{
+ "schema": "HGK-VOID-ATTEMPT-EVIDENCE/1",
+ "status": "VOID_AT_THE_LANE_GATE",
+ "is_an_acceptance_input": false,
+ "why_void": "the final message did not carry the lane nonce, because revision 1 of the brief never asked for it; the receipt is ERR_NO_ARM_EMITTED_NONCE",
+ "why_retained": "its findings were acted on in this round, so deleting it would hide the evidence for the corrections made",
+ "lane": "VERIFY_SECURITY",
+ "forced_rank": 4,
+ "arm": "openai-codex/gpt-6.1-sol",
+ "sandbox": "danger-full-access",
+ "usage": {
+  "input_tokens": null,
+  "cached_input_tokens": 356096,
+  "output_tokens": 9189
+ },
+ "checker_verdict": {
+  "verdict": "FAIL",
+  "checks": [
+   {
+    "id": "C1",
+    "status": "FAIL",
+    "evidence": "git show --stat 8ab82ec:\n scripts/cred/INSTALL_MANIFEST.json | 8 +--\n scripts/cred/cred_broker.py | 6 +-\n scripts/cred/cred_preflight.py | 132 +++++++++++++++++++++++++++++--------\n scripts/cred/selftest.py | 32 ++++++++-\n scripts/cred/verify_offline.py | 42 +++++++++++-\n 5 files changed, 179 insertions(+), 41 deletions(-)\n\nRelevant committed code:\n effective = \"app\" if app_configured else \"pat\"\n REQUIRED_APP = (\"app_cred_valid\",)\n if not probe:\n     return [_result(\"app_cred_valid\", \"SKIP\", \"--no-probe\")]\n failed = [c[\"id\"] for c in checks if c[\"status\"] == \"FAIL\" and c[\"id\"] in required]\n\nIndependent in-memory execution of the committed source, with nonexistent PAT/expiry paths, an existing non-key file standing in for APP_KEY, and mocked mint/API functions:\n configured_without_getter: effective_source=app, app_cred_valid=FAIL, failed_required=[\"app_cred_valid\"], verdict=FAIL_CLOSED, abort=true\n configured_no_probe: effective_source=app, app_cred_valid=SKIP, required=[\"app_cred_valid\"], failed_required=[], verdict=OK, abort=false\n mock_mint_and_api_200: effective_source=app, app_cred_valid=PASS, verdict=OK, abort=false\n mint_raises: app_cred_valid=FAIL, detail=\"installation token mint failed: RuntimeError\", verdict=FAIL_CLOSED, abort=true\n mock_mint_api_401: app_cred_valid=FAIL, detail=\"GET /installation/repositories -> 401\", verdict=FAIL_CLOSED, abort=true\n no_source: effective_source=pat, failed_required=[\"cred_source_present\", \"cred_syntax\", \"cred_api_valid\"], verdict=FAIL_CLOSED, abort=true",
+    "note": "Normal probing resolves the broker's effective source and invokes installation-token minting, but --no-probe passes a configured, unprobed App; the unconditional refusal claim is false. Missing getter, mint failure, API failure and absent-source paths still fail closed."
+   },
+   {
+    "id": "C2",
+    "status": "UNCERTAIN",
+    "evidence": "Both suites contain tempfile.TemporaryDirectory() and f.write_text(...): selftest.py:71-73; verify_offline.py:87-89. They were attempted using the required Python interpreter with -B, runpy and an audit hook rejecting filesystem mutations before execution.\nGUARDED_SUITE_ATTEMPT C:/Projects/Agent_Workspace/HG-KSEOS/scripts/cred/selftest.py\nNO_SUITE_VERDICT FileNotFoundError [Errno 2] No usable temporary directory found\nGUARDED_SUITE_ATTEMPT C:/Projects/Agent_Workspace/HG-KSEOS/scripts/cred/verify_offline.py\nNO_SUITE_VERDICT FileNotFoundError [Errno 2] No usable temporary directory found\n\nIndependent hashlib.sha256 recomputation of every manifest target:\nscripts/cred/cred_broker.py 38baca046f26ff7fbb197dff0d771619a0512858000b3529a35eea1c189e1f62 equal=true\nscripts/cred/cred_preflight.py 0e8adf04b05687f6aedfad1e2c4d8919bd41128d24e892757a3fef2ca85221c0 equal=true\nscripts/cred/selftest.py 26c47a492f56c63ab6e3384f9694d532fc5f93ad896ac8e7a73f4a999a4b398e equal=true\nscripts/cred/verify_offline.py 30bc35ea0a56ed110241d2f432a0f570f7738e9a5a49c3d293ee67f2ff73f7e9 equal=true\nscripts/cred/README.md d235b0dddfa48b4898d270ed864dfa5a14398052160e9d35be124d77b5cebef0 equal=true\nscripts/cred/INSTALL.md 6f0054e8b80cc72a759e4ef562e70bb49a0e6626b9c1b74c41870eb851337b06 equal=true\nscripts/cred/admission/hgk_cred_admission.py e521ae869fc48d56b52a0a94d09d7418dbb078d7b02b533f4788be0cccdbd7ea equal=true\nmismatch_count=0\nThe same seven pins were independently recomputed from git show 8ab82ec:<target>; all MATCH True.",
+    "note": "Pins pass independently; selftest verdict, passed/total and verify_offline verdict remain unestablished because completing either suite would violate the no-write rule."
+   },
+   {
+    "id": "C3",
+    "status": "PASS",
+    "evidence": "Required Python -B execution of var/fda/hgk_evidence_preflight.py:\n=== HGK EVIDENCE PREFLIGHT (HGK-GATE-CLOSURE-001) ===\n--- 1. checker single-denominator ---\n  [PASS] FDA_CHECKER_179_RAW_RECEIPT_RR6.json: HISTORICAL (excluded from current)\n  [PASS] FDA_CHECKER_RAW_RECEIPT_RR6.json: HISTORICAL (excluded from current)\n  [PASS] exactly ONE current checker: FDA_CHECKER_FINAL_RR7.json (194 checks, subject be576bebe767)\n--- 2. stale self-hash evidence MDs (current series) ---\n  [PASS] latest FDA_EXTERNAL_FINAL_SINGLE_EVIDENCE_RR8.md has no self-hash; older 2 MD(s) historical\n--- 3. manifest integrity ---\n  [PASS] manifest 63 entries: 0 missing, 0 mismatch\n--- 4. three-way subject binding ---\n  [PASS] three-way bound: be576bebe767\n--- 5. CLOSED authority (receipts present) ---\n  [PASS] all CLOSED findings backed by authority receipts\n==================================================\nPREFLIGHT: PASS\nPREFLIGHT_EXIT=0\n\nIndependent git ls-tree inspection at 463ca0a^ and 463ca0a returned the identical series: FDA_EXTERNAL_FINAL_SINGLE_EVIDENCE_RR6.md, FDA_EXTERNAL_FINAL_SINGLE_EVIDENCE_RR7.md, FDA_EXTERNAL_FINAL_SINGLE_EVIDENCE_RR8.md.\nLatest at both revisions: FDA_EXTERNAL_FINAL_SINGLE_EVIDENCE_RR8.md\nSHA256 at parent, commit and working-tree snapshot: acbf7463119785537fdb0c2088d49f629fb09735990ccb07662dc9f795b1265c\nNew R11 markdown: this_file_sha256_literal_present False",
+    "note": "The sealed latest file is byte-identical across the addition; the printed binding is exactly be576bebe767, a 12-character comparison rather than a full-40-character equality assertion."
+   },
+   {
+    "id": "C4",
+    "status": "PASS",
+    "evidence": "git show --stat 463ca0a:\n ...REDENTIAL_AUTOMATION_DISCIPLINE_AND_EVIDENCE.md | 209 +++++++++++++++++++++\n .../evidence/FDA_R11_EVIDENCE_SIDECAR.json | 11 ++\n 2 files changed, 220 insertions(+)\n\ngit diff-tree --no-commit-id --name-status -r 463ca0a:\nA fabric-desktop-automation/evidence/FDA_R11_CREDENTIAL_AUTOMATION_DISCIPLINE_AND_EVIDENCE.md\nA fabric-desktop-automation/evidence/FDA_R11_EVIDENCE_SIDECAR.json\n\nEVIDENCE_SHA256 b6e0e33a039db451ccaf452095d3ab6b3ab9ccc07a1e3d572dd52c8c80ea57c9 EQUAL True\nCOMMIT_EVIDENCE_SHA256 b6e0e33a039db451ccaf452095d3ab6b3ab9ccc07a1e3d572dd52c8c80ea57c9 MATCH True",
+    "note": "Exactly two added paths, both in the required evidence directory; both committed and working-tree markdown bytes match the sibling sidecar digest."
+   },
+   {
+    "id": "C5",
+    "status": "PASS",
+    "evidence": "Recursive file listing relative to .hgk/rounds/R11-20261011-s4-credential-closure-and-fda-integration; sizes in bytes:\nhgk_r11_admission.py 6891\nadmission/r11_admission.json 3572\nevidence/BROKER_ACTIVATION_ANALYSIS.md 4596\nfar/FAR-PIPD-R11-CREDGATE-001.md 5768\nfar/FAR-PIPD-R11-FDAEVID-002.md 4936\nkanban/BOARD_READBACK.json 1785\nkanban/ROUND_KANBAN.json 1967\nopenspec/changes/pipd-ls-sp-r11-credential-closure/proposal.md 1751\nopenspec/changes/pipd-ls-sp-r11-credential-closure/tasks.md 1687\nsurface/GSTACK_R11_ROUTE_READBACK.json 1097\nswarm/SWARM_ROSTER.json 1274\nverify-codex/r11_verify.json 5494\nverify-codex/r11_verify.json.attempts.ndjson 2488\nverify-codex/r11_verify.log 5496\nverify-codex/VERIFY_BRIEF_R11.md 5884\nverify-codex/r11-logs/attempt-25032-1791699690-4-stderr.txt 1323\nverify-codex/r11-logs/attempt-25032-1791699690-4-stdout.txt 1651\n\nAdmission receipt:\nREQ-PIPD-R11-FDAEXEC-001 FROZEN\nREQ-PIPD-R11-FDAEVID-002 FROZEN\nREQ-PIPD-R11-ACTIVATE-003 FROZEN\nREQ-PIPD-R11-ADMIT-004 FROZEN\nREQ-PIPD-R11-VERIFY-005 FROZEN\nREQ-PIPD-R11-CLOSURE-006 FROZEN\nadmitted count=6; errors=[]\n\nBOARD_READBACK.json:\nboard_slug=pipd-r11-20261011\nroot_id=t_6e9fa780\nworker_ids=[t_ae87acba,t_32ee8e1e]\nverifier_id=t_9431f074\nsynthesizer_id=t_828108af\nobserved_status: root done; workers ready; verifier todo; synthesizer todo\n\nGSTACK_R11_ROUTE_READBACK.json:\nregistry_declared.PLAN=openai-codex/gpt-6.1-sol\nowner_mandated_this_round.PLAN=opencode-go/deepseek-v4.1-flash (in this Hermes session)\nobserved_this_round=null\n\nFAR-PIPD-R11-CREDGATE-001.md claim ceiling:\nCREDENTIAL_GATE_REQUIRED_THE_WRONG_SOURCE__FIXED_AND_REPROVEN__APP_TOKEN_WRITE_CONFIRMED_BY_A_REF_MOVE__HOST_MANAGER_CREDENTIAL_IDENTIFIED_AND_LEFT_IN_PLACE\n\nFAR-PIPD-R11-FDAEVID-002.md claim ceiling:\nROUND_AUTOMATION_USE_INTEGRATED_IN_THE_TEAM_CONTRACT_FORM__SEALED_THREE-WAY_BINDING_PROVEN_UNMOVED_BY_BEFORE-AND-AFTER_PREFLIGHT__ONLY_AUTHORED_PATHS_COMMITTED\n\nProduct artefact commit after ae08136:\n6f1e5c6fe76a68cc8c895dc01ea87c21062d8a95 R11: FARs, broker-activation analysis and the independent verification brief",
+    "note": "PASS establishes the requested artefact contents, not their historical assertions; declared and mandated routes remain separate, but observed execution is explicitly null."
+   },
+   {
+    "id": "C6",
+    "status": "FAIL",
+    "evidence": "Read-only scan of every round file plus the Fabric R11 markdown:\nfiles_scanned=18\nliteral_occurrence_count=5\nhit_line_count=1\nverify-codex/VERIFY_BRIEF_R11.md:86: github_pat_=1, ghs_=1, ghp_=1, gho_=1, -----BEGIN=1\nnonempty_private_key_named_files=[]\nkey_reference_locations: hgk_r11_admission.py:25; verify-codex/VERIFY_BRIEF_R11.md:86",
+    "note": "The required literal search is non-zero, so the explicit acceptance rule fails; all five hits are search examples in the brief, not discovered credential values or private-key material."
+   },
+   {
+    "id": "C7",
+    "status": "UNCERTAIN",
+    "evidence": "Commands executed outside any repository with system/global Git configuration disabled, Git credential/configuration environment removed, and interactive authentication disabled:\ngit ls-remote https://github.com/shw097-team/PIPD-LS-SP.git main\nstdout: ae0813679015e2b8581f2a55384800a54f925455\\trefs/heads/main\nstderr: empty\nexit_code: 0\n\ngit ls-remote https://github.com/shw097-team/PIPD-LS-SP.git refs/tags/*\nstdout:\ncc9bf574c3b3f0f44ea615b5c67ae40d74efee32\\trefs/tags/v0.1.0-preview.1\n8faa64e581e8c25f5ec355475e29561847da3ead\\trefs/tags/v0.1.0-preview.2\nstderr: empty\nexit_code: 0",
+    "note": "Anonymous public reads establish advertised refs only—not who pushed, whether a ref moved during this round, which credential authenticated, App ownership, installation identity, or write permission."
+   }
+  ],
+  "could_not_verify": [
+   "C2: selftest verdict and passed/total, and verify_offline verdict. Both suites require temporary filesystem writes; guarded attempts prevented those writes and could not finish. No maker-reported suite result is adopted.",
+   "C7: Attribution of the claimed historical push to a token minted from an organisation-owned GitHub App installation. Anonymous ls-remote cannot authenticate the writer or establish credential provenance.",
+   "C5: Actual service of the mandated GSTACK route. The readback has observed_this_round=null; declaration and mandate do not establish execution.",
+   "C5: The historical before-round preflight execution. Commit-parent comparison independently proves the sealed file did not change, but does not prove that the claimed earlier command was executed."
+  ],
+  "disagreements": [
+   "C1's configured-but-unprobed-App refusal claim contradicts the committed --no-probe path: app_cred_valid=SKIP produces verdict=OK and abort=false. This was reproduced directly from commit 8ab82ec without credentials or writes.",
+   "The change is not literally one line: cred_preflight.py has 104 insertions and 28 deletions; the complete commit changes five files. Effective-source selection is corrected in normal probing, but the broader assertion that validity is always required is unsupported.",
+   "INSTALL_MANIFEST.json's V3 expectation still says 5/5 PASS, while the committed selftest defines seven recorded checks: T1a, T1b, T1c, T2, T3, T4 and T5.",
+   "C6's zero-literal-hit requirement contradicts the committed verification brief itself, which contains all five prohibited search literals. This is an acceptance-rule failure, not evidence of a secret leak.",
+   "The CREDGATE FAR ceiling's APP_TOKEN_WRITE_CONFIRMED_BY_A_REF_MOVE is not independently established by these credential-free checks; the remote ref matching ae08136 does not identify the writer or credential.",
+   "The CREDGATE FAR ceiling's FIXED_AND_REPROVEN exceeds this verification: the no-probe counterexample remains and the original suites cannot complete under VERIFY_ONLY."
+  ],
+  "immutable_facts_asserted": [
+   "Control-plane commit resolves to 8ab82ec973f2bf79f6dd2d29c3e0799bb384a001.",
+   "Product admission commit resolves to ae0813679015e2b8581f2a55384800a54f925455; subsequent round artefact commit is 6f1e5c6fe76a68cc8c895dc01ea87c21062d8a95.",
+   "Evidence-host commit resolves to 463ca0a84920f09bd04e74b5198e04c4516c015e and adds exactly the two paths reported in C4.",
+   "All seven manifest SHA256 pins reported in C2 match both independently hashed working-tree snapshots and blobs in commit 8ab82ec; mismatch count is zero.",
+   "R11 evidence markdown SHA256 is b6e0e33a039db451ccaf452095d3ab6b3ab9ccc07a1e3d572dd52c8c80ea57c9 and equals the sidecar value, including at commit 463ca0a.",
+   "FDA_EXTERNAL_FINAL_SINGLE_EVIDENCE_RR8.md SHA256 is acbf7463119785537fdb0c2088d49f629fb09735990ccb07662dc9f795b1265c at both 463ca0a^ and 463ca0a.",
+   "This preflight execution printed three-way bound: be576bebe767 and PREFLIGHT: PASS, exit code 0.",
+   "The inspected R11 markdown does not contain the literal this_file_sha256.",
+   "The committed control-plane source admits the reproduced configured-App/no-probe case with verdict=OK."
+  ],
+  "moved_and_only_reported": [
+   "Observed local HG-KSEOS HEAD: 8ab82ec973f2bf79f6dd2d29c3e0799bb384a001.",
+   "Observed local PIPD-r7-release HEAD: 6f1e5c6fe76a68cc8c895dc01ea87c21062d8a95; it is after the expected admission commit, not a failure.",
+   "Observed local Fabric HEAD: 463ca0a84920f09bd04e74b5198e04c4516c015e.",
+   "Observed anonymous remote main: ae0813679015e2b8581f2a55384800a54f925455.",
+   "Observed remote tags: v0.1.0-preview.1=cc9bf574c3b3f0f44ea615b5c67ae40d74efee32; v0.1.0-preview.2=8faa64e581e8c25f5ec355475e29561847da3ead. No before-round tag observation was available, so unchanged tags are not asserted.",
+   "Round directory inventory is a read-time snapshot of 17 files; prior checker outputs were enumerated and scanned, not adopted as verdict evidence."
+  ]
+ }
+}

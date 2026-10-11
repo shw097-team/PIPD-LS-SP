@@ -1,0 +1,105 @@
+{
+  "schema": "HGK-LANE-RESOLUTION/1",
+  "lane": "VERIFY_SECURITY",
+  "role": "checker",
+  "engine": "codex-cli",
+  "codex_executable": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\2e5e00daee91c61d\\codex.exe",
+  "codex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+  "relay_base": "http://127.0.0.1:10101/v1",
+  "codex_home_is_declared_lane_home": true,
+  "human_home_transport_acknowledged": false,
+  "skipped_arms": [
+    {
+      "rank": 2,
+      "arm": "nvidia/deepseek-ai/deepseek-v4.1-flash",
+      "reason": "UNREACHABLE_MEASURED_20261011"
+    }
+  ],
+  "transport": "opencodex relay via per-invocation -c openai_base_url (no config mutation)",
+  "transport_target": "http://127.0.0.1:10101/v1",
+  "front_door_port": null,
+  "front_door_note": "the lane-scoped pool door (10103 VERIFY_SECURITY / 10105 EXECUTE) carries the hop and ledgers every decision; the sealed single-model 10100 door is unchanged and unused; None here means direct to the relay on 10101",
+  "sandbox": "read-only",
+  "sandbox_by_role_default": "read-only",
+  "sandbox_escalation_authorised": false,
+  "cwd": "C:/Projects/Agent_Workspace/HG-KSEOS",
+  "side_effect_note": "no write access granted by the sandbox mode",
+  "receipt_binding": "usage rows appended after this attempt started (byte offset bound)",
+  "pool": "C:/Projects/Agent_Workspace/HG-KSEOS/config/lane-route-slots.candidate.json",
+  "candidates_considered": [
+    4
+  ],
+  "mode": "forced_rank",
+  "unguarded_escalation_acknowledged": false,
+  "inject_429_first": false,
+  "identity_gate": {
+    "state": "enforced",
+    "lane_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+    "relay_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes",
+    "arms": [
+      {
+        "rank": 4,
+        "provider": "openai-codex",
+        "model": "gpt-6.1-sol",
+        "requirement": "relay_pool",
+        "ok": true,
+        "detail": "non-empty refreshable credential present in codex-accounts.json"
+      }
+    ],
+    "degraded": false,
+    "required_arm": "openai-codex/gpt-6.1-sol"
+  },
+  "subject_mutation": {
+    "state": "not_guarded"
+  },
+  "attempt_log_dir": "C:/Projects/Agent_Workspace/PIPD-r7-release/.hgk/rounds/R11-20261011-s4-credential-closure-and-fda-integration/verify-codex/r11-logs",
+  "attempts": [
+    {
+      "rank": 4,
+      "provider": "openai-codex",
+      "model": "gpt-6.1-sol",
+      "transport_model": "gpt-6.1-sol",
+      "sandbox": "read-only",
+      "reasoning_effort": "medium",
+      "exit": 0,
+      "seconds": 15.63,
+      "nonce_present": false,
+      "nonce_present_raw_stdout": false,
+      "nonce_source": "item.completed/agent_message",
+      "usage_rows_after_offset": 3,
+      "usage_offset": 11136984,
+      "usage_provider": "openai-p6a1fe3",
+      "usage_model": "gpt-6.1-sol",
+      "usage_status": 200,
+      "usage_receipt_ok": true,
+      "usage_receipt_reason": "",
+      "usage_ledger_rewritten": false,
+      "usage_rows_shape_invalid": 0,
+      "usage_rows_undecodable": 0,
+      "attempt_log_dir": "C:/Projects/Agent_Workspace/PIPD-r7-release/.hgk/rounds/R11-20261011-s4-credential-closure-and-fda-integration/verify-codex/r11-logs",
+      "stdout_byte_exact": true,
+      "stdout_path": "C:\\Projects\\Agent_Workspace\\PIPD-r7-release\\.hgk\\rounds\\R11-20261011-s4-credential-closure-and-fda-integration\\verify-codex\\r11-logs\\attempt-25032-1791699690-4-stdout.txt",
+      "stdout_bytes": 1651,
+      "stdout_sha256": "636d46a6e3401de5e67f76696d2b55b0e4be958bc42b9e079a8fe7f1f0bfd4fb",
+      "stderr_byte_exact": true,
+      "stderr_path": "C:\\Projects\\Agent_Workspace\\PIPD-r7-release\\.hgk\\rounds\\R11-20261011-s4-credential-closure-and-fda-integration\\verify-codex\\r11-logs\\attempt-25032-1791699690-4-stderr.txt",
+      "stderr_bytes": 1323,
+      "stderr_sha256": "033baea9b39c5869c19da67251397a01841370299b03112c9e552fd46eba4c39",
+      "stdout_tail": "D-r7-release/.hgk/rounds/R11-20261011-s4-credential-closure-and-fda-integration/verify-codex/VERIFY_BRIEF_R11.md`：兩次唯讀嘗試均遭執行政策拒絕。\\n\\n**驗證狀態：INCONCLUSIVE／未驗收**。尚未取得 brief 或執行查核，也未修改任何檔案。\\n\\n請貼上 brief 內容或上傳檔案；若需查核實際工件，亦需提供相關工件或允許讀取的環境。\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":48495,\"cached_input_tokens\":35712,\"cache_write_input_tokens\":0,\"output_tokens\":394,\"reasoning_output_tokens\":30}}\n",
+      "stderr_tail": "\\dependencies\\\\\\\\\\\\\\\\native\\\\\\\\\\\\\\\\powershell\\\\\\\\\\\\\\\\pwsh.exe\\\\\\\" -NoProfile -Command \\\\\\\"Get-Content -LiteralPath 'C:/Projects/Agent_Workspace/PIPD-r7-release/.hgk/rounds/R11-20261011-s4-credential-closure-and-fda-integration/verify-codex/VERIFY_BRIEF_R11.md'\\\\\\\"` rejected: blocked by policy\\\")\" }\n"
+    }
+  ],
+  "used_rank": null,
+  "used_transport_model": null,
+  "used_seconds": null,
+  "generated_utc": "2026-10-11T06:21:46.340022+00:00",
+  "claim_ceiling": "a pass here proves the Codex-CLI lane served this turn through the relay with a matching usage receipt; it is not an acceptance of any subject",
+  "ok": false,
+  "usage_receipt_ok": true,
+  "usage_rows_shape_invalid": 0,
+  "usage_rows_undecodable": 0,
+  "code": "ERR_NO_ARM_EMITTED_NONCE",
+  "nonce_absent_arms": [
+    "openai-codex/gpt-6.1-sol"
+  ]
+}
