@@ -21,6 +21,30 @@ a production release — read [Claim ceiling](#claim-ceiling) before building on
 | **Superseded** | `v0.1.0-preview.1` — still downloadable, but it ships the two defects described below. Use `.2`. |
 | **What is not claimed** | [Claim ceiling](#claim-ceiling) and the release notes |
 
+## Choose your path: CLI or Skills
+
+The published wheel and a chat-host skill pack are **two different artefacts with two different
+boundaries**. Pick the one your job needs — installing the wheel does not make the eight logical
+skills appear in a web chat host, and mounting the pack does not put `pipd` on your machine.
+
+**CLI / headless harness** — download the immutable wheel published under the **`v0.1.0-preview.2`**
+tag (`pipd_ls_sp-0.1.0-py3-none-any.whl`; published digest
+`d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f`, verified against the tag's
+`SHA256SUMS`). Install with **Python >= 3.11** into a **virtual environment**, then run `pipd doctor`.
+The wheel carries the Python **13-command CLI** and the **19 installed schemas**; it does **not**
+install or auto-load the eight logical skills into a web host.
+
+**Skills / document consumption** — the versioned mount pack
+`dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.0-preview.2.zip` (with its `.sha256` sidecar and the
+`MANIFEST.sha256` inside the unpacked directory). It lives on this candidate branch and is **not** a
+published release asset — there is no download URL for it here. Two sub-options:
+
+- **(a) native skill uploader** — a host that has a real native skill uploader could register the
+  pack; this path is **not yet demonstrated here**.
+- **(b) manual document / Knowledge attachment** — attach `SKILL.md` plus the short starter prompt
+  (`PIPD_LS_SP_QUICKSTART_PROMPT.md`) to a conversation or Project Knowledge. This document path
+  does **not** execute `pipd` on the reader's machine.
+
 ## Quickstart
 
 Copy-paste, from a shell. Requires **Python >= 3.11** and `curl`. The installable identity is the
@@ -88,7 +112,7 @@ pipd doctor                        # expect: {"verdict": "PASS", ...}
 if ($LASTEXITCODE -ne 0) { throw "pipd doctor failed (exit $LASTEXITCODE)" }
 pipd --help                        # 13 commands
 if ($LASTEXITCODE -ne 0) { throw "pipd --help failed (exit $LASTEXITCODE)" }
-pipd --root .\myproject init       # --root is global and must precede the subcommand
+pipd --root .\myproject init       # --root before the subcommand (the global form)
 if ($LASTEXITCODE -ne 0) { throw "pipd init failed (exit $LASTEXITCODE)" }
 ```
 
@@ -111,8 +135,10 @@ against the CLI rather than assumed.
 ### Run it: the whole compiler chain, copy-paste
 
 These are the exact commands that produced the checked-in [`examples/first-run/`](examples/first-run/)
-fixture, run from this checkout root. `--root` is a **GLOBAL** option and must precede the
-subcommand; `--root <dir>` points at a workspace (use a directory outside the tree so scratch files
+fixture, run from this checkout root. For `init`, `intake`, `profile`, `compile-pi`, `bind-pd`,
+`compile-ecp`, `compile-tqaep`, `validate` and `doctor`, `--root` is a global option and must
+precede the subcommand; `project` and `export` **additionally** accept `--root` after the
+subcommand. `--root <dir>` points at a workspace (use a directory outside the tree so scratch files
 never pollute the checkout), and the fixture paths are the real files in this repository. Both
 absolute paths below (`PY`, `PYTHONPATH`) are pinned for this environment — adjust them to your
 interpreter and checkout; any Python >= 3.11 with `jsonschema` works:
@@ -174,6 +200,18 @@ Known limitation: there is **no CLI verb that assembles a bundle**, which is why
 `examples/first-run/assemble_bundle.py` (it only re-serialises the four records). Run
 `pipd <command> --help` for each command's real flags. `pipd doctor` is the self-check; it reports
 which schema source it resolved and refuses to be silent about it.
+
+The three `--root` forms the parser really accepts, each run from a scratch directory and observed
+exiting `0`:
+
+```bash
+pipd --root ./demo init                  # exit 0 — global --root before the subcommand
+pipd project --root ./demo --dry-run     # exit 0 — subcommand-local --root (project only)
+pipd export --root ./demo --dry-run      # exit 0 — subcommand-local --root (export only)
+```
+
+`pipd init --root ./demo` is refused (exit `2`): `init` does not accept a subcommand-local `--root`,
+which is the boundary the paragraph above describes.
 
 ## What is in this tree
 
