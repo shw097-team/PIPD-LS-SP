@@ -1,0 +1,50 @@
+{
+ "schema": "PIPD-ROUND-KANBAN/1",
+ "round": "R9-20261011-s4-gap-closure",
+ "board": "pipd-r9-20261011",
+ "note": "written to disk so the state is checkable; status CLOSED only when the named artefact exists and answers the requirement",
+ "items": [
+  {
+   "id": "REQ-PIPD-R9-SRCSCAN-001",
+   "pri": "P0",
+   "status": "CLOSED",
+   "artefact": "far/FAR-PIPD-R9-SRCSCAN-001.md",
+   "result": "bandit: src/ 0 HIGH 0 MED; tools/+skills/ was 1 HIGH (B202 pi_dedup_check.py:103) + 2 MED (B310) -> fixed -> 0 HIGH 0 MED; proven by crafted-tar test and an end-to-end run"
+  },
+  {
+   "id": "REQ-PIPD-R9-AUDITGAP-002",
+   "pri": "P0",
+   "status": "PENDING_SUBAGENT",
+   "artefact": "evidence/SPEC_DEL_ACTIVE_GAPS_AUDIT.md",
+   "result": "delegated to sa-0-d1d3c287"
+  },
+  {
+   "id": "REQ-PIPD-R9-DEL018MAIN-003",
+   "pri": "P0",
+   "status": "CLOSED",
+   "artefact": "far/FAR-PIPD-R9-DEL018MAIN-003.md",
+   "result": "main DEL-018 FAIL(1/253) -> PASS(253/253); root cause was a FOUR-ROUND-STALE evidence seal (9667783), not the file; re-sealed to f541c39, --verify exit 0, manifest 1039->1085 entries"
+  },
+  {
+   "id": "REQ-PIPD-R9-CLEANTREE-004",
+   "pri": "P0",
+   "status": "PENDING",
+   "artefact": "verify-codex/INDEPENDENT_ACCEPTANCE_R9_CLEANTREE.md",
+   "result": "must run on a COMMITTED clean tree; blocked until the subagent artefacts are committed"
+  },
+  {
+   "id": "REQ-PIPD-R9-CREDROT-005",
+   "pri": "P0",
+   "status": "PENDING_SUBAGENT",
+   "artefact": "far/FAR-PIPD-R9-CREDROT-005.md",
+   "result": "delegated to sa-1-40d53513"
+  },
+  {
+   "id": "REQ-PIPD-R9-KANBAN-006",
+   "pri": "P1",
+   "status": "CLOSED",
+   "artefact": "evidence/KANBAN_SWARM_STATE_VERIFICATION.md",
+   "result": "R8 board id t_930df231 found NOWHERE on disk -> R8 claim WITHDRAWN and recorded UNVERIFIED; R9 artefacts written instead"
+  }
+ ]
+}

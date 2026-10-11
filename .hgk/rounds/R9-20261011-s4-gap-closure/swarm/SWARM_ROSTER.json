@@ -1,0 +1,45 @@
+{
+ "schema": "PIPD-ROUND-SWARM/1",
+ "round": "R9-20261011-s4-gap-closure",
+ "note": "a record of work PRODUCTS, not a claim that threads are alive",
+ "nodes": [
+  {
+   "role": "PLAN",
+   "engine": "in-Hermes",
+   "model": "deepseek-v4.1-flash",
+   "openpipeline": "PLAN in Hermes per the standing model SoD"
+  },
+  {
+   "role": "EXECUTE",
+   "engine": "CODEX CLI lane",
+   "model": "opencode-go/deepseek-v4.1-flash",
+   "products": [
+    "security fix in tools/",
+    "README re-derivation",
+    "evidence re-seal"
+   ]
+  },
+  {
+   "role": "VERIFY_SECURITY",
+   "engine": "CODEX CLI lane",
+   "model": "openai-codex/gpt-6.1-sol (OAuth, medium)",
+   "products": [
+    "verify-codex/INDEPENDENT_ACCEPTANCE_R9_CLEANTREE.md (pending)"
+   ]
+  },
+  {
+   "role": "SUBAGENT",
+   "id": "sa-0-d1d3c287",
+   "unit": "deleg_da9bc861",
+   "goal": "audit the 10 active SPEC/DEL gaps individually",
+   "product": "evidence/SPEC_DEL_ACTIVE_GAPS_AUDIT.md"
+  },
+  {
+   "role": "SUBAGENT",
+   "id": "sa-1-40d53513",
+   "unit": "deleg_da9bc861",
+   "goal": "high-automation credential rotation scheme",
+   "product": "far/FAR-PIPD-R9-CREDROT-005.md"
+  }
+ ]
+}
