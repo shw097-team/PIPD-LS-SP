@@ -40,11 +40,32 @@ Checks 4 and 5 are the ones that matter: they were performed on the **downloaded
 from a directory with no schema tree, which is exactly the condition under which the pre-repair build
 failed. The defect is demonstrably absent from the published bytes.
 
-## What the checker said it could NOT verify (its own ceiling, quoted)
+## What the checker said it could NOT verify (its own list, in full)
 
-- It did **not** prove the wheel was built from the source commit named in the release body.
-- It did **not** audit the tag's tree or the source archive contents.
-- It did **not** test the preview.1 wheel's contents (only that its ref did not move).
+1. **That the released wheel was built from source commit `1ab17d1`** as the release body claims — it
+   confirmed the commit object exists locally and that the local dist wheel hash equals the released
+   hash, but did **not** rebuild the wheel from that commit or otherwise cryptographically bind wheel
+   bytes to source. No reproducibility rebuild was attempted.
+2. **That the source archive corresponds to the tagged tree** — it verified the archive's own sha256
+   against `SHA256SUMS` but did not extract and diff its contents against the tag/commit tree.
+3. **The semantic validity of the `G_RELEASE_FULL_PASS` ceiling** — it verified only that the literal
+   string is *present* in the release body, not that the ceiling is honest or correctly scoped.
+4. **The preview.1 wheel and its internals** — only that its ref still resolves to `cc9bf574` (unmoved).
+5. **The commit that sits after the tag.** It observed the checkout at `8c14c47`, one commit *ahead* of
+   the tagged `8faa64e` (the publish-receipts commit), and did not audit that commit against the tag.
+   This is accurate and expected — receipts for a release cannot precede the release — but it means the
+   tag does not cover the receipt commit.
+6. **Any claim outside the two repaired behaviours** and outside the checks listed — no full-repository
+   or full-suite acceptance was performed on the installed package.
+
+## Tag form (its observation, recorded)
+
+Both tags are **lightweight**: `git ls-remote` returns no `refs/tags/*^{}` peel lines, so each tag ref
+points directly at a commit and the tag SHA equals the commit SHA. This is immutable in the sense the
+grant means it (the ref does not move without a force-update), but it carries no tag object, so there is
+no tagger identity or tag message embedded. Noting it because "immutable tag" and "annotated tag" are
+not the same thing and the release body does not distinguish them.
+
 
 ## Additional limits the maker adds (not in the checker's list)
 
