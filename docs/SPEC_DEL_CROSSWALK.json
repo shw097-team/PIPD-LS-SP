@@ -7,8 +7,8 @@
     "total": 57
   },
   "status_summary": {
-    "EVIDENCED": 42,
-    "EVIDENCE_GAP": 11,
+    "EVIDENCED": 44,
+    "EVIDENCE_GAP": 9,
     "DESIGN_ONLY": 4
   },
   "rows": [
@@ -50,12 +50,14 @@
       "deliverable_refs": [
         "DEL-003"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".hgk/rounds/R10-20261011-s4-bclass-decisions/far/FAR-PIPD-R10-AUTHORING-001.md"
+      ],
       "gate": "G-S0-OBJECTS",
       "oracle": "",
       "negative_mutation": "",
       "status": "EVIDENCE_GAP",
-      "first_fail": "no lifecycle SSOT object materialized; PIPD-LIFECYCLE-SPEC@1.1.0 appears only in a knowledge probe",
+      "first_fail": "ADJUDICATED EXTERNAL: PIPD-LIFECYCLE-SPEC@1.1.0 is the external normative standard this repo implements (preflight NC-02; located outside the repo, sha256 6f6aafec...). Not buildable here - an in-repo copy would be the competing lifecycle SSOT this row forbids.",
       "tt_refs": [
         "TT-PIPD-KNOWLEDGE-QUARANTINE"
       ]
@@ -707,12 +709,15 @@
       "deliverable_refs": [
         "DEL-015"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/s2/MCP_MATERIALIZATION_DECISION.json",
+        ".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json"
+      ],
       "gate": "G-S3-HOST/G-S3-WEB",
-      "oracle": "",
-      "negative_mutation": "",
-      "status": "EVIDENCE_GAP",
-      "first_fail": "no MCP materialization object exists in the repo; optionality cannot be linked to live objects",
+      "oracle": "tests/test_r10_bclass_evidence.py",
+      "negative_mutation": "tests/test_r10_bclass_evidence.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
       "tt_refs": []
     },
     {
@@ -1074,12 +1079,14 @@
         "REQ-PIPD-DEL-015"
       ],
       "deliverable_refs": [],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/s3/ADAPTER_REGISTRY.json"
+      ],
       "gate": "DELIVERABLES_MASTER_LEDGER",
-      "oracle": "",
-      "negative_mutation": "",
-      "status": "EVIDENCE_GAP",
-      "first_fail": "no ADAPTER_REGISTRY object materialized; only host projections exist",
+      "oracle": "tests/test_r10_bclass_evidence.py",
+      "negative_mutation": "tests/test_r10_bclass_evidence.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
       "tt_refs": []
     },
     {

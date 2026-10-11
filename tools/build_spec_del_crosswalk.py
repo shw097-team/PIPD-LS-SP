@@ -184,8 +184,12 @@ def _spec_links():
                     status="EVIDENCED", first_fail="", tt_refs=tt or [])
     L["001"] = e(["schemas/AuthorityBinding.schema.json"], "tests/test_s0_contracts.py",
                  "tests/test_oracle_disagreement.py", ["TT-PIPD-KNOWLEDGE-QUARANTINE"])
-    L["002"] = dict(evidence_refs=[], oracle="", negative_mutation="", status="EVIDENCE_GAP",
-                    first_fail="no lifecycle SSOT object materialized; PIPD-LIFECYCLE-SPEC@1.1.0 appears only in a knowledge probe",
+    # R10 adjudication: still NOT evidenced, but no longer an unexplained gap. The required object is the
+    # EXTERNAL normative standard this repo implements; a copy in-repo would be the "competing lifecycle
+    # SSOT" this row itself forbids. The ref points at the adjudication that says so.
+    L["002"] = dict(evidence_refs=[".hgk/rounds/R10-20261011-s4-bclass-decisions/far/FAR-PIPD-R10-AUTHORING-001.md"],
+                    oracle="", negative_mutation="", status="EVIDENCE_GAP",
+                    first_fail="ADJUDICATED EXTERNAL: PIPD-LIFECYCLE-SPEC@1.1.0 is the external normative standard this repo implements (preflight NC-02; located outside the repo, sha256 6f6aafec...). Not buildable here - an in-repo copy would be the competing lifecycle SSOT this row forbids.",
                     tt_refs=["TT-PIPD-KNOWLEDGE-QUARANTINE"])
     L["003"] = e([".hgk/artifacts/s1/trace_closure.json"], "tests/test_s1_lite_slice.py")
     L["004"] = e(["schemas/registry.json"], "tests/test_s0_contracts.py")
@@ -228,9 +232,12 @@ def _spec_links():
                     oracle="", negative_mutation="", status="DESIGN_ONLY",
                     first_fail="S5 HGK receiver seam out of this round's gate; typed contract + compat fixture only",
                     tt_refs=[])
-    L["030"] = dict(evidence_refs=[], oracle="", negative_mutation="", status="EVIDENCE_GAP",
-                    first_fail="no MCP materialization object exists in the repo; optionality cannot be linked to live objects",
-                    tt_refs=[])
+    # R10 adjudication: the MCP state is a recorded ABSENCE, and the record claims no schema authority.
+    # An absence is evidence; a positive materialization claim would assert what the records refute.
+    L["030"] = e([".hgk/artifacts/s2/MCP_MATERIALIZATION_DECISION.json",
+                  ".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json"],
+                 "tests/test_r10_bclass_evidence.py",
+                 "tests/test_r10_bclass_evidence.py")
     L["031"] = e([".hgk/artifacts/evidence_manifest.seal.json", ".hgk/artifacts/s1/claim_ceiling.json"],
                  "tests/test_evidence_manifest.py")
     L["032"] = dict(evidence_refs=[".hgk/artifacts/s4/S5_S8_BACKLOG.json"], oracle="", negative_mutation="",
@@ -266,9 +273,11 @@ def _del_links():
     L["013"] = e([".hgk/artifacts/s1/evidence_expectations.json", "schemas/EvidenceExpectation.schema.json"],
                  "tests/test_evidence_manifest.py")
     L["014"] = e(["schemas/ExecutionHandoff.schema.json"], "tests/test_negative_and_rollback.py")
-    L["015"] = dict(evidence_refs=[], oracle="", negative_mutation="", status="EVIDENCE_GAP",
-                    first_fail="no ADAPTER_REGISTRY object materialized; only host projections exist",
-                    tt_refs=[])
+    # R10 adjudication: the registry is materialised as a faithful RESTATEMENT of ADAPTER_MAPPING.
+    # .hgk/artifacts/s3/HOST_PROJECTIONS.json is a gate CHECK RECEIPT, not a registry - corrected here.
+    L["015"] = e([".hgk/artifacts/s3/ADAPTER_REGISTRY.json"],
+                 "tests/test_r10_bclass_evidence.py",
+                 "tests/test_r10_bclass_evidence.py")
     L["016"] = e([".hgk/artifacts/s3/HOST_PROJECTIONS.json", "schemas/SurfaceProjectionManifest.schema.json"],
                  "tests/test_host_projection.py")
     L["017"] = e([".hgk/artifacts/s3/WEB_PACK.json"], "tests/test_web_pack.py")

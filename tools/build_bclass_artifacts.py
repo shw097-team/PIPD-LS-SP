@@ -51,7 +51,7 @@ MCP_PATH = ROOT / ".hgk" / "artifacts" / "s2" / "MCP_MATERIALIZATION_DECISION.js
 TECH_ADMISSIONS = ROOT / ".hgk" / "artifacts" / "s1" / "TECHNOLOGY_ADMISSIONS.json"
 
 REGISTRY_SCHEMA = "PIPD-ADAPTER-REGISTRY/1"
-MCP_SCHEMA = "PIPD-MCP-MATERIALIZATION-DECISION/1"
+MCP_SCHEMA = None  # NOT a schema id: this record asserts no schema authority (see R10 FAR)
 
 
 def _canonical_mapping_hash() -> str:
@@ -152,14 +152,16 @@ def build_mcp_record() -> dict:
             break
     return {
         "schema": MCP_SCHEMA,
-        "version": "1",
-        "record_kind": "MATERIALIZATION_DECISION_RECORD",
-        "provisional": True,
+        "record_kind": "EVIDENCE_NOTE_NON_CANONICAL",
+        "claims_schema_authority": False,
+        "provisional": False,
         "canonical": False,
-        "ratification_required": True,
-        "ratification_note": ("No PIPD schema for this record exists; defining one is a design act. It "
-                              "is emitted as an EVIDENCE record, not as a canonical SSOT object, and it "
-                              "must not be cited as a canonical artefact until ratified."),
+        "ratification_required": False,
+        "adjudication": ("R10 adjudication: this file is a non-canonical evidence note. It cites the existing canonical records for MCP state instead of defining a schema, because this repo has no generic schema registry and minting one would assert an undesigned authority."),
+        "schema_authority_note": ("NONE CLAIMED. This note is not a canonical object and must not be "
+                                  "cited as one. The authoritative statements about MCP live in "
+                                  ".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json (CAND-06) and "
+                                  ".hgk/artifacts/CapabilityActivationLedger.json."),
         "gate": ("MCP materializes only for live/authenticated/action/dynamic-discovery needs "
                  "(crosswalk normative_summary for PIPD-SP-SPEC-030)"),
         "materialized": False,
@@ -180,8 +182,8 @@ def build_mcp_record() -> dict:
                               "materialized. A positive form would assert something the repository's own "
                               "records refute."),
         "honest_limits": [
-            "provisional and non-canonical; requires owner ratification of the record shape.",
-            "STATES AN ABSENCE. It supplies evidence for the row; it does not make the row PASS.",
+            "NON-CANONICAL and no schema authority claimed - adjudicated in R10, not pending ratification.",
+            "STATES AN ABSENCE. It supplies evidence for the row; EVIDENCED is not PASS.",
         ],
     }
 
