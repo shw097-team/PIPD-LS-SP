@@ -1,0 +1,18 @@
+===== NEG-1 mutated member =====
+verify_pack -> ok=False exit=1
+  - MUTATED_MEMBER: references/PIPD_S4_CORE.md
+
+===== NEG-2 unmanifested member =====
+verify_pack -> ok=False exit=1
+  - UNMANIFESTED_FILE: EXTRA.md
+
+===== NEG-3 manifest entry missing from ZIP =====
+verify_pack -> ok=False exit=1
+  - MANIFEST_ENTRY_NOT_IN_ZIP: references/PIPD_EXAMPLES.md
+
+===== NEG-4 path escapes pack root =====
+verify_pack -> ok=False exit=1
+  - ESCAPES_PACK_ROOT: ../evil.md
+  - OUTSIDE_PACK_ROOT: ../evil.md
+  - UNMANIFESTED_FILE: 
+

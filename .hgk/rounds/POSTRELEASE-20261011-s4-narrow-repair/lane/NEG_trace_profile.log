@@ -1,0 +1,11 @@
+trace='not-an-array' -> kind=SCHEMA detail=PI-PKG/trace: 'not-an-array' is not of type 'array'
+trace=None -> kind=SCHEMA detail=PI-PKG/trace: None is not of type 'array'
+trace={} -> kind=SCHEMA detail=PI-PKG/trace: {} is not of type 'array'
+trace=123 -> kind=SCHEMA detail=PI-PKG/trace: 123 is not of type 'array'
+trace=MISSING -> kind=SCHEMA detail=PI-PKG/: 'trace' is a required property
+--- profile axes ---
+["intent","intent"]      -> ProfileVeto: duplicated axis/axes refused (double-counted complexity): ['intent']
+[1,2]                    -> ProfileVeto: axes must be strings; non-string entries [1, 2] refused
+[]                       -> ProfileVeto: axes must be a non-empty list (an empty axis set binds no surface)
+"intent" (non-list)      -> ProfileVeto: axes must be a list of canonical axis names, got str
+["nope"]                 -> UnsupportedSurface: unknown axes ['nope']

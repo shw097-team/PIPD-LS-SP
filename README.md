@@ -23,17 +23,27 @@ a production release — read [Claim ceiling](#claim-ceiling) before building on
 
 ## Quickstart
 
-Copy-paste, from a shell. Requires **Python >= 3.11** and `curl`.
+Copy-paste, from a shell. Requires **Python >= 3.11** and `curl`. The installable identity is the
+**immutable** tag `v0.1.0-preview.2`; `main` is rolling, so pin the tag rather than the branch.
+
+### bash / POSIX
 
 ```bash
-# 1. Fetch the published artefact and its checksums, from the immutable tag.
+# 1. Fetch the published wheel and the checksum list, from the immutable tag.
 BASE=https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2
 curl -fsSLO "$BASE/pipd_ls_sp-0.1.0-py3-none-any.whl"
 curl -fsSLO "$BASE/SHA256SUMS"
 
-# 2. Verify the bytes. This is the ONLY integrity check offered: there is no install-time
-#    or startup cryptographic readback, and no release signature.
-sha256sum -c SHA256SUMS            # expect: pipd_ls_sp-0.1.0-py3-none-any.whl: OK
+# 2. Verify the bytes. Check exactly what step 1 downloaded: SHA256SUMS lists three assets, but
+#    only the wheel is present here, so select its line. This is the ONLY integrity check offered:
+#    there is no install-time or startup cryptographic readback, and no release signature.
+#    Published wheel digest: d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f
+grep '  pipd_ls_sp-0.1.0-py3-none-any.whl$' SHA256SUMS | sha256sum -c -
+#    expect: pipd_ls_sp-0.1.0-py3-none-any.whl: OK
+#    Alternative, only after fetching EVERY asset SHA256SUMS lists, the whole file checks clean:
+#      curl -fsSLO "$BASE/pipd-ls-sp-v0.1.0-preview.2-source.zip"
+#      curl -fsSLO "$BASE/PREVIEW_NOTES_v0.1.0-preview.2.md"
+#      sha256sum -c SHA256SUMS       # expect three ": OK" lines (wheel, source zip, notes)
 
 # 3. Install into a virtual environment.
 python -m venv .venv
@@ -48,6 +58,44 @@ pipd --help                        # 13 commands
 pipd --root ./myproject init      # -> exit 0; creates docs/ schemas/ src/ tests/ dist/
 pipd doctor                       # -> {"verdict": "PASS", ...}, and it names the schema source it resolved
 ```
+
+### Windows (PowerShell)
+
+```powershell
+# 1. Fetch the same wheel and checksum list, from the immutable tag.
+$Base = "https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2"
+Invoke-WebRequest -Uri "$Base/pipd_ls_sp-0.1.0-py3-none-any.whl" -OutFile "pipd_ls_sp-0.1.0-py3-none-any.whl"
+Invoke-WebRequest -Uri "$Base/SHA256SUMS" -OutFile "SHA256SUMS"
+
+# 2. Verify the wheel against its published digest. SHA256SUMS lists three assets but only the wheel
+#    was fetched, so compare the wheel's own hash to the published literal.
+$expected = "d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f"
+$actual = (Get-FileHash -Algorithm SHA256 -Path "pipd_ls_sp-0.1.0-py3-none-any.whl").Hash.ToLower()
+if ($actual -ne $expected) { throw "wheel SHA-256 mismatch: $actual" }
+"pipd_ls_sp-0.1.0-py3-none-any.whl: OK"   # expect this line
+
+# 3. Install into a virtual environment.
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install .\pipd_ls_sp-0.1.0-py3-none-any.whl
+
+# 4. Check the install, then use it.
+pipd doctor                        # expect: {"verdict": "PASS", ...}
+pipd --help                        # 13 commands
+pipd --root .\myproject init       # --root is global and must precede the subcommand
+```
+
+### Unverified one-line install (no hash check)
+
+If you do not need to check the bytes against the published digest, pip can fetch and install the
+wheel in one line:
+
+```bash
+python -m pip install "https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/pipd_ls_sp-0.1.0-py3-none-any.whl"
+```
+
+This performs **no hash verification** - pip installs whatever the URL serves when you run it. Use
+the verified path above when the bytes matter.
 
 Beyond that the pipeline is `intake` -> `compile-pi` -> `bind-pd` -> `compile-ecp` /
 `compile-tqaep` -> `validate`, and **the middle steps take real inputs, not free text** — verified

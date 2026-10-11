@@ -1,0 +1,34 @@
+OpenAI Codex v0.162.0-alpha.17.2
+--------
+workdir: C:\Projects\Agent_Workspace\PIPD-postrelease-wt
+model: opencode-go/deepseek-v4.1-flash
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: none
+reasoning summaries: none
+session id: 01a12a11-5038-7e20-9938-fdf89ef3d906
+--------
+user
+Smoke probe. Do exactly two things and nothing else:
+1. Run the shell command: echo LANE_SMOKE_OK
+2. Reply with one line: SMOKE_DONE
+Do not read files. Do not modify anything.
+
+ERROR: Reconnecting... 2/5
+ERROR: Reconnecting... 3/5
+ERROR: Reconnecting... 4/5
+ERROR: Reconnecting... 5/5
+warning: Falling back from WebSockets to HTTPS transport. stream disconnected before completion: websocket closed by server before response.completed
+2026-10-11T08:25:48.485041Z ERROR codex_core::tools::router: error=exec_command failed: CreateProcess { message: "Rejected(\"`\\\"C:\\\\\\\\Users\\\\\\\\user\\\\\\\\.cache\\\\\\\\codex-runtimes\\\\\\\\codex-primary-runtime\\\\\\\\dependencies\\\\\\\\native\\\\\\\\powershell\\\\\\\\pwsh.exe\\\" -Command 'echo LANE_SMOKE_OK'` rejected: blocked by policy\")" }
+2026-10-11T08:25:50.846086Z ERROR codex_core::tools::router: error=exec_command failed: CreateProcess { message: "Rejected(\"`\\\"C:\\\\\\\\Users\\\\\\\\user\\\\\\\\.cache\\\\\\\\codex-runtimes\\\\\\\\codex-primary-runtime\\\\\\\\dependencies\\\\\\\\native\\\\\\\\powershell\\\\\\\\pwsh.exe\\\" -NoProfile -Command 'echo LANE_SMOKE_OK'` rejected: blocked by policy\")" }
+2026-10-11T08:25:53.936109Z ERROR codex_core::tools::router: error=exec_command failed: CreateProcess { message: "Rejected(\"`\\\"C:\\\\\\\\WINDOWS\\\\\\\\system32\\\\\\\\cmd.exe\\\" /c 'echo LANE_SMOKE_OK'` rejected: blocked by policy\")" }
+codex
+Step 1 could not be executed: the shell command `echo LANE_SMOKE_OK` was rejected by policy on every attempt (PowerShell and cmd paths, default and `-NoProfile`/`login:false` variants). No output was produced.
+
+SMOKE_DONE
+tokens used
+8,920
+Step 1 could not be executed: the shell command `echo LANE_SMOKE_OK` was rejected by policy on every attempt (PowerShell and cmd paths, default and `-NoProfile`/`login:false` variants). No output was produced.
+
+SMOKE_DONE

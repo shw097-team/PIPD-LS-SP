@@ -1,0 +1,34 @@
+OpenAI Codex v0.162.0-alpha.17.2
+--------
+workdir: C:\Projects\Agent_Workspace\PIPD-postrelease-wt
+model: opencode-go/deepseek-v4.1-flash
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: none
+reasoning summaries: none
+session id: 01a12a12-1072-7d32-af15-d9ec8f0c442b
+--------
+user
+Create a file named smoke-write.txt in the current working directory containing exactly: LANE_WRITE_OK
+Then reply with one line: WRITE_DONE
+
+ERROR: Reconnecting... 2/5
+ERROR: Reconnecting... 3/5
+ERROR: Reconnecting... 4/5
+ERROR: Reconnecting... 5/5
+warning: Falling back from WebSockets to HTTPS transport. stream disconnected before completion: websocket closed by server before response.completed
+codex
+I'll create that file now.
+
+
+2026-10-11T08:26:38.150603Z ERROR codex_core::tools::router: error=patch rejected: writing is blocked by read-only sandbox; rejected by user approval settings
+codex
+I couldn't create the file: the sandbox is read-only and the write was rejected by your approval settings.
+
+WRITE_BLOCKED — `smoke-write.txt` was not created. If you switch the sandbox to allow writes, I can retry immediately.
+tokens used
+403
+I couldn't create the file: the sandbox is read-only and the write was rejected by your approval settings.
+
+WRITE_BLOCKED — `smoke-write.txt` was not created. If you switch the sandbox to allow writes, I can retry immediately.

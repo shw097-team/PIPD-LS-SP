@@ -1,0 +1,81 @@
+{
+ "schema": "PIPD-S4POST-SOURCE-BASELINE/1",
+ "task_id": "PIPD-LS-SP-S4-POSTRELEASE-NARROW-REPAIR-20261011",
+ "round": "POSTRELEASE-20261011-s4-narrow-repair",
+ "generated_utc": "2026-10-11T09:48:49Z",
+ "identities_not_to_be_conflated": {
+  "immutable_released_subject": {
+   "tag": "v0.1.0-preview.2",
+   "commit": "8faa64e581e8c25f5ec355475e29561847da3ead",
+   "tree": "583015038e27e2b2381351487bc74255dcd0920e",
+   "wheel": "pipd_ls_sp-0.1.0-py3-none-any.whl",
+   "wheel_sha256": "d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f",
+   "state": "PUBLIC_AND_IMMUTABLE — not touched by this round"
+  },
+  "review_snapshot_rolling_main": {
+   "commit": "4445db5a6d1b3138946fd7c4fe3b712e4faf1af7",
+   "role": "repair base commit (worktree branch point)"
+  },
+  "this_round_candidate": {
+   "branch": "postrelease-narrow-repair-20261011",
+   "base_commit": "4445db5a6d1b3138946fd7c4fe3b712e4faf1af7",
+   "state": "candidate only — no self-acceptance, no tag, no release"
+  }
+ },
+ "authority_sources_read_locally": {
+  "canonical_standard": {
+   "id": "PIPD-LIFECYCLE-SPEC@1.1.0",
+   "role": "external canonical SSOT — NOT copied into this repo (SPEC-002)"
+  },
+  "blueprint": {
+   "id": "PIPD-LS-SP_藍圖",
+   "sections_consumed": [
+    "3.1",
+    "4.2",
+    "5.9.1",
+    "5.9.3",
+    "6.3",
+    "7.3",
+    "8.3",
+    "19.2",
+    "26.3"
+   ]
+  },
+  "packages": {
+   "count": 11,
+   "ids": "PIPD-PKG-00..10"
+  },
+  "documents": {
+   "count": 10,
+   "ids": "PIPD_LS_DOC-00..09"
+  },
+  "skeleton": {
+   "id": "PIPD-LS-SP_skeleton"
+  },
+  "index": "docs/NORMATIVE_SOURCE_MAP.md (derived view; yields to the external canonical standard)"
+ },
+ "review_basis": {
+  "file": "PIPD_LS_SP_S4_MVP_OpenSource_PostRelease_Independent_Challenge_Acceptance_2026-10-11.md",
+  "sha256_reported_by_order": "fc30c2302b8f64aa9a694c01359b5397ebd9ae52059518b2c8a5f94737550231"
+ },
+ "trace": {
+  "issue": "POST-F01..POST-F10 (external challenge finding register)",
+  "taskspec": "TS-S4POST-* (HG-KSEOS shared spine)",
+  "workorder": [
+   "WO-S4-UX-01",
+   "WO-S4-WEB-02",
+   "WO-S4-CONTRACT-03",
+   "WO-S4-SELFBOOT-04"
+  ],
+  "test": [
+   "tests/test_postrelease_quickstart.py",
+   "tests/test_postrelease_web_mount.py",
+   "tests/test_postrelease_contract_hardening.py",
+   "tests/test_postrelease_selfbootstrap.py"
+  ],
+  "evidence": ".hgk/rounds/POSTRELEASE-20261011-s4-narrow-repair/evidence/"
+ },
+ "regression_baseline": {
+  "suite": "Ran 325 tests, OK (skipped=3) at base 4445db5a — evidence/BASELINE_FULL_SUITE.log"
+ }
+}

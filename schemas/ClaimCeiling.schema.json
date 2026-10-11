@@ -24,9 +24,24 @@
     "allowed_claims": {},
     "forbidden_escalation": {},
     "close_conditions": {},
-    "subject_id": {},
-    "version": {},
-    "content_hash": {},
-    "schema_version": {}
+    "subject_id": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 200
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    }
   }
 }

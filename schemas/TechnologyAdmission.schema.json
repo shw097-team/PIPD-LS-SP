@@ -44,16 +44,23 @@
    "type": "string"
   },
   "subject_id": {
-   "type": "string"
+   "type": "string",
+   "minLength": 8,
+   "maxLength": 200
   },
   "version": {
-   "type": "string"
+   "type": "string",
+   "minLength": 1,
+   "maxLength": 64
   },
   "content_hash": {
-   "type": "string"
+   "type": "string",
+   "pattern": "^[0-9a-f]{64}$"
   },
   "schema_version": {
-   "type": "string"
+   "type": "string",
+   "minLength": 1,
+   "maxLength": 64
   },
   "technology_id": {
    "type": "string"

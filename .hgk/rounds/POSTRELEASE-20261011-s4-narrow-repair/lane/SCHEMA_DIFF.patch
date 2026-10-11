@@ -1,0 +1,649 @@
+diff --git a/schemas/ArtifactIdentity.schema.json b/schemas/ArtifactIdentity.schema.json
+index 037123f..209849a 100644
+--- a/schemas/ArtifactIdentity.schema.json
++++ b/schemas/ArtifactIdentity.schema.json
+@@ -20,10 +20,25 @@
+     "invalidates"
+   ],
+   "properties": {
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {},
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
+     "supersedes": {},
+     "invalidates": {}
+   }
+diff --git a/schemas/AuthorityBinding.schema.json b/schemas/AuthorityBinding.schema.json
+index e87a21a..8a9efe6 100644
+--- a/schemas/AuthorityBinding.schema.json
++++ b/schemas/AuthorityBinding.schema.json
+@@ -28,9 +28,24 @@
+     "locator": {},
+     "supersession": {},
+     "conflict_state": {},
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }
+diff --git a/schemas/ClaimCeiling.schema.json b/schemas/ClaimCeiling.schema.json
+index d531b39..3c31180 100644
+--- a/schemas/ClaimCeiling.schema.json
++++ b/schemas/ClaimCeiling.schema.json
+@@ -24,9 +24,24 @@
+     "allowed_claims": {},
+     "forbidden_escalation": {},
+     "close_conditions": {},
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }
+diff --git a/schemas/ConstructionContract.schema.json b/schemas/ConstructionContract.schema.json
+index dc9df24..bcda406 100644
+--- a/schemas/ConstructionContract.schema.json
++++ b/schemas/ConstructionContract.schema.json
+@@ -30,9 +30,24 @@
+     "tests": {},
+     "rollback": {},
+     "evidence_expectations": {},
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }
+diff --git a/schemas/ECP.schema.json b/schemas/ECP.schema.json
+index 2c5810f..fccc5d4 100644
+--- a/schemas/ECP.schema.json
++++ b/schemas/ECP.schema.json
+@@ -30,9 +30,24 @@
+     "idempotency": {},
+     "readback": {},
+     "rollback": {},
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }
+diff --git a/schemas/EvidenceExpectation.schema.json b/schemas/EvidenceExpectation.schema.json
+index 0bf01bb..ead676e 100644
+--- a/schemas/EvidenceExpectation.schema.json
++++ b/schemas/EvidenceExpectation.schema.json
+@@ -28,9 +28,24 @@
+     "postcondition": {},
+     "freshness": {},
+     "claim_effect": {},
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }
+diff --git a/schemas/ExecutionBindingRef.schema.json b/schemas/ExecutionBindingRef.schema.json
+index 530c128..e95feb5 100644
+--- a/schemas/ExecutionBindingRef.schema.json
++++ b/schemas/ExecutionBindingRef.schema.json
+@@ -30,9 +30,24 @@
+     "state": {
+       "description": "Receiver binding state; ACK only after HGK admission."
+     },
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }
+diff --git a/schemas/ExecutionHandoff.schema.json b/schemas/ExecutionHandoff.schema.json
+index 1eda712..7ea9cb1 100644
+--- a/schemas/ExecutionHandoff.schema.json
++++ b/schemas/ExecutionHandoff.schema.json
+@@ -26,9 +26,24 @@
+     "abi_version": {},
+     "payload_refs": {},
+     "ack_nack_state": {},
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }
+diff --git a/schemas/GENIEProjectionRef.schema.json b/schemas/GENIEProjectionRef.schema.json
+index 1b9ff39..43e700c 100644
+--- a/schemas/GENIEProjectionRef.schema.json
++++ b/schemas/GENIEProjectionRef.schema.json
+@@ -36,9 +36,24 @@
+         "GENIEArtifact": {}
+       }
+     },
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }
+diff --git a/schemas/PD-PKG.schema.json b/schemas/PD-PKG.schema.json
+index cf589f2..3938c26 100644
+--- a/schemas/PD-PKG.schema.json
++++ b/schemas/PD-PKG.schema.json
+@@ -24,9 +24,24 @@
+     "RepoContext": {},
+     "currentness": {},
+     "late_bound_construction_binding": {},
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }
+diff --git a/schemas/PI-PKG.schema.json b/schemas/PI-PKG.schema.json
+index 8a381fc..56c0540 100644
+--- a/schemas/PI-PKG.schema.json
++++ b/schemas/PI-PKG.schema.json
+@@ -24,11 +24,45 @@
+     "stable_semantic_contract": {
+       "description": "Stable semantic contract."
+     },
+-    "trace": {},
++    "trace": {
++      "description": "Trace links from this PI to its RequirementAtom records. Inlined constraint equivalent to urn:pipd:s0:TraceLink:1 (that $id is NOT resolvable by the pinned harness validator, so a bare $ref / remote resolve is refused); a string, null or object is not an array and is refused.",
++      "type": "array",
++      "items": {
++        "type": "object",
++        "required": [
++          "from_type",
++          "from_id",
++          "from_hash",
++          "to_type",
++          "to_id",
++          "to_hash",
++          "rationale",
++          "subject_id",
++          "version",
++          "content_hash",
++          "schema_version"
++        ]
++      }
++    },
+     "acceptance": {},
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }
+diff --git a/schemas/ProfileBinding.schema.json b/schemas/ProfileBinding.schema.json
+index f22aeb8..0856239 100644
+--- a/schemas/ProfileBinding.schema.json
++++ b/schemas/ProfileBinding.schema.json
+@@ -28,9 +28,24 @@
+     "vetoes": {},
+     "artifact_depth": {},
+     "assurance": {},
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }
+diff --git a/schemas/RequirementAtom.schema.json b/schemas/RequirementAtom.schema.json
+index da13df8..8a388fe 100644
+--- a/schemas/RequirementAtom.schema.json
++++ b/schemas/RequirementAtom.schema.json
+@@ -28,9 +28,24 @@
+     "owner": {},
+     "acceptance_cue": {},
+     "risk_guard": {},
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }
+diff --git a/schemas/SurfaceProjectionManifest.schema.json b/schemas/SurfaceProjectionManifest.schema.json
+index 439d5c7..dc4fdb6 100644
+--- a/schemas/SurfaceProjectionManifest.schema.json
++++ b/schemas/SurfaceProjectionManifest.schema.json
+@@ -28,9 +28,24 @@
+     "generated_files": {},
+     "parity_loss": {},
+     "stale_rule": {},
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }
+diff --git a/schemas/TQAEP.schema.json b/schemas/TQAEP.schema.json
+index 45c1bf9..0eb2b8c 100644
+--- a/schemas/TQAEP.schema.json
++++ b/schemas/TQAEP.schema.json
+@@ -28,9 +28,24 @@
+     "fixtures": {},
+     "acceptance": {},
+     "requalification": {},
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }
+diff --git a/schemas/TaskSpecSeed.schema.json b/schemas/TaskSpecSeed.schema.json
+index 3fe3144..f674ac6 100644
+--- a/schemas/TaskSpecSeed.schema.json
++++ b/schemas/TaskSpecSeed.schema.json
+@@ -34,9 +34,24 @@
+     "tests": {},
+     "rollback": {},
+     "evidence": {},
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }
+diff --git a/schemas/TechnologyAdmission.schema.json b/schemas/TechnologyAdmission.schema.json
+index 28c99b4..dcbe2ea 100644
+--- a/schemas/TechnologyAdmission.schema.json
++++ b/schemas/TechnologyAdmission.schema.json
+@@ -44,16 +44,23 @@
+    "type": "string"
+   },
+   "subject_id": {
+-   "type": "string"
++   "type": "string",
++   "minLength": 8,
++   "maxLength": 200
+   },
+   "version": {
+-   "type": "string"
++   "type": "string",
++   "minLength": 1,
++   "maxLength": 64
+   },
+   "content_hash": {
+-   "type": "string"
++   "type": "string",
++   "pattern": "^[0-9a-f]{64}$"
+   },
+   "schema_version": {
+-   "type": "string"
++   "type": "string",
++   "minLength": 1,
++   "maxLength": 64
+   },
+   "technology_id": {
+    "type": "string"
+diff --git a/schemas/TraceLink.schema.json b/schemas/TraceLink.schema.json
+index 6b55c8f..ab77cee 100644
+--- a/schemas/TraceLink.schema.json
++++ b/schemas/TraceLink.schema.json
+@@ -32,9 +32,24 @@
+     "to_id": {},
+     "to_hash": {},
+     "rationale": {},
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }
+diff --git a/schemas/WorkOrderCandidate.schema.json b/schemas/WorkOrderCandidate.schema.json
+index 1569eeb..149fe8c 100644
+--- a/schemas/WorkOrderCandidate.schema.json
++++ b/schemas/WorkOrderCandidate.schema.json
+@@ -23,9 +23,24 @@
+       "const": true,
+       "description": "Candidate-only marker; never runtime authority."
+     },
+-    "subject_id": {},
+-    "version": {},
+-    "content_hash": {},
+-    "schema_version": {}
++    "subject_id": {
++      "type": "string",
++      "minLength": 8,
++      "maxLength": 200
++    },
++    "version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    },
++    "content_hash": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "schema_version": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 64
++    }
+   }
+ }

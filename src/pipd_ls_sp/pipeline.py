@@ -108,10 +108,20 @@ def intake(goal: str, *, sources: list[str] | None = None,
 
 # ---------------------------------------------------------------- profile binding
 def profile_record(profile_name: str, axes: list[str]) -> tuple[dict[str, Any], dict[str, Any]]:
-    """Return (ProfileBinding record, full profile computation); the record is schema-exact."""
+    """Return (ProfileBinding record, full profile computation); the record is schema-exact.
+
+    D2: the record's ``axes`` is the NORMALISED list ``compute_profile`` returns - not a
+    ``sorted(set(axes))`` re-derivation - so the escalation basis (the axis count the veto
+    ran on) and the emitted record cannot disagree.
+
+    D3: ``ProfileBinding.schema.json`` does NOT declare ``risk_assessment`` (adding it would
+    break the published record contract), so the honest ``NOT_ASSESSED`` marker rides in the
+    existing non-record ``_profile_meta`` sidecar instead of the record.
+    """
     full = compute_profile(profile_name, axes=axes)
-    rec = _rec("ProfileBinding", "PB", {"p": full["profile"], "a": sorted(axes)},
-               profile=full["profile"], axes=sorted(set(axes)),
+    bound_axes = list(full["axes"])
+    rec = _rec("ProfileBinding", "PB", {"p": full["profile"], "a": bound_axes},
+               profile=full["profile"], axes=bound_axes,
                vetoes=full["vetoes"], artifact_depth=full["artifact_depth"],
                assurance=full["assurance"])
     return rec, full

@@ -1,0 +1,74 @@
+{
+ "schema": "HGK-NAMED-METHOD-ROUTE-EVIDENCE/1",
+ "task_id": "PIPD-LS-SP-S4-POSTRELEASE-NARROW-REPAIR-20261011",
+ "router": "hg_kseos.named_methods.route(flow) — deterministic registry lookup, no LLM guesswork",
+ "active_selected": [
+  "gstack.cso",
+  "gstack.office-hours",
+  "gstack.plan-eng-review",
+  "gstack.qa",
+  "gstack.retro",
+  "gstack.review",
+  "gstack.ship",
+  "openspec"
+ ],
+ "routes": {
+  "brownfield migration of the PIPD-LS-SP runtime repo": {
+   "flow": "brownfield migration of the pipd-ls-sp runtime repo",
+   "provider": "openspec",
+   "state": "CERTIFIED_ACTIVE_BROWNFIELD",
+   "fallback": "hgk_native_prw",
+   "final_authority": true,
+   "route": "OPENSPEC"
+  },
+  "plan this narrow repair": {
+   "flow": "plan this narrow repair",
+   "provider": "gstack.plan-eng-review",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_plan_review",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  "security review of the candidate": {
+   "flow": "security review of the candidate",
+   "provider": "gstack.cso",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_security",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  "review of the frozen candidate": {
+   "flow": "review of the frozen candidate",
+   "provider": "gstack.review",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_review",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  "qa of the mount pack": {
+   "flow": "qa of the mount pack",
+   "provider": "gstack.qa",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_qa",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  "release checklist for a successor prerelease": {
+   "flow": "release checklist for a successor prerelease",
+   "provider": "gstack.ship",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_release_checklist",
+   "final_authority": false,
+   "route": "GSTACK"
+  },
+  "retro of the round": {
+   "flow": "retro of the round",
+   "provider": "gstack.retro",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_retro",
+   "final_authority": true,
+   "route": "GSTACK"
+  }
+ },
+ "note": "route() maps each flow to a NAMED provider whose registry state is CERTIFIED; final_authority=false only for the release flow (gstack.ship is an advisory checklist, never the release authority)."
+}

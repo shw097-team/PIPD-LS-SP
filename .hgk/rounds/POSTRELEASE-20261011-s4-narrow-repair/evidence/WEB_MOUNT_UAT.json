@@ -1,0 +1,72 @@
+{
+  "cases": [
+    {
+      "case_id": "UAT-01",
+      "claim_ceiling": "DESIGN_ONLY",
+      "expected": "a PI-style design request with source locators dispatches to the eight-skill chain",
+      "fixed_input": "positive: a PI-style design request triggers the PIPD workflow",
+      "observed": "{\"non_trigger_section\": true, \"pi_style_phrase\": true, \"referenced_docs_carry_locator_and_identity\": true, \"routed_skills\": 8, \"trigger_section\": true}",
+      "raw_output": "{\"non_trigger_section\": true, \"pi_style_phrase\": true, \"referenced_docs_carry_locator_and_identity\": true, \"routed_skills\": 8, \"trigger_section\": true}",
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "UAT-02",
+      "claim_ceiling": "DESIGN_ONLY",
+      "expected": "ordinary chit-chat / brainstorming without locators is a non-trigger",
+      "fixed_input": "negative: an ordinary chit-chat question does not trigger the workflow",
+      "observed": "{\"brainstorm_without_locators_excluded\": true, \"chit_chat_excluded\": true, \"no_dispatch_wording\": true}",
+      "raw_output": "{\"brainstorm_without_locators_excluded\": true, \"chit_chat_excluded\": true, \"no_dispatch_wording\": true}",
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "UAT-03",
+      "claim_ceiling": "DESIGN_ONLY",
+      "expected": "the dispatcher and PIPD_EXAMPLES declare a typed NO_SOURCE_LOCATOR refusal",
+      "fixed_input": "refusal: a request with no repository context / no source locator is refused typed",
+      "observed": "{\"dispatcher_declares_NO_SOURCE_LOCATOR\": true, \"example_refusal_present\": true, \"refusal_is_typed\": true}",
+      "raw_output": "{\"dispatcher_declares_NO_SOURCE_LOCATOR\": true, \"example_refusal_present\": true, \"refusal_is_typed\": true}",
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "UAT-04",
+      "claim_ceiling": "DESIGN_ONLY",
+      "expected": "the dispatcher and PIPD_EXAMPLES declare a typed UNAUTHORISED_ACTION refusal",
+      "fixed_input": "refusal: adversarial self-PASS / permission widening / acceptance-authority request",
+      "observed": "{\"acceptance_authority_refused\": true, \"dispatcher_declares_UNAUTHORISED_ACTION\": true, \"forbidden_claim_listed\": true, \"forbids_scope_widening\": true, \"forbids_self_pass\": true}",
+      "raw_output": "{\"acceptance_authority_refused\": true, \"dispatcher_declares_UNAUTHORISED_ACTION\": true, \"forbidden_claim_listed\": true, \"forbids_scope_widening\": true, \"forbids_self_pass\": true}",
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "UAT-05",
+      "claim_ceiling": "DESIGN_ONLY",
+      "expected": "the ZIP extracts, the manifest recomputes, and both mount paths + locators are present",
+      "fixed_input": "first-time mount: mount path and source locators recoverable by a non-developer",
+      "observed": "{\"manifest_all_recompute\": true, \"manual_attachment_path_documented\": true, \"native_upload_path_documented\": true, \"readme_present\": true, \"skill_present\": true, \"source_locators_recoverable\": true}",
+      "raw_output": "{\"manifest_all_recompute\": true, \"manual_attachment_path_documented\": true, \"native_upload_path_documented\": true, \"readme_present\": true, \"skill_present\": true, \"source_locators_recoverable\": true}",
+      "verdict": "PASS"
+    }
+  ],
+  "method": "cases 1-4 are deterministic content checks over the actual pack files; case 5 is an extraction-and-navigation check; no interactive ChatGPT session was available",
+  "not_supported": [
+    {
+      "mount_path": "Plugins -> Skills -> Create -> Upload",
+      "reason": "this round had no qualifying native-upload account/workspace, so the native skill-upload path was not exercised; no native load is claimed",
+      "record": "NATIVE_SKILL_UPLOAD",
+      "verdict": "NOT_SUPPORTED"
+    },
+    {
+      "mount_path": "chat host tool execution / CLI / repo write / HITL",
+      "reason": "the chat host has no tool execution, repository writing, CLI invocation, HITL authority or network/file access; these are NOT_AVAILABLE",
+      "record": "LIVE_CHAT_HOST_EXECUTION",
+      "verdict": "NOT_SUPPORTED"
+    }
+  ],
+  "pack": "pipd-ls-sp-s4-chatgpt-mount-v0.1.0-preview.2",
+  "release_identity": "v0.1.0-preview.2",
+  "release_tag_commit": "8faa64e581e8c25f5ec355475e29561847da3ead",
+  "round": "POSTRELEASE-20261011-s4-narrow-repair",
+  "schema": "PIPD-S4-WEB-MOUNT-UAT/1",
+  "work_order": "WO-S4-WEB-02",
+  "zip": "PIPD-LS-SP_S4_WEB_MOUNT_v0.1.0-preview.2.zip",
+  "zip_sha256": "1992c54bb3e8e83588e4ef2930d1cc65ce7ada21460deb85930767a4db499daa"
+}

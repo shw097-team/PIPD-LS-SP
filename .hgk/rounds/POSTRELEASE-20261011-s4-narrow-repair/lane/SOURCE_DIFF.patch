@@ -1,0 +1,101 @@
+diff --git a/src/pipd_ls_sp/pipeline.py b/src/pipd_ls_sp/pipeline.py
+index 9746b3c..75799b7 100644
+--- a/src/pipd_ls_sp/pipeline.py
++++ b/src/pipd_ls_sp/pipeline.py
+@@ -108,10 +108,20 @@ def intake(goal: str, *, sources: list[str] | None = None,
+ 
+ # ---------------------------------------------------------------- profile binding
+ def profile_record(profile_name: str, axes: list[str]) -> tuple[dict[str, Any], dict[str, Any]]:
+-    """Return (ProfileBinding record, full profile computation); the record is schema-exact."""
++    """Return (ProfileBinding record, full profile computation); the record is schema-exact.
++
++    D2: the record's ``axes`` is the NORMALISED list ``compute_profile`` returns - not a
++    ``sorted(set(axes))`` re-derivation - so the escalation basis (the axis count the veto
++    ran on) and the emitted record cannot disagree.
++
++    D3: ``ProfileBinding.schema.json`` does NOT declare ``risk_assessment`` (adding it would
++    break the published record contract), so the honest ``NOT_ASSESSED`` marker rides in the
++    existing non-record ``_profile_meta`` sidecar instead of the record.
++    """
+     full = compute_profile(profile_name, axes=axes)
+-    rec = _rec("ProfileBinding", "PB", {"p": full["profile"], "a": sorted(axes)},
+-               profile=full["profile"], axes=sorted(set(axes)),
++    bound_axes = list(full["axes"])
++    rec = _rec("ProfileBinding", "PB", {"p": full["profile"], "a": bound_axes},
++               profile=full["profile"], axes=bound_axes,
+                vetoes=full["vetoes"], artifact_depth=full["artifact_depth"],
+                assurance=full["assurance"])
+     return rec, full
+diff --git a/src/pipd_ls_sp/profiles.py b/src/pipd_ls_sp/profiles.py
+index d7ac74d..240174a 100644
+--- a/src/pipd_ls_sp/profiles.py
++++ b/src/pipd_ls_sp/profiles.py
+@@ -20,28 +20,63 @@ AXES = ("intent", "knowledge", "verification", "release", "trust_boundary",
+ 
+ 
+ def compute_profile(requested: str, *, axes: list[str] | None = None,
+-                    provider_off_required: bool = False) -> dict:
++                    provider_off_required: bool = False,
++                    risk_evidence: dict | None = None) -> dict:
++    """Resolve the effective profile over ONE canonical axis list.
++
++    Fail-closed axis handling (D2): a malformed axis set is a typed refusal BEFORE any
++    escalation math runs, and the NORMALISED list this function returns is the exact list the
++    caller must emit, so the escalation basis (the axis count) and the emitted record can
++    never disagree. ``pipeline.profile_record`` consumes ``result["axes"]`` verbatim.
++
++    Risk honesty (D3): there is no per-axis risk score here. ``risk_assessment`` is
++    ``"NOT_ASSESSED"`` unless risk evidence is explicitly supplied, and the ladder value
++    ``"LOW_RISK_VERIFIED"`` is never emitted - an axis count is not a risk score.
++    """
+     name = (requested or "").upper()
+     if name not in PROFILES:
+         raise ProfileVeto(f"unknown profile {requested!r}")
+     cfg = PROFILES[name]
+-    used = list(axes or ["intent"])
+-    unknown = [a for a in used if a not in AXES]
++
++    # ---- axis validation: fail closed, before any escalation math ----
++    if axes is None:
++        used = ["intent"]
++    elif not isinstance(axes, (list, tuple)):
++        raise ProfileVeto(
++            f"axes must be a list of canonical axis names, got {type(axes).__name__}")
++    else:
++        used = list(axes)
++    if not used:
++        raise ProfileVeto("axes must be a non-empty list (an empty axis set binds no surface)")
++    nonstr = [a for a in used if not isinstance(a, str)]
++    if nonstr:
++        raise ProfileVeto(f"axes must be strings; non-string entries {nonstr!r} refused")
++    unknown = sorted({a for a in used if a not in AXES})
+     if unknown:
+         raise UnsupportedSurface(f"unknown axes {unknown}")
++    dupes = sorted({a for a in used if used.count(a) > 1})
++    if dupes:
++        raise ProfileVeto(f"duplicated axis/axes refused (double-counted complexity): {dupes}")
++    normalised = sorted(set(used))
++
+     override = None
+     # safety veto may ESCALATE depth, never reduce it
+     if provider_off_required and name == "LITE":
+         override = "STANDARD"
+-    if len(used) > cfg["max_axes"]:
++    if len(normalised) > cfg["max_axes"]:
+         override = "ASSURED" if name != "ASSURED" else override
+     effective = override or name
++
++    # D3: state the absent risk assessment honestly. No evidence supplied -> NOT_ASSESSED.
++    # Evidence supplied is recorded as UNVERIFIED, never rounded up to LOW_RISK_VERIFIED.
++    risk_assessment = "NOT_ASSESSED" if not risk_evidence else "EVIDENCE_SUPPLIED_UNVERIFIED"
+     return {"profile": effective,
+             "requested_profile": name,
+             "escalated": bool(override),
+             "escalation_reason": "provider_off_parity" if override == "STANDARD" else
+                                  ("axis_complexity" if override == "ASSURED" else None),
+-            "axes": used,
++            "axes": normalised,
++            "risk_assessment": risk_assessment,
+             "vetoes": [],
+             "artifact_depth": PROFILES[effective]["artifact_depth"],
+             "assurance": PROFILES[effective]["assurance"],

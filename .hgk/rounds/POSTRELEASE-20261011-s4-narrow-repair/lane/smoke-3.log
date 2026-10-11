@@ -1,0 +1,52 @@
+OpenAI Codex v0.162.0-alpha.17.2
+--------
+workdir: C:\Projects\Agent_Workspace\PIPD-postrelease-wt
+model: opencode-go/deepseek-v4.1-flash
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: none
+reasoning summaries: none
+session id: 01a12a12-a1ba-70b1-aa28-c11eefae1bd7
+--------
+user
+Create a file named smoke-write.txt in the current working directory containing exactly: LANE_WRITE_OK
+Then reply with one line: WRITE_DONE
+
+ERROR: Reconnecting... 2/5
+ERROR: Reconnecting... 3/5
+ERROR: Reconnecting... 4/5
+ERROR: Reconnecting... 5/5
+warning: Falling back from WebSockets to HTTPS transport. stream disconnected before completion: websocket closed by server before response.completed
+apply patch
+patch: completed
+C:\Projects\Agent_Workspace\PIPD-postrelease-wt\smoke-write.txt
+diff --git a/smoke-write.txt b/smoke-write.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..e285fa690ade3e61987b9bc1aa73f35fbb9686f9
+--- /dev/null
++++ b/smoke-write.txt
+@@ -0,0 +1 @@
++LANE_WRITE_OK
+
+diff --git a/smoke-write.txt b/smoke-write.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..e285fa690ade3e61987b9bc1aa73f35fbb9686f9
+--- /dev/null
++++ b/smoke-write.txt
+@@ -0,0 +1 @@
++LANE_WRITE_OK
+
+codex
+WRITE_DONE
+diff --git a/smoke-write.txt b/smoke-write.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..e285fa690ade3e61987b9bc1aa73f35fbb9686f9
+--- /dev/null
++++ b/smoke-write.txt
+@@ -0,0 +1 @@
++LANE_WRITE_OK
+
+tokens used
+3,333
+WRITE_DONE

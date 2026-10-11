@@ -1,0 +1,1889 @@
+{
+ "schema": "CAPC-PROMPT-CONTRACT/1",
+ "task_id": "PIPD-LS-SP-S4-POSTRELEASE-NARROW-REPAIR-20261011",
+ "source_scan": {
+  "required_source_families": [
+   "F0_S4POST_REPAIR_PROMPT",
+   "F1_S4POST_CHALLENGE",
+   "F2_RELEASE_SUBJECT_EVIDENCE",
+   "F3_PIPD_UPSTREAM_CORPUS",
+   "F4_PUBLIC_ROLLING_MAIN",
+   "F5_HGK_CONTROL_PLANE",
+   "F6_FABRIC_CONTRACT",
+   "F7_LOCAL_CANDIDATE_WORKTREE"
+  ],
+  "reviewed": [
+   {
+    "source_id": "F0_S4POST_REPAIR_PROMPT",
+    "source_family": "F0_S4POST_REPAIR_PROMPT",
+    "locator": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP_HERMES_S4_POSTRELEASE_MINIMAL_REPAIR_PROMPT_2026-10-11.md",
+    "role": "NORMATIVE",
+    "sha256": "c5507f63c196252e66e9ce13a93b0042f385f1b2d23f6e8d9c8a9f309c35445f",
+    "critical": true
+   },
+   {
+    "source_id": "F1_S4POST_CHALLENGE",
+    "source_family": "F1_S4POST_CHALLENGE",
+    "locator": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD_LS_SP_S4_MVP_OpenSource_PostRelease_Independent_Challenge_Acceptance_2026-10-11.md",
+    "role": "NORMATIVE",
+    "sha256": "fc30c2302b8f64aa9a694c01359b5397ebd9ae52059518b2c8a5f94737550231",
+    "critical": true
+   },
+   {
+    "source_id": "F2_RELEASE_SUBJECT_EVIDENCE",
+    "source_family": "F2_RELEASE_SUBJECT_EVIDENCE",
+    "locator": "https://github.com/shw097-team/PIPD-LS-SP@8faa64e581e8c25f5ec355475e29561847da3ead",
+    "role": "STATE_EVIDENCE",
+    "sha256": "d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f",
+    "critical": true
+   },
+   {
+    "source_id": "F3_PIPD_UPSTREAM_CORPUS",
+    "source_family": "F3_PIPD_UPSTREAM_CORPUS",
+    "locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD",
+    "role": "NORMATIVE",
+    "sha256": "UNAVAILABLE",
+    "critical": true
+   },
+   {
+    "source_id": "F4_PUBLIC_ROLLING_MAIN",
+    "source_family": "F4_PUBLIC_ROLLING_MAIN",
+    "locator": "https://github.com/shw097-team/PIPD-LS-SP@4445db5a6d1b3138946fd7c4fe3b712e4faf1af7",
+    "role": "STATE_EVIDENCE",
+    "sha256": "UNAVAILABLE",
+    "critical": false
+   },
+   {
+    "source_id": "F5_HGK_CONTROL_PLANE",
+    "source_family": "F5_HGK_CONTROL_PLANE",
+    "locator": "C:/Projects/Agent_Workspace/HG-KSEOS",
+    "role": "NORMATIVE",
+    "sha256": "UNAVAILABLE",
+    "critical": true
+   },
+   {
+    "source_id": "F6_FABRIC_CONTRACT",
+    "source_family": "F6_FABRIC_CONTRACT",
+    "locator": "C:/Projects/Agent_Workspace/Fabric",
+    "role": "NORMATIVE",
+    "sha256": "UNAVAILABLE",
+    "critical": true
+   },
+   {
+    "source_id": "F7_LOCAL_CANDIDATE_WORKTREE",
+    "source_family": "F7_LOCAL_CANDIDATE_WORKTREE",
+    "locator": "C:/Projects/Agent_Workspace/PIPD-postrelease-wt@4445db5a6d1b3138946fd7c4fe3b712e4faf1af7",
+    "role": "STATE_EVIDENCE",
+    "sha256": "UNAVAILABLE",
+    "critical": false
+   }
+  ],
+  "missing": [],
+  "normative_claims": [
+   {
+    "claim_id": "NC-01",
+    "source_ids": [
+     "F0_S4POST_REPAIR_PROMPT",
+     "F5_HGK_CONTROL_PLANE"
+    ],
+    "locators": [
+     "F0 prompt §0 machine header",
+     "HG-KSEOS/AGENTS.md"
+    ],
+    "text": "HG-KSEOS is the sole admission/WorkOrder/evidence/release control plane; Hermes is the governed runtime/orchestration plane; Fabric is a contract surface. A native PROMPT_COMPILE_PASS must precede any product write."
+   },
+   {
+    "claim_id": "NC-02",
+    "source_ids": [
+     "F1_S4POST_CHALLENGE",
+     "F2_RELEASE_SUBJECT_EVIDENCE"
+    ],
+    "locators": [
+     "F1 challenge POST-F01",
+     "F1 challenge §5"
+    ],
+    "text": "The published v0.1.0-preview.2 SHA256SUMS lists three assets while the README quickstart fetches one, so a verbatim copy-paste of `sha256sum -c SHA256SUMS` exits non-zero with two unreadable entries."
+   },
+   {
+    "claim_id": "NC-03",
+    "source_ids": [
+     "F1_S4POST_CHALLENGE",
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ],
+    "locators": [
+     "F1 challenge POST-F02",
+     "src/pipd_ls_sp/profiles.py L22-L49",
+     "src/pipd_ls_sp/pipeline.py L110-L117"
+    ],
+    "text": "compute_profile does not refuse duplicate axes and counts len(list) while the emitted ProfileBinding record de-duplicates, so the escalation basis and the shipped record can disagree."
+   },
+   {
+    "claim_id": "NC-04",
+    "source_ids": [
+     "F1_S4POST_CHALLENGE",
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ],
+    "locators": [
+     "F1 challenge POST-F03",
+     "schemas/ArtifactIdentity.schema.json",
+     "schemas/PI-PKG.schema.json",
+     "src/pipd_ls_sp/validate.py L91-L117"
+    ],
+    "text": "The identity fields subject_id/version/content_hash/schema_version and the PI trace property are declared as empty schemas, so no JSON type is enforced and str() coercion in the semantic layer cannot substitute for it."
+   },
+   {
+    "claim_id": "NC-05",
+    "source_ids": [
+     "F1_S4POST_CHALLENGE"
+    ],
+    "locators": [
+     "F1 challenge POST-F04",
+     "F1 challenge §6.3",
+     "F1 challenge §13 DOC-06"
+    ],
+    "text": "No risk score or veto evidence reaches compute_profile, so LITE cannot imply that a per-axis risk assessment ran; the honest output is an explicit not-assessed marker, never a manufactured LOW_RISK_VERIFIED."
+   },
+   {
+    "claim_id": "NC-06",
+    "source_ids": [
+     "F1_S4POST_CHALLENGE"
+    ],
+    "locators": [
+     "F1 challenge POST-F05",
+     "F1 challenge §7.2"
+    ],
+    "text": "The 8 skills exist as repository sources but no separate Web/ChatGPT mount package has been published, and a chat upload of markdown is not a native skill installation."
+   },
+   {
+    "claim_id": "NC-07",
+    "source_ids": [
+     "F1_S4POST_CHALLENGE",
+     "F3_PIPD_UPSTREAM_CORPUS"
+    ],
+    "locators": [
+     "F1 challenge POST-F06",
+     "F1 challenge §8.3",
+     "F1 challenge §13"
+    ],
+    "text": "PIPD-LIFECYCLE-SPEC@1.1.0 is the external canonical SSOT; the runtime repository must publish a pinned derived index instead of creating a competing master copy."
+   },
+   {
+    "claim_id": "NC-08",
+    "source_ids": [
+     "F1_S4POST_CHALLENGE",
+     "F2_RELEASE_SUBJECT_EVIDENCE"
+    ],
+    "locators": [
+     "F1 challenge §1",
+     "F1 challenge §6.3",
+     "F1 challenge POST-F07"
+    ],
+    "text": "preview.1 and preview.2 ship the same distribution version 0.1.0 with different bytes; an immutable tag is never rewritten, so any successor must be a new PEP 440 prerelease identity."
+   },
+   {
+    "claim_id": "NC-09",
+    "source_ids": [
+     "F0_S4POST_REPAIR_PROMPT",
+     "F1_S4POST_CHALLENGE"
+    ],
+    "locators": [
+     "F0 prompt §3 claim ceiling",
+     "F1 challenge §0",
+     "F1 challenge §15"
+    ],
+    "text": "The round ceiling is REPAIR_CANDIDATE_ONLY: DESIGNED != INSTALLED != EXECUTED != VERIFIED != RELEASED; the maker never issues INDEPENDENT_PASS, release or production."
+   }
+  ]
+ },
+ "intent": {
+  "goal": "Execute one minimal post-release maintenance round on the published S4 open-source MVP: repair the README checksum/onboarding defect, ship one versioned ChatGPT/Web mount package, close the identity-type and profile fail-closed contract gaps, and land a pinned normative source map with a replayable minimal self-bootstrap example - without moving the immutable tag.",
+  "user_expected_outcome": "A first-time user copy-pastes the README from a clean directory and every line exits 0 on both bash and PowerShell; a Web consumer can mount one ZIP and get sourced candidate answers; malformed identity/trace/profile inputs are refused by exact first-fail type checks; the repository states where its normative sources live without creating a second SSOT.",
+  "user_expected_experience": "The user only needs a shell, Python >= 3.11 and a ZIP upload; they never need to know WorkOrder, Skill or provider identifiers.",
+  "explicit_constraints": [
+   "NARROW_REPAIR: keep the 19 schema families, 8 logical skills, 13 CLI commands, 5 web / 3 host projections and the clause-bound PI/PD trunk intact.",
+   "The native prompt compiler must actually run; a failure or a missing bundle means PROMPT_COMPILE_BLOCKED with read-only preflight only.",
+   "The sealed EXECUTE lane bounds the writer by write scope, not by prose.",
+   "Claims do not inherit: LOCAL_TESTED != INDEPENDENT_ACCEPTED != RELEASED.",
+   "Publication of a new tag or release asset stays an owner gate."
+  ],
+  "non_goals": [
+   "No rewrite of the 11 PKG or 10 DOC documents; no second authority stack, reducer, plan IR or scheduler.",
+   "No S5 HGK live receiver, S6 GENIE, S7 JIT, S8 SWOF promotion, PRE-W3 or the 22 inactive external technologies.",
+   "No tag move, no force-push, no overwrite of published release bytes.",
+   "No new 20th schema family, no 9th logical skill, no 14th CLI command, no MCP server or resident daemon.",
+   "No rewrite of historical FAIL receipts or previous independent attestations."
+  ],
+  "authorized_mutations": [
+   "Minimal product-tree repair inside C:/Projects/Agent_Workspace/PIPD-postrelease-wt: README.md, schemas/*.schema.json identity/trace properties, src/pipd_ls_sp/profiles.py, src/pipd_ls_sp/pipeline.py, src/pipd_ls_sp/validate.py, new tests, dist/ mount package and MANIFEST, docs/NORMATIVE_SOURCE_MAP.md, examples/self-bootstrap/.",
+   "The round evidence tree .hgk/rounds/POSTRELEASE-20261011-s4-narrow-repair/.",
+   "The single acceptance master document under 知識庫 實作相關DOC/PIPD/實作證據/."
+  ],
+  "forbidden_mutations": [
+   "No second normative authority built from Hermes or Fabric; no self-signed INDEPENDENT_PASS.",
+   "No destructive test against the real repository, home directory or source ancestors.",
+   "No PAT in plaintext in any prompt, log, argv, URL, commit or .git/config.",
+   "No widening of the gate denominator to cancel a recorded FAIL."
+  ],
+  "expected_autonomy": "HIGH",
+  "allowed_hitl": [
+   "PUBLICATION_APPROVAL",
+   "NEW_TAG_OR_RELEASE_ASSET",
+   "SCOPE_EXPANSION",
+   "CREDENTIAL_GATE",
+   "VERSION_IDENTITY_DECISION"
+  ],
+  "requested_delivery": [
+   "S4POST_PROMPT_COMPILER_READBACK",
+   "S4POST_HGK_ADMISSION_READBACK",
+   "S4POST_FINDING_LEDGER",
+   "S4POST_UAT_MATRIX",
+   "S4POST_DISTRIBUTION_TUPLE",
+   "S4POST_EVIDENCE_MASTER_MD",
+   "S4POST_KANBAN_SWARM_RECEIPT",
+   "S4POST_OPENSPEC_CHANGE",
+   "S4POST_INDEPENDENT_VERDICT",
+   "S4POST_WEB_MOUNT_UAT",
+   "S4POST_NORMATIVE_SOURCE_MAP",
+   "S4POST_SELFBOOT_EXAMPLE"
+  ],
+  "active_requirement_ids": [
+   "REQ-S4POST-UX-001",
+   "REQ-S4POST-WEB-002",
+   "REQ-S4POST-CONTRACT-003",
+   "REQ-S4POST-SELFBOOT-004"
+  ],
+  "claim_ceiling": "EXTERNAL_ACCEPTANCE"
+ },
+ "authority": {
+  "current_control_plane_id": "HG-KSEOS",
+  "native_control_plane_ids": [
+   "HG-KSEOS"
+  ],
+  "conflicts": [],
+  "missing_sources": [],
+  "sources": [
+   {
+    "id": "F0_S4POST_REPAIR_PROMPT",
+    "locator": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP_HERMES_S4_POSTRELEASE_MINIMAL_REPAIR_PROMPT_2026-10-11.md",
+    "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP_HERMES_S4_POSTRELEASE_MINIMAL_REPAIR_PROMPT_2026-10-11.md",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "sha256": "c5507f63c196252e66e9ce13a93b0042f385f1b2d23f6e8d9c8a9f309c35445f"
+   },
+   {
+    "id": "F1_S4POST_CHALLENGE",
+    "locator": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD_LS_SP_S4_MVP_OpenSource_PostRelease_Independent_Challenge_Acceptance_2026-10-11.md",
+    "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD_LS_SP_S4_MVP_OpenSource_PostRelease_Independent_Challenge_Acceptance_2026-10-11.md",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "sha256": "fc30c2302b8f64aa9a694c01359b5397ebd9ae52059518b2c8a5f94737550231"
+   },
+   {
+    "id": "F2_RELEASE_SUBJECT_EVIDENCE",
+    "locator": "https://github.com/shw097-team/PIPD-LS-SP@8faa64e581e8c25f5ec355475e29561847da3ead",
+    "path": "https://github.com/shw097-team/PIPD-LS-SP@8faa64e581e8c25f5ec355475e29561847da3ead",
+    "role": "STATE_EVIDENCE",
+    "rank": "R0",
+    "governs": true,
+    "sha256": "d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f"
+   },
+   {
+    "id": "F3_PIPD_UPSTREAM_CORPUS",
+    "locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD",
+    "path": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "sha256": "UNAVAILABLE"
+   },
+   {
+    "id": "F4_PUBLIC_ROLLING_MAIN",
+    "locator": "https://github.com/shw097-team/PIPD-LS-SP@4445db5a6d1b3138946fd7c4fe3b712e4faf1af7",
+    "path": "https://github.com/shw097-team/PIPD-LS-SP@4445db5a6d1b3138946fd7c4fe3b712e4faf1af7",
+    "role": "STATE_EVIDENCE",
+    "rank": "R1",
+    "governs": true,
+    "sha256": "UNAVAILABLE"
+   },
+   {
+    "id": "F5_HGK_CONTROL_PLANE",
+    "locator": "C:/Projects/Agent_Workspace/HG-KSEOS",
+    "path": "C:/Projects/Agent_Workspace/HG-KSEOS",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "sha256": "UNAVAILABLE"
+   },
+   {
+    "id": "F6_FABRIC_CONTRACT",
+    "locator": "C:/Projects/Agent_Workspace/Fabric",
+    "path": "C:/Projects/Agent_Workspace/Fabric",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "sha256": "UNAVAILABLE"
+   },
+   {
+    "id": "F7_LOCAL_CANDIDATE_WORKTREE",
+    "locator": "C:/Projects/Agent_Workspace/PIPD-postrelease-wt@4445db5a6d1b3138946fd7c4fe3b712e4faf1af7",
+    "path": "C:/Projects/Agent_Workspace/PIPD-postrelease-wt",
+    "role": "STATE_EVIDENCE",
+    "rank": "R1",
+    "governs": true,
+    "sha256": "UNAVAILABLE"
+   }
+  ]
+ },
+ "changeset": {
+  "class": "NARROW_REPAIR",
+  "baseline_required": true,
+  "baseline_verified": true,
+  "reuse_prior_pass": true,
+  "affected_domains": [
+   "README.md",
+   "schemas",
+   "src/pipd_ls_sp",
+   "tests",
+   "dist",
+   "docs",
+   "examples",
+   ".hgk"
+  ],
+  "affected_files": [
+   "README.md",
+   "schemas/ArtifactIdentity.schema.json",
+   "schemas/PI-PKG.schema.json",
+   "schemas/ProfileBinding.schema.json",
+   "src/pipd_ls_sp/profiles.py",
+   "src/pipd_ls_sp/pipeline.py",
+   "src/pipd_ls_sp/validate.py",
+   "tests/test_postrelease_contract_hardening.py",
+   "tests/test_postrelease_quickstart.py",
+   "dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.0-preview.2.zip",
+   "docs/NORMATIVE_SOURCE_MAP.md",
+   "examples/self-bootstrap/**",
+   ".hgk/rounds/POSTRELEASE-20261011-s4-narrow-repair/**"
+  ],
+  "must_not_reopen": [
+   "the 19 schema family set and registry exactness",
+   "the 8 logical skills and 5 web / 3 host projections",
+   "the 13 CLI command names",
+   "R5/R5P repair outcomes (project --out resolver, export --out, doctor schema truth)",
+   "the published tag v0.1.0-preview.2 and its four release assets",
+   "the HG-KSEOS / Fabric frozen control surfaces"
+  ],
+  "scope_expansion_requires_hitl": true,
+  "tracked_mutation": true,
+  "product_mutation_allowed": true
+ },
+ "execution_scope": [
+  {
+   "capability": "CAP_S4POST_QUICKSTART_VERIFY",
+   "action": "QUALIFY",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "current_profile_selected": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": true,
+   "source_locators": [
+    "F0 prompt Gate P1",
+    "F1 challenge POST-F01",
+    "README.md L28-L50"
+   ]
+  },
+  {
+   "capability": "CAP_S4POST_WEB_MOUNT_PACK",
+   "action": "QUALIFY",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "current_profile_selected": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": true,
+   "source_locators": [
+    "F0 prompt Gate P2",
+    "F1 challenge POST-F05",
+    "dist/web/*"
+   ]
+  },
+  {
+   "capability": "CAP_S4POST_IDENTITY_TYPE",
+   "action": "QUALIFY",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "current_profile_selected": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": false,
+   "source_locators": [
+    "F0 prompt Gate P3 item 1",
+    "F1 challenge POST-F03",
+    "schemas/ArtifactIdentity.schema.json",
+    "schemas/PI-PKG.schema.json",
+    "schemas/ProfileBinding.schema.json"
+   ]
+  },
+  {
+   "capability": "CAP_S4POST_PROFILE_FAILCLOSED",
+   "action": "QUALIFY",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "current_profile_selected": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": false,
+   "source_locators": [
+    "F0 prompt Gate P3 item 2",
+    "F1 challenge POST-F02",
+    "src/pipd_ls_sp/profiles.py L22-L49"
+   ]
+  },
+  {
+   "capability": "CAP_S4POST_REGRESSION_EXACT_SETS",
+   "action": "QUALIFY",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "current_profile_selected": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": false,
+   "source_locators": [
+    "F0 prompt Gate P5",
+    "F1 challenge §12 end criterion",
+    "schemas/registry.json"
+   ]
+  },
+  {
+   "capability": "CAP_S4POST_SOURCE_MAP",
+   "action": "DESIGN",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_SELECTED",
+   "runtime_required_now": false,
+   "current_profile_selected": true,
+   "automatic_route_target": false,
+   "canonical_flow_referenced": false,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": false,
+   "source_locators": [
+    "F0 prompt Gate P4",
+    "F1 challenge POST-F06"
+   ]
+  },
+  {
+   "capability": "CAP_S4POST_SELFBOOT_REPLAY",
+   "action": "DESIGN",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_SELECTED",
+   "runtime_required_now": true,
+   "current_profile_selected": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": false,
+   "source_locators": [
+    "F0 prompt Gate P4",
+    "F1 challenge POST-F06",
+    "tests/test_s1_lite_slice.py"
+   ]
+  },
+  {
+   "capability": "CAP_S4POST_VERSION_IDENTITY",
+   "action": "DESIGN",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_SELECTED",
+   "runtime_required_now": false,
+   "current_profile_selected": true,
+   "automatic_route_target": false,
+   "canonical_flow_referenced": false,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": false,
+   "source_locators": [
+    "F0 prompt Gate P5",
+    "F1 challenge POST-F07",
+    "F1 challenge §6.3"
+   ]
+  },
+  {
+   "capability": "CAP_S4POST_INDEPENDENT_BUNDLE",
+   "action": "DESIGN",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "runtime_required_now": false,
+   "current_profile_selected": false,
+   "automatic_route_target": false,
+   "canonical_flow_referenced": false,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": false,
+   "source_locators": [
+    "F0 prompt §4 deferred scope",
+    "F1 challenge POST-F09",
+    "F1 challenge POST-F10"
+   ]
+  },
+  {
+   "capability": "CAP_S4POST_S5_S8_RUNTIME",
+   "action": "DESIGN",
+   "source_disposition": "SOURCE_BACKED_NOT_APPLICABLE",
+   "current_execution_disposition": "NOT_APPLICABLE_SOURCE_BACKED",
+   "runtime_required_now": false,
+   "current_profile_selected": false,
+   "automatic_route_target": false,
+   "canonical_flow_referenced": false,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": false,
+   "source_locators": [
+    "F0 prompt §4 deferred scope",
+    "F1 challenge POST-F09",
+    "F1 challenge POST-F10"
+   ]
+  }
+ ],
+ "runtime_readiness": [
+  {
+   "capability": "CAP_S4POST_QUICKSTART_VERIFY",
+   "current_verdict": "NOT_READY",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4POST_QUICKSTART_VERIFY",
+    "ACC-REQ-S4POST-UX-001"
+   ],
+   "work_required": [
+    "S4-UX-01: README quickstart verifies only what it downloaded; PowerShell branch added; fresh-shell replay exit 0"
+   ]
+  },
+  {
+   "capability": "CAP_S4POST_WEB_MOUNT_PACK",
+   "current_verdict": "NOT_READY",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4POST_WEB_MOUNT_PACK",
+    "ACC-REQ-S4POST-WEB-002"
+   ],
+   "work_required": [
+    "S4-WEB-02: one versioned mount ZIP + MANIFEST.sha256 + 5-case consumer UAT"
+   ]
+  },
+  {
+   "capability": "CAP_S4POST_IDENTITY_TYPE",
+   "current_verdict": "NOT_READY",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4POST_IDENTITY_TYPE"
+   ],
+   "work_required": [
+    "S4-CONTRACT-03a: identity fields carry JSON type:string with hash/version patterns; PI trace is an array of TraceLink"
+   ]
+  },
+  {
+   "capability": "CAP_S4POST_PROFILE_FAILCLOSED",
+   "current_verdict": "NOT_READY",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4POST_PROFILE_FAILCLOSED"
+   ],
+   "work_required": [
+    "S4-CONTRACT-03b: duplicate/typed/empty/unknown axes fail typed; risk_assessment=NOT_ASSESSED when no risk evidence"
+   ]
+  },
+  {
+   "capability": "CAP_S4POST_SOURCE_MAP",
+   "current_verdict": "NOT_READY",
+   "required_now": false,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4POST_SOURCE_MAP"
+   ],
+   "work_required": [
+    "S4-SELFBOOT-04a: docs/NORMATIVE_SOURCE_MAP.md pins the external canonical SSOT"
+   ]
+  },
+  {
+   "capability": "CAP_S4POST_SELFBOOT_REPLAY",
+   "current_verdict": "NOT_READY",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4POST_SELFBOOT_REPLAY"
+   ],
+   "work_required": [
+    "S4-SELFBOOT-04b: examples/self-bootstrap replayed with the current S4 CLI into an isolated root"
+   ]
+  },
+  {
+   "capability": "CAP_S4POST_REGRESSION_EXACT_SETS",
+   "current_verdict": "NOT_READY",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4POST_REGRESSION_EXACT_SETS"
+   ],
+   "work_required": [
+    "affected-only regression keeps 19 families / 8 skills / 13 CLI / 5 web / 3 host exact"
+   ]
+  },
+  {
+   "capability": "CAP_S4POST_VERSION_IDENTITY",
+   "current_verdict": "NOT_READY",
+   "required_now": false,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4POST_VERSION_IDENTITY"
+   ],
+   "work_required": [
+    "POST-F07: a successor prerelease identity is prepared as a candidate; publishing it is an owner gate"
+   ]
+  }
+ ],
+ "journeys": [
+  {
+   "journey_id": "J1_FRESH_BASH_FIRST_RUN",
+   "required": true,
+   "user_goal": "In an empty directory outside the repository, a first-time user copies the README bash quickstart verbatim and every line exits 0.",
+   "expected_automatic_behavior": [
+    "only the listed files are downloaded",
+    "the checksum check covers exactly the downloaded set",
+    "pipd doctor reports the resolved schema source"
+   ],
+   "expected_manual_behavior": [
+    "user supplies a writable empty directory"
+   ],
+   "expected_visible_result": "exit 0 per line, the wheel hash matches the published SHA-256, and a mutated byte makes the check exit non-zero",
+   "negative_behavior": [
+    "a missing asset or a wrong URL must fail loudly, never be skipped"
+   ],
+   "failure_recovery": [
+    "re-running a partial download must not report OK for a file that is absent"
+   ],
+   "required_capabilities": [
+    "CAP_S4POST_QUICKSTART_VERIFY"
+   ],
+   "source_expectation_ids": [
+    "REQ-S4POST-UX-001"
+   ],
+   "allowed_hitl": [
+    "PUBLICATION_APPROVAL"
+   ],
+   "source_locators": [
+    "F0 prompt Gate P1 item 3",
+    "F1 challenge §5"
+   ]
+  },
+  {
+   "journey_id": "J2_FRESH_POWERSHELL_FIRST_RUN",
+   "required": true,
+   "user_goal": "The same first run succeeds from PowerShell on Windows using Get-FileHash.",
+   "expected_automatic_behavior": [
+    "the README carries a copy-paste PowerShell block",
+    "the hash comparison uses the same published value"
+   ],
+   "expected_manual_behavior": [
+    "user runs the block in a clean directory"
+   ],
+   "expected_visible_result": "Get-FileHash equals the published SHA-256 and the venv install then doctor succeed",
+   "negative_behavior": [
+    "no bash-only syntax in the PowerShell block"
+   ],
+   "failure_recovery": [
+    "a wrong Python version is reported, not silently accepted"
+   ],
+   "required_capabilities": [
+    "CAP_S4POST_QUICKSTART_VERIFY"
+   ],
+   "source_expectation_ids": [
+    "REQ-S4POST-UX-001"
+   ],
+   "allowed_hitl": [
+    "PUBLICATION_APPROVAL"
+   ],
+   "source_locators": [
+    "F0 prompt Gate P1 item 2",
+    "F1 challenge POST-F01"
+   ]
+  },
+  {
+   "journey_id": "J3_WEB_MOUNT_FIVE_CASES",
+   "required": true,
+   "user_goal": "A ChatGPT/Web consumer mounts the single versioned ZIP and gets sourced candidate answers while refusals stay typed.",
+   "expected_automatic_behavior": [
+    "the dispatcher SKILL.md routes to the references",
+    "native upload and manual attachment fallback are described separately"
+   ],
+   "expected_manual_behavior": [
+    "user attaches the ZIP or uploads the skill, depending on account capability"
+   ],
+   "expected_visible_result": "five recorded cases: positive PI trigger, negative small talk, missing RepoContext refusal, privilege-escalation/self-PASS refusal, first-time mount",
+   "negative_behavior": [
+    "the pack must not claim tool execution the host does not have"
+   ],
+   "failure_recovery": [
+    "when native upload is unavailable the fallback path is recorded as NOT_SUPPORTED, never as a false PASS"
+   ],
+   "required_capabilities": [
+    "CAP_S4POST_WEB_MOUNT_PACK"
+   ],
+   "source_expectation_ids": [
+    "REQ-S4POST-WEB-002"
+   ],
+   "allowed_hitl": [
+    "PUBLICATION_APPROVAL"
+   ],
+   "source_locators": [
+    "F0 prompt Gate P2 item 4",
+    "F1 challenge §7.4"
+   ]
+  },
+  {
+   "journey_id": "J4_TYPED_REFUSAL_CONTRACT",
+   "required": true,
+   "user_goal": "A caller passing an integer subject_id, an integer version, a null or text trace, an undeclared trace or a tampered hash gets an exact first-fail refusal.",
+   "expected_automatic_behavior": [
+    "schema type check fires before the semantic check",
+    "duplicate axes are refused by the profile path and the record agree"
+   ],
+   "expected_manual_behavior": [
+    "user supplies the malformed record"
+   ],
+   "expected_visible_result": "one named finding per negative, with the contract and pointer named",
+   "negative_behavior": [
+    "str(12345) must never satisfy an identity field"
+   ],
+   "failure_recovery": [
+    "existing CE-1/CE-2 regressions keep passing"
+   ],
+   "required_capabilities": [
+    "CAP_S4POST_IDENTITY_TYPE",
+    "CAP_S4POST_PROFILE_FAILCLOSED"
+   ],
+   "source_expectation_ids": [
+    "REQ-S4POST-CONTRACT-003"
+   ],
+   "allowed_hitl": [],
+   "source_locators": [
+    "F0 prompt Gate P3 item 3",
+    "F1 challenge §12 case 3 and 4"
+   ]
+  },
+  {
+   "journey_id": "J5_SELFBOOT_REPLAY",
+   "required": true,
+   "user_goal": "An ordinary user replays the minimal self-bootstrap example with the shipped CLI and gets the recorded digests.",
+   "expected_automatic_behavior": [
+    "the recorded commands run in an isolated root",
+    "the digests recompute identically"
+   ],
+   "expected_manual_behavior": [
+    "user runs the documented commands"
+   ],
+   "expected_visible_result": "PI to PD to ECP/TQAEP design + trace + validation replay, plus a source-missing negative",
+   "negative_behavior": [
+    "a stale or missing RepoContext is refused"
+   ],
+   "failure_recovery": [
+    "pre-written expected JSON is not accepted in place of a real replay"
+   ],
+   "required_capabilities": [
+    "CAP_S4POST_SELFBOOT_REPLAY",
+    "CAP_S4POST_SOURCE_MAP"
+   ],
+   "source_expectation_ids": [
+    "REQ-S4POST-SELFBOOT-004"
+   ],
+   "allowed_hitl": [],
+   "source_locators": [
+    "F0 prompt Gate P4",
+    "F1 challenge §8"
+   ]
+  }
+ ],
+ "acceptance": [
+  {
+   "acceptance_id": "ACC-CAP_S4POST_QUICKSTART_VERIFY",
+   "subject_id": "CAP_S4POST_QUICKSTART_VERIFY",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for CAP_S4POST_QUICKSTART_VERIFY",
+   "negative_fixture": "negative/mutation fixture for CAP_S4POST_QUICKSTART_VERIFY",
+   "recovery_fixture": "recovery fixture for CAP_S4POST_QUICKSTART_VERIFY",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt Gate P1",
+    "F1 challenge POST-F01",
+    "README.md L28-L50"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S4POST_WEB_MOUNT_PACK",
+   "subject_id": "CAP_S4POST_WEB_MOUNT_PACK",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for CAP_S4POST_WEB_MOUNT_PACK",
+   "negative_fixture": "negative/mutation fixture for CAP_S4POST_WEB_MOUNT_PACK",
+   "recovery_fixture": "recovery fixture for CAP_S4POST_WEB_MOUNT_PACK",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt Gate P2",
+    "F1 challenge POST-F05",
+    "dist/web/*"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S4POST_IDENTITY_TYPE",
+   "subject_id": "CAP_S4POST_IDENTITY_TYPE",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for CAP_S4POST_IDENTITY_TYPE",
+   "negative_fixture": "negative/mutation fixture for CAP_S4POST_IDENTITY_TYPE",
+   "recovery_fixture": "recovery fixture for CAP_S4POST_IDENTITY_TYPE",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt Gate P3 item 1",
+    "F1 challenge POST-F03",
+    "schemas/ArtifactIdentity.schema.json",
+    "schemas/PI-PKG.schema.json",
+    "schemas/ProfileBinding.schema.json"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S4POST_PROFILE_FAILCLOSED",
+   "subject_id": "CAP_S4POST_PROFILE_FAILCLOSED",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for CAP_S4POST_PROFILE_FAILCLOSED",
+   "negative_fixture": "negative/mutation fixture for CAP_S4POST_PROFILE_FAILCLOSED",
+   "recovery_fixture": "recovery fixture for CAP_S4POST_PROFILE_FAILCLOSED",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt Gate P3 item 2",
+    "F1 challenge POST-F02",
+    "src/pipd_ls_sp/profiles.py L22-L49"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S4POST_SOURCE_MAP",
+   "subject_id": "CAP_S4POST_SOURCE_MAP",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for CAP_S4POST_SOURCE_MAP",
+   "negative_fixture": "negative/mutation fixture for CAP_S4POST_SOURCE_MAP",
+   "recovery_fixture": "recovery fixture for CAP_S4POST_SOURCE_MAP",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt Gate P4",
+    "F1 challenge POST-F06"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S4POST_SELFBOOT_REPLAY",
+   "subject_id": "CAP_S4POST_SELFBOOT_REPLAY",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for CAP_S4POST_SELFBOOT_REPLAY",
+   "negative_fixture": "negative/mutation fixture for CAP_S4POST_SELFBOOT_REPLAY",
+   "recovery_fixture": "recovery fixture for CAP_S4POST_SELFBOOT_REPLAY",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt Gate P4",
+    "F1 challenge POST-F06",
+    "tests/test_s1_lite_slice.py"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S4POST_REGRESSION_EXACT_SETS",
+   "subject_id": "CAP_S4POST_REGRESSION_EXACT_SETS",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for CAP_S4POST_REGRESSION_EXACT_SETS",
+   "negative_fixture": "negative/mutation fixture for CAP_S4POST_REGRESSION_EXACT_SETS",
+   "recovery_fixture": "recovery fixture for CAP_S4POST_REGRESSION_EXACT_SETS",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt Gate P5",
+    "F1 challenge §12 end criterion",
+    "schemas/registry.json"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S4POST_VERSION_IDENTITY",
+   "subject_id": "CAP_S4POST_VERSION_IDENTITY",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for CAP_S4POST_VERSION_IDENTITY",
+   "negative_fixture": "negative/mutation fixture for CAP_S4POST_VERSION_IDENTITY",
+   "recovery_fixture": "recovery fixture for CAP_S4POST_VERSION_IDENTITY",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt Gate P5",
+    "F1 challenge POST-F07",
+    "F1 challenge §6.3"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J1_FRESH_BASH_FIRST_RUN",
+   "subject_id": "J1_FRESH_BASH_FIRST_RUN",
+   "subject_type": "JOURNEY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for J1_FRESH_BASH_FIRST_RUN",
+   "negative_fixture": "negative/mutation fixture for J1_FRESH_BASH_FIRST_RUN",
+   "recovery_fixture": "recovery fixture for J1_FRESH_BASH_FIRST_RUN",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt 6 gates",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J2_FRESH_POWERSHELL_FIRST_RUN",
+   "subject_id": "J2_FRESH_POWERSHELL_FIRST_RUN",
+   "subject_type": "JOURNEY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for J2_FRESH_POWERSHELL_FIRST_RUN",
+   "negative_fixture": "negative/mutation fixture for J2_FRESH_POWERSHELL_FIRST_RUN",
+   "recovery_fixture": "recovery fixture for J2_FRESH_POWERSHELL_FIRST_RUN",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt 6 gates",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J3_WEB_MOUNT_FIVE_CASES",
+   "subject_id": "J3_WEB_MOUNT_FIVE_CASES",
+   "subject_type": "JOURNEY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for J3_WEB_MOUNT_FIVE_CASES",
+   "negative_fixture": "negative/mutation fixture for J3_WEB_MOUNT_FIVE_CASES",
+   "recovery_fixture": "recovery fixture for J3_WEB_MOUNT_FIVE_CASES",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt 6 gates",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J4_TYPED_REFUSAL_CONTRACT",
+   "subject_id": "J4_TYPED_REFUSAL_CONTRACT",
+   "subject_type": "JOURNEY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for J4_TYPED_REFUSAL_CONTRACT",
+   "negative_fixture": "negative/mutation fixture for J4_TYPED_REFUSAL_CONTRACT",
+   "recovery_fixture": "recovery fixture for J4_TYPED_REFUSAL_CONTRACT",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt 6 gates",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J5_SELFBOOT_REPLAY",
+   "subject_id": "J5_SELFBOOT_REPLAY",
+   "subject_type": "JOURNEY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for J5_SELFBOOT_REPLAY",
+   "negative_fixture": "negative/mutation fixture for J5_SELFBOOT_REPLAY",
+   "recovery_fixture": "recovery fixture for J5_SELFBOOT_REPLAY",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt 6 gates",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-S4POST-UX-001",
+   "subject_id": "REQ-S4POST-UX-001",
+   "subject_type": "REQUIREMENT",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for REQ-S4POST-UX-001",
+   "negative_fixture": "negative/mutation fixture for REQ-S4POST-UX-001",
+   "recovery_fixture": "recovery fixture for REQ-S4POST-UX-001",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt Gate P1 / S4-UX-01",
+    "F1 challenge POST-F01",
+    "F1 challenge §5"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-S4POST-WEB-002",
+   "subject_id": "REQ-S4POST-WEB-002",
+   "subject_type": "REQUIREMENT",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for REQ-S4POST-WEB-002",
+   "negative_fixture": "negative/mutation fixture for REQ-S4POST-WEB-002",
+   "recovery_fixture": "recovery fixture for REQ-S4POST-WEB-002",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt Gate P2 / S4-WEB-02",
+    "F1 challenge POST-F05",
+    "F1 challenge §7"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-S4POST-CONTRACT-003",
+   "subject_id": "REQ-S4POST-CONTRACT-003",
+   "subject_type": "REQUIREMENT",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for REQ-S4POST-CONTRACT-003",
+   "negative_fixture": "negative/mutation fixture for REQ-S4POST-CONTRACT-003",
+   "recovery_fixture": "recovery fixture for REQ-S4POST-CONTRACT-003",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt Gate P3 / S4-CONTRACT-03",
+    "F1 challenge POST-F02",
+    "F1 challenge POST-F03",
+    "F1 challenge POST-F04",
+    "F1 challenge §6"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-S4POST-SELFBOOT-004",
+   "subject_id": "REQ-S4POST-SELFBOOT-004",
+   "subject_type": "REQUIREMENT",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for REQ-S4POST-SELFBOOT-004",
+   "negative_fixture": "negative/mutation fixture for REQ-S4POST-SELFBOOT-004",
+   "recovery_fixture": "recovery fixture for REQ-S4POST-SELFBOOT-004",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt Gate P4 / S4-SELFBOOT-04",
+    "F1 challenge POST-F06",
+    "F1 challenge §8"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4POST_PROMPT_COMPILER_READBACK",
+   "subject_id": "S4POST_PROMPT_COMPILER_READBACK",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4POST_PROMPT_COMPILER_READBACK",
+   "negative_fixture": "negative/mutation fixture for S4POST_PROMPT_COMPILER_READBACK",
+   "recovery_fixture": "recovery fixture for S4POST_PROMPT_COMPILER_READBACK",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt §8 evidence_return_pack",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4POST_HGK_ADMISSION_READBACK",
+   "subject_id": "S4POST_HGK_ADMISSION_READBACK",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4POST_HGK_ADMISSION_READBACK",
+   "negative_fixture": "negative/mutation fixture for S4POST_HGK_ADMISSION_READBACK",
+   "recovery_fixture": "recovery fixture for S4POST_HGK_ADMISSION_READBACK",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt §8 evidence_return_pack",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4POST_FINDING_LEDGER",
+   "subject_id": "S4POST_FINDING_LEDGER",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4POST_FINDING_LEDGER",
+   "negative_fixture": "negative/mutation fixture for S4POST_FINDING_LEDGER",
+   "recovery_fixture": "recovery fixture for S4POST_FINDING_LEDGER",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt §8 evidence_return_pack",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4POST_UAT_MATRIX",
+   "subject_id": "S4POST_UAT_MATRIX",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4POST_UAT_MATRIX",
+   "negative_fixture": "negative/mutation fixture for S4POST_UAT_MATRIX",
+   "recovery_fixture": "recovery fixture for S4POST_UAT_MATRIX",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt §8 evidence_return_pack",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4POST_DISTRIBUTION_TUPLE",
+   "subject_id": "S4POST_DISTRIBUTION_TUPLE",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4POST_DISTRIBUTION_TUPLE",
+   "negative_fixture": "negative/mutation fixture for S4POST_DISTRIBUTION_TUPLE",
+   "recovery_fixture": "recovery fixture for S4POST_DISTRIBUTION_TUPLE",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt §8 evidence_return_pack",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4POST_EVIDENCE_MASTER_MD",
+   "subject_id": "S4POST_EVIDENCE_MASTER_MD",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4POST_EVIDENCE_MASTER_MD",
+   "negative_fixture": "negative/mutation fixture for S4POST_EVIDENCE_MASTER_MD",
+   "recovery_fixture": "recovery fixture for S4POST_EVIDENCE_MASTER_MD",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt §8 evidence_return_pack",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4POST_KANBAN_SWARM_RECEIPT",
+   "subject_id": "S4POST_KANBAN_SWARM_RECEIPT",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4POST_KANBAN_SWARM_RECEIPT",
+   "negative_fixture": "negative/mutation fixture for S4POST_KANBAN_SWARM_RECEIPT",
+   "recovery_fixture": "recovery fixture for S4POST_KANBAN_SWARM_RECEIPT",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt §8 evidence_return_pack",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4POST_OPENSPEC_CHANGE",
+   "subject_id": "S4POST_OPENSPEC_CHANGE",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4POST_OPENSPEC_CHANGE",
+   "negative_fixture": "negative/mutation fixture for S4POST_OPENSPEC_CHANGE",
+   "recovery_fixture": "recovery fixture for S4POST_OPENSPEC_CHANGE",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt §8 evidence_return_pack",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4POST_INDEPENDENT_VERDICT",
+   "subject_id": "S4POST_INDEPENDENT_VERDICT",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4POST_INDEPENDENT_VERDICT",
+   "negative_fixture": "negative/mutation fixture for S4POST_INDEPENDENT_VERDICT",
+   "recovery_fixture": "recovery fixture for S4POST_INDEPENDENT_VERDICT",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt §8 evidence_return_pack",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4POST_WEB_MOUNT_UAT",
+   "subject_id": "S4POST_WEB_MOUNT_UAT",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4POST_WEB_MOUNT_UAT",
+   "negative_fixture": "negative/mutation fixture for S4POST_WEB_MOUNT_UAT",
+   "recovery_fixture": "recovery fixture for S4POST_WEB_MOUNT_UAT",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt §8 evidence_return_pack",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4POST_NORMATIVE_SOURCE_MAP",
+   "subject_id": "S4POST_NORMATIVE_SOURCE_MAP",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4POST_NORMATIVE_SOURCE_MAP",
+   "negative_fixture": "negative/mutation fixture for S4POST_NORMATIVE_SOURCE_MAP",
+   "recovery_fixture": "recovery fixture for S4POST_NORMATIVE_SOURCE_MAP",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt §8 evidence_return_pack",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4POST_SELFBOOT_EXAMPLE",
+   "subject_id": "S4POST_SELFBOOT_EXAMPLE",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4POST_SELFBOOT_EXAMPLE",
+   "negative_fixture": "negative/mutation fixture for S4POST_SELFBOOT_EXAMPLE",
+   "recovery_fixture": "recovery fixture for S4POST_SELFBOOT_EXAMPLE",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 prompt §8 evidence_return_pack",
+    "F1 challenge §12"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  }
+ ],
+ "evidence": [
+  {
+   "gate_id": "G-S4POST-PROMPT-COMPILE",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "NATIVE_COMPILER_PASS",
+   "expected": "native compiler receipts: verdict PROMPT_COMPILE_PASS",
+   "command_or_probe": "python scripts/prompt_contract_compiler.py lint|activation|acceptance|compile <contract>",
+   "raw_receipt_required": true,
+   "producer": "HERMES_ORCHESTRATOR_PLAN_LANE_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GLM-5.3-FLASH_OPENCODE-GO_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "contract change",
+    "compiler bundle change",
+    "source hash change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_S4POST_REPAIR_PROMPT",
+     "F1_S4POST_CHALLENGE",
+     "F2_RELEASE_SUBJECT_EVIDENCE",
+     "F3_PIPD_UPSTREAM_CORPUS",
+     "F4_PUBLIC_ROLLING_MAIN",
+     "F5_HGK_CONTROL_PLANE",
+     "F6_FABRIC_CONTRACT",
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ]
+   }
+  },
+  {
+   "gate_id": "G-S4POST-HGK-ADMISSION",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "HGK_ADMISSION_TRACE",
+   "expected": "typed lifecycle requirement/taskspec/workorder ids, a kanban SWARM graph and a checkpoint id",
+   "command_or_probe": "hg_kseos lifecycle API + hermes kanban board readback",
+   "raw_receipt_required": true,
+   "producer": "HERMES_ORCHESTRATOR_PLAN_LANE_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GLM-5.3-FLASH_OPENCODE-GO_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "lifecycle state change",
+    "board change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F5_HGK_CONTROL_PLANE",
+     "F6_FABRIC_CONTRACT"
+    ]
+   }
+  },
+  {
+   "gate_id": "G-S4POST-QUICKSTART-FRESH",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "FRESH_SHELL_REPLAY",
+   "expected": "bash and PowerShell replays exit 0 line by line; a mutated wheel byte exits non-zero; a missing asset is typed",
+   "command_or_probe": "fresh bash + pwsh replay of the README quickstart in an empty scratch directory",
+   "raw_receipt_required": true,
+   "producer": "CODEX_BOUNDED_WRITER_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GLM-5.3-FLASH_OPENCODE-GO_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "README change",
+    "release asset change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_S4POST_REPAIR_PROMPT",
+     "F1_S4POST_CHALLENGE",
+     "F2_RELEASE_SUBJECT_EVIDENCE"
+    ]
+   }
+  },
+  {
+   "gate_id": "G-S4POST-WEB-MOUNT-UAT",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "WEB_MOUNT_FIVE_CASES",
+   "expected": "five recorded cases with raw outputs and an explicit NOT_SUPPORTED where native upload is unavailable",
+   "command_or_probe": "ZIP hash recompute + scripted case replay against the mount pack",
+   "raw_receipt_required": true,
+   "producer": "CODEX_BOUNDED_WRITER_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GLM-5.3-FLASH_OPENCODE-GO_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "ZIP change",
+    "manifest change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F1_S4POST_CHALLENGE",
+     "F2_RELEASE_SUBJECT_EVIDENCE"
+    ]
+   }
+  },
+  {
+   "gate_id": "G-S4POST-CONTRACT-TYPED",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "TYPE_AND_PROFILE_FAILCLOSED",
+   "expected": "integer/null/text identity and trace negatives each produce one exact first-fail; duplicate axes refuse; risk_assessment is NOT_ASSESSED when no evidence exists",
+   "command_or_probe": "python -m unittest tests.test_postrelease_contract_hardening plus the CE regression suite",
+   "raw_receipt_required": true,
+   "producer": "CODEX_BOUNDED_WRITER_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GLM-5.3-FLASH_OPENCODE-GO_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "schema change",
+    "profiles change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F1_S4POST_CHALLENGE",
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ]
+   }
+  },
+  {
+   "gate_id": "G-S4POST-REGRESSION-EXACT",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "EXACT_SET_REGRESSION",
+   "expected": "19 registry families, 8 logical skills, 13 CLI commands, 5 web / 3 host projections unchanged; FULL suite exit 0",
+   "command_or_probe": "python -m unittest discover -s tests plus tools/cli_surface_check.py",
+   "raw_receipt_required": true,
+   "producer": "CODEX_BOUNDED_WRITER_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GLM-5.3-FLASH_OPENCODE-GO_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "candidate head change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ]
+   }
+  },
+  {
+   "gate_id": "G-S4POST-SELFBOOT-REPLAY",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "SELF_BOOTSTRAP_REPLAY",
+   "expected": "the recorded commands reproduce the recorded digests in an isolated root, plus a source-missing negative",
+   "command_or_probe": "python examples/self-bootstrap/run_selfbootstrap.py --root <isolated>",
+   "raw_receipt_required": true,
+   "producer": "CODEX_BOUNDED_WRITER_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GLM-5.3-FLASH_OPENCODE-GO_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "example change",
+    "CLI change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F3_PIPD_UPSTREAM_CORPUS",
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ]
+   }
+  },
+  {
+   "gate_id": "G-S4POST-SUBJECT-BINDING",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "SUBJECT_BINDING",
+   "expected": "the candidate commit tree and every product digest are recomputable from the raw logs",
+   "command_or_probe": "git rev-parse + sha256 over the candidate tree",
+   "raw_receipt_required": true,
+   "producer": "HERMES_ORCHESTRATOR_PLAN_LANE_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GLM-5.3-FLASH_OPENCODE-GO_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "candidate head change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ]
+   }
+  },
+  {
+   "gate_id": "G-S4POST-INDEPENDENT-VERDICT",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "INDEPENDENT_VERDICT",
+   "expected": "a distinct-model checker re-derives the decisive claims on the frozen candidate, or names PARTIAL / NOT_RUN",
+   "command_or_probe": "Codex CLI VERIFY lane pinned to opencode-go/glm-5.3-flash, read-only over the frozen candidate",
+   "raw_receipt_required": true,
+   "producer": "CODEX_BOUNDED_WRITER_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GLM-5.3-FLASH_OPENCODE-GO_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "candidate head change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ]
+   }
+  }
+ ],
+ "termination": {
+  "terminal_states": [
+   "S4_POSTRELEASE_NARROW_REPAIR_CANDIDATE_DELIVERED",
+   "FAIL",
+   "BLOCKED_HITL",
+   "BLOCKED_EXTERNAL",
+   "NO_WRITES_TEMP_CLOSED"
+  ],
+  "non_terminal_pause": [
+   "ITERATION_BUDGET_PAUSE",
+   "SESSION_BOUNDARY",
+   "AWAITING_STEER",
+   "SCOPE_EXPANSION_HITL"
+  ],
+  "checkpoint_required": true,
+  "checkpoint_fields": [
+   "task_id",
+   "source_hashes",
+   "current_candidate",
+   "completed_gates",
+   "open_gates",
+   "next_work_order",
+   "rollback_pointer",
+   "workorder_ids",
+   "tt_delta"
+  ],
+  "retry_budget": 3,
+  "rollback_pointer_required": true
+ },
+ "render_policy": {
+  "control_corpus_restatement": false,
+  "embedded_control_bodies": [],
+  "max_prompt_chars": 30000,
+  "output_language": "zh-Hant-TW"
+ }
+}
