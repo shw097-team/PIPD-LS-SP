@@ -46,9 +46,12 @@ was known-bad**, with the fix existing but inaccessible.
    absent and this host holds no signing identity. Producing one would be an agent self-attestation,
    which the governance forbids. Deferred with the reason recorded, not substituted with a weaker
    proxy.
-2. **No dependency lockfile.** The audit is over a resolved environment, not a pinned closure:
-   the declared dependency is `jsonschema>=4.0` (resolved to 4.26.0). A `>=` floor means the audited
-   set is not the set a future installer gets.
+2. **No dependency lockfile, and the project package itself was not audited.** The audit is over a
+   resolved environment, not a pinned closure: the declared dependency is `jsonschema>=4.0` (resolved
+   to 4.26.0). A `>=` floor means the audited set is not the set a future installer gets. Separately,
+   pip-audit **skipped the project's own package** (`Dependency not found on PyPI and could not be
+   audited: pipd-ls-sp (0.1.0)`), so "0 findings" covers the dependency closure and **not** a
+   source-level audit of `pipd_ls_sp`. See `evidence/scan_dependency_note.md`.
 3. **`PARTIAL_CHALLENGE` remains 28 / 10 / 19** (SPEC / DEL denominators). Not moved by R7.
 4. **`FULL_S0_S4_INDEPENDENT_PASS`, `G_RELEASE_FULL_PASS`, `PRODUCTION_VERIFIED`,
    `S5_RUNTIME_READY`, `ALL_HOSTS_LIVE_CERTIFIED` are still not granted.** DEL-018's closure removes
