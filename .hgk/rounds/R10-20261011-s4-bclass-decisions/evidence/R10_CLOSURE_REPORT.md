@@ -138,3 +138,20 @@ Verdict PASS on all twelve items, with eight could-not-verify limits carried ver
 The convergence path is itself the finding: FAIL(1/12) -> fix -> FAIL(2/12, a SECOND dangling target found only by re-running) -> fix the class and grade the receipt -> PASS(12/12). The middle FAIL is the one that mattered: a re-run with no change would have missed it, and a fix with no re-run would have shipped it.
 
 **Claim ceiling (converged):** `R10_LOCALLY_VERIFIED__CONTROL_PLANE_INSTALL_ADMITTED_AND_NON_ACTIVATED__CROSS_MODEL_RE_VERIFIED_PASS`. Cross-model means a different model family on the SAME control plane and the SAME host - not external acceptance. The maker did not sign this.
+
+## 11. The two items previously marked OWNER ONLY are now decided
+
+Both were authorised for adjudication AND execution. One decision is a REFUSAL.
+
+- **MCP record shape: ratification DECLINED.** This repo has no generic schema registry (`schemas/registry.json` is the S0 contract registry, 19 S0 contracts; this row is S2), so minting `PIPD-MCP-MATERIALIZATION-DECISION/1` as canonical would manufacture the AUTHORITY that certifies an object - the same act as R9
+s `EXISTS != TRUE`, one level up. The record keeps its truthful content and drops the claim: `schema: null`, `claims_schema_authority: false`, `ratification_required: false`. It now names where MCP state is canonically held instead of competing with it.
+
+- **Crosswalk reclassification: EXECUTED via the GENERATOR.** Statuses are hard-coded literals in `tools/build_spec_del_crosswalk.py`, so editing the JSON would vanish on the next build. `DEL-015` and `PIPD-SP-SPEC-030` -> `EVIDENCED` against a REAL, EXECUTED oracle (`tests/test_r10_bclass_evidence.py`, 4 tests OK) - the generator validates that an oracle resolves, because a dangling oracle is an unproven claim. `PIPD-SP-SPEC-002` stays a gap but is no longer an UNEXPLAINED one: its `first_fail` records that the object is external and an in-repo copy is forbidden by the row itself.
+
+Measured: `status_summary` EVIDENCED 42 -> 44, EVIDENCE_GAP 11 -> 9; crosswalk `--check` OK (32 SPEC + 25 DEL, 0 violations); DEL-018 unchanged at 0 violations.
+
+Two honest caveats recorded rather than smoothed: `EVIDENCED` is NOT `PASS`; and the crosswalk
+s own `status_summary` (44/9/4) does NOT reconcile with the R9 audit
+s accounting (28/10/19) - the two count differently, so anyone quoting either number must say which accounting they mean.
+
+Owner-only remaining after this: nothing on these two items. Still owner-only: the GitHub App setup and PAT rotation (both UI-only). Still external: the acceptance gates and the release signing identity.
