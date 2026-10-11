@@ -1,0 +1,19 @@
+{
+ "schema": "PIPD-S4POST-CLAIM-CORRECTIONS/1",
+ "subject": {
+  "candidate_commit": "0bc7bb4bc7c4084ed5f1b7b580ec95f875c9183d",
+  "candidate_tree": "e95e33f008a617faef8881431b27a468f516d409"
+ },
+ "corrections": [
+  {
+   "id": "C-01",
+   "raised_by": "VERIFY-2 (gpt-6.1-sol, OpenAI OAuth)",
+   "finding": "V2-F01 (BLOCKER)",
+   "false_claim_as_written": "the commit's change set is 'only' README.md, examples/self-bootstrap/README.md, tests/test_postrelease_quickstart.py, tests/test_postrelease_selfbootstrap.py",
+   "accurate_claim": "those four files are the complete write scope of repair iterations 1 and 2 — i.e. the only PRODUCT files either iteration modified. The COMMIT additionally adds this round's governance and evidence records: the OpenSpec change (openspec/changes/pipd-ls-sp-s4-postrelease-narrow-repair/**) and the round tree (.hgk/rounds/POSTRELEASE-20261011-s4-narrow-repair/**). Verified independently: the diff dbe38719..0bc7bb4b is 40 files / 13478 insertions and contains no runtime-code expansion outside src/ + schemas/ paths already produced and receipted by the EXECUTE lanes.",
+   "corrective_action": "Claim restated here and in the acceptance master document. The frozen candidate is NOT amended: commit 0bc7bb4b is already hash-bound to the VERIFY-2 receipt, so rewriting it would invalidate the very evidence that found the error.",
+   "residual_risk": "commit message text still carries the narrower wording; it is superseded by this record."
+  }
+ ],
+ "note": "Recorded under the round's no-self-acceptance rule: an inaccuracy found by the independent checker is corrected by disclosure, not by silently editing the artefact the checker signed."
+}

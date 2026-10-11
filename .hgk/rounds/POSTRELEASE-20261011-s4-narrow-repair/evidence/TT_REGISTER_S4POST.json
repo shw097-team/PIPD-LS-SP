@@ -149,6 +149,73 @@
    "raw_evidence": ".hgk/rounds/POSTRELEASE-20261011-s4-narrow-repair/verify/VERIFY_RECEIPT_gpt61sol.json#F09",
    "close_criterion": "either parameterise the path or accept the literal with an explicit decision recorded",
    "closed_requires_fresh_verification": true
+  },
+  {
+   "id": "TT-S4POST-V2-05-TRACE-ENDPOINT-CLOSURE",
+   "title": "trace endpoint closure is not validated (forged to_id accepted)",
+   "severity": "NON_BLOCKING",
+   "status": "OPEN",
+   "source": "VERIFY-2 (gpt-6.1-sol / OpenAI OAuth)",
+   "detail": "Replacing trace[0].to_id with a non-existent id (MISSING-0123456789abcdef) leaves the bundle at PASS: typing enforces shape, not that the endpoint resolves to a record inside the bundle.",
+   "closure_condition": "validate_bundle must require every TraceLink endpoint to resolve within the same bundle; add the forged-endpoint case to test_postrelease_contract_hardening.py.",
+   "evidence": [
+    "verify/VERIFY2_RECEIPT_gpt61sol.json # V2-F05"
+   ],
+   "merge_note": "round-scoped; not yet merged into .hgk/artifacts/TT_REGISTER.json — merging mutates a tracked projection guarded by test_tt_summary, so it is an explicit hand-off to the next round rather than a silent write"
+  },
+  {
+   "id": "TT-S4POST-V2-06-IDENTITY-NORMALIZATION",
+   "title": "raw-bundle validation accepts a normalized maker/checker alias",
+   "severity": "NON_BLOCKING",
+   "status": "OPEN",
+   "source": "VERIFY-2 (gpt-6.1-sol / OpenAI OAuth)",
+   "detail": "A whitespace-padded, case-folded copy of the maker identity is accepted as the checker identity when the TQAEP record is rehashed. The compiler path rejects this class; validate_bundle does not normalize before comparing.",
+   "closure_condition": "Share one normalization routine between compile and validate so the identity-distinctness rule cannot differ between design time and raw-bundle time.",
+   "evidence": [
+    "verify/VERIFY2_RECEIPT_gpt61sol.json # V2-F06"
+   ],
+   "merge_note": "round-scoped; not yet merged into .hgk/artifacts/TT_REGISTER.json — merging mutates a tracked projection guarded by test_tt_summary, so it is an explicit hand-off to the next round rather than a silent write"
+  },
+  {
+   "id": "TT-S4POST-V2-07-CLI-SURFACE-SIDE-EFFECT",
+   "title": "tools/cli_surface_check.py rewrites a fourth tracked artifact",
+   "severity": "NON_BLOCKING",
+   "status": "OPEN",
+   "source": "VERIFY-2 (gpt-6.1-sol / OpenAI OAuth)",
+   "detail": "The check writes .hgk/artifacts/s4/CLI_SURFACE.json (metadata-only, no runtime-code edit). The operator's non-mutation guard listed three .hgk/artifacts side effects; the true set is four. Corrected.",
+   "closure_condition": "Either make the check read-only or declare all four side effects in one place so any mutation guard is exact.",
+   "evidence": [
+    "verify/VERIFY2_RECEIPT_gpt61sol.json # V2-F07",
+    "verify/NONMUTATION2_GUARD.txt"
+   ],
+   "merge_note": "round-scoped; not yet merged into .hgk/artifacts/TT_REGISTER.json — merging mutates a tracked projection guarded by test_tt_summary, so it is an explicit hand-off to the next round rather than a silent write"
+  },
+  {
+   "id": "TT-S4POST-V2-08-BASE-CHECKOUT-ATTESTATION",
+   "title": "the base 325-OK figure is not independently attested",
+   "severity": "NON_BLOCKING",
+   "status": "OPEN",
+   "source": "VERIFY-2 (gpt-6.1-sol / OpenAI OAuth)",
+   "detail": "The checker reproduced the archive failures and showed local git history removes eight of them, but could not grant 'base 325 OK' because it ran no base checkout; extended-path crosswalk/common-path errors persist. The operator figure came from a real checkout with .git present.",
+   "closure_condition": "Provide a base checkout (not an archive) plus a documented long-path setup so the pre-existing baseline is independently reproducible.",
+   "evidence": [
+    "verify/VERIFY2_RECEIPT_gpt61sol.json # V2-F08",
+    "verify/VERIFY2_RECEIPT_gpt61sol.json # not_run"
+   ],
+   "merge_note": "round-scoped; not yet merged into .hgk/artifacts/TT_REGISTER.json — merging mutates a tracked projection guarded by test_tt_summary, so it is an explicit hand-off to the next round rather than a silent write"
+  },
+  {
+   "id": "TT-S4POST-V2-10-OFFLINE-QUICKSTART",
+   "title": "quickstart transport was exercised offline-bounded",
+   "severity": "OBSERVATION",
+   "status": "OPEN",
+   "source": "VERIFY-2 (gpt-6.1-sol / OpenAI OAuth)",
+   "detail": "The wheel was really downloaded and digest-verified, but the SHA256SUMS list was served locally and dependencies came from a local pip wheel cache, so a pristine live-network quickstart is not attested.",
+   "closure_condition": "Run the quickstart once on a clean host with unrestricted egress to the release URLs and record the raw transport.",
+   "evidence": [
+    "verify/VERIFY2_RECEIPT_gpt61sol.json # V2-F10"
+   ],
+   "merge_note": "round-scoped; not yet merged into .hgk/artifacts/TT_REGISTER.json — merging mutates a tracked projection guarded by test_tt_summary, so it is an explicit hand-off to the next round rather than a silent write"
   }
  ],
  "status_summary": {
@@ -156,5 +223,21 @@
   "open": 6,
   "open_owner_gate": 2,
   "closed": 0
+ },
+ "verify2_delta": {
+  "receipt": "verify/VERIFY2_RECEIPT_gpt61sol.json",
+  "verdict": "FAIL",
+  "claim_ceiling": "VERIFY_LANE_SCOPE_ONLY",
+  "blockers": [
+   "V2-F01 (claim accuracy — corrected in evidence/CLAIM_CORRECTIONS_S4POST.json)",
+   "V2-F02 (rehashed permission expansion; remains a disclosed non-mitigated limitation)"
+  ],
+  "new_rows_added": [
+   "TT-S4POST-V2-05-TRACE-ENDPOINT-CLOSURE",
+   "TT-S4POST-V2-06-IDENTITY-NORMALIZATION",
+   "TT-S4POST-V2-07-CLI-SURFACE-SIDE-EFFECT",
+   "TT-S4POST-V2-08-BASE-CHECKOUT-ATTESTATION",
+   "TT-S4POST-V2-10-OFFLINE-QUICKSTART"
+  ]
  }
 }

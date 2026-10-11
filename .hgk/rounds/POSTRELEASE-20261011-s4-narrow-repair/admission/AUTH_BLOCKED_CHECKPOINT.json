@@ -35,7 +35,13 @@
     "https://api.github.com/repos/shw097-team/PIPD-LS-SP": 401,
     "https://api.github.com/repos/shw097-team/PIPD-LS-SP/git/refs/heads/main": 401
    },
-   "reading": "the named fine-grained PAT is present and well-formed (93 chars, github_pat_ prefix) but is rejected on every endpoint, including the target repository - expired or revoked"
+   "reading": "the named fine-grained PAT is present and well-formed (93 chars, github_pat_ prefix) but is rejected on every endpoint, including the target repository - expired or revoked",
+   "auth_schemes_tested": {
+    "Authorization: Bearer <token>": 401,
+    "Authorization: token <token>": 401,
+    "Authorization: Basic base64(x:<token>)": 401,
+    "reading": "all three accepted GitHub credential presentations are refused, so this is not a header-form problem; the credential itself is not accepted by GitHub for this account/repository"
+   }
   },
   "secret_handling": "the value was read only inside a short-lived process; it was never printed, logged, passed in argv, written to .git/config, or included in any evidence artefact"
  },
