@@ -1,0 +1,26 @@
+{
+ "round": "R11-20261011-s4-credential-closure-and-fda-integration",
+ "delegation": "delegate_task fan-out (children inherit the parent model unless pinned)",
+ "workers": [
+  {
+   "role": "bounded analyst",
+   "scope": "broker activation: what config/ would have to reference, and what a consumer would actually refuse",
+   "writes": "evidence/BROKER_ACTIVATION_ANALYSIS.md only",
+   "model": "inherits parent (deepseek-v4.1-flash / opencode-go)"
+  },
+  {
+   "role": "bounded analyst",
+   "scope": "the Fabric desktop-automation team's evidence contract: exact fields, preflight rules, 3-way mirror procedure",
+   "writes": "evidence/FABRIC_EVIDENCE_CONTRACT_ANALYSIS.md only",
+   "model": "inherits parent (deepseek-v4.1-flash / opencode-go)"
+  }
+ ],
+ "verifier": {
+  "lane": "VERIFY_SECURITY",
+  "arm": "openai-codex/gpt-6.1-sol",
+  "effort": "medium",
+  "transport": "OpenAI OAuth via CODEX CLI",
+  "status": "pending REQ-PIPD-R11-VERIFY-005"
+ },
+ "disclosure": "Children inherit the parent model, so child results are ADVISORY, not independent: they are inputs to the parent's adjudication and the parent verified their artefacts by reading them. The only independent check in this round is the VERIFY lane, which runs a different model through a different process."
+}

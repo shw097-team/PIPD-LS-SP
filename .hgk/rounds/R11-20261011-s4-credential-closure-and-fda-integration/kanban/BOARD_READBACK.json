@@ -1,0 +1,26 @@
+{
+ "round": "R11-20261011-s4-credential-closure-and-fda-integration",
+ "board_slug": "pipd-r11-20261011",
+ "board_db": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\kanban\\boards\\pipd-r11-20261011\\kanban.db",
+ "created_via": "native CLI: hermes_cli.main kanban boards create / kanban --board <slug> swarm --json",
+ "swarm": {
+  "root_id": "t_6e9fa780",
+  "worker_ids": ["t_ae87acba", "t_32ee8e1e"],
+  "verifier_id": "t_9431f074",
+  "synthesizer_id": "t_828108af"
+ },
+ "observed_status": {
+  "t_6e9fa780": "done",
+  "t_ae87acba": "ready",
+  "t_32ee8e1e": "ready",
+  "t_9431f074": "todo",
+  "t_828108af": "todo"
+ },
+ "containment_attempt": {
+  "intent": "hold the verify and synthesizer cards as a deliberate AUTOMATIC_ROUTING_HOLD so the native dispatcher cannot spawn them",
+  "command": "kanban --board pipd-r11-20261011 block <id> <reason> --kind needs_input (attempted for t_9431f074 and t_828108af)",
+  "result": "REFUSED - exited 1 with 'cannot block t_9431f074' and 'cannot block t_828108af'. The verb refuses from status=todo.",
+  "therefore": "NO hold is claimed. Containment is instead by two MEASURED facts, and it is recorded as a weakness rather than as a control: (a) this host has NO registered worker profiles, so a dispatch would park these cards as skipped_nonspawnable rather than spawn them; (b) these lanes are driven MANUALLY under this receipt. The native dispatcher was NOT the executing surface for this round, and no native claim or spawn has been faked to make the board look active."
+ },
+ "note": "Written to disk rather than asserted. A board id reported only in chat has, in an earlier round, had to be withdrawn for lack of an artefact; these ids are read back from the board DB through the CLI."
+}
