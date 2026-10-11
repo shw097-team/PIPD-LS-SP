@@ -78,12 +78,36 @@ So the exact behaviour is: **the default path refuses** (no getter -> `app_cred_
 through a flag, and the code's own comment on the getter-less path says it "refuses to pass on presence
 alone" - which is not true of this branch.
 
-Disposition, and its reason: the **claim** was corrected here (it was mine, and wrong); the **flag
-semantics were NOT changed in this round**. `--no-probe` is an explicit, self-describing opt-out that an
-offline operator may legitimately need, and altering what `verdict: OK` means would change a contract that
-other readers (`INSTALL_MANIFEST.json` V3/V4, external consumers) encode - a control-plane change that
-belongs in its own admitted round, exactly as the dispatcher-guard defect does. It is recorded as an OPEN
-residual, with the reproduction above, not smoothed over.
+**The bypass is bigger than one flag.** The same checker then found a SECOND opt-out, and re-measuring confirms it independently:
+
+| mode | effective source | what is required | verdict | provenance |
+|---|---|---|---|---|
+| default, getter available | `app` | the App, probed by its own installation token | `OK` only if probed | `PROBED` |
+| default, no getter | `app` | `app_cred_valid` | **`FAIL_CLOSED`** | `PROBED` |
+| `--no-probe` | `app` | `app_cred_valid: SKIP` -> nothing can FAIL | `OK` over an unproven App | `UNPROVEN_BY_REQUEST` |
+| `--metadata-only` | `pat`, and App selection is never reached | `cred_syntax`/`cred_api_valid` both `SKIP` -> existence only | `OK` over a byte length | `UNPROVEN_BY_REQUEST` |
+
+So the gate can be asked, by two explicit flags, to report `OK` while having proven nothing. That is the
+presence-is-not-validity class this gate exists to stop, surviving through opt-outs.
+
+Disposition - three parts, each with its reason:
+
+1. **The claim was corrected** (it was mine, and wrong).
+2. **An additive field was added** so the two `OK`s can no longer be confused. `_verdict()` now carries
+   `"provenance": "PROBED"` or `"UNPROVEN_BY_REQUEST"`. This is deliberately **additive only**: no existing
+   key changes value, so `verdict`, `abort`, `failed_required` and the exit-code contract that
+   `INSTALL_MANIFEST.json` V3/V4 and external readers encode are untouched. A reader that wants proof now
+   has a field to read; a reader that ignores it is no worse off than before. Measured in all four modes
+   above; manifest re-pinned 7/7; `selftest` 7/7 PASS; `verify_offline` `PASS_OFFLINE_T5_UNPROVEN`.
+3. **The two flags themselves were NOT removed**, and the reason is stated rather than assumed:
+   `--no-probe` and `--metadata-only` are explicit, self-describing opt-outs that an offline operator may
+   legitimately need, and deleting them would break the documented exit-code contract. They are now
+   **labelled** rather than silent. The residual that remains open is only this: a consumer that reads
+   `verdict` and ignores `provenance` will still see a bare `OK` on an unproven run.
+
+The docstring of `run_preflight()` was also found to contradict its own code - it said that an absent App
+getter leaves "the gate on the PAT", while the code keeps `effective_source=app` and `FAIL_CLOSED`. The
+sentence is corrected, and the correction says so.
 
 Test fixtures were **realigned, not weakened**. The `absent file => abort` expectations in `selftest.py`
 and `verify_offline.py` encoded the superseded PAT-only contract, and they were also **non-hermetic** -
@@ -127,7 +151,9 @@ and only the former is evidence. This FAR relies solely on the ref move.
 - It does not claim the App is "activated"; it is a working capability that nothing calls (see
   `evidence/BROKER_ACTIVATION_ANALYSIS.md`).
 - It does not claim the PAT was "retired by revoking it" - there is nothing on this account to revoke.
-- It does not claim the gate is unconditionally sound. The `--no-probe` opt-out above is an OPEN residual.
+- It does not claim the gate is unconditionally sound: `--no-probe` and `--metadata-only` both yield `OK`
+  without proving a credential. They are now labelled by `provenance` rather than silent, but a consumer
+  that reads `verdict` and ignores `provenance` still sees a bare `OK` - that is the OPEN residual.
 - It does not claim the write's **attribution**. The independent checker established, correctly, that a
   credential-free `ls-remote` of a PUBLIC repository proves only the advertised refs - it cannot show who
   pushed, which credential authenticated, whether the ref moved during this round, or that write
