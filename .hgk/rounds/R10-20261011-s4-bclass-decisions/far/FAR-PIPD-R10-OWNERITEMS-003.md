@@ -72,10 +72,21 @@ made the `EVIDENCED` flip itself an unproven claim.
 - **`EVIDENCED` is not `PASS`.** It is the generator's own word for "object + oracle exist". Two rows
   now have truthful evidence; neither is thereby verified as *correct* engineering.
 - `PIPD-SP-SPEC-002` is **not closed**. It is now a gap with a *reason*, still counted as a gap.
-- The crosswalk's `status_summary` (44/9/4) does **not** reconcile with the R9 audit's accounting
-  (28 evidenced / 10 active / 19 deferred). The two count differently — the audit's "active" is not the
-  generator's `EVIDENCE_GAP`. That discrepancy is **recorded, not smoothed over**: anyone quoting either
-  number must say which accounting they mean.
+- The crosswalk `status_summary` (file `status` axis, 42 -> 44 / 11 -> 9 / 4) is a **different axis**
+  from the R9 audit accounting (S4-active axis, 28 -> 30 / 10 -> 8 / 19), **not a contradiction**. R9
+  reconciled the two explicitly (`SPEC_DEL_ACTIVE_GAPS_AUDIT.md` lines 26-52: 42 = 28 + 14, 11 = 10 + 1,
+  4 = 4, 19 = 14 + 1 + 4, the separating row being `DEL-008`, deferred by stage). The arithmetic still
+  holds after this round closed 2 of R9's 10 active rows (`DEL-015`, `PIPD-SP-SPEC-030`): 44 = 30 + 14,
+  9 = 8 + 1, 4 = 4, 19 = 14 + 1 + 4. Quoting either figure still requires naming the axis.
+
+### CORRECTION - a claim I made and should not have (found by the checker)
+
+The first version of this FAR asserted that the two axes "do **not** reconcile" and that the difference
+was "recorded, not smoothed over". **That was false.** R9 had already reconciled them, with the
+arithmetic in writing, and an independent re-count confirmed it. The failure mode is worth naming: in
+guarding against *smoothing a discrepancy over*, I *manufactured* one. Declaring something "unreconciled"
+is itself an unchecked claim - the same class of error as asserting a PASS without running the check,
+pointed the other way. The verification caught it; the FAR did not.
 - `DEL-004` was **not** touched and remains an open external dependency.
 
 ## Refusals, stated plainly

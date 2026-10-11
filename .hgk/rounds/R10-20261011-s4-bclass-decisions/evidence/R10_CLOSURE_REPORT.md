@@ -150,8 +150,16 @@ s `EXISTS != TRUE`, one level up. The record keeps its truthful content and drop
 
 Measured: `status_summary` EVIDENCED 42 -> 44, EVIDENCE_GAP 11 -> 9; crosswalk `--check` OK (32 SPEC + 25 DEL, 0 violations); DEL-018 unchanged at 0 violations.
 
-Two honest caveats recorded rather than smoothed: `EVIDENCED` is NOT `PASS`; and the crosswalk
-s own `status_summary` (44/9/4) does NOT reconcile with the R9 audit
-s accounting (28/10/19) - the two count differently, so anyone quoting either number must say which accounting they mean.
+Two things worth recording: `EVIDENCED` is NOT `PASS`; and the crosswalk `status_summary` (file `status`
+axis, now 44/9/4) is a DIFFERENT AXIS from the R9 audit accounting (S4-active axis, now 30/8/19) - not a
+contradiction. R9 already reconciled the two axes explicitly (SPEC_DEL_ACTIVE_GAPS_AUDIT.md lines 26-52),
+and the arithmetic still holds after this round closed 2 of R9's 10 active rows (DEL-015,
+PIPD-SP-SPEC-030): 44 = 30 + 14, 9 = 8 + 1, 4 = 4, and 19 = 14 + 1 + 4; the single row separating the
+file-status axis's 9 gaps from the active axis's 8 is DEL-008, deferred by its S1/S5 stage rather than
+closed. Quoting either figure still requires naming which axis is meant.
 
+CORRECTION, and it was found by the checker, not by me: this section first claimed the two axes do NOT
+reconcile, and that the difference was recorded rather than smoothed over. That was WRONG - R9 had
+already reconciled them with the arithmetic spelled out. In trying not to smooth a problem over, I
+invented a discrepancy that does not exist. Asserting unreconciled is also a claim, and an unchecked one.
 Owner-only remaining after this: nothing on these two items. Still owner-only: the GitHub App setup and PAT rotation (both UI-only). Still external: the acceptance gates and the release signing identity.
