@@ -99,6 +99,24 @@ Disposition - three parts, each with its reason:
    `INSTALL_MANIFEST.json` V3/V4 and external readers encode are untouched. A reader that wants proof now
    has a field to read; a reader that ignores it is no worse off than before. Measured in all four modes
    above; manifest re-pinned 7/7; `selftest` 7/7 PASS; `verify_offline` `PASS_OFFLINE_T5_UNPROVEN`.
+
+   **That first attempt at the fix was INCOMPLETE, and the next verification pass proved it.** Only the
+   function's FINAL `_verdict()` call had been given the flag; `run_preflight` has **four** return points,
+   and a path that returns early still defaulted to `PROBED`. The checker's counterexample: *configured
+   App + absent PAT + `--no-probe`* returned `verdict: OK`, `abort: false` and **`provenance: PROBED`** —
+   the field claiming the source was probed when the flag had just skipped the probe. That is the same
+   mislabel the field was added to prevent, reintroduced by a partial fix.
+
+   Corrected by threading the flag through **all four** returns, and this time the completeness was
+   checked by **enumeration rather than by spot-check**: every `_verdict(` call inside `run_preflight` was
+   listed mechanically and each one asserted to carry the parameter (4/4). All five reachable modes
+   re-measured: the checker's case now yields `UNPROVEN_BY_REQUEST`; `App+absent PAT+default` yields
+   `PROBED`/`FAIL_CLOSED`; `no source` yields `FAIL_CLOSED` either way with the correct label; `PAT present
+   + --no-probe` yields `UNPROVEN_BY_REQUEST`.
+
+   The lesson, recorded because it generalises: **a flag threaded through one return path is not a flag
+   threaded through a function.** Enumerate the call sites and prove the count; do not fix the one you
+   were looking at.
 3. **The two flags themselves were NOT removed**, and the reason is stated rather than assumed:
    `--no-probe` and `--metadata-only` are explicit, self-describing opt-outs that an offline operator may
    legitimately need, and deleting them would break the documented exit-code contract. They are now

@@ -68,6 +68,13 @@ corrections below exist, so deleting it would hide the trail.
 
 **Pass 4 was valid**: `ok: true`, `served_arm == required_arm == openai-codex/gpt-6.1-sol`,
 `subject_mutation: CLEAN` (4158 files before and after, nothing added, changed or removed), 369.6s.
+Verdict **`UNCERTAIN`** - C1-C6 PASS, C7 UNCERTAIN - with six actionable disagreements (section 2.1).
+
+**Pass 5 (on the corrected artefacts) was valid too**: `ok: true`, same arm, `subject_mutation: CLEAN`
+(4179 / 4179), 357.6s. It returned **`FAIL`** - and it was right. It confirmed five of the corrections
+(C2, C3, C4, C5, C6 explicitly say "Correction CONFIRMED") and then showed that **the provenance fix did
+not do what it claimed**: see correction 7 below. That is the whole point of running a second pass on a
+correction - a fix is not verified by having been written.
 
 ### 2.1 What the valid verdict said, including the parts that went against the maker
 
@@ -133,6 +140,14 @@ narrative, and this round did not give it credentials.
    sidecar re-sealed and the reason for the re-seal recorded in its `revision_history`.
 6. **`BOARD_READBACK.json` refreshed**, because the checker correctly flagged that the recorded statuses
    had drifted from the live board. Both snapshots are kept so the drift stays visible.
+7. **The provenance fix was itself incomplete, and the second verification pass caught it.** Only the
+   function's final return had been given the flag; `run_preflight` has **four** return points. The
+   checker's counterexample - configured App + absent PAT + `--no-probe` - still reported
+   `provenance: PROBED` while the flag had just skipped the probe: the exact mislabel the field exists to
+   prevent, reintroduced by a partial fix. All four returns now carry it, and completeness was proved by
+   **enumerating every `_verdict(` call in the function and asserting each one** (4/4), not by spot-check.
+   The generalisable lesson is recorded in the FAR: a flag threaded through one return path is not a flag
+   threaded through a function.
 
 ## 4. Claim ceiling
 
@@ -184,6 +199,17 @@ acceptance of any subject.
 | Hermes | kanban board `pipd-r11-20261011` updated (two cards completed **with `--result` evidence**, because the board refuses an empty completion, plus comments); one skill reference extended with the escalated-checker dispatch traps |
 | processes | four verification lane dispatches (three VOID, one valid); no process left running |
 
-**Remote state**: the product repository's `main` still advertises `ae08136`. The round's later commits are
-**local** at the time of writing; pushing them is the next act and is recorded separately when it happens.
-Tags are untouched: `v0.1.0-preview.1 = cc9bf574…`, `v0.1.0-preview.2 = 8faa64e5…`.
+**Remote state**: the product repository's `main` now advertises **`adafe58`**, pushed this round through
+the broker with the organisation App's installation token (`ae08136..adafe58  main -> main`, exit 0,
+`credential_kind: app`, `secret_leaked: false`), and read back **independently of the broker** with every
+credential helper blanked - the remote value equals the local head, the working tree is clean and no
+helper residue was left in `.git/config`.
+
+One operational defect was found while doing it, and is disclosed rather than tidied away: the first push
+attempt **failed** (`error: src refspec main does not match any`) because the broker runs `git` in the
+**caller's** working directory, and the caller was the control plane, whose branch is
+`codex/hgk-final-closure-002` and which has no remote. Re-running with the product repository as the
+working directory succeeded. **The failure was visible and was not reported as success** - which is the
+reason the helper is blanked and the readback is done outside the broker rather than trusting its verdict.
+
+Tags are untouched: `v0.1.0-preview.1 = cc9bf574…`, `v0.1.0-preview.2 = 8faa64e5…` (re-read after the push).
