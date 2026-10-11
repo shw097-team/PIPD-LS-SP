@@ -91,13 +91,13 @@ class ChooseYourPathSection(unittest.TestCase):
     def test_section_names_both_paths_and_their_artefacts(self) -> None:
         section = _section(_readme_text(), "Choose your path: CLI or Skills")
         # CLI / headless harness: the immutable published wheel + its digest.
-        self.assertIn("v0.1.0-preview.2", section)
-        self.assertIn("pipd_ls_sp-0.1.0-py3-none-any.whl", section)
+        self.assertIn("v0.1.1-preview.3", section)
+        self.assertIn("pipd_ls_sp-0.1.1a3-py3-none-any.whl", section)
         self.assertIn(
-            "d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f", section)
+            "e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec", section)
         self.assertIn("doctor", section)
         # Skills / document consumption: the candidate-branch mount pack, not a release asset.
-        self.assertIn("dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.0-preview.2.zip", section)
+        self.assertIn("dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip", section)
         self.assertIn("MANIFEST.sha256", section)
 
     def test_cli_path_is_not_claimed_to_load_skills_into_a_host(self) -> None:
@@ -115,8 +115,10 @@ class ChooseYourPathSection(unittest.TestCase):
         self.assertRegex(section, r"Knowledge", "the manual/Knowledge route must be named")
         self.assertIn("SKILL.md", section)
         self.assertIn("PIPD_LS_SP_QUICKSTART_PROMPT.md", section)
-        # The pack must be described as candidate-branch, not a published release asset.
-        self.assertRegex(section, r"not\*\*\s+a\s*\n?published release asset|not a\s*\n?published release asset")
+        # From preview.3 the pack is genuinely a release asset of the tag, so the old "not a
+        # published release asset" wording is factually superseded. The protective intent stays:
+        # the pack must be named as an asset of the same tag, and native load is still unclaimed.
+        self.assertIn("as a release asset of the same tag", section)
         # Native loading is explicitly NOT demonstrated.
         self.assertIn("not yet demonstrated", section)
         # ...and the section must not assert a native load as if it had been shown.
