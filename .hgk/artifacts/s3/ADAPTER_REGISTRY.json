@@ -1,0 +1,444 @@
+{
+ "schema": "PIPD-ADAPTER-REGISTRY/1",
+ "version": "1",
+ "purpose": "Declared input artifact identities + source hashes for adapters, with no implicit dependency. Generated from the canonical adapter-mapping object.",
+ "generated_by": "tools/build_bclass_artifacts.py",
+ "no_implicit_dependency": {
+  "statement": "Every adapter identity below is declared explicitly. Nothing is resolved implicitly at load time; an adapter not listed here is not available.",
+  "enforcement": "the list is derived from ADAPTER_MAPPING, so it cannot drift from the loader's source"
+ },
+ "source": {
+  "object_id": "ADAPTER:MAPPING",
+  "schema": "PIPD-ADAPTER-MAPPING/1",
+  "version": "1",
+  "location": "src/pipd_ls_sp/projection.py#ADAPTER_MAPPING",
+  "sha256": "ae939d979559985dfe692bf7f8638fc571d07013270fc15e734951b37b2af1ab",
+  "hash_method": "sha256_text(canonical_json(ADAPTER_MAPPING)) using pipd_ls_sp.util"
+ },
+ "routing": {
+  "LITE": [
+   "host:generic-skills"
+  ],
+  "STANDARD": [
+   "host:generic-skills",
+   "host:hgk-receiver",
+   "host:genie-adapter"
+  ],
+  "ASSURED": [
+   "host:generic-skills",
+   "host:hgk-receiver",
+   "host:genie-adapter"
+  ]
+ },
+ "writable_scope": [
+  "dist/web/**"
+ ],
+ "adapters_materialised": [
+  {
+   "adapter_id": "host:generic-skills",
+   "dir": "host_generic-skills",
+   "entry_file": "SKILL.md",
+   "entry_kind": "skill_projection",
+   "loader": "skill_projection_v1",
+   "skill_id": "pipd-surface-projection",
+   "source_objects": [
+    "S0:SurfaceProjectionManifest",
+    "S0:ProfileBinding",
+    "PROFILE:TRIO",
+    "ADAPTER:MAPPING"
+   ],
+   "required_mappings": [
+    "S0:SurfaceProjectionManifest",
+    "S0:ProfileBinding"
+   ],
+   "field_contract_sources": [
+    "S0:SurfaceProjectionManifest",
+    "S0:ProfileBinding"
+   ],
+   "allowed_permissions": [
+    "read:canonical-objects",
+    "emit:projection"
+   ],
+   "provider": {
+    "provider_id": "generic-skill-host",
+    "admission_state": "FIXTURE_MOCK",
+    "live_integration": false,
+    "basis": "adapter checks use fixture/mock contracts only"
+   },
+   "capability_loss": [
+    {
+     "record_type": "CapabilityLoss",
+     "loss_id": "LOSS-GS-01",
+     "capability": "skill execution authority",
+     "reason": "projection carries the skill contract only; execution stays with the host",
+     "severity": "DECLARED"
+    }
+   ],
+   "nack": [
+    {
+     "record_type": "NACK",
+     "nack_id": "NACK-GS-01",
+     "statement": "effective load is a fixture/mock contract load, not a live generic host run",
+     "basis": "S5/S6 NOT_AUTHORISED"
+    },
+    {
+     "record_type": "NACK",
+     "nack_id": "NACK-GS-02",
+     "statement": "no live HGK/GENIE integration PASS is claimed by this projection",
+     "basis": "S5/S6 NOT_AUTHORISED"
+    }
+   ],
+   "materialisation_state": "MATERIALISED",
+   "live_state": "NOT_RUN"
+  },
+  {
+   "adapter_id": "host:genie-adapter",
+   "dir": "host_genie-adapter",
+   "entry_file": "object-crosswalk.json",
+   "entry_kind": "object_crosswalk",
+   "loader": "object_crosswalk_v1",
+   "skill_id": null,
+   "source_objects": [
+    "S0:GENIEProjectionRef",
+    "S0:ArtifactIdentity",
+    "S0:ProfileBinding",
+    "S0:PI-PKG",
+    "S0:PD-PKG",
+    "SEAM:S6",
+    "ADAPTER:MAPPING"
+   ],
+   "required_mappings": [
+    "S0:PD-PKG",
+    "S0:ProfileBinding",
+    "S0:PI-PKG",
+    "S0:ArtifactIdentity"
+   ],
+   "field_contract_sources": [
+    "S0:GENIEProjectionRef",
+    "S0:ArtifactIdentity"
+   ],
+   "allowed_permissions": [
+    "read:canonical-objects",
+    "emit:projection",
+    "emit:object-crosswalk"
+   ],
+   "provider": {
+    "provider_id": "genie-live-integration",
+    "admission_state": "OFF",
+    "live_integration": false,
+    "basis": "S6 GENIE live integration NOT_AUTHORISED"
+   },
+   "capability_loss": [
+    {
+     "record_type": "CapabilityLoss",
+     "loss_id": "LOSS-GA-01",
+     "capability": "truth writeback",
+     "reason": "GENIE target refs are reference-only; no truth writeback by contract",
+     "severity": "DECLARED"
+    },
+    {
+     "record_type": "CapabilityLoss",
+     "loss_id": "LOSS-GA-02",
+     "capability": "live GENIE integration",
+     "reason": "S6 GENIE live integration NOT_AUTHORISED; seam schema only",
+     "severity": "DECLARED"
+    }
+   ],
+   "nack": [
+    {
+     "record_type": "NACK",
+     "nack_id": "NACK-GA-01",
+     "statement": "object-crosswalk effective load is a fixture/mock contract load, not a live GENIE run",
+     "basis": "S6 NOT_AUTHORISED"
+    },
+    {
+     "record_type": "NACK",
+     "nack_id": "NACK-GA-02",
+     "statement": "no live GENIE integration PASS is claimed by this projection",
+     "basis": "S6 NOT_AUTHORISED"
+    }
+   ],
+   "materialisation_state": "MATERIALISED",
+   "live_state": "NOT_RUN"
+  },
+  {
+   "adapter_id": "host:hgk-receiver",
+   "dir": "host_hgk-receiver",
+   "entry_file": "receiver-map.json",
+   "entry_kind": "receiver_map",
+   "loader": "receiver_map_v1",
+   "skill_id": null,
+   "source_objects": [
+    "S0:ExecutionHandoff",
+    "S0:ExecutionBindingRef",
+    "S0:WorkOrderCandidate",
+    "SEAM:S5",
+    "ADAPTER:MAPPING"
+   ],
+   "required_mappings": [
+    "S0:ExecutionHandoff",
+    "S0:ExecutionBindingRef",
+    "S0:WorkOrderCandidate"
+   ],
+   "field_contract_sources": [
+    "S0:ExecutionHandoff",
+    "S0:ExecutionBindingRef",
+    "S0:WorkOrderCandidate"
+   ],
+   "allowed_permissions": [
+    "read:canonical-objects",
+    "emit:projection",
+    "emit:receiver-map"
+   ],
+   "provider": {
+    "provider_id": "hgk-execution-receiver",
+    "admission_state": "OFF",
+    "live_integration": false,
+    "basis": "S5 HGK execution receiver canary NOT_AUTHORISED"
+   },
+   "capability_loss": [
+    {
+     "record_type": "CapabilityLoss",
+     "loss_id": "LOSS-HR-01",
+     "capability": "runtime authority",
+     "reason": "the typed receiver map is contract-only; the receiver is never executed here",
+     "severity": "DECLARED"
+    },
+    {
+     "record_type": "CapabilityLoss",
+     "loss_id": "LOSS-HR-02",
+     "capability": "live receiver ack",
+     "reason": "S5 receiver canary NOT_AUTHORISED; ack/nack state stays contract-level",
+     "severity": "DECLARED"
+    }
+   ],
+   "nack": [
+    {
+     "record_type": "NACK",
+     "nack_id": "NACK-HR-01",
+     "statement": "receiver-map effective load is a fixture/mock contract load, not a live HGK run",
+     "basis": "S5 NOT_AUTHORISED"
+    },
+    {
+     "record_type": "NACK",
+     "nack_id": "NACK-HR-02",
+     "statement": "no live HGK integration PASS is claimed by this projection",
+     "basis": "S5 NOT_AUTHORISED"
+    }
+   ],
+   "materialisation_state": "MATERIALISED",
+   "live_state": "NOT_RUN"
+  }
+ ],
+ "adapters_declared_not_installed": [
+  {
+   "technology_id": "CAND-01",
+   "external_name": "GPT-5.6 Sol",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-01/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-02",
+   "external_name": "OpenAI Codex / Agents SDK",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-02/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-03",
+   "external_name": "AGENTS.md map/router",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-03/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-04",
+   "external_name": "OpenSpec",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-04/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-05",
+   "external_name": "GitHub Spec Kit",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-05/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-06",
+   "external_name": "MCP",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-06/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-07",
+   "external_name": "A2A",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-07/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-08",
+   "external_name": "OpenTelemetry GenAI semantic conventions",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-08/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-09",
+   "external_name": "Pi Coding Agent",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-09/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-10",
+   "external_name": "Superpowers",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-10/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-11",
+   "external_name": "gstack",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-11/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-12",
+   "external_name": "DeepSeek Harness / DSH",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-12/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-13",
+   "external_name": "Open GSD / GSD Redux",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-13/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-14",
+   "external_name": "Legacy gsd-build/get-shit-done",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-14/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-15",
+   "external_name": "mattpocock/skills",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-15/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-16",
+   "external_name": "Hugging Face Agent Skills",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-16/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-17",
+   "external_name": "AG-UI",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-17/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-18",
+   "external_name": "External NousResearch Hermes Agent",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-18/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-19",
+   "external_name": "Cordis",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-19/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-20",
+   "external_name": "LongHorizon-Harness research",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-20/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-21",
+   "external_name": "Skill-Use benchmark",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-21/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  },
+  {
+   "technology_id": "CAND-22",
+   "external_name": "HarnessRisk benchmark",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-22/adapter@r2",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "source_hash": null,
+   "source_hash_absent_because": "pin UNAVAILABLE; no installed artefact exists to hash"
+  }
+ ],
+ "counts": {
+  "materialised": 3,
+  "declared_not_installed": 22,
+  "live": 0
+ },
+ "honest_limits": [
+  "materialised counts adapters whose projection entries exist; live is 0 - all three host adapters are FIXTURE_MOCK and their live_status is NOT_RUN.",
+  "The declared-not-installed adapters are listed with source_hash null, because no installed artefact exists to hash. Omitting them would understate the declared surface.",
+  "This artefact restates existing material; it introduces no adapter and no dependency.",
+  "NOT a gate receipt: .hgk/artifacts/s3/HOST_PROJECTIONS.json is the check receipt (PIPD-HOST-PROJECTIONS-CHECK/1); this file is the registry the crosswalk row asks for."
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "schema": "PIPD-MCP-MATERIALIZATION-DECISION/1",
+ "version": "1",
+ "record_kind": "MATERIALIZATION_DECISION_RECORD",
+ "provisional": true,
+ "canonical": false,
+ "ratification_required": true,
+ "ratification_note": "No PIPD schema for this record exists; defining one is a design act. It is emitted as an EVIDENCE record, not as a canonical SSOT object, and it must not be cited as a canonical artefact until ratified.",
+ "gate": "MCP materializes only for live/authenticated/action/dynamic-discovery needs (crosswalk normative_summary for PIPD-SP-SPEC-030)",
+ "materialized": false,
+ "materialized_count": 0,
+ "why_not_materialized": "No live, authenticated, action-capable or dynamic-discovery need is present in this project's current scope, so the stated gate is not met. Nothing MCP-shaped is installed on this host.",
+ "observed_state": {
+  "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+  "current_runtime_state": "NOT_EXECUTED",
+  "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-06/adapter@r2"
+ },
+ "citations": [
+  {
+   "path": ".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json",
+   "record": "CAND-06"
+  },
+  {
+   "path": ".hgk/artifacts/CapabilityActivationLedger.json",
+   "field": "deferred_profile_gated"
+  }
+ ],
+ "forbidden_reading": "This record must NOT be read as satisfying a claim that MCP IS materialized. A positive form would assert something the repository's own records refute.",
+ "honest_limits": [
+  "provisional and non-canonical; requires owner ratification of the record shape.",
+  "STATES AN ABSENCE. It supplies evidence for the row; it does not make the row PASS."
+ ]
+}
