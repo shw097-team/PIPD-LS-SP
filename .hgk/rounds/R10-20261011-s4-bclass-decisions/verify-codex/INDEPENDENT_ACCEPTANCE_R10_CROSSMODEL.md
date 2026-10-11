@@ -70,3 +70,13 @@ only PARTIAL on the evidence checked.
 R10_LOCALLY_VERIFIED__CONTROL_PLANE_INSTALL_ADMITTED_AND_NON_ACTIVATED__CROSS_MODEL_RE_VERIFICATION_OWED.
 Cross-model means a different model family on the SAME control plane and the SAME host. It is not
 external acceptance. The maker did not sign this.
+
+## 8. Re-verification (run 3): FAIL again, second dangling target fixed
+
+Run 3 verdict = FAIL, on checks 10 and 12. Check 10 exposed a SECOND dangling target (control_plane_admission_file.target) - same root cause, field I had not repointed. Fixed in HG-KSEOS d642525; every path-valued target now resolves.
+
+Receipt for run 3: served_arm == required_arm == openai-codex/gpt-6.1-sol, used_rank 4, relay openai-p6a1fe3 / 200 / effort medium, mutated=False (3990 -> 3990, identical digest).
+
+New could_not_verify fact: a full-tree HG-KSEOS snapshot was impossible because var/far-lane-sod-003/evidence/relay-supervisor.cooldown.json.lock denied read access.
+
+Conclusion: re-verification remains OWED. Both FAILs were real artefact defects, not harness artefacts - which is why the harness/artefact distinction from R9 had to be made explicitly here.

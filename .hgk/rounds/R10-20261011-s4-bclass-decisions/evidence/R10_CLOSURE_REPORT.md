@@ -114,3 +114,17 @@ that the broader acceptance table was only **PARTIAL** on the evidence checked.
 **Claim ceiling:** `R10_LOCALLY_VERIFIED__CONTROL_PLANE_INSTALL_ADMITTED_AND_NON_ACTIVATED__CROSS_MODEL_RE_VERIFICATION_OWED`.
 The maker did not sign this. `PARTIAL_CHALLENGE` stands, now specific: four named rows blocked on named
 missing objects, of which one is refused as external and two now carry truthful evidence.
+
+## 9. Re-verification (run 3) - and a SECOND dangling target, found by being re-run
+
+The re-verification was run against the frozen post-fix commit. Receipt again clean: `required_arm == served_arm == openai-codex/gpt-6.1-sol`, `used_rank 4`, relay `openai-p6a1fe3` / `200` / `medium`, and `mutated=False` (3990 -> 3990, identical digest).
+
+**Verdict: FAIL again** - and again the checker was right. Check 10 failed for a genuinely different reason: the manifest carried a **second** target `control_plane_admission_file.target` pointing at the same never-created Route-B round. I had repointed only the first field. A single fix to a class of defect is not a fix to the class.
+
+Fixed in HG-KSEOS `d642525`: **every path-valued target in the manifest now resolves (zero dangling)**. The pin `e521ae86...` was already correct - only the path was wrong.
+
+Check 12 also failed on this run, where it had been PARTIAL. The receipt acceptance table is the weak point: it states things this line of work asserts rather than things a checker can establish.
+
+Run 3 new fact worth recording: a supplemental HG-KSEOS full-tree snapshot could not complete because `var/far-lane-sod-003/evidence/relay-supervisor.cooldown.json.lock` **denied read access**, so no full-tree HG-KSEOS integrity result is claimed in either direction.
+
+Status: **re-verification still owed.** Two rounds of FAIL have now each surfaced a real defect in the control-plane artefact, which is exactly the value of a checker that does not agree by default.
