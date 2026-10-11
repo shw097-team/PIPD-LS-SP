@@ -1,0 +1,118 @@
++ set -e
++ BASE=https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2
++ curl -fsSLO https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/pipd_ls_sp-0.1.0-py3-none-any.whl
++ curl -fsSLO https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/SHA256SUMS
++ grep '  pipd_ls_sp-0.1.0-py3-none-any.whl$' SHA256SUMS
++ sha256sum -c -
+pipd_ls_sp-0.1.0-py3-none-any.whl: OK
++ python -m venv .venv
++ . .venv/bin/activate
++ . .venv/Scripts/activate
+++ deactivate nondestructive
+++ '[' -n '' ']'
+++ '[' -n '' ']'
+++ hash -r
+++ '[' -n '' ']'
+++ unset VIRTUAL_ENV
+++ unset VIRTUAL_ENV_PROMPT
+++ '[' '!' nondestructive = nondestructive ']'
+++ VIRTUAL_ENV='C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4post\repair\r1trace_sys\.venv'
+++ export VIRTUAL_ENV
+++ _OLD_VIRTUAL_PATH='/c/Users/user/AppData/Local/Programs/Python/Python311:/c/Users/user/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/user/bin:/c/Users/user/AppData/Local/Microsoft/WinGet/Links:/c/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/node:/c/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/node/bin:/c/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/hermes-agent/venv/Scripts:/c/Users/user/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell:/c/Program Files/WindowsApps/Microsoft.PowerShell_7.6.6.0_x64__8wekyb3d8bbwe:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/cmd:/c/Program Files/Calibre2:/c/Program Files/nodejs:/c/Program Files/dotnet:/c/Program Files/Docker/Docker/resources/bin:/c/Users/user/AppData/Local/hermes/bin:/c/Users/user/.local/bin:/c/Users/user/AppData/Local/Programs/Python/Python311/Scripts:/c/Users/user/AppData/Local/Programs/Python/Python311:/c/Users/user/AppData/Local/Microsoft/WindowsApps:/c/Users/user/AppData/Local/Programs/Microsoft VS Code/bin:/usr/bin:/c/Users/user/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-8.1-full_build/bin:/c/Users/user/AppData/Local/Microsoft/WinGet/Packages/DenoLand.Deno_Microsoft.Winget.Source_8wekyb3d8bbwe:/c/Users/user/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-124716-g054dffd133-win64-gpl/bin:/c/Users/user/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.yt-dlp_Microsoft.Winget.Source_8wekyb3d8bbwe:/c/Users/user/AppData/Roaming/npm:/c/Users/user/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/user/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/user/AppData/Local/PowerToys/DSCModules:/usr/bin/vendor_perl:/usr/bin/core_perl'
+++ PATH='C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4post\repair\r1trace_sys\.venv/Scripts:/c/Users/user/AppData/Local/Programs/Python/Python311:/c/Users/user/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/user/bin:/c/Users/user/AppData/Local/Microsoft/WinGet/Links:/c/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/node:/c/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/node/bin:/c/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/hermes-agent/venv/Scripts:/c/Users/user/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell:/c/Program Files/WindowsApps/Microsoft.PowerShell_7.6.6.0_x64__8wekyb3d8bbwe:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/cmd:/c/Program Files/Calibre2:/c/Program Files/nodejs:/c/Program Files/dotnet:/c/Program Files/Docker/Docker/resources/bin:/c/Users/user/AppData/Local/hermes/bin:/c/Users/user/.local/bin:/c/Users/user/AppData/Local/Programs/Python/Python311/Scripts:/c/Users/user/AppData/Local/Programs/Python/Python311:/c/Users/user/AppData/Local/Microsoft/WindowsApps:/c/Users/user/AppData/Local/Programs/Microsoft VS Code/bin:/usr/bin:/c/Users/user/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-8.1-full_build/bin:/c/Users/user/AppData/Local/Microsoft/WinGet/Packages/DenoLand.Deno_Microsoft.Winget.Source_8wekyb3d8bbwe:/c/Users/user/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-124716-g054dffd133-win64-gpl/bin:/c/Users/user/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.yt-dlp_Microsoft.Winget.Source_8wekyb3d8bbwe:/c/Users/user/AppData/Roaming/npm:/c/Users/user/AppData/Local/Microsoft/WinGet/Packages/BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe/ripgrep-15.2.0-x86_64-pc-windows-msvc:/c/Users/user/AppData/Local/Programs/Cua/cua-driver/bin:/c/Users/user/AppData/Local/PowerToys/DSCModules:/usr/bin/vendor_perl:/usr/bin/core_perl'
+++ export PATH
+++ '[' -n '' ']'
+++ '[' -z '' ']'
+++ _OLD_VIRTUAL_PS1=
+++ PS1='(.venv) '
+++ export PS1
+++ VIRTUAL_ENV_PROMPT='(.venv) '
+++ export VIRTUAL_ENV_PROMPT
+++ hash -r
++ python -m pip install ./pipd_ls_sp-0.1.0-py3-none-any.whl
+Processing c:\users\user\appdata\local\packages\openai.codex_2p2nqsd0c76g0\localcache\local\hermes\cache\scratch\s4post\repair\r1trace_sys\pipd_ls_sp-0.1.0-py3-none-any.whl
+Collecting jsonschema>=4.0 (from pipd-ls-sp==0.1.0)
+  Using cached jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+Collecting attrs>=22.2.0 (from jsonschema>=4.0->pipd-ls-sp==0.1.0)
+  Using cached attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=4.0->pipd-ls-sp==0.1.0)
+  Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+Collecting referencing>=0.28.4 (from jsonschema>=4.0->pipd-ls-sp==0.1.0)
+  Using cached referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+Collecting rpds-py>=0.25.0 (from jsonschema>=4.0->pipd-ls-sp==0.1.0)
+  Using cached rpds_py-2026.9.1-cp311-cp311-win_amd64.whl.metadata (4.2 kB)
+Collecting typing-extensions>=4.4.0 (from referencing>=0.28.4->jsonschema>=4.0->pipd-ls-sp==0.1.0)
+  Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Using cached jsonschema-4.26.0-py3-none-any.whl (90 kB)
+Using cached attrs-26.1.0-py3-none-any.whl (67 kB)
+Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+Using cached referencing-0.37.0-py3-none-any.whl (26 kB)
+Using cached rpds_py-2026.9.1-cp311-cp311-win_amd64.whl (226 kB)
+Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Installing collected packages: typing-extensions, rpds-py, attrs, referencing, jsonschema-specifications, jsonschema, pipd-ls-sp
+Successfully installed attrs-26.1.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 pipd-ls-sp-0.1.0 referencing-0.37.0 rpds-py-2026.9.1 typing-extensions-4.16.0
+
+[notice] A new release of pip is available: 24.0 -> 26.2.1
+[notice] To update, run: python.exe -m pip install --upgrade pip
++ pipd doctor
+{
+ "families": 19,
+ "findings": [],
+ "schema_source": {
+  "mode": "INSTALLED",
+  "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4post\\repair\\r1trace_sys\\.venv\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4post\\repair\\r1trace_sys\\.venv\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+  ]
+ },
+ "skill_drift": [],
+ "verdict": "PASS"
+}
++ pipd --help
+usage: pipd [-h] [--root ROOT]
+            {init,intake,profile,compile-pi,bind-pd,compile-ecp,compile-tqaep,validate,doctor,project,export,diff,repair}
+            ...
+
+PIPD-LS-SP compiler CLI 0.1.0 (13 commands)
+
+positional arguments:
+  {init,intake,profile,compile-pi,bind-pd,compile-ecp,compile-tqaep,validate,doctor,project,export,diff,repair}
+
+options:
+  -h, --help            show this help message and exit
+  --root ROOT
++ pipd --root ./myproject init
+{
+ "contract_families": 19,
+ "created": [
+  "docs",
+  "schemas",
+  "src",
+  "tests",
+  "dist"
+ ],
+ "root": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4post\\repair\\r1trace_sys\\myproject",
+ "schema_source": {
+  "mode": "INSTALLED",
+  "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4post\\repair\\r1trace_sys\\.venv\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4post\\repair\\r1trace_sys\\myproject\\schemas",
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4post\\repair\\r1trace_sys\\.venv\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+  ]
+ },
+ "verdict": "PASS"
+}
++ pipd doctor
+{
+ "families": 19,
+ "findings": [],
+ "schema_source": {
+  "mode": "INSTALLED",
+  "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4post\\repair\\r1trace_sys\\.venv\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4post\\repair\\r1trace_sys\\.venv\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+  ]
+ },
+ "skill_drift": [],
+ "verdict": "PASS"
+}

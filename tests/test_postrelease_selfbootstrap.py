@@ -68,6 +68,57 @@ class TestSelfBootstrap(unittest.TestCase):
             self.assertEqual(x["content_hash"], y["content_hash"])
             self.assertEqual(x["subject_id"], y["subject_id"])
 
+    def test_replay_is_root_bound_not_root_independent(self) -> None:
+        """The determinism the example advertises is bounded to identical rooted inputs (F03).
+
+        Same ``RepoContext.root`` -> identical PD/ECP/bundle digests (and everything else).
+        A *different* root -> PD and ECP digests may differ (PD digests the absolute root by
+        design and ECP derives from PD), while PI and TQAEP stay identical. This pins the
+        corrected, weaker claim: environment binding, not nondeterminism.
+        """
+        import hashlib
+        import tempfile
+
+        def slice_at(root):
+            card = pipeline.intake(GOAL, sources=[str(CLAUSE_SOURCE)],
+                                   constraints=["candidate-only, no release"],
+                                   non_goals=["no body copied"])
+            pi = pipeline.compile_pi(card, "LITE")
+            pd = pipeline.bind_pd(pi, {"root": str(root), "writable_scope": "src/**"})
+            ecp = pipeline.compile_ecp(pd, pi)
+            tq = pipeline.compile_tqaep(pi, ecp, maker="HERMES-MAKER",
+                                        checker="GLM-5.3-FLASH-AO-LANE",
+                                        checker_execution_receipt="deleg_example/lane-C")
+            # Bundle digest exactly as the example driver computes it (compute_digests):
+            # sha256 over the sorted per-artefact content hashes.
+            rows = {"intent_card": card["content_hash"], "pi": pi["content_hash"],
+                    "pd": pd["content_hash"], "ecp": ecp["content_hash"],
+                    "tqaep": tq["content_hash"]}
+            bundle = hashlib.sha256(
+                json.dumps(rows, ensure_ascii=False, sort_keys=True,
+                           separators=(",", ":")).encode("utf-8")).hexdigest()
+            return {"PI": pi["content_hash"], "TQAEP": tq["content_hash"],
+                    "PD": pd["content_hash"], "ECP": ecp["content_hash"],
+                    "bundle": bundle}
+
+        with tempfile.TemporaryDirectory(prefix="pipd_root_a_") as ra, tempfile.TemporaryDirectory(
+                prefix="pipd_root_b_") as rb:
+            # (a) same root, twice -> identical everywhere
+            same_1 = slice_at(ra)
+            same_2 = slice_at(ra)
+            self.assertEqual(same_1, same_2, "same-root replay is not deterministic")
+
+            # (b) different roots -> PI/TQAEP identical; PD/ECP (hence bundle) may differ
+            other = slice_at(rb)
+            self.assertEqual(same_1["PI"], other["PI"])
+            self.assertEqual(same_1["TQAEP"], other["TQAEP"])
+            self.assertNotEqual(same_1["PD"], other["PD"],
+                                "PD digest did not bind RepoContext.root")
+            self.assertNotEqual(same_1["ECP"], other["ECP"],
+                                "ECP digest did not track its PD root binding")
+            self.assertNotEqual(same_1["bundle"], other["bundle"],
+                                "bundle digest did not track its root-bound components")
+
     def test_trace_closure_has_no_orphans(self) -> None:
         _, pi, pd, ecp, _, tq = self._slice()
         rep = pipeline.trace_closure({"pi": pi, "pd": pd, "ecp": ecp, "tqaep": tq})

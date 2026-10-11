@@ -1,0 +1,88 @@
+{
+ "work_order": "WO-REPAIR-1",
+ "round": "POSTRELEASE-20261011-s4-narrow-repair",
+ "branch": "postrelease-narrow-repair-20261011",
+ "head": "dbe387195d25aca32829f84c051b7bf52b5931eb",
+ "tree": "7606c769",
+ "committed": false,
+ "repairs": {
+  "R1": {
+   "finding": "F07",
+   "summary": "bash quickstart must fail fast and activate portably (POSIX + Windows)",
+   "files_changed": ["README.md", "tests/test_postrelease_quickstart.py"],
+   "acceptance": [
+    {
+     "id": "R1.a",
+     "command": "python -m unittest tests.test_postrelease_quickstart -v",
+     "exit_code": 0,
+     "result": "Ran 7 tests, OK",
+     "verdict": "PASS"
+    },
+    {
+     "id": "R1.b",
+     "command": "python -m unittest tests.test_postrelease_quickstart -v",
+     "detail": "new class QuickstartBashFailFast asserts: first line starts with `set -e`; a line falls back to `.venv/Scripts/activate` via `||`; no bare POSIX-only activate line",
+     "exit_code": 0,
+     "verdict": "PASS"
+    },
+    {
+     "id": "R1.c-failfast",
+     "command": "bash -x quickstart.sh (extracted programmatically; pinned interpreter with pip-less venv)",
+     "exit_code": 1,
+     "detail": "block aborts at `python -m venv`; no step after it runs; NO global install",
+     "artifact": "repair/traces/r1_failfast_pinned_interpreter.log",
+     "verdict": "PASS"
+    },
+    {
+     "id": "R1.c-venvinstall",
+     "command": "PATH=<python311>:$PATH bash -x quickstart.sh (extracted programmatically)",
+     "exit_code": 0,
+     "detail": "`. .venv/bin/activate` exit 1 -> `|| . .venv/Scripts/activate` fires -> pip install lands in .venv (pip show Location = .venv\\Lib\\site-packages; sys.path includes .venv)",
+     "artifact": "repair/traces/r1_venv_install_system_python.log, repair/traces/r1_venv_install_step_exits.log, repair/traces/r1_venv_pip_show_sys_path.log",
+     "verdict": "PASS"
+    },
+    {
+     "id": "R1.cleanup",
+     "command": "importlib.util.find_spec('pipd_ls_sp') in global interpreters; rm scratch venvs",
+     "detail": "no global site-packages residue (spec None in both interpreters); both scratch venvs removed",
+     "exit_code": 0,
+     "verdict": "PASS"
+    }
+   ]
+  },
+  "R2": {
+   "finding": "F03",
+   "summary": "self-bootstrap README must state determinism only for identical rooted inputs",
+   "files_changed": ["examples/self-bootstrap/README.md", "tests/test_postrelease_selfbootstrap.py"],
+   "acceptance": [
+    {
+     "id": "R2.a",
+     "command": "python -m unittest tests.test_postrelease_selfbootstrap -v",
+     "exit_code": 0,
+     "result": "Ran 7 tests, OK",
+     "detail": "test_replay_is_root_bound_not_root_independent: same root -> identical PI/PD/ECP/TQAEP+bundle; different roots -> PI/TQAEP identical, PD/ECP/bundle differ",
+     "verdict": "PASS"
+    },
+    {
+     "id": "R2.b",
+     "command": "python examples/self-bootstrap/run_selfbootstrap.py --root <scratch/sb_replay> (x2)",
+     "exit_code": 0,
+     "detail": "two same-root runs IDENTICAL (bundle_digest 436a1e7e6a56fb9c); committed digests.json recomputes to its own bundle_digest (CONSISTENT, not stale) -> NOT regenerated",
+     "artifact": "repair/traces/r2_sbroot_run1_digests.json, repair/traces/r2_sbroot_run2_digests.json",
+     "verdict": "PASS"
+    }
+   ]
+  }
+ },
+ "not_done": {
+  "committed_or_released": false,
+  "out_of_scope_findings": ["F04", "F05", "F06", "F11", "F12"],
+  "code_or_schema_changed": false,
+  "checksum_path_weakened": false
+ },
+ "observations": [
+  "set -e plus the `||` fallback make the block either complete in the venv or abort; the pinned interpreter's pip-less venv makes the fail-fast demonstrable.",
+  "run_selfbootstrap.py unconditionally rewrites digests.json AND negative_stale_context.txt on every positive run; negative_stale_context.txt is out of write scope and was restored to HEAD.",
+  "The committed digests.json records schema_source.path with a duplicated drive-letter segment (C:\\c\\Users\\...); cosmetic in the echo, no digest effect; reported, not repaired."
+ ]
+}

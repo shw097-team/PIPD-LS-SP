@@ -1,34 +1,49 @@
 {
  "schema": "PIPD-S4POST-RAW-LOG-POINTERS/1",
- "note": "These transcripts are the raw stdout/stderr of the four sealed EXECUTE lanes. They are NOT in the commit; the per-WorkOrder *_RECEIPT.md files (in the commit) carry the raw acceptance commands and their outputs.",
+ "note": "These are the raw stdout/stderr transcripts of the sealed Codex CLI lanes (4 EXECUTE work-order lanes on opencode-go/deepseek-v4.1-flash, 2 REPAIR lanes on the same route, 1 VERIFY lane on gpt-6.1-sol over OpenAI OAuth). They are NOT in the commit because of size; the per-lane *_RECEIPT.md files in the commit carry the raw acceptance commands and their outputs. Each transcript is content-addressed here so its identity is pinned even though its bytes stay on the authoring host.",
+ "excluded_total_bytes": 10339420,
  "logs": [
   {
    "file": "lane/WO-CONTRACT03.exec-20261011T083646Z.log",
    "bytes": 1516331,
    "sha256": "680d49bb066d9feff2984576b13a399833e56e57539136c9bdaa32592c7acfe5",
-   "included_in_commit": false,
-   "why": "raw 0.8-3.1 MB Codex lane transcript; kept on the authoring host and referenced here to keep the published branch light"
+   "included_in_commit": false
   },
   {
    "file": "lane/WO-SELFBOOT04.exec-20261011T083646Z.log",
    "bytes": 3013513,
    "sha256": "e6d7967b927d937cf54064dab5ceee0d0f3014c673bf23bf80c133a9c4890b25",
-   "included_in_commit": false,
-   "why": "raw 0.8-3.1 MB Codex lane transcript; kept on the authoring host and referenced here to keep the published branch light"
+   "included_in_commit": false
   },
   {
    "file": "lane/WO-UX01.exec-20261011T083646Z.log",
    "bytes": 780021,
    "sha256": "939e9410efe4c4c1dbe80dd369f58285176fa05dcbcda93dbb86fbd230b095c1",
-   "included_in_commit": false,
-   "why": "raw 0.8-3.1 MB Codex lane transcript; kept on the authoring host and referenced here to keep the published branch light"
+   "included_in_commit": false
   },
   {
    "file": "lane/WO-WEB02.exec-20261011T083646Z.log",
    "bytes": 3124251,
    "sha256": "9e975b5d8117b6b388270caab700d5fe9f1acc1ff6a00f557dccaa8fc8fd0633",
-   "included_in_commit": false,
-   "why": "raw 0.8-3.1 MB Codex lane transcript; kept on the authoring host and referenced here to keep the published branch light"
+   "included_in_commit": false
+  },
+  {
+   "file": "repair/WO-REPAIR-1.exec-20261011T101526Z.log",
+   "bytes": 768821,
+   "sha256": "8cbe1300fe7c97aed1457578a09760bdfe4e235a03ef2eb543a2b05ad0f99144",
+   "included_in_commit": false
+  },
+  {
+   "file": "repair/WO-REPAIR-2.exec-20261011T103338Z.log",
+   "bytes": 151749,
+   "sha256": "f8a8aa1af1ba3aeb3cf0c5a35b34faad08b09a78a3fc6d73819245df2d1a32ca",
+   "included_in_commit": false
+  },
+  {
+   "file": "verify/VERIFY_gpt61sol.exec-20261011T095259Z.log",
+   "bytes": 984734,
+   "sha256": "9d7425fe4f355c8b436f6a22150b1f2e8223c1606a79f5f7a90b43a6a28472ca",
+   "included_in_commit": false
   }
  ]
 }

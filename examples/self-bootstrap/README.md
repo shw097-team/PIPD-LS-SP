@@ -15,8 +15,13 @@ stdout/stderr/exit of an actual run, and every digest is recomputed from that ru
 * The repository is **self-bootstrapping on the positive path**: a fresh, isolated workspace can be
   created (`init`) and driven through the documented commands with no interactive input and no
   model on the compilation path.
-* The chain is **replay-deterministic**: no timestamp enters a digested field, so the same inputs
-  produce identical artefact digests across runs (`digests.json`).
+* The chain is **replay-deterministic for identical rooted inputs**: no timestamp enters a digested
+  field, so the **same intent, the same clause source and the same `RepoContext.root`** produce
+  identical artefact digests across runs (`digests.json`). The determinism is bounded on purpose:
+  PD binds an absolute `RepoContext.root` **by design**, and ECP is derived from PD, so a *different*
+  root legitimately yields different PD and ECP digests while PI and TQAEP stay identical. That is
+  **environment binding, not nondeterminism** — the same inputs at a different root are not the same
+  inputs.
 * Refusals are **typed and non-zero**: a missing source locator is refused `AUTHORITY_UNKNOWN`, and
   a stale `RepoContext` is refused `STALE_PROVIDER`; both are captured verbatim in
   `negative_stale_context.txt`.

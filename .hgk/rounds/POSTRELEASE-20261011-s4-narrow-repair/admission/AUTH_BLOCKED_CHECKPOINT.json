@@ -1,0 +1,71 @@
+{
+ "schema": "PIPD-S4POST-AUTH-CHECKPOINT/1",
+ "task_id": "PIPD-LS-SP-S4-POSTRELEASE-NARROW-REPAIR-20261011",
+ "round": "POSTRELEASE-20261011-s4-narrow-repair",
+ "state": "AUTH_BLOCKED",
+ "generated_utc": "2026-10-11T09:55:12Z",
+ "intended_external_effect": {
+  "action": "push candidate branch postrelease-narrow-repair-20261011 to origin and open a pull request",
+  "target": "https://github.com/shw097-team/PIPD-LS-SP",
+  "branch": "postrelease-narrow-repair-20261011",
+  "commit": "dbe387195d25aca32829f84c051b7bf52b5931eb",
+  "tree": "7606c769e5d1302ebc99cbc2ce8f9a848dd18745",
+  "release_tag_created": false,
+  "new_prerelease_created": false
+ },
+ "credential_path_used": "HG-KSEOS HGK-authorised credential broker (scripts/cred/cred_broker.py) with HGK_CRED_FILE set to the owner-named job file",
+ "broker_evidence": {
+  "cred_preflight_metadata_only": {
+   "verdict": "OK",
+   "detail": "file present, 166 bytes",
+   "value_read": false
+  },
+  "cred_broker_dry_run": {
+   "verdict": "ABORTED_BY_PREFLIGHT",
+   "exit": 2,
+   "failed_required": [
+    "cred_api_valid"
+   ],
+   "detail": "GET /user -> 401"
+  },
+  "independent_repo_scoped_probe": {
+   "method": "urllib with Authorization: Bearer <resolved secret>; only HTTP status printed, value never echoed",
+   "results": {
+    "https://api.github.com/user": 401,
+    "https://api.github.com/repos/shw097-team/PIPD-LS-SP": 401,
+    "https://api.github.com/repos/shw097-team/PIPD-LS-SP/git/refs/heads/main": 401
+   },
+   "reading": "the named fine-grained PAT is present and well-formed (93 chars, github_pat_ prefix) but is rejected on every endpoint, including the target repository - expired or revoked"
+  },
+  "secret_handling": "the value was read only inside a short-lived process; it was never printed, logged, passed in argv, written to .git/config, or included in any evidence artefact"
+ },
+ "remote_state_readback_at_checkpoint": {
+  "method": "anonymous git ls-remote (no credential)",
+  "refs/heads/main": "4445db5a6d1b3138946fd7c4fe3b712e4faf1af7",
+  "refs/tags/v0.1.0-preview.1": "cc9bf574c3b3f0f44ea615b5c67ae40d74efee32",
+  "refs/tags/v0.1.0-preview.2": "8faa64e581e8c25f5ec355475e29561847da3ead",
+  "postrelease_branch_present": false,
+  "reading": "main and both tags are byte-identical to the reviewed identities; the released tag was not touched"
+ },
+ "therefore": {
+  "publication": "NOT_EXECUTED_WITH_CAUSE",
+  "reason": "AUTH_BLOCKED - the only credential route named by the order (the fine-grained PAT at the owner's API-KEY file) does not authenticate against the target repository",
+  "not_done_and_why": [
+   "branch push: blocked by AUTH_BLOCKED",
+   "pull request: blocked by AUTH_BLOCKED (a PR cannot exist without a pushed head branch)",
+   "new prerelease / tag: additionally a HITL event under F0 section 7 and never attempted"
+  ],
+  "what_the_operator_can_do": [
+   "refresh or re-issue the fine-grained PAT for shw097-team/PIPD-LS-SP (Contents: read+write, Pull requests: read+write) and re-run the checkpoint",
+   "or configure HGK_APP_ID / HGK_APP_KEY / HGK_APP_INSTALLATION_ID so the broker mints a GitHub App installation token instead of using the PAT",
+   "or authorise a manual push of the exact candidate commit dbe387195d25aca32829f84c051b7bf52b5931eb by any other owner-controlled route"
+  ],
+  "no_workaround_used": "no higher-privilege token, no alternate account, no credential smuggling; the candidate was NOT rewritten to avoid the failure"
+ },
+ "local_candidate_is_intact": {
+  "commit": "dbe387195d25aca32829f84c051b7bf52b5931eb",
+  "branch": "postrelease-narrow-repair-20261011",
+  "rollback_pointer": "4445db5a6d1b3138946fd7c4fe3b712e4faf1af7",
+  "resume": "git -C <repo> push origin dbe387195d25aca32829f84c051b7bf52b5931eb:refs/heads/postrelease-narrow-repair-20261011 once a working credential exists"
+ }
+}

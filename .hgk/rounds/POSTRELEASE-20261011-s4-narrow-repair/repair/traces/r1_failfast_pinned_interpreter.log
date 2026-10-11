@@ -1,0 +1,9 @@
++ set -e
++ BASE=https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2
++ curl -fsSLO https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/pipd_ls_sp-0.1.0-py3-none-any.whl
++ curl -fsSLO https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/SHA256SUMS
++ grep '  pipd_ls_sp-0.1.0-py3-none-any.whl$' SHA256SUMS
++ sha256sum -c -
+pipd_ls_sp-0.1.0-py3-none-any.whl: OK
++ python -m venv .venv
+Error: Command '['C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4post\\repair\\r1trace\\.venv\\Scripts\\python.exe', '-m', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 1.

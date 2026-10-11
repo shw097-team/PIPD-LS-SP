@@ -153,5 +153,115 @@ class QuickstartChecksumScope(unittest.TestCase):
                 )
 
 
+class QuickstartBashFailFast(unittest.TestCase):
+    """R1 (F07): the bash quickstart must fail fast and activate portably.
+
+    On Windows ``.venv/bin/activate`` does not exist, so a bare ``. .venv/bin/activate`` exits
+    non-zero while the unfailed block continues and ``pip install`` lands in the GLOBAL
+    interpreter. The block must therefore (1) start with ``set -e`` so the first failing step
+    aborts it, and (2) activate with a POSIX-or-Windows fallback so it never sources a
+    path that does not exist on the host.
+    """
+
+    def _quickstart_bash(self) -> str:
+        text = _readme_text()
+        block = next(
+            (b for b in _fenced_blocks(text, "bash") if WHEEL in b and SHA256SUMS in b), None)
+        self.assertIsNotNone(block, "no bash block fetches the wheel + SHA256SUMS")
+        return block
+
+    def test_block_starts_with_set_e(self) -> None:
+        lines = self._quickstart_bash().splitlines()
+        self.assertTrue(lines, "bash quickstart block is empty")
+        self.assertTrue(
+            lines[0].startswith("set -e"),
+            f"bash quickstart block must start with `set -e` (fail fast); first line is "
+            f"{lines[0]!r}",
+        )
+
+    def test_block_activates_portably_with_windows_fallback(self) -> None:
+        lines = self._quickstart_bash().splitlines()
+        self.assertTrue(
+            any("||" in ln and ".venv/Scripts/activate" in ln for ln in lines),
+            "bash quickstart block has no line that falls back to `.venv/Scripts/activate` "
+            "(the Windows layout)",
+        )
+
+    def test_no_bare_posix_only_activate(self) -> None:
+        # A bare `. .venv/bin/activate` (no fallback) exits non-zero on Windows and — absent a
+        # failing-fast guard — lets the block continue into a GLOBAL install.
+        for line in self._quickstart_bash().splitlines():
+            code = line.split("#", 1)[0]
+            if ".venv/bin/activate" in code:
+                self.assertIn(
+                    "||",
+                    code,
+                    f"a POSIX-only `.venv/bin/activate` line can fail silently: {line!r}",
+                )
+
+
+class QuickstartPowerShellFailFast(unittest.TestCase):
+    """R2 (F07, PowerShell): the PowerShell quickstart must fail fast.
+
+    Under PowerShell ``$ErrorActionPreference = 'Stop'`` alone is NOT enough: native commands
+    (``python -m venv``, ``python -m pip install``, ``pipd ...``) can exit non-zero without
+    raising, so the block must ALSO guard each native step on ``$LASTEXITCODE``. These tests pin
+    both halves of that contract. No network, no host interpreter — README text only.
+    """
+
+    def _quickstart_ps(self) -> str:
+        text = _readme_text()
+        block = next(
+            (b for b in _fenced_blocks(text, "powershell") if WHEEL in b and SHA256SUMS in b), None)
+        self.assertIsNotNone(block, "no powershell block fetches the wheel + SHA256SUMS")
+        return block
+
+    def _code_lines(self, block: str) -> list[str]:
+        """Lines with comments stripped and blanks removed."""
+        out: list[str] = []
+        for line in block.splitlines():
+            code = line.split("#", 1)[0].strip()
+            if code:
+                out.append(code)
+        return out
+
+    def test_first_code_line_sets_error_action_preference_stop(self) -> None:
+        lines = self._code_lines(self._quickstart_ps())
+        self.assertTrue(lines, "powershell quickstart block is empty")
+        first = lines[0]
+        self.assertIn(
+            "$ErrorActionPreference",
+            first,
+            f"powershell block must set $ErrorActionPreference first (fail fast); first code "
+            f"line is {first!r}",
+        )
+        self.assertRegex(
+            first,
+            r"\$ErrorActionPreference\s*=\s*['\"]Stop['\"]",
+            f"powershell block must set $ErrorActionPreference to 'Stop'; first code line is "
+            f"{first!r}",
+        )
+
+    def test_every_native_command_is_last_exit_code_guarded(self) -> None:
+        # $ErrorActionPreference does not trap native-command failures in this host's pwsh
+        # ($PSNativeCommandUseErrorActionPreference is False), so every native step must be
+        # followed by an explicit `if ($LASTEXITCODE -ne 0) { throw ... }` guard. A native step
+        # is any visible python/pipd invocation.
+        lines = self._code_lines(self._quickstart_ps())
+        native = [
+            i for i, ln in enumerate(lines)
+            if re.match(r"(python\b|pipd\b)", ln) and "LASTEXITCODE" not in ln
+        ]
+        self.assertTrue(native, "no native steps parsed from the powershell quickstart block")
+        for i in native:
+            nxt = lines[i + 1] if i + 1 < len(lines) else ""
+            self.assertRegex(
+                nxt,
+                r"\$LASTEXITCODE\s+-ne\s+0",
+                f"native step is not guarded on $LASTEXITCODE: {lines[i]!r} (next line {nxt!r})",
+            )
+            self.assertIn("throw", nxt, f"guard does not throw: {nxt!r}")
+
+
 if __name__ == "__main__":
     unittest.main()

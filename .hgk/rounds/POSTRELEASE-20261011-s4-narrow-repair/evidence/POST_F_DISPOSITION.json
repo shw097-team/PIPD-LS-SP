@@ -1,0 +1,128 @@
+{
+ "schema": "PIPD-S4POST-SOURCE-REPORT-DISPOSITION/1",
+ "source_report": "PIPD_LS_SP_S4_MVP_OpenSource_PostRelease_Independent_Challenge_Acceptance_2026-10-11.md",
+ "source_report_sha256_note": "the order quotes fc30c2302b8f64aa9a694c01359b5397ebd9ae52059518b2c8a5f94737550231; this round consumed the attached copy and did not re-derive that digest",
+ "round": "POSTRELEASE-20261011-s4-narrow-repair",
+ "count": 10,
+ "dispositions": [
+  {
+   "id": "POST-F01",
+   "class": "CONFIRMED_DEFECT",
+   "finding": "README only downloaded the wheel while SHA256SUMS lists three assets, so a bare sha256sum -c returns non-zero",
+   "counterexample_re_measured": "three assets, only the wheel present -> bare check exits 1 with 2 FAILED open or read (re-measured this round: EXIT_B=1)",
+   "state": "REPAIRED",
+   "owner_workorder": "WO-S4-UX-01",
+   "change": "the Quickstart bash block now selects the wheel's own line (grep ... | sha256sum -c -) and documents the download-all alternative",
+   "pos_neg_evidence": "POS: filtered check exits 0 with ': OK'. NEG: the old bare command still exits 1 (shown side by side). NEG: one mutated byte yields a different digest and is rejected. Tests: tests/test_postrelease_quickstart.py (4 tests).",
+   "independent_check": "verify/VERIFY_RECEIPT_gpt61sol.json check C1 = PASS"
+  },
+  {
+   "id": "POST-F02",
+   "class": "CONFIRMED_DEFECT",
+   "finding": "compute_profile did not reject duplicate axes; profile_record de-duplicated afterwards, so the basis and the emitted record disagreed",
+   "counterexample_re_measured": "four 'intent' axes escalated LITE to ASSURED while the emitted axes list held one entry",
+   "state": "REPAIRED",
+   "owner_workorder": "WO-S4-CONTRACT-03",
+   "change": "compute_profile now fails closed typed on non-list, empty, non-string and duplicate axes and returns ONE normalised list that profile_record consumes directly",
+   "pos_neg_evidence": "NEG: ['intent','intent'] -> ProfileVeto; [1,2] -> ProfileVeto; [] -> ProfileVeto; 'intent' -> ProfileVeto; ['nope'] -> UnsupportedSurface. POS: legal PI/PD/ECP/TQAEP still validates with 0 findings.",
+   "independent_check": "verify/VERIFY_RECEIPT_gpt61sol.json check C3 = PASS"
+  },
+  {
+   "id": "POST-F03",
+   "class": "CONFIRMED_DEFECT",
+   "finding": "identity fields subject_id/version/content_hash/schema_version were '{}' and PI-PKG.trace was '{}'; additionalProperties:false does not constrain a field's type",
+   "counterexample_re_measured": "an integer id such as 12345678 could pass the semantic layer after str() coercion",
+   "state": "REPAIRED",
+   "owner_workorder": "WO-S4-CONTRACT-03",
+   "change": "all 19 families type the four identity fields (string / minLength / 64-hex pattern) and PI-PKG.trace is constrained to an array of trace-link objects with the required keys; a bare $ref was refused by a probe because validate builds the validator without a registry, so the equivalent inline constraint was used",
+   "pos_neg_evidence": "NEG: integer/null subject_id, integer/null version, non-hex and non-string content_hash, string/null/object/integer trace, missing trace, undeclared trace on PD/ECP/TQAEP, tampered body -> each refused first-fail at the schema layer with the contract and JSON pointer named. POS: legal compiled bundle PASS.",
+   "independent_check": "verify/VERIFY_RECEIPT_gpt61sol.json check C2 = PASS (F11 notes a valid-64-hex tamper is refused SEMANTIC-first, which a pattern alone cannot change)"
+  },
+  {
+   "id": "POST-F04",
+   "class": "EVIDENCE_GAP",
+   "finding": "no risk input existed; vetoes was hardcoded [] and LITE implied a risk pass",
+   "counterexample_re_measured": "axis COUNT was used where the blueprint asks for per-axis risk scoring and veto evidence",
+   "state": "RISK_DISCLOSED",
+   "owner_workorder": "WO-S4-CONTRACT-03",
+   "change": "compute_profile no longer uses axis count as a risk score and emits risk_assessment=NOT_ASSESSED in the existing _profile_meta sidecar; LOW_RISK_VERIFIED is never emitted",
+   "pos_neg_evidence": "POS: compiled bundle contains NOT_ASSESSED and no LOW_RISK_VERIFIED anywhere. NEG: fabricated risk evidence is only ever EVIDENCE_SUPPLIED_UNVERIFIED.",
+   "independent_check": "verify/VERIFY_RECEIPT_gpt61sol.json check C3 = PASS; residual: the verifier's own F05 shows the sidecar is not schema-validated -> TT-S4POST-F05"
+  },
+  {
+   "id": "POST-F05",
+   "class": "EVIDENCE_GAP",
+   "finding": "the eight Skills shipped as 48 repo documents but no ChatGPT/Web mount package existed",
+   "counterexample_re_measured": "no release asset a web consumer could upload or attach",
+   "state": "REPAIRED",
+   "owner_workorder": "WO-S4-WEB-02",
+   "change": "one versioned ZIP with a single dispatcher SKILL, five references, a starter prompt, README_MOUNT and MANIFEST.sha256; the native-upload path is separated from the manual-attachment fallback and missing capabilities are labelled NOT_AVAILABLE",
+   "pos_neg_evidence": "5-case UAT all PASS (positive trigger, negative chit-chat, typed NO_SOURCE_LOCATOR refusal, adversarial UNAUTHORISED_ACTION refusal, first-time mount). MANIFEST recomputes 8/8 on extraction; ZIP sha256 equals its sidecar. Two records are explicitly NOT_SUPPORTED: native skill upload (no qualifying account this round) and live chat-host tool execution.",
+   "independent_check": "verify/VERIFY_RECEIPT_gpt61sol.json check C4 = PASS"
+  },
+  {
+   "id": "POST-F06",
+   "class": "NON_BLOCKING_OBSERVATION",
+   "finding": "the upstream corpus is not in the repo and the canonical standard is an external SSOT; publishing the full text is not evidence of self-bootstrapping",
+   "counterexample_re_measured": "no source map and no replayable self-bootstrap example",
+   "state": "REPAIRED",
+   "owner_workorder": "WO-S4-SELFBOOT-04",
+   "change": "docs/NORMATIVE_SOURCE_MAP.md is a derived index (owner, version, digest, locator, consumers) that declares itself non-canonical and copies no source body; examples/self-bootstrap replays intent -> compile-pi -> bind-pd -> compile-ecp -> compile-tqaep -> validate with two typed negatives",
+   "pos_neg_evidence": "POS: replay PASS with a stable bundle digest and same-root determinism. NEG: missing source locator -> AUTHORITY_UNKNOWN exit 2; stale RepoContext -> STALE_PROVIDER exit 2. The verifier found the cross-root claim was too strong and it has been corrected -> repair iteration 1.",
+   "independent_check": "verify/VERIFY_RECEIPT_gpt61sol.json check C5 = FAIL (cross-root), repaired in iteration 1"
+  },
+  {
+   "id": "POST-F07",
+   "class": "NON_BLOCKING_OBSERVATION",
+   "finding": "preview.1 and preview.2 ship the same distribution version 0.1.0 with different hashes",
+   "counterexample_re_measured": "pip upgrade/cache and user support cannot distinguish the two by version",
+   "state": "DEFERRED_WITH_CAUSE",
+   "owner_workorder": "release work (not a fifth system)",
+   "change": "the released tag is immutable and was NOT rewritten; a successor version identity (e.g. 0.1.1b1 / v0.1.1-preview.1) is prepared as a candidate decision only",
+   "pos_neg_evidence": "not exercised: no new prerelease was authorised or created this round",
+   "independent_check": "TT-S4POST-F07-VERSION-IDENTITY (OPEN_OWNER_GATE)"
+  },
+  {
+   "id": "POST-F08",
+   "class": "NON_BLOCKING_OBSERVATION",
+   "finding": "preview.2 was already merged into main and the README already had a Quickstart",
+   "counterexample_re_measured": "do not redo the merge",
+   "state": "ALREADY_CLOSED",
+   "owner_workorder": "none",
+   "change": "no merge, no force-push and no history rewrite was performed; only the concrete README defect POST-F01 was fixed",
+   "pos_neg_evidence": "remote readback at the checkpoint shows refs/heads/main = 4445db5a and refs/tags/v0.1.0-preview.2 = 8faa64e5, both unchanged",
+   "independent_check": "admission/AUTH_BLOCKED_CHECKPOINT.json#remote_state_readback_at_checkpoint"
+  },
+  {
+   "id": "POST-F09",
+   "class": "EVIDENCE_GAP",
+   "finding": "the reporter's environment had no release wheel bytes and no native challenge bundle, so a full-scope re-run was impossible",
+   "counterexample_re_measured": "no FULL_S0_S4_INDEPENDENT_PASS was claimed",
+   "state": "PRESERVED_AS_GAP",
+   "owner_workorder": "none",
+   "change": "this round did not manufacture a full-scope PASS; the independent checker wrote its own scoped receipt and refused promotion",
+   "pos_neg_evidence": "the checker's overall verdict is VERIFY_LANE_SCOPE_ONLY and it explicitly grants no FULL_S0_S4_INDEPENDENT_PASS or Human Approval",
+   "independent_check": "verify/VERIFY_RECEIPT_gpt61sol.json; TT-S4POST-F09-INDEPENDENT-BUNDLE"
+  },
+  {
+   "id": "POST-F10",
+   "class": "OUT_OF_SCOPE",
+   "finding": "the credential broker, HGK live route, GENIE/JIT/SWOF live surfaces belong to S5-S8",
+   "counterexample_re_measured": "the S4 compiler must not carry live admission responsibility",
+   "state": "OUT_OF_SCOPE",
+   "owner_workorder": "S5-S8 owner",
+   "change": "kept OFF and NOT_CLAIMED; no live receiver, MCP server, daemon or 14th CLI was added",
+   "pos_neg_evidence": "the CLI exact set is still 13/13 and the 19-family / 8-skill sets are unchanged",
+   "independent_check": "TT-S4POST-F10-S5-DEFERRED (OPEN_OWNER_GATE)"
+  }
+ ],
+ "summary": {
+  "total": 10,
+  "REPAIRED": 4,
+  "RISK_DISCLOSED": 1,
+  "DEFERRED_WITH_CAUSE": 1,
+  "ALREADY_CLOSED": 1,
+  "PRESERVED_AS_GAP": 1,
+  "OUT_OF_SCOPE": 1
+ }
+}

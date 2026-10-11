@@ -1,0 +1,124 @@
+{
+  "work_order": "WO-REPAIR-2",
+  "round": "POSTRELEASE-20261011-s4-narrow-repair",
+  "branch": "postrelease-narrow-repair-20261011",
+  "head": "dbe38719",
+  "scope": "R3 (verifier F07, second shell): PowerShell quickstart block in README.md must fail fast",
+  "no_commit_push_tag_release": true,
+  "host": {
+    "shell": "Windows PowerShell",
+    "pwsh_runner": "C:/Users/user/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe",
+    "pwsh_version": "7.6.5",
+    "ps_native_command_use_error_action_preference": false,
+    "pinned_interpreter": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/hermes-agent/venv/Scripts/python.exe",
+    "pinned_interpreter_note": "Python 3.11.17, venv has NO pip (python -m venv fails)",
+    "full_interpreter": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+    "full_interpreter_note": "Python 3.11.9, pip 24.0"
+  },
+  "changes": [
+    {
+      "file": "README.md",
+      "change": "PowerShell block: first line $ErrorActionPreference = 'Stop'; five $LASTEXITCODE guards after native steps",
+      "bash_block_untouched": true,
+      "checksum_path_untouched": true
+    },
+    {
+      "file": "tests/test_postrelease_quickstart.py",
+      "change": "added class QuickstartPowerShellFailFast (2 tests); no existing test modified"
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "R3.a",
+      "command": "python -m unittest tests.test_postrelease_quickstart -v",
+      "exit_code": 0,
+      "raw_output_summary": "Ran 9 tests in 0.005s ... OK",
+      "verdict": "PASS"
+    },
+    {
+      "id": "R3.b",
+      "description": "test mechanically asserts first non-comment line sets $ErrorActionPreference='Stop' and every native step is $LASTEXITCODE-guarded",
+      "tests_added": [
+        "test_first_code_line_sets_error_action_preference_stop",
+        "test_every_native_command_is_last_exit_code_guarded"
+      ],
+      "exit_code": 0,
+      "verdict": "PASS"
+    },
+    {
+      "id": "R3.c",
+      "description": "extract powershell block programmatically; run with pip-less python first on PATH from fresh empty dir",
+      "extractor": ".../s4post/repair/r3ps/extract_ps.py (copied to repair/traces/r3_extract_ps.py)",
+      "extracted_to": ".../s4post/repair/r3ps/quickstart.ps1 (copied to repair/traces/r3_quickstart_extracted.ps1)",
+      "run_dir": ".../s4post/repair/r3ps_run_fail",
+      "command": "pwsh.exe -NoProfile -File .../r3ps/quickstart.ps1",
+      "raw_output": [
+        "pipd_ls_sp-0.1.0-py3-none-any.whl: OK",
+        "Error: Command '[...,.venv\\Scripts\\python.exe', '-m', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 1.",
+        "Exception: .../r3ps/quickstart.ps1:16",
+        "  | python -m venv failed (exit 1)"
+      ],
+      "exit_code": 1,
+      "stops_at": "python -m venv (first failing step)",
+      "verdict": "PASS"
+    },
+    {
+      "id": "R3.d",
+      "description": "same run with working Python 3.11 first on PATH from fresh empty dir",
+      "run_dir": ".../s4post/repair/r3ps_run_ok",
+      "command": "pwsh.exe -NoProfile -File .../r3ps/quickstart.ps1",
+      "exit_code": 0,
+      "pipd_doctor_verdict": "PASS",
+      "pip_show_location": ".../r3ps_run_ok/.venv/Lib/site-packages",
+      "verdict": "PASS"
+    },
+    {
+      "id": "R3.e",
+      "description": "host hygiene: delete every scratch venv; confirm pipd_ls_sp in no global site-packages",
+      "global_python311_spec": null,
+      "global_pip_less_venv_spec": null,
+      "scratch_venv_count_after": 0,
+      "removed": [
+        ".../s4post/repair/r3ps_run_fail/.venv",
+        ".../s4post/repair/r3ps_run_ok/.venv",
+        ".../s4post/repair/r1trace_sys/.venv"
+      ],
+      "uninstalled_globally": false,
+      "note": "nothing landed globally; r1trace_sys/.venv was a stale iteration-1 leftover and was also removed",
+      "verdict": "PASS"
+    }
+  ],
+  "additional_additions": {
+    "reason": "$PSNativeCommandUseErrorActionPreference is False on this host, so $ErrorActionPreference='Stop' alone does not stop native-command failures",
+    "added": "if ($LASTEXITCODE -ne 0) { throw \"<step> failed (exit $LASTEXITCODE)\" } after each of: python -m venv, python -m pip install, pipd doctor, pipd --help, pipd --root .\\myproject init",
+    "evidence_bare_form_exits_zero": "t_aep_only.ps1 with only $ErrorActionPreference='Stop' printed REACHED_AFTER_VENV and exited 0"
+  },
+  "not_done": [
+    "no checksum weakening",
+    "no bash block change",
+    "no touch to the unverified one-line install",
+    "no edits outside README.md, tests/test_postrelease_quickstart.py, and repair/ output",
+    "no regeneration of examples/self-bootstrap/digests.json or negative_stale_context.txt",
+    "no commit/push/tag/release",
+    "no credential use, no network beyond the released wheel URL"
+  ],
+  "new_observations": [
+    "$PSNativeCommandUseErrorActionPreference=False makes the $LASTEXITCODE guards load-bearing",
+    "the pip-less pinned interpreter is a genuine fail-fast probe (ensurepip exit 1)",
+    "r1trace_sys/.venv from iteration 1 was still on disk; removed"
+  ],
+  "repair_surface": {
+    "git_status_porcelain_tracked": [
+      " M .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json",
+      " M .hgk/artifacts/s4/CLI_SURFACE.json",
+      " M .hgk/artifacts/tqaep_design_tmp/ecp.json",
+      " M .hgk/artifacts/tqaep_design_tmp/pi.json",
+      " M README.md",
+      " M examples/self-bootstrap/README.md",
+      " M tests/test_postrelease_quickstart.py",
+      " M tests/test_postrelease_selfbootstrap.py"
+    ],
+    "git_diff_stat": "8 files changed, 180 insertions(+), 7 deletions(-)",
+    "note": "the four .hgk/artifacts/*.json are pre-existing round state, not authored by this WorkOrder"
+  }
+}

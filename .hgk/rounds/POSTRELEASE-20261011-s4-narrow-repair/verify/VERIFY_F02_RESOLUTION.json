@@ -1,0 +1,59 @@
+{
+ "schema": "PIPD-S4POST-VERIFY-F02-RESOLUTION/1",
+ "finding": "F02 (independent checker: 'Full suite clean pass not reproduced')",
+ "question": "is the suite failure profile a regression introduced by this round, or an environment effect?",
+ "experiment": {
+  "method": "git archive <commit> | tar -x into an empty dir (NO .git, no build outputs), then run the identical discovery argv from that dir",
+  "interpreter": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe (3.11.9)",
+  "command": "<python> -m unittest discover -s tests -t .   with PYTHONPATH=<archive>/src",
+  "runs": [
+   {
+    "subject": "BASE commit 4445db5a6d1b3138946fd7c4fe3b712e4faf1af7 (archive, pre-repair)",
+    "summary_lines": [
+     "AssertionError: 2 != 0 : --write must succeed where HEAD is resolvable",
+     "",
+     "----------------------------------------------------------------------",
+     "Ran 325 tests in 103.969s",
+     "",
+     "FAILED (failures=8, errors=2, skipped=3)"
+    ],
+    "fail_error_count": 2
+   },
+   {
+    "subject": "CANDIDATE commit dbe387195d25aca32829f84c051b7bf52b5931eb (archive)",
+    "summary_lines": [
+     "AssertionError: 2 != 0 : --write must succeed where HEAD is resolvable",
+     "",
+     "----------------------------------------------------------------------",
+     "Ran 383 tests in 107.856s",
+     "",
+     "FAILED (failures=8, errors=2, skipped=3)"
+    ],
+    "fail_error_count": 2
+   }
+  ],
+  "same_failure_classes": true,
+  "failure_classes": [
+   "ERROR:",
+   "FAIL:"
+  ]
+ },
+ "proper_checkout_control": {
+  "base_checkout_4445db5a": "Ran 325 tests, OK (skipped=3)",
+  "candidate_frozen_checkout_dbe38719": "Ran 383 tests, OK (skipped=3)",
+  "evidence": [
+   "evidence/BASELINE_FULL_SUITE.log",
+   "evidence/FROZEN_FULL_SUITE.log",
+   "evidence/ORCH_FULL_SUITE.log"
+  ]
+ },
+ "verdict": "F02 IS AN ENVIRONMENT EFFECT, NOT A REGRESSION",
+ "why": [
+  "the identical discovery argv fails with EXACTLY the same 8 failures + 2 errors when run against the PRE-REPAIR base commit exported as an archive, so the failure profile predates this round and is not introduced by it",
+  "the failing modules are the ones that require git history or build outputs (test_publication_projection needs a local frozen ref; test_wheel_distribution needs built artifacts; test_evidence_manifest / test_tooling_executes / test_atomic_requirements need a real checkout and tracked-file metadata)",
+  "in a proper checkout the base passes 325/325 and the candidate passes 383/383, i.e. this round adds 58 tests and introduces zero new failures",
+  "the independent checker deliberately did NOT run the suite in the candidate cwd (its own read-only rule), so it could only observe the archive/clone environment, which cannot pass those modules"
+ ],
+ "residual_risk_stated_plainly": "the operator's PASS above and the checker's FAIL are both correct statements about different environments. Neither is a claim of upstream semantic correctness.",
+ "action": "no repair required for F02; the environment dependency of 10 test modules is disclosed as a Known Limitation and handed to TT as a harness-hardening item (make the suite archive-safe or mark those modules environment-gated)."
+}
