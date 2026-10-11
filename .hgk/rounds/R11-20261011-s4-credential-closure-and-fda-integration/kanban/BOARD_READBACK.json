@@ -13,8 +13,13 @@
   "t_6e9fa780": "done",
   "t_ae87acba": "done",
   "t_32ee8e1e": "done",
-  "t_9431f074": "ready",
-  "t_828108af": "todo"
+  "t_9431f074": "done",
+  "t_828108af": "done"
+ },
+ "observed_status_snapshot_2": {
+  "at_utc": "2026-10-11T07:20Z (second refresh)",
+  "reason": "The third verification pass flagged the same drift again (it recorded verifier=ready, synthesizer=todo while the live board had both done). Correct each time, and each time the honest fix is a refresh plus a note, not a claim that the earlier snapshot was accurate. All five cards are now done; the verifier and synthesizer cards were completed THROUGH THE CLI with --result evidence, which the board enforces (it refuses an empty completion).",
+  "note": "A readback of a MUTABLE surface is a snapshot, not an assertion about the future: it goes stale the moment anything moves. It is kept as a dated series so drift is visible rather than erased."
  },
  "observed_status_history": [
   {

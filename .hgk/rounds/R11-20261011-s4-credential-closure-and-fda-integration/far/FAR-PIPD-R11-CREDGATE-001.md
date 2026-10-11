@@ -29,10 +29,24 @@ Decisive test — with the helper explicitly blanked, three runs of the same pus
 | 2 | none, helper available | **succeed**: `Everything up-to-date` (exit 0) |
 | 3 | broker-supplied App token, helper blanked | **exit 0** (see Finding 3) |
 
-Run 2 is the proof: a push completes with **no token supplied by us**, so the manager's stored
-credential is the authenticator in the ordinary path. This has a security consequence worth naming: the
-host holds a live write credential for the repository that is independent of both the dead file and the
-App, and nothing in this round revokes it.
+Run 2 is the informative one: a push completes with **no token supplied by us**, so on the ordinary path the
+authenticator is whatever the manager holds, not the dead file.
+
+**But the inference from it must stop there, and a later verification pass was right to say so.** Run 2 was
+an `Everything up-to-date` no-op, and a no-op push sends **no ref update** - so it establishes that a
+credential was obtainable and that the command succeeded, and it does **not** establish that the credential
+carries **write rights**. The earlier draft of this FAR called it proof of "a live write credential", which
+claims more than the test measured - and that contradicted this FAR's own later statement that a no-op push
+proves nothing about write permission. The two statements are reconciled here in the weaker direction:
+
+- **established**: a credential for this remote is obtainable by ordinary `git` on this host, independently
+  of both the dead file and the App, and nothing in this round revokes, rotates or inspects it;
+- **NOT established**: that this credential can write. Exercising it would mean performing a *real* write
+  with it, which is precisely what this round does not do - it deliberately keeps the manager out of the
+  one write it does perform (every helper is blanked for the broker push).
+
+So the residual is stated as "an uninspected stored credential exists and is usable by git for this remote",
+which is reason enough to name it as an owner decision, without inflating it into a proven write credential.
 
 ## Finding 3 — the gate required the FALLBACK, so a dead PAT disabled a healthy App
 
@@ -80,12 +94,23 @@ alone" - which is not true of this branch.
 
 **The bypass is bigger than one flag.** The same checker then found a SECOND opt-out, and re-measuring confirms it independently:
 
-| mode | effective source | what is required | verdict | provenance |
+| mode | effective source | what is required | verdict | `probe_skipped_by_request` |
 |---|---|---|---|---|
-| default, getter available | `app` | the App, probed by its own installation token | `OK` only if probed | `PROBED` |
-| default, no getter | `app` | `app_cred_valid` | **`FAIL_CLOSED`** | `PROBED` |
-| `--no-probe` | `app` | `app_cred_valid: SKIP` -> nothing can FAIL | `OK` over an unproven App | `UNPROVEN_BY_REQUEST` |
-| `--metadata-only` | `pat`, and App selection is never reached | `cred_syntax`/`cred_api_valid` both `SKIP` -> existence only | `OK` over a byte length | `UNPROVEN_BY_REQUEST` |
+| default, getter available | `app` | the App, probed by its own installation token | `OK` only if probed | `false` |
+| default, no getter | `app` | `app_cred_valid` | **`FAIL_CLOSED`** | `false` |
+| default, no source at all | `pat` | `cred_source_present` | **`FAIL_CLOSED`** | `false` |
+| `--no-probe` | `app` | `app_cred_valid: SKIP` -> nothing can FAIL | `OK` over an unproven App | **`true`** |
+| `--no-probe`, PAT only | `pat` | `cred_api_valid: SKIP` -> nothing can FAIL | `OK` over an unproven PAT | **`true`** |
+| `--metadata-only` | `pat`, and App selection is never reached | `cred_syntax`/`cred_api_valid` both `SKIP` -> existence only | `OK` over a byte length | **`true`** |
+
+**The field's own name was corrected too, because the third verification pass showed it over-claimed.**
+The first version emitted a two-valued label, `PROBED` / `UNPROVEN_BY_REQUEST`, and the checker's objection
+was exact: **`PROBED` asserted more than it knew.** The no-source, invalid-PAT, missing-getter and
+mint-exception paths all returned `PROBED` having made **zero HTTP calls**. A label must not claim a
+measurement that was not taken, so it is now a **boolean answering exactly the one question that is
+actually known** - *was the validity check skipped because a flag asked for it* - and nothing more. That is
+the whole point: the field exists to make an unproven `OK` distinguishable, not to certify the ones that
+were not skipped.
 
 So the gate can be asked, by two explicit flags, to report `OK` while having proven nothing. That is the
 presence-is-not-validity class this gate exists to stop, surviving through opt-outs.

@@ -37,7 +37,9 @@ subject root of an externally accepted artefact to include material no external 
 
 ### 1.3 Activation (REQ-PIPD-R11-ACTIVATE-003)
 
-**Not performed, by decision.** The broker is proven end to end for read and write, and is referenced
+**Not performed, by decision.** The broker's read and write paths are each *exercised* end to end - the
+write by a push that actually moved a ref - with the writer **corroborated rather than proven** (it is
+referred to elsewhere in this report, and deliberately not upgraded here). It is referenced
 **zero times** by the control plane's `config/` - but there is no in-repo consumer to wire it to: the
 control plane has **no git remote at all**, and push is **contractually forbidden** by its own `AGENTS.md`.
 Activating a credential-bearing push capability into a plane that forbids push would be
@@ -75,6 +77,14 @@ Verdict **`UNCERTAIN`** - C1-C6 PASS, C7 UNCERTAIN - with six actionable disagre
 (C2, C3, C4, C5, C6 explicitly say "Correction CONFIRMED") and then showed that **the provenance fix did
 not do what it claimed**: see correction 7 below. That is the whole point of running a second pass on a
 correction - a fix is not verified by having been written.
+
+**Pass 6 (on the repaired tree) was valid as well**: `ok: true`, same arm, `subject_mutation: CLEAN`
+(4188 / 4188), 387.8s. Verdict **`UNCERTAIN`** - C1-C6 PASS, C7 UNCERTAIN - and it confirmed the repair
+explicitly: *"The third-pass repair is complete: no reachable `--no-probe` return still labels PROBED."*
+It then raised three smaller items, of which two were real over-claims by the maker's own standard and are
+fixed as corrections 8 and 9 below. `C7` stays UNCERTAIN for the same structural reason every time: a
+credential-free checker cannot establish the credentialed half of a write claim, and this round never gave
+it credentials.
 
 ### 2.1 What the valid verdict said, including the parts that went against the maker
 
@@ -148,6 +158,56 @@ narrative, and this round did not give it credentials.
    **enumerating every `_verdict(` call in the function and asserting each one** (4/4), not by spot-check.
    The generalisable lesson is recorded in the FAR: a flag threaded through one return path is not a flag
    threaded through a function.
+8. **The provenance FIELD NAME over-claimed, and was replaced by a boolean.** The checker's objection was
+   exact: `PROBED` asserted more than it knew - the no-source, invalid-PAT, missing-getter and
+   mint-exception paths all returned `PROBED` having made **zero HTTP calls**. The field is now
+   `probe_skipped_by_request: true|false`, answering exactly the one question actually known, and nothing
+   more. A label must not claim a measurement that was not taken.
+9. **A second over-inference was cut out of Finding 2.** That finding called an `Everything up-to-date`
+   no-op push proof of "a live write credential" held by the host's credential manager. A no-op sends **no
+   ref update**, so it establishes that a credential is *obtainable* and that the command succeeded - not
+   that the credential *can write*. The claim was reconciled in the weaker direction, and it also resolved
+   an internal contradiction: the same FAR already said correctly that a no-op push proves nothing about
+   write permission. What remains is "an uninspected stored credential exists and is usable by git for this
+   remote", which is enough to raise as an owner decision and not enough to call a proven write credential.
+   This is the round's own rule applied to the round: **name the observation that would be impossible if
+   the claim were false, and take that one.**
+10. **One correction is impossible by construction, and is therefore disclosed rather than attempted.**
+   The false claim also appears in the **commit message of `8ab82ec`**, which is immutable. Amending it
+   would mean rewriting history, which the Owner grant forbids (no force-push, no moving published refs).
+   So it is left standing and **corrected forward**: by `far/FAR-PIPD-R11-CREDGATE-001.md`, by the
+   docstring fix, and by a later commit in the same repository. A checker WILL keep reporting this
+   disagreement on every future pass, and that is the correct outcome - the honest answer is "yes, that
+   message is wrong; here is the correction, and here is why the message itself cannot be changed", not
+   silently rewriting a published commit.
+
+## 3.1 Convergence and the stop criterion, stated up front
+
+The round is **not** chasing a PASS, because the two structural items below can never be a PASS. The
+monitoring order is to detect a repeated abnormal block by CLASS and then either intervene or stop, so the
+criterion is written down rather than decided in the moment:
+
+1. **`immutable_commit_message_claim`** will be reported on **every** future pass and can never be fixed
+   the way a file can: the false sentence lives in an immutable commit message, and amending it means
+   rewriting published history, which the Owner grant forbids. The correction is forward-only (the FAR,
+   the docstring, later commits). **A checker reporting this again is not progress and will not be
+   re-fixed.**
+2. **`C7` stays `UNCERTAIN`** for a structural reason: a credential-free checker cannot establish who
+   pushed or with which credential, and this round deliberately did not hand it credentials. **More passes
+   cannot move it.**
+
+Both are therefore accepted as the terminal state of this round. What a further pass CAN still add is a
+new *fixable* defect, and the marginal yield has fallen: pass 4 raised 6 items, pass 5 raised 1 (serious),
+pass 6 raised 3 (all minor). One final pass is run on the swept tree, and **if it returns only the two
+items above plus already-known corrections, the round stops there** and this ceiling stands.
+
+The recurring parent class was **not** left to the checker to keep finding. It was attacked directly by
+sweeping the round's own artefacts for strong-claim words (`proves`, `proof`, `demonstrably`, `guaranteed`,
+`definitively`) and auditing each hit. That sweep found **two live instances no checker had yet reported** -
+"the broker is proven end to end for read and write" in this report and the same phrase in the OpenSpec
+proposal - both contradicting the same documents' own "corroborated, not proven". They are corrected here.
+That is the intervention: do not wait for the next alarm to find the class the last three alarms were all
+about.
 
 ## 4. Claim ceiling
 

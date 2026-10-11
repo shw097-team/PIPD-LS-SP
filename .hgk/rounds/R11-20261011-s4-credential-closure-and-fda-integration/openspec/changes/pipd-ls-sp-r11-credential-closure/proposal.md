@@ -4,7 +4,9 @@
 
 R10 ended with three honest gaps:
 
-1. a credential broker proven end to end for BOTH read and write, referenced **zero times** by the control
+1. a credential broker whose read and write paths were each exercised end to end in R10 (the write by a
+   push that moved a ref; the writer **corroborated, not proven** - see the R11 FAR), and which is
+   referenced **zero times** by the control
    plane's `config/` - a working capability nothing calls;
 2. two owner-only credential operations never performed: a redundant personal-account GitHub App still
    holding a live key pair, and a long-lived PAT the broker no longer needs;
