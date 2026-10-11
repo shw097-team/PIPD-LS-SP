@@ -1,0 +1,1966 @@
+{
+ "schema": "CAPC-PROMPT-CONTRACT/1",
+ "task_id": "PIPD-LS-SP-S4-R2-POSTRELEASE-AFFECTED-ONLY-20261011",
+ "source_scan": {
+  "required_source_families": [
+   "F0_S4R2_REPAIR_PROMPT",
+   "F1_S4R2_REAUDIT_REPORT",
+   "F2_RELEASE_SUBJECT_EVIDENCE",
+   "F3_PIPD_UPSTREAM_CORPUS",
+   "F4_PUBLIC_ROLLING_MAIN",
+   "F5_HGK_CONTROL_PLANE",
+   "F6_FABRIC_CONTRACT",
+   "F7_LOCAL_CANDIDATE_WORKTREE"
+  ],
+  "reviewed": [
+   {
+    "source_id": "F0_S4R2_REPAIR_PROMPT",
+    "source_family": "F0_S4R2_REPAIR_PROMPT",
+    "locator": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP_HERMES_S4_R2_POSTRELEASE_AFFECTED_ONLY_REPAIR_PROMPT_2026-10-11.md",
+    "role": "NORMATIVE",
+    "sha256": "ea7f5c49410bd610af5269ae1ec0e2b286f7f2f112bf606fefac19fec75da46a",
+    "critical": true
+   },
+   {
+    "source_id": "F1_S4R2_REAUDIT_REPORT",
+    "source_family": "F1_S4R2_REAUDIT_REPORT",
+    "locator": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\PIPD\\驗收報告\\PIPD_LS_SP_S4_MVP_PostRelease_Independent_Reaudit_Final_2026-10-11.md",
+    "role": "NORMATIVE",
+    "sha256": "a0cee8741f3d0bd7f5fa84475757e4923fd0dc10ce7167a362a80c048732052c",
+    "critical": true
+   },
+   {
+    "source_id": "F2_RELEASE_SUBJECT_EVIDENCE",
+    "source_family": "F2_RELEASE_SUBJECT_EVIDENCE",
+    "locator": "https://github.com/shw097-team/PIPD-LS-SP@8faa64e581e8c25f5ec355475e29561847da3ead",
+    "role": "STATE_EVIDENCE",
+    "sha256": "d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f",
+    "critical": true
+   },
+   {
+    "source_id": "F3_PIPD_UPSTREAM_CORPUS",
+    "source_family": "F3_PIPD_UPSTREAM_CORPUS",
+    "locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD",
+    "role": "NORMATIVE",
+    "sha256": "UNAVAILABLE",
+    "critical": true
+   },
+   {
+    "source_id": "F4_PUBLIC_ROLLING_MAIN",
+    "source_family": "F4_PUBLIC_ROLLING_MAIN",
+    "locator": "https://github.com/shw097-team/PIPD-LS-SP@4445db5a6d1b3138946fd7c4fe3b712e4faf1af7",
+    "role": "STATE_EVIDENCE",
+    "sha256": "UNAVAILABLE",
+    "critical": false
+   },
+   {
+    "source_id": "F5_HGK_CONTROL_PLANE",
+    "source_family": "F5_HGK_CONTROL_PLANE",
+    "locator": "C:/Projects/Agent_Workspace/HG-KSEOS",
+    "role": "NORMATIVE",
+    "sha256": "UNAVAILABLE",
+    "critical": true
+   },
+   {
+    "source_id": "F6_FABRIC_CONTRACT",
+    "source_family": "F6_FABRIC_CONTRACT",
+    "locator": "C:/Projects/Agent_Workspace/Fabric",
+    "role": "NORMATIVE",
+    "sha256": "UNAVAILABLE",
+    "critical": true
+   },
+   {
+    "source_id": "F7_LOCAL_CANDIDATE_WORKTREE",
+    "source_family": "F7_LOCAL_CANDIDATE_WORKTREE",
+    "locator": "C:/Projects/Agent_Workspace/PIPD-postrelease-wt@s4-r2-affected-only-20261011",
+    "role": "STATE_EVIDENCE",
+    "sha256": "UNAVAILABLE",
+    "critical": false
+   }
+  ],
+  "missing": [],
+  "normative_claims": [
+   {
+    "claim_id": "NC-01",
+    "source_ids": [
+     "F0_S4R2_REPAIR_PROMPT",
+     "F5_HGK_CONTROL_PLANE"
+    ],
+    "locators": [
+     "F0 §2.3",
+     "F0 §2.6"
+    ],
+    "text": "HG-KSEOS remains the sole admission / WorkOrder / evidence / release control plane; Hermes is the admitted runtime orchestrator; Fabric is read-only policy."
+   },
+   {
+    "claim_id": "NC-02",
+    "source_ids": [
+     "F1_S4R2_REAUDIT_REPORT"
+    ],
+    "locators": [
+     "F1 §0",
+     "F1 §9",
+     "F1 §14"
+    ],
+    "text": "The reaudit returned PARTIAL_CHALLENGE over F-S4R2-01..12; it does not authorise a full S0-S4 pass, and neither this contract nor the round may self-sign one."
+   },
+   {
+    "claim_id": "NC-03",
+    "source_ids": [
+     "F1_S4R2_REAUDIT_REPORT",
+     "F0_S4R2_REPAIR_PROMPT"
+    ],
+    "locators": [
+     "F1 §10.1",
+     "F0 §1",
+     "F0 §4"
+    ],
+    "text": "Only affected-only maintenance is in scope; the published v0.1.0-preview.2 tag and its four assets are immutable."
+   },
+   {
+    "claim_id": "NC-04",
+    "source_ids": [
+     "F0_S4R2_REPAIR_PROMPT"
+    ],
+    "locators": [
+     "F0 §4 CONDITIONAL",
+     "F0 §5"
+    ],
+    "text": "No new release is created without an owner HITL decision; document-only repair must not rebuild the wheel."
+   },
+   {
+    "claim_id": "NC-05",
+    "source_ids": [
+     "F0_S4R2_REPAIR_PROMPT",
+     "F1_S4R2_REAUDIT_REPORT"
+    ],
+    "locators": [
+     "F0 §2.4",
+     "F0 §5"
+    ],
+    "text": "A finding already closed with fresh positive AND negative evidence is marked ALREADY_CLOSED_WITH_FRESH_POS_NEG and is not rewritten."
+   },
+   {
+    "claim_id": "NC-06",
+    "source_ids": [
+     "F1_S4R2_REAUDIT_REPORT"
+    ],
+    "locators": [
+     "F1 §4",
+     "F1 §9 F-S4R2-11"
+    ],
+    "text": "S5 HGK live receiver, S6 GENIE, S7 JIT, S8 SWOF/SGM and the 22 inactive providers stay OFF and are never a reason to fail S4."
+   },
+   {
+    "claim_id": "NC-07",
+    "source_ids": [
+     "F0_S4R2_REPAIR_PROMPT"
+    ],
+    "locators": [
+     "F0 §8",
+     "F0 §9"
+    ],
+    "text": "Independently verifiable evidence only: raw command, raw output, exit code, subject binding. A local suite or a Hermes goal state is not a pass."
+   },
+   {
+    "claim_id": "NC-08",
+    "source_ids": [
+     "F1_S4R2_REAUDIT_REPORT"
+    ],
+    "locators": [
+     "F1 §6.1",
+     "F1 §9 F-S4R2-03"
+    ],
+    "text": "An axis count is not a risk score: without risk evidence the honest state is NOT_ASSESSED and LOW_RISK_VERIFIED is never emitted."
+   },
+   {
+    "claim_id": "NC-09",
+    "source_ids": [
+     "F1_S4R2_REAUDIT_REPORT"
+    ],
+    "locators": [
+     "F1 §4.1",
+     "F1 §12",
+     "F1 §9 F-S4R2-06"
+    ],
+    "text": "Uploading an MD is not installing a native skill; the two web consumption modes are declared separately or reported NOT_RUN."
+   }
+  ]
+ },
+ "intent": {
+  "goal": "Execute one affected-only post-release maintenance round on the published S4 open-source MVP, driven by the second-round reaudit: confirm under its own contract which of F-S4R2-01..12 are already closed by this candidate lineage with fresh positive AND negative evidence, close only the genuinely open deltas (a real copy-paste end-to-end README fixture, the release version identity disclosure and the residual ProfileBinding typing hole), and hand the frozen candidate to an independent checker - without moving the immutable tag.",
+  "user_expected_outcome": "A first-time user copy-pastes the README from a clean directory and every line exits 0 on bash and PowerShell; the README points at a fixture that really exists so intake -> compile-pi -> bind-pd -> compile-ecp -> compile-tqaep -> validate can be driven literally; malformed identity, trace and profile inputs are refused by exact typed first-fail; and the repository states where its normative sources live without creating a second SSOT.",
+  "user_expected_experience": "The user needs only a shell, Python >= 3.11 and a ZIP upload; they never need to know WorkOrder, Skill or provider identifiers.",
+  "explicit_constraints": [
+   "AFFECTED-ONLY: keep the 19 schema families, 8 logical skills, 13 CLI commands, 5 web / 3 host projections and the clause-bound PI/PD trunk intact.",
+   "A finding already closed with fresh positive and negative evidence is marked ALREADY_CLOSED_WITH_FRESH_POS_NEG and is not rewritten.",
+   "The native prompt compiler must actually run; a missing bundle or a failure means PROMPT_COMPILE_BLOCKED with read-only preflight only.",
+   "No new release: a document-only repair must not rebuild the wheel, and a new tag stays an owner HITL decision.",
+   "Claims do not inherit: LOCAL_TESTED != INDEPENDENT_ACCEPTED != RELEASED, and the checker model is GPT 6.1 SOL-MEDIUM over OpenAI OAuth."
+  ],
+  "non_goals": [
+   "No second canonical SSOT, no second control plane, no plan IR, no scheduler.",
+   "No S5 HGK live receiver, S6 GENIE, S7 JIT, S8 SWOF/SGM, PRE-W3 or the 22 inactive external technologies.",
+   "No tag move, no force-push, no rewrite of published release bytes, no rewrite of historical FAIL receipts.",
+   "No new 20th schema family, no 9th logical skill, no 14th CLI command, no MCP server or resident daemon.",
+   "No restatement or cloning of the 11 PKG / 10 DOC / skeleton bodies into the runtime repository."
+  ],
+  "authorized_mutations": [
+   "Minimal product-tree repair inside C:/Projects/Agent_Workspace/PIPD-postrelease-wt on branch s4-r2-affected-only-20261011: README.md, examples/**, schemas/ProfileBinding.schema.json and any already-affected schema, and new tests under tests/.",
+   "The round evidence tree .hgk/rounds/S4R2-20261011-affected-only/.",
+   "The single acceptance master document under 知識庫/實作相關DOC/PIPD/實作證據/."
+  ],
+  "forbidden_mutations": [
+   "No second normative authority built from Hermes or Fabric; no self-signed INDEPENDENT_PASS.",
+   "No destructive test against a real user path, no credential in argv/URL/log, no force-push, no history rewrite.",
+   "No editing of any published tag, release asset or previous round's receipt.",
+   "No promotion of this candidate or of the claim ceiling by the maker."
+  ],
+  "expected_autonomy": "HIGH",
+  "allowed_hitl": [
+   "NEW_RELEASE_OR_TAG",
+   "REMOTE_WRITE",
+   "SCOPE_EXPANSION",
+   "CREDENTIAL_USE",
+   "CLAIM_CEILING_CHANGE"
+  ],
+  "requested_delivery": [
+   "S4R2_PROMPT_COMPILER_READBACK",
+   "S4R2_HGK_ADMISSION_READBACK",
+   "S4R2_FINDING_DISPOSITION",
+   "S4R2_UAT_MATRIX",
+   "S4R2_CANDIDATE_TUPLE",
+   "S4R2_EVIDENCE_MASTER_MD",
+   "S4R2_KANBAN_SWARM_RECEIPT",
+   "S4R2_OPENSPEC_CHANGE",
+   "S4R2_INDEPENDENT_RECEIPT",
+   "S4R2_WEB_MOUNT_READBACK",
+   "S4R2_RESIDUAL_TYPING_PATCH",
+   "S4R2_PUBLICATION_STATUS"
+  ],
+  "active_requirement_ids": [
+   "REQ-S4R2-DOC-001",
+   "REQ-S4R2-WEB-002",
+   "REQ-S4R2-CONTRACT-003",
+   "REQ-S4R2-SOURCE-004"
+  ],
+  "claim_ceiling": "EXTERNAL_ACCEPTANCE"
+ },
+ "authority": {
+  "current_control_plane_id": "HG-KSEOS",
+  "native_control_plane_ids": [
+   "HG-KSEOS"
+  ],
+  "conflicts": [],
+  "missing_sources": [],
+  "sources": [
+   {
+    "id": "F0_S4R2_REPAIR_PROMPT",
+    "locator": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP_HERMES_S4_R2_POSTRELEASE_AFFECTED_ONLY_REPAIR_PROMPT_2026-10-11.md",
+    "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP_HERMES_S4_R2_POSTRELEASE_AFFECTED_ONLY_REPAIR_PROMPT_2026-10-11.md",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "sha256": "ea7f5c49410bd610af5269ae1ec0e2b286f7f2f112bf606fefac19fec75da46a"
+   },
+   {
+    "id": "F1_S4R2_REAUDIT_REPORT",
+    "locator": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\PIPD\\驗收報告\\PIPD_LS_SP_S4_MVP_PostRelease_Independent_Reaudit_Final_2026-10-11.md",
+    "path": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\PIPD\\驗收報告\\PIPD_LS_SP_S4_MVP_PostRelease_Independent_Reaudit_Final_2026-10-11.md",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "sha256": "a0cee8741f3d0bd7f5fa84475757e4923fd0dc10ce7167a362a80c048732052c"
+   },
+   {
+    "id": "F2_RELEASE_SUBJECT_EVIDENCE",
+    "locator": "https://github.com/shw097-team/PIPD-LS-SP@8faa64e581e8c25f5ec355475e29561847da3ead",
+    "path": "https://github.com/shw097-team/PIPD-LS-SP@8faa64e581e8c25f5ec355475e29561847da3ead",
+    "role": "STATE_EVIDENCE",
+    "rank": "R3",
+    "governs": false,
+    "sha256": "d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f"
+   },
+   {
+    "id": "F3_PIPD_UPSTREAM_CORPUS",
+    "locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD",
+    "path": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "sha256": "UNAVAILABLE"
+   },
+   {
+    "id": "F4_PUBLIC_ROLLING_MAIN",
+    "locator": "https://github.com/shw097-team/PIPD-LS-SP@4445db5a6d1b3138946fd7c4fe3b712e4faf1af7",
+    "path": "https://github.com/shw097-team/PIPD-LS-SP@4445db5a6d1b3138946fd7c4fe3b712e4faf1af7",
+    "role": "STATE_EVIDENCE",
+    "rank": "R3",
+    "governs": false,
+    "sha256": "UNAVAILABLE"
+   },
+   {
+    "id": "F5_HGK_CONTROL_PLANE",
+    "locator": "C:/Projects/Agent_Workspace/HG-KSEOS",
+    "path": "C:/Projects/Agent_Workspace/HG-KSEOS",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "sha256": "UNAVAILABLE"
+   },
+   {
+    "id": "F6_FABRIC_CONTRACT",
+    "locator": "C:/Projects/Agent_Workspace/Fabric",
+    "path": "C:/Projects/Agent_Workspace/Fabric",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "sha256": "UNAVAILABLE"
+   },
+   {
+    "id": "F7_LOCAL_CANDIDATE_WORKTREE",
+    "locator": "C:/Projects/Agent_Workspace/PIPD-postrelease-wt@s4-r2-affected-only-20261011",
+    "path": "C:/Projects/Agent_Workspace/PIPD-postrelease-wt@s4-r2-affected-only-20261011",
+    "role": "STATE_EVIDENCE",
+    "rank": "R3",
+    "governs": false,
+    "sha256": "UNAVAILABLE"
+   }
+  ]
+ },
+ "changeset": {
+  "class": "NARROW_REPAIR",
+  "baseline_required": true,
+  "baseline_verified": true,
+  "reuse_prior_pass": true,
+  "affected_domains": [
+   "README.md",
+   "examples",
+   "schemas",
+   "tests",
+   ".hgk"
+  ],
+  "affected_files": [
+   "README.md",
+   "schemas/ProfileBinding.schema.json",
+   "examples/self-bootstrap/README.md",
+   "tests/test_postrelease_quickstart.py",
+   "tests/test_s4r2_affected_only.py"
+  ],
+  "must_not_reopen": [
+   "the 19 schema family set and registry exactness",
+   "the 8 logical skills and 5 web / 3 host projections",
+   "the 13 CLI command names",
+   "R7/R8 receipts as recorded (SCOPED_PASS / OVERALL_FAIL)",
+   "the published tag v0.1.0-preview.2 and its four release assets",
+   "the HG-KSEOS / Fabric frozen control surfaces"
+  ],
+  "scope_expansion_requires_hitl": true,
+  "tracked_mutation": true,
+  "product_mutation_allowed": true
+ },
+ "execution_scope": [
+  {
+   "capability": "CAP_S4R2_CLI_FIRSTUSE_VERIFY",
+   "action": "QUALIFY",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "current_profile_selected": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": true,
+   "source_locators": [
+    "F0 P1",
+    "F1 section 5",
+    "F1 F-S4R2-01"
+   ]
+  },
+  {
+   "capability": "CAP_S4R2_COMPILER_REAL_FIXTURE",
+   "action": "QUALIFY",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "current_profile_selected": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": true,
+   "source_locators": [
+    "F0 P1",
+    "F1 W05",
+    "F1 F-S4R2-05"
+   ]
+  },
+  {
+   "capability": "CAP_S4R2_WEB_MOUNT_CONSUME",
+   "action": "QUALIFY",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "current_profile_selected": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": true,
+   "source_locators": [
+    "F0 P2",
+    "F1 W02",
+    "F1 F-S4R2-06"
+   ]
+  },
+  {
+   "capability": "CAP_S4R2_PROFILE_TRUST",
+   "action": "QUALIFY",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "current_profile_selected": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": true,
+   "source_locators": [
+    "F0 P3",
+    "F1 section 6.1",
+    "F1 F-S4R2-02"
+   ]
+  },
+  {
+   "capability": "CAP_S4R2_MACHINE_CONTRACT_TYPING",
+   "action": "QUALIFY",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "current_profile_selected": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": true,
+   "source_locators": [
+    "F0 P3",
+    "F1 section 6.2",
+    "F1 F-S4R2-04",
+    "F1 F-S4R2-NEW-01"
+   ]
+  },
+  {
+   "capability": "CAP_S4R2_SOURCE_BOOTSTRAP",
+   "action": "DESIGN",
+   "source_disposition": "ACTIVE_SELECTED",
+   "current_execution_disposition": "ACTIVE_SELECTED",
+   "runtime_required_now": false,
+   "current_profile_selected": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": true,
+   "source_locators": [
+    "F0 P4",
+    "F1 W06",
+    "F1 F-S4R2-10"
+   ]
+  },
+  {
+   "capability": "CAP_S4R2_HGK_ADMISSION",
+   "action": "QUALIFY",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "current_profile_selected": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": true,
+   "external_method": false,
+   "user_experience_required": true,
+   "source_locators": [
+    "F0 section 2.3",
+    "F0 P0.2"
+   ]
+  },
+  {
+   "capability": "CAP_S4R2_INDEPENDENT_VERIFY",
+   "action": "QUALIFY",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "current_profile_selected": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": true,
+   "source_locators": [
+    "F0 section 8",
+    "F1 section 3.1"
+   ]
+  },
+  {
+   "capability": "CAP_S4R2_GITHUB_PUBLICATION",
+   "action": "DESIGN",
+   "source_disposition": "STANDBY",
+   "current_execution_disposition": "STANDBY",
+   "runtime_required_now": false,
+   "current_profile_selected": false,
+   "automatic_route_target": false,
+   "canonical_flow_referenced": false,
+   "control_authority": false,
+   "external_method": true,
+   "user_experience_required": false,
+   "source_locators": [
+    "F0 credentials",
+    "F0 P0.3"
+   ]
+  },
+  {
+   "capability": "CAP_S4R2_S5_PROVIDERS",
+   "action": "DESIGN",
+   "source_disposition": "NOT_APPLICABLE_SOURCE_BACKED",
+   "current_execution_disposition": "NOT_APPLICABLE_SOURCE_BACKED",
+   "runtime_required_now": false,
+   "current_profile_selected": false,
+   "automatic_route_target": false,
+   "canonical_flow_referenced": false,
+   "control_authority": false,
+   "external_method": false,
+   "user_experience_required": false,
+   "source_locators": [
+    "F1 F-S4R2-11",
+    "F1 section 4"
+   ]
+  }
+ ],
+ "runtime_readiness": [
+  {
+   "capability": "CAP_S4R2_CLI_FIRSTUSE_VERIFY",
+   "current_verdict": "NOT_READY",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4R2_CLI_FIRSTUSE_VERIFY"
+   ],
+   "work_required": [
+    "ACC-CAP_S4R2_CLI_FIRSTUSE_VERIFY: capability CAP_S4R2_CLI_FIRSTUSE_VERIFY"
+   ]
+  },
+  {
+   "capability": "CAP_S4R2_COMPILER_REAL_FIXTURE",
+   "current_verdict": "NOT_READY",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4R2_COMPILER_REAL_FIXTURE"
+   ],
+   "work_required": [
+    "ACC-CAP_S4R2_COMPILER_REAL_FIXTURE: capability CAP_S4R2_COMPILER_REAL_FIXTURE"
+   ]
+  },
+  {
+   "capability": "CAP_S4R2_WEB_MOUNT_CONSUME",
+   "current_verdict": "NOT_READY",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4R2_WEB_MOUNT_CONSUME"
+   ],
+   "work_required": [
+    "ACC-CAP_S4R2_WEB_MOUNT_CONSUME: capability CAP_S4R2_WEB_MOUNT_CONSUME"
+   ]
+  },
+  {
+   "capability": "CAP_S4R2_PROFILE_TRUST",
+   "current_verdict": "NOT_READY",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4R2_PROFILE_TRUST"
+   ],
+   "work_required": [
+    "ACC-CAP_S4R2_PROFILE_TRUST: capability CAP_S4R2_PROFILE_TRUST"
+   ]
+  },
+  {
+   "capability": "CAP_S4R2_MACHINE_CONTRACT_TYPING",
+   "current_verdict": "NOT_READY",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4R2_MACHINE_CONTRACT_TYPING"
+   ],
+   "work_required": [
+    "ACC-CAP_S4R2_MACHINE_CONTRACT_TYPING: capability CAP_S4R2_MACHINE_CONTRACT_TYPING"
+   ]
+  },
+  {
+   "capability": "CAP_S4R2_SOURCE_BOOTSTRAP",
+   "current_verdict": "NOT_READY",
+   "required_now": false,
+   "lifecycle": {
+    "identify": "NOT_APPLICABLE_SOURCE_BACKED",
+    "pin": "NOT_APPLICABLE_SOURCE_BACKED",
+    "install_materialize": "NOT_APPLICABLE_SOURCE_BACKED",
+    "configure": "NOT_APPLICABLE_SOURCE_BACKED",
+    "discover": "NOT_APPLICABLE_SOURCE_BACKED",
+    "bind": "NOT_APPLICABLE_SOURCE_BACKED",
+    "route": "NOT_APPLICABLE_SOURCE_BACKED",
+    "effective_load": "NOT_APPLICABLE_SOURCE_BACKED",
+    "doctor_health": "NOT_APPLICABLE_SOURCE_BACKED",
+    "positive_pilot": "NOT_APPLICABLE_SOURCE_BACKED",
+    "negative_security": "NOT_APPLICABLE_SOURCE_BACKED",
+    "fallback": "NOT_APPLICABLE_SOURCE_BACKED",
+    "rollback_uninstall": "NOT_APPLICABLE_SOURCE_BACKED",
+    "independent_qualification": "NOT_APPLICABLE_SOURCE_BACKED",
+    "certify": "NOT_APPLICABLE_SOURCE_BACKED",
+    "enable": "NOT_APPLICABLE_SOURCE_BACKED"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4R2_SOURCE_BOOTSTRAP"
+   ],
+   "work_required": []
+  },
+  {
+   "capability": "CAP_S4R2_HGK_ADMISSION",
+   "current_verdict": "NOT_READY",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4R2_HGK_ADMISSION"
+   ],
+   "work_required": [
+    "ACC-CAP_S4R2_HGK_ADMISSION: capability CAP_S4R2_HGK_ADMISSION"
+   ]
+  },
+  {
+   "capability": "CAP_S4R2_INDEPENDENT_VERIFY",
+   "current_verdict": "NOT_READY",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4R2_INDEPENDENT_VERIFY"
+   ],
+   "work_required": [
+    "ACC-CAP_S4R2_INDEPENDENT_VERIFY: capability CAP_S4R2_INDEPENDENT_VERIFY"
+   ]
+  },
+  {
+   "capability": "CAP_S4R2_GITHUB_PUBLICATION",
+   "current_verdict": "NOT_READY",
+   "required_now": false,
+   "lifecycle": {
+    "identify": "NOT_APPLICABLE_SOURCE_BACKED",
+    "pin": "NOT_APPLICABLE_SOURCE_BACKED",
+    "install_materialize": "NOT_APPLICABLE_SOURCE_BACKED",
+    "configure": "NOT_APPLICABLE_SOURCE_BACKED",
+    "discover": "NOT_APPLICABLE_SOURCE_BACKED",
+    "bind": "NOT_APPLICABLE_SOURCE_BACKED",
+    "route": "NOT_APPLICABLE_SOURCE_BACKED",
+    "effective_load": "NOT_APPLICABLE_SOURCE_BACKED",
+    "doctor_health": "NOT_APPLICABLE_SOURCE_BACKED",
+    "positive_pilot": "NOT_APPLICABLE_SOURCE_BACKED",
+    "negative_security": "NOT_APPLICABLE_SOURCE_BACKED",
+    "fallback": "NOT_APPLICABLE_SOURCE_BACKED",
+    "rollback_uninstall": "NOT_APPLICABLE_SOURCE_BACKED",
+    "independent_qualification": "NOT_APPLICABLE_SOURCE_BACKED",
+    "certify": "NOT_APPLICABLE_SOURCE_BACKED",
+    "enable": "NOT_APPLICABLE_SOURCE_BACKED"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4R2_GITHUB_PUBLICATION"
+   ],
+   "work_required": []
+  },
+  {
+   "capability": "CAP_S4R2_S5_PROVIDERS",
+   "current_verdict": "NOT_READY",
+   "required_now": false,
+   "lifecycle": {
+    "identify": "NOT_APPLICABLE_SOURCE_BACKED",
+    "pin": "NOT_APPLICABLE_SOURCE_BACKED",
+    "install_materialize": "NOT_APPLICABLE_SOURCE_BACKED",
+    "configure": "NOT_APPLICABLE_SOURCE_BACKED",
+    "discover": "NOT_APPLICABLE_SOURCE_BACKED",
+    "bind": "NOT_APPLICABLE_SOURCE_BACKED",
+    "route": "NOT_APPLICABLE_SOURCE_BACKED",
+    "effective_load": "NOT_APPLICABLE_SOURCE_BACKED",
+    "doctor_health": "NOT_APPLICABLE_SOURCE_BACKED",
+    "positive_pilot": "NOT_APPLICABLE_SOURCE_BACKED",
+    "negative_security": "NOT_APPLICABLE_SOURCE_BACKED",
+    "fallback": "NOT_APPLICABLE_SOURCE_BACKED",
+    "rollback_uninstall": "NOT_APPLICABLE_SOURCE_BACKED",
+    "independent_qualification": "NOT_APPLICABLE_SOURCE_BACKED",
+    "certify": "NOT_APPLICABLE_SOURCE_BACKED",
+    "enable": "NOT_APPLICABLE_SOURCE_BACKED"
+   },
+   "acceptance_ids": [
+    "ACC-CAP_S4R2_S5_PROVIDERS"
+   ],
+   "work_required": []
+  }
+ ],
+ "journeys": [
+  {
+   "journey_id": "J-CLI-FIRST",
+   "required": true,
+   "user_goal": "In an empty directory outside the repository a first-time user follows the README on bash or PowerShell: download, verify only what was downloaded, install, doctor, init - every line exits 0, and a tampered or missing asset exits non-zero.",
+   "expected_automatic_behavior": [
+    "only the listed assets are fetched",
+    "the checksum covers exactly the fetched set",
+    "doctor reports the resolved schema source"
+   ],
+   "expected_manual_behavior": [
+    "the user needs a shell and Python >= 3.11"
+   ],
+   "expected_visible_result": "exit 0 per line, wheel digest equals the published literal, and a mutated byte stops the block",
+   "negative_behavior": [
+    "a missing asset, a wrong URL or a pip-less interpreter must fail loudly"
+   ],
+   "failure_recovery": [
+    "re-running a partial download must never report OK for an absent file"
+   ],
+   "required_capabilities": [
+    "CAP_S4R2_CLI_FIRSTUSE_VERIFY"
+   ],
+   "source_expectation_ids": [
+    "REQ-S4R2-DOC-001"
+   ],
+   "allowed_hitl": [
+    "PUBLICATION_APPROVAL"
+   ],
+   "source_locators": [
+    "F0 P1",
+    "F1 §5",
+    "README.md Quickstart"
+   ]
+  },
+  {
+   "journey_id": "J-COMPILER-REAL",
+   "required": true,
+   "user_goal": "A newcomer copies a real, existing fixture and drives intake -> compile-pi -> bind-pd -> compile-ecp -> compile-tqaep -> validate with no placeholder and no fake source; a second replay is digest-stable and a missing source is refused.",
+   "expected_automatic_behavior": [
+    "the README points at a fixture that exists in the tree",
+    "every command's flags match the real CLI",
+    "the transcript is the raw stdout of a real run"
+   ],
+   "expected_manual_behavior": [
+    "the user supplies a disposable directory outside the repository"
+   ],
+   "expected_visible_result": "a valid chain with verifiable artefact digests, stable on replay",
+   "negative_behavior": [
+    "a fabricated source or receipt must be refused with a typed error"
+   ],
+   "failure_recovery": [
+    "typed refusals name the exact missing authority"
+   ],
+   "required_capabilities": [
+    "CAP_S4R2_COMPILER_REAL_FIXTURE"
+   ],
+   "source_expectation_ids": [
+    "REQ-S4R2-DOC-001"
+   ],
+   "allowed_hitl": [
+    "PUBLICATION_APPROVAL"
+   ],
+   "source_locators": [
+    "F0 P1",
+    "F1 §7 W05",
+    "examples/self-bootstrap/"
+   ]
+  },
+  {
+   "journey_id": "J-PROFILE-TRUST",
+   "required": true,
+   "user_goal": "Profile selection refuses duplicate or wrong-typed axes with a typed first-fail, and an unknown or unevidenced risk state is reported as NOT_ASSESSED instead of being called safe.",
+   "expected_automatic_behavior": [
+    "duplicate axes are refused before any escalation math",
+    "the emitted axes equal the effective axes",
+    "risk_assessment is honest"
+   ],
+   "expected_manual_behavior": [
+    "the user states the profile and axis set"
+   ],
+   "expected_visible_result": "LITE / STANDARD / ASSURED still resolve for legal inputs; illegal ones refuse",
+   "negative_behavior": [
+    "nine category axes are not twelve calibrated risk axes; LOW_RISK_VERIFIED is never emitted"
+   ],
+   "failure_recovery": [
+    "the legal ladder does not regress"
+   ],
+   "required_capabilities": [
+    "CAP_S4R2_PROFILE_TRUST"
+   ],
+   "source_expectation_ids": [
+    "REQ-S4R2-CONTRACT-003"
+   ],
+   "allowed_hitl": [
+    "PUBLICATION_APPROVAL"
+   ],
+   "source_locators": [
+    "F0 P3",
+    "F1 §6.1",
+    "src/pipd_ls_sp/profiles.py"
+   ]
+  },
+  {
+   "journey_id": "J-MACHINE-CONTRACT",
+   "required": true,
+   "user_goal": "The 19 contract families stay exact; an illegally typed identity/trace value is refused with an accurate first-fail and the earlier CE-1/CE-2 refusals do not regress.",
+   "expected_automatic_behavior": [
+    "identity fields carry a JSON type",
+    "the PI trace shape is constrained",
+    "no string-cast leniency"
+   ],
+   "expected_manual_behavior": [
+    "the user supplies a bundle or a record"
+   ],
+   "expected_visible_result": "a legal bundle validates with zero findings; int/null/scalar/malformed cases each fail on the right field",
+   "negative_behavior": [
+    "stray trace keys stay refused for PD/ECP/TQAEP"
+   ],
+   "failure_recovery": [
+    "a legal legacy fixture still succeeds"
+   ],
+   "required_capabilities": [
+    "CAP_S4R2_MACHINE_CONTRACT_TYPING"
+   ],
+   "source_expectation_ids": [
+    "REQ-S4R2-CONTRACT-003"
+   ],
+   "allowed_hitl": [
+    "PUBLICATION_APPROVAL"
+   ],
+   "source_locators": [
+    "F0 P3",
+    "F1 §6.2",
+    "schemas/PI-PKG.schema.json"
+   ]
+  },
+  {
+   "journey_id": "J-WEB-CONSUMER",
+   "required": true,
+   "user_goal": "A web consumer mounts the single versioned pack and gets sourced candidate answers, while native-skill upload and manual document/Knowledge mode are declared separately and a host without native eligibility is reported NOT_RUN.",
+   "expected_automatic_behavior": [
+    "the dispatcher routes to the references",
+    "the two modes are described separately",
+    "the pack never claims host capability it lacks"
+   ],
+   "expected_manual_behavior": [
+    "the user attaches the ZIP or uploads the skill, depending on account capability"
+   ],
+   "expected_visible_result": "five recorded cases; refusals stay typed and the claim ceiling is visible",
+   "negative_behavior": [
+    "the pack must not assert native load from mere file presence"
+   ],
+   "failure_recovery": [
+    "a refusal explains what is missing rather than inventing a result"
+   ],
+   "required_capabilities": [
+    "CAP_S4R2_WEB_MOUNT_CONSUME"
+   ],
+   "source_expectation_ids": [
+    "REQ-S4R2-WEB-002"
+   ],
+   "allowed_hitl": [
+    "PUBLICATION_APPROVAL"
+   ],
+   "source_locators": [
+    "F0 P2",
+    "F1 §4.1",
+    "F1 §12",
+    "dist/mount/"
+   ]
+  }
+ ],
+ "acceptance": [
+  {
+   "acceptance_id": "ACC-CAP_S4R2_CLI_FIRSTUSE_VERIFY",
+   "subject_id": "CAP_S4R2_CLI_FIRSTUSE_VERIFY",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for CAP_S4R2_CLI_FIRSTUSE_VERIFY",
+   "negative_fixture": "negative/mutation fixture for CAP_S4R2_CLI_FIRSTUSE_VERIFY",
+   "recovery_fixture": "recovery fixture for CAP_S4R2_CLI_FIRSTUSE_VERIFY",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 P1",
+    "F1 section 5",
+    "F1 F-S4R2-01"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S4R2_COMPILER_REAL_FIXTURE",
+   "subject_id": "CAP_S4R2_COMPILER_REAL_FIXTURE",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for CAP_S4R2_COMPILER_REAL_FIXTURE",
+   "negative_fixture": "negative/mutation fixture for CAP_S4R2_COMPILER_REAL_FIXTURE",
+   "recovery_fixture": "recovery fixture for CAP_S4R2_COMPILER_REAL_FIXTURE",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 P1",
+    "F1 W05",
+    "F1 F-S4R2-05"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S4R2_WEB_MOUNT_CONSUME",
+   "subject_id": "CAP_S4R2_WEB_MOUNT_CONSUME",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for CAP_S4R2_WEB_MOUNT_CONSUME",
+   "negative_fixture": "negative/mutation fixture for CAP_S4R2_WEB_MOUNT_CONSUME",
+   "recovery_fixture": "recovery fixture for CAP_S4R2_WEB_MOUNT_CONSUME",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 P2",
+    "F1 W02",
+    "F1 F-S4R2-06"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S4R2_PROFILE_TRUST",
+   "subject_id": "CAP_S4R2_PROFILE_TRUST",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for CAP_S4R2_PROFILE_TRUST",
+   "negative_fixture": "negative/mutation fixture for CAP_S4R2_PROFILE_TRUST",
+   "recovery_fixture": "recovery fixture for CAP_S4R2_PROFILE_TRUST",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 P3",
+    "F1 section 6.1",
+    "F1 F-S4R2-02"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S4R2_MACHINE_CONTRACT_TYPING",
+   "subject_id": "CAP_S4R2_MACHINE_CONTRACT_TYPING",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for CAP_S4R2_MACHINE_CONTRACT_TYPING",
+   "negative_fixture": "negative/mutation fixture for CAP_S4R2_MACHINE_CONTRACT_TYPING",
+   "recovery_fixture": "recovery fixture for CAP_S4R2_MACHINE_CONTRACT_TYPING",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 P3",
+    "F1 section 6.2",
+    "F1 F-S4R2-04",
+    "F1 F-S4R2-NEW-01"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S4R2_SOURCE_BOOTSTRAP",
+   "subject_id": "CAP_S4R2_SOURCE_BOOTSTRAP",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for CAP_S4R2_SOURCE_BOOTSTRAP",
+   "negative_fixture": "negative/mutation fixture for CAP_S4R2_SOURCE_BOOTSTRAP",
+   "recovery_fixture": "recovery fixture for CAP_S4R2_SOURCE_BOOTSTRAP",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 P4",
+    "F1 W06",
+    "F1 F-S4R2-10"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S4R2_HGK_ADMISSION",
+   "subject_id": "CAP_S4R2_HGK_ADMISSION",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for CAP_S4R2_HGK_ADMISSION",
+   "negative_fixture": "negative/mutation fixture for CAP_S4R2_HGK_ADMISSION",
+   "recovery_fixture": "recovery fixture for CAP_S4R2_HGK_ADMISSION",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 section 2.3",
+    "F0 P0.2"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S4R2_INDEPENDENT_VERIFY",
+   "subject_id": "CAP_S4R2_INDEPENDENT_VERIFY",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for CAP_S4R2_INDEPENDENT_VERIFY",
+   "negative_fixture": "negative/mutation fixture for CAP_S4R2_INDEPENDENT_VERIFY",
+   "recovery_fixture": "recovery fixture for CAP_S4R2_INDEPENDENT_VERIFY",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 section 8",
+    "F1 section 3.1"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S4R2_GITHUB_PUBLICATION",
+   "subject_id": "CAP_S4R2_GITHUB_PUBLICATION",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for CAP_S4R2_GITHUB_PUBLICATION",
+   "negative_fixture": "negative/mutation fixture for CAP_S4R2_GITHUB_PUBLICATION",
+   "recovery_fixture": "recovery fixture for CAP_S4R2_GITHUB_PUBLICATION",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 credentials",
+    "F0 P0.3"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_S4R2_S5_PROVIDERS",
+   "subject_id": "CAP_S4R2_S5_PROVIDERS",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for CAP_S4R2_S5_PROVIDERS",
+   "negative_fixture": "negative/mutation fixture for CAP_S4R2_S5_PROVIDERS",
+   "recovery_fixture": "recovery fixture for CAP_S4R2_S5_PROVIDERS",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F1 F-S4R2-11",
+    "F1 section 4"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J-CLI-FIRST",
+   "subject_id": "J-CLI-FIRST",
+   "subject_type": "JOURNEY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for J-CLI-FIRST",
+   "negative_fixture": "negative/mutation fixture for J-CLI-FIRST",
+   "recovery_fixture": "recovery fixture for J-CLI-FIRST",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 P1",
+    "F1 §5",
+    "README.md Quickstart"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J-COMPILER-REAL",
+   "subject_id": "J-COMPILER-REAL",
+   "subject_type": "JOURNEY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for J-COMPILER-REAL",
+   "negative_fixture": "negative/mutation fixture for J-COMPILER-REAL",
+   "recovery_fixture": "recovery fixture for J-COMPILER-REAL",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 P1",
+    "F1 §7 W05",
+    "examples/self-bootstrap/"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J-PROFILE-TRUST",
+   "subject_id": "J-PROFILE-TRUST",
+   "subject_type": "JOURNEY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for J-PROFILE-TRUST",
+   "negative_fixture": "negative/mutation fixture for J-PROFILE-TRUST",
+   "recovery_fixture": "recovery fixture for J-PROFILE-TRUST",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 P3",
+    "F1 §6.1",
+    "src/pipd_ls_sp/profiles.py"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J-MACHINE-CONTRACT",
+   "subject_id": "J-MACHINE-CONTRACT",
+   "subject_type": "JOURNEY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for J-MACHINE-CONTRACT",
+   "negative_fixture": "negative/mutation fixture for J-MACHINE-CONTRACT",
+   "recovery_fixture": "recovery fixture for J-MACHINE-CONTRACT",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 P3",
+    "F1 §6.2",
+    "schemas/PI-PKG.schema.json"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J-WEB-CONSUMER",
+   "subject_id": "J-WEB-CONSUMER",
+   "subject_type": "JOURNEY",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": true,
+   "positive_fixture": "positive fixture for J-WEB-CONSUMER",
+   "negative_fixture": "negative/mutation fixture for J-WEB-CONSUMER",
+   "recovery_fixture": "recovery fixture for J-WEB-CONSUMER",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "source_locators": [
+    "F0 P2",
+    "F1 §4.1",
+    "F1 §12",
+    "dist/mount/"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-S4R2-DOC-001",
+   "subject_id": "REQ-S4R2-DOC-001",
+   "subject_type": "REQUIREMENT",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for REQ-S4R2-DOC-001",
+   "negative_fixture": "negative/mutation fixture for REQ-S4R2-DOC-001",
+   "recovery_fixture": "recovery fixture for REQ-S4R2-DOC-001",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 section 3",
+    "F1 section 9"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-S4R2-WEB-002",
+   "subject_id": "REQ-S4R2-WEB-002",
+   "subject_type": "REQUIREMENT",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for REQ-S4R2-WEB-002",
+   "negative_fixture": "negative/mutation fixture for REQ-S4R2-WEB-002",
+   "recovery_fixture": "recovery fixture for REQ-S4R2-WEB-002",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 section 3",
+    "F1 section 9"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-S4R2-CONTRACT-003",
+   "subject_id": "REQ-S4R2-CONTRACT-003",
+   "subject_type": "REQUIREMENT",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for REQ-S4R2-CONTRACT-003",
+   "negative_fixture": "negative/mutation fixture for REQ-S4R2-CONTRACT-003",
+   "recovery_fixture": "recovery fixture for REQ-S4R2-CONTRACT-003",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 section 3",
+    "F1 section 9"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-S4R2-SOURCE-004",
+   "subject_id": "REQ-S4R2-SOURCE-004",
+   "subject_type": "REQUIREMENT",
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for REQ-S4R2-SOURCE-004",
+   "negative_fixture": "negative/mutation fixture for REQ-S4R2-SOURCE-004",
+   "recovery_fixture": "recovery fixture for REQ-S4R2-SOURCE-004",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 section 3",
+    "F1 section 9"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4R2_PROMPT_COMPILER_READBACK",
+   "subject_id": "S4R2_PROMPT_COMPILER_READBACK",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4R2_PROMPT_COMPILER_READBACK",
+   "negative_fixture": "negative/mutation fixture for S4R2_PROMPT_COMPILER_READBACK",
+   "recovery_fixture": "recovery fixture for S4R2_PROMPT_COMPILER_READBACK",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 section 8",
+    "F0 section 9"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4R2_HGK_ADMISSION_READBACK",
+   "subject_id": "S4R2_HGK_ADMISSION_READBACK",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4R2_HGK_ADMISSION_READBACK",
+   "negative_fixture": "negative/mutation fixture for S4R2_HGK_ADMISSION_READBACK",
+   "recovery_fixture": "recovery fixture for S4R2_HGK_ADMISSION_READBACK",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 section 8",
+    "F0 section 9"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4R2_FINDING_DISPOSITION",
+   "subject_id": "S4R2_FINDING_DISPOSITION",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4R2_FINDING_DISPOSITION",
+   "negative_fixture": "negative/mutation fixture for S4R2_FINDING_DISPOSITION",
+   "recovery_fixture": "recovery fixture for S4R2_FINDING_DISPOSITION",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 section 8",
+    "F0 section 9"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4R2_UAT_MATRIX",
+   "subject_id": "S4R2_UAT_MATRIX",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4R2_UAT_MATRIX",
+   "negative_fixture": "negative/mutation fixture for S4R2_UAT_MATRIX",
+   "recovery_fixture": "recovery fixture for S4R2_UAT_MATRIX",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 section 8",
+    "F0 section 9"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4R2_CANDIDATE_TUPLE",
+   "subject_id": "S4R2_CANDIDATE_TUPLE",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4R2_CANDIDATE_TUPLE",
+   "negative_fixture": "negative/mutation fixture for S4R2_CANDIDATE_TUPLE",
+   "recovery_fixture": "recovery fixture for S4R2_CANDIDATE_TUPLE",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 section 8",
+    "F0 section 9"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4R2_EVIDENCE_MASTER_MD",
+   "subject_id": "S4R2_EVIDENCE_MASTER_MD",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4R2_EVIDENCE_MASTER_MD",
+   "negative_fixture": "negative/mutation fixture for S4R2_EVIDENCE_MASTER_MD",
+   "recovery_fixture": "recovery fixture for S4R2_EVIDENCE_MASTER_MD",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 section 8",
+    "F0 section 9"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4R2_KANBAN_SWARM_RECEIPT",
+   "subject_id": "S4R2_KANBAN_SWARM_RECEIPT",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4R2_KANBAN_SWARM_RECEIPT",
+   "negative_fixture": "negative/mutation fixture for S4R2_KANBAN_SWARM_RECEIPT",
+   "recovery_fixture": "recovery fixture for S4R2_KANBAN_SWARM_RECEIPT",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 section 8",
+    "F0 section 9"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4R2_OPENSPEC_CHANGE",
+   "subject_id": "S4R2_OPENSPEC_CHANGE",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4R2_OPENSPEC_CHANGE",
+   "negative_fixture": "negative/mutation fixture for S4R2_OPENSPEC_CHANGE",
+   "recovery_fixture": "recovery fixture for S4R2_OPENSPEC_CHANGE",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 section 8",
+    "F0 section 9"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4R2_INDEPENDENT_RECEIPT",
+   "subject_id": "S4R2_INDEPENDENT_RECEIPT",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4R2_INDEPENDENT_RECEIPT",
+   "negative_fixture": "negative/mutation fixture for S4R2_INDEPENDENT_RECEIPT",
+   "recovery_fixture": "recovery fixture for S4R2_INDEPENDENT_RECEIPT",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 section 8",
+    "F0 section 9"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4R2_WEB_MOUNT_READBACK",
+   "subject_id": "S4R2_WEB_MOUNT_READBACK",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4R2_WEB_MOUNT_READBACK",
+   "negative_fixture": "negative/mutation fixture for S4R2_WEB_MOUNT_READBACK",
+   "recovery_fixture": "recovery fixture for S4R2_WEB_MOUNT_READBACK",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 section 8",
+    "F0 section 9"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4R2_RESIDUAL_TYPING_PATCH",
+   "subject_id": "S4R2_RESIDUAL_TYPING_PATCH",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4R2_RESIDUAL_TYPING_PATCH",
+   "negative_fixture": "negative/mutation fixture for S4R2_RESIDUAL_TYPING_PATCH",
+   "recovery_fixture": "recovery fixture for S4R2_RESIDUAL_TYPING_PATCH",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 section 8",
+    "F0 section 9"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-S4R2_PUBLICATION_STATUS",
+   "subject_id": "S4R2_PUBLICATION_STATUS",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "runtime_required": false,
+   "positive_fixture": "positive fixture for S4R2_PUBLICATION_STATUS",
+   "negative_fixture": "negative/mutation fixture for S4R2_PUBLICATION_STATUS",
+   "recovery_fixture": "recovery fixture for S4R2_PUBLICATION_STATUS",
+   "raw_evidence_required": true,
+   "independent_checker_required": false,
+   "source_locators": [
+    "F0 section 8",
+    "F0 section 9"
+   ],
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "NOT_RUN"
+   ]
+  }
+ ],
+ "evidence": [
+  {
+   "gate_id": "G-S4R2-PROMPT-COMPILE",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "NATIVE_COMPILER_PASS",
+   "expected": "NATIVE_COMPILER_PASS: verdict evidence from python scripts/prompt_contract_compiler.py lint|activation|acceptance|compile <contract>",
+   "command_or_probe": "python scripts/prompt_contract_compiler.py lint|activation|acceptance|compile <contract>",
+   "raw_receipt_required": true,
+   "producer": "HERMES_ORCHESTRATOR_PLAN_LANE_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GPT-6.1-SOL-MEDIUM_OPENAI-OAUTH_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "contract change",
+    "compiler bundle change",
+    "source hash change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_S4R2_REPAIR_PROMPT",
+     "F1_S4R2_REAUDIT_REPORT",
+     "F2_RELEASE_SUBJECT_EVIDENCE",
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ]
+   }
+  },
+  {
+   "gate_id": "G-S4R2-HGK-ADMISSION",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "HGK_ADMISSION_TRACE",
+   "expected": "HGK_ADMISSION_TRACE: verdict evidence from hg_kseos lifecycle API + kanban board readback",
+   "command_or_probe": "hg_kseos lifecycle API + kanban board readback",
+   "raw_receipt_required": true,
+   "producer": "HERMES_ORCHESTRATOR_PLAN_LANE_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GPT-6.1-SOL-MEDIUM_OPENAI-OAUTH_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "lifecycle state change",
+    "board change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_S4R2_REPAIR_PROMPT",
+     "F1_S4R2_REAUDIT_REPORT",
+     "F2_RELEASE_SUBJECT_EVIDENCE",
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ]
+   }
+  },
+  {
+   "gate_id": "G-S4R2-DOC-FIRSTUSE",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "FRESH_SHELL_REPLAY",
+   "expected": "FRESH_SHELL_REPLAY: verdict evidence from fresh bash + PowerShell replay of the README quickstart from an empty scratch directory",
+   "command_or_probe": "fresh bash + PowerShell replay of the README quickstart from an empty scratch directory",
+   "raw_receipt_required": true,
+   "producer": "CODEX_BOUNDED_WRITER_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GPT-6.1-SOL-MEDIUM_OPENAI-OAUTH_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "README change",
+    "release asset change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_S4R2_REPAIR_PROMPT",
+     "F1_S4R2_REAUDIT_REPORT",
+     "F2_RELEASE_SUBJECT_EVIDENCE",
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ]
+   }
+  },
+  {
+   "gate_id": "G-S4R2-COMPILER-FIXTURE",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "REAL_FIXTURE_REPLAY",
+   "expected": "REAL_FIXTURE_REPLAY: verdict evidence from drive examples/self-bootstrap/ then the documented CLI chain twice and compare digests",
+   "command_or_probe": "drive examples/self-bootstrap/ then the documented CLI chain twice and compare digests",
+   "raw_receipt_required": true,
+   "producer": "CODEX_BOUNDED_WRITER_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GPT-6.1-SOL-MEDIUM_OPENAI-OAUTH_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "fixture change",
+    "CLI change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_S4R2_REPAIR_PROMPT",
+     "F1_S4R2_REAUDIT_REPORT",
+     "F2_RELEASE_SUBJECT_EVIDENCE",
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ]
+   }
+  },
+  {
+   "gate_id": "G-S4R2-WEB-MOUNT",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "PACK_READBACK",
+   "expected": "PACK_READBACK: verdict evidence from extract the mount ZIP, verify MANIFEST.sha256, and run the five recorded consumption cases",
+   "command_or_probe": "extract the mount ZIP, verify MANIFEST.sha256, and run the five recorded consumption cases",
+   "raw_receipt_required": true,
+   "producer": "CODEX_BOUNDED_WRITER_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GPT-6.1-SOL-MEDIUM_OPENAI-OAUTH_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "pack change",
+    "reference change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_S4R2_REPAIR_PROMPT",
+     "F1_S4R2_REAUDIT_REPORT",
+     "F2_RELEASE_SUBJECT_EVIDENCE",
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ]
+   }
+  },
+  {
+   "gate_id": "G-S4R2-CONTRACT-HARDEN",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "TYPED_REFUSAL_POS_NEG",
+   "expected": "TYPED_REFUSAL_POS_NEG: verdict evidence from positive + negative + mutation probes against profiles and the contract schemas",
+   "command_or_probe": "positive + negative + mutation probes against profiles and the contract schemas",
+   "raw_receipt_required": true,
+   "producer": "CODEX_BOUNDED_WRITER_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GPT-6.1-SOL-MEDIUM_OPENAI-OAUTH_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "schema change",
+    "profiles change",
+    "pipeline change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_S4R2_REPAIR_PROMPT",
+     "F1_S4R2_REAUDIT_REPORT",
+     "F2_RELEASE_SUBJECT_EVIDENCE",
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ]
+   }
+  },
+  {
+   "gate_id": "G-S4R2-REGRESSION",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "EXACT_SET_AND_SUITE",
+   "expected": "EXACT_SET_AND_SUITE: verdict evidence from 19/8/13 exact sets plus the affected dependency edges of the full suite",
+   "command_or_probe": "19/8/13 exact sets plus the affected dependency edges of the full suite",
+   "raw_receipt_required": true,
+   "producer": "HERMES_ORCHESTRATOR_PLAN_LANE_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GPT-6.1-SOL-MEDIUM_OPENAI-OAUTH_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "any product file change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_S4R2_REPAIR_PROMPT",
+     "F1_S4R2_REAUDIT_REPORT",
+     "F2_RELEASE_SUBJECT_EVIDENCE",
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ]
+   }
+  },
+  {
+   "gate_id": "G-S4R2-INDEPENDENT-VERIFY",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "INDEPENDENT_SCOPE_RECEIPT",
+   "expected": "INDEPENDENT_SCOPE_RECEIPT: verdict evidence from the independent checker lane re-derives the decisive claims on the frozen candidate",
+   "command_or_probe": "the independent checker lane re-derives the decisive claims on the frozen candidate",
+   "raw_receipt_required": true,
+   "producer": "HERMES_ORCHESTRATOR_PLAN_LANE_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GPT-6.1-SOL-MEDIUM_OPENAI-OAUTH_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "candidate change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_S4R2_REPAIR_PROMPT",
+     "F1_S4R2_REAUDIT_REPORT",
+     "F2_RELEASE_SUBJECT_EVIDENCE",
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ]
+   }
+  },
+  {
+   "gate_id": "G-S4R2-PUBLICATION",
+   "tracked_subject": true,
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "OWNER_GATED_REMOTE_WRITE",
+   "expected": "OWNER_GATED_REMOTE_WRITE: verdict evidence from credential preflight + broker dry-run + remote readback",
+   "command_or_probe": "credential preflight + broker dry-run + remote readback",
+   "raw_receipt_required": true,
+   "producer": "HERMES_ORCHESTRATOR_PLAN_LANE_DEEPSEEK-V4.1-FLASH",
+   "independent_checker": "GPT-6.1-SOL-MEDIUM_OPENAI-OAUTH_INDEPENDENT_OFFICER",
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "invalidation": [
+    "credential state change"
+   ],
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_S4R2_REPAIR_PROMPT",
+     "F1_S4R2_REAUDIT_REPORT",
+     "F2_RELEASE_SUBJECT_EVIDENCE",
+     "F7_LOCAL_CANDIDATE_WORKTREE"
+    ]
+   }
+  }
+ ],
+ "termination": {
+  "terminal_states": [
+   "S4_R2_AFFECTED_ONLY_CANDIDATE_DELIVERED",
+   "FAIL",
+   "BLOCKED_HITL",
+   "BLOCKED_EXTERNAL",
+   "NO_WRITES_TEMP_CLOSED"
+  ],
+  "non_terminal_pause": [
+   "ITERATION_BUDGET_PAUSE",
+   "SESSION_BOUNDARY",
+   "AWAITING_STEER",
+   "SCOPE_EXPANSION_HITL"
+  ],
+  "checkpoint_required": true,
+  "checkpoint_fields": [
+   "task_id",
+   "source_hashes",
+   "current_candidate",
+   "completed_gates",
+   "open_gates",
+   "next_work_order",
+   "rollback_pointer",
+   "workorder_ids",
+   "tt_delta"
+  ],
+  "retry_budget": 3,
+  "rollback_pointer_required": true
+ },
+ "render_policy": {
+  "control_corpus_restatement": false,
+  "embedded_control_bodies": [],
+  "max_prompt_chars": 30000,
+  "output_language": "zh-Hant-TW"
+ }
+}

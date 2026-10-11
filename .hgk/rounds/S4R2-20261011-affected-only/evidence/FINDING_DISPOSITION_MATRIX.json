@@ -1,0 +1,257 @@
+{
+ "schema": "PIPD-S4R2-FINDING-DISPOSITION/1",
+ "source_report": {
+  "id": "PIPD-S4-POSTRELEASE-CHALLENGE-REAUDIT-20261011-R2",
+  "sha256": "a0cee8741f3d0bd7f5fa84475757e4923fd0dc10ce7167a362a80c048732052c"
+ },
+ "total_findings": 13,
+ "tally": {
+  "closed_in_this_round": 8,
+  "preserved_as_recorded": 1,
+  "deferred_or_gap": 3
+ },
+ "dispositions": [
+  {
+   "finding": "F-S4R2-01",
+   "severity": "P1",
+   "category": "Programming/Speculation",
+   "subject": "the download/verify instruction turned a fully verified-looking success into a success that never hash-checked the wheel",
+   "r2_disposition": "CLOSED_IN_THIS_ROUND",
+   "work_order": "S4-DOC-FIRSTUSE-01",
+   "evidence_refs": [
+    "EV/S4R2-20261011-affected-only/preflight/RECONCILIATION_FRESH_EVIDENCE.json"
+   ],
+   "basis": "fresh: 5/5 cases PASS -- wheel-only filter on the REAL published SHA256SUMS + REAL wheel bytes exits 0; the legacy whole-file run still exits 1 with 'FAILED open or read' (the reaudit's own counterexample, preserved); recomputed wheel digest equals the published literal d6c3e295..."
+  },
+  {
+   "finding": "F-S4R2-02",
+   "severity": "P1",
+   "category": "Design/Constraint",
+   "subject": "duplicate axes were silently accepted and could inflate a profile",
+   "r2_disposition": "CLOSED_IN_THIS_ROUND",
+   "work_order": "S4-CONTRACT-HARDEN-03",
+   "evidence_refs": [
+    "EV/S4R2-20261011-affected-only/preflight/RECONCILIATION_FRESH_EVIDENCE.json"
+   ],
+   "basis": "fresh: 8/8 PASS -- ['intent']*4, non-string axes, empty and unknown axes all yield typed refusals; the legal LITE/STANDARD/ASSURED triad still passes"
+  },
+  {
+   "finding": "F-S4R2-03",
+   "severity": "P1",
+   "category": "Programming/Speculation",
+   "subject": "a nine-axis category set is not a twelve-axis calibrated risk score; an unassessed profile could read as risk-safe",
+   "r2_disposition": "CLOSED_IN_THIS_ROUND",
+   "work_order": "S4-CONTRACT-HARDEN-03",
+   "evidence_refs": [
+    "EV/S4R2-20261011-affected-only/preflight/RECONCILIATION_FRESH_EVIDENCE.json"
+   ],
+   "basis": "fresh: 1/1 PASS -- with no risk evidence the record carries risk_assessment=NOT_ASSESSED and LOW_RISK_VERIFIED is never emitted"
+  },
+  {
+   "finding": "F-S4R2-04",
+   "severity": "P1",
+   "category": "Programming/Speculation",
+   "subject": "identity and PI trace fields were untyped {}, so a wrongly typed value was accepted",
+   "r2_disposition": "CLOSED_IN_THIS_ROUND",
+   "work_order": "S4-CONTRACT-HARDEN-03",
+   "evidence_refs": [
+    "EV/S4R2-20261011-affected-only/preflight/RECONCILIATION_FRESH_EVIDENCE.json"
+   ],
+   "basis": "fresh: 6/6 PASS -- subject_id as int/null, empty, wrong hash length and a malformed PI trace are each refused; legal CE regression intact"
+  },
+  {
+   "finding": "F-S4R2-05",
+   "severity": "P1",
+   "category": "Programming/Speculation",
+   "subject": "the documented compiler walk-through is not runnable; it is a block of placeholders",
+   "r2_disposition": "OPEN_THEN_CLOSED_IN_THIS_ROUND",
+   "work_order": "S4-DOC-FIRSTUSE-01",
+   "evidence_refs": [
+    "execute/EXITS.txt",
+    "execute/WO-A.exec-*.log"
+   ],
+   "basis": "was the only genuinely open documentation delta; the front page now points at examples/first-run/ and every printed command was executed (see the lane receipt and the orchestrator re-run)"
+  },
+  {
+   "finding": "F-S4R2-06",
+   "severity": "P1",
+   "category": "Design/Constraint",
+   "subject": "a web mount pack existed but native skill eligibility and manual fallback were not separated as capabilities",
+   "r2_disposition": "CLOSED_IN_THIS_ROUND",
+   "work_order": "S4-WEB-MOUNT-02",
+   "evidence_refs": [
+    "EV/S4R2-20261011-affected-only/preflight/RECONCILIATION_FRESH_EVIDENCE.json",
+    "dist/mount/"
+   ],
+   "basis": "fresh: 3/3 PASS -- the mount ZIP extracts, its MANIFEST.sha256 verifies, and the documented files are present; native load stays NOT_RUN (no eligible UI in this environment), which the pack itself declares"
+  },
+  {
+   "finding": "F-S4R2-07",
+   "severity": "-",
+   "category": "-",
+   "subject": "R7 scoped PASS and R8 overall FAIL are both on record for different subjects",
+   "r2_disposition": "PRESERVED_AS_RECORDED",
+   "work_order": "none (no work order) ",
+   "evidence_refs": [
+    "F1 section 7"
+   ],
+   "basis": "not re-litigated; no cross-subject addition of R7 successes into a FULL_PASS claim"
+  },
+  {
+   "finding": "F-S4R2-08",
+   "severity": "P2",
+   "category": "Programming/Speculation",
+   "subject": "the 57-row crosswalk carries EVIDENCE_GAP rows and one stale rolling-ledger row",
+   "r2_disposition": "LIMITED_AFFECTED_ONLY_FULL_DEFER",
+   "work_order": "none (deferred) ",
+   "evidence_refs": [
+    "F1 section 8"
+   ],
+   "basis": "no 57/57 all-green claim is made; only affected rows were touched and DEL-018 is marked 'different subject'"
+  },
+  {
+   "finding": "F-S4R2-09",
+   "severity": "P2",
+   "category": "Programming/Speculation",
+   "subject": "the .1/.2 preview artefacts share the 0.1.0 distribution basename while differing in bytes",
+   "r2_disposition": "OPEN_THEN_CLOSED_IN_THIS_ROUND",
+   "work_order": "S4-DOC-FIRSTUSE-01",
+   "evidence_refs": [
+    "execute/EXITS.txt"
+   ],
+   "basis": "stated on the front page with PEP 440 guidance; no new version was issued and none is claimed as upgradable"
+  },
+  {
+   "finding": "F-S4R2-10",
+   "severity": "P2",
+   "category": "Programming/Speculation",
+   "subject": "no pinned external source map and no replayable self-bootstrap",
+   "r2_disposition": "CLOSED_IN_THIS_ROUND",
+   "work_order": "S4-SOURCE-BOOTSTRAP-04",
+   "evidence_refs": [
+    "EV/S4R2-20261011-affected-only/preflight/RECONCILIATION_FRESH_EVIDENCE.json",
+    "docs/NORMATIVE_SOURCE_MAP.md",
+    "examples/self-bootstrap/"
+   ],
+   "basis": "fresh: 1/1 PASS -- the source map is present as a derived view and the self-bootstrap replays to the same digest; the 16 MB skeleton is not imported"
+  },
+  {
+   "finding": "F-S4R2-11",
+   "severity": "-",
+   "category": "-",
+   "subject": "S5+ live receivers / unused providers",
+   "r2_disposition": "OUT_OF_SCOPE_S5_PLUS",
+   "work_order": "none (S5+) ",
+   "evidence_refs": [
+    "F1 section 4"
+   ],
+   "basis": "listed OFF; no activation is asserted"
+  },
+  {
+   "finding": "F-S4R2-12",
+   "severity": "-",
+   "category": "-",
+   "subject": "no real published-wheel download and no native reviewer bundle in the reviewing environment",
+   "r2_disposition": "EVIDENCE_GAP_DISCLOSED",
+   "work_order": "none (evidence gap) ",
+   "evidence_refs": [
+    "F1 section 3.1"
+   ],
+   "basis": "carried as an open item with an owner and a trigger rather than rounded up"
+  },
+  {
+   "finding": "F-S4R2-NEW-01",
+   "severity": "P1",
+   "category": "Programming/Speculation",
+   "subject": "found during reconciliation: ProfileBinding's profile/axes/vetoes/artifact_depth/assurance were still {} and accepted a string, a list with a non-string, and an integer",
+   "r2_disposition": "REGISTERED_AND_CLOSED_IN_THIS_ROUND",
+   "work_order": "S4-CONTRACT-HARDEN-03",
+   "evidence_refs": [
+    "EV/S4R2-20261011-affected-only/preflight/RECONCILIATION_FRESH_EVIDENCE.json"
+   ],
+   "basis": "source locator schemas/ProfileBinding.schema.json; 4 executed counterexamples all accepted before the patch; inside the admitted write-set because the duplicate-axes decision is evidenced in this record type; DISCLOSED as an addition beyond the reaudit's literal wording"
+  }
+ ],
+ "w01_w10_disposition": [
+  {
+   "item": "W01+W05",
+   "disposition": "S4-DOC-FIRSTUSE-01_ACTIVE",
+   "owner": "PIPD-LS-SP_開發實作指揮官",
+   "source_locator": "F1 section 7",
+   "impact": "bounded to the affected S4 MVP usability surface",
+   "fresh_disposition": "reconciled against the candidate before any work order was written",
+   "evidence_ref": "S4R2-20261011-affected-only/evidence/FINDING_DISPOSITION_MATRIX.json",
+   "revisit_trigger": "a real consumer ABI break, an owner-issued new release, or a named high-risk claim"
+  },
+  {
+   "item": "W02",
+   "disposition": "S4-WEB-MOUNT-02_ACTIVE_WITH_NATIVE_CONDITIONAL",
+   "owner": "PIPD-LS-SP_開發實作指揮官",
+   "source_locator": "F1 section 7",
+   "impact": "bounded to the affected S4 MVP usability surface",
+   "fresh_disposition": "reconciled against the candidate before any work order was written",
+   "evidence_ref": "S4R2-20261011-affected-only/evidence/FINDING_DISPOSITION_MATRIX.json",
+   "revisit_trigger": "a real consumer ABI break, an owner-issued new release, or a named high-risk claim"
+  },
+  {
+   "item": "W03+W04",
+   "disposition": "S4-CONTRACT-HARDEN-03_ACTIVE",
+   "owner": "PIPD-LS-SP_開發實作指揮官",
+   "source_locator": "F1 section 7",
+   "impact": "bounded to the affected S4 MVP usability surface",
+   "fresh_disposition": "reconciled against the candidate before any work order was written",
+   "evidence_ref": "S4R2-20261011-affected-only/evidence/FINDING_DISPOSITION_MATRIX.json",
+   "revisit_trigger": "a real consumer ABI break, an owner-issued new release, or a named high-risk claim"
+  },
+  {
+   "item": "W06",
+   "disposition": "S4-SOURCE-BOOTSTRAP-04_LIMITED_P2",
+   "owner": "PIPD-LS-SP_開發實作指揮官",
+   "source_locator": "F1 section 7",
+   "impact": "bounded to the affected S4 MVP usability surface",
+   "fresh_disposition": "reconciled against the candidate before any work order was written",
+   "evidence_ref": "S4R2-20261011-affected-only/evidence/FINDING_DISPOSITION_MATRIX.json",
+   "revisit_trigger": "a real consumer ABI break, an owner-issued new release, or a named high-risk claim"
+  },
+  {
+   "item": "W07",
+   "disposition": "DEFER_SKILLS_IN_WHEEL",
+   "owner": "owner (HITL)",
+   "source_locator": "F1 section 7",
+   "impact": "bounded to the affected S4 MVP usability surface",
+   "fresh_disposition": "reconciled against the candidate before any work order was written",
+   "evidence_ref": "S4R2-20261011-affected-only/evidence/FINDING_DISPOSITION_MATRIX.json",
+   "revisit_trigger": "a real consumer ABI break, an owner-issued new release, or a named high-risk claim"
+  },
+  {
+   "item": "W08",
+   "disposition": "ALREADY_DONE_NO_REMERGE",
+   "owner": "PIPD-LS-SP_開發實作指揮官",
+   "source_locator": "F1 section 7",
+   "impact": "bounded to the affected S4 MVP usability surface",
+   "fresh_disposition": "reconciled against the candidate before any work order was written",
+   "evidence_ref": "S4R2-20261011-affected-only/evidence/FINDING_DISPOSITION_MATRIX.json",
+   "revisit_trigger": "a real consumer ABI break, an owner-issued new release, or a named high-risk claim"
+  },
+  {
+   "item": "W09",
+   "disposition": "DEFER_HOSTED_CI_COMMERCIAL_SIGN_ALL_OS",
+   "owner": "owner (HITL)",
+   "source_locator": "F1 section 7",
+   "impact": "bounded to the affected S4 MVP usability surface",
+   "fresh_disposition": "reconciled against the candidate before any work order was written",
+   "evidence_ref": "S4R2-20261011-affected-only/evidence/FINDING_DISPOSITION_MATRIX.json",
+   "revisit_trigger": "a real consumer ABI break, an owner-issued new release, or a named high-risk claim"
+  },
+  {
+   "item": "W10",
+   "disposition": "OUT_OF_SCOPE_S5_PLUS",
+   "owner": "PIPD-LS-SP_開發實作指揮官",
+   "source_locator": "F1 section 7",
+   "impact": "bounded to the affected S4 MVP usability surface",
+   "fresh_disposition": "reconciled against the candidate before any work order was written",
+   "evidence_ref": "S4R2-20261011-affected-only/evidence/FINDING_DISPOSITION_MATRIX.json",
+   "revisit_trigger": "a real consumer ABI break, an owner-issued new release, or a named high-risk claim"
+  }
+ ]
+}

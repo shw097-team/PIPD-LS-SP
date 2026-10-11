@@ -1,0 +1,322 @@
+{
+ "schema": "PIPD-S4R2-RECONCILIATION/1",
+ "contract": "PIPD-LS-SP-S4-R2-POSTRELEASE-AFFECTED-ONLY-20261011",
+ "subject_branch": "s4-r2-affected-only-20261011",
+ "subject_commit": "546bc2e978fc94635eda8999ca91a84737109070",
+ "summary": {
+  "F-S4R2-01": {
+   "PASS": 5
+  },
+  "F-S4R2-02": {
+   "PASS": 8
+  },
+  "F-S4R2-03": {
+   "PASS": 1
+  },
+  "F-S4R2-04": {
+   "PASS": 6
+  },
+  "F-S4R2-06": {
+   "PASS": 3
+  },
+  "F-S4R2-10": {
+   "PASS": 1
+  },
+  "F-S4R2-NEW-01": {
+   "PASS": 1,
+   "FAIL": 4
+  }
+ },
+ "results": [
+  {
+   "finding": "F-S4R2-01",
+   "case": "legacy whole-file check with only the wheel present",
+   "kind": "NEG",
+   "command": "sha256sum -c SHA256SUMS",
+   "exit": 1,
+   "output": "pipd_ls_sp-0.1.0-py3-none-any.whl: OK\npipd-ls-sp-v0.1.0-preview.2-source.zip: FAILED open or read\nPREVIEW_NOTES_v0.1.0-preview.2.md: FAILED open or read\nsha256sum: pipd-ls-sp-v0.1.0-preview.2-source.zip: No such file or directory\nsha256sum: PREVIEW_NOTES_v0.1.0-preview.2.md: No such file or directory\nsha256sum: WARNING: 2 listed files could not be read\n",
+   "verdict": "PASS",
+   "note": "the reaudit's counterexample; must still be non-zero"
+  },
+  {
+   "finding": "F-S4R2-01",
+   "case": "README wheel-only filter, real published SHA256SUMS + real wheel bytes",
+   "kind": "POS",
+   "command": "grep '  pipd_ls_sp-0.1.0-py3-none-any.whl$' SHA256SUMS | sha256sum -c -",
+   "exit": 0,
+   "output": "pipd_ls_sp-0.1.0-py3-none-any.whl: OK\n",
+   "verdict": "PASS",
+   "note": ""
+  },
+  {
+   "finding": "F-S4R2-01",
+   "case": "recomputed wheel sha256 vs published literal",
+   "kind": "POS",
+   "command": "sha256sum pipd_ls_sp-0.1.0-py3-none-any.whl",
+   "exit": 0,
+   "output": "actual=d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f\npublished=d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f",
+   "verdict": "PASS",
+   "note": "the published digest is now verified from real bytes"
+  },
+  {
+   "finding": "F-S4R2-01",
+   "case": "tampered wheel byte through the README filter",
+   "kind": "NEG",
+   "command": "grep ... | sha256sum -c -",
+   "exit": 1,
+   "output": "pipd_ls_sp-0.1.0-py3-none-any.whl: FAILED\nsha256sum: WARNING: 1 computed checksum did NOT match\n",
+   "verdict": "PASS",
+   "note": ""
+  },
+  {
+   "finding": "F-S4R2-01",
+   "case": "zero rows with pipefail (pipe-left failure must surface)",
+   "kind": "NEG",
+   "command": "set -o pipefail; grep '  no-such-asset.whl$' SHA256SUMS | sha256sum -c -",
+   "exit": 1,
+   "output": "sha256sum: 'standard input': no properly formatted checksum lines found\n",
+   "verdict": "PASS",
+   "note": ""
+  },
+  {
+   "finding": "F-S4R2-02",
+   "case": "axis set dup_intent_x4",
+   "kind": "NEG",
+   "command": "compute_profile(requested='LITE', axes=dup_intent_x4)",
+   "exit": 0,
+   "output": "{\"msg\": \"duplicated axis/axes refused (double-counted complexity): ['intent']\", \"ok\": false, \"type\": \"ProfileVeto\"}",
+   "verdict": "PASS",
+   "note": "must be a typed refusal, not an escalation"
+  },
+  {
+   "finding": "F-S4R2-02",
+   "case": "axis set non_string",
+   "kind": "NEG",
+   "command": "compute_profile(requested='LITE', axes=non_string)",
+   "exit": 0,
+   "output": "{\"msg\": \"axes must be strings; non-string entries [7] refused\", \"ok\": false, \"type\": \"ProfileVeto\"}",
+   "verdict": "PASS",
+   "note": "must be a typed refusal, not an escalation"
+  },
+  {
+   "finding": "F-S4R2-02",
+   "case": "axis set empty",
+   "kind": "NEG",
+   "command": "compute_profile(requested='LITE', axes=empty)",
+   "exit": 0,
+   "output": "{\"msg\": \"axes must be a non-empty list (an empty axis set binds no surface)\", \"ok\": false, \"type\": \"ProfileVeto\"}",
+   "verdict": "PASS",
+   "note": "must be a typed refusal, not an escalation"
+  },
+  {
+   "finding": "F-S4R2-02",
+   "case": "axis set unknown_axis",
+   "kind": "NEG",
+   "command": "compute_profile(requested='LITE', axes=unknown_axis)",
+   "exit": 0,
+   "output": "{\"msg\": \"unknown axes ['not_an_axis']\", \"ok\": false, \"type\": \"UnsupportedSurface\"}",
+   "verdict": "PASS",
+   "note": "must be a typed refusal, not an escalation"
+  },
+  {
+   "finding": "F-S4R2-03",
+   "case": "trust_boundary tag without risk evidence",
+   "kind": "NEG",
+   "command": "compute_profile(requested='LITE', axes=['trust_boundary'])",
+   "exit": 0,
+   "output": "{\"ok\": true, \"result\": {\"artifact_depth\": \"L1_SCHEMA_CONTRACT\", \"assurance\": [\"deterministic_validator\"], \"axes\": [\"trust_boundary\"], \"canonical_truth\": \"single\", \"escalated\": false, \"escalation_reason\": null, \"profile\": \"LITE\", \"requested_profile\": \"LITE\", \"risk_assessment\": \"NOT_ASSESSED\", \"vetoes\": []}}",
+   "verdict": "PASS",
+   "note": "must emit risk_assessment=NOT_ASSESSED and never LOW_RISK_VERIFIED"
+  },
+  {
+   "finding": "F-S4R2-02",
+   "case": "legal ladder case lite_ok",
+   "kind": "POS",
+   "command": "compute_profile(...lite_ok)",
+   "exit": 0,
+   "output": "{\"ok\": true, \"result\": {\"artifact_depth\": \"L1_SCHEMA_CONTRACT\", \"assurance\": [\"deterministic_validator\"], \"axes\": [\"intent\"], \"canonical_truth\": \"single\", \"escalated\": false, \"escalation_reason\": null, \"profile\": \"LITE\", \"requested_profile\": \"LITE\", \"risk_assessment\": \"NOT_ASSESSED\", \"vetoes\": []}}",
+   "verdict": "PASS",
+   "note": "no regression on the legal ladder"
+  },
+  {
+   "finding": "F-S4R2-02",
+   "case": "legal ladder case standard_ok",
+   "kind": "POS",
+   "command": "compute_profile(...standard_ok)",
+   "exit": 0,
+   "output": "{\"ok\": true, \"result\": {\"artifact_depth\": \"L3_INTEGRATION_RUNTIME\", \"assurance\": [\"deterministic_validator\", \"negative_security\"], \"axes\": [\"intent\", \"knowledge\", \"release\", \"verification\"], \"canonical_truth\": \"single\", \"escalated\": false, \"escalation_reason\": null, \"profile\": \"STANDARD\", \"requested_profile\": \"STANDARD\", \"risk_assessment\": \"NOT_ASSESSED\", \"vetoes\": []}}",
+   "verdict": "PASS",
+   "note": "no regression on the legal ladder"
+  },
+  {
+   "finding": "F-S4R2-02",
+   "case": "legal ladder case assured_ok",
+   "kind": "POS",
+   "command": "compute_profile(...assured_ok)",
+   "exit": 0,
+   "output": "{\"ok\": true, \"result\": {\"artifact_depth\": \"L4_FAILURE_RECOVERY\", \"assurance\": [\"deterministic_validator\", \"negative_security\", \"adversarial\", \"independent_checker\"], \"axes\": [\"host_surface\", \"intent\", \"knowledge\", \"preexisting_repo\", \"profile\", \"release\", \"tech_candidates\", \"trust_boundary\", \"verification\"], \"canonical_truth\": \"single\", \"escalated\": false, \"escalation_reason\": null, \"profile\": \"ASSURED\", \"requested_profile\": \"ASSURED\", \"risk_assessment\": \"NOT_ASSESSED\", \"vetoes\": []}}",
+   "verdict": "PASS",
+   "note": "no regression on the legal ladder"
+  },
+  {
+   "finding": "F-S4R2-02",
+   "case": "legal ladder case provider_off_escalates",
+   "kind": "POS",
+   "command": "compute_profile(...provider_off_escalates)",
+   "exit": 0,
+   "output": "{\"ok\": true, \"result\": {\"artifact_depth\": \"L3_INTEGRATION_RUNTIME\", \"assurance\": [\"deterministic_validator\", \"negative_security\"], \"axes\": [\"intent\"], \"canonical_truth\": \"single\", \"escalated\": true, \"escalation_reason\": \"provider_off_parity\", \"profile\": \"STANDARD\", \"requested_profile\": \"LITE\", \"risk_assessment\": \"NOT_ASSESSED\", \"vetoes\": []}}",
+   "verdict": "PASS",
+   "note": "no regression on the legal ladder"
+  },
+  {
+   "finding": "F-S4R2-04",
+   "case": "legal PI control",
+   "kind": "POS",
+   "command": "validate_record PI-PKG [legal_control]",
+   "exit": 0,
+   "output": "[]",
+   "verdict": "PASS",
+   "note": "a legal record must have zero findings"
+  },
+  {
+   "finding": "F-S4R2-04",
+   "case": "subject_id_integer",
+   "kind": "NEG",
+   "command": "validate_record PI-PKG [subject_id_integer]",
+   "exit": 0,
+   "output": "[\"PI-PKG/subject_id: 12345 is not of type 'string'\"]",
+   "verdict": "PASS",
+   "note": "must be rejected with a typed first-fail"
+  },
+  {
+   "finding": "F-S4R2-04",
+   "case": "trace_malformed_item",
+   "kind": "NEG",
+   "command": "validate_record PI-PKG [trace_malformed_item]",
+   "exit": 0,
+   "output": "[\"PI-PKG/trace/0: 'from_type' is a required property\", \"PI-PKG/trace/0: 'from_hash' is a required property\", \"PI-PKG/trace/0: 'to_type' is a required property\", \"PI-PKG/trace/0: 'to_id' is a required property\", \"PI-PKG/trace/0: 'to_hash' is a required property\", \"PI-PKG/trace/0: 'rationale' is a required property\", \"PI-PKG/trace/0: 'subject_id' is a required property\", \"PI-PKG/trace/0: 'version' is a required property\", \"PI-PKG/trace/0: 'content_hash' is a required property\", \"PI-PKG/trace/0: 'schema_version' is a required property\"]",
+   "verdict": "PASS",
+   "note": "must be rejected with a typed first-fail"
+  },
+  {
+   "finding": "F-S4R2-04",
+   "case": "trace_null",
+   "kind": "NEG",
+   "command": "validate_record PI-PKG [trace_null]",
+   "exit": 0,
+   "output": "[\"PI-PKG/trace: None is not of type 'array'\"]",
+   "verdict": "PASS",
+   "note": "must be rejected with a typed first-fail"
+  },
+  {
+   "finding": "F-S4R2-04",
+   "case": "trace_scalar",
+   "kind": "NEG",
+   "command": "validate_record PI-PKG [trace_scalar]",
+   "exit": 0,
+   "output": "[\"PI-PKG/trace: 'not-an-array' is not of type 'array'\"]",
+   "verdict": "PASS",
+   "note": "must be rejected with a typed first-fail"
+  },
+  {
+   "finding": "F-S4R2-04",
+   "case": "version_integer",
+   "kind": "NEG",
+   "command": "validate_record PI-PKG [version_integer]",
+   "exit": 0,
+   "output": "[\"PI-PKG/version: 3 is not of type 'string'\"]",
+   "verdict": "PASS",
+   "note": "must be rejected with a typed first-fail"
+  },
+  {
+   "finding": "F-S4R2-06",
+   "case": "web mount ZIP vs its published sidecar digest",
+   "kind": "POS",
+   "command": "sha256sum dist/mount/*.zip",
+   "exit": 0,
+   "output": "actual=1992c54bb3e8e83588e4ef2930d1cc65ce7ada21460deb85930767a4db499daa\nsidecar=1992c54bb3e8e83588e4ef2930d1cc65ce7ada21460deb85930767a4db499daa",
+   "verdict": "PASS",
+   "note": ""
+  },
+  {
+   "finding": "F-S4R2-06",
+   "case": "extracted mount pack vs MANIFEST.sha256",
+   "kind": "POS",
+   "command": "sha256sum -c MANIFEST.sha256",
+   "exit": 0,
+   "output": "PIPD_LS_SP_QUICKSTART_PROMPT.md: OK\nREADME_MOUNT.md: OK\nSKILL.md: OK\nreferences/PIPD_8_SKILLS_INDEX.md: OK\nreferences/PIPD_EXAMPLES.md: OK\nreferences/PIPD_PROFILE_AND_SAFETY.md: OK\nreferences/PIPD_S4_CORE.md: OK\nreferences/PIPD_SOURCE_MAP.md: OK\n",
+   "verdict": "PASS",
+   "note": "pack root = pipd-ls-sp-s4-chatgpt-mount-v0.1.0-preview.2"
+  },
+  {
+   "finding": "F-S4R2-06",
+   "case": "required mount files present",
+   "kind": "POS",
+   "command": "ls extracted pack",
+   "exit": 0,
+   "output": "present=['MANIFEST.sha256', 'PIPD_LS_SP_QUICKSTART_PROMPT.md', 'README_MOUNT.md', 'SKILL.md', 'references\\\\PIPD_8_SKILLS_INDEX.md', 'references\\\\PIPD_EXAMPLES.md', 'references\\\\PIPD_PROFILE_AND_SAFETY.md', 'references\\\\PIPD_S4_CORE.md', 'references\\\\PIPD_SOURCE_MAP.md']\nmissing=[]",
+   "verdict": "PASS",
+   "note": "R2 names PIPD_PROFILE_SAFETY.md; this pack ships PIPD_PROFILE_AND_SAFETY.md (same role)"
+  },
+  {
+   "finding": "F-S4R2-10",
+   "case": "pinned source map + self-bootstrap driver exist",
+   "kind": "POS",
+   "command": "ls docs/NORMATIVE_SOURCE_MAP.md examples/self-bootstrap/",
+   "exit": 0,
+   "output": "source_map=True driver=True",
+   "verdict": "PASS",
+   "note": ""
+  },
+  {
+   "finding": "F-S4R2-NEW-01",
+   "case": "legal_control",
+   "kind": "POS",
+   "command": "validate_record('ProfileBinding', legal_control)",
+   "exit": 0,
+   "output": "[]",
+   "verdict": "PASS",
+   "note": "a legal binding must have zero findings"
+  },
+  {
+   "finding": "F-S4R2-NEW-01",
+   "case": "axes_is_a_string",
+   "kind": "NEG",
+   "command": "validate_record('ProfileBinding', axes_is_a_string)",
+   "exit": 1,
+   "output": "[]",
+   "verdict": "FAIL",
+   "note": "must be rejected; an open {} accepts any JSON type"
+  },
+  {
+   "finding": "F-S4R2-NEW-01",
+   "case": "axes_has_non_string_item",
+   "kind": "NEG",
+   "command": "validate_record('ProfileBinding', axes_has_non_string_item)",
+   "exit": 1,
+   "output": "[]",
+   "verdict": "FAIL",
+   "note": "must be rejected; an open {} accepts any JSON type"
+  },
+  {
+   "finding": "F-S4R2-NEW-01",
+   "case": "profile_is_an_integer",
+   "kind": "NEG",
+   "command": "validate_record('ProfileBinding', profile_is_an_integer)",
+   "exit": 1,
+   "output": "[]",
+   "verdict": "FAIL",
+   "note": "must be rejected; an open {} accepts any JSON type"
+  },
+  {
+   "finding": "F-S4R2-NEW-01",
+   "case": "vetoes_is_a_string",
+   "kind": "NEG",
+   "command": "validate_record('ProfileBinding', vetoes_is_a_string)",
+   "exit": 1,
+   "output": "[]",
+   "verdict": "FAIL",
+   "note": "must be rejected; an open {} accepts any JSON type"
+  }
+ ]
+}

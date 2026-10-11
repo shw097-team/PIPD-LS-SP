@@ -1,0 +1,168 @@
+{
+ "schema": "PIPD-S4R2-FINDING-DISPOSITION/1",
+ "contract": "PIPD-LS-SP-S4-R2-POSTRELEASE-AFFECTED-ONLY-20261011",
+ "source_report": {
+  "id": "PIPD-S4-POSTRELEASE-CHALLENGE-REAUDIT-20261011-R2",
+  "sha256": "a0cee8741f3d0bd7f5fa84475757e4923fd0dc10ce7167a362a80c048732052c",
+  "verified_from_disk": true
+ },
+ "verification_basis": "Every row below was re-derived by RUNNING the counterexample against this candidate tree (preflight/reconcile_findings.py); no row is closed on file inspection alone. Raw JSON: preflight/RECONCILIATION_FRESH_EVIDENCE.json",
+ "findings": [
+  {
+   "id": "F-S4R2-01",
+   "disposition": "ALREADY_CLOSED_WITH_FRESH_POS_NEG",
+   "workorder": "S4-DOC-FIRSTUSE-01",
+   "evidence": {
+    "pass": 5,
+    "fail": 0,
+    "partial": 0,
+    "error": 0
+   },
+   "what_closed_it": "README now filters SHA256SUMS to the single downloaded asset and checks the row count; positive on the REAL published SHA256SUMS + REAL wheel bytes (recomputed digest == the published literal d6c3e295...), negative on a tampered byte and on zero rows under pipefail."
+  },
+  {
+   "id": "F-S4R2-02",
+   "disposition": "ALREADY_CLOSED_WITH_FRESH_POS_NEG",
+   "workorder": "S4-CONTRACT-HARDEN-03",
+   "evidence": {
+    "pass": 8,
+    "fail": 0,
+    "partial": 0,
+    "error": 0
+   },
+   "what_closed_it": "profiles.compute_profile refuses ['intent']*4 as a typed ProfileVeto before any escalation math, and refuses non-string / empty / unknown axis sets; the legal ladder (LITE / STANDARD / ASSURED / provider-off escalation) does not regress."
+  },
+  {
+   "id": "F-S4R2-03",
+   "disposition": "ALREADY_CLOSED_WITH_FRESH_POS_NEG",
+   "workorder": "S4-CONTRACT-HARDEN-03",
+   "evidence": {
+    "pass": 1,
+    "fail": 0,
+    "partial": 0,
+    "error": 0
+   },
+   "what_closed_it": "a trust_boundary tag with no risk evidence yields risk_assessment=NOT_ASSESSED and LOW_RISK_VERIFIED is never emitted - an axis count is not a risk score."
+  },
+  {
+   "id": "F-S4R2-04",
+   "disposition": "ALREADY_CLOSED_WITH_FRESH_POS_NEG",
+   "workorder": "S4-CONTRACT-HARDEN-03",
+   "evidence": {
+    "pass": 6,
+    "fail": 0,
+    "partial": 0,
+    "error": 0
+   },
+   "what_closed_it": "PI-PKG now types version/subject_id/schema_version/content_hash and the trace array shape; integer subject_id, integer version, scalar trace, null trace and a malformed trace item are each rejected, the legal record still validates clean."
+  },
+  {
+   "id": "F-S4R2-05",
+   "disposition": "OPEN",
+   "workorder": "S4-DOC-FIRSTUSE-01",
+   "evidence": {
+    "pass": 0,
+    "fail": 0,
+    "partial": 0,
+    "error": 0
+   },
+   "what_is_missing": "README lines 107-118 still show '<your goal>', '<a locator that EXISTS>', '<path to an intent card>', '<path to the assembled bundle>'. The real copy-paste-able chain exists (examples/self-bootstrap/, driven through the CLI by subprocess with a raw transcript) but the README does not point at it."
+  },
+  {
+   "id": "F-S4R2-06",
+   "disposition": "ALREADY_CLOSED_WITH_FRESH_POS_NEG",
+   "workorder": "S4-WEB-MOUNT-02",
+   "evidence": {
+    "pass": 3,
+    "fail": 0,
+    "partial": 0,
+    "error": 0
+   },
+   "what_closed_it": "a compact mount ZIP ships with README_MOUNT.md, SKILL.md, a short launch prompt, the S4 core / source-map / 8-skills-index references and a MANIFEST.sha256 that verifies (8/8) from real extracted bytes.",
+   "deviation_disclosed": "the reaudit names references/PIPD_PROFILE_SAFETY.md; the pack ships references/PIPD_PROFILE_AND_SAFETY.md with the same role. Renaming would invalidate the ZIP digest that already carries a verified receipt, so the name difference is disclosed instead of churned."
+  },
+  {
+   "id": "F-S4R2-07",
+   "disposition": "EVIDENCE_DISPOSITION_ONLY",
+   "workorder": "n/a",
+   "what": "R7 scoped PASS and R8 overall FAIL are both preserved verbatim; neither is upgraded."
+  },
+  {
+   "id": "F-S4R2-08",
+   "disposition": "LIMITED_AFFECTED_ONLY",
+   "workorder": "n/a",
+   "what": "no 57/57 all-green claim; DEL-018 subject mismatch stays recorded as a stale rolling row."
+  },
+  {
+   "id": "F-S4R2-09",
+   "disposition": "OPEN_SMALL",
+   "workorder": "S4-DOC-FIRSTUSE-01",
+   "what_is_missing": "the .1/.2 same-basename/different-bytes hazard is not yet stated on the front page, and there is no PEP 440 guidance for the next distribution version."
+  },
+  {
+   "id": "F-S4R2-10",
+   "disposition": "ALREADY_CLOSED_WITH_FRESH_POS_NEG",
+   "workorder": "S4-SOURCE-BOOTSTRAP-04",
+   "evidence": {
+    "pass": 1,
+    "fail": 0,
+    "partial": 0,
+    "error": 0
+   },
+   "what_closed_it": "docs/NORMATIVE_SOURCE_MAP.md plus examples/self-bootstrap/ with a real replay."
+  },
+  {
+   "id": "F-S4R2-11",
+   "disposition": "OUT_OF_SCOPE",
+   "workorder": "n/a",
+   "what": "S5-S8 stays OFF."
+  },
+  {
+   "id": "F-S4R2-12",
+   "disposition": "EVIDENCE_GAP",
+   "workorder": "n/a",
+   "what": "no native-workspace Web UAT and no cross-OS run in this round; recorded as a gap, and the independent checker's own receipt is the only elevated evidence."
+  },
+  {
+   "id": "F-S4R2-NEW-01",
+   "disposition": "OPEN_NEW",
+   "workorder": "S4-CONTRACT-HARDEN-03",
+   "evidence": {
+    "pass": 1,
+    "fail": 4,
+    "partial": 0,
+    "error": 0
+   },
+   "severity": "NON_BLOCKING",
+   "source_locator": "schemas/ProfileBinding.schema.json properties",
+   "real_counterexample": "validate_record('ProfileBinding', ...) returns ZERO findings for axes=\"intent\", axes=[\"intent\",7], profile=7 and vetoes=\"none\" - the record that carries the duplicate-axes decision is still an open object.",
+   "user_impact": "a Host branching on profile/axes/vetoes reads an unconstrained value; the machine contract does not actually constrain the field it is named after.",
+   "earliest_owner": "PKG-01 + DOC-04 (same owner as F-S4R2-02/04)",
+   "smallest_scope": "add type/items/enum to the five ProfileBinding contract fields only",
+   "scope_justification": "S4-CONTRACT-HARDEN-03's admitted WriteSet is 'the actually-affected schemas'; ProfileBinding is the schema F-S4R2-02 is about, so it is inside that set rather than a new work order.",
+   "discovered_by_this_round": true
+  }
+ ],
+ "summary": {
+  "total_reaudit_findings": 12,
+  "already_closed_fresh": [
+   "F-S4R2-01",
+   "F-S4R2-02",
+   "F-S4R2-03",
+   "F-S4R2-04",
+   "F-S4R2-06",
+   "F-S4R2-10"
+  ],
+  "open_to_execute": [
+   "F-S4R2-05",
+   "F-S4R2-09",
+   "F-S4R2-NEW-01"
+  ],
+  "evidence_only": [
+   "F-S4R2-07",
+   "F-S4R2-08",
+   "F-S4R2-11",
+   "F-S4R2-12"
+  ]
+ }
+}

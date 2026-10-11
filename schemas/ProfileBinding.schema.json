@@ -23,11 +23,62 @@
     "schema_version"
   ],
   "properties": {
-    "profile": {},
-    "axes": {},
-    "vetoes": {},
-    "artifact_depth": {},
-    "assurance": {},
+    "profile": {
+      "description": "Effective profile after the safety veto; one of the closed trio in profiles.PROFILES.",
+      "enum": [
+        "LITE",
+        "STANDARD",
+        "ASSURED"
+      ]
+    },
+    "axes": {
+      "description": "Canonical axis vocabulary (profiles.AXES). uniqueItems mirrors the runtime duplicate refusal in compute_profile() - ProfileVeto - so a double-counted axis is refused as a typed violation naming `axes`. minItems mirrors the runtime non-empty refusal.",
+      "type": "array",
+      "items": {
+        "enum": [
+          "intent",
+          "knowledge",
+          "verification",
+          "release",
+          "trust_boundary",
+          "preexisting_repo",
+          "profile",
+          "tech_candidates",
+          "host_surface"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "vetoes": {
+      "description": "Safety-veto reasons. compute_profile() emits [] with no live veto and would emit string reasons if one fired; a string is not an array and is refused.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "artifact_depth": {
+      "description": "Depth floor emitted by profiles.PROFILES (L1/L3/L4).",
+      "enum": [
+        "L1_SCHEMA_CONTRACT",
+        "L3_INTEGRATION_RUNTIME",
+        "L4_FAILURE_RECOVERY"
+      ]
+    },
+    "assurance": {
+      "description": "Required assurance set emitted by profiles.PROFILES; the closed vocabulary is the union of the three profile assurance lists.",
+      "type": "array",
+      "items": {
+        "enum": [
+          "deterministic_validator",
+          "negative_security",
+          "adversarial",
+          "independent_checker"
+        ]
+      },
+      "minItems": 1
+    },
     "subject_id": {
       "type": "string",
       "minLength": 8,

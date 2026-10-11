@@ -1,0 +1,78 @@
+{
+ "schema": "PIPD-S4R2-TT-REGISTER/1",
+ "note": "Every item below is OPEN. A TT is closed only by a named owner producing the named evidence; no item is closed by this round's own statement.",
+ "items": [
+  {
+   "id": "TT-S4R2-01",
+   "title": "Independent checker route is not model-distinct from the maker route",
+   "owner": "owner (HITL)",
+   "severity": "HIGH",
+   "evidence_gap": "VERIFY lane model vs EXECUTE lane model",
+   "due_or_recheck_trigger": "before any formal FULL_S0_S4 gate claim",
+   "detail": "If the mandated checker model equals the maker model this round, model diversity is absent; the only separation actually held is process independence (separate process, fresh context, read-only, re-derivation required). Recorded as an owner-authorised deviation, never as satisfied independence."
+  },
+  {
+   "id": "TT-S4R2-02",
+   "title": "No working credential for GitHub publication",
+   "owner": "owner (HITL)",
+   "severity": "HIGH",
+   "evidence_gap": "AUTH_BLOCKED checkpoint",
+   "due_or_recheck_trigger": "when a usable fine-grained PAT / deploy key / GitHub App is provisioned",
+   "detail": "The round cannot push. Terminal state is NOT_EXECUTED with this named cause; the frozen candidate is handed over locally."
+  },
+  {
+   "id": "TT-S4R2-03",
+   "title": "F-S4R2-08: the 57-row crosswalk is not taken to all-green",
+   "owner": "PIPD-LS-SP_開發實作指揮官",
+   "severity": "MEDIUM",
+   "evidence_gap": "full 57-row formal closure",
+   "due_or_recheck_trigger": "a formal claim that requires the full 57 rows",
+   "detail": "Affected rows were corrected only. DEL-018 keeps 'different subject + stale rolling row hypothesis'. EVIDENCED is not PASS."
+  },
+  {
+   "id": "TT-S4R2-04",
+   "title": "F-S4R2-12: no real published-wheel download in the reviewing environment; no native reviewer bundle",
+   "owner": "owner (HITL)",
+   "severity": "MEDIUM",
+   "evidence_gap": "real released-byte download UAT + native reviewer bundle",
+   "due_or_recheck_trigger": "when an environment can reach the public release and run the native reviewer",
+   "detail": "Carried as an evidence gap; no formal full PASS is granted on it."
+  },
+  {
+   "id": "TT-S4R2-05",
+   "title": "F-S4R2-06: native skill effective-load was never observed",
+   "owner": "owner (HITL)",
+   "severity": "MEDIUM",
+   "evidence_gap": "effective-load receipt on an eligible account",
+   "due_or_recheck_trigger": "when an account with native skill UI/org permission is available",
+   "detail": "State is NOT_RUN, not PASS. The pack declares this itself and the manual fallback is delivered."
+  },
+  {
+   "id": "TT-S4R2-06",
+   "title": "ProfileBinding contract fields are typed only to the depth the finding required",
+   "owner": "PIPD-LS-SP_開發實作指揮官",
+   "severity": "LOW",
+   "evidence_gap": "a full typed ProfileBinding contract",
+   "due_or_recheck_trigger": "an owner decision to widen the schema contract",
+   "detail": "additionalProperties:false was deliberately NOT added; several sibling contract fields remain permissive by design. Disclosed rather than silently widened."
+  },
+  {
+   "id": "TT-S4R2-07",
+   "title": "F-S4R2-11: S5+ receivers and unused providers",
+   "owner": "owner (HITL)",
+   "severity": "LOW",
+   "evidence_gap": "n/a (out of scope)",
+   "due_or_recheck_trigger": "a separate S5+ round",
+   "detail": "Listed OFF. No activation is asserted."
+  },
+  {
+   "id": "TT-S4R2-08",
+   "title": "Candidate lineage is unpushed; the checker subject is local",
+   "owner": "PIPD-LS-SP_開發實作指揮官",
+   "severity": "MEDIUM",
+   "evidence_gap": "remote readback of the repaired candidate",
+   "due_or_recheck_trigger": "publication unblock (TT-S4R2-02)",
+   "detail": "A checker sampling only GitHub sees the pre-repair state; the frozen commit/tree is handed over explicitly."
+  }
+ ]
+}

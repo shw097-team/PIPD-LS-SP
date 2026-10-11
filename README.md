@@ -106,19 +106,74 @@ the verified path above when the bytes matter.
 
 Beyond that the pipeline is `intake` -> `compile-pi` -> `bind-pd` -> `compile-ecp` /
 `compile-tqaep` -> `validate`, and **the middle steps take real inputs, not free text** — verified
-against the CLI rather than assumed:
+against the CLI rather than assumed.
+
+### Run it: the whole compiler chain, copy-paste
+
+These are the exact commands that produced the checked-in [`examples/first-run/`](examples/first-run/)
+fixture, run from this checkout root. `--root` is a **GLOBAL** option and must precede the
+subcommand; `--root <dir>` points at a workspace (use a directory outside the tree so scratch files
+never pollute the checkout), and the fixture paths are the real files in this repository. Both
+absolute paths below (`PY`, `PYTHONPATH`) are pinned for this environment — adjust them to your
+interpreter and checkout; any Python >= 3.11 with `jsonschema` works:
 
 ```bash
-pipd --root ./myproject intake --goal "<your goal>" --source <a locator that EXISTS>
-pipd --root ./myproject compile-pi --intent <path to an intent card>
-pipd validate --bundle <path to the assembled bundle>
-# NOTE: --root is a GLOBAL option and must precede the subcommand. There is no --intent on
-# `intake` and no --root on `validate`; the CLI is deliberately strict and reports exactly what
-# it is missing (USAGE_INVALID / AUTHORITY_UNKNOWN) rather than guessing on your behalf.
+PY=/c/Users/user/AppData/Local/Programs/Python/Python311/python.exe   # any Python >= 3.11 + jsonschema
+export PYTHONPATH="C:/Projects/Agent_Workspace/PIPD-postrelease-wt/src"   # this checkout's src/
+ART="C:/Users/user/AppData/Local/Temp/pipd-first-run"    # a scratch dir OUTSIDE the checkout
+rm -rf "$ART" && mkdir -p "$ART"
+CTX="$ART/ctx"; mkdir -p "$CTX"          # the read-only dir bind-pd probes (empty -> stable)
+
+"$PY" -m pipd_ls_sp.cli --root "$ART" init                 # exit 0; creates docs/ schemas/ src/ tests/ dist/
+
+# intake: compile source clauses into an IntentCard (typed refusal if the source does not exist)
+"$PY" -m pipd_ls_sp.cli --root "$ART" intake \
+  --goal "Compile this example clause source into a validated PI to PD to ECP to TQAEP chain." \
+  --source examples/first-run/source.txt \
+  --constraint "candidate-only, no release" \
+  --non-goal "no upstream document bodies copied" \
+  > "$ART/intent.card.json"            # -> INTENT-9f8e9a1b6dc344fc
+
+"$PY" -m pipd_ls_sp.cli --root "$ART" compile-pi \
+  --intent "$ART/intent.card.json" --profile LITE \
+  > "$ART/pi.json"                     # -> PI-50952b3a3822b28c
+
+# bind-pd derives a READ-ONLY RepoContext from --repo-root (here an empty dir, so it is stable);
+# the same intent + the same RepoContext.root reproduce every digest byte for byte.
+"$PY" -m pipd_ls_sp.cli --root "$ART" bind-pd \
+  --pi "$ART/pi.json" --repo-root "$CTX" \
+  > "$ART/pd.json"                     # -> PD-336c387a7aa71c9d
+
+"$PY" -m pipd_ls_sp.cli --root "$ART" compile-ecp \
+  --pd "$ART/pd.json" --pi "$ART/pi.json" \
+  > "$ART/ecp.json"                    # -> ECP-73cf63e34806711a
+
+"$PY" -m pipd_ls_sp.cli --root "$ART" compile-tqaep \
+  --pi "$ART/pi.json" --ecp "$ART/ecp.json" \
+  --maker HERMES-MAKER --checker GLM-5.3-FLASH-AO-LANE --checker-receipt deleg_example/lane-C \
+  > "$ART/tqaep.json"                  # -> TQAEP-2bf7b7e31b820fb7 (claim ceiling TQAEP_DESIGNED)
+
+# The 13-command CLI has no "assemble" verb, so bundle the four records with the checked-in helper.
+"$PY" examples/first-run/assemble_bundle.py \
+  "$ART/pi.json" "$ART/pd.json" "$ART/ecp.json" "$ART/tqaep.json" > "$ART/bundle.json"
+
+# validate: schema + semantic invariants over two schema records each
+"$PY" -m pipd_ls_sp.cli --root "$ART" validate --bundle "$ART/bundle.json"
+# -> exit 0; {"verdict": "PASS", "checked": 4, "findings": []}
 ```
 
-Run `pipd <command> --help` for each command's real flags. `pipd doctor` is the self-check; it
-reports which schema source it resolved and refuses to be silent about it.
+Every `sha256` is stable across runs: the same fixture driven twice into two fresh workspaces against
+the same `CTX` produced identical `intent.card.json`, `pi.json`, `pd.json`, `ecp.json` and `tqaep.json`
+(`PI`/`TQAEP` depend only on the fixture; `PD`/`ECP` also bind `CTX` — so keep `CTX` fixed to reproduce
+them). Full digests are in [`examples/first-run/README.md`](examples/first-run/README.md). A source
+locator that does not exist (`--source examples/first-run/missing.txt`) is refused
+`{"code": "AUTHORITY_UNKNOWN"}`, exit `2`, with no artefact written — the CLI is deliberately strict
+rather than guessing on your behalf.
+
+Known limitation: there is **no CLI verb that assembles a bundle**, which is why the block calls
+`examples/first-run/assemble_bundle.py` (it only re-serialises the four records). Run
+`pipd <command> --help` for each command's real flags. `pipd doctor` is the self-check; it reports
+which schema source it resolved and refuses to be silent about it.
 
 ## What is in this tree
 
@@ -131,6 +186,7 @@ reports which schema source it resolved and refuses to be silent about it.
 | `tools/` | governed-round tooling: knowledge probe, HGK admission driver, kanban receipts, CLI smoke, publication manifest and attestation, destructive-destination guards |
 | `docs/` | `S0_CONTRACT_SPEC.md` (the frozen spec that drives `schemas/`), the round disclosure records, and [`FRONT_PAGE_HISTORY.md`](docs/FRONT_PAGE_HISTORY.md) |
 | `fixtures/` | typed negative and golden fixtures used by the tests |
+| `examples/` | runnable fixtures: [`examples/first-run/`](examples/first-run/) is the real input the compiler walk-through above uses, and `examples/self-bootstrap/` is the self-bootstrap transcript |
 | `openspec/` | the change proposals these rounds implemented |
 | `dist/` | **the published build** — wheel `pipd_ls_sp-0.1.0-py3-none-any.whl` (SHA-256 `d6c3e295…`), its `.sha256`, `WHEEL_MANIFEST.json` and `web/` packs |
 | `.hgk/` | the rounds' governance record: admission, kanban, knowledge index, preflight, round receipts and surfaces |

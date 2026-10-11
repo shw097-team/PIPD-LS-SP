@@ -1,0 +1,82 @@
+{
+ "schema": "PIPD-S4R2-GSTACK-ROUTE/1",
+ "role_map": "HGK\\HGK_GSTACK_ROLE_MAP.yaml",
+ "routes": {
+  "REQ-S4R2-DOC-001": {
+   "flow": "doc_first_use_repair",
+   "workorder": "S4-DOC-FIRSTUSE-01",
+   "route": {
+    "flow": "doc_first_use_repair",
+    "provider": null,
+    "state": null,
+    "fallback": null,
+    "final_authority": true,
+    "route": "NATIVE"
+   }
+  },
+  "REQ-S4R2-WEB-002": {
+   "flow": "web_mount_pack",
+   "workorder": "S4-WEB-MOUNT-02",
+   "route": {
+    "flow": "web_mount_pack",
+    "provider": null,
+    "state": null,
+    "fallback": null,
+    "final_authority": true,
+    "route": "NATIVE"
+   }
+  },
+  "REQ-S4R2-CONTRACT-003": {
+   "flow": "contract_hardening",
+   "workorder": "S4-CONTRACT-HARDEN-03",
+   "route": {
+    "flow": "contract_hardening",
+    "provider": null,
+    "state": null,
+    "fallback": null,
+    "final_authority": true,
+    "route": "NATIVE"
+   }
+  },
+  "REQ-S4R2-SOURCE-004": {
+   "flow": "source_bootstrap",
+   "workorder": "S4-SOURCE-BOOTSTRAP-04",
+   "route": {
+    "flow": "source_bootstrap",
+    "provider": null,
+    "state": null,
+    "fallback": null,
+    "final_authority": true,
+    "route": "NATIVE"
+   }
+  }
+ },
+ "role_map_top_keys": [
+  "schema",
+  "architecture",
+  "hard_deny",
+  "roles",
+  "snapshot_ref",
+  "missing_disposition_count"
+ ],
+ "named_methods_public": [
+  "ACTIVE_SELECTED",
+  "Any",
+  "INVARIANT_FIELDS",
+  "LIFECYCLE_EVIDENCE",
+  "NAMED_METHODS",
+  "NamedMethod",
+  "Path",
+  "REVIEW_DIR",
+  "annotations",
+  "dataclass",
+  "evaluate_activation_invariants",
+  "field",
+  "invariant_envelope_fields",
+  "json",
+  "registry_snapshot",
+  "route"
+ ],
+ "resolver": "route",
+ "authority_note": "A named-method CERTIFIED verdict is a method-qualification signal only. It carries final_authority=false: it does not authorise a release, a tag, or a remote push. The publication step stays STANDBY and requires an owner grant plus a working credential."
+}

@@ -1,0 +1,43 @@
+{
+ "schema": "PIPD-S4R2-COMPILER-RECEIPT/1",
+ "contract_path": "PIPD-postrelease-wt/.hgk/rounds/S4R2-20261011-affected-only/compiler/S4R2.CONTRACT.json",
+ "contract_sha256": "674dde70266e5ef2a36cf13e687813e8554a568a11d5c978cdc9d1b480f8b3e9",
+ "generator": "compiler/generate_contract.py (C0-C9 produced programmatically; R1 item key sets cloned so every field is schema-exact)",
+ "bundle_root": "知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler",
+ "interpreter": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe (3.11.9)",
+ "passes": {
+  "lint": {
+   "verdict": "PROMPT_COMPILE_PASS",
+   "error_count": 0,
+   "raw_receipt": "compiler/S4R2.lint.json"
+  },
+  "activation": {
+   "verdict": "PROMPT_COMPILE_PASS",
+   "error_count": 0,
+   "raw_receipt": "compiler/S4R2.activation.json"
+  },
+  "acceptance": {
+   "verdict": "PROMPT_COMPILE_PASS",
+   "error_count": 0,
+   "raw_receipt": "compiler/S4R2.acceptance.json"
+  },
+  "compile": {
+   "verdict": "PROMPT_COMPILE_PASS",
+   "error_count": 0,
+   "raw_receipt": "compiler/S4R2.compile.json"
+  },
+  "duplication": {
+   "verdict": "PROMPT_COMPILE_PASS",
+   "error_count": 0,
+   "raw_receipt": "compiler/S4R2.duplication.json"
+  }
+ },
+ "compiled_artifacts": [
+  "compiler/out/thin-prompt.md",
+  "compiler/out/compiler-report.json",
+  "compiler/out/compiler-receipt.json"
+ ],
+ "iteration_note": "The first generated contract was BLOCKED by the native lint (226 errors) because the generator had invented enum values. Every block was fixed in the contract, not in the tool: real execution dispositions (ACTIVE_REQUIRED/ACTIVE_SELECTED/STANDBY/NOT_APPLICABLE_SOURCE_BACKED), the real action enum, real required_depth, real lifecycle states, the real claim-ceiling enum, acceptance subjects derived from the capability/journey/requirement/deliverable sets so every declared subject has an acceptance edge, and no extra properties on evidence items. The Activation Bridge (PL-006) then required a non-active capability to assert none of the four 'selected' flags.",
+ "verdict": "PROMPT_COMPILE_PASS",
+ "all_five_passes": true
+}
