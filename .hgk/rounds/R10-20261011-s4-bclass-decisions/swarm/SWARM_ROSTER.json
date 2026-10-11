@@ -1,0 +1,28 @@
+{
+ "round": "R10-20261011-s4-bclass-decisions",
+ "delegation_id": "deleg_5b93d4af",
+ "workers": [
+  {
+   "subagent_id": "sa-0-8e1335fa",
+   "role": "bounded analyst",
+   "scope": "3 SPEC/DEL rows: owed vs not owed, faithfully materialisable?",
+   "writes": "evidence/SSOT_ROW_AUTHORING_ANALYSIS.md only",
+   "model": "inherits parent (deepseek-v4.1-flash / opencode-go)"
+  },
+  {
+   "subagent_id": "sa-1-78187a70",
+   "role": "bounded analyst",
+   "scope": "credential broker migration plan + governance route",
+   "writes": "far/FAR-PIPD-R10-CREDITOOLS-002.md + scratch only",
+   "model": "inherits parent (deepseek-v4.1-flash / opencode-go)"
+  }
+ ],
+ "verifier": {
+  "lane": "VERIFY_SECURITY",
+  "arm": "openai-codex/gpt-6.1-sol",
+  "effort": "medium",
+  "transport": "OpenAI OAuth",
+  "status": "pending REQ-PIPD-R10-VERIFY-005"
+ },
+ "disclosure": "Children inherit the parent model, so child results are advisory, not independent. They are inputs to the parent adjudication and the parent verified their artefacts by reading them."
+}
