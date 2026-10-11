@@ -104,10 +104,16 @@ build on this:
    builder identity.
 3. **The SPEC/DEL denominator stays `28 evidenced / 10 active gaps / 19 deferred` of 57 rows.**
    `EVIDENCED != PASS`; not every applicable row has been individually audited.
-4. **`RELEASE_MANIFEST@1` (`DEL-018`)** — was `FAIL` / `EVIDENCE_GAP` on the release line. It was
-   **closed** by regenerating the projection (`--check --current` now exits `0`, `252/252` paths
-   covered, `0` violations) and the closure ships in `v0.1.0-preview.2`. See
-   `.hgk/rounds/R7-20261011-s4-del018-closure-and-successor-preview/`.
+4. **`RELEASE_MANIFEST@1` (`DEL-018`)** — was `FAIL` / `EVIDENCE_GAP` on the release line, and was
+   **closed** for the published subject by regenerating the projection (`252/252` product paths
+   covered, `0` violations); that closure ships in `v0.1.0-preview.2`.
+   **On this branch it is `FAIL` by exactly one path.** After the repaired lineage was merged here,
+   the tree has `253` product paths and **`docs/FRONT_PAGE_HISTORY.md` has no disposition** in the
+   release-evidence manifest, whose enumerated subject predates that file (it arrived with the R6
+   front-page rewrite). `tools/build_publication_manifest.py --check --current` therefore exits `1`
+   **on `main`** — a release-evidence divergence, not a runtime defect, and it does not touch the
+   tagged bytes, which remain `252/252`. Extending the manifest's subject is a release-evidence
+   decision and is deliberately **not** taken here.
 5. **Native Windows symlink / junction / reparse behaviour is not certified** beyond the tested
    scope (`TT-R5P-01`, `TT-R5P-06`).
 6. **`v0.1.0-preview.1` carries two defects**, both reproduced against its published bytes:

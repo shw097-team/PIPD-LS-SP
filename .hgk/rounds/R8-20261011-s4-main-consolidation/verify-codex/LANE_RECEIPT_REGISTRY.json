@@ -1,0 +1,98 @@
+{
+  "schema": "HGK-LANE-RESOLUTION/1",
+  "lane": "VERIFY_SECURITY",
+  "role": "checker",
+  "engine": "codex-cli",
+  "codex_executable": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\2e5e00daee91c61d\\codex.exe",
+  "codex_home": "C:\\Users\\user\\.codex",
+  "relay_base": "http://127.0.0.1:10101/v1",
+  "transport": "opencodex relay via per-invocation -c openai_base_url (no config mutation)",
+  "transport_target": "http://127.0.0.1:10101/v1",
+  "front_door_port": null,
+  "front_door_note": "the lane-scoped pool door (10103 VERIFY_SECURITY / 10105 EXECUTE) carries the hop and ledgers every decision; the sealed single-model 10100 door is unchanged and unused; None here means direct to the relay on 10101",
+  "sandbox": "danger-full-access",
+  "sandbox_by_role_default": "read-only",
+  "sandbox_escalation_authorised": true,
+  "cwd": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/xmodel/work2",
+  "side_effect_note": "danger-full-access has NO sandbox root: any absolute path is writable, so a read-only subject must be a frozen copy checked afterwards by digest",
+  "receipt_binding": "usage rows appended after this attempt started (byte offset bound)",
+  "pool": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\config\\lane-route-slots.candidate.json",
+  "candidates_considered": [
+    4
+  ],
+  "mode": "forced_rank",
+  "unguarded_escalation_acknowledged": false,
+  "inject_429_first": false,
+  "identity_gate": {
+    "state": "enforced",
+    "lane_home": "C:\\Users\\user\\.codex",
+    "relay_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes",
+    "arms": [
+      {
+        "rank": 4,
+        "provider": "openai-codex",
+        "model": "gpt-6.1-sol",
+        "requirement": "relay_pool",
+        "ok": true,
+        "detail": "non-empty refreshable credential present in codex-accounts.json"
+      }
+    ],
+    "degraded": false,
+    "required_arm": "openai-codex/gpt-6.1-sol"
+  },
+  "subject_mutation": {
+    "files_before": 3768,
+    "files_after": 3768,
+    "added": [],
+    "removed": [],
+    "changed": [],
+    "mutated": false,
+    "rule": "removed/changed => verdict void; added is recorded, not fatal",
+    "guard_roots": [
+      "C:/Projects/Agent_Workspace/PIPD-r7-release"
+    ],
+    "subject_digest_sha256_before": "6cb7c7c0d4321fcb1fa93ccd871cb64e6f1af9c1c1c75d1c39cf5dd538423670",
+    "subject_digest_sha256_after": "6cb7c7c0d4321fcb1fa93ccd871cb64e6f1af9c1c1c75d1c39cf5dd538423670"
+  },
+  "attempt_log_dir": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/xmodel/real2-logs",
+  "attempts": [
+    {
+      "rank": 4,
+      "provider": "openai-codex",
+      "model": "gpt-6.1-sol",
+      "transport_model": "gpt-6.1-sol",
+      "sandbox": "danger-full-access",
+      "reasoning_effort": "medium",
+      "exit": 0,
+      "seconds": 426.3,
+      "nonce_present": true,
+      "nonce_present_raw_stdout": true,
+      "nonce_source": "item.completed/agent_message",
+      "usage_rows_after_offset": 15,
+      "usage_offset": 10236711,
+      "usage_provider": "openai-p6a1fe3",
+      "usage_model": "gpt-6.1-sol",
+      "usage_status": 200,
+      "usage_receipt_ok": true,
+      "attempt_log_dir": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/xmodel/real2-logs",
+      "stdout_byte_exact": true,
+      "stdout_path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r8\\xmodel\\real2-logs\\attempt-12368-1791683755-4-stdout.txt",
+      "stdout_bytes": 296871,
+      "stdout_sha256": "ffad75dd103373248027de7e9c0c3de33bbd68e3d7d083c04da8bbee9529d1f6",
+      "stderr_byte_exact": true,
+      "stderr_path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r8\\xmodel\\real2-logs\\attempt-12368-1791683755-4-stderr.txt",
+      "stderr_bytes": 220,
+      "stderr_sha256": "15ba5af0d986e6469a68592a8903e40ec045547132231f64bb7fc4c37ad4ae1e",
+      "stdout_tail": "wnloaded-wheel schema-resolution and trace-rejection tests, nine local regression tests, worktree status, and protected-tree byte preservation at audit time; it grants no broader release or production qualification.\\\"\\n}\\n```\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":1139032,\"cached_input_tokens\":1044864,\"cache_write_input_tokens\":0,\"output_tokens\":20761,\"reasoning_output_tokens\":3602}}\n",
+      "stderr_tail": "Reading additional input from stdin...\n2026-10-11T01:55:58.342271Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10101/v1/responses\n"
+    }
+  ],
+  "used_rank": 4,
+  "used_transport_model": "gpt-6.1-sol",
+  "used_seconds": 426.3,
+  "generated_utc": "2026-10-11T02:03:05.258954+00:00",
+  "claim_ceiling": "a pass here proves the Codex-CLI lane served this turn through the relay with a matching usage receipt; it is not an acceptance of any subject",
+  "ok": true,
+  "required_arm": "openai-codex/gpt-6.1-sol",
+  "served_arm": "openai-codex/gpt-6.1-sol"
+}

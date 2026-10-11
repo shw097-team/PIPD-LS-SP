@@ -1,0 +1,398 @@
+{
+  "verdict": "FAIL",
+  "nonce": "HGK_LANE_NONCE_OK",
+  "evidence": [
+    {
+      "check": "1",
+      "command": [
+        "git ls-remote https://github.com/shw097-team/PIPD-LS-SP.git"
+      ],
+      "observed": [
+        {
+          "label": "01-refs",
+          "command": "git ls-remote https://github.com/shw097-team/PIPD-LS-SP.git",
+          "cwd": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker",
+          "exit_code": 0,
+          "stdout": "26beacb22b8734354d96d2c898538ef45f49ba25\tHEAD\n26beacb22b8734354d96d2c898538ef45f49ba25\trefs/heads/main\n3aebbbce948871c07b875ab92acf263d298ecf38\trefs/heads/r3-candidate\ncd8a06e4c066a40398a4012b7b3908ac11408a2b\trefs/heads/r4-candidate\n5094939606ba9331ed768743eb5b806ad159e639\trefs/heads/r5-s4-candidate\n2ad1f16bf44eb14868eaac6dfa764516490de27c\trefs/heads/r5-s4-evidence\n0f06eec96386b7349db8b41ac6cf9c7455d326f1\trefs/heads/r5-s4-packreader\nf418153aac2cf7e5a4080d6412f8fe15ffca34b6\trefs/heads/r5-s4-readme\n2efc84eac8e1939092c748d5b389b6dd72267aef\trefs/heads/r5p-post-challenge-repair\n9bd33a1025894504192c6d9443e7c1598454e822\trefs/heads/r5q-owner-opensource-preview\n024d358cc972c6a0fb8c3064ea5f255535b982e9\trefs/heads/r7-del018-successor\ncd8a06e4c066a40398a4012b7b3908ac11408a2b\trefs/pull/1/head\n0289573195c32172a67aa424319e244b0316df95\trefs/pull/1/merge\ncc9bf574c3b3f0f44ea615b5c67ae40d74efee32\trefs/tags/v0.1.0-preview.1\n8faa64e581e8c25f5ec355475e29561847da3ead\trefs/tags/v0.1.0-preview.2\n",
+          "stderr": ""
+        }
+      ],
+      "outcome": "PASS"
+    },
+    {
+      "check": "2",
+      "command": [
+        "curl -q -sSL https://api.github.com/repos/shw097-team/PIPD-LS-SP/releases/tags/v0.1.0-preview.2"
+      ],
+      "observed": [
+        {
+          "label": "02-metadata",
+          "command": "curl -q -sSL https://api.github.com/repos/shw097-team/PIPD-LS-SP/releases/tags/v0.1.0-preview.2",
+          "cwd": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker",
+          "exit_code": 0,
+          "stdout": "{\n  \"url\": \"https://api.github.com/repos/shw097-team/PIPD-LS-SP/releases/409307718\",\n  \"assets_url\": \"https://api.github.com/repos/shw097-team/PIPD-LS-SP/releases/409307718/assets\",\n  \"upload_url\": \"https://uploads.github.com/repos/shw097-team/PIPD-LS-SP/releases/409307718/assets{?name,label}\",\n  \"html_url\": \"https://github.com/shw097-team/PIPD-LS-SP/releases/tag/v0.1.0-preview.2\",\n  \"id\": 409307718,\n  \"author\": {\n    \"login\": \"shw097\",\n    \"id\": 219498218,\n    \"node_id\": \"U_kgDODRVG6g\",\n    \"avatar_url\": \"https://avatars.githubusercontent.com/u/219498218?v=4\",\n    \"gravatar_id\": \"\",\n    \"url\": \"https://api.github.com/users/shw097\",\n    \"html_url\": \"https://github.com/shw097\",\n    \"followers_url\": \"https://api.github.com/users/shw097/followers\",\n    \"following_url\": \"https://api.github.com/users/shw097/following{/other_user}\",\n    \"gists_url\": \"https://api.github.com/users/shw097/gists{/gist_id}\",\n    \"starred_url\": \"https://api.github.com/users/shw097/starred{/owner}{/repo}\",\n    \"subscriptions_url\": \"https://api.github.com/users/shw097/subscriptions\",\n    \"organizations_url\": \"https://api.github.com/users/shw097/orgs\",\n    \"repos_url\": \"https://api.github.com/users/shw097/repos\",\n    \"events_url\": \"https://api.github.com/users/shw097/events{/privacy}\",\n    \"received_events_url\": \"https://api.github.com/users/shw097/received_events\",\n    \"type\": \"User\",\n    \"user_view_type\": \"public\",\n    \"site_admin\": false\n  },\n  \"node_id\": \"RE_kwDOVBPaw84YZYpG\",\n  \"tag_name\": \"v0.1.0-preview.2\",\n  \"target_commitish\": \"8faa64e581e8c25f5ec355475e29561847da3ead\",\n  \"name\": \"v0.1.0-preview.2 - repaired preview (successor to v0.1.0-preview.1)\",\n  \"draft\": false,\n  \"immutable\": false,\n  \"prerelease\": true,\n  \"created_at\": \"2026-10-11T00:52:35Z\",\n  \"updated_at\": \"2026-10-11T01:03:25Z\",\n  \"published_at\": \"2026-10-11T01:03:08Z\",\n  \"assets\": [\n    {\n      \"url\": \"https://api.github.com/repos/shw097-team/PIPD-LS-SP/releases/assets/629412713\",\n      \"id\": 629412713,\n      \"node_id\": \"RA_kwDOVBPaw84lhBNp\",\n      \"name\": \"pipd-ls-sp-v0.1.0-preview.2-source.zip\",\n      \"label\": \"\",\n      \"uploader\": {\n        \"login\": \"shw097\",\n        \"id\": 219498218,\n        \"node_id\": \"U_kgDODRVG6g\",\n        \"avatar_url\": \"https://avatars.githubusercontent.com/u/219498218?v=4\",\n        \"gravatar_id\": \"\",\n        \"url\": \"https://api.github.com/users/shw097\",\n        \"html_url\": \"https://github.com/shw097\",\n        \"followers_url\": \"https://api.github.com/users/shw097/followers\",\n        \"following_url\": \"https://api.github.com/users/shw097/following{/other_user}\",\n        \"gists_url\": \"https://api.github.com/users/shw097/gists{/gist_id}\",\n        \"starred_url\": \"https://api.github.com/users/shw097/starred{/owner}{/repo}\",\n        \"subscriptions_url\": \"https://api.github.com/users/shw097/subscriptions\",\n        \"organizations_url\": \"https://api.github.com/users/shw097/orgs\",\n        \"repos_url\": \"https://api.github.com/users/shw097/repos\",\n        \"events_url\": \"https://api.github.com/users/shw097/events{/privacy}\",\n        \"received_events_url\": \"https://api.github.com/users/shw097/received_events\",\n        \"type\": \"User\",\n        \"user_view_type\": \"public\",\n        \"site_admin\": false\n      },\n      \"content_type\": \"application/zip\",\n      \"state\": \"uploaded\",\n      \"size\": 8106063,\n      \"digest\": \"sha256:4d24d1ec0a6e1c5b08905b6252ddb71175086b3927a27266d46fac39420481e7\",\n      \"download_count\": 5,\n      \"created_at\": \"2026-10-11T01:03:10Z\",\n      \"updated_at\": \"2026-10-11T01:03:23Z\",\n      \"browser_download_url\": \"https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/pipd-ls-sp-v0.1.0-preview.2-source.zip\"\n    },\n    {\n      \"url\": \"https://api.github.com/repos/shw097-team/PIPD-LS-SP/releases/assets/629412647\",\n      \"id\": 629412647,\n      \"node_id\": \"RA_kwDOVBPaw84lhBMn\",\n      \"name\": \"pipd_ls_sp-0.1.0-py3-none-any.whl\",\n      \"label\": \"\",\n      \"uploader\": {\n        \"login\": \"shw097\",\n        \"id\": 219498218,\n        \"node_id\": \"U_kgDODRVG6g\",\n        \"avatar_url\": \"https://avatars.githubusercontent.com/u/219498218?v=4\",\n        \"gravatar_id\": \"\",\n        \"url\": \"https://api.github.com/users/shw097\",\n        \"html_url\": \"https://github.com/shw097\",\n        \"followers_url\": \"https://api.github.com/users/shw097/followers\",\n        \"following_url\": \"https://api.github.com/users/shw097/following{/other_user}\",\n        \"gists_url\": \"https://api.github.com/users/shw097/gists{/gist_id}\",\n        \"starred_url\": \"https://api.github.com/users/shw097/starred{/owner}{/repo}\",\n        \"subscriptions_url\": \"https://api.github.com/users/shw097/subscriptions\",\n        \"organizations_url\": \"https://api.github.com/users/shw097/orgs\",\n        \"repos_url\": \"https://api.github.com/users/shw097/repos\",\n        \"events_url\": \"https://api.github.com/users/shw097/events{/privacy}\",\n        \"received_events_url\": \"https://api.github.com/users/shw097/received_events\",\n        \"type\": \"User\",\n        \"user_view_type\": \"public\",\n        \"site_admin\": false\n      },\n      \"content_type\": \"application/octet-stream\",\n      \"state\": \"uploaded\",\n      \"size\": 259272,\n      \"digest\": \"sha256:d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f\",\n      \"download_count\": 4,\n      \"created_at\": \"2026-10-11T01:03:09Z\",\n      \"updated_at\": \"2026-10-11T01:03:09Z\",\n      \"browser_download_url\": \"https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/pipd_ls_sp-0.1.0-py3-none-any.whl\"\n    },\n    {\n      \"url\": \"https://api.github.com/repos/shw097-team/PIPD-LS-SP/releases/assets/629413045\",\n      \"id\": 629413045,\n      \"node_id\": \"RA_kwDOVBPaw84lhBS1\",\n      \"name\": \"PREVIEW_NOTES_v0.1.0-preview.2.md\",\n      \"label\": \"\",\n      \"uploader\": {\n        \"login\": \"shw097\",\n        \"id\": 219498218,\n        \"node_id\": \"U_kgDODRVG6g\",\n        \"avatar_url\": \"https://avatars.githubusercontent.com/u/219498218?v=4\",\n        \"gravatar_id\": \"\",\n        \"url\": \"https://api.github.com/users/shw097\",\n        \"html_url\": \"https://github.com/shw097\",\n        \"followers_url\": \"https://api.github.com/users/shw097/followers\",\n        \"following_url\": \"https://api.github.com/users/shw097/following{/other_user}\",\n        \"gists_url\": \"https://api.github.com/users/shw097/gists{/gist_id}\",\n        \"starred_url\": \"https://api.github.com/users/shw097/starred{/owner}{/repo}\",\n        \"subscriptions_url\": \"https://api.github.com/users/shw097/subscriptions\",\n        \"organizations_url\": \"https://api.github.com/users/shw097/orgs\",\n        \"repos_url\": \"https://api.github.com/users/shw097/repos\",\n        \"events_url\": \"https://api.github.com/users/shw097/events{/privacy}\",\n        \"received_events_url\": \"https://api.github.com/users/shw097/received_events\",\n        \"type\": \"User\",\n        \"user_view_type\": \"public\",\n        \"site_admin\": false\n      },\n      \"content_type\": \"text/markdown\",\n      \"state\": \"uploaded\",\n      \"size\": 3491,\n      \"digest\": \"sha256:31b6801090932c8ffb13d8b6096a47d272b9e646819ef89d52724f3e09c63adb\",\n      \"download_count\": 4,\n      \"created_at\": \"2026-10-11T01:03:25Z\",\n      \"updated_at\": \"2026-10-11T01:03:25Z\",\n      \"browser_download_url\": \"https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/PREVIEW_NOTES_v0.1.0-preview.2.md\"\n    },\n    {\n      \"url\": \"https://api.github.com/repos/shw097-team/PIPD-LS-SP/releases/assets/629413024\",\n      \"id\": 629413024,\n      \"node_id\": \"RA_kwDOVBPaw84lhBSg\",\n      \"name\": \"SHA256SUMS\",\n      \"label\": \"\",\n      \"uploader\": {\n        \"login\": \"shw097\",\n        \"id\": 219498218,\n        \"node_id\": \"U_kgDODRVG6g\",\n        \"avatar_url\": \"https://avatars.githubusercontent.com/u/219498218?v=4\",\n        \"gravatar_id\": \"\",\n        \"url\": \"https://api.github.com/users/shw097\",\n        \"html_url\": \"https://github.com/shw097\",\n        \"followers_url\": \"https://api.github.com/users/shw097/followers\",\n        \"following_url\": \"https://api.github.com/users/shw097/following{/other_user}\",\n        \"gists_url\": \"https://api.github.com/users/shw097/gists{/gist_id}\",\n        \"starred_url\": \"https://api.github.com/users/shw097/starred{/owner}{/repo}\",\n        \"subscriptions_url\": \"https://api.github.com/users/shw097/subscriptions\",\n        \"organizations_url\": \"https://api.github.com/users/shw097/orgs\",\n        \"repos_url\": \"https://api.github.com/users/shw097/repos\",\n        \"events_url\": \"https://api.github.com/users/shw097/events{/privacy}\",\n        \"received_events_url\": \"https://api.github.com/users/shw097/received_events\",\n        \"type\": \"User\",\n        \"user_view_type\": \"public\",\n        \"site_admin\": false\n      },\n      \"content_type\": \"text/plain\",\n      \"state\": \"uploaded\",\n      \"size\": 305,\n      \"digest\": \"sha256:bc3b9be966ff0bb737417e1f3efbdde3423cbe6ee465bda1deed43c3dad2754c\",\n      \"download_count\": 4,\n      \"created_at\": \"2026-10-11T01:03:24Z\",\n      \"updated_at\": \"2026-10-11T01:03:24Z\",\n      \"browser_download_url\": \"https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/SHA256SUMS\"\n    }\n  ],\n  \"tarball_url\": \"https://api.github.com/repos/shw097-team/PIPD-LS-SP/tarball/v0.1.0-preview.2\",\n  \"zipball_url\": \"https://api.github.com/repos/shw097-team/PIPD-LS-SP/zipball/v0.1.0-preview.2\",\n  \"body\": \"# PIPD-LS-SP v0.1.0-preview.2\\n\\n**This is a repaired successor to `v0.1.0-preview.1`, not a rewrite of it.** `v0.1.0-preview.1` is left\\nexactly as published; this tag supersedes it, as the owner grant requires.\\n\\n## What is in these bytes\\n\\n| | |\\n|---|---|\\n| Wheel | `pipd_ls_sp-0.1.0-py3-none-any.whl` |\\n| Wheel sha256 | `d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f` |\\n| Built from commit | `1ab17d1eac02a86eda0770cb7dcf25b1a4389c6c` |\\n| Licence | Apache-2.0 |\\n\\n## What changed relative to v0.1.0-preview.1\\n\\n`v0.1.0-preview.1` shipped with two defects that made the core chain unusable from an installed wheel\\noutside the source tree. Both are repaired in these bytes:\\n\\n1. **CE-1 - `validate` could not find the schemas it shipped with.** Schema resolution is now\\n   `OVERRIDE -> INSTALLED -> SOURCE`, so a wheel installed into a clean virtual environment resolves\\n   the schemas packaged *inside the wheel* and reports where it found them.\\n2. **CE-2 - the compilers' own stdout was not schema-valid.** A non-record sidecar\\n   (`_profile_meta`) was being emitted into records the schemas reject. The hash-exclusion set and\\n   the stripped-sidecar set are now separate, so the compilers' own stdout validates.\\n3. **CE-CODEX-TRACE-WIDENING** - an undeclared `trace` key was accepted on `PD-PKG`/`ECP`/`TQAEP`.\\n   It is now rejected by `additionalProperties` and named in the findings.\\n\\nThe wheel bytes themselves were unchanged between v0.1.0-preview.1 and this tag for the packaging layer;\\nwhat changed is the library code inside it.\\n\\n## DEL-018 is closed in this tree\\n\\n`RELEASE_MANIFEST@1` had failed since the R3 crosswalk: the publication projection carried no\\ndisposition for every product path in the tree. It now dispositions 252/252 with zero violations and\\n`--check --current` exits 0. The regeneration removed 1085 stale `.hgk/` round-artifact entries and\\n**no product path**; that is asserted mechanically, because a manifest that covers less would also\\npass.\\n\\n## Claim ceiling - read this before quoting anything here\\n\\nPublished capability: `OWNER_AUTHORIZED_OPEN_SOURCE_PREVIEW_BETA_PUBLISHED`.\\n\\nThis is **not** a full gate pass. Not granted, and must not be quoted as granted:\\n`FULL_S0_S4_INDEPENDENT_PASS`, `G_RELEASE_FULL_PASS`, `PRODUCTION_VERIFIED`, `S5_RUNTIME_READY`,\\n`ALL_HOSTS_LIVE_CERTIFIED`. No release signature or build attestation by an external signing\\nidentity is attached, and no host-native (S5-S8) certification has been performed.\\n\\n## Known limitations\\n\\n1. The preview is an S4-stage open-source preview, not a production release.\\n2. DEL-018 is closed in this tree; the superseded tag's failure remains on record against it.\\n3. The default publication attestation sidecar in the tree attests an R3-era subject, not this tag.\\n4. No dependency-vulnerability scan result is claimed for this tag beyond the factory scans below.\\n5. `pip install` from PyPI is not offered; take the wheel from this release and verify its hash.\\n6. Windows-first: the tooling is verified on Windows with CPython 3.11; other hosts are untested.\\n7. The `Doctor`/composition surfaces remain the documented S0-S4 scope, not the full S5-S8 chain.\\n\\n## Factory evidence carried with this tag\\n\\n- history secret scan over 2339 objects and the worktree: 0 hits, CLEAN\\n- deny-list scan: PASS, 0 writer usages inside the R4 scope\\n- full test suite on the release tree: see the round record\\n- licence: Apache-2.0, with the corpus-derived vs agent-authored split kept in `NOTICE`\\n\"\n}\n",
+          "stderr": ""
+        }
+      ],
+      "outcome": "PASS"
+    },
+    {
+      "check": "3",
+      "command": [
+        "curl -q -f -sSL https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/pipd-ls-sp-v0.1.0-preview.2-source.zip -o C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/assets/pipd-ls-sp-v0.1.0-preview.2-source.zip",
+        "curl -q -f -sSL https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/pipd_ls_sp-0.1.0-py3-none-any.whl -o C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/assets/pipd_ls_sp-0.1.0-py3-none-any.whl",
+        "curl -q -f -sSL https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/PREVIEW_NOTES_v0.1.0-preview.2.md -o C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/assets/PREVIEW_NOTES_v0.1.0-preview.2.md",
+        "curl -q -f -sSL https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/SHA256SUMS -o C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/assets/SHA256SUMS",
+        "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -B C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/hash_assets.py"
+      ],
+      "observed": [
+        {
+          "label": "03-pipd-ls-sp-v0.1.0-preview.2-source.zip",
+          "command": "curl -q -f -sSL https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/pipd-ls-sp-v0.1.0-preview.2-source.zip -o C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/assets/pipd-ls-sp-v0.1.0-preview.2-source.zip",
+          "cwd": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "label": "03-pipd_ls_sp-0.1.0-py3-none-any.whl",
+          "command": "curl -q -f -sSL https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/pipd_ls_sp-0.1.0-py3-none-any.whl -o C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/assets/pipd_ls_sp-0.1.0-py3-none-any.whl",
+          "cwd": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "label": "03-PREVIEW_NOTES_v0.1.0-preview.2.md",
+          "command": "curl -q -f -sSL https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/PREVIEW_NOTES_v0.1.0-preview.2.md -o C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/assets/PREVIEW_NOTES_v0.1.0-preview.2.md",
+          "cwd": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "label": "03-SHA256SUMS",
+          "command": "curl -q -f -sSL https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.0-preview.2/SHA256SUMS -o C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/assets/SHA256SUMS",
+          "cwd": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "label": "03-independent-sha256",
+          "command": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -B C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/hash_assets.py",
+          "cwd": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker",
+          "exit_code": 0,
+          "stdout": "{\"name\": \"pipd-ls-sp-v0.1.0-preview.2-source.zip\", \"size\": 8106063, \"sha256\": \"4d24d1ec0a6e1c5b08905b6252ddb71175086b3927a27266d46fac39420481e7\", \"published_match\": true, \"expected_match\": null}\n{\"name\": \"pipd_ls_sp-0.1.0-py3-none-any.whl\", \"size\": 259272, \"sha256\": \"d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f\", \"published_match\": true, \"expected_match\": true}\n{\"name\": \"PREVIEW_NOTES_v0.1.0-preview.2.md\", \"size\": 3491, \"sha256\": \"31b6801090932c8ffb13d8b6096a47d272b9e646819ef89d52724f3e09c63adb\", \"published_match\": true, \"expected_match\": true}\n{\"name\": \"SHA256SUMS\", \"size\": 305, \"sha256\": \"bc3b9be966ff0bb737417e1f3efbdde3423cbe6ee465bda1deed43c3dad2754c\", \"published_match\": null, \"expected_match\": null}\n",
+          "stderr": ""
+        }
+      ],
+      "outcome": "PASS"
+    },
+    {
+      "check": "4",
+      "command": [
+        "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -B -m venv C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/venv-independent-0b7fadb77b154d49843171cbba57f8fd",
+        "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/venv-independent-0b7fadb77b154d49843171cbba57f8fd/Scripts/python.exe -B -m pip --isolated --disable-pip-version-check install --no-cache-dir --index-url https://pypi.org/simple C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/assets/pipd_ls_sp-0.1.0-py3-none-any.whl",
+        "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/venv-independent-0b7fadb77b154d49843171cbba57f8fd/Scripts/python.exe -B C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/fixture.py",
+        "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/venv-independent-0b7fadb77b154d49843171cbba57f8fd/Scripts/pipd.exe validate --bundle C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/bundle-valid.json",
+        "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/venv-independent-0b7fadb77b154d49843171cbba57f8fd/Scripts/pipd.exe validate --bundle C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/bundle-trace-PD-PKG.json",
+        "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/venv-independent-0b7fadb77b154d49843171cbba57f8fd/Scripts/pipd.exe validate --bundle C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/bundle-trace-ECP.json",
+        "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/venv-independent-0b7fadb77b154d49843171cbba57f8fd/Scripts/pipd.exe validate --bundle C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/bundle-trace-TQAEP.json"
+      ],
+      "observed": [
+        {
+          "label": "04-fresh-venv",
+          "command": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -B -m venv C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/venv-independent-0b7fadb77b154d49843171cbba57f8fd",
+          "cwd": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "label": "04-fresh-install",
+          "command": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/venv-independent-0b7fadb77b154d49843171cbba57f8fd/Scripts/python.exe -B -m pip --isolated --disable-pip-version-check install --no-cache-dir --index-url https://pypi.org/simple C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/assets/pipd_ls_sp-0.1.0-py3-none-any.whl",
+          "cwd": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker",
+          "exit_code": 0,
+          "stdout": "Processing c:\\users\\user\\appdata\\local\\packages\\openai.codex_2p2nqsd0c76g0\\localcache\\local\\hermes\\cache\\scratch\\r8\\checker\\assets\\pipd_ls_sp-0.1.0-py3-none-any.whl\nCollecting jsonschema>=4.0 (from pipd-ls-sp==0.1.0)\n  Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)\nCollecting attrs>=22.2.0 (from jsonschema>=4.0->pipd-ls-sp==0.1.0)\n  Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)\nCollecting jsonschema-specifications>=2023.03.6 (from jsonschema>=4.0->pipd-ls-sp==0.1.0)\n  Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)\nCollecting referencing>=0.28.4 (from jsonschema>=4.0->pipd-ls-sp==0.1.0)\n  Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)\nCollecting rpds-py>=0.25.0 (from jsonschema>=4.0->pipd-ls-sp==0.1.0)\n  Downloading rpds_py-2026.9.1-cp311-cp311-win_amd64.whl.metadata (4.2 kB)\nCollecting typing-extensions>=4.4.0 (from referencing>=0.28.4->jsonschema>=4.0->pipd-ls-sp==0.1.0)\n  Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)\nDownloading jsonschema-4.26.0-py3-none-any.whl (90 kB)\n   ---------------------------------------- 90.6/90.6 kB 1.7 MB/s eta 0:00:00\nDownloading attrs-26.1.0-py3-none-any.whl (67 kB)\n   ---------------------------------------- 67.5/67.5 kB ? eta 0:00:00\nDownloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)\nDownloading referencing-0.37.0-py3-none-any.whl (26 kB)\nDownloading rpds_py-2026.9.1-cp311-cp311-win_amd64.whl (226 kB)\n   ---------------------------------------- 226.0/226.0 kB 7.0 MB/s eta 0:00:00\nDownloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)\n   ---------------------------------------- 45.6/45.6 kB ? eta 0:00:00\nInstalling collected packages: typing-extensions, rpds-py, attrs, referencing, jsonschema-specifications, jsonschema, pipd-ls-sp\nSuccessfully installed attrs-26.1.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 pipd-ls-sp-0.1.0 referencing-0.37.0 rpds-py-2026.9.1 typing-extensions-4.16.0\n",
+          "stderr": ""
+        },
+        {
+          "label": "04-fresh-fixture",
+          "command": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/venv-independent-0b7fadb77b154d49843171cbba57f8fd/Scripts/python.exe -B C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/fixture.py",
+          "cwd": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/empty-cwd",
+          "exit_code": 0,
+          "stdout": "{\"command\": [\"git\", \"-C\", \"C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/fixture-repo-independent-54129397e39b4a7f9ce39b3230cdb1ce\", \"init\", \"-q\"], \"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"}\n{\"command\": [\"git\", \"-C\", \"C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/fixture-repo-independent-54129397e39b4a7f9ce39b3230cdb1ce\", \"add\", \".\"], \"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"}\n{\"command\": [\"git\", \"-C\", \"C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/fixture-repo-independent-54129397e39b4a7f9ce39b3230cdb1ce\", \"commit\", \"-q\", \"-m\", \"independent fixture seed\"], \"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"}\n{\"python\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\\\Scripts\\\\python.exe\", \"package_origin\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\__init__.py\", \"sys_path\": [\"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python311\\\\python311.zip\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python311\\\\DLLs\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python311\\\\Lib\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python311\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\\\Lib\\\\site-packages\"], \"cwd\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\empty-cwd\", \"cwd_has_schemas\": false, \"retained_PI_profile_meta\": true, \"bundle_contracts\": [\"PI-PKG\", \"PD-PKG\", \"ECP\", \"TQAEP\"]}\n",
+          "stderr": ""
+        },
+        {
+          "label": "04-fresh-cli-valid",
+          "command": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/venv-independent-0b7fadb77b154d49843171cbba57f8fd/Scripts/pipd.exe validate --bundle C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/bundle-valid.json",
+          "cwd": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/empty-cwd",
+          "exit_code": 0,
+          "stdout": "{\n \"checked\": 4,\n \"findings\": [],\n \"schema_source\": {\n  \"mode\": \"INSTALLED\",\n  \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\",\n  \"tried\": [\n   \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\empty-cwd\\\\schemas\",\n   \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\"\n  ]\n },\n \"verdict\": \"PASS\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "label": "04-fresh-cli-trace-PD-PKG",
+          "command": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/venv-independent-0b7fadb77b154d49843171cbba57f8fd/Scripts/pipd.exe validate --bundle C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/bundle-trace-PD-PKG.json",
+          "cwd": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/empty-cwd",
+          "exit_code": 1,
+          "stdout": "{\n \"checked\": 4,\n \"findings\": [\n  {\n   \"contract\": \"PD-PKG\",\n   \"detail\": \"PD-PKG/: Additional properties are not allowed ('trace' was unexpected)\",\n   \"kind\": \"SCHEMA\"\n  }\n ],\n \"schema_source\": {\n  \"mode\": \"INSTALLED\",\n  \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\",\n  \"tried\": [\n   \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\empty-cwd\\\\schemas\",\n   \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\"\n  ]\n },\n \"verdict\": \"FAIL\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "label": "04-fresh-cli-trace-ECP",
+          "command": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/venv-independent-0b7fadb77b154d49843171cbba57f8fd/Scripts/pipd.exe validate --bundle C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/bundle-trace-ECP.json",
+          "cwd": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/empty-cwd",
+          "exit_code": 1,
+          "stdout": "{\n \"checked\": 4,\n \"findings\": [\n  {\n   \"contract\": \"ECP\",\n   \"detail\": \"ECP/: Additional properties are not allowed ('trace' was unexpected)\",\n   \"kind\": \"SCHEMA\"\n  }\n ],\n \"schema_source\": {\n  \"mode\": \"INSTALLED\",\n  \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\",\n  \"tried\": [\n   \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\empty-cwd\\\\schemas\",\n   \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\"\n  ]\n },\n \"verdict\": \"FAIL\"\n}\n",
+          "stderr": ""
+        },
+        {
+          "label": "04-fresh-cli-trace-TQAEP",
+          "command": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/venv-independent-0b7fadb77b154d49843171cbba57f8fd/Scripts/pipd.exe validate --bundle C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/bundle-trace-TQAEP.json",
+          "cwd": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/empty-cwd",
+          "exit_code": 1,
+          "stdout": "{\n \"checked\": 4,\n \"findings\": [\n  {\n   \"contract\": \"TQAEP\",\n   \"detail\": \"TQAEP/: Additional properties are not allowed ('trace' was unexpected)\",\n   \"kind\": \"SCHEMA\"\n  }\n ],\n \"schema_source\": {\n  \"mode\": \"INSTALLED\",\n  \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\",\n  \"tried\": [\n   \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\empty-cwd\\\\schemas\",\n   \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r8\\\\checker\\\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\"\n  ]\n },\n \"verdict\": \"FAIL\"\n}\n",
+          "stderr": ""
+        }
+      ],
+      "outcome": "PASS"
+    },
+    {
+      "check": "5",
+      "command": [
+        "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -B -m unittest tests.test_ce_repair_regression -v",
+        "git status --porcelain",
+        "git status --porcelain"
+      ],
+      "observed": [
+        {
+          "label": "05-regression",
+          "command": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -B -m unittest tests.test_ce_repair_regression -v",
+          "cwd": "C:/Projects/Agent_Workspace/PIPD-r7-release",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "test_init_reports_workspace_local_schemas_when_present (tests.test_ce_repair_regression.CE1InitSecondSiteSchemaResolutionTests.test_init_reports_workspace_local_schemas_when_present) ... ok\ntest_init_succeeds_on_fresh_root_without_schemas (tests.test_ce_repair_regression.CE1InitSecondSiteSchemaResolutionTests.test_init_succeeds_on_fresh_root_without_schemas) ... ok\ntest_validate_reports_schema_source_mode (tests.test_ce_repair_regression.CE1ValidateSchemaResolutionTests.test_validate_reports_schema_source_mode) ... ok\ntest_validate_resolves_shipped_schemas_without_workspace_schemas (tests.test_ce_repair_regression.CE1ValidateSchemaResolutionTests.test_validate_resolves_shipped_schemas_without_workspace_schemas) ... ok\ntest_workspace_local_schemas_still_takes_precedence (tests.test_ce_repair_regression.CE1ValidateSchemaResolutionTests.test_workspace_local_schemas_still_takes_precedence) ... ok\ntest_compilers_own_stdout_bundle_is_accepted (tests.test_ce_repair_regression.CE2CompilerStdoutTests.test_compilers_own_stdout_bundle_is_accepted) ... ok\ntest_sidecar_list_has_one_definition (tests.test_ce_repair_regression.CE2CompilerStdoutTests.test_sidecar_list_has_one_definition)\nA future copy-paste must not be able to split the field lists again. ... ok\ntest_declared_trace_on_pi_pkg_still_tolerated (tests.test_ce_repair_regression.CE2TraceWideningTests.test_declared_trace_on_pi_pkg_still_tolerated) ... ok\ntest_undeclared_trace_is_rejected_on_pd_ecp_tqaep (tests.test_ce_repair_regression.CE2TraceWideningTests.test_undeclared_trace_is_rejected_on_pd_ecp_tqaep) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 1.872s\n\nOK\n"
+        },
+        {
+          "label": "05-status",
+          "command": "git status --porcelain",
+          "cwd": "C:/Projects/Agent_Workspace/PIPD-r7-release",
+          "exit_code": 0,
+          "stdout": "?? .hgk/rounds/R8-20261011-s4-main-consolidation/\n",
+          "stderr": ""
+        },
+        {
+          "label": "05-final-status",
+          "command": "git status --porcelain",
+          "cwd": "C:/Projects/Agent_Workspace/PIPD-r7-release",
+          "exit_code": 0,
+          "stdout": "?? .hgk/rounds/R8-20261011-s4-main-consolidation/\n",
+          "stderr": ""
+        }
+      ],
+      "outcome": "FAIL"
+    }
+  ],
+  "results": {
+    "refs": {
+      "exit_code": 0,
+      "refs": {
+        "HEAD": "26beacb22b8734354d96d2c898538ef45f49ba25",
+        "refs/heads/main": "26beacb22b8734354d96d2c898538ef45f49ba25",
+        "refs/heads/r3-candidate": "3aebbbce948871c07b875ab92acf263d298ecf38",
+        "refs/heads/r4-candidate": "cd8a06e4c066a40398a4012b7b3908ac11408a2b",
+        "refs/heads/r5-s4-candidate": "5094939606ba9331ed768743eb5b806ad159e639",
+        "refs/heads/r5-s4-evidence": "2ad1f16bf44eb14868eaac6dfa764516490de27c",
+        "refs/heads/r5-s4-packreader": "0f06eec96386b7349db8b41ac6cf9c7455d326f1",
+        "refs/heads/r5-s4-readme": "f418153aac2cf7e5a4080d6412f8fe15ffca34b6",
+        "refs/heads/r5p-post-challenge-repair": "2efc84eac8e1939092c748d5b389b6dd72267aef",
+        "refs/heads/r5q-owner-opensource-preview": "9bd33a1025894504192c6d9443e7c1598454e822",
+        "refs/heads/r7-del018-successor": "024d358cc972c6a0fb8c3064ea5f255535b982e9",
+        "refs/pull/1/head": "cd8a06e4c066a40398a4012b7b3908ac11408a2b",
+        "refs/pull/1/merge": "0289573195c32172a67aa424319e244b0316df95",
+        "refs/tags/v0.1.0-preview.1": "cc9bf574c3b3f0f44ea615b5c67ae40d74efee32",
+        "refs/tags/v0.1.0-preview.2": "8faa64e581e8c25f5ec355475e29561847da3ead"
+      },
+      "peel_lines": []
+    },
+    "metadata": {
+      "prerelease": true,
+      "draft": false,
+      "body_length_characters": 3491,
+      "body_length_utf8_bytes": 3491,
+      "contains_G_RELEASE_FULL_PASS": true,
+      "contains_Known_limitations": true,
+      "asset_count": 4
+    },
+    "assets": {
+      "downloaded": {
+        "pipd-ls-sp-v0.1.0-preview.2-source.zip": {
+          "exit_code": 0,
+          "size": 8106063,
+          "sha256": "4d24d1ec0a6e1c5b08905b6252ddb71175086b3927a27266d46fac39420481e7",
+          "metadata_size": 8106063
+        },
+        "pipd_ls_sp-0.1.0-py3-none-any.whl": {
+          "exit_code": 0,
+          "size": 259272,
+          "sha256": "d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f",
+          "metadata_size": 259272
+        },
+        "PREVIEW_NOTES_v0.1.0-preview.2.md": {
+          "exit_code": 0,
+          "size": 3491,
+          "sha256": "31b6801090932c8ffb13d8b6096a47d272b9e646819ef89d52724f3e09c63adb",
+          "metadata_size": 3491
+        },
+        "SHA256SUMS": {
+          "exit_code": 0,
+          "size": 305,
+          "sha256": "bc3b9be966ff0bb737417e1f3efbdde3423cbe6ee465bda1deed43c3dad2754c",
+          "metadata_size": 305
+        }
+      },
+      "published": {
+        "pipd_ls_sp-0.1.0-py3-none-any.whl": "d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f",
+        "pipd-ls-sp-v0.1.0-preview.2-source.zip": "4d24d1ec0a6e1c5b08905b6252ddb71175086b3927a27266d46fac39420481e7",
+        "PREVIEW_NOTES_v0.1.0-preview.2.md": "31b6801090932c8ffb13d8b6096a47d272b9e646819ef89d52724f3e09c63adb"
+      },
+      "published_match": true,
+      "not_listed_in_sums": [
+        "SHA256SUMS"
+      ]
+    },
+    "cli": {
+      "cwd_has_schemas": false,
+      "runs": {
+        "valid": {
+          "exit_code": 0,
+          "output": {
+            "checked": 4,
+            "findings": [],
+            "schema_source": {
+              "mode": "INSTALLED",
+              "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r8\\checker\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+              "tried": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r8\\checker\\empty-cwd\\schemas",
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r8\\checker\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+              ]
+            },
+            "verdict": "PASS"
+          }
+        },
+        "trace-PD-PKG": {
+          "exit_code": 1,
+          "output": {
+            "checked": 4,
+            "findings": [
+              {
+                "contract": "PD-PKG",
+                "detail": "PD-PKG/: Additional properties are not allowed ('trace' was unexpected)",
+                "kind": "SCHEMA"
+              }
+            ],
+            "schema_source": {
+              "mode": "INSTALLED",
+              "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r8\\checker\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+              "tried": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r8\\checker\\empty-cwd\\schemas",
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r8\\checker\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+              ]
+            },
+            "verdict": "FAIL"
+          }
+        },
+        "trace-ECP": {
+          "exit_code": 1,
+          "output": {
+            "checked": 4,
+            "findings": [
+              {
+                "contract": "ECP",
+                "detail": "ECP/: Additional properties are not allowed ('trace' was unexpected)",
+                "kind": "SCHEMA"
+              }
+            ],
+            "schema_source": {
+              "mode": "INSTALLED",
+              "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r8\\checker\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+              "tried": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r8\\checker\\empty-cwd\\schemas",
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r8\\checker\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+              ]
+            },
+            "verdict": "FAIL"
+          }
+        },
+        "trace-TQAEP": {
+          "exit_code": 1,
+          "output": {
+            "checked": 4,
+            "findings": [
+              {
+                "contract": "TQAEP",
+                "detail": "TQAEP/: Additional properties are not allowed ('trace' was unexpected)",
+                "kind": "SCHEMA"
+              }
+            ],
+            "schema_source": {
+              "mode": "INSTALLED",
+              "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r8\\checker\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+              "tried": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r8\\checker\\empty-cwd\\schemas",
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r8\\checker\\venv-independent-0b7fadb77b154d49843171cbba57f8fd\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+              ]
+            },
+            "verdict": "FAIL"
+          }
+        }
+      }
+    },
+    "regression": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "test_init_reports_workspace_local_schemas_when_present (tests.test_ce_repair_regression.CE1InitSecondSiteSchemaResolutionTests.test_init_reports_workspace_local_schemas_when_present) ... ok\ntest_init_succeeds_on_fresh_root_without_schemas (tests.test_ce_repair_regression.CE1InitSecondSiteSchemaResolutionTests.test_init_succeeds_on_fresh_root_without_schemas) ... ok\ntest_validate_reports_schema_source_mode (tests.test_ce_repair_regression.CE1ValidateSchemaResolutionTests.test_validate_reports_schema_source_mode) ... ok\ntest_validate_resolves_shipped_schemas_without_workspace_schemas (tests.test_ce_repair_regression.CE1ValidateSchemaResolutionTests.test_validate_resolves_shipped_schemas_without_workspace_schemas) ... ok\ntest_workspace_local_schemas_still_takes_precedence (tests.test_ce_repair_regression.CE1ValidateSchemaResolutionTests.test_workspace_local_schemas_still_takes_precedence) ... ok\ntest_compilers_own_stdout_bundle_is_accepted (tests.test_ce_repair_regression.CE2CompilerStdoutTests.test_compilers_own_stdout_bundle_is_accepted) ... ok\ntest_sidecar_list_has_one_definition (tests.test_ce_repair_regression.CE2CompilerStdoutTests.test_sidecar_list_has_one_definition)\nA future copy-paste must not be able to split the field lists again. ... ok\ntest_declared_trace_on_pi_pkg_still_tolerated (tests.test_ce_repair_regression.CE2TraceWideningTests.test_declared_trace_on_pi_pkg_still_tolerated) ... ok\ntest_undeclared_trace_is_rejected_on_pd_ecp_tqaep (tests.test_ce_repair_regression.CE2TraceWideningTests.test_undeclared_trace_is_rejected_on_pd_ecp_tqaep) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 1.872s\n\nOK\n"
+    },
+    "git_status": {
+      "exit_code": 0,
+      "stdout": "?? .hgk/rounds/R8-20261011-s4-main-consolidation/\n",
+      "stderr": "",
+      "empty": false
+    },
+    "tree_integrity": {
+      "before_count": 3768,
+      "after_count": 3768,
+      "byte_identical": true,
+      "changed": [],
+      "added": [],
+      "removed": []
+    },
+    "fresh_environment": {
+      "path": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/checker/venv-independent-0b7fadb77b154d49843171cbba57f8fd",
+      "existed_before": false
+    },
+    "installed_payload": {
+      "wheel_package_file_count": 33,
+      "differences": []
+    },
+    "preexisting_untracked_files": [
+      ".hgk/rounds/R8-20261011-s4-main-consolidation/admission/r8_admission.json",
+      ".hgk/rounds/R8-20261011-s4-main-consolidation/hgk_r8_admission.py"
+    ]
+  },
+  "reason": "The release/ref/hash/installed-wheel checks and 9 regression tests pass, but git status --porcelain is not empty; the untracked files predate this audit.",
+  "could_not_verify": [
+    "A clean local worktree was not established: git status reports the pre-existing .hgk/rounds/R8-20261011-s4-main-consolidation/ directory.",
+    "Current ref equality cannot prove that preview.1 was never moved and restored historically.",
+    "SHA256SUMS does not list or independently authenticate its own digest; its three listed entries match the downloaded bytes.",
+    "The broader G_RELEASE_FULL_PASS designation, full test suite, S5 runtime qualification, production readiness, and historical pre-repair failure were not independently exercised."
+  ],
+  "claim_ceiling_statement": "This verdict covers only the observed anonymous refs and release metadata, all four downloaded assets, the downloaded-wheel schema-resolution and trace-rejection cases, the nine local regression tests, worktree status, and protected-tree byte preservation at audit time; it grants no broader release or production qualification.",
+  "discarded_initial_environment": {
+    "reason": "The first venv path already contained the package, so its installation/CLI results were discarded as acceptance evidence and replaced by a uniquely named previously absent venv.",
+    "raw_log": "observations.json"
+  }
+}

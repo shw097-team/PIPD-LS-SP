@@ -1,0 +1,126 @@
+{
+  "schema": "HGK-LANE-RESOLUTION/1",
+  "lane": "VERIFY_SECURITY",
+  "role": "checker",
+  "engine": "codex-cli",
+  "codex_executable": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\2e5e00daee91c61d\\codex.exe",
+  "codex_home": "C:\\Users\\user\\.codex",
+  "relay_base": "http://127.0.0.1:10101/v1",
+  "transport": "opencodex relay via per-invocation -c openai_base_url (no config mutation)",
+  "transport_target": "http://127.0.0.1:10101/v1",
+  "front_door_port": null,
+  "front_door_note": "the lane-scoped pool door (10103 VERIFY_SECURITY / 10105 EXECUTE) carries the hop and ledgers every decision; the sealed single-model 10100 door is unchanged and unused; None here means direct to the relay on 10101",
+  "sandbox": "danger-full-access",
+  "sandbox_by_role_default": "read-only",
+  "sandbox_escalation_authorised": true,
+  "cwd": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/xmodel/work",
+  "side_effect_note": "danger-full-access has NO sandbox root: any absolute path is writable, so a read-only subject must be a frozen copy checked afterwards by digest",
+  "receipt_binding": "usage rows appended after this attempt started (byte offset bound)",
+  "pool": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\config\\lane-route-slots.candidate.json",
+  "candidates_considered": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "mode": "pinned_primary",
+  "unguarded_escalation_acknowledged": false,
+  "inject_429_first": false,
+  "identity_gate": {
+    "state": "enforced",
+    "lane_home": "C:\\Users\\user\\.codex",
+    "relay_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes",
+    "arms": [
+      {
+        "rank": 1,
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "requirement": "none",
+        "ok": true,
+        "detail": "key-auth arm: no human-attended identity"
+      },
+      {
+        "rank": 2,
+        "provider": "nvidia",
+        "model": "deepseek-ai/deepseek-v4.1-flash",
+        "requirement": "none",
+        "ok": true,
+        "detail": "key-auth arm: no human-attended identity"
+      },
+      {
+        "rank": 3,
+        "provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "requirement": "none",
+        "ok": true,
+        "detail": "key-auth arm: no human-attended identity"
+      },
+      {
+        "rank": 4,
+        "provider": "openai-codex",
+        "model": "gpt-6.1-sol",
+        "requirement": "relay_pool",
+        "ok": true,
+        "detail": "non-empty refreshable credential present in codex-accounts.json"
+      }
+    ],
+    "degraded": false,
+    "required_arm": "openai-codex/gpt-6.1-sol"
+  },
+  "subject_mutation": {
+    "files_before": 3768,
+    "files_after": 3768,
+    "added": [],
+    "removed": [],
+    "changed": [],
+    "mutated": false,
+    "rule": "removed/changed => verdict void; added is recorded, not fatal",
+    "guard_roots": [
+      "C:/Projects/Agent_Workspace/PIPD-r7-release"
+    ],
+    "subject_digest_sha256_before": "6cb7c7c0d4321fcb1fa93ccd871cb64e6f1af9c1c1c75d1c39cf5dd538423670",
+    "subject_digest_sha256_after": "6cb7c7c0d4321fcb1fa93ccd871cb64e6f1af9c1c1c75d1c39cf5dd538423670"
+  },
+  "attempt_log_dir": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/xmodel/real-logs",
+  "attempts": [
+    {
+      "rank": 1,
+      "provider": "opencode-go",
+      "model": "deepseek-v4.1-flash",
+      "transport_model": "opencode-go/deepseek-v4.1-flash",
+      "sandbox": "danger-full-access",
+      "reasoning_effort": null,
+      "exit": 0,
+      "seconds": 767.96,
+      "nonce_present": true,
+      "nonce_present_raw_stdout": true,
+      "nonce_source": "item.completed/agent_message",
+      "usage_rows_after_offset": 39,
+      "usage_offset": 10178997,
+      "usage_provider": "opencode-go",
+      "usage_model": "deepseek-v4.1-flash",
+      "usage_status": 200,
+      "usage_receipt_ok": true,
+      "attempt_log_dir": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r8/xmodel/real-logs",
+      "stdout_byte_exact": true,
+      "stdout_path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r8\\xmodel\\real-logs\\attempt-22984-1791682773-1-stdout.txt",
+      "stdout_bytes": 174959,
+      "stdout_sha256": "a069f9dc0749b17c148c14298b655a78720656feed392831091196440a92b5e7",
+      "stderr_byte_exact": true,
+      "stderr_path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\r8\\xmodel\\real-logs\\attempt-22984-1791682773-1-stderr.txt",
+      "stderr_bytes": 393,
+      "stderr_sha256": "7c0e62d7f48a819278c854d6987759dc91dad23a7d5f656e0f9158372c77873a",
+      "stdout_tail": " the tagged build, or any capability beyond those specific behaviors.\\\"\\n}\\n```\\n\\nVerdict: **PASS** for every check I was able to run, with the provenance and tree-identity gaps above stated plainly rather than papered over.\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":1206571,\"cached_input_tokens\":1107072,\"cache_write_input_tokens\":0,\"output_tokens\":23385,\"reasoning_output_tokens\":9565}}\n",
+      "stderr_tail": ":responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10101/v1/responses\n2026-10-11T01:42:04.775974Z ERROR codex_core::tools::router: error=write_stdin failed: stdin is closed for this session; rerun exec_command with tty=true to keep stdin open\n"
+    }
+  ],
+  "used_rank": 1,
+  "used_transport_model": "opencode-go/deepseek-v4.1-flash",
+  "used_seconds": 767.96,
+  "generated_utc": "2026-10-11T01:52:23.874051+00:00",
+  "claim_ceiling": "a pass here proves the Codex-CLI lane served this turn through the relay with a matching usage receipt; it is not an acceptance of any subject",
+  "ok": false,
+  "required_arm": "openai-codex/gpt-6.1-sol",
+  "served_arm": "opencode-go/deepseek-v4.1-flash",
+  "code": "ERR_REQUIRED_ARM_NOT_SERVED"
+}
