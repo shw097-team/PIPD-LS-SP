@@ -11,11 +11,29 @@
  },
  "observed_status": {
   "t_6e9fa780": "done",
-  "t_ae87acba": "ready",
-  "t_32ee8e1e": "ready",
-  "t_9431f074": "todo",
+  "t_ae87acba": "done",
+  "t_32ee8e1e": "done",
+  "t_9431f074": "ready",
   "t_828108af": "todo"
  },
+ "observed_status_history": [
+  {
+   "at_utc": "2026-10-11T06:20Z (approx, first readback)",
+   "t_6e9fa780": "done",
+   "t_ae87acba": "ready",
+   "t_32ee8e1e": "ready",
+   "t_9431f074": "todo",
+   "t_828108af": "todo"
+  },
+  {
+   "at_utc": "2026-10-11T06:52Z (refresh)",
+   "reason": "The independent checker (openai-codex/gpt-6.1-sol) flagged that the recorded workers/verifier statuses had DRIFTED from the live board: 'BOARD_READBACK.json does not match the current board statuses for both workers and the verifier. This is mutable snapshot drift and is not treated as an immutable-content failure.' Correct. The workers were completed through the CLI with --result after the first readback. Both snapshots are kept rather than the older one being overwritten, so the drift is visible instead of erased.",
+   "completed_with_evidence": {
+    "t_ae87acba": "completed via `kanban complete --result ...` (the board REFUSES an empty completion: 'has no result or summary evidence'), so the completion carries its own evidence text rather than a bare status flip",
+    "t_32ee8e1e": "completed via `kanban complete --result ...`, same rule"
+   }
+  }
+ ],
  "containment_attempt": {
   "intent": "hold the verify and synthesizer cards as a deliberate AUTOMATIC_ROUTING_HOLD so the native dispatcher cannot spawn them",
   "command": "kanban --board pipd-r11-20261011 block <id> <reason> --kind needs_input (attempted for t_9431f074 and t_828108af)",
