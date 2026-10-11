@@ -1,0 +1,41 @@
+{
+ "schema": "PIPD-S4R2-CLAIM-CORRECTIONS/1",
+ "why": "A checker finding against a frozen, hash-bound candidate is corrected as a CLAIM, not by rewriting the frozen commit: rewriting it would invalidate the independent receipt that is bound to those exact bytes and would let the maker silently absorb the checker's finding.",
+ "frozen_subject": {
+  "commit": "7c00b64960d86fc1e94848c9955c512a3626a85f",
+  "tree": "b08b961061f510d1eb78a944307ecaa446d68eed"
+ },
+ "checker_receipt": "verify/VERIFY_RECEIPT_gpt61sol.json",
+ "corrections": [
+  {
+   "finding": "V2R2-F01",
+   "severity": "MEDIUM",
+   "status": "ACCEPTED_AS_CORRECT",
+   "original_claim": "README.md:114-115 states that --root is a GLOBAL option and must be placed before the subcommand.",
+   "measured": "The claim is too broad. `project --root <root> --dry-run` and `export --root <root> --dry-run` both exit 0; cli.py declares subcommand-local --root options for those two verbs.",
+   "corrected_claim": "--root must precede the subcommand for the documented compiler chain (init, intake, compile-pi, bind-pd, compile-ecp, compile-tqaep, validate) and for doctor; `project` and `export` additionally accept it after the subcommand.",
+   "action_taken": "NOT rewritten in the frozen commit; carried as TT-S4R2-09 for the next revision so the independent receipt stays bound to 7c00b649.",
+   "what_is_not_claimed": "No new receipt was issued for a corrected tree. The checker's PARTIAL/SCOPE_BOUNDED verdict stands against 7c00b649 as-is."
+  },
+  {
+   "finding": "CK-2",
+   "severity": "LIMIT",
+   "status": "ACCEPTED_AS_CORRECT",
+   "original_claim": "The whole suite passes on the candidate.",
+   "measured": "The orchestrator measured Ran 410 tests OK (skipped=3) in the WRITABLE worktree at the frozen commit. The checker correctly declined to run the suite ON the frozen read-only subject because the test tooling writes .pyc.tmp beside subject modules and temp files under ROOT/.hgk, which would violate its own no-mutation rule.",
+   "corrected_claim": "Ran 410 tests OK (skipped=3) is a measurement on a writable checkout at commit 7c00b649, NOT on the pristine read-only subject. The pristine subject was verified byte-identical (1326 files, zero changes) but the suite was not executed against it.",
+   "action_taken": "Stated precisely in the acceptance master; no claim of a suite run on the pristine subject is made.",
+   "what_is_not_claimed": "No claim that the suite was run against the frozen subject itself."
+  },
+  {
+   "finding": "CK-6",
+   "severity": "LIMIT",
+   "status": "ACCEPTED_AS_CORRECT",
+   "original_claim": "The README's compiler walk-through is literally copy-paste-able.",
+   "measured": "The checker declined to execute the block verbatim (it names another checkout in PYTHONPATH and deletes a pre-existing TEMP directory) and instead ran an adjusted form in a private scratch dir, twice, reproducing hashes.",
+   "corrected_claim": "The chain is runnable and deterministic under an adjusted invocation. A literal copy-paste of the exact block was not receipted by an independent party; the maker's lane and the orchestrator executed the documented commands with the pinned interpreter.",
+   "action_taken": "Recorded as a residual on the documentation claim.",
+   "what_is_not_claimed": "No independent literal copy-paste receipt."
+  }
+ ]
+}

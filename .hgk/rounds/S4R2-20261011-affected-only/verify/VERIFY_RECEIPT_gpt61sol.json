@@ -1,0 +1,115 @@
+{
+ "checker": "Independent Acceptance Officer",
+ "subject_commit": "7c00b64960d86fc1e94848c9955c512a3626a85f",
+ "subject_tree": "b08b961061f510d1eb78a944307ecaa446d68eed",
+ "non_mutation_verdict": "PASS",
+ "scope": "S4-R2 affected-only candidate only",
+ "verdict": "PARTIAL",
+ "rerun_evidence": [
+  {
+   "claim_id": "1",
+   "command": "git --no-optional-locks status --porcelain; git rev-parse HEAD 'HEAD^{tree}'",
+   "exit": 0,
+   "observed": "Initial and final status were empty. HEAD and tree exactly matched the frozen identities."
+  },
+  {
+   "claim_id": "2",
+   "command": "Read tests/test_s0_contracts.py, tests/test_publication_projection.py and tests/test_tooling_executes.py before executing discovery",
+   "exit": 0,
+   "observed": "Discovery was NOT RUN. Tests create temporary files under the subject, rewrite and restore a subject manifest, and explicitly compile subject modules into .pyc.tmp files. No measured Ran N tests, result line or skip count is available."
+  },
+  {
+   "claim_id": "3",
+   "command": "Pinned interpreter: count schemas/*.schema.json and skills directories; registry.load_registry(root/'schemas'); -B -m pipd_ls_sp.cli --help",
+   "exit": 0,
+   "observed": "19 schema files; registry matches the canonical 19-family order; 8 skill directories; 13 help-listed subcommands: init, intake, profile, compile-pi, bind-pd, compile-ecp, compile-tqaep, validate, doctor, project, export, diff, repair."
+  },
+  {
+   "claim_id": "4",
+   "command": "Pinned interpreter: pipeline.profile_record('LITE', ['intent']*4); pipeline.profile_record('LITE', ['intent',42]); pipeline.profile_record('LITE', ['intent'])",
+   "exit": 0,
+   "observed": "Both malformed inputs raised ProfileVeto with code PROFILE_VETO before returning a record. The legal input emitted a LITE binding and validate_record returned no findings."
+  },
+  {
+   "claim_id": "5",
+   "command": "Pinned interpreter: build real bindings with pipeline.profile_record; inspect ProfileBinding.schema.json; validate_record; CLI validate --bundle for each mutated binding",
+   "exit": 0,
+   "observed": "All five fields have effective schema constraints rather than {}. Axes, vetoes and assurance are arrays; profile and artifact_depth have closed string enums. Real LITE, STANDARD and ASSURED bindings validate. Schema vocabularies match runtime definitions. CLI validation refused axes='intent', axes=['intent',42], profile=42 and vetoes='veto', each with exit 1, verdict FAIL and kind SCHEMA. Legal CLI validation returned exit 0, checked=1, findings=[]."
+  },
+  {
+   "claim_id": "6",
+   "command": "C:/Program Files/Git/bin/bash.exe C:/Users/user/AppData/Local/Temp/independent-s4r2-j_5m2hdm/chain.sh",
+   "exit": 0,
+   "observed": "Executed the extracted README compiler block twice from the subject root, with PY changed to the pinned Windows executable, PYTHONPATH changed to this subject's src, and ART changed to private TEMP scratch. Exit instrumentation was added. In both runs: init=0, intake=0, compile-pi=0, bind-pd=0, compile-ecp=0, compile-tqaep=0, assemble_bundle.py=0, validate=0. Validation returned PASS, checked=4, findings=[]. All six output file hashes matched between runs. This was a path-adjusted execution, not an unmodified literal execution."
+  },
+  {
+   "claim_id": "6",
+   "command": "Pinned interpreter: hashlib.sha256 over both runs' output files",
+   "exit": 0,
+   "observed": "Identical hashes in both runs: intent.card.json=f5a44e273c26ef4b76803e49635f23480e985b98a1cff41b6e8e31d4d79e2641; pi.json=9cc0c1b101431cfcb30e6435284ef24707a61ad6c91cd7f35adfda836b8c1c99; pd.json=ff3465fe50dc5dd2120b12abaa4851d4b0c108a651d9045a4b5dacf8b06403e4; ecp.json=ead677fde3792ac4333272e9590c93bc4f202d03a18fe03a82142d83ea7bbbc0; tqaep.json=1481fbda4ffdf26aafe88ea9cf681c62dd33761bed623902c3a22945f64fa434; bundle.json=74332d21e93f22781d83cc7c8c7de3dd649745b85d47b0aa4117e13fc4528595."
+  },
+  {
+   "claim_id": "7",
+   "command": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -B -m pipd_ls_sp.cli --root C:/Users/user/AppData/Local/Temp/independent-s4r2-j_5m2hdm/negative intake --goal \"Compile this example clause source into a validated PI to PD to ECP to TQAEP chain.\" --source examples/first-run/missing.txt --constraint \"candidate-only, no release\" --non-goal \"no upstream document bodies copied\"",
+   "exit": 2,
+   "observed": "Typed JSON refusal: verdict FAIL, code AUTHORITY_UNKNOWN, message 'source locator does not exist: examples/first-run/missing.txt'. No new file or artefact appeared in the negative workspace."
+  },
+  {
+   "claim_id": "8",
+   "command": "git rev-parse 'v0.1.0-preview.2^{commit}'; git show-ref --tags; git ls-remote --tags https://github.com/shw097-team/PIPD-LS-SP.git",
+   "exit": 0,
+   "observed": "Preview.2 resolves to 8faa64e581e8c25f5ec355475e29561847da3ead. Both local tags match the remote: preview.1=cc9bf574c3b3f0f44ea615b5c67ae40d74efee32 and preview.2=8faa64e581e8c25f5ec355475e29561847da3ead. Final local refs were unchanged."
+  },
+  {
+   "claim_id": "8",
+   "command": "git ls-tree -r v0.1.0-preview.2 -- dist; git diff --exit-code v0.1.0-preview.2 HEAD -- <all 17 tagged dist paths>; git diff --exit-code HEAD^ HEAD -- dist",
+   "exit": 0,
+   "observed": "All 17 dist files present at the published tag are unchanged in the candidate. The S4-R2 commit changes no dist path. The broader postrelease lineage adds dist/mount files, without modifying the tagged release files."
+  },
+  {
+   "claim_id": "9",
+   "command": "Download published SHA256SUMS and its three named assets into TEMP; grep '  pipd_ls_sp-0.1.0-py3-none-any.whl$' SHA256SUMS | sha256sum -c -; sha256sum -c SHA256SUMS",
+   "exit": 0,
+   "observed": "The checksum list names exactly three assets. The README's wheel-only command returned one OK line; the complete check returned three OK lines. Downloaded and subject wheel SHA-256 both equal the README literal d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f."
+  },
+  {
+   "claim_id": "9",
+   "command": "Pinned interpreter: inspect downloaded wheel entry_points.txt, __init__.py and CLI main; search runtime and packaging code for checksum/signature/readback logic",
+   "exit": 0,
+   "observed": "The wheel entry point is pipd_ls_sp.cli:main. Its startup path contains no release-wheel cryptographic readback, consistent with the README's manual-check limitation."
+  },
+  {
+   "claim_id": "9",
+   "command": "Pinned CLI: --root <TEMP>/global-root init; init --root <TEMP>/after-init; project --root C:/Projects/Agent_Workspace/PIPD-r2-candidate --dry-run; export --root C:/Projects/Agent_Workspace/PIPD-r2-candidate --dry-run",
+   "exit": 0,
+   "observed": "Individual exits were 0, 2, 0 and 0. Global --root selected the scratch workspace and init created docs, schemas, src, tests and dist. Post-subcommand --root was refused for init but accepted for project and export."
+  },
+  {
+   "claim_id": "non_mutation",
+   "command": "Pinned interpreter: compare initial and final recursive SHA-256 file snapshots excluding .git; git --no-optional-locks status --porcelain; git rev-parse HEAD 'HEAD^{tree}'",
+   "exit": 0,
+   "observed": "All 1326 subject files matched: zero added, deleted or changed files. Final status remained empty, and commit/tree identities remained exact. Generated scripts, downloads and artefacts were confined to TEMP."
+  }
+ ],
+ "findings": [
+  {
+   "id": "V2R2-F01",
+   "severity": "MEDIUM",
+   "claim": "README.md:114-115 says --root is GLOBAL and must precede the subcommand.",
+   "why_it_is_wrong": "The statement is too broad. The real project and export subcommands accept --root after the subcommand and use it successfully. The ordering requirement holds for the documented compiler commands, including init, but does not hold universally.",
+   "evidence": "Pinned CLI 'project --root C:/Projects/Agent_Workspace/PIPD-r2-candidate --dry-run' and 'export --root C:/Projects/Agent_Workspace/PIPD-r2-candidate --dry-run' both returned exit 0. cli.py explicitly declares subcommand-local --root options for both. git blame attributes README:114-115 to 7c00b649.",
+   "earliest_owner": "S4-R2 README authoring in commit 7c00b64960d86fc1e94848c9955c512a3626a85f"
+  }
+ ],
+ "could_not_verify": [
+  {
+   "claim_id": "2",
+   "reason": "The required whole-suite invocation would mutate the frozen subject. test_s0_contracts.py creates temporary reconciliation files under ROOT/.hgk; test_publication_projection.py invokes --write and restores the subject manifest; test_tooling_executes.py explicitly writes .pyc.tmp files beside subject modules. Restoration would still violate the prohibition. The suite was not run; test count, result line and skip count remain unmeasured."
+  },
+  {
+   "claim_id": "6",
+   "reason": "The exact unmodified README block was not executed. It names another checkout in PYTHONPATH and deletes an already-existing TEMP/pipd-first-run directory. I instead used this frozen subject, the pinned Windows interpreter and a private scratch directory. Two complete adjusted runs passed and reproduced hashes, but they do not confer a literal copy-paste receipt."
+  }
+ ],
+ "claim_ceiling_you_confer": "SCOPE_BOUNDED_RECEIPT_ONLY"
+}

@@ -32,29 +32,29 @@
 
 ## 5. Execute the open deltas (affected-only)
 
-- [ ] 5.1 Replace the front page's placeholder block with the real, replayable walk-through
-- [ ] 5.2 State the distribution-identity hazard with PEP 440 guidance
-- [ ] 5.3 Type the residual `ProfileBinding` contract fields
-- [ ] 5.4 Focused tests for 5.1–5.3, each with a negative case
-- [ ] 5.5 Add `examples/first-run/` inputs so the documented commands resolve without a placeholder
+- [x] 5.1 Replace the front page's placeholder block with the real, replayable walk-through
+- [x] 5.2 State the distribution-identity hazard with PEP 440 guidance
+- [x] 5.3 Type the residual `ProfileBinding` contract fields
+- [x] 5.4 Focused tests for 5.1–5.3, each with a negative case
+- [x] 5.5 Add `examples/first-run/` inputs so the documented commands resolve without a placeholder
 
 ## 6. Regression and freeze
 
-- [ ] 6.1 Full suite on the candidate; compare against the base figure on the same interpreter
-- [ ] 6.2 Exact-set invariants survive: 19 schemas, 8 skills, 13 CLI commands
-- [ ] 6.3 Freeze the candidate commit and tree; a non-mutation guard measures the checker's effect
-- [ ] 6.4 Restore any harness-induced dirty files and re-measure
+- [x] 6.1 Full suite on the candidate; compare against the base figure on the same interpreter
+- [x] 6.2 Exact-set invariants survive: 19 schemas, 8 skills, 13 CLI commands
+- [x] 6.3 Freeze the candidate commit and tree; a non-mutation guard measures the checker's effect
+- [x] 6.4 Restore any harness-induced dirty files and re-measure
 
 ## 7. Independent verification
 
-- [ ] 7.1 Independent checker on a different model, separate process, read-only, re-deriving every
+- [x] 7.1 Independent checker on a different model, separate process, read-only, re-deriving every
       decisive claim rather than reading the maker's report
-- [ ] 7.2 Record the residual honestly if the checker route is not model-distinct from the maker
-- [ ] 7.3 Preserve the checker's verdict even when it is `FAIL`
+- [x] 7.2 Record the residual honestly if the checker route is not model-distinct from the maker
+- [x] 7.3 Preserve the checker's verdict even when it is `FAIL`
 
 ## 8. Evidence and publication
 
-- [ ] 8.1 One local acceptance master document carrying the evidence return pack
-- [ ] 8.2 12/12 finding dispositions and 10/10 work-item dispositions, each with a pointer
-- [ ] 8.3 Publication attempted under an approved credential; otherwise `NOT_EXECUTED` with cause
-- [ ] 8.4 TT register for everything left open, each with an owner and a revisit trigger
+- [x] 8.1 One local acceptance master document carrying the evidence return pack
+- [x] 8.2 12/12 finding dispositions and 10/10 work-item dispositions, each with a pointer
+- [x] 8.3 Publication attempted under an approved credential; otherwise `NOT_EXECUTED` with cause
+- [x] 8.4 TT register for everything left open, each with an owner and a revisit trigger

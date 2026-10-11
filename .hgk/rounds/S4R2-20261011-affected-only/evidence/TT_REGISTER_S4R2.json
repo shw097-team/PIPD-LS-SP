@@ -73,6 +73,24 @@
    "evidence_gap": "remote readback of the repaired candidate",
    "due_or_recheck_trigger": "publication unblock (TT-S4R2-02)",
    "detail": "A checker sampling only GitHub sees the pre-repair state; the frozen commit/tree is handed over explicitly."
+  },
+  {
+   "id": "TT-S4R2-09",
+   "title": "V2R2-F01: README's --root ordering claim is too broad",
+   "owner": "PIPD-LS-SP_開發實作指揮官",
+   "severity": "MEDIUM",
+   "evidence_gap": "the frozen commit 7c00b649 still carries the over-broad sentence",
+   "due_or_recheck_trigger": "the next revision of the candidate",
+   "detail": "The checker measured that project and export accept --root after the subcommand; the README states the requirement universally. Corrected as a claim in CLAIM_CORRECTIONS_S4R2.json rather than rewriting the hash-bound frozen commit, because the independent receipt is bound to those bytes."
+  },
+  {
+   "id": "TT-S4R2-10",
+   "title": "The whole suite was not executed against the pristine read-only subject",
+   "owner": "PIPD-LS-SP_開發實作指揮官",
+   "severity": "LOW",
+   "evidence_gap": "no suite run measured on the pristine checkout",
+   "due_or_recheck_trigger": "when a non-mutating suite invocation exists",
+   "detail": "The orchestrator's Ran 410 OK is from a writable checkout at the frozen commit. The pristine subject was verified byte-identical but not suite-run, because the test tooling writes beside subject modules."
   }
  ]
 }
