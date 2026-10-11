@@ -44,14 +44,26 @@ python -m pip install ./pipd_ls_sp-0.1.0-py3-none-any.whl
 pipd doctor                        # expect: {"verdict": "PASS", ...}
 pipd --help                        # 13 commands
 
-# 5. A first artefact, end to end.
-pipd init --root ./myproject
-pipd intake --root ./myproject --intent "Add a rate limiter to the checkout API"
-pipd validate --root ./myproject
+# 5. Start a project. Both of these lines were executed against the published wheel.
+pipd --root ./myproject init      # -> exit 0; creates docs/ schemas/ src/ tests/ dist/
+pipd doctor                       # -> {"verdict": "PASS", ...}, and it names the schema source it resolved
 ```
 
-Run `pipd <command> --help` for per-command usage. `pipd doctor` is the self-check; it reports which
-schema source it resolved and refuses to be silent about it.
+Beyond that the pipeline is `intake` -> `compile-pi` -> `bind-pd` -> `compile-ecp` /
+`compile-tqaep` -> `validate`, and **the middle steps take real inputs, not free text** — verified
+against the CLI rather than assumed:
+
+```bash
+pipd --root ./myproject intake --goal "<your goal>" --source <a locator that EXISTS>
+pipd --root ./myproject compile-pi --intent <path to an intent card>
+pipd validate --bundle <path to the assembled bundle>
+# NOTE: --root is a GLOBAL option and must precede the subcommand. There is no --intent on
+# `intake` and no --root on `validate`; the CLI is deliberately strict and reports exactly what
+# it is missing (USAGE_INVALID / AUTHORITY_UNKNOWN) rather than guessing on your behalf.
+```
+
+Run `pipd <command> --help` for each command's real flags. `pipd doctor` is the self-check; it
+reports which schema source it resolved and refuses to be silent about it.
 
 ## What is in this tree
 
