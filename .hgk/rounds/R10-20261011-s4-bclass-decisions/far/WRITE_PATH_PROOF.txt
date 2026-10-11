@@ -1,0 +1,29 @@
+WRITE PATH PROOF - credential broker, GitHub App installation token
+============================================================================
+local_before_push : ea90303
+remote_before     : fc82df05
+
+COMMAND (credential supplied ONLY via the child-process environment; env vars, never argv):
+  cred_broker.py run -- push https://github.com/shw097-team/PIPD-LS-SP.git main
+
+BROKER RESULT (verbatim, keys):
+  exit             : 0
+  stderr           : To https://github.com/shw097-team/PIPD-LS-SP.git
+                        fc82df0..ea90303  main -> main
+  secret_leaked    : false
+  credential_kind  : app
+
+INDEPENDENT READBACK (a plain git ls-remote that does NOT use the broker, so the broker
+is not confirming its own claim):
+  remote_after     : ea90303a   (== local ea90303)
+  tags             : v0.1.0-preview.1 cc9bf574... , v0.1.0-preview.2 8faa64e5...  (UNCHANGED)
+
+HYGIENE
+  .git/config credential residue : 0 matches for extraheader/x-access-token/github_pat_
+  git status --porcelain         : 0
+
+WHAT THIS PROVES: the 1-hour installation token minted locally from the ORG-OWNED App private
+key authenticates and WRITES to the target repository, with no long-lived credential involved.
+
+WHAT IT DOES NOT PROVE: that anything calls the broker in production. It remains NON-ACTIVATED
+(config/ references it zero times). A working capability nothing calls is not a delivered capability.
