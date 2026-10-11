@@ -128,3 +128,13 @@ Check 12 also failed on this run, where it had been PARTIAL. The receipt accepta
 Run 3 new fact worth recording: a supplemental HG-KSEOS full-tree snapshot could not complete because `var/far-lane-sod-003/evidence/relay-supervisor.cooldown.json.lock` **denied read access**, so no full-tree HG-KSEOS integrity result is claimed in either direction.
 
 Status: **re-verification still owed.** Two rounds of FAIL have now each surfaced a real defect in the control-plane artefact, which is exactly the value of a checker that does not agree by default.
+
+## 10. Convergence: run 4 = PASS (12/12)
+
+Both dangling targets repaired and the receipt table graded by evidence class; re-verified on the frozen commit with a clean receipt (`served_arm == required_arm == openai-codex/gpt-6.1-sol`, relay `openai-p6a1fe3`/`200`/`medium`, `mutated=False` 3999 -> 3999).
+
+Verdict PASS on all twelve items, with eight could-not-verify limits carried verbatim in the acceptance file. Check 12 passed as a DISCLOSURE-ACCURACY finding, not as proof that an outside party re-ran the verifiers.
+
+The convergence path is itself the finding: FAIL(1/12) -> fix -> FAIL(2/12, a SECOND dangling target found only by re-running) -> fix the class and grade the receipt -> PASS(12/12). The middle FAIL is the one that mattered: a re-run with no change would have missed it, and a fix with no re-run would have shipped it.
+
+**Claim ceiling (converged):** `R10_LOCALLY_VERIFIED__CONTROL_PLANE_INSTALL_ADMITTED_AND_NON_ACTIVATED__CROSS_MODEL_RE_VERIFIED_PASS`. Cross-model means a different model family on the SAME control plane and the SAME host - not external acceptance. The maker did not sign this.

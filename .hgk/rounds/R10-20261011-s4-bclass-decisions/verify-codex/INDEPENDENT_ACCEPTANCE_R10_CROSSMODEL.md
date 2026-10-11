@@ -80,3 +80,28 @@ Receipt for run 3: served_arm == required_arm == openai-codex/gpt-6.1-sol, used_
 New could_not_verify fact: a full-tree HG-KSEOS snapshot was impossible because var/far-lane-sod-003/evidence/relay-supervisor.cooldown.json.lock denied read access.
 
 Conclusion: re-verification remains OWED. Both FAILs were real artefact defects, not harness artefacts - which is why the harness/artefact distinction from R9 had to be made explicitly here.
+
+## 9. Re-verification (run 4): PASS, 12 of 12
+
+Run against the frozen post-fix commit, with BOTH dangling targets repaired and the receipt table graded by evidence class.
+
+Receipt: `required_arm == served_arm == openai-codex/gpt-6.1-sol`, `used_rank 4`, `mode forced_rank`, relay `openai-p6a1fe3` / `gpt-6.1-sol` / status `200` / effort `medium`, and **`mutated=False`** (3999 -> 3999, identical digest).
+
+**Verdict: `PASS`, all twelve items.** Check 12 reads "PASS for disclosure accuracy; no fresh verifier-execution acceptance" - i.e. the graded table satisfied it as an act of DISCLOSURE, not as a claim that an outside party re-ran the verifiers. That distinction is exactly right and is why the grading was the honest fix rather than a rewrite to agree.
+
+The eight `could_not_verify` items are carried verbatim below. They still limit the claim: no fresh execution of the verifiers, the governance store not independently queried, no repository-wide secret search, and no full-tree HG-KSEOS integrity because a lock file denied read access.
+
+### could_not_verify (verbatim)
+
+```json
+"could_not_verify": [
+    "No fresh execution of verify_offline.py or selftest.py was performed; their runtime results, including historical 5/5 and network-dependent T5, remain unverified here.",
+    "The governance store was not independently queried to establish the typed admission recorded in ADMISSION_RECEIPT.md.",
+    "Repository-wide secret absence was not verified; no credential-value search was performed.",
+    "Full-tree HG-KSEOS integrity could not be established because var/far-lane-sod-003/evidence/relay-supervisor.cooldown.json.lock denied read access.",
+    "The MCP decision's host-wide statement that nothing MCP-shaped is installed was not established by a host inventory; verification covers repository record consistency.",
+    "Without a pre-round baseline, the historical claim that R10 created exactly two objects cannot be established; the two specified artifacts exist and reproduce, and no named lifecycle object was found in current searchable files.",
+    "External lifecycle-standard contents, ownership and digest were not independently verified; external locators are references, not proof of the external document.",
+    "Lifecycle-name searches did not decompress archives or enumerate historical Git objects."
+  ],
+```
