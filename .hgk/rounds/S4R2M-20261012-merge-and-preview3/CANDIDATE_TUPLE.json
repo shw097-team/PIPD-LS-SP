@@ -1,0 +1,28 @@
+{
+  "schema": "PIPD-S4R2M-CANDIDATE-TUPLE/1",
+  "round": "S4R2M-20261012-merge-and-preview3",
+  "worktree": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r2m-merge-wt",
+  "branch": "s4r2m-merge-and-preview3-20261012",
+  "chain": [
+    {"role": "base (remote s4-r2 tip, unchanged)", "commit": "3f6c7dc52b73cfcba03dccbe576ade75bec1890d", "tree": "de2c8541d22d0ac5046e3cfda5a4368dfced7bd5"},
+    {"role": "C - the product/document change under acceptance", "commit": "58a1f334464675081d0573476d70e2165143bdd8", "tree": "c9d96316ea7717ab8cb74f0858dd6f05d0ec7db4"},
+    {"role": "E - the frozen evidence subject the independent officer checked", "commit": "dfa52053d34535d63a8157e0a70584c43f175eed", "tree": "b427f0312d74c3491f4076e48ecae8884bbc5038"},
+    {"role": "F - evidence of the accepted check, appended after the verdict", "commit": "recorded_by THIS commit", "tree": "n/a"}
+  ],
+  "diff_discipline": {
+    "assertion": "git diff C..E over README.md and tests/ is empty - the evidence commit adds no product byte",
+    "method": "git diff --name-status 58a1f334464675081d0573476d70e2165143bdd8..dfa52053d34535d63a8157e0a70584c43f175eed"
+  },
+  "unchanged_by_this_round": {
+    "public_preview2_tag": "8faa64e581e8c25f5ec355475e29561847da3ead",
+    "remote_main": "4445db5a6d1b3138946fd7c4fe3b712e4faf1af7",
+    "frozen_checker_product": "7c00b64960d86fc1e94848c9955c512a3626a85f",
+    "preview3": "NOT_CREATED"
+  },
+  "rollback": {
+    "subject_untouched": "3f6c7dc52b73cfcba03dccbe576ade75bec1890d",
+    "delete_branch": "git -C C:/Projects/Agent_Workspace/PIPD branch -D s4r2m-merge-and-preview3-20261012",
+    "remove_worktree": "git -C C:/Projects/Agent_Workspace/PIPD worktree remove worktrees/s4r2m-merge-wt",
+    "remote_side_effects_of_this_round": "none"
+  }
+}

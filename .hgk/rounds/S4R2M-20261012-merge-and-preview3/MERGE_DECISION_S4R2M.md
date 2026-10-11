@@ -60,7 +60,7 @@ any rewrite of `v0.1.0-preview.1` / `.2`.
 | HGK typed admission | `admission/S4R2M_ADMISSION_READBACK.json` | 4 requirements / 4 taskspecs / 4 workorders, write-set = candidate worktree, checkpoint taken |
 | board + named-method route | `kanban/` | swarm root + 4 workers + verifier + synthesizer; 14 named-method activation invariants all 0 |
 | M1 documentation change | `execute/WO-DOC-CAL-01.exec-*.log`, README diff | lane exit 0; orchestrator re-ran the named modules |
-| M2 isolated affected regression | `verify/M2_ISOLATED_REGRESSION.json`, `M2_PROFILE_MUTANTS.json` | 9 modules 107 tests OK in a byte-equivalent clone; 19 schemas + registry / 8 skills / 13 CLI; subject unchanged (1341 files, identical digest) |
+| M2 isolated affected regression | `verify/M2_ISOLATED_REGRESSION.json`, `M2_PROFILE_MUTANTS.json` | 9 modules 107 tests OK in a byte-equivalent clone; 19 schemas + registry / 8 skills / 13 CLI; subject unchanged — **1341 tracked files at the M2 subject `58a1f334`**, identical digest before and after. The M2 run predates the evidence commit, so that file count belongs to `58a1f334`, not to the frozen evidence commit `dfa52053`, whose tracked-file count is larger. The independent officer flagged the two figures as mutually inconsistent on first reading, which is correct: they measure different subjects. Its own before/after count on `dfa52053` is equal. |
 | independent officer | `verify/VERIFY_RECEIPT_*.json` | see the receipt; recorded as its own claim, never merged into the maker figure |
 | credential scope | `evidence/M3_READINESS.json` | broker preflight OK with the live credential; push `--dry-run` exit 0; remote ref unchanged |
 

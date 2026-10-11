@@ -81,12 +81,21 @@ def main() -> int:
     if st != 200:
         print(json.dumps({"step": "tag", "result": "MISSING", "status": st, "detail": r.get("error", "")[:150]}))
         return 3
-    tag_sha = ""
+    tag_obj_sha, tag_sha = "", ""
     if isinstance(r, dict):
         obj = r.get("object")
         if isinstance(obj, dict):
-            tag_sha = str(obj.get("sha", ""))
-    print(json.dumps({"step": "tag", "result": "FOUND", "tag": TAG, "sha": tag_sha}))
+            tag_obj_sha = str(obj.get("sha") or "")
+            tag_sha = tag_obj_sha
+            # an annotated tag's object sha is a TAG object, not a commit; target_commitish must be
+            # a commit-ish, so peel it (passing the tag object yields an opaque HTTP 500)
+            if obj.get("type") == "tag" and tag_sha:
+                st2, r2 = call(f"{API}/repos/{ORG}/{REPO}/git/tags/{tag_sha}", token)
+                inner = r2.get("object") if isinstance(r2, dict) else None
+                if st2 == 200 and isinstance(inner, dict):
+                    tag_sha = str(inner.get("sha") or "")
+    print(json.dumps({"step": "tag", "result": "FOUND", "tag": TAG,
+                      "tag_object": tag_obj_sha, "commit": tag_sha}))
 
     # 2. create the release (idempotent: reuse if it already exists)
     st, r = call(f"{API}/repos/{ORG}/{REPO}/releases/tags/{TAG}", token)

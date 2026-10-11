@@ -43,7 +43,9 @@
 - [x] 6.3 Run the six named affected modules plus the CE and wheel positives
 - [x] 6.4 Re-run the exact-set oracles (19 schemas + registry, 8 skill directories, 13 CLI commands)
 - [x] 6.5 Compare the read-only subject's bytes before and after the run
-- [ ] 6.6 Independent officer lane on a different model family re-derives the decisive figures
+- [x] 6.6 Independent officer lane on a different model family re-derives the decisive figures
+  - verdict `PARTIAL`, `non_mutation PASS` on `dfa52053d34535d63a8157e0a70584c43f175eed`; the officer's own
+    disagreement (a stale file count in the merge record) is recorded in `verify/VERIFY_RECEIPT_OFFICER.json`
 
 ## 7. M3 — integration (owner gate)
 

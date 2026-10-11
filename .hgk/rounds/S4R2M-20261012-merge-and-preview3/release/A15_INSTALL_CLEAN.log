@@ -1,0 +1,77 @@
+=== A) fresh venv, install the BUILT wheel; nothing on PYTHONPATH ===
+
+[notice] A new release of pip is available: 24.0 -> 26.2.1
+[notice] To update, run: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4r2m-release-clean\venv-a\Scripts\python.exe -m pip install --upgrade pip
+installed version : 0.1.1a3
+module location   : C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4r2m-release-clean\venv-a\Lib\site-packages\pipd_ls_sp
+PYTHONPATH=[<unset>]
+--- pipd doctor (schema_source must be INSTALLED) ---
+{
+ "families": 19,
+ "findings": [],
+ "schema_source": {
+  "mode": "INSTALLED",
+  "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4r2m-release-clean\\venv-a\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4r2m-release-clean\\venv-a\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+  ]
+ },
+ "skill_drift": [],
+ "verdict": "PASS"
+}
+--- command surface ---
+usage: pipd [-h] [--root ROOT]
+            {init,intake,profile,compile-pi,bind-pd,compile-ecp,compile-tqaep,validate,doctor,project,export,diff,repair}
+            ...
+
+PIPD-LS-SP compiler CLI 0.1.1a3 (13 commands)
+
+positional arguments:
+  {init,intake,profile,compile-pi,bind-pd,compile-ecp,compile-tqaep,validate,doctor,project,export,diff,repair}
+
+options:
+  -h, --help            show this help message and exit
+  --root ROOT
+commands advertised: 13 commands
+
+=== B) upgrade from the PUBLISHED 0.1.0 wheel to 0.1.1a3 ===
+downloaded 0.1.0 digest: d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f
+                    published: d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f
+ERROR: old.whl is not a valid wheel filename.
+
+[notice] A new release of pip is available: 24.0 -> 26.2.1
+[notice] To update, run: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4r2m-release-clean\venv-b\Scripts\python.exe -m pip install --upgrade pip
+before upgrade: 
+
+[notice] A new release of pip is available: 24.0 -> 26.2.1
+[notice] To update, run: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4r2m-release-clean\venv-b\Scripts\python.exe -m pip install --upgrade pip
+after upgrade : 0.1.1a3
+
+=== C) rollback to the pinned 0.1.0, doctor still works ===
+ERROR: old.whl is not a valid wheel filename.
+
+[notice] A new release of pip is available: 24.0 -> 26.2.1
+[notice] To update, run: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4r2m-release-clean\venv-b\Scripts\python.exe -m pip install --upgrade pip
+after rollback: 0.1.1a3
+{
+ "families": 19,
+ "findings": [],
+ "schema_source": {
+  "mode": "INSTALLED",
+  "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4r2m-release-clean\\venv-b\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4r2m-release-clean\\venv-b\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+  ]
+ },
+ "skill_drift": [],
+ "verdict": "PASS"
+}
+rollback doctor verdict: "verdict": "PASS"
+
+=== D) schema_source truth in the installed venv (no checkout reachable) ===
+pkg dir: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4r2m-release-clean\venv-a\Lib\site-packages\pipd_ls_sp
+ "schema_source": {
+  "mode": "INSTALLED",
+  "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4r2m-release-clean\\venv-a\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "tried": [
+A15_CLEAN_DONE

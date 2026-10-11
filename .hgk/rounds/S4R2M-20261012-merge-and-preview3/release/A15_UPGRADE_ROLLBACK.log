@@ -1,0 +1,43 @@
+=== fetch the PUBLISHED 0.1.0 wheel under its real name ===
+downloaded digest: d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f
+published digest : d6c3e295f817b50108b1232a120564c18b517864ad1ad19c4f8d915f396d364f
+
+=== B) install 0.1.0, then upgrade to 0.1.1a3 ===
+
+[notice] A new release of pip is available: 24.0 -> 26.2.1
+[notice] To update, run: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4r2m-upgrade\venv\Scripts\python.exe -m pip install --upgrade pip
+install 0.1.0 : OK
+before upgrade: 0.1.0
+
+[notice] A new release of pip is available: 24.0 -> 26.2.1
+[notice] To update, run: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4r2m-upgrade\venv\Scripts\python.exe -m pip install --upgrade pip
+upgrade       : OK
+after upgrade : 0.1.1a3
+
+=== C) rollback to the pinned 0.1.0 and smoke it ===
+
+[notice] A new release of pip is available: 24.0 -> 26.2.1
+[notice] To update, run: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4r2m-upgrade\venv\Scripts\python.exe -m pip install --upgrade pip
+rollback      : OK
+after rollback: 0.1.0
+{
+ "families": 19,
+ "findings": [],
+ "schema_source": {
+  "mode": "INSTALLED",
+  "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4r2m-upgrade\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4r2m-upgrade\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+  ]
+ },
+ "skill_drift": [],
+ "verdict": "PASS"
+}
+rollback doctor: "verdict": "PASS"
+
+=== D) upgrade back once more, so the venv ends on the released version ===
+
+[notice] A new release of pip is available: 24.0 -> 26.2.1
+[notice] To update, run: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4r2m-upgrade\venv\Scripts\python.exe -m pip install --upgrade pip
+final         : 0.1.1a3
+A15_BC_DONE
