@@ -94,14 +94,18 @@ alone" - which is not true of this branch.
 
 **The bypass is bigger than one flag.** The same checker then found a SECOND opt-out, and re-measuring confirms it independently:
 
-| mode | effective source | what is required | verdict | `probe_skipped_by_request` |
+| mode | effective source | `required` (measured) | verdict | `probe_skipped_by_request` |
 |---|---|---|---|---|
-| default, getter available | `app` | the App, probed by its own installation token | `OK` only if probed | `false` |
-| default, no getter | `app` | `app_cred_valid` | **`FAIL_CLOSED`** | `false` |
-| default, no source at all | `pat` | `cred_source_present` | **`FAIL_CLOSED`** | `false` |
-| `--no-probe` | `app` | `app_cred_valid: SKIP` -> nothing can FAIL | `OK` over an unproven App | **`true`** |
-| `--no-probe`, PAT only | `pat` | `cred_api_valid: SKIP` -> nothing can FAIL | `OK` over an unproven PAT | **`true`** |
-| `--metadata-only` | `pat`, and App selection is never reached | `cred_syntax`/`cred_api_valid` both `SKIP` -> existence only | `OK` over a byte length | **`true`** |
+| default, getter available | `app` | `[app_cred_valid]` - probed by the App's own installation token | `OK` only if that probe passes | `false` |
+| default, no getter | `app` | `[app_cred_valid]` | **`FAIL_CLOSED`** | `false` |
+| default, no source at all | `pat` | `[cred_source_present, cred_syntax, cred_api_valid]` - **all three FAIL** | **`FAIL_CLOSED`** | `false` |
+| `--no-probe` | `app` | `[app_cred_valid]` -> `SKIP`, so nothing can FAIL | `OK` over an unproven App | **`true`** |
+| `--no-probe`, PAT only | `pat` | `[cred_source_present, cred_syntax, cred_api_valid]` -> `cred_api_valid: SKIP` | `OK` over an unproven PAT | **`true`** |
+| `--metadata-only` | `pat`, and App selection is never reached | `[cred_source_present, cred_syntax, cred_api_valid]` -> the last two `SKIP` | `OK` over a byte length | **`true`** |
+
+The `required` column is transcribed from the executed source, not from intent: an earlier version of this
+table wrote the no-source case as requiring only `cred_source_present`, and a later verification pass
+showed the run actually requires and fails **all three** PAT checks. The table is part of the claim.
 
 **The field's own name was corrected too, because the third verification pass showed it over-claimed.**
 The first version emitted a two-valued label, `PROBED` / `UNPROVEN_BY_REQUEST`, and the checker's objection
@@ -145,8 +149,9 @@ Disposition - three parts, each with its reason:
 3. **The two flags themselves were NOT removed**, and the reason is stated rather than assumed:
    `--no-probe` and `--metadata-only` are explicit, self-describing opt-outs that an offline operator may
    legitimately need, and deleting them would break the documented exit-code contract. They are now
-   **labelled** rather than silent. The residual that remains open is only this: a consumer that reads
-   `verdict` and ignores `provenance` will still see a bare `OK` on an unproven run.
+   **labelled** rather than silent - see the field-name correction above, which is what makes the label
+   honest. The residual that remains open is only this: a consumer that reads `verdict` and ignores
+   `probe_skipped_by_request` will still see a bare `OK` on an unproven run.
 
 The docstring of `run_preflight()` was also found to contradict its own code - it said that an absent App
 getter leaves "the gate on the PAT", while the code keeps `effective_source=app` and `FAIL_CLOSED`. The
@@ -195,8 +200,8 @@ and only the former is evidence. This FAR relies solely on the ref move.
   `evidence/BROKER_ACTIVATION_ANALYSIS.md`).
 - It does not claim the PAT was "retired by revoking it" - there is nothing on this account to revoke.
 - It does not claim the gate is unconditionally sound: `--no-probe` and `--metadata-only` both yield `OK`
-  without proving a credential. They are now labelled by `provenance` rather than silent, but a consumer
-  that reads `verdict` and ignores `provenance` still sees a bare `OK` - that is the OPEN residual.
+  without proving a credential. They are now labelled by `probe_skipped_by_request` rather than silent, but
+  a consumer that reads `verdict` and ignores that field still sees a bare `OK` - that is the OPEN residual.
 - It does not claim the write's **attribution**. The independent checker established, correctly, that a
   credential-free `ls-remote` of a PUBLIC repository proves only the advertised refs - it cannot show who
   pushed, which credential authenticated, whether the ref moved during this round, or that write

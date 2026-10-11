@@ -236,8 +236,8 @@ acceptance of any subject.
 - **the dispatcher's guard crashes with a raw traceback on an unreadable path** instead of refusing with a
   typed code. Editing the dispatcher is itself an escalated control-plane operation and deserved its own
   admission, so it was NOT repaired as a side effect of a verification run.
-- **the residual gate hole**: a consumer that reads `verdict` and ignores `provenance` still sees a bare
-  `OK` on an unproven run.
+- **the residual gate hole**: a consumer that reads `verdict` and ignores `probe_skipped_by_request` still
+  sees a bare `OK` on an unproven run.
 - **broker activation**, if a decision is ever made that an in-repo push lane should exist.
 
 **The owner can close**
@@ -252,8 +252,8 @@ acceptance of any subject.
 
 | target | effect |
 |---|---|
-| `HG-KSEOS` | commits `8ab82ec` (the gate fix), `97cfb5b` (the stale V3 expectation), `d937fc0` (the additive `provenance` field and the docstring) |
-| `PIPD-r7-release` | commits `ae08136` (admission + round artefacts), `6f1e5c6` (FARs, activation analysis, brief), `309377b` (over-claim corrections + FAR-003 + rev-2 brief + the VOID verdict), `691ec6c` (both opt-outs enumerated + board readback), plus this closure commit. **No push yet** - see below. |
+| `HG-KSEOS` | commits `8ab82ec` (the gate fix), `97cfb5b` (the stale V3 expectation), `d937fc0` (a first, PARTIAL additive field), `1b8dcec` (that field threaded through all four returns), `903e47c` (the field replaced by the honest boolean `probe_skipped_by_request`, plus the docstring that named the opt-outs) |
+| `PIPD-r7-release` | commits `ae08136` (admission + round artefacts), `6f1e5c6` (FARs, activation analysis, brief), `309377b` (over-claim corrections + FAR-003 + rev-2 brief + the VOID verdict), `691ec6c` (both opt-outs enumerated + board readback), `adafe58` (closure report + OpenSpec + readback refresh), `e987f3d` (the partial-fix record), `90f7869` (the pre-emptive sweep + the stop criterion). **All pushed**; remote `main` = `90f7869`. |
 | `Fabric` | commits `463ca0a` (the evidence artefact + sidecar), `0c1e6bc` (the narrowed claim + re-sealed sidecar). Exactly the round's own paths; the working tree's other entries left as found (49 after, from 51 before this round's later additions). |
 | GitHub | **one** personal GitHub App deleted; one login and one second-factor entry by the owner; the organisation App verified intact |
 | Hermes | kanban board `pipd-r11-20261011` updated (two cards completed **with `--result` evidence**, because the board refuses an empty completion, plus comments); one skill reference extended with the escalated-checker dispatch traps |
