@@ -1,0 +1,36 @@
+### G1 a deviating model with NO owner record is refused, zero writers
+PASS G1_DEVIATION_REFUSED (exit=6)
+PASS G1_names_the_decision
+PASS G1_started_no_writer
+PASS G1_no_writer_ran
+### G2 the SAME deviating model, now named in the owner record, is admitted
+PASS G2_AUTHORISED_DEVIATION_RUNS (exit=0)
+PASS G2_records_the_deviation
+PASS G2_lane_set_ok
+### G3 a model that cannot survive qualification is refused before any writer
+PASS G3_QUALIFICATION_REFUSED (exit=7)
+PASS G3_names_qualification
+PASS G3_started_no_writer
+### G4 children exiting 0,1,0 must aggregate to a failed lane set
+PASS G4_LANE_SET_FAILED (exit=8)
+PASS G4_says_nonzero
+PASS G4_counts_the_failure
+### G5 a child that loses its run receipt is a failure even if it exited 0
+PASS G5_MISSING_RECEIPT_FAILS (exit=8)
+PASS G5_names_missing_receipt
+### G6 an unknown role is refused
+PASS G6_UNKNOWN_ROLE_REFUSED (exit=3)
+### G7 the assignment model with a working qualification passes end to end
+PASS G7_HAPPY_PATH (exit=0)
+PASS G7_qualification_passed
+PASS G7_no_deviation_notice
+### G8 zero qualification attempts must NOT be advertised as a qualified lane (R4)
+PASS G8_ZERO_RUNS_REFUSED (exit=3)
+PASS G8_says_refused
+PASS G8_did_not_claim_qualified
+### G9 the writer must be launched through the route that was qualified (R5)
+PASS G9_EXECUTE_RUNS (exit=0)
+PASS G9_child_used_the_catalog_slug
+PASS G9_child_did_not_use_a_provider_id
+PASS G9_qualification_and_writer_agree
+### G10 a truncated / empty receipt must not satisfy the gate (M6)
