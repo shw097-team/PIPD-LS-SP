@@ -1,0 +1,54 @@
+**********************
+PowerShell transcript start
+Start time: 20261012185633
+Username: DESKTOP-57EO414\user
+RunAs User: DESKTOP-57EO414\user
+Configuration Name: 
+Machine: DESKTOP-57EO414 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\user\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+$ao = '.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao'; Start-Transcript -Path "$ao/AB_checks_raw.txt"; $ledger = Get-Content .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/08_PLUGIN/FROZEN_SOURCE_LEDGER.json -Raw | ConvertFrom-Json; Write-Output 'COMMAND: enumerate ledger.files, ledger.skills and local skills files; Get-FileHash -Algorithm SHA256 for first three SKILL.md paths'; $actualDirs = @(Get-ChildItem skills -Directory | Select-Object -ExpandProperty Name); $actualFiles = @(Get-ChildItem skills -File -Recurse); Write-Output "Ledger directories=$($ledger.skills.Count); Ledger files=$($ledger.files.PSObject.Properties.Count); Local directories=$($actualDirs.Count); Local files=$($actualFiles.Count)"; $actualDirs; Compare-Object $ledger.skills $actualDirs; foreach ($p in @('skills/pipd-assurance-tqaep/SKILL.md','skills/pipd-authority-source/SKILL.md','skills/pipd-execution-contract/SKILL.md')) { $hash=(Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash.ToLower(); Write-Output "$p raw_sha256=$hash ledger=$($ledger.files.$p) match=$($hash -eq $ledger.files.$p)" }; Write-Output 'COMMAND: git diff --name-status 52542c395a0f91dc2ba4bd6123acd4cdecd780dc 2a903bd09c7760c494f20ed98b840fae789b24d6'; git diff --name-status 52542c395a0f91dc2ba4bd6123acd4cdecd780dc 2a903bd09c7760c494f20ed98b840fae789b24d6; Write-Output "diff_exit=$LASTEXITCODE"; $paths = @(git diff --name-only 52542c395a0f91dc2ba4bd6123acd4cdecd780dc 2a903bd09c7760c494f20ed98b840fae789b24d6); $outside=@($paths | Where-Object { $_ -notmatch '^(packaging/|tools/|tests/|docs/install/|docs/adr/|openspec/changes/s4post-triple-upgrade/|\.github/workflows/public-plugin-verify\.yml$|README\.md$|\.hgk/rounds/S4POST-20261012)' }); Write-Output "Changed=$($paths.Count); Outside=$($outside.Count)"; $outside; foreach ($prefix in @('skills/','src/','schemas/','dist/')) { Write-Output "$prefix changed=$(@($paths | Where-Object { $_.StartsWith($prefix) }).Count)" }; Write-Output 'COMMAND: git diff --exit-code <base> <candidate> -- skills/; git rev-parse <base>:skills <candidate>:skills'; git diff --exit-code 52542c395a0f91dc2ba4bd6123acd4cdecd780dc 2a903bd09c7760c494f20ed98b840fae789b24d6 -- skills/; Write-Output "skills_diff_exit=$LASTEXITCODE"; git rev-parse '52542c395a0f91dc2ba4bd6123acd4cdecd780dc:skills' '2a903bd09c7760c494f20ed98b840fae789b24d6:skills'; Write-Output '=== test write operations ==='; rg -n 'TemporaryDirectory|tempfile|write_|mkdir|makedirs|open\(|subprocess|F0[1-5]' tests/test_public_plugin_packaging.py tests/test_web_fallback.py; Write-Output '=== historical defect references ==='; rg -n 'F0[1-5]' docs packaging tools tests .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade --glob '!verify/ao/**'; Stop-Transcript
+Process ID: 4544
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao/AB_checks_raw.txt
+COMMAND: enumerate ledger.files, ledger.skills and local skills files; Get-FileHash -Algorithm SHA256 for first three SKILL.md paths
+Ledger directories=8; Ledger files=1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1; Local directories=8; Local files=48
+pipd-assurance-tqaep
+pipd-authority-source
+pipd-execution-contract
+pipd-package-project
+pipd-pd-bind
+pipd-pi-compile
+pipd-profile-tailor
+pipd-route-intake
+skills/pipd-assurance-tqaep/SKILL.md raw_sha256=703d354c5b04caa96c3deded4cd57c3a6ba91603a6419479117e4b83d568f776 ledger=703d354c5b04caa96c3deded4cd57c3a6ba91603a6419479117e4b83d568f776 match=True
+skills/pipd-authority-source/SKILL.md raw_sha256=89d04cf2e753e539f1d661beaa8e0df348f6ca8db9e423f516656106dcf68e91 ledger=89d04cf2e753e539f1d661beaa8e0df348f6ca8db9e423f516656106dcf68e91 match=True
+skills/pipd-execution-contract/SKILL.md raw_sha256=903c0af6ce09929b3c9c9f23abe650989c0a952fa4372dbe9414d076e7648478 ledger=903c0af6ce09929b3c9c9f23abe650989c0a952fa4372dbe9414d076e7648478 match=True
+COMMAND: git diff --name-status 52542c395a0f91dc2ba4bd6123acd4cdecd780dc 2a903bd09c7760c494f20ed98b840fae789b24d6
+
+diff_exit=0
+Changed=79; Outside=0
+skills/ changed=0
+src/ changed=0
+schemas/ changed=0
+dist/ changed=0
+COMMAND: git diff --exit-code <base> <candidate> -- skills/; git rev-parse <base>:skills <candidate>:skills
+
+skills_diff_exit=0
+
+=== test write operations ===
+
+=== historical defect references ===
+
+**********************
+PowerShell transcript end
+End time: 20261012185633
+**********************

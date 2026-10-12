@@ -5,10 +5,14 @@ name: public-plugin-verify
 # NOT a publication, NOT a host qualification and NOT an S4 acceptance — see
 # docs/install/README.md, "States that are NOT the same".
 #
-# Triggers are pull_request (restricted to the upgrade paths) and workflow_dispatch only. There is
-# deliberately no `pull_request_target`, no `secrets.*`, no repository write, no tag and no publish
-# step. Because `pull_request` from a fork gets a read-only token, no step tries to write anything
-# back to the repository.
+# Triggers are pull_request and workflow_dispatch only. There is deliberately no privileged
+# pull-request trigger (the token for `pull_request` from a fork is read-only, which is the point),
+# no configured secret is read, no repository write, no tag and no publish step. The name of the
+# forbidden privileged trigger is intentionally not written anywhere in this file, so a plain grep
+# for it returns nothing.
+# The PR path filter also lists pre-existing paths this job happens to touch (docs/RELEASE_TUPLE.json,
+# dist/mount/**); that filter decides WHEN the job runs, it is NOT the write-set allowlist - the
+# allowlist is enforced by the "wrote only inside its allowed set" step below.
 
 on:
   pull_request:
@@ -51,21 +55,44 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Prove the upgrade wrote no skills/**, src/** or schemas/**
+      - name: Prove the upgrade wrote only inside its allowed set
+        # Positive allowlist, not a frozen-path blacklist: a change outside the set fails even if it
+        # is harmless, and dist/ is denied explicitly. Measured as AO-03 of the round's independent
+        # acceptance challenge, which showed the earlier blacklist-only guard let dist/ and arbitrary
+        # non-frozen paths through.
         env:
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          # The fixed Stage-A tip this Stage-B branch is stacked on. Used only when the event does not
+          # carry a PR base (workflow_dispatch), so the whole stacked write set is examined.
+          STACKED_BASE_SHA: 52542c395a0f91dc2ba4bd6123acd4cdecd780dc
         run: |
           set -euo pipefail
-          BASE="${PR_BASE_SHA:-$(git rev-parse HEAD~1)}"
-          git merge-base --is-ancestor "$BASE" HEAD
-          CHANGED="$(git diff --name-only "$BASE"...HEAD)"
-          printf '%s\n' "$CHANGED"
-          if printf '%s\n' "$CHANGED" | grep -Eq '^(skills|src|schemas)/'; then
-            echo "UPGRADE_WROTE_FROZEN_PATH: this upgrade must not write skills/, src/ or schemas/:" >&2
-            printf '%s\n' "$CHANGED" | grep -E '^(skills|src|schemas)/' >&2
+          BASE="${PR_BASE_SHA:-${STACKED_BASE_SHA}}"
+          if ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then
+            echo "BASE_UNRESOLVED: ${BASE} is not present in this checkout; refusing to guess" >&2
             exit 1
           fi
-          echo "NO_FROZEN_PATH_WRITTEN"
+          git merge-base --is-ancestor "$BASE" HEAD
+          CHANGED="$(git diff --name-only "${BASE}...HEAD")"
+          printf '%s\n' "$CHANGED"
+          ALLOWED='^(packaging/public-plugin/|tools/freeze_public_plugin_source\.py$|tools/build_public_plugin\.py$|tools/build_web_fallback\.py$|tests/test_public_plugin_packaging\.py$|tests/test_web_fallback\.py$|docs/install/|docs/adr/|openspec/changes/s4post-triple-upgrade/|\.github/workflows/public-plugin-verify\.yml$|README\.md$|\.hgk/rounds/S4POST-20261012)'
+          DENIED='^(skills/|src/|schemas/|dist/)'
+          bad=0
+          while IFS= read -r path; do
+            [ -n "$path" ] || continue
+            if printf '%s' "$path" | grep -Eq "$DENIED"; then
+              echo "UPGRADE_WROTE_FROZEN_PATH: $path" >&2
+              bad=1
+            elif ! printf '%s' "$path" | grep -Eq "$ALLOWED"; then
+              echo "UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: $path" >&2
+              bad=1
+            fi
+          done <<< "$CHANGED"
+          if [ "$bad" -ne 0 ]; then
+            echo "WRITE_SET_VIOLATION (base ${BASE})" >&2
+            exit 1
+          fi
+          echo "WRITE_SET_CLEAN_AGAINST_${BASE}"
 
       - name: Compile the three upgrade tools
         # Nothing is installed for this step: the three tools import the standard library only.

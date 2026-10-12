@@ -491,6 +491,37 @@ def _write_zip(path: Path, members: dict[str, bytes]) -> None:
                         compresslevel=COMPRESS_LEVEL)
 
 
+def _exclusive_write(path: Path, data: bytes) -> None:
+    """Create a release sidecar exclusively; refuse a pre-existing path of any kind.
+
+    ``Path.write_bytes`` opens an existing name and truncates the inode behind it, so an attacker who
+    can prepopulate the output directory - with a symlink, or with a hardlink to a file outside it -
+    can make the builder overwrite that file. Measured against this tool as AO-01 of the round's
+    independent acceptance challenge. ``O_EXCL`` refuses any pre-existing name (a hardlink is an
+    ordinary regular file, so only exclusivity closes it) and ``O_NOFOLLOW`` refuses a symlink.
+    """
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0)
+    try:
+        fd = os.open(path, flags, 0o644)
+    except FileExistsError as exc:
+        raise Refusal("OUTPUT_MEMBER_EXISTS",
+                      f"{path} already exists; refusing to overwrite an existing release member") from exc
+    except OSError as exc:
+        raise Refusal("OUTPUT_MEMBER_UNSAFE",
+                      f"{path} cannot be created exclusively: {exc}") from exc
+    try:
+        with os.fdopen(fd, "wb") as fh:
+            fh.write(data)
+            fh.flush()
+            os.fsync(fh.fileno())
+    except BaseException:
+        try:
+            path.unlink()
+        except OSError:
+            pass
+        raise
+
+
 def _verify_zip(path: Path, members: dict[str, bytes]) -> None:
     with zipfile.ZipFile(path) as zf:
         infos = zf.infolist()
@@ -785,24 +816,43 @@ def build_plugin(*, source_root: Path, ledger: dict, source_commit: str | None,
     if _path_is_symlink(out_dir):
         raise Refusal("OUTPUT_ROOT_SYMLINK", f"{out_dir} became a symlink; refusing to write")
     final_zip = out_dir / f"{plugin_id}.zip"
+    if _path_is_symlink(final_zip) or final_zip.exists():
+        raise Refusal("OUTPUT_ARTIFACT_EXISTS",
+                      f"{final_zip} already exists; refusing to replace an existing release artifact")
     fd, tmp_name = tempfile.mkstemp(prefix=".public-plugin-", suffix=".zip", dir=str(out_dir))
     os.close(fd)
     tmp_zip = Path(tmp_name)
+    sidecar = final_zip.with_name(final_zip.name + ".sha256")
+    mapping_path = out_dir / "SOURCE_TO_PLUGIN_MAPPING.json"
+    receipt_path = out_dir / "RELEASE_RECEIPT.json"
+    promoted = False
+    created: list[Path] = []
     try:
         _write_zip(tmp_zip, members)
         _verify_zip(tmp_zip, members)
+        # The sidecars are created EXCLUSIVELY and BEFORE the artifact is promoted, so a pre-seeded
+        # output member refuses the whole build while nothing has been published yet. Only members
+        # this call actually created are rolled back: a member that was already there (and caused the
+        # refusal) is left exactly as the attacker/operator left it, never deleted.
+        digest = sha256_bytes(tmp_zip.read_bytes())
+        for target, payload in ((sidecar, f"{digest}  {final_zip.name}\n".encode("utf-8")),
+                                (mapping_path, mapping_bytes),
+                                (receipt_path, receipt_bytes)):
+            _exclusive_write(target, payload)
+            created.append(target)
         os.replace(tmp_zip, final_zip)
+        promoted = True
     finally:
         if tmp_zip.exists():
             tmp_zip.unlink()
+        if not promoted:
+            for partial in created:
+                if partial.exists() and not _path_is_symlink(partial):
+                    try:
+                        partial.unlink()
+                    except OSError:
+                        pass
 
-    digest = sha256_bytes(final_zip.read_bytes())
-    sidecar = final_zip.with_name(final_zip.name + ".sha256")
-    sidecar.write_bytes(f"{digest}  {final_zip.name}\n".encode("utf-8"))
-    mapping_path = out_dir / "SOURCE_TO_PLUGIN_MAPPING.json"
-    receipt_path = out_dir / "RELEASE_RECEIPT.json"
-    mapping_path.write_bytes(mapping_bytes)
-    receipt_path.write_bytes(receipt_bytes)
     return {
         "verdict": "BUILT",
         "out_zip": str(final_zip),

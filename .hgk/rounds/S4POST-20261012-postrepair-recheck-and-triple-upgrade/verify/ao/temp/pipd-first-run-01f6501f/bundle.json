@@ -1,0 +1,383 @@
+{
+ "ECP": {
+  "content_hash": "ada11864a2421a67171373e19523bbc0e65d4141f1670e82165d794ee049a7de",
+  "effect_intent": "apply bounded edits inside the writable scope",
+  "idempotency": {
+   "guarantee": "at_most_once",
+   "key": "IDEM-36408b9b6134374a"
+  },
+  "permission": {
+   "scope": "src/**",
+   "token_required": true
+  },
+  "readback": {
+   "kind": "residue_scan",
+   "required": true
+  },
+  "retries": {
+   "backoff": "none",
+   "max": 1
+  },
+  "rollback": {
+   "pointer": "baseline_commit",
+   "required": true
+  },
+  "schema_version": "ECP@1",
+  "subject_id": "ECP-ada11864a2421a67",
+  "version": "1"
+ },
+ "PD-PKG": {
+  "RepoContext": {
+   "branch": "feat/s4post-triple-upgrade-20261012",
+   "caller_claims": {
+    "branch": {
+     "matches_host": true,
+     "value": "feat/s4post-triple-upgrade-20261012",
+     "verified": true
+    },
+    "currentness": {
+     "matches_host": true,
+     "value": "FRESH",
+     "verified": true
+    },
+    "currentness_epoch": {
+     "matches_host": true,
+     "value": "d7ae141b7eb5e779c213ffd171027ee680b0d416cbb304ae59769cefbcf856d4",
+     "verified": true
+    },
+    "dirty": {
+     "matches_host": true,
+     "value": false,
+     "verified": true
+    },
+    "head": {
+     "matches_host": true,
+     "value": "2a903bd09c7760c494f20ed98b840fae789b24d6",
+     "verified": true
+    },
+    "manifest_sha256": {
+     "matches_host": true,
+     "value": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+     "verified": true
+    },
+    "tracked_files": {
+     "matches_host": true,
+     "value": 0,
+     "verified": true
+    },
+    "writable_scope": {
+     "matches_host": true,
+     "value": "src/**",
+     "verified": false
+    }
+   },
+   "currentness_epoch": "d7ae141b7eb5e779c213ffd171027ee680b0d416cbb304ae59769cefbcf856d4",
+   "degraded": false,
+   "degraded_reason": null,
+   "dirty": false,
+   "dirty_tracked": [],
+   "head": "2a903bd09c7760c494f20ed98b840fae789b24d6",
+   "manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "probe": "git",
+   "readiness": "PREDEV_READY",
+   "root": "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\\.hgk\\rounds\\S4POST-20261012-postrepair-recheck-and-triple-upgrade\\verify\\ao\\temp\\pipd-first-run-01f6501f\\ctx",
+   "tracked_files": 0
+  },
+  "content_hash": "064d6e70695c033b47c6406b04d1ec22314a6cc7d09ed21ddbd8e14c7abdef9d",
+  "currentness": {
+   "claims_verified": [
+    "branch",
+    "currentness",
+    "currentness_epoch",
+    "dirty",
+    "head",
+    "manifest_sha256",
+    "tracked_files"
+   ],
+   "derived_from": "git-probes at bind time",
+   "epoch": "d7ae141b7eb5e779c213ffd171027ee680b0d416cbb304ae59769cefbcf856d4",
+   "state": "FRESH"
+  },
+  "late_bound_construction_binding": {
+   "binding_scope": "affected_only",
+   "bound_at": "PD",
+   "writable_scope": "src/**",
+   "writable_scope_check": {
+    "authorized": [
+     "src/**",
+     "tests/**",
+     "tools/**",
+     "fixtures/**"
+    ],
+    "findings": [],
+    "requested": [
+     "src/**"
+    ],
+    "subset": true,
+    "verdict": "PASS"
+   }
+  },
+  "schema_version": "PD-PKG@1",
+  "subject_id": "PD-064d6e70695c033b",
+  "version": "1"
+ },
+ "PI-PKG": {
+  "_profile_meta": {
+   "artifact_depth": "L1_SCHEMA_CONTRACT",
+   "assurance": [
+    "deterministic_validator"
+   ],
+   "axes": [
+    "intent",
+    "knowledge",
+    "verification"
+   ],
+   "canonical_truth": "single",
+   "escalated": false,
+   "escalation_reason": null,
+   "profile": "LITE",
+   "requested_profile": "LITE",
+   "risk_assessment": "NOT_ASSESSED",
+   "vetoes": []
+  },
+  "acceptance": {
+   "mode": "bound",
+   "oracle_source": "DOC-03 DOMAIN_ORACLES"
+  },
+  "content_hash": "74c561676e1362c71b07493034f99aa1e044bd2c4c70ce3a14b6a7459543dd71",
+  "schema_version": "PI-PKG@1",
+  "stable_semantic_contract": {
+   "atoms": [
+    {
+     "acceptance_cue": "MUST: The intake stage MUST bind every requirement atom to a source clause",
+     "content_hash": "7f409bb4a15f7cc50b8c6539739211cc6dd461df949e7cb038cc12f0b324226f",
+     "owner": "PIPD-EC",
+     "req_id": "REQ-fc50d03597702dfea7d7",
+     "risk_guard": {
+      "failure_condition": "violate MUST: The intake stage MUST bind every requirement atom to a source clause",
+      "negative_fixture": "fixtures/REQ-fc50d03597702dfea7d7/negative",
+      "oracle": {
+       "expected": "required",
+       "id": "ORACLE-REQ-fc50d03597702dfea7d7",
+       "predicate": "The intake stage MUST bind every requirement atom to a source clause"
+      },
+      "polarity": "MUST"
+     },
+     "schema_version": "RequirementAtom@1",
+     "source_clause": {
+      "child": 0,
+      "clause_id": "clause-0-68",
+      "file": "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\\.hgk\\rounds\\S4POST-20261012-postrepair-recheck-and-triple-upgrade\\verify\\ao\\candidate-copy\\examples\\first-run\\source.txt",
+      "kind": "file",
+      "source_ref": "SRC-518210a91cf350d25095",
+      "span": [
+       0,
+       68
+      ],
+      "text": "The intake stage MUST bind every requirement atom to a source clause"
+     },
+     "subject_id": "ATOM-7f409bb4a15f7cc5",
+     "version": "1"
+    },
+    {
+     "acceptance_cue": "MUST: The PI package MUST record one distinct oracle per requirement atom",
+     "content_hash": "db2214664cae7a8ca0f459f422d19b78f7300c970f683ffa7738254c6e31406c",
+     "owner": "PIPD-EC",
+     "req_id": "REQ-db386a03a7714209b3f3",
+     "risk_guard": {
+      "failure_condition": "violate MUST: The PI package MUST record one distinct oracle per requirement atom",
+      "negative_fixture": "fixtures/REQ-db386a03a7714209b3f3/negative",
+      "oracle": {
+       "expected": "required",
+       "id": "ORACLE-REQ-db386a03a7714209b3f3",
+       "predicate": "The PI package MUST record one distinct oracle per requirement atom"
+      },
+      "polarity": "MUST"
+     },
+     "schema_version": "RequirementAtom@1",
+     "source_clause": {
+      "child": 0,
+      "clause_id": "clause-70-137",
+      "file": "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\\.hgk\\rounds\\S4POST-20261012-postrepair-recheck-and-triple-upgrade\\verify\\ao\\candidate-copy\\examples\\first-run\\source.txt",
+      "kind": "file",
+      "source_ref": "SRC-755255c5155467394c38",
+      "span": [
+       70,
+       137
+      ],
+      "text": "The PI package MUST record one distinct oracle per requirement atom"
+     },
+     "subject_id": "ATOM-db2214664cae7a8c",
+     "version": "1"
+    },
+    {
+     "acceptance_cue": "MUST NOT: The TQAEP record MUST NOT claim independent acceptance at design time",
+     "content_hash": "9aec76cb093b584aa7e5cb67dc84d6f5ea9b65c3ad75b21ab948dd61daf98447",
+     "owner": "PIPD-EC",
+     "req_id": "REQ-363cc0e8380ad343aa5b",
+     "risk_guard": {
+      "failure_condition": "violate MUST NOT: The TQAEP record MUST NOT claim independent acceptance at design time",
+      "negative_fixture": "fixtures/REQ-363cc0e8380ad343aa5b/negative",
+      "oracle": {
+       "expected": "forbidden",
+       "id": "ORACLE-REQ-363cc0e8380ad343aa5b",
+       "predicate": "The TQAEP record MUST NOT claim independent acceptance at design time"
+      },
+      "polarity": "MUST NOT"
+     },
+     "schema_version": "RequirementAtom@1",
+     "source_clause": {
+      "child": 0,
+      "clause_id": "clause-139-208",
+      "file": "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\\.hgk\\rounds\\S4POST-20261012-postrepair-recheck-and-triple-upgrade\\verify\\ao\\candidate-copy\\examples\\first-run\\source.txt",
+      "kind": "file",
+      "source_ref": "SRC-af31545722d8f9069a1f",
+      "span": [
+       139,
+       208
+      ],
+      "text": "The TQAEP record MUST NOT claim independent acceptance at design time"
+     },
+     "subject_id": "ATOM-9aec76cb093b584a",
+     "version": "1"
+    }
+   ],
+   "contract": "stable",
+   "goal": "Compile this example clause source into a validated PI to PD to ECP to TQAEP chain.",
+   "profile_binding": {
+    "artifact_depth": "L1_SCHEMA_CONTRACT",
+    "assurance": [
+     "deterministic_validator"
+    ],
+    "axes": [
+     "intent",
+     "knowledge",
+     "verification"
+    ],
+    "content_hash": "e6b2b380709be8c4bc4b13d26c491e373aca138fbf6fcd7ed430d086528445c6",
+    "profile": "LITE",
+    "schema_version": "ProfileBinding@1",
+    "subject_id": "PB-e6b2b380709be8c4",
+    "version": "1",
+    "vetoes": []
+   },
+   "sources": [
+    {
+     "sha256": "2f74c18d76feffa4feb47fd8ca9c54fda3f0a4367e6a1bfd76d9b57e7f22d907",
+     "source_id": "SRC-518210a91cf350d25095",
+     "text": "The intake stage MUST bind every requirement atom to a source clause"
+    },
+    {
+     "sha256": "2f74c18d76feffa4feb47fd8ca9c54fda3f0a4367e6a1bfd76d9b57e7f22d907",
+     "source_id": "SRC-755255c5155467394c38",
+     "text": "The PI package MUST record one distinct oracle per requirement atom"
+    },
+    {
+     "sha256": "2f74c18d76feffa4feb47fd8ca9c54fda3f0a4367e6a1bfd76d9b57e7f22d907",
+     "source_id": "SRC-af31545722d8f9069a1f",
+     "text": "The TQAEP record MUST NOT claim independent acceptance at design time"
+    }
+   ]
+  },
+  "subject_id": "PI-74c561676e1362c7",
+  "trace": [
+   {
+    "content_hash": "d3f926e48b12f636e32acfc06adf77e180bb09afb0a3c2ff7da803074d3f1170",
+    "from_hash": "74c561676e1362c71b07493034f99aa1e044bd2c4c70ce3a14b6a7459543dd71",
+    "from_id": "PI-74c561676e1362c7",
+    "from_type": "PI-PKG",
+    "rationale": "PI derives this atom from the frozen intent",
+    "schema_version": "TraceLink@1",
+    "subject_id": "TL-d3f926e48b12f636",
+    "to_hash": "7f409bb4a15f7cc50b8c6539739211cc6dd461df949e7cb038cc12f0b324226f",
+    "to_id": "ATOM-7f409bb4a15f7cc5",
+    "to_type": "RequirementAtom",
+    "version": "1"
+   },
+   {
+    "content_hash": "a4e6a01b3292d38fcb8e87aac42c2470011f5a081ec77f8c816ee7dbc74eed94",
+    "from_hash": "74c561676e1362c71b07493034f99aa1e044bd2c4c70ce3a14b6a7459543dd71",
+    "from_id": "PI-74c561676e1362c7",
+    "from_type": "PI-PKG",
+    "rationale": "PI derives this atom from the frozen intent",
+    "schema_version": "TraceLink@1",
+    "subject_id": "TL-a4e6a01b3292d38f",
+    "to_hash": "db2214664cae7a8ca0f459f422d19b78f7300c970f683ffa7738254c6e31406c",
+    "to_id": "ATOM-db2214664cae7a8c",
+    "to_type": "RequirementAtom",
+    "version": "1"
+   },
+   {
+    "content_hash": "93ed760df9f1d8816b85884cac0010bc514e38c9728fbd417feb7ccd4fd45f00",
+    "from_hash": "74c561676e1362c71b07493034f99aa1e044bd2c4c70ce3a14b6a7459543dd71",
+    "from_id": "PI-74c561676e1362c7",
+    "from_type": "PI-PKG",
+    "rationale": "PI derives this atom from the frozen intent",
+    "schema_version": "TraceLink@1",
+    "subject_id": "TL-93ed760df9f1d881",
+    "to_hash": "9aec76cb093b584aa7e5cb67dc84d6f5ea9b65c3ad75b21ab948dd61daf98447",
+    "to_id": "ATOM-9aec76cb093b584a",
+    "to_type": "RequirementAtom",
+    "version": "1"
+   }
+  ],
+  "version": "1"
+ },
+ "TQAEP": {
+  "acceptance": [
+   {
+    "case": "TQAEP_DESIGN_CANDIDATE",
+    "checker_execution_receipt": "deleg_example/lane-C",
+    "checker_identity": "GLM-5.3-FLASH-AO-LANE",
+    "claim_ceiling": "TQAEP_DESIGNED",
+    "design_time_status": "DISTINCT_CHECKER_IDENTITY_RECORDED",
+    "distinct": true,
+    "independent_acceptance": "NOT_GRANTED",
+    "independent_proof_requires": "S5_LIVE_RUNTIME_CHECKER",
+    "maker_identity": "HERMES-MAKER",
+    "note": "design-time candidate only: the checker receipt is a recorded string, not independent verification; a live runtime checker must re-run it before any independent acceptance can be claimed"
+   }
+  ],
+  "content_hash": "1b1a321e9cea097ead792d08117a49636521d0ec2794fcd597182dbb6b9daf5a",
+  "fixtures": [
+   "fixtures/REQ-fc50d03597702dfea7d7/positive",
+   "fixtures/REQ-db386a03a7714209b3f3/positive",
+   "fixtures/REQ-363cc0e8380ad343aa5b/positive"
+  ],
+  "oracles": [
+   "TEST-REQ-fc50d03597702dfea7d7: deterministic assertion on the bound artifact",
+   "TEST-REQ-db386a03a7714209b3f3: deterministic assertion on the bound artifact",
+   "TEST-REQ-363cc0e8380ad343aa5b: deterministic assertion on the bound artifact"
+  ],
+  "requalification": "affected-only",
+  "schema_version": "TQAEP@1",
+  "subject_id": "TQAEP-1b1a321e9cea097e",
+  "tests": [
+   {
+    "evidence_expectation": "EVD-REQ-fc50d03597702dfea7d7",
+    "negative_fixture": "fixtures/REQ-fc50d03597702dfea7d7/negative",
+    "oracle": "deterministic assertion on the bound artifact",
+    "positive_fixture": "fixtures/REQ-fc50d03597702dfea7d7/positive",
+    "requirement": "REQ-fc50d03597702dfea7d7",
+    "test_id": "TEST-REQ-fc50d03597702dfea7d7"
+   },
+   {
+    "evidence_expectation": "EVD-REQ-db386a03a7714209b3f3",
+    "negative_fixture": "fixtures/REQ-db386a03a7714209b3f3/negative",
+    "oracle": "deterministic assertion on the bound artifact",
+    "positive_fixture": "fixtures/REQ-db386a03a7714209b3f3/positive",
+    "requirement": "REQ-db386a03a7714209b3f3",
+    "test_id": "TEST-REQ-db386a03a7714209b3f3"
+   },
+   {
+    "evidence_expectation": "EVD-REQ-363cc0e8380ad343aa5b",
+    "negative_fixture": "fixtures/REQ-363cc0e8380ad343aa5b/negative",
+    "oracle": "deterministic assertion on the bound artifact",
+    "positive_fixture": "fixtures/REQ-363cc0e8380ad343aa5b/positive",
+    "requirement": "REQ-363cc0e8380ad343aa5b",
+    "test_id": "TEST-REQ-363cc0e8380ad343aa5b"
+   }
+  ],
+  "version": "1"
+ }
+}

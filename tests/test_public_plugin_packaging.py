@@ -766,5 +766,61 @@ class PublicPluginPackagingTest(unittest.TestCase):
             self.assertEqual([info.filename for info in infos], sorted(members))
 
 
+    # ------------------------------------ 18. AO-01: a pre-seeded output member must not be written
+    def test_18_preseeded_hardlinked_sidecar_is_refused_and_never_overwritten(self) -> None:
+        """AO-01 of the round's independent acceptance challenge, kept as a permanent regression.
+
+        The sidecar/mapping/receipt writes used to go through ``Path.write_bytes``, which opens
+        whatever the name already resolves to. A hardlink pre-seeded into the output directory made
+        the builder truncate and rewrite a file OUTSIDE it. The independent acceptance officer
+        measured exactly that on the unpatched tool; this case keeps the hole closed, and it must
+        hold even where the OS refuses to create symlinks (a hardlink is an ordinary regular file).
+        """
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            env.out.mkdir(parents=True, exist_ok=True)
+            outside = env.root / "OUTSIDE_SENTINEL.txt"
+            outside_bytes = b"INDEPENDENT_ACCEPTANCE_SENTINEL_DO_NOT_OVERWRITE\n"
+            outside.write_bytes(outside_bytes)
+            seeded = env.out / f"{PLUGIN_ID}.zip.sha256"
+            try:
+                os.link(outside, seeded)
+            except (OSError, NotImplementedError, AttributeError) as exc:  # pragma: no cover
+                self.skipTest(f"host cannot create a hardlink: {exc}")
+            self.assertEqual(seeded.stat().st_ino, outside.stat().st_ino)
+            exc = self.assert_refusal("OUTPUT_MEMBER_EXISTS", env.build, ledger)
+            self.assertIn(seeded.name, str(exc))
+            self.assertEqual(outside.read_bytes(), outside_bytes,
+                             "the file behind the pre-seeded hardlink was overwritten")
+            # Nothing else may be published either: the refusal happens before the artifact is promoted.
+            self.assertNotIn(f"{PLUGIN_ID}.zip", [p.name for p in env.out.iterdir()])
+            self.assertEqual([p.name for p in env.out.iterdir()], [seeded.name])
+
+    def test_18_preseeded_artifact_name_is_refused(self) -> None:
+        """A pre-existing release artifact name refuses the build before anything is written."""
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            env.out.mkdir(parents=True, exist_ok=True)
+            (env.out / f"{PLUGIN_ID}.zip").write_bytes(b"ATTACKER_SUPPLIED_BYTES")
+            exc = self.assert_refusal("OUTPUT_ARTIFACT_EXISTS", env.build, ledger)
+            self.assertIn(f"{PLUGIN_ID}.zip", str(exc))
+            self.assertEqual((env.out / f"{PLUGIN_ID}.zip").read_bytes(), b"ATTACKER_SUPPLIED_BYTES")
+            self.assertEqual([p.name for p in env.out.iterdir()], [f"{PLUGIN_ID}.zip"])
+
+    def test_18_preseeded_mapping_member_is_refused_and_rolled_back(self) -> None:
+        """A pre-seeded mapping member refuses the build and the partial sidecars are rolled back."""
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            env.out.mkdir(parents=True, exist_ok=True)
+            seeded = env.out / "SOURCE_TO_PLUGIN_MAPPING.json"
+            seeded.write_bytes(b"ATTACKER_SUPPLIED_MAPPING")
+            self.assert_refusal("OUTPUT_MEMBER_EXISTS", env.build, ledger)
+            self.assertEqual(seeded.read_bytes(), b"ATTACKER_SUPPLIED_MAPPING")
+            self.assertEqual([p.name for p in env.out.iterdir()], ["SOURCE_TO_PLUGIN_MAPPING.json"])
+
+
 if __name__ == "__main__":
     unittest.main()

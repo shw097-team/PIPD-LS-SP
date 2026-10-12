@@ -1,0 +1,57 @@
+{
+ "acceptance": [
+  {
+   "case": "TQAEP_DESIGN_CANDIDATE",
+   "checker_execution_receipt": "deleg_example/lane-C",
+   "checker_identity": "GLM-5.3-FLASH-AO-LANE",
+   "claim_ceiling": "TQAEP_DESIGNED",
+   "design_time_status": "DISTINCT_CHECKER_IDENTITY_RECORDED",
+   "distinct": true,
+   "independent_acceptance": "NOT_GRANTED",
+   "independent_proof_requires": "S5_LIVE_RUNTIME_CHECKER",
+   "maker_identity": "HERMES-MAKER",
+   "note": "design-time candidate only: the checker receipt is a recorded string, not independent verification; a live runtime checker must re-run it before any independent acceptance can be claimed"
+  }
+ ],
+ "content_hash": "1b1a321e9cea097ead792d08117a49636521d0ec2794fcd597182dbb6b9daf5a",
+ "fixtures": [
+  "fixtures/REQ-fc50d03597702dfea7d7/positive",
+  "fixtures/REQ-db386a03a7714209b3f3/positive",
+  "fixtures/REQ-363cc0e8380ad343aa5b/positive"
+ ],
+ "oracles": [
+  "TEST-REQ-fc50d03597702dfea7d7: deterministic assertion on the bound artifact",
+  "TEST-REQ-db386a03a7714209b3f3: deterministic assertion on the bound artifact",
+  "TEST-REQ-363cc0e8380ad343aa5b: deterministic assertion on the bound artifact"
+ ],
+ "requalification": "affected-only",
+ "schema_version": "TQAEP@1",
+ "subject_id": "TQAEP-1b1a321e9cea097e",
+ "tests": [
+  {
+   "evidence_expectation": "EVD-REQ-fc50d03597702dfea7d7",
+   "negative_fixture": "fixtures/REQ-fc50d03597702dfea7d7/negative",
+   "oracle": "deterministic assertion on the bound artifact",
+   "positive_fixture": "fixtures/REQ-fc50d03597702dfea7d7/positive",
+   "requirement": "REQ-fc50d03597702dfea7d7",
+   "test_id": "TEST-REQ-fc50d03597702dfea7d7"
+  },
+  {
+   "evidence_expectation": "EVD-REQ-db386a03a7714209b3f3",
+   "negative_fixture": "fixtures/REQ-db386a03a7714209b3f3/negative",
+   "oracle": "deterministic assertion on the bound artifact",
+   "positive_fixture": "fixtures/REQ-db386a03a7714209b3f3/positive",
+   "requirement": "REQ-db386a03a7714209b3f3",
+   "test_id": "TEST-REQ-db386a03a7714209b3f3"
+  },
+  {
+   "evidence_expectation": "EVD-REQ-363cc0e8380ad343aa5b",
+   "negative_fixture": "fixtures/REQ-363cc0e8380ad343aa5b/negative",
+   "oracle": "deterministic assertion on the bound artifact",
+   "positive_fixture": "fixtures/REQ-363cc0e8380ad343aa5b/positive",
+   "requirement": "REQ-363cc0e8380ad343aa5b",
+   "test_id": "TEST-REQ-363cc0e8380ad343aa5b"
+  }
+ ],
+ "version": "1"
+}

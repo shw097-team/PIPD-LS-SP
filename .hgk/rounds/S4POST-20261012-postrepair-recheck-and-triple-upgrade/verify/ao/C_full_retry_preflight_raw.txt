@@ -1,0 +1,29 @@
+**********************
+PowerShell transcript start
+Start time: 20261012185758
+Username: DESKTOP-57EO414\user
+RunAs User: DESKTOP-57EO414\user
+Configuration Name: 
+Machine: DESKTOP-57EO414 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\user\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+$ao=(Resolve-Path '.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao').Path; Start-Transcript -Path "$ao/C_full_retry_preflight_raw.txt"; Write-Output 'COMMAND: git -C <AO>/candidate-copy -c core.longpaths=true checkout --force --detach <candidate>'; git -C "$ao/candidate-copy" -c core.longpaths=true -c advice.detachedHead=false checkout --force --detach 2a903bd09c7760c494f20ed98b840fae789b24d6; Write-Output "checkout_exit=$LASTEXITCODE"; git -C "$ao/candidate-copy" -c core.longpaths=true status --porcelain; Stop-Transcript; $env:TEMP="$ao/temp"; $env:TMP="$ao/temp"; $env:TMPDIR="$ao/temp"; $env:PYTHONDONTWRITEBYTECODE='1'; $env:PYTHONUTF8='1'; Push-Location "$ao/candidate-copy"; python -m unittest discover -s tests -t . 1> "$ao/C_full_copy_retry_stdout.txt" 2> "$ao/C_full_copy_retry_stderr.txt"; $rc=$LASTEXITCODE; Pop-Location; "exit_code=$rc" | Tee-Object -FilePath "$ao/C_full_copy_retry_exit.txt"; Get-Content "$ao/C_full_copy_retry_stderr.txt" -Tail 60
+Process ID: 20324
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-b-wt\.hgk\rounds\S4POST-20261012-postrepair-recheck-and-triple-upgrade\verify\ao/C_full_retry_preflight_raw.txt
+COMMAND: git -C <AO>/candidate-copy -c core.longpaths=true checkout --force --detach <candidate>
+
+checkout_exit=0
+
+**********************
+PowerShell transcript end
+End time: 20261012185800
+**********************
