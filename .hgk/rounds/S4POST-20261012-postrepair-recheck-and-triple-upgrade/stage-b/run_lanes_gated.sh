@@ -69,6 +69,12 @@ else
   echo "QUALIFICATION_PASSED model=$REQ_MODEL effort=$REQ_EFF (two tool round trips survived)"
 fi
 
+# A dry gate: prove the lane is usable BEFORE any writer is assigned to it. No child runs.
+if [ "${GATE_QUALIFY_ONLY:-0}" = "1" ]; then
+  echo "GATE_QUALIFICATION_ONLY_OK role=$ROLE model=$REQ_MODEL effort=$REQ_EFF"
+  exit 0
+fi
+
 i=0; FAILED=0; MISSING=0
 for B in "$@"; do
   [ -f "$S/$B" ] || { echo "REFUSED[3] brief not found: stage-b/$B" >&2; echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 3; }
