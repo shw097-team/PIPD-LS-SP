@@ -37,6 +37,7 @@ pass=0; fail=0
 ck() { if [ "$2" = "$3" ]; then echo "PASS $1 (exit=$3)"; pass=$((pass+1)); else echo "FAIL $1 expected=$2 actual=$3"; fail=$((fail+1)); fi; }
 cknot() { if [ -e "$2" ]; then echo "FAIL $3 (exists: $2)"; fail=$((fail+1)); else echo "PASS $3"; pass=$((pass+1)); fi; }
 ckeq() { if [ -e "$2" ]; then echo "PASS $3"; pass=$((pass+1)); else echo "FAIL $3 (missing: $2)"; fail=$((fail+1)); fi; }
+has() { if grep -q "$2" "$3" 2>/dev/null; then echo "PASS $1"; pass=$((pass+1)); else echo "FAIL $1"; fail=$((fail+1)); fi; }
 run() { TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$STUB" STUB_EXIT="${1:-0}" STUB_DIRT="${2:-0}" STUB_ESCAPE="${3:-0}" NT_WT="$CLONE" bash "$L" "$4" "$5" "$6" >"$LOGD/$4.out" 2>&1; echo $?; }
 
 echo "### T1 dirty preflight is refused (v1 passed this; regression guard)"
