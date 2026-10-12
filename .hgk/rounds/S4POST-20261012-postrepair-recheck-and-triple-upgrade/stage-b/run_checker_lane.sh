@@ -107,12 +107,15 @@ STAMP2="$(printf '%s\n' "$OUT2" | sed -n 's/^'"$LANE"'_LANE=\([0-9TZ]*\).*/\1/p'
 } > "$REC"
 # FCR-006: the record was written after the launcher's own postflight, so the wrapper could return
 # success while the record stayed untracked. Commit it, then re-read the status, as the launcher does.
-REC_REL="${REC#$WT/}"
-git -C "$WT" add -- "$REC_REL" 2>/dev/null
-if ! git -C "$WT" -c user.email=lane-harness@local.invalid -c user.name="hgk lane harness" commit -q -m "evidence(s4post-b): checker failover record for $LANE" 2>/dev/null; then
-  echo "CHECKER_FAILOVER_RECORD_NOT_COMMITTED $REC_REL"; exit 4
+# Path spelling matters here: the record path can be an MSYS spelling (/tmp/..) while the worktree is a
+# native one (C:/..), and a native git cannot be handed the other spelling. Run git from the record's own
+# directory and name it by basename, so no path is translated at all.
+RD="$(dirname "$REC")"; RB="$(basename "$REC")"
+git -C "$RD" add -- "$RB" 2>/dev/null
+if ! git -C "$RD" -c user.email=lane-harness@local.invalid -c user.name="hgk lane harness" commit -q -m "evidence(s4post-b): checker failover record for $LANE" 2>/dev/null; then
+  echo "CHECKER_FAILOVER_RECORD_NOT_COMMITTED $RB"; exit 4
 fi
-DIRT="$(git -C "$WT" status --porcelain)"
+DIRT="$(git -C "$RD" status --porcelain)"
 if [ -n "$DIRT" ]; then
   echo "CHECKER_FAILOVER_RECORD_DIRTY $(printf '%s' "$DIRT" | tr '\n' ';')"; exit 4
 fi

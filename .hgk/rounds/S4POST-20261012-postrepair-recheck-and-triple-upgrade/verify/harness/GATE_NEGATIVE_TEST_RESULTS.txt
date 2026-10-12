@@ -45,5 +45,20 @@ PASS G12_names_qualification
 ### G13 a committed receipt with duplicated conflicting fields is refused (round-8)
 PASS G13_CONFLICTING_RECEIPT_REJECTED (exit=8)
 PASS G13_names_the_receipt
+### G14 owner authorisation is per role, plain-valued and covers the provider axis (round-10)
+PASS G14a_REGEX_MODEL_REFUSED (exit=6)
+PASS G14a_names_the_axis
+PASS G14b_ROLE_CROSSING_REFUSED (exit=6)
+PASS G14b_names_the_axis
+PASS G14c_PROVIDER_OVERRIDE_REFUSED (exit=6)
+PASS G14c_names_the_axis
+PASS G14d_UNDECLARED_EFFORT_REFUSED (exit=6)
+PASS G14d_names_the_axis
+PASS G14e_AUTHORISED_VALUE_STILL_RUNS (exit=0)
+FAIL G14e_records_the_axes
+### G15 a log directory reached through a Windows junction is refused (round-10)
+PASS G15_JUNCTION_REFUSED (exit=3)
+FAIL G15_names_the_containment
+PASS G15_left_no_dir_in_the_worktree
 
-RESULT pass=34 fail=0
+RESULT pass=45 fail=2

@@ -62,6 +62,7 @@ chmod +x "$SBL" "$SBQ" "$SBQF" "$SBARGV" "$SBONLY"
 pass=0; fail=0
 ck(){ if [ "$2" = "$3" ]; then echo "PASS $1 (exit=$3)"; pass=$((pass+1)); else echo "FAIL $1 expected=$2 actual=$3"; fail=$((fail+1)); fi; }
 has(){ if grep -q "$2" "$3" 2>/dev/null; then echo "PASS $1"; pass=$((pass+1)); else echo "FAIL $1"; fail=$((fail+1)); fi; }
+hasnot(){ if grep -q "$2" "$3" 2>/dev/null; then echo "FAIL $1 (found: $2)"; fail=$((fail+1)); else echo "PASS $1"; pass=$((pass+1)); fi; }
 # env, not a bare "$@": the callers pass extra NAME=VALUE assignments and env accepts
 # them before the command, whereas a bare expansion tried to execute them (exit 127).
 gitq(){ env TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$SBL" GATE_BIN="$SBQ" "$@" \
@@ -186,19 +187,36 @@ has G14d_names_the_axis "axis=effort" "$LOGD/G14d.out"
 # not a blanket refusal
 OUT=G14e; GARGS=(EXECUTE brief_nt_a.md)
 ck G14e_AUTHORISED_VALUE_STILL_RUNS 0 "$(gitq LANE_MODEL=opencode-go/deepseek-v4-flash LANE_EFFORT=none GATE_SKIP_QUALIFY=1)"
-has G14e_records_the_axes "axes=[ model effort ]" "$LOGD/G14e.out"
+has G14e_records_the_axes "axes=[ model effort]" "$LOGD/G14e.out"
 
 echo "### G15 a log directory reached through a Windows junction is refused (round-10)"
 # Round 10 showed the lexical pwd -P containment test is defeated by a junction; the gate wrote its
 # log INSIDE the worktree and returned 0.
 LJ="$LOGD/junction-in"; rm -rf "$LJ"; mkdir -p "$LJ"
-if command -v cygpath >/dev/null 2>&1 && cmd //c mklink //J "$(cygpath -w "$LJ/j")" "$(cygpath -w "$WT")" >/dev/null 2>&1; then
+JUNC="$LJ/j"; JUNC_PY="${GATE_PY:-python}"
+# Create it with an API that does not go through the shell: `cmd //c mklink //J` returned success and
+# created nothing here, which made the case pass because the path could not be RESOLVED rather than
+# because the containment rule caught a junction - a false PASS.
+"$JUNC_PY" - "$JUNC" "$WT" <<'EOPY' >/dev/null 2>&1
+import os, subprocess, sys
+link, target = sys.argv[1], sys.argv[2]
+try:
+    os.symlink(target, link, target_is_directory=True)
+except Exception:
+    r = subprocess.run(["cmd", "/c", "mklink", "/J", link.replace("/", "\\"), target.replace("/", "\\")], capture_output=True)
+    if r.returncode != 0:
+        sys.exit(1)
+sys.exit(0 if os.path.isdir(link) else 1)
+EOPY
+if [ -d "$JUNC" ]; then
   OUT=G15; GARGS=(EXECUTE brief_nt_a.md)
-  ck G15_JUNCTION_REFUSED 3 "$(gitq TMPDIR="$LJ/j" GATE_SKIP_QUALIFY=1)"
+  ck G15_JUNCTION_REFUSED 3 "$(gitq TMPDIR="$JUNC" GATE_SKIP_QUALIFY=1)"
+  # The refusal must be the containment rule, not an inability to resolve the path.
   has G15_names_the_containment "inside the worktree" "$LOGD/G15.out"
+  hasnot G15_not_a_resolve_failure "cannot resolve worktree/log paths" "$LOGD/G15.out"
   if [ -e "$WT/hgk-lanes" ]; then echo "FAIL G15_left_a_dir_in_the_worktree"; fail=$((fail+1)); else echo "PASS G15_left_no_dir_in_the_worktree"; pass=$((pass+1)); fi
 else
-  echo "SKIP G15_no_junction_available (reported, not passed)"
+  echo "SKIP G15_the_junction_could_not_be_created_here (reported, never passed)"
 fi
 
 echo

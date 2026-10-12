@@ -72,13 +72,14 @@ has A3_record_names_primary "gpt-6.1-sol" "$CLONE/$REL/stage-b/CHECKER_FAILOVER_
 has A3_record_says_identity_changes "changes the checker's identity" "$CLONE/$REL/stage-b/CHECKER_FAILOVER_FOC.md"
 hasnot A3_no_record_for_the_killed_lane_unneeded "CHECKER_FAILOVER_START" "$LOGD/A.out"
 
-echo "RESULT pass=$pass fail=$fail"
-[ "$fail" -eq 0 ]echo "### A4 a protocol 400 whose text ALSO carries a quota word must NOT fail over (round-10)"
-run C "Provider error 400: [invalid_request_error] The reasoning_content in the thinking mode must be passed back. Service at capacity." > "$LOGD/C.out" 2>&1
+echo "### A4 a protocol 400 whose text ALSO carries a quota word must NOT fail over (round-10)"
+# Its own label: the stub consumes one state file per label, so reusing A3's label made the primary
+# succeed on its first call and the case proved nothing.
+run E "Provider error 400: [invalid_request_error] The reasoning_content in the thinking mode must be passed back. Service at capacity." > "$LOGD/E.out" 2>&1
 ck A4_nonzero_exit "$?" 1
-has A4_says_not_exhaustion "CHECKER_PRIMARY_FAILED_NOT_EXHAUSTION" "$LOGD/C.out"
-has A4_names_the_hard_failure "hard_failure=[" "$LOGD/C.out"
-hasnot A4_did_not_fail_over "CHECKER_FAILOVER_START" "$LOGD/C.out"
+has A4_says_not_exhaustion "CHECKER_PRIMARY_FAILED_NOT_EXHAUSTION" "$LOGD/E.out"
+has A4_names_the_hard_failure "hard_failure=[" "$LOGD/E.out"
+hasnot A4_did_not_fail_over "CHECKER_FAILOVER_START" "$LOGD/E.out"
 
 echo "### A5 a real exhaustion failover must leave its record committed and the tree clean (round-10)"
 run D "ERROR: You've hit your usage limit. Upgrade to Pro or try again at 10:37 PM." > "$LOGD/D.out" 2>&1
