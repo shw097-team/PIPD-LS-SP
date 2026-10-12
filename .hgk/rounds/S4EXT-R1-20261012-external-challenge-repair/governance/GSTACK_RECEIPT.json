@@ -1,0 +1,50 @@
+{
+ "schema": "PIPD-S4EXT-R1-GSTACK/1",
+ "gates": [
+  {
+   "gate": "G-AUTH",
+   "evidence": "evidence/00_SOURCE/",
+   "state": "PARTIAL"
+  },
+  {
+   "gate": "G-PI/PD",
+   "evidence": "03_CLI/trace_mutation_findings.json",
+   "state": "PASS_LOCAL_CANDIDATE"
+  },
+  {
+   "gate": "G-DEV-ECP",
+   "evidence": "04_DEV_ECP/",
+   "state": "PARTIAL_ADMISSION_OPEN"
+  },
+  {
+   "gate": "G-OPS-ECP",
+   "evidence": "05_OPS_ECP/",
+   "state": "PARTIAL_NO_WORLD_EFFECT"
+  },
+  {
+   "gate": "G-TQAEP",
+   "evidence": "06_TQAEP/",
+   "state": "OPEN_NO_INDEPENDENT_CHECKER"
+  },
+  {
+   "gate": "G-RELEASE",
+   "evidence": "08_RELEASE/",
+   "state": "FAIL_CHALLENGE_STILL_STANDS"
+  },
+  {
+   "gate": "G-SECURITY",
+   "evidence": "08_RELEASE/supply_chain_scan.json",
+   "state": "PASS_LOCAL"
+  },
+  {
+   "gate": "G-HOST",
+   "evidence": "07_HOSTS/",
+   "state": "NOT_RUN"
+  }
+ ],
+ "gate_calibration": "no threshold, denominator or oracle was changed to close a gate",
+ "claim_ceiling": "MAKER_CANDIDATE_AND_LOCAL_TESTS_ONLY_UNTIL_EXTERNAL_REQUALIFICATION",
+ "s4_overall": "NOT_GRANTED",
+ "release_gate": "HOLD",
+ "production": "NOT_CLAIMED"
+}

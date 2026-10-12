@@ -1,0 +1,23 @@
+{
+ "schema": "PIPD-S4EXT-R1-IDEMPOTENCY/1",
+ "idempotent_probes": [
+  {
+   "probe": "tools/build_s4_spec_del_adjudication.py",
+   "runs": 2,
+   "result": "byte-identical output",
+   "asserted_by": "tests/test_s4ext_spec_del_adjudication.py::test_the_generator_is_idempotent"
+  },
+  {
+   "probe": "the repair script's _replace_once",
+   "runs": "n/a on the frozen tree",
+   "result": "every replacement asserts exactly one occurrence, so a second run is a no-op XOR a hard failure"
+  },
+  {
+   "probe": "examples/first-run/run.sh",
+   "runs": 2,
+   "result": "same digests, same exit codes, scratch dir recreated each time"
+  }
+ ],
+ "retry_budget": 3,
+ "compensation": "delete the round dir and the branch; no published object is touched"
+}

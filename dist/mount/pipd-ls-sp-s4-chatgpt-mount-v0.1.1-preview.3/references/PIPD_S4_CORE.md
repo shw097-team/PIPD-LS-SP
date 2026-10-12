@@ -1,7 +1,7 @@
 # PIPD_S4_CORE — the S4 chain, the 13 commands, the 19 families, the claim ceiling
 
-> Release identity: **v0.1.1-preview.3** — tag commit `8faa64e581e8c25f5ec355475e29561847da3ead`
-> (tree `58301503`). Derived, read-only content. This document quotes no normative body.
+> Release identity: **v0.1.1-preview.3** — release tag target `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`; build source commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`.
+> (tree `91b1156f`). Derived, read-only content. This document quotes no normative body.
 
 ## The design chain (what a design assistant sketches)
 
@@ -102,7 +102,7 @@ claimed. See `PIPD_PROFILE_AND_SAFETY.md` and `PIPD_SOURCE_MAP.md`.
 
 ## Source Locators
 
-Bound to `v0.1.1-preview.3`, tag commit `8faa64e581e8c25f5ec355475e29561847da3ead`.
+Bound to `v0.1.1-preview.3` (release tag target `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`; build source commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`).
 
 | object | source locator |
 | --- | --- |

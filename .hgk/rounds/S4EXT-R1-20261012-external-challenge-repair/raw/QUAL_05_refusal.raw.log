@@ -1,0 +1,20 @@
+### refusal_missing_source
+$ C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/pipd.exe --root C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art intake --goal nope --source C:/Projects/Agent_Workspace/PIPD/worktrees/s4ext-r1-wt/examples/first-run/does-not-exist.txt
+{
+ "code": "AUTHORITY_UNKNOWN",
+ "message": "source locator does not exist: C:/Projects/Agent_Workspace/PIPD/worktrees/s4ext-r1-wt/examples/first-run/does-not-exist.txt",
+ "verdict": "FAIL"
+}
+exit_code=2
+### refusal_no_artifact_written
+$ bash -c test ! -e 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/nope.json' && echo 'no artefact written for the refused intake'
+no artefact written for the refused intake
+exit_code=0
+### bad_bundle_refused
+$ bash -c 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/pipd.exe' --root 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art' validate --bundle 'C:/Projects/Agent_Workspace/PIPD/worktrees/s4ext-r1-wt/does-not-exist-bundle.json'
+{
+ "code": "IO_NOT_FOUND",
+ "message": "cannot read validation bundle at C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4ext-r1-wt\\does-not-exist-bundle.json: No such file or directory",
+ "verdict": "FAIL"
+}
+exit_code=2

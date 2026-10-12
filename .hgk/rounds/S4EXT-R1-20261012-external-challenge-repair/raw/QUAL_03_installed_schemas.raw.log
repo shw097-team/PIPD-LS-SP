@@ -1,0 +1,32 @@
+### installed_schema_family_count
+$ C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/python.exe -c 
+import pathlib, pipd_ls_sp, json
+root = pathlib.Path(pipd_ls_sp.__file__).parent
+p = sorted(root.rglob('*.schema.json'))
+print(json.dumps({'count': len(p), 'names': [x.name for x in p]}, indent=1))
+
+{
+ "count": 19,
+ "names": [
+  "ArtifactIdentity.schema.json",
+  "AuthorityBinding.schema.json",
+  "ClaimCeiling.schema.json",
+  "ConstructionContract.schema.json",
+  "ECP.schema.json",
+  "EvidenceExpectation.schema.json",
+  "ExecutionBindingRef.schema.json",
+  "ExecutionHandoff.schema.json",
+  "GENIEProjectionRef.schema.json",
+  "PD-PKG.schema.json",
+  "PI-PKG.schema.json",
+  "ProfileBinding.schema.json",
+  "RequirementAtom.schema.json",
+  "SurfaceProjectionManifest.schema.json",
+  "TaskSpecSeed.schema.json",
+  "TechnologyAdmission.schema.json",
+  "TQAEP.schema.json",
+  "TraceLink.schema.json",
+  "WorkOrderCandidate.schema.json"
+ ]
+}
+exit_code=0

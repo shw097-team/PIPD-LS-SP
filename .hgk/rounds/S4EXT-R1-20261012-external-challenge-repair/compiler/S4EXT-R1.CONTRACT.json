@@ -1,0 +1,1250 @@
+{
+ "schema": "CAPC-PROMPT-CONTRACT/1",
+ "task_id": "S4EXT-R1-20261012-PIPD-LS-SP-NARROW-REPAIR",
+ "source_scan": {
+  "required_source_families": [
+   "current_user_instruction",
+   "external_challenge_report",
+   "product_authority",
+   "execution_controls",
+   "acceptance_compiler"
+  ],
+  "reviewed": [
+   {
+    "source_family": "current_user_instruction",
+    "source_id": "SRC-BOARD",
+    "locator": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP S4 R1｜HERMES／HG-KSEOS／Fabric 受治理施工與驗收指揮薄 PROMPT_2026-10-12.md",
+    "sha256": "4235d8c280247b75df366948069406afa102054b8d1e119b74875b2c5bf5def9",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "external_challenge_report",
+    "source_id": "SRC-CHALLENGE",
+    "locator": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP-S4-EXTERNAL-CHALLENGE-2026-10-12-R1.md",
+    "sha256": "f77bd0b4211f4b5a75ff3c83427b7ef8c5b368e2aa11ac20dd211e643a864d56",
+    "role": "STATE_EVIDENCE",
+    "critical": true
+   },
+   {
+    "source_family": "product_authority",
+    "source_id": "SRC-PRODUCT-WT",
+    "locator": "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4ext-r1-wt",
+    "sha256": "dfd6884fa63fe166aee263a59c2d30b0330e458b91e235c8d93c6125aa0a4e46",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "execution_controls",
+    "source_id": "SRC-HGK-AGENTS",
+    "locator": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\AGENTS.md",
+    "sha256": "369ecd0ec4fe36b55b9a3a1efc93b68b03d7c04a1bfe767d138732e849d58eb3",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "acceptance_compiler",
+    "source_id": "SRC-COMPILER",
+    "locator": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\HG-KSEOS\\construction-acceptance-prompt-compiler\\construction-acceptance-prompt-compiler\\construction-acceptance-prompt-compiler_SKILL.md",
+    "sha256": "48a3fdc5a0c65d4279c27ebc7586e747ba86c4bde82535cad2512d43547b4acb",
+    "role": "NORMATIVE",
+    "critical": true
+   }
+  ],
+  "missing": [],
+  "normative_claims": [
+   {
+    "claim_id": "NC-001",
+    "text": "F001 must be repaired without rewriting the published tag or its assets: the build-source commit and the release-tag target become separate frozen fields and the 8/8 pack documents must name the tag target.",
+    "source_ids": [
+     "SRC-CHALLENGE",
+     "SRC-PRODUCT-WT"
+    ],
+    "locators": [
+     "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP-S4-EXTERNAL-CHALLENGE-2026-10-12-R1.md#4 F001",
+     "docs/RELEASE_TUPLE.json"
+    ]
+   },
+   {
+    "claim_id": "NC-002",
+    "text": "F002 must fail closed: a bundle whose trace endpoints are mis-typed, orphaned or hash-inconsistent must not reach verdict PASS, while legal positive and legacy version=\"1\" instances keep passing.",
+    "source_ids": [
+     "SRC-CHALLENGE",
+     "SRC-PRODUCT-WT"
+    ],
+    "locators": [
+     "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP-S4-EXTERNAL-CHALLENGE-2026-10-12-R1.md#4 F002",
+     "src/pipd_ls_sp/validate.py"
+    ]
+   },
+   {
+    "claim_id": "NC-003",
+    "text": "F003 must be closed by pinning the CURRENT frozen release tuple rather than a floating branch, keeping the historical preview.2 regression intact.",
+    "source_ids": [
+     "SRC-CHALLENGE"
+    ],
+    "locators": [
+     "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP-S4-EXTERNAL-CHALLENGE-2026-10-12-R1.md#4 F003"
+    ]
+   },
+   {
+    "claim_id": "NC-004",
+    "text": "Claim ceiling is PACKAGE: maker candidate and local tests only until an external verifier requalifies the same frozen subject. No row may be disposed as PASS and S4 stays NOT_GRANTED.",
+    "source_ids": [
+     "SRC-BOARD",
+     "SRC-CHALLENGE"
+    ],
+    "locators": [
+     "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP S4 R1｜HERMES／HG-KSEOS／Fabric 受治理施工與驗收指揮薄 PROMPT_2026-10-12.md#3",
+     "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP-S4-EXTERNAL-CHALLENGE-2026-10-12-R1.md#10"
+    ]
+   },
+   {
+    "claim_id": "NC-005",
+    "text": "Scope discipline: no 20th schema family, no 9th skill, no 14th CLI verb, no forced SemVer, no 12-axis risk engine, no S5-S8 activation.",
+    "source_ids": [
+     "SRC-CHALLENGE",
+     "SRC-BOARD"
+    ],
+    "locators": [
+     "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP-S4-EXTERNAL-CHALLENGE-2026-10-12-R1.md#5",
+     "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP S4 R1｜HERMES／HG-KSEOS／Fabric 受治理施工與驗收指揮薄 PROMPT_2026-10-12.md#4"
+    ]
+   }
+  ]
+ },
+ "intent": {
+  "goal": "Repair the confirmed S4 findings of the external challenge (F001 release provenance, F002 trace closure, F003 current-release regression pin), disposition O007-O009 and the 57-row SPEC/DEL gaps, assemble the S4_EXTERNAL_RETURN_PACK, and push the repair branch for external acceptance.",
+  "user_expected_outcome": "A repair branch whose mount-pack release identity is truthful and independently resolvable, whose validate path refuses a tampered trace bundle, and whose evidence pack lets an external verifier replay every claim from raw logs.",
+  "user_expected_experience": "Any new user can run the whole compiler chain in one portable command on Linux/Windows without the author's paths, and can see exactly which claims are maker-local.",
+  "explicit_constraints": [
+   "candidate-only writes; no agent self-acceptance",
+   "the published v0.1.1-preview.3 tag and its release assets are immutable",
+   "the credential file is read only at the push step, never through the LLM context",
+   "no new schema family, skill, or CLI verb"
+  ],
+  "non_goals": [
+   "refactoring PIPD",
+   "a second lifecycle or trace engine",
+   "forced SemVer",
+   "a 12-axis risk engine",
+   "S5-S8 / SQP1 / production activation",
+   "claiming S4 PASS or any release/production promotion"
+  ],
+  "authorized_mutations": [
+   "schemas/TraceLink.schema.json",
+   "schemas/PI-PKG.schema.json",
+   "src/pipd_ls_sp/validate.py",
+   "src/pipd_ls_sp/profiles.py",
+   "tools/build_mount_pack.py",
+   "dist/mount/** (new erratum pack only)",
+   "docs/RELEASE_TUPLE.json",
+   "docs/S4_SPEC_DEL_ADJUDICATION.json",
+   "docs/ERRATUM_2026-10-12_preview3_release_provenance.md",
+   "tests/test_s4ext_*.py",
+   "examples/first-run/run.sh",
+   "examples/first-run/run.ps1",
+   "README.md",
+   ".hgk/rounds/S4EXT-R1-20261012-external-challenge-repair/**"
+  ],
+  "forbidden_mutations": [
+   "remote main",
+   "force-push",
+   "merge",
+   "tag move or delete",
+   "overwriting a published release asset",
+   "the knowledge base",
+   "HG-KSEOS/Fabric policy and control",
+   "any credential body"
+  ],
+  "expected_autonomy": "MEDIUM",
+  "allowed_hitl": [
+   "owner release/erratum decision",
+   "HGK push-gate approval",
+   "external verifier acceptance"
+  ],
+  "requested_delivery": [
+   "DEL-REPAIR-BRANCH",
+   "DEL-RETURN-PACK",
+   "DEL-ERRATUM"
+  ],
+  "active_requirement_ids": [
+   "REQ-F001",
+   "REQ-F002",
+   "REQ-F003",
+   "REQ-O007",
+   "REQ-O009"
+  ],
+  "claim_ceiling": "PACKAGE"
+ },
+ "authority": {
+  "sources": [
+   {
+    "id": "SRC-BOARD",
+    "rank": "1",
+    "path": "PIPD-LS-SP S4 R1 指揮薄 PROMPT_2026-10-12.md",
+    "sha256": "4235d8c280247b75df366948069406afa102054b8d1e119b74875b2c5bf5def9",
+    "locator": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP S4 R1｜HERMES／HG-KSEOS／Fabric 受治理施工與驗收指揮薄 PROMPT_2026-10-12.md",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "SRC-HGK-AGENTS",
+    "rank": "2",
+    "path": "HG-KSEOS/AGENTS.md",
+    "sha256": "369ecd0ec4fe36b55b9a3a1efc93b68b03d7c04a1bfe767d138732e849d58eb3",
+    "locator": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\AGENTS.md",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "SRC-PRODUCT-WT",
+    "rank": "3",
+    "path": "PIPD worktree",
+    "sha256": "UNAVAILABLE",
+    "locator": "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4ext-r1-wt",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "SRC-CHALLENGE",
+    "rank": "4",
+    "path": "PIPD-LS-SP-S4-EXTERNAL-CHALLENGE-2026-10-12-R1.md",
+    "sha256": "f77bd0b4211f4b5a75ff3c83427b7ef8c5b368e2aa11ac20dd211e643a864d56",
+    "locator": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP-S4-EXTERNAL-CHALLENGE-2026-10-12-R1.md",
+    "role": "STATE_EVIDENCE",
+    "governs": false
+   }
+  ],
+  "conflicts": [
+   {
+    "conflict_id": "CF-001",
+    "sources": [
+     "SRC-BOARD",
+     "SRC-CHALLENGE"
+    ],
+    "equal_rank": false,
+    "decision": "RESOLVED",
+    "tt_id": "TT-S4EXT-008"
+   },
+   {
+    "conflict_id": "CF-002",
+    "sources": [
+     "SRC-BOARD",
+     "SRC-CHALLENGE"
+    ],
+    "equal_rank": false,
+    "decision": "RESOLVED",
+    "tt_id": "TT-S4EXT-009"
+   }
+  ],
+  "missing_sources": [],
+  "native_control_plane_ids": [
+   "HG-KSEOS-SharedSpine"
+  ],
+  "current_control_plane_id": "HG-KSEOS-SharedSpine"
+ },
+ "changeset": {
+  "class": "NARROW_REPAIR",
+  "baseline_required": true,
+  "baseline_verified": true,
+  "reuse_prior_pass": false,
+  "affected_domains": [
+   "schemas",
+   "runtime",
+   "tests",
+   "docs",
+   "examples",
+   "dist/mount",
+   "release-metadata",
+   "governance-evidence"
+  ],
+  "affected_files": [
+   "schemas/TraceLink.schema.json",
+   "schemas/PI-PKG.schema.json",
+   "src/pipd_ls_sp/validate.py",
+   "src/pipd_ls_sp/profiles.py",
+   "tools/build_mount_pack.py",
+   "docs/RELEASE_TUPLE.json",
+   "docs/S4_SPEC_DEL_ADJUDICATION.json",
+   "docs/ERRATUM_2026-10-12_preview3_release_provenance.md",
+   "tests/test_s4ext_release_provenance.py",
+   "tests/test_s4ext_trace_closure.py",
+   "tests/test_s4ext_first_run_portable.py",
+   "tests/test_s4ext_profile_boundaries.py",
+   "tests/test_s4ext_spec_del_adjudication.py",
+   "examples/first-run/run.sh",
+   "examples/first-run/run.ps1",
+   "README.md"
+  ],
+  "must_not_reopen": [
+   "the published v0.1.1-preview.3 tag and assets",
+   "historical FAIL receipts",
+   "the legal legacy version=\"1\" grammar",
+   "the 19-family schema ABI",
+   "sealed S0-S3 scope",
+   "unrelated tests and fixtures"
+  ],
+  "scope_expansion_requires_hitl": true,
+  "tracked_mutation": true,
+  "product_mutation_allowed": true
+ },
+ "execution_scope": [
+  {
+   "capability": "TraceLink endpoint typing and bundle graph closure (F002)",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": true,
+   "action": "QUALIFY",
+   "source_locators": [
+    "schemas/TraceLink.schema.json",
+    "schemas/PI-PKG.schema.json",
+    "src/pipd_ls_sp/validate.py",
+    "src/pipd_ls_sp/pipeline.py"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "release provenance identity (F001/G006)",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "QUALIFY",
+   "source_locators": [
+    "dist/mount/**",
+    "docs/RELEASE_TUPLE.json",
+    "docs/ERRATUM_2026-10-12_preview3_release_provenance.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "portable first-run path (O007)",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "QUALIFY",
+   "source_locators": [
+    "README.md",
+    "examples/first-run/run.sh",
+    "examples/first-run/run.ps1"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "installed wheel distribution (G006)",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "QUALIFY",
+   "source_locators": [
+    "dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "profiles boundary behaviour (O009)",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "QUALIFY",
+   "source_locators": [
+    "src/pipd_ls_sp/profiles.py"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "Web GPT-6 chat host",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "dist/mount/**",
+    "README.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "Hermes Agent skill host",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    ".hermes/skills/**",
+    "skills/pipd-*/SKILL.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "Codex agent host",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    ".agents/skills/**"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "HG-KSEOS canonical acceptance transition",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "PROHIBITED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "PROHIBIT",
+   "source_locators": [
+    "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\AGENTS.md"
+   ],
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "S5-S8 GENIE JIT runtimes",
+   "source_disposition": "ACTIVE_REQUIRED",
+   "current_execution_disposition": "PROHIBITED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "PROHIBIT",
+   "source_locators": [
+    ".hgk/artifacts/s4/S5_S8_BACKLOG.json"
+   ],
+   "external_method": false,
+   "control_authority": true
+  }
+ ],
+ "runtime_readiness": [
+  {
+   "capability": "TraceLink endpoint typing and bundle graph closure (F002)",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "PASS",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "PASS",
+    "negative_security": "PASS",
+    "fallback": "PASS",
+    "rollback_uninstall": "PASS",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "close independent_qualification with an external verifier"
+   ],
+   "acceptance_ids": [
+    "A-02",
+    "A-10",
+    "A-12"
+   ]
+  },
+  {
+   "capability": "release provenance identity (F001/G006)",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "PASS",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "PASS",
+    "negative_security": "PASS",
+    "fallback": "PASS",
+    "rollback_uninstall": "PASS",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "external verifier re-derives the 8/8 identity from the pushed branch",
+    "release owner decides public erratum vs new preview"
+   ],
+   "acceptance_ids": [
+    "A-01",
+    "A-09",
+    "A-11",
+    "A-18"
+   ]
+  },
+  {
+   "capability": "portable first-run path (O007)",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "PASS",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "PASS",
+    "negative_security": "PASS",
+    "fallback": "PASS",
+    "rollback_uninstall": "PASS",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "no Ubuntu/macOS host is available here; the Windows and Git-Bash paths are run"
+   ],
+   "acceptance_ids": [
+    "A-04",
+    "A-06",
+    "A-08",
+    "A-14"
+   ]
+  },
+  {
+   "capability": "installed wheel distribution (G006)",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "PASS",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "PASS",
+    "negative_security": "PASS",
+    "fallback": "PASS",
+    "rollback_uninstall": "PASS",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "external verifier reruns the probe from the downloaded asset bytes"
+   ],
+   "acceptance_ids": [
+    "A-07"
+   ]
+  }
+ ],
+ "journeys": [
+  {
+   "journey_id": "J-01",
+   "required": true,
+   "user_goal": "A brand-new user on Linux/Git-Bash runs the whole compiler chain from a fresh checkout.",
+   "expected_visible_result": "one command prints FIRST_RUN_OK and a validate verdict PASS with closure FULL",
+   "expected_automatic_behavior": [
+    "paths/preconditions derived from the script itself"
+   ],
+   "expected_manual_behavior": [
+    "supply an interpreter only if PATH lacks one"
+   ],
+   "allowed_hitl": [],
+   "required_capabilities": [
+    "portable first-run path (O007)",
+    "installed wheel distribution (G006)"
+   ],
+   "negative_behavior": [
+    "an unusable interpreter halts with PRECONDITION_FAIL and exit 3"
+   ],
+   "failure_recovery": [
+    "re-run with PYTHON=<interpreter>"
+   ],
+   "source_expectation_ids": [
+    "O007"
+   ],
+   "source_locators": [
+    "examples/first-run/run.sh",
+    "README.md"
+   ]
+  },
+  {
+   "journey_id": "J-02",
+   "required": true,
+   "user_goal": "A brand-new user on Windows PowerShell runs the same chain.",
+   "expected_visible_result": "FIRST_RUN_OK and validate PASS with every native exit code checked",
+   "expected_automatic_behavior": [
+    "paths/preconditions derived from the script itself"
+   ],
+   "expected_manual_behavior": [
+    "supply an interpreter only if PATH lacks one"
+   ],
+   "allowed_hitl": [],
+   "required_capabilities": [
+    "portable first-run path (O007)",
+    "installed wheel distribution (G006)"
+   ],
+   "negative_behavior": [
+    "a failing step aborts before the next"
+   ],
+   "failure_recovery": [
+    "read the printed step log"
+   ],
+   "source_expectation_ids": [
+    "O007"
+   ],
+   "source_locators": [
+    "examples/first-run/run.ps1",
+    "README.md"
+   ]
+  },
+  {
+   "journey_id": "J-03",
+   "required": true,
+   "user_goal": "An external verifier re-derives the mount pack's release identity from the frozen tuple and the git tag instead of trusting the pack's own text.",
+   "expected_visible_result": "8/8 documents name release_tag_target; a stale value fails the check",
+   "expected_automatic_behavior": [
+    "paths/preconditions derived from the script itself"
+   ],
+   "expected_manual_behavior": [
+    "supply an interpreter only if PATH lacks one"
+   ],
+   "allowed_hitl": [],
+   "required_capabilities": [
+    "release provenance identity (F001/G006)"
+   ],
+   "negative_behavior": [
+    "a document carrying the stale commit is refused"
+   ],
+   "failure_recovery": [
+    "regenerate the pack from the frozen tuple"
+   ],
+   "source_expectation_ids": [
+    "F001",
+    "F003"
+   ],
+   "source_locators": [
+    "docs/RELEASE_TUPLE.json",
+    "tests/test_s4ext_release_provenance.py"
+   ]
+  },
+  {
+   "journey_id": "J-04",
+   "required": true,
+   "user_goal": "A verifier replays the F002 counterexample against an installed distribution.",
+   "expected_visible_result": "validate --bundle exits non-zero with CLOSURE findings on the repaired build, while the published build shows the recorded false PASS",
+   "expected_automatic_behavior": [
+    "paths/preconditions derived from the script itself"
+   ],
+   "expected_manual_behavior": [
+    "supply an interpreter only if PATH lacks one"
+   ],
+   "allowed_hitl": [],
+   "required_capabilities": [
+    "TraceLink endpoint typing and bundle graph closure (F002)",
+    "installed wheel distribution (G006)"
+   ],
+   "negative_behavior": [
+    "mis-typed, orphaned or hash-inconsistent endpoints never reach PASS"
+   ],
+   "failure_recovery": [
+    "read the findings list"
+   ],
+   "source_expectation_ids": [
+    "F002"
+   ],
+   "source_locators": [
+    "tests/test_s4ext_trace_closure.py"
+   ]
+  }
+ ],
+ "acceptance": [
+  {
+   "acceptance_id": "A-01",
+   "subject_id": "release provenance identity (F001/G006)",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "dist/mount/**",
+    "docs/RELEASE_TUPLE.json"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "8/8 documents naming release_tag_target",
+   "negative_fixture": "a document carrying the stale 8faa64e5 identity",
+   "recovery_fixture": "regenerate via tools/build_mount_pack.py",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "A-02",
+   "subject_id": "TraceLink endpoint typing and bundle graph closure (F002)",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "schemas/TraceLink.schema.json",
+    "src/pipd_ls_sp/validate.py"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "the legal PI/PD/ECP/TQAEP bundle closes FULL",
+   "negative_fixture": "bad type / orphan / wrong 64-hex hash / duplicated link / extra key",
+   "recovery_fixture": "the findings list names the offending edge",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "A-04",
+   "subject_id": "portable first-run path (O007)",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "examples/first-run/run.sh",
+    "examples/first-run/run.ps1"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "run.sh and run.ps1 from a foreign cwd",
+   "negative_fixture": "an unusable interpreter exits 3",
+   "recovery_fixture": "PYTHON=<interpreter>",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "A-07",
+   "subject_id": "installed wheel distribution (G006)",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "pipd doctor PASS in INSTALLED mode, 13 commands, 19 families, full chain",
+   "negative_fixture": "a missing source is refused with exit 2; a tampered trace is refused",
+   "recovery_fixture": "re-create the venv",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "A-05",
+   "subject_id": "profiles boundary behaviour (O009)",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "src/pipd_ls_sp/profiles.py"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "3/4 and 6/7 axis thresholds, provider-off plus complexity",
+   "negative_fixture": "non-string requested, unknown axis, duplicate axis, downgrade attempt",
+   "recovery_fixture": "typed ProfileVeto",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "A-06",
+   "subject_id": "J-01",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "examples/first-run/run.sh"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "the portable chain completes",
+   "negative_fixture": "a broken precondition halts",
+   "recovery_fixture": "re-run with an interpreter",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "A-08",
+   "subject_id": "J-02",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "examples/first-run/run.ps1"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "the PowerShell chain completes",
+   "negative_fixture": "a failing step aborts",
+   "recovery_fixture": "read the step log",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "A-09",
+   "subject_id": "J-03",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "docs/RELEASE_TUPLE.json"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "8/8 identity re-derived",
+   "negative_fixture": "stale identity refused",
+   "recovery_fixture": "regenerate from the tuple",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "A-10",
+   "subject_id": "J-04",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "tests/test_s4ext_trace_closure.py"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "the tampered bundle is refused",
+   "negative_fixture": "the published build's false PASS is recorded",
+   "recovery_fixture": "read the findings",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "A-11",
+   "subject_id": "REQ-F001",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "docs/ERRATUM_2026-10-12_preview3_release_provenance.md"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "the erratum states the published defect",
+   "negative_fixture": "the published zip digest is unchanged",
+   "recovery_fixture": "n/a (documentation)",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "A-12",
+   "subject_id": "REQ-F002",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "src/pipd_ls_sp/validate.py"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "closure runs inside validate_bundle",
+   "negative_fixture": "an orphan edge is refused",
+   "recovery_fixture": "read the findings",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "A-13",
+   "subject_id": "REQ-F003",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "tests/test_s4ext_release_provenance.py"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "the current tuple is pinned",
+   "negative_fixture": "the wrong old tag fails",
+   "recovery_fixture": "re-pin from the frozen tuple",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "A-14",
+   "subject_id": "REQ-O007",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "examples/first-run/run.sh"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "no developer path is required",
+   "negative_fixture": "a missing precondition halts",
+   "recovery_fixture": "supply the interpreter",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "A-15",
+   "subject_id": "REQ-O009",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "src/pipd_ls_sp/profiles.py"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "the documented boundaries hold",
+   "negative_fixture": "a native AttributeError is not raised",
+   "recovery_fixture": "typed refusal",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "A-16",
+   "subject_id": "DEL-REPAIR-BRANCH",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "fix/s4-external-challenge-20261012-r1-provenance-trace"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "the branch is pushed and reads back",
+   "negative_fixture": "a push to main or a force-push is refused",
+   "recovery_fixture": "delete and re-push the branch",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "A-17",
+   "subject_id": "DEL-RETURN-PACK",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    ".hgk/rounds/S4EXT-R1-20261012-external-challenge-repair/evidence/"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "the pack carries every required section",
+   "negative_fixture": "a NOT_RUN row is never counted as PASS",
+   "recovery_fixture": "re-run the producing probe",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "A-18",
+   "subject_id": "DEL-ERRATUM",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "docs/ERRATUM_2026-10-12_preview3_release_provenance.md"
+   ],
+   "runtime_required": false,
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "positive_fixture": "the erratum is additive and cites the published digest",
+   "negative_fixture": "the published asset is not rewritten",
+   "recovery_fixture": "n/a (documentation)",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  }
+ ],
+ "evidence": [
+  {
+   "gate_id": "G-01",
+   "predicate": "8/8 pack documents name the frozen release_tag_target",
+   "expected": "no stale identity outside an explicit disclosure line",
+   "command_or_probe": "python -m unittest tests.test_s4ext_release_provenance",
+   "raw_receipt_required": true,
+   "producer": "PIPD repair owner (maker)",
+   "independent_checker": "external verifier",
+   "candidate_binding": {
+    "head": "CANDIDATE",
+    "package_sha256": "e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec",
+    "source_hashes": [
+     "dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip=73c6c7e255846e9012a4f5f0e849af93343b363fb158f2474b4d18143d1dcfde"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "any change to the pack docs, the tuple or the generator"
+   ],
+   "terminal_verdict": "PARTIAL",
+   "runtime_pass_allowed": false,
+   "claim_level": "PACKAGE"
+  },
+  {
+   "gate_id": "G-02",
+   "predicate": "a tampered trace bundle must not reach PASS",
+   "expected": "exit non-zero with CLOSURE findings; the legal bundle still PASSes",
+   "command_or_probe": "bash .hgk/rounds/S4EXT-R1-*/raw/f002_runtime_probe.sh",
+   "raw_receipt_required": true,
+   "producer": "PIPD compiler owner (maker)",
+   "independent_checker": "external verifier",
+   "candidate_binding": {
+    "head": "CANDIDATE",
+    "package_sha256": "UNAVAILABLE",
+    "source_hashes": [
+     "src/pipd_ls_sp/validate.py=CANDIDATE"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "any change to the schemas, validate.py or pipeline.py"
+   ],
+   "terminal_verdict": "PARTIAL",
+   "runtime_pass_allowed": false,
+   "claim_level": "PACKAGE"
+  },
+  {
+   "gate_id": "G-03",
+   "predicate": "the full deterministic suite passes on the frozen candidate",
+   "expected": "0 failures and 0 errors",
+   "command_or_probe": "python -m unittest discover -s tests -t .",
+   "raw_receipt_required": true,
+   "producer": "maker",
+   "independent_checker": "external verifier",
+   "candidate_binding": {
+    "head": "CANDIDATE",
+    "package_sha256": "UNAVAILABLE",
+    "source_hashes": [
+     "tests/=CANDIDATE"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "any code, schema or test change"
+   ],
+   "terminal_verdict": "PARTIAL",
+   "runtime_pass_allowed": false,
+   "claim_level": "PACKAGE"
+  },
+  {
+   "gate_id": "G-04",
+   "predicate": "the installed wheel behaves as a distribution",
+   "expected": "doctor PASS in INSTALLED mode, 19 families, chain plus refusal",
+   "command_or_probe": "bash .hgk/rounds/S4EXT-R1-*/raw/installed_wheel_qualification.sh",
+   "raw_receipt_required": true,
+   "producer": "maker",
+   "independent_checker": "external verifier",
+   "candidate_binding": {
+    "head": "PUBLISHED_SUBJECT",
+    "package_sha256": "e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec",
+    "source_hashes": [
+     "dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl=e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "a new wheel build"
+   ],
+   "terminal_verdict": "PARTIAL",
+   "runtime_pass_allowed": false,
+   "claim_level": "PACKAGE"
+  },
+  {
+   "gate_id": "G-05",
+   "predicate": "the 57-row crosswalk is adjudicated without status upgrades",
+   "expected": "9 gaps and 4 design-only rows answered; the crosswalk stays read-only",
+   "command_or_probe": "python -m unittest tests.test_s4ext_spec_del_adjudication",
+   "raw_receipt_required": true,
+   "producer": "maker",
+   "independent_checker": "external verifier",
+   "candidate_binding": {
+    "head": "CANDIDATE",
+    "package_sha256": "UNAVAILABLE",
+    "source_hashes": [
+     "docs/SPEC_DEL_CROSSWALK.json=READ_ONLY"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "any crosswalk or adjudication change"
+   ],
+   "terminal_verdict": "PARTIAL",
+   "runtime_pass_allowed": false,
+   "claim_level": "PACKAGE"
+  },
+  {
+   "gate_id": "G-06",
+   "predicate": "the four-host consumer qualification is recorded honestly",
+   "expected": "each host: discover/load/positive/negative, or an explicit NOT_RUN",
+   "command_or_probe": "see 07_HOSTS in the return pack",
+   "raw_receipt_required": true,
+   "producer": "host owner",
+   "independent_checker": "external verifier",
+   "candidate_binding": {
+    "head": "CANDIDATE",
+    "package_sha256": "e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec",
+    "source_hashes": [
+     "dist/mount/**=CANDIDATE"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "a host capability change"
+   ],
+   "terminal_verdict": "BLOCKED_EXTERNAL",
+   "runtime_pass_allowed": false,
+   "claim_level": "PACKAGE"
+  }
+ ],
+ "termination": {
+  "terminal_states": [
+   "PASS",
+   "PARTIAL",
+   "FAIL",
+   "TEMP_CLOSED"
+  ],
+  "non_terminal_pause": [
+   "PUSH_HOLD",
+   "BLOCKED_EXTERNAL",
+   "BLOCKED_HITL"
+  ],
+  "checkpoint_required": true,
+  "checkpoint_fields": [
+   "task_id",
+   "source_hashes",
+   "current_candidate",
+   "completed_gates",
+   "open_gates",
+   "next_work_order",
+   "rollback_pointer"
+  ],
+  "retry_budget": 3,
+  "rollback_pointer_required": true
+ },
+ "render_policy": {
+  "control_corpus_restatement": false,
+  "embedded_control_bodies": [],
+  "max_prompt_chars": 30000,
+  "output_language": "Traditional Chinese with English technical identifiers"
+ }
+}

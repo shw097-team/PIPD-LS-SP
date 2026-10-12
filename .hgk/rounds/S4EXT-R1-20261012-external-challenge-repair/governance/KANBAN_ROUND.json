@@ -1,0 +1,140 @@
+{
+ "schema": "PIPD-S4EXT-R1-KANBAN/1",
+ "round": "S4EXT-R1-20261012-external-challenge-repair",
+ "branch": "fix/s4-external-challenge-20261012-r1-provenance-trace",
+ "head": "0a05f4fde899d5990a8c098e3feaa2d9d1d7e0de",
+ "emitted_at": "2026-10-12T03:51:00Z",
+ "cards": [
+  {
+   "id": "TT-S4EXT-001",
+   "title": "release provenance identity (F001/G006)",
+   "state": "DONE_CANDIDATE",
+   "artifacts": [
+    "docs/RELEASE_TUPLE.json",
+    "tests/test_s4ext_release_provenance.py",
+    "docs/ERRATUM_2026-10-12_preview3_release_provenance.md"
+   ],
+   "open_items": [],
+   "owner": "release owner publication"
+  },
+  {
+   "id": "TT-S4EXT-002",
+   "title": "TraceLink typing + bundle graph closure (F002)",
+   "state": "DONE_CANDIDATE",
+   "artifacts": [
+    "schemas/TraceLink.schema.json",
+    "schemas/PI-PKG.schema.json",
+    "src/pipd_ls_sp/validate.py",
+    "tests/test_s4ext_trace_closure.py"
+   ],
+   "open_items": [],
+   "owner": "independent requalification"
+  },
+  {
+   "id": "TT-S4EXT-003",
+   "title": "current-release regression pin (F003)",
+   "state": "DONE_CANDIDATE",
+   "artifacts": [
+    "tests/test_s4ext_release_provenance.py"
+   ],
+   "open_items": [],
+   "owner": "independent requalification"
+  },
+  {
+   "id": "TT-S4EXT-004",
+   "title": "first-run portability (O007)",
+   "state": "DONE_CANDIDATE",
+   "artifacts": [
+    "examples/first-run/run.sh",
+    "examples/first-run/run.ps1",
+    "README.md",
+    "tests/test_s4ext_first_run_portable.py"
+   ],
+   "open_items": [
+    "Linux/macOS fresh-user run NOT_RUN"
+   ],
+   "owner": "a non-Windows host"
+  },
+  {
+   "id": "TT-S4EXT-005",
+   "title": "qualification evidence (G004/G005/G006)",
+   "state": "PARTIAL",
+   "artifacts": [
+    "raw/installed_wheel_qualification.sh",
+    "evidence/07_HOSTS/",
+    "compiler/out/"
+   ],
+   "open_items": [
+    "Web GPT-6 / Hermes Agent / Codex-UI UAT NOT_RUN",
+    "published bytes not re-downloaded from GitHub here"
+   ],
+   "owner": "host owners + external verifier"
+  },
+  {
+   "id": "TT-S4EXT-006",
+   "title": "profile boundary tests (O009)",
+   "state": "DONE_CANDIDATE",
+   "artifacts": [
+    "src/pipd_ls_sp/profiles.py",
+    "tests/test_s4ext_profile_boundaries.py"
+   ],
+   "open_items": [],
+   "owner": "independent requalification"
+  },
+  {
+   "id": "TT-S4EXT-007",
+   "title": "S4 active SPEC/DEL adjudication",
+   "state": "DONE_CANDIDATE",
+   "artifacts": [
+    "docs/S4_SPEC_DEL_ADJUDICATION.json",
+    "tools/build_s4_spec_del_adjudication.py",
+    "tests/test_s4ext_spec_del_adjudication.py"
+   ],
+   "open_items": [
+    "owner acceptance of each disposition"
+   ],
+   "owner": "SPEC/DEL owners"
+  },
+  {
+   "id": "TT-S4EXT-008",
+   "title": "role separation (maker pushes / verifier reads)",
+   "state": "RESOLVED_AS_CONFLICT_RECORD",
+   "artifacts": [
+    "evidence/00_SOURCE/source_conflicts.json"
+   ],
+   "open_items": [],
+   "owner": "none"
+  },
+  {
+   "id": "TT-S4EXT-009",
+   "title": "20-KP R04 wording conflict",
+   "state": "OPEN",
+   "artifacts": [],
+   "open_items": [
+    "the R04 MUST-NOT wording is not literally cancelled; the knowledge owner must re-word it"
+   ],
+   "owner": "knowledge owner"
+  },
+  {
+   "id": "TT-S4EXT-010",
+   "title": "round-level canonical WorkOrder admission",
+   "state": "OPEN_BLOCKED_BY_LIFECYCLE_STATE",
+   "artifacts": [
+    "admission/admission_status.json",
+    "admission/admission_checkpoint.json"
+   ],
+   "open_items": [
+    "ERR_INTAKE_STATE/ERR_PLAN_STATE/ERR_ADMIT_STATE = EXECUTING"
+   ],
+   "owner": "HG-KSEOS owner"
+  }
+ ],
+ "counts": {
+  "DONE_CANDIDATE": 6,
+  "PARTIAL": 1,
+  "OPEN": 2,
+  "RESOLVED": 1
+ },
+ "note": "DONE_CANDIDATE means the maker-side work and its probe both exist and ran. It is NOT acceptance: no card is CLOSED and no card is PASS.",
+ "surface": ".hgk/kanban/canonical_dag.json is the pre-existing S0-S4 board; this round's cards are kept beside the round, not merged into it."
+}

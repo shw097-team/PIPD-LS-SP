@@ -1,0 +1,35 @@
+{
+ "schema": "PIPD-S4EXT-R1-ALLOWLIST-ROLLBACK/1",
+ "allowed_write_paths": [
+  "schemas/TraceLink.schema.json",
+  "schemas/PI-PKG.schema.json",
+  "src/pipd_ls_sp/validate.py",
+  "src/pipd_ls_sp/profiles.py",
+  "tools/build_mount_pack.py",
+  "tools/build_s4_spec_del_adjudication.py",
+  "dist/mount/** (new files only)",
+  "docs/RELEASE_TUPLE.json",
+  "docs/S4_SPEC_DEL_ADJUDICATION.json",
+  "docs/ERRATUM_*.md",
+  "tests/test_s4ext_*.py",
+  "examples/first-run/run.sh",
+  "examples/first-run/run.ps1",
+  "README.md",
+  ".hgk/rounds/S4EXT-R1-*/**"
+ ],
+ "forbidden_write_paths": [
+  "remote main",
+  "existing release assets",
+  "tags",
+  "HG-KSEOS/Fabric",
+  "知識庫",
+  "any credential body"
+ ],
+ "rollback_pointer": "git branch -D fix/s4-external-challenge-20261012-r1-provenance-trace (unpushed locally)",
+ "observed_out_of_scope_dirt": [
+  ".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json",
+  ".hgk/artifacts/tqaep_design_tmp/ecp.json",
+  ".hgk/artifacts/tqaep_design_tmp/pi.json"
+ ],
+ "out_of_scope_dirt_note": "these three artifacts are rewritten by the existing test suite when it runs; they are reverted before the commit and are NOT part of this ChangeSet"
+}

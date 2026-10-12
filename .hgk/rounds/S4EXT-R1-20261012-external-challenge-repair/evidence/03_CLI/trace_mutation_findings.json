@@ -1,0 +1,56 @@
+{
+ "schema": "PIPD-S4EXT-R1-TRACE-MUTATION/1",
+ "published_wheel": {
+  "identifier": "dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl sha256=e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec (the released distribution)",
+  "good_bundle": {
+   "exit": 0,
+   "verdict": "PASS"
+  },
+  "bad_types": {
+   "exit": 0,
+   "verdict": "PASS"
+  },
+  "bad_orphan": {
+   "exit": 0,
+   "verdict": "PASS"
+  },
+  "bad_hash": {
+   "exit": 0,
+   "verdict": "PASS"
+  },
+  "conclusion": "FALSE PASS on the PUBLISHED distribution: this upgrades F002 from the report's 'schema-level' grade to a CONFIRMED runtime defect, exactly the end-to-end recheck the report said was still owed."
+ },
+ "repaired_candidate": {
+  "good_bundle": {
+   "exit": 0,
+   "verdict": "PASS",
+   "closure": "FULL"
+  },
+  "bad_types": {
+   "exit": 1,
+   "verdict": "FAIL",
+   "closure": "FAILED",
+   "kinds": [
+    "SCHEMA",
+    "CLOSURE"
+   ]
+  },
+  "bad_orphan": {
+   "exit": 1,
+   "verdict": "FAIL",
+   "closure": "FAILED",
+   "kinds": [
+    "CLOSURE"
+   ]
+  },
+  "bad_hash": {
+   "exit": 1,
+   "verdict": "FAIL",
+   "closure": "FAILED",
+   "kinds": [
+    "CLOSURE"
+   ]
+  }
+ },
+ "claim_ceiling": "candidate-side observation; independent requalification still owed"
+}

@@ -1,6 +1,6 @@
 # PIPD_8_SKILLS_INDEX — the eight existing skills
 
-> Release identity: **v0.1.1-preview.3** — tag commit `8faa64e581e8c25f5ec355475e29561847da3ead`.
+> Release identity: **v0.1.1-preview.3** — release tag target `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`; build source commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`.
 > Derived, read-only content. Each entry is a summary of an existing `skills/pipd-*/SKILL.md`; the
 > skill is the authority, this index is a projection.
 
@@ -100,7 +100,7 @@ lists its use case, its inputs/outputs, and the conditions under which it refuse
 
 ## Source Locators
 
-Bound to `v0.1.1-preview.3`, tag commit `8faa64e581e8c25f5ec355475e29561847da3ead`.
+Bound to `v0.1.1-preview.3` (release tag target `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`; build source commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`).
 
 | skill | source locator |
 | --- | --- |

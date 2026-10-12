@@ -165,12 +165,62 @@ def semantic_invariants(contract: str, record: dict[str, Any]) -> list[str]:
     return out
 
 
+def trace_edges(record: dict[str, Any]) -> list[dict[str, Any]]:
+    """The trace edges a single record carries (PI-PKG nests them; TraceLink is one edge)."""
+    if not isinstance(record, dict):
+        return []
+    trace = record.get("trace")
+    if isinstance(trace, list):
+        return [e for e in trace if isinstance(e, dict)]
+    if record.get("from_id") and record.get("to_id"):
+        return [record]
+    return []
+
+
+def closure_findings(bundle: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    """Atomic graph closure over the bundle's trace edges (S4EXT-R1 TT-S4EXT-002 / F002).
+
+    ``state`` is one of:
+
+    * ``SCHEMA_ONLY`` - the bundle carries NO trace edge, so no graph relation exists to close.
+      This is a legal PARTIAL bundle (e.g. a scoped validate of LITE artifacts). It is labelled
+      explicitly so a caller can never read a schema-only result as a trace-closed one.
+    * ``FULL`` - every edge resolved: both endpoints exist inside the bundle and both recorded
+      hashes equal the real endpoint hashes.
+    * ``FAILED`` - at least one orphan endpoint or hash mismatch; a finding is emitted per problem.
+      A bundle in this state can never return PASS.
+
+    The closure REUSES ``pipeline.trace_closure`` (the C-10 repair that recomputes both sides of
+    every edge) rather than introducing a second trace engine.
+    """
+    records = {k: v for k, v in bundle.items() if isinstance(v, dict)}
+    edge_count = sum(len(trace_edges(r)) for r in records.values())
+    if edge_count == 0:
+        return {"state": "SCHEMA_ONLY", "edges": 0, "findings": []}
+    from . import pipeline  # local import: pipeline imports this module for the shared field lists
+    try:
+        report = pipeline.trace_closure(records)
+    except Exception as exc:  # fail closed: an unclosable graph is not a closed graph
+        return {"state": "FAILED", "edges": edge_count,
+                "findings": [{"contract": "*", "kind": "CLOSURE",
+                              "detail": f"trace closure could not be computed: {exc!r}"}]}
+    problems: list[str] = []
+    for orphan in report.get("orphans") or []:
+        problems.append(f"orphan trace endpoint: {orphan} is not present in the bundle")
+    for bad in report.get("bad_hashes") or []:
+        problems.append(f"trace endpoint hash mismatch: {bad}")
+    if report.get("verdict") != "PASS" and not problems:
+        problems.append("trace closure did not reach PASS over the bundle")
+    return {"state": "FULL" if not problems else "FAILED", "edges": int(report.get("edges") or edge_count),
+            "findings": [{"contract": "*", "kind": "CLOSURE", "detail": p} for p in problems]}
+
+
 def validate_bundle(bundle: dict[str, dict[str, Any]], schemas_dir: Path | None = None) -> dict[str, Any]:
     findings: list[dict[str, str]] = []
     # C-4 repair: validate_bundle({}) used to return PASS with checked=0. An empty denominator is
     # not a verification result.
     if not bundle:
-        return {"verdict": "FAIL", "checked": 0,
+        return {"verdict": "FAIL", "checked": 0, "closure": "SCHEMA_ONLY",
                 "findings": [{"contract": "*", "kind": "DENOMINATOR",
                               "detail": "empty bundle: zero records checked cannot be a PASS"}]}
     for contract, record in bundle.items():
@@ -182,5 +232,12 @@ def validate_bundle(bundle: dict[str, dict[str, Any]], schemas_dir: Path | None 
             findings.append({"contract": contract, "kind": "SCHEMA", "detail": f})
         for f in semantic_invariants(contract, record):
             findings.append({"contract": contract, "kind": "SEMANTIC", "detail": f})
+    # TT-S4EXT-002: `pipd validate --bundle` used to stop at the per-record schema/semantic checks,
+    # so a bad endpoint hash, an orphan edge or a missing endpoint could still return PASS even
+    # though pipeline.trace_closure() already knew how to refuse it. The closure is now part of the
+    # bundle verdict, and a bundle with no trace edge is labelled SCHEMA_ONLY rather than passed off
+    # as trace-closed.
+    closure = closure_findings(bundle)
+    findings.extend(closure["findings"])
     return {"verdict": "PASS" if not findings else "FAIL",
-            "checked": len(bundle), "findings": findings}
+            "checked": len(bundle), "closure": closure["state"], "findings": findings}

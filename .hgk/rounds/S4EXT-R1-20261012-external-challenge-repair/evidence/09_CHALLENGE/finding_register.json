@@ -1,0 +1,82 @@
+{
+ "schema": "PIPD-S4EXT-R1-FINDING-REGISTER/1",
+ "findings": [
+  {
+   "id": "F001",
+   "class": "CONFIRMED_DEFECT",
+   "state": "REPAIRED_CANDIDATE_PENDING_EXTERNAL",
+   "evidence": [
+    "08_RELEASE/asset_sha256.txt",
+    "tests/test_s4ext_release_provenance.py",
+    "docs/ERRATUM_2026-10-12_preview3_release_provenance.md"
+   ],
+   "note": "the PUBLISHED zip still carries the stale 8/8 identity (digest unchanged, recorded); the repair ships as a new erratum pack + an erratum document, and the public decision is the release owner's"
+  },
+  {
+   "id": "F002",
+   "class": "CONFIRMED_DEFECT_RUNTIME",
+   "state": "REPAIRED_CANDIDATE_PENDING_EXTERNAL",
+   "evidence": [
+    "03_CLI/trace_mutation_findings.json",
+    "03_CLI/trace_mutation.raw.log",
+    "tests/test_s4ext_trace_closure.py"
+   ],
+   "note": "upgraded from the report's schema-level grade: the published wheel really does return PASS for a tampered trace bundle"
+  },
+  {
+   "id": "F003",
+   "class": "EVIDENCE_GAP",
+   "state": "CLOSED_AS_CANDIDATE_EVIDENCE",
+   "evidence": [
+    "tests/test_s4ext_release_provenance.py"
+   ],
+   "note": "current tuple pinned"
+  },
+  {
+   "id": "G004",
+   "class": "EVIDENCE_GAP",
+   "state": "PARTIAL",
+   "note": "full suite re-run on the candidate; independent requalification still owed"
+  },
+  {
+   "id": "G005",
+   "class": "EVIDENCE_GAP",
+   "state": "NOT_RUN_ON_THIS_HOST",
+   "note": "four-host UAT recorded honestly in 07_HOSTS"
+  },
+  {
+   "id": "G006",
+   "class": "EVIDENCE_GAP",
+   "state": "PARTIAL",
+   "note": "local digests match the published metadata; no independent byte download here"
+  },
+  {
+   "id": "O007",
+   "class": "NON_BLOCKING_OBSERVATION",
+   "state": "REPAIRED",
+   "evidence": [
+    "examples/first-run/run.sh",
+    "examples/first-run/run.ps1"
+   ]
+  },
+  {
+   "id": "O008",
+   "class": "NON_BLOCKING_OBSERVATION",
+   "state": "NO_CHANGE_BY_DESIGN",
+   "note": "SemVer enlargement deliberately not done"
+  },
+  {
+   "id": "O009",
+   "class": "NON_BLOCKING_OBSERVATION",
+   "state": "TEST_ONLY_PLUS_ONE_TYPED_REFUSAL",
+   "evidence": [
+    "tests/test_s4ext_profile_boundaries.py"
+   ]
+  }
+ ],
+ "open_tt": [
+  "TT-S4EXT-008",
+  "TT-S4EXT-009",
+  "TT-S4EXT-010"
+ ]
+}

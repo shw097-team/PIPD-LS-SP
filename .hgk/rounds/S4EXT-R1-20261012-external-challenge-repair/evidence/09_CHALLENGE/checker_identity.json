@@ -1,0 +1,16 @@
+{
+ "schema": "PIPD-S4EXT-R1-CHECKER-IDENTITY/1",
+ "maker": "the governed repair session (this round)",
+ "independent_checker": {
+  "identity": "external Independent Acceptance Officer",
+  "state": "OPEN"
+ },
+ "history": "no previous receipt is inherited; the S4R2M Officer receipt was PARTIAL on another subject",
+ "replay_commands": [
+  "git clone --no-checkout https://github.com/shw097-team/PIPD-LS-SP.git /tmp/s4ext && cd /tmp/s4ext && git fetch --tags && git checkout --detach fix/s4-external-challenge-20261012-r1-provenance-trace",
+  "python -m venv /tmp/v && . /tmp/v/bin/activate && pip install 'jsonschema>=4.0'",
+  "python -m unittest discover -s tests -t .",
+  "bash .hgk/rounds/S4EXT-R1-20261012-external-challenge-repair/raw/installed_wheel_qualification.sh",
+  "bash .hgk/rounds/S4EXT-R1-20261012-external-challenge-repair/raw/f002_runtime_probe.sh"
+ ]
+}

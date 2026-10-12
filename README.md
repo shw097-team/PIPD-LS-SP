@@ -132,22 +132,34 @@ Beyond that the pipeline is `intake` -> `compile-pi` -> `bind-pd` -> `compile-ec
 `compile-tqaep` -> `validate`, and **the middle steps take real inputs, not free text** — verified
 against the CLI rather than assumed.
 
-### Run it: the whole compiler chain, copy-paste
+### Run it: the whole compiler chain
 
-These are the exact commands that produced the checked-in [`examples/first-run/`](examples/first-run/)
-fixture, run from this checkout root. For `init`, `intake`, `profile`, `compile-pi`, `bind-pd`,
-`compile-ecp`, `compile-tqaep`, `validate` and `doctor`, `--root` is a global option and must
-precede the subcommand; `project` and `export` **additionally** accept `--root` after the
-subcommand. `--root <dir>` points at a workspace (use a directory outside the tree so scratch files
-never pollute the checkout), and the fixture paths are the real files in this repository. Both
-absolute paths below (`PY`, `PYTHONPATH`) are pinned for this environment — adjust them to your
-interpreter and checkout; any Python >= 3.11 with `jsonschema` works:
+**One command (recommended).** Two portable runners execute the whole sequence
+(`doctor -> intake -> compile-pi -> bind-pd -> compile-ecp -> compile-tqaep -> assemble -> validate`
+plus a typed refusal), check their own preconditions, and derive every path from their own location.
+Nothing here depends on the author's machine or on an exported `PYTHONPATH`:
 
 ```bash
-PY=/c/Users/user/AppData/Local/Programs/Python/Python311/python.exe   # any Python >= 3.11 + jsonschema
-export PYTHONPATH="C:/Projects/Agent_Workspace/PIPD-postrelease-wt/src"   # this checkout's src/
-ART="C:/Users/user/AppData/Local/Temp/pipd-first-run"    # a scratch dir OUTSIDE the checkout
-rm -rf "$ART" && mkdir -p "$ART"
+./examples/first-run/run.sh                                    # Linux / macOS / Git-Bash
+```
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File examples/first-run/run.ps1
+```
+
+Both print `FIRST_RUN_OK` and exit `0` **only** when every positive step exited `0` and the refusal
+step exited non-zero; an unusable interpreter exits `3` with `PRECONDITION_FAIL` and a typed reason.
+
+**Step by step.** The same chain written out, using portable variables. For `init`, `intake`,
+`profile`, `compile-pi`, `bind-pd`, `compile-ecp`, `compile-tqaep`, `validate` and `doctor`,
+`--root` is a global option and must precede the subcommand; `project` and `export` **additionally** accept `--root` after the subcommand. `--root <dir>` points at a workspace (use a directory outside the tree
+so scratch files never pollute the checkout), and the fixture paths are the real files in this
+repository:
+
+```bash
+PY="${PYTHON:-python3}"                  # any Python >= 3.11 + jsonschema
+export PYTHONPATH="$(git rev-parse --show-toplevel)/src"   # or: pip install ./dist/*.whl and use `pipd`
+ART="$(mktemp -d)"                       # a scratch dir OUTSIDE the checkout
 CTX="$ART/ctx"; mkdir -p "$CTX"          # the read-only dir bind-pd probes (empty -> stable)
 
 "$PY" -m pipd_ls_sp.cli --root "$ART" init                 # exit 0; creates docs/ schemas/ src/ tests/ dist/

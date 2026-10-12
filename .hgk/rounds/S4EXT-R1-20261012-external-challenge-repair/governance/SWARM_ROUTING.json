@@ -1,0 +1,52 @@
+{
+ "schema": "PIPD-S4EXT-R1-SWARM/1",
+ "requested": [
+  "PLAN in Hermes",
+  "bounded writer / EXECUTE",
+  "independent AO / VERIFY+SECURITY"
+ ],
+ "observed": [
+  {
+   "lane": "PLAN",
+   "plane": "Hermes desktop session",
+   "model_declared": "DeepSeek V4.1 Flash (opencode-go)",
+   "did": [
+    "source readback",
+    "606-line repair plan",
+    "prompt-contract C0-C9 authoring",
+    "evidence-pack derivation"
+   ],
+   "state": "EXECUTED"
+  },
+  {
+   "lane": "EXECUTE",
+   "plane": "bounded writer inside the same governed session",
+   "model_declared": "DeepSeek V4.1 Flash (opencode-go) via the CLI lane",
+   "did": [
+    "schema/validator/profiles patches",
+    "pack regenerator",
+    "new tests",
+    "portable runners",
+    "adjudication generator"
+   ],
+   "state": "EXECUTED_BOUNDED",
+   "boundary": "writes confined to the allowlist in 04_DEV_ECP/allowlist_rollback.json; the published tag and its assets were never touched"
+  },
+  {
+   "lane": "VERIFY/SECURITY",
+   "plane": "independent acceptance officer",
+   "model_declared": "GPT 6.1 SOL-MEDIUM (OpenAI OAuth) via the CLI lane",
+   "did": [],
+   "state": "NOT_RUN",
+   "blocker": "no independent checker session was established for this candidate",
+   "consequence": "no INDEPENDENT_PASS, no acceptance receipt, no self-acceptance"
+  }
+ ],
+ "parallelism": {
+  "sub_agents_spawned": 0,
+  "swarm_fanout": "NOT_USED",
+  "why": "the round's units share one write set (the same schemas, validator and pack), so parallel writers would have collided inside a single ChangeSet; the deterministic probes were instead batched per work order and their raw logs kept per probe",
+  "disclosure": "the user's standing order to parallelise is recorded as NOT_HONOURED for this round"
+ },
+ "sod_enforced": true
+}

@@ -9,7 +9,7 @@
     "consumers": ["validators/checkers"]
   },
   "type": "object",
-  "description": "Owner: PIPD/TQAEP. Consumer: validators/checkers.",
+  "description": "Owner: PIPD/TQAEP. Consumer: validators/checkers. S4EXT-R1 F002 repair: the endpoint/relation fields are TYPED (they were the empty schema {}), so an integer id, a null, an object hash or a blank string is a SCHEMA first-fail instead of a silently-accepted trace edge. `from_type`/`to_type` name a declared PIPD contract family (enum = the 19 S0 families, kept in step with schemas/registry.json by tests/test_s4ext_trace_closure.py). Endpoint REFERENTIAL integrity (does the endpoint exist in the bundle, does the hash match the real record) is NOT expressible in JSON Schema and is enforced by validate.validate_bundle's graph-closure step.",
   "additionalProperties": false,
   "required": [
     "from_type",
@@ -25,13 +25,81 @@
     "schema_version"
   ],
   "properties": {
-    "from_type": {},
-    "from_id": {},
-    "from_hash": {},
-    "to_type": {},
-    "to_id": {},
-    "to_hash": {},
-    "rationale": {},
+    "from_type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "enum": [
+        "ArtifactIdentity",
+        "AuthorityBinding",
+        "RequirementAtom",
+        "ProfileBinding",
+        "TechnologyAdmission",
+        "PI-PKG",
+        "PD-PKG",
+        "TraceLink",
+        "TaskSpecSeed",
+        "ConstructionContract",
+        "WorkOrderCandidate",
+        "ECP",
+        "TQAEP",
+        "ExecutionHandoff",
+        "EvidenceExpectation",
+        "ClaimCeiling",
+        "SurfaceProjectionManifest",
+        "GENIEProjectionRef",
+        "ExecutionBindingRef"
+      ]
+    },
+    "from_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "from_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "to_type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "enum": [
+        "ArtifactIdentity",
+        "AuthorityBinding",
+        "RequirementAtom",
+        "ProfileBinding",
+        "TechnologyAdmission",
+        "PI-PKG",
+        "PD-PKG",
+        "TraceLink",
+        "TaskSpecSeed",
+        "ConstructionContract",
+        "WorkOrderCandidate",
+        "ECP",
+        "TQAEP",
+        "ExecutionHandoff",
+        "EvidenceExpectation",
+        "ClaimCeiling",
+        "SurfaceProjectionManifest",
+        "GENIEProjectionRef",
+        "ExecutionBindingRef"
+      ]
+    },
+    "to_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "to_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
     "subject_id": {
       "type": "string",
       "minLength": 8,

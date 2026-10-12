@@ -1,0 +1,171 @@
+### building the tampered bundles from the honest artefacts
+pi trace entries: 3
+trace[0] keys: ['content_hash', 'from_hash', 'from_id', 'from_type', 'rationale', 'schema_version', 'subject_id', 'to_hash', 'to_id', 'to_type', 'version']
+wrote tampered bundles: ['bundle_bad_hash.json', 'bundle_bad_orphan.json', 'bundle_bad_types.json']
+=== (A) PUBLISHED installed wheel Version: 0.1.1a3 ===
+### A_good_bundle
+$ C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/pipd.exe --root C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art validate --bundle C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/bundle.json
+{
+ "checked": 4,
+ "findings": [],
+ "schema_source": {
+  "mode": "INSTALLED",
+  "path": "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\art\\schemas",
+   "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+  ]
+ },
+ "verdict": "PASS"
+}
+exit_code=0
+### A_bad_types_bundle
+$ C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/pipd.exe --root C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art validate --bundle C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/bundle_bad_types.json
+{
+ "checked": 4,
+ "findings": [],
+ "schema_source": {
+  "mode": "INSTALLED",
+  "path": "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\art\\schemas",
+   "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+  ]
+ },
+ "verdict": "PASS"
+}
+exit_code=0
+### A_bad_orphan_bundle
+$ C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/pipd.exe --root C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art validate --bundle C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/bundle_bad_orphan.json
+{
+ "checked": 4,
+ "findings": [],
+ "schema_source": {
+  "mode": "INSTALLED",
+  "path": "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\art\\schemas",
+   "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+  ]
+ },
+ "verdict": "PASS"
+}
+exit_code=0
+### A_bad_hash_bundle
+$ C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/pipd.exe --root C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art validate --bundle C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/bundle_bad_hash.json
+{
+ "checked": 4,
+ "findings": [],
+ "schema_source": {
+  "mode": "INSTALLED",
+  "path": "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\art\\schemas",
+   "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+  ]
+ },
+ "verdict": "PASS"
+}
+exit_code=0
+=== (B) REPAIRED candidate source tree ===
+### B_good_bundle
+$ bash -c PYTHONPATH='C:/Projects/Agent_Workspace/PIPD/worktrees/s4ext-r1-wt/src' 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/python.exe' -B -m pipd_ls_sp.cli --root 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art' validate --bundle 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/bundle.json'
+{
+ "checked": 4,
+ "closure": "FULL",
+ "findings": [],
+ "schema_source": {
+  "mode": "SOURCE",
+  "path": "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4ext-r1-wt\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\art\\schemas",
+   "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4ext-r1-wt\\schemas"
+  ]
+ },
+ "verdict": "PASS"
+}
+exit_code=0
+### B_bad_types_bundle
+$ bash -c PYTHONPATH='C:/Projects/Agent_Workspace/PIPD/worktrees/s4ext-r1-wt/src' 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/python.exe' -B -m pipd_ls_sp.cli --root 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art' validate --bundle 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/bundle_bad_types.json'
+{
+ "checked": 4,
+ "closure": "FAILED",
+ "findings": [
+  {
+   "contract": "PI-PKG",
+   "detail": "PI-PKG/trace/0/from_hash: 12345 is not of type 'string'",
+   "kind": "SCHEMA"
+  },
+  {
+   "contract": "PI-PKG",
+   "detail": "PI-PKG/trace/0/to_id: {'not': 'a string'} is not of type 'string'",
+   "kind": "SCHEMA"
+  },
+  {
+   "contract": "*",
+   "detail": "trace closure could not be computed: TypeError(\"unhashable type: 'dict'\")",
+   "kind": "CLOSURE"
+  }
+ ],
+ "schema_source": {
+  "mode": "SOURCE",
+  "path": "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4ext-r1-wt\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\art\\schemas",
+   "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4ext-r1-wt\\schemas"
+  ]
+ },
+ "verdict": "FAIL"
+}
+exit_code=1
+### B_bad_orphan_bundle
+$ bash -c PYTHONPATH='C:/Projects/Agent_Workspace/PIPD/worktrees/s4ext-r1-wt/src' 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/python.exe' -B -m pipd_ls_sp.cli --root 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art' validate --bundle 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/bundle_bad_orphan.json'
+{
+ "checked": 4,
+ "closure": "FAILED",
+ "findings": [
+  {
+   "contract": "*",
+   "detail": "orphan trace endpoint: PI-0000000000000000 is not present in the bundle",
+   "kind": "CLOSURE"
+  },
+  {
+   "contract": "*",
+   "detail": "trace endpoint hash mismatch: PI-0000000000000000: endpoint not present in the bundle",
+   "kind": "CLOSURE"
+  }
+ ],
+ "schema_source": {
+  "mode": "SOURCE",
+  "path": "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4ext-r1-wt\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\art\\schemas",
+   "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4ext-r1-wt\\schemas"
+  ]
+ },
+ "verdict": "FAIL"
+}
+exit_code=1
+### B_bad_hash_bundle
+$ bash -c PYTHONPATH='C:/Projects/Agent_Workspace/PIPD/worktrees/s4ext-r1-wt/src' 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/python.exe' -B -m pipd_ls_sp.cli --root 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art' validate --bundle 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/bundle_bad_hash.json'
+{
+ "checked": 4,
+ "closure": "FAILED",
+ "findings": [
+  {
+   "contract": "*",
+   "detail": "trace endpoint hash mismatch: PI-b58038e6c14ca117: from_hash mismatch (recorded 000000000000 real b58038e6c14c)",
+   "kind": "CLOSURE"
+  }
+ ],
+ "schema_source": {
+  "mode": "SOURCE",
+  "path": "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4ext-r1-wt\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\art\\schemas",
+   "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4ext-r1-wt\\schemas"
+  ]
+ },
+ "verdict": "FAIL"
+}
+exit_code=1

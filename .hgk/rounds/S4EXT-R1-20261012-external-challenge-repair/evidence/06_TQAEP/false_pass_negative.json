@@ -1,0 +1,15 @@
+{
+ "schema": "PIPD-S4EXT-R1-FALSE-PASS/1",
+ "false_pass_found": {
+  "subject": "published wheel dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl",
+  "probe": "raw/f002_runtime_probe.sh (A block)",
+  "result": "verdict PASS for a bundle with mis-typed / orphaned / wrong-hash trace endpoints",
+  "grade": "CONFIRMED runtime false PASS on the published distribution"
+ },
+ "false_pass_after_repair": {
+  "subject": "candidate source tree",
+  "probe": "raw/f002_runtime_probe.sh (B block)",
+  "result": "exit 1, verdict FAIL, closure FAILED for all three mutations"
+ },
+ "other_green_is_not_a_claim": "a green suite is evidence that the suite ran, not that the product is accepted"
+}

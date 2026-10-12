@@ -1,0 +1,24 @@
+...FF.....
+======================================================================
+FAIL: test_run_sh_completes_the_chain_from_a_foreign_cwd (tests.test_s4ext_first_run_portable.PortableFirstRunScriptTests.test_run_sh_completes_the_chain_from_a_foreign_cwd)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4ext-r1-wt\tests\test_s4ext_first_run_portable.py", line 114, in test_run_sh_completes_the_chain_from_a_foreign_cwd
+    self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-3000:])
+AssertionError: 127 != 0 : /bin/bash: C:/Projects/Agent_Workspace/PIPD/worktrees/s4ext-r1-wt/examples/first-run/run.sh: No such file or directory
+
+
+======================================================================
+FAIL: test_run_sh_refuses_when_the_interpreter_is_unusable (tests.test_s4ext_first_run_portable.PortableFirstRunScriptTests.test_run_sh_refuses_when_the_interpreter_is_unusable)
+Precondition failure is fail-closed and typed, not a traceback.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4ext-r1-wt\tests\test_s4ext_first_run_portable.py", line 127, in test_run_sh_refuses_when_the_interpreter_is_unusable
+    self.assertEqual(out.returncode, 3, out.stdout[-1500:] + out.stderr[-1500:])
+AssertionError: 127 != 3 : /bin/bash: C:/Projects/Agent_Workspace/PIPD/worktrees/s4ext-r1-wt/examples/first-run/run.sh: No such file or directory
+
+
+----------------------------------------------------------------------
+Ran 10 tests in 5.260s
+
+FAILED (failures=2)

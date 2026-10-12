@@ -1,0 +1,56 @@
+{
+  "schema": "PIPD-RELEASE-TUPLE/1",
+  "purpose": "Frozen, independently resolvable release identities for the distribution/release surface. TT-S4EXT-001 / F001 exists because a single hand-copied `tag commit` string let the distributed pack name a DIFFERENT release's object than the one it claimed to describe. The two facts are therefore separate fields and must never be collapsed again.",
+  "field_semantics": {
+    "tag_object": "the annotated tag object sha (git rev-parse <tag>)",
+    "release_tag_target": "the commit the annotated tag dereferences to (git rev-parse <tag>^{commit})",
+    "build_source_commit": "the commit the distributed artifact BYTES were built from",
+    "tree": "the tree of release_tag_target (git rev-parse <tag>^{tree})",
+    "published_asset_sha256": "sha256 of the asset bytes as served by the GitHub release"
+  },
+  "verification_commands": [
+    "git rev-parse <tag>",
+    "git rev-parse <tag>^{commit}",
+    "git rev-parse <tag>^{tree}",
+    "sha256sum dist/mount/<zip>"
+  ],
+  "releases": [
+    {
+      "release_id": "v0.1.0-preview.1",
+      "tag_object": "cc9bf574c3b3f0f44ea615b5c67ae40d74efee32",
+      "release_tag_target": "cc9bf574c3b3f0f44ea615b5c67ae40d74efee32",
+      "build_source_commit": "cc9bf574c3b3f0f44ea615b5c67ae40d74efee32",
+      "tree": "da39a1effe8cb2d73fb63ba45b5ae73685ee93e6",
+      "pack_dir": null,
+      "zip": null,
+      "published_asset_sha256": null,
+      "status": "LIGHTWEIGHT_TAG_NO_PACK"
+    },
+    {
+      "release_id": "v0.1.0-preview.2",
+      "tag_object": "8faa64e581e8c25f5ec355475e29561847da3ead",
+      "release_tag_target": "8faa64e581e8c25f5ec355475e29561847da3ead",
+      "build_source_commit": "8faa64e581e8c25f5ec355475e29561847da3ead",
+      "tree": "583015038e27e2b2381351487bc74255dcd0920e",
+      "pack_dir": "dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.0-preview.2",
+      "zip": "dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.0-preview.2.zip",
+      "published_asset_sha256": "1992c54bb3e8e83588e4ef2930d1cc65ce7ada21460deb85930767a4db499daa",
+      "status": "IDENTITY_CORRECT"
+    },
+    {
+      "release_id": "v0.1.1-preview.3",
+      "tag_object": "e94cc7f9567acb59de4691ee6166815ac96a9700",
+      "release_tag_target": "cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a",
+      "build_source_commit": "cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a",
+      "tree": "91b1156f5f34f598bd1c81f9fc2ab04518328fd6",
+      "pack_dir": "dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3",
+      "zip": "dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip",
+      "published_asset_sha256": "73c6c7e255846e9012a4f5f0e849af93343b363fb158f2474b4d18143d1dcfde",
+      "stale_identity_in_published_asset": "8faa64e581e8c25f5ec355475e29561847da3ead",
+      "status": "ERRATUM_1_SOURCE_CORRECTED_PUBLISHED_ASSET_IMMUTABLE",
+      "erratum_doc": "docs/ERRATUM_2026-10-12_preview3_release_provenance.md",
+      "corrected_candidate_zip": "dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3-erratum1.zip"
+    }
+  ],
+  "authority_note": "This file records identity facts and the current disposition. It grants nothing: it is not a publication approval, a release admission, a tag move or an asset replacement. The v0.1.1-preview.3 published asset is immutable and was NOT rewritten; a corrected rebuild is produced as a separate candidate file pending Release Owner authorisation."
+}

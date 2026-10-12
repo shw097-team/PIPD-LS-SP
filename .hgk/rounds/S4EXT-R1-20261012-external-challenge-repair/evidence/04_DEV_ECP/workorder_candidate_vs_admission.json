@@ -1,0 +1,41 @@
+{
+ "schema": "PIPD-S4EXT-R1-DEV-ECP/1",
+ "workorder_candidate": {
+  "order_schema": "OROCHI_FACTORY_ORDER.v1",
+  "host_task_kind": "IMPORT",
+  "primary_changeset": "NARROW_REPAIR",
+  "child_workorders": [
+   "QUALIFICATION_ONLY",
+   "EVIDENCE_ONLY"
+  ],
+  "taskspec_refs": [
+   "TT-S4EXT-001",
+   "TT-S4EXT-002",
+   "TT-S4EXT-003",
+   "TT-S4EXT-004",
+   "TT-S4EXT-005",
+   "TT-S4EXT-006",
+   "TT-S4EXT-007"
+  ],
+  "evidence_return_pack": "S4_EXTERNAL_RETURN_PACK (this tree)",
+  "rollback": "delete the fix/* branch and the .hgk/rounds/S4EXT-R1-* directory",
+  "approval_required": [
+   "HGK push gate",
+   "release owner erratum decision"
+  ]
+ },
+ "canonical_admission": {
+  "control_plane": "HG-KSEOS SharedSpine",
+  "project_id": "PIPD-LS-SP-20261008",
+  "state": "EXECUTING",
+  "intake_plan_admit": "REFUSED_BY_LIFECYCLE_STATE",
+  "refusal": "ERR_INTAKE_STATE / ERR_PLAN_STATE / ERR_ADMIT_STATE = EXECUTING: the canonical chain admits once per run and the project is already executing. Creating a second run needs an owner-mediated transition, so this round did NOT mint new canonical WorkOrders.",
+  "checkpoint_recorded": "CK-20261008-7483330D",
+  "tt": "TT-S4EXT-010",
+  "receipts": [
+   "admission/admission_status.json",
+   "admission/admission_checkpoint.json"
+  ]
+ },
+ "claim": "local code scope was already admitted; the ROUND-level WorkOrder admission is OPEN and routed to the HGK owner"
+}

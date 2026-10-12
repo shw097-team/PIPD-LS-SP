@@ -1,0 +1,44 @@
+{
+ "schema": "PIPD-S4EXT-R1-CLI-SURFACE/1",
+ "full_suite": {
+  "ran": 518,
+  "verdict": "OK",
+  "raw": "03_CLI/full_unittest.raw.log"
+ },
+ "commands": [
+  "init",
+  "intake",
+  "profile",
+  "compile-pi",
+  "bind-pd",
+  "compile-ecp",
+  "compile-tqaep",
+  "validate",
+  "doctor",
+  "project",
+  "export",
+  "diff",
+  "repair"
+ ],
+ "command_count": 13,
+ "installed_wheel_exit_codes": {
+  "doctor": 0,
+  "help": 0,
+  "all_13_help": 0,
+  "init": 0,
+  "intake": 0,
+  "compile-pi": 0,
+  "bind-pd": 0,
+  "compile-ecp": 0,
+  "compile-tqaep": 0,
+  "validate": 0,
+  "refusal_missing_source": 2,
+  "refusal_bad_bundle": 2
+ },
+ "positive_negative_probe": "raw/installed_wheel_qualification.sh",
+ "raw": [
+  "raw/QUAL_02_doctor_and_surface.raw.log",
+  "raw/QUAL_04_installed_chain.raw.log",
+  "raw/QUAL_05_refusal.raw.log"
+ ]
+}

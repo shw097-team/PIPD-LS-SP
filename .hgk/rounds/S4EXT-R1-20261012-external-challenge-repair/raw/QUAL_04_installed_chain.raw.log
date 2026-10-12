@@ -1,0 +1,57 @@
+### init
+$ C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/pipd.exe --root C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art init
+{
+ "contract_families": 19,
+ "created": [
+  "docs",
+  "schemas",
+  "src",
+  "tests",
+  "dist"
+ ],
+ "root": "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\art",
+ "schema_source": {
+  "mode": "INSTALLED",
+  "path": "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\art\\schemas",
+   "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+  ]
+ },
+ "verdict": "PASS"
+}
+exit_code=0
+### intake
+$ bash -c 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/pipd.exe' --root 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art' intake --goal 'Compile this example clause source into a validated PI to PD to ECP to TQAEP chain.' --source 'C:/Projects/Agent_Workspace/PIPD/worktrees/s4ext-r1-wt/examples/first-run/source.txt' --constraint 'candidate-only, no release' --non-goal 'no upstream document bodies copied' > 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/intent.card.json'
+exit_code=0
+### compile_pi
+$ bash -c 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/pipd.exe' --root 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art' compile-pi --intent 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/intent.card.json' --profile LITE > 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/pi.json'
+exit_code=0
+### bind_pd
+$ bash -c 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/pipd.exe' --root 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art' bind-pd --pi 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/pi.json' --repo-root 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/ctx' > 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/pd.json'
+exit_code=0
+### compile_ecp
+$ bash -c 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/pipd.exe' --root 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art' compile-ecp --pd 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/pd.json' --pi 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/pi.json' > 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/ecp.json'
+exit_code=0
+### compile_tqaep
+$ bash -c 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/pipd.exe' --root 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art' compile-tqaep --pi 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/pi.json' --ecp 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/ecp.json' --maker HERMES-MAKER --checker GLM-5.3-FLASH-AO-LANE --checker-receipt deleg_example/lane-C > 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/tqaep.json'
+exit_code=0
+### assemble
+$ bash -c 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/python.exe' 'C:/Projects/Agent_Workspace/PIPD/worktrees/s4ext-r1-wt/examples/first-run/assemble_bundle.py' 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/pi.json' 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/pd.json' 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/ecp.json' 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/tqaep.json' > 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/bundle.json'
+exit_code=0
+### validate_bundle
+$ bash -c 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/venv/Scripts/pipd.exe' --root 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art' validate --bundle 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/bundle.json' > 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/validate.json'; cat 'C:/Users/user/AppData/Local/Temp/pipd-s4ext-r1-qual/art/validate.json'
+{
+ "checked": 4,
+ "findings": [],
+ "schema_source": {
+  "mode": "INSTALLED",
+  "path": "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas",
+  "tried": [
+   "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\art\\schemas",
+   "C:\\Users\\user\\AppData\\Local\\Temp\\pipd-s4ext-r1-qual\\venv\\Lib\\site-packages\\pipd_ls_sp\\schemas"
+  ]
+ },
+ "verdict": "PASS"
+}
+exit_code=0

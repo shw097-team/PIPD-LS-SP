@@ -1,0 +1,50 @@
+{
+ "schema": "PIPD-S4EXT-R1-OPS-ECP/1",
+ "effects_performed": [
+  {
+   "effect": "local branch + worktree",
+   "reversible": true,
+   "readback": "git worktree list"
+  },
+  {
+   "effect": "new files under .hgk/rounds/S4EXT-R1-*",
+   "reversible": true,
+   "readback": "directory listing"
+  },
+  {
+   "effect": "new erratum pack files under dist/mount/",
+   "reversible": true,
+   "readback": "sha256 recorded in 01_SUBJECT"
+  },
+  {
+   "effect": "HGK checkpoint CK-20261008-7483330D",
+   "reversible": "OWNER_MEDIATED",
+   "readback": "admission/admission_checkpoint.json"
+  },
+  {
+   "effect": "branch push to origin",
+   "reversible": true,
+   "state": "PENDING_PUSH_GATE",
+   "readback": "see 10_OWNER and the branch readback in the final report"
+  }
+ ],
+ "unknown_or_unperformed_effects": [
+  {
+   "effect": "published release asset overwrite",
+   "state": "PROHIBITED_NOT_DONE"
+  },
+  {
+   "effect": "tag creation/move/delete",
+   "state": "PROHIBITED_NOT_DONE"
+  },
+  {
+   "effect": "public new release",
+   "state": "HOLD_OWNER"
+  },
+  {
+   "effect": "canonical acceptance transition",
+   "state": "HOLD_NO_SELF_ACCEPTANCE"
+  }
+ ],
+ "rule": "HTTP/CLI success is never treated as a completed world effect without a readback"
+}

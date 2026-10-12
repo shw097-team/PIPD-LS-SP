@@ -1,0 +1,15 @@
+{
+ "schema": "PIPD-S4EXT-R1-JUDGE-CALIBRATION/1",
+ "gate_strictness_matrix": {
+  "G-01 provenance": "existential + digest + tag dereference, with a stale negative",
+  "G-02 trace closure": "positive + 3 negative mutations, fail-closed on any of them",
+  "G-03 full suite": "deterministic, 0 failures tolerated",
+  "G-04 installed wheel": "INSTALLED mode, 19 families, 13 commands, refusal exit codes",
+  "G-05 adjudication": "row-for-row, no status upgrade, drift-detected",
+  "G-06 hosts": "capability truth per host; NOT_RUN is not PASS"
+ },
+ "false_positive_defence": "no threshold was relaxed to make a row green",
+ "objective_function_changes": "NONE (no S2 threshold retuned)",
+ "raw_evidence_check": "every gate row points at a raw log in this pack",
+ "hitl": "owner release/erratum + HGK push gate remain OPEN"
+}
