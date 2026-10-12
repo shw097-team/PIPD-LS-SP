@@ -92,7 +92,9 @@ if grep -q "QUALIFICATION_PASSED" "$LOGD/G8.out"; then echo "FAIL G8_claimed_qua
 echo "### G9 the writer must be launched through the route that was qualified (R5)"
 ARGV_LOG="$LOGD/g9-argv.txt"; : > "$ARGV_LOG"
 OUT=G9; GARGS=(EXECUTE brief_nt_a.md)
-ck G9_EXECUTE_RUNS 0 "$(gitq GATE_QUALIFY_RUNS=1 GATE_BIN="$SBARGV" ARGV_LOG="$ARGV_LOG")"
+# CODEX_BIN too: the writer lane is launched by run_lane.sh, which uses CODEX_BIN, so
+# recording only the qualification would leave the writer's argv unchecked.
+ck G9_EXECUTE_RUNS 0 "$(gitq GATE_QUALIFY_RUNS=1 GATE_BIN="$SBARGV" CODEX_BIN="$SBARGV" ARGV_LOG="$ARGV_LOG")"
 if grep -q 'model=opencode-go/deepseek-v4.1-flash' "$ARGV_LOG"; then echo "PASS G9_child_used_the_catalog_slug"; pass=$((pass+1)); else echo "FAIL G9_child_used_the_catalog_slug"; fail=$((fail+1)); fi
 if grep -q 'model_provider' "$ARGV_LOG"; then echo "FAIL G9_child_used_a_provider_id"; fail=$((fail+1)); else echo "PASS G9_child_did_not_use_a_provider_id"; pass=$((pass+1)); fi
 if [ "$(grep -c 'model=opencode-go' "$ARGV_LOG")" -ge 2 ]; then echo "PASS G9_qualification_and_writer_agree"; pass=$((pass+1)); else echo "FAIL G9_qualification_and_writer_agree"; fail=$((fail+1)); fi
