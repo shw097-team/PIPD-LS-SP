@@ -103,6 +103,42 @@ if git -C "$CLONE" log -1 --pretty=%s | grep -q "outside-round-fixture"; then
 else echo "PASS T9_outside_file_was_not_committed"; pass=$((pass+1)); fi
 git -C "$CLONE" reset -q 2>/dev/null; rm -f "$CLONE/outside-round-fixture.txt"
 
+echo "### T10 the manifest is really copied into the round (M1)"
+rm -f "$CLONE/$REL/stage-b/"*.manifest 2>/dev/null
+ck T10_MANIFEST_RUN 0 "$(run 0 0 0 NT10 brief_nt.md verify/nt)"
+ls "$CLONE/$REL/stage-b/"*".manifest" >/dev/null 2>&1 && { echo PASS T10_manifest_present_in_round; pass=$((pass+1)); } || { echo FAIL T10_manifest_present_in_round; fail=$((fail+1)); }
+
+echo "### T11 a regex-spelling alias of the round is refused (M2)"
+mkdir -p "$CLONE/Xhgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade"
+echo outside > "$CLONE/Xhgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/outside.txt"
+git -C "$CLONE" add Xhgk
+ck T11_ALIAS_PREFIX_REFUSED 6 "$(run 0 0 0 NT11 brief_nt.md verify/nt)"
+has T11_names_the_outside_path STAGED_OUTSIDE_ROUND_REFUSED "$LOGD/NT11.out"
+git -C "$CLONE" reset -q 2>/dev/null; rm -rf "$CLONE/Xhgk"
+
+echo "### T12 a FAILED index enumeration is refused, not read as nothing staged (M3)"
+(
+  git() { if [ "${1:-}" = "diff" ]; then return 128; fi; command git "$@"; }
+  export -f git
+  env TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$STUB" bash "$L" NT12 brief_nt.md verify/nt
+) >"$LOGD/T12.out" 2>&1; c=$?
+ck T12_STAGED_QUERY_FAILURE_REFUSED 6 "$c"
+has T12_names_the_query STAGED_QUERY_FAILED_REFUSED "$LOGD/T12.out"
+
+echo "### T13 dirt created by the final commit is detected (M4)"
+HOOK="$CLONE/.git/hooks/post-commit"
+printf '#!/usr/bin/env bash\necho dirt > "$(git rev-parse --show-toplevel)/T13_HOOK_DIRT.txt"\n' > "$HOOK"
+chmod +x "$HOOK"
+ck T13_POST_COMMIT_DIRT_REJECTED 5 "$(run 0 0 0 NT13 brief_nt.md verify/nt)"
+has T13_names_the_dirt POSTFLIGHT_DIRTY_REJECTED "$LOGD/NT13.out"
+rm -f "$HOOK" "$CLONE/T13_HOOK_DIRT.txt"
+
+echo "### T14 a route that disagrees with the assignment is refused (M7)"
+LANE_ROLE=EXECUTE LANE_MODEL=opencode-go/deepseek-v4.1-flash LANE_EFFORT=high ROUTE_STYLE=openai \
+  env TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$STUB" bash "$L" NT14 brief_nt.md verify/nt >"$LOGD/T14.out" 2>&1; c=$?
+ck T14_ROUTE_MISMATCH_REFUSED 6 "$c"
+has T14_names_the_mismatch "route mismatch" "$LOGD/T14.out"
+
 echo
 echo "RESULT pass=$pass fail=$fail"
 [ "$fail" -eq 0 ] || exit 1

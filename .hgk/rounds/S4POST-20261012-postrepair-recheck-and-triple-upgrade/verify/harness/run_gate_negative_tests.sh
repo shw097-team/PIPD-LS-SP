@@ -10,6 +10,8 @@ SHA="$(git -C "$WT" rev-parse HEAD)" || { echo HEAD_UNRESOLVED; exit 9; }
 git clone -q --no-hardlinks "$WT" "$CLONE" 2>/dev/null || { echo CLONE_FAILED; exit 9; }
 git -C "$CLONE" checkout -q "$SHA" || { echo CHECKOUT_FAILED; exit 9; }
 git -C "$CLONE" config user.email nt@local.invalid; git -C "$CLONE" config user.name nt
+# M8: GATE_SKIP_QUALIFY is a testing switch that now needs an owner-visible acknowledgement.
+printf 'authorizes_skip_qualification: EXECUTE\nauthorizes_skip_qualification: VERIFY\n' > "$S/GATE_SKIP_QUALIFY_ACK.md"
 REL=".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade"; S="$CLONE/$REL/stage-b"
 G="$S/run_lanes_gated.sh"; OWNER="$S/OWNER_DECISION_MODEL_DEVIATION.md"
 [ -f "$G" ] || { echo GATE_NOT_IN_CLONE; exit 9; }
@@ -25,11 +27,36 @@ n="${LANE_INDEX:-0}"; v=0
 for x in ${GATE_STUB_EXITS:-0}; do if [ "$n" -eq 0 ]; then v="$x"; break; fi; n=$((n-1)); done
 exit "$v"
 EOF
-printf '#!/usr/bin/env bash\necho Q1_OK\necho Q2_OK\nexit 0\n' > "$SBQ"
+# M9: a qualification must show the CLI header and two real tool executions, not just sentinels.
+cat > "$SBQ" <<'EOF'
+#!/usr/bin/env bash
+echo "OpenAI Codex v0.162.0-alpha.17.2"
+echo "exec echo Q1 succeeded in 12ms:"
+echo "exec echo Q2 succeeded in 11ms:"
+echo Q1_OK
+echo Q2_OK
+exit 0
+EOF
 printf '#!/usr/bin/env bash\necho "no qualification"\nexit 9\n' > "$SBQF"
 SBARGV="$BASE/stub-argv.sh"
-printf '#!/usr/bin/env bash\necho "$*" >> "${ARGV_LOG:-/dev/null}"\necho Q1_OK\necho Q2_OK\nexit 0\n' > "$SBARGV"
-chmod +x "$SBL" "$SBQ" "$SBQF" "$SBARGV"
+cat > "$SBARGV" <<'EOF'
+#!/usr/bin/env bash
+echo "$*" >> "${ARGV_LOG:-/dev/null}"
+echo "OpenAI Codex v0.162.0-alpha.17.2"
+echo "exec echo Q1 succeeded in 12ms:"
+echo "exec echo Q2 succeeded in 11ms:"
+echo Q1_OK
+echo Q2_OK
+exit 0
+EOF
+SBONLY="$BASE/stub-sentinels-only.sh"
+cat > "$SBONLY" <<'EOF'
+#!/usr/bin/env bash
+echo Q1_OK
+echo Q2_OK
+exit 0
+EOF
+chmod +x "$SBL" "$SBQ" "$SBQF" "$SBARGV" "$SBONLY"
 
 pass=0; fail=0
 ck(){ if [ "$2" = "$3" ]; then echo "PASS $1 (exit=$3)"; pass=$((pass+1)); else echo "FAIL $1 expected=$2 actual=$3"; fail=$((fail+1)); fi; }
@@ -98,6 +125,27 @@ ck G9_EXECUTE_RUNS 0 "$(gitq GATE_QUALIFY_RUNS=1 GATE_BIN="$SBARGV" CODEX_BIN="$
 if grep -q 'model=opencode-go/deepseek-v4.1-flash' "$ARGV_LOG"; then echo "PASS G9_child_used_the_catalog_slug"; pass=$((pass+1)); else echo "FAIL G9_child_used_the_catalog_slug"; fail=$((fail+1)); fi
 if grep -q 'model_provider' "$ARGV_LOG"; then echo "FAIL G9_child_used_a_provider_id"; fail=$((fail+1)); else echo "PASS G9_child_did_not_use_a_provider_id"; pass=$((pass+1)); fi
 if [ "$(grep -c 'model=opencode-go' "$ARGV_LOG")" -ge 2 ]; then echo "PASS G9_qualification_and_writer_agree"; pass=$((pass+1)); else echo "FAIL G9_qualification_and_writer_agree"; fail=$((fail+1)); fi
+
+echo "### G10 a truncated / empty receipt must not satisfy the gate (M6)"
+HOOK="$CLONE/.git/hooks/post-commit"
+printf '#!/usr/bin/env bash\nfor f in "$(git rev-parse --show-toplevel)"/.hgk/rounds/*/stage-b/*.receipt; do : > "$f"; done\n' > "$HOOK"
+chmod +x "$HOOK"
+OUT=G10; GARGS=(EXECUTE brief_nt_a.md)
+ck G10_EMPTY_RECEIPT_REJECTED 8 "$(gitq GATE_SKIP_QUALIFY=1)"
+has G10_says_receipt_invalid CHILD_RECEIPT_INVALID "$LOGD/G10.out"
+rm -f "$HOOK"
+
+echo "### G11 GATE_SKIP_QUALIFY without an acknowledgement is refused (M8)"
+mv "$S/GATE_SKIP_QUALIFY_ACK.md" "$S/GATE_SKIP_QUALIFY_ACK.md.hidden"
+OUT=G11; GARGS=(EXECUTE brief_nt_a.md)
+ck G11_SKIP_UNAUTHORISED_REFUSED 6 "$(gitq GATE_SKIP_QUALIFY=1)"
+has G11_names_the_ack QUALIFICATION_SKIP_UNAUTHORISED "$LOGD/G11.out"
+mv "$S/GATE_SKIP_QUALIFY_ACK.md.hidden" "$S/GATE_SKIP_QUALIFY_ACK.md"
+
+echo "### G12 sentinels without tool executions are not a qualification (M9)"
+OUT=G12; GARGS=(EXECUTE brief_nt_a.md)
+ck G12_SENTINELS_ONLY_REFUSED 7 "$(gitq GATE_QUALIFY_RUNS=1 GATE_BIN="$SBONLY")"
+has G12_names_qualification QUALIFICATION_FAILED "$LOGD/G12.out"
 
 echo
 echo "RESULT pass=$pass fail=$fail"

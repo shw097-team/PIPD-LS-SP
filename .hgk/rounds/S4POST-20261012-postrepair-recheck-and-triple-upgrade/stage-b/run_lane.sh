@@ -17,6 +17,9 @@
 #       4 lane log missing or uncopyable; 5 postflight dirty or unverifiable; 6 receipt or commit failed.
 set -u
 
+# round-6 M7 hygiene: this script must not depend on shell start-up files a caller can seed.
+unset BASH_ENV ENV
+
 LANE="${1:-}"; BRIEF="${2:-}"; OUTSUB="${3:-}"
 [ -n "$LANE" ] && [ -n "$BRIEF" ] && [ -n "$OUTSUB" ] || { echo "REFUSED[3] usage: run_lane.sh <LANE> <brief> <round-relative-outsub>" >&2; exit 3; }
 
@@ -35,11 +38,32 @@ status_count() {
   [ "$rc" -eq 0 ] || { echo ERR; return; }
   printf '%s\n' "$out" | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' '
 }
-# R3: refuse to commit if anything outside the round is staged.
-staged_outside() { git diff --cached --name-only 2>/dev/null | grep -v "^${RELROUND}/" | grep -v '^[[:space:]]*$'; }
+# R3 + round-6 M2/M3. The old form was
+#   git diff --cached --name-only | grep -v "^${RELROUND}/"
+# which had two fail-open holes an independent officer demonstrated:
+#   * the "." in ".hgk" is a REGEX WILDCARD there, so a staged "Xhgk/rounds/.../outside.txt"
+#     read as inside the round and was committed;
+#   * a FAILED "git diff --cached --name-only" produced empty output, which read as "nothing
+#     is staged outside the round".
+# Fixed-string prefix matching via case, and the query's own exit status is checked.
+staged_outside() {
+  local out rc p
+  out="$(git diff --cached --name-only -z 2>/dev/null)"; rc=$?
+  [ "$rc" -eq 0 ] || { echo "__STAGED_QUERY_FAILED__"; return; }
+  printf '%s' "$out" | tr '\0' '\n' | while IFS= read -r p; do
+    [ -z "$p" ] && continue
+    case "$p" in
+      "$RELROUND"/*) ;;
+      *) printf '%s\n' "$p" ;;
+    esac
+  done
+}
 commit_all() {
   git add -A -- "$RELROUND" 2>/dev/null || { echo "GIT_ADD_FAILED" >&2; return 1; }
   local outside; outside="$(staged_outside)"
+  case "$outside" in
+    *__STAGED_QUERY_FAILED__*) echo "STAGED_QUERY_FAILED_REFUSED: the index could not be enumerated" >&2; return 1 ;;
+  esac
   if [ -n "$outside" ]; then
     echo "STAGED_OUTSIDE_ROUND_REFUSED: $(printf '%s' "$outside" | tr '\n' ' ')" >&2
     return 1
@@ -74,6 +98,18 @@ echo "PREFLIGHT_CLEAN HEAD=$(git rev-parse --short HEAD)"
 
 mkdir -p "$R/$OUTSUB" || die 3 "cannot create round-relative output dir: $OUTSUB"
 
+# round-6 M7: the route must not be trusted from an environment a caller can seed (BASH_ENV).
+# When a role is given, the child derives the expected model/effort/route from the assignment
+# file itself and refuses any mismatch, so a startup-file override cannot restore the
+# "qualified one route, launched another" defect.
+LANE_ROLE="${LANE_ROLE:-}"
+if [ -n "$LANE_ROLE" ]; then
+  AEXP="$(python -c "import json,sys;r=json.load(open(sys.argv[1],encoding='utf-8'))['roles'][sys.argv[2]];print(r['model'],r['reasoning_effort'],r.get('route',{}).get('style','openai'))" "$S/ROUND_ASSIGNMENT.json" "$LANE_ROLE" 2>/dev/null)" \
+    || die 3 "cannot read the assignment for role $LANE_ROLE"
+  [ -n "$AEXP" ] || die 3 "role $LANE_ROLE is not in the assignment"
+  read -r A_MODEL A_EFF A_STYLE <<< "$AEXP"
+fi
+
 case "$LANE" in
   AO*) DEF_MODEL="gpt-6.1-sol"; DEF_PROV="openai"; DEF_EFF="medium" ;;
   *)   DEF_MODEL="opencode-go/deepseek-v4.1-flash"; DEF_PROV="opencode-go"; DEF_EFF="high" ;;
@@ -84,6 +120,11 @@ SANDBOX_MODE="${LANE_SANDBOX:-workspace-write}"
 # R5: a slug like "opencode-go/deepseek-v4.1-flash" is a CATALOG ENTRY, not a provider id. The caller
 # must state the route; the gate passes the role's route so a writer can never be launched through a
 # route the qualification did not exercise.
+if [ -n "$LANE_ROLE" ]; then
+  [ "$MODEL" = "$A_MODEL" ] || die 6 "model mismatch with the assignment: env=$MODEL assignment=$A_MODEL"
+  [ "$EFF" = "$A_EFF" ] || die 6 "effort mismatch with the assignment: env=$EFF assignment=$A_EFF"
+  [ "${ROUTE_STYLE:-openai}" = "$A_STYLE" ] || die 6 "route mismatch with the assignment: env=${ROUTE_STYLE:-openai} assignment=$A_STYLE"
+fi
 if [ "${ROUTE_STYLE:-openai}" = "catalog" ]; then
   INV=(-c "model=$MODEL" -c "model_reasoning_effort=\"$EFF\""
        -c "openai_base_url=${ROUTE_BASE_URL:-http://127.0.0.1:10102/v1}"
@@ -105,7 +146,7 @@ CODE=$?
 echo "${LANE} exit=${CODE} log=${LOG}"
 
 # D1/R1: never claim or accept a copy that did not happen; a failed receipt copy is fatal.
-COPY_OK=0; RECEIPT_OK=0
+COPY_OK=0; RECEIPT_OK=0; MAN_OK=0
 if [ -f "$LOG" ]; then
   if cp "$LOG" "$S/${LANE}_${STAMP}.log"; then
     COPY_OK=1
@@ -120,28 +161,47 @@ else
 fi
 [ "$RECEIPT_OK" -eq 1 ] || echo "POSTFLIGHT_RECEIPT_COPY_FAILED receipt=$LOGEXIT" >&2
 
+# round-6 M1: the previous version wrote the manifest outside the worktree and then never
+# copied it in, while its documentation claimed a postflight copy. Copy it, and fail if not.
+if cp "$MAN" "$S/${LANE}_${STAMP}.manifest" 2>/dev/null; then MAN_OK=1; fi
+[ "$MAN_OK" -eq 1 ] || echo "POSTFLIGHT_MANIFEST_COPY_FAILED manifest=$MAN" >&2
+
 POSTFAIL=0
 commit_all "$MSG" || POSTFAIL=1
+
+# round-6 M5: a receipt whose write silently failed (for example the destination exists as a
+# DIRECTORY) was still announced as written, and round-6 M6 showed the gate must also validate
+# the receipt's CONTENT, so this writes a token-tagged body only when the write is verified.
+REC="$S/${LANE}_${TOKEN}.receipt"; RECEIPT_WRITE=0
+if [ "$COPY_OK" -eq 1 ] && [ "$RECEIPT_OK" -eq 1 ] && [ "$MAN_OK" -eq 1 ]; then
+  if [ -e "$REC" ]; then
+    echo "RECEIPT_ALREADY_EXISTS_REFUSED $REC" >&2
+  elif printf 'lane=%s\nstamp=%s\ntoken=%s\nchild_exit=%s\nmodel=%s\nroute=%s\nqualified=%s\n' \
+        "$LANE" "$STAMP" "$TOKEN" "$CODE" "$MODEL" "${ROUTE_STYLE:-openai}" "${QUALIFIED:-yes}" > "$REC" \
+       && [ -f "$REC" ] && [ -s "$REC" ]; then
+    RECEIPT_WRITE=1
+    commit_all "evidence(s4post-b): ${LANE} lane receipt ${TOKEN} (child exit ${CODE})" \
+      || { echo "RECEIPT_COMMIT_FAILED" >&2; POSTFAIL=1; }
+  else
+    echo "RECEIPT_WRITE_FAILED $REC" >&2
+  fi
+fi
+[ "$RECEIPT_WRITE" -eq 1 ] || echo "NO_RECEIPT_WRITTEN" >&2
+
+# round-6 M4: the FINAL status query happens AFTER the receipt commit, and only this result is
+# reported. Previously the query ran before that commit, so a post-commit hook could leave dirt
+# while the wrapper still printed the earlier "dirty=0" and returned 0.
 DIRTY2="$(status_count)"
 [ "$DIRTY2" != "ERR" ] || { echo "POSTFLIGHT_STATUS_FAILED" >&2; POSTFAIL=1; }
 if [ "$DIRTY2" != "ERR" ] && [ "$DIRTY2" -ne 0 ]; then
-  echo "POSTFLIGHT_DIRTY_REJECTED: $DIRTY2 path(s) still untracked" >&2; POSTFAIL=1
+  echo "POSTFLIGHT_DIRTY_REJECTED: $DIRTY2 path(s) still untracked after every commit" >&2; POSTFAIL=1
 fi
-
-# The receipt attests that everything above passed. It is written last and committed, so the gate can
-# test for THIS launch without a wildcard that an older receipt could satisfy.
-if [ "$COPY_OK" -eq 1 ] && [ "$RECEIPT_OK" -eq 1 ] && [ "$POSTFAIL" -eq 0 ]; then
-  printf 'lane=%s\nstamp=%s\ntoken=%s\nchild_exit=%s\npostflight_dirty=%s\nmodel=%s\nroute=%s\n' \
-    "$LANE" "$STAMP" "$TOKEN" "$CODE" "$DIRTY2" "$MODEL" "${ROUTE_STYLE:-openai}" > "$S/${LANE}_${TOKEN}.receipt"
-  commit_all "evidence(s4post-b): ${LANE} lane receipt ${TOKEN} (child exit ${CODE})" \
-    || { echo "RECEIPT_COMMIT_FAILED" >&2; POSTFAIL=1; }
-  echo "RECEIPT_WRITTEN ${LANE}_${TOKEN}.receipt"
-fi
-
 echo "POSTFLIGHT:dirty=$DIRTY2 HEAD=$(git rev-parse --short HEAD)"
 echo "${LANE}_LANE_DONE"
 
 [ "$COPY_OK" -eq 1 ] || exit 4
 [ "$RECEIPT_OK" -eq 1 ] || exit 6
+[ "$MAN_OK" -eq 1 ] || exit 6
+[ "$RECEIPT_WRITE" -eq 1 ] || exit 6
 [ "$POSTFAIL" -eq 0 ] || exit 5
 exit "$CODE"

@@ -20,6 +20,8 @@
 #       8 the lane set had a failing child or a missing/failed receipt.
 set -u
 
+unset BASH_ENV ENV   # round-6 M7: do not inherit a caller-seeded shell start-up file
+
 ROLE="${1:-}"; [ -n "$ROLE" ] || { echo "REFUSED[3] usage: run_lanes_gated.sh <EXECUTE|VERIFY> <brief>..." >&2; exit 3; }
 shift
 [ "$#" -ge 1 ] || { echo "REFUSED[3] no briefs given" >&2; exit 3; }
@@ -69,8 +71,17 @@ route_inv() {
 }
 mapfile -t QINV < <(route_inv)
 
+SKIP_ACK="$S/GATE_SKIP_QUALIFY_ACK.md"
 if [ "${GATE_SKIP_QUALIFY:-0}" = "1" ]; then
-  echo "QUALIFICATION_SKIPPED_BY_ENV (testing switch; a lane admitted this way is NOT qualified)"
+  # round-6 M8: this was an exposed bypass - any caller could set it and admit a writer with no
+  # qualification at all. It now needs an owner-visible acknowledgement file, and every lane
+  # admitted this way is recorded as unqualified.
+  if [ ! -f "$SKIP_ACK" ] || ! grep -q "^authorizes_skip_qualification: $ROLE$" "$SKIP_ACK"; then
+    echo "QUALIFICATION_SKIP_UNAUTHORISED: GATE_SKIP_QUALIFY=1 needs GATE_SKIP_QUALIFY_ACK.md naming role $ROLE"
+    echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 6
+  fi
+  QUALIFIED="no"
+  echo "QUALIFICATION_SKIPPED_BY_ENV (authorised testing switch; a lane admitted this way is NOT qualified and the receipt records qualified=$QUALIFIED)"
 else
   # R4: a configurable count is an input and must be validated.
   RUNS="${GATE_QUALIFY_RUNS:-3}"
@@ -84,13 +95,20 @@ else
     timeout 900 "$BIN" "${QINV[@]}" exec --cd "$WT" --sandbox read-only --skip-git-repo-check \
       - < "$S/GATE_QUALIFICATION_BRIEF.md" > "$QLOG" 2>&1
     QC=$?
-    if [ "$QC" -ne 0 ] || ! grep -q 'Q1_OK' "$QLOG" || ! grep -q 'Q2_OK' "$QLOG"; then
-      echo "QUALIFICATION_FAILED model=$REQ_MODEL effort=$REQ_EFF attempt=$((k+1))/$RUNS exit=$QC log=$QLOG"
+    # round-6 M9: the sentinels alone are just strings - a stub that prints them passed the
+    # gate without performing a single tool call. Require the CLI header and at least TWO
+    # successful tool executions as well. Ceiling, stated plainly: any transcript-based check
+    # can still be produced by a stub, so this raises the bar and does not prove provenance.
+    TOOLLINES="$(grep -c ' succeeded in ' "$QLOG" 2>/dev/null | tr -d ' ')"
+    if [ "$QC" -ne 0 ] || ! grep -q 'Q1_OK' "$QLOG" || ! grep -q 'Q2_OK' "$QLOG" \
+       || ! grep -q 'OpenAI Codex v' "$QLOG" || [ "${TOOLLINES:-0}" -lt 2 ]; then
+      echo "QUALIFICATION_FAILED model=$REQ_MODEL effort=$REQ_EFF attempt=$((k+1))/$RUNS exit=$QC tool_execs=${TOOLLINES:-0} log=$QLOG"
       echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 7
     fi
     echo "  qualification attempt $((k+1))/$RUNS PASS"
     k=$((k+1))
   done
+  QUALIFIED="yes"
   echo "QUALIFICATION_PASSED model=$REQ_MODEL effort=$REQ_EFF consecutive_runs=$RUNS route=$ROLE_STYLE"
 fi
 
@@ -106,15 +124,23 @@ for B in "$@"; do
   LANE="$(basename "$B" .md | tr 'a-z' 'A-Z' | tr -c 'A-Z0-9' '_' | cut -c1-14)"
   TOKEN="${GATE_STAMP}-${i}"
   # R5: the child is launched through the SAME route the qualification exercised.
-  LANE_TOKEN="$TOKEN" LANE_INDEX="$i" LANE_MODEL="$REQ_MODEL" LANE_PROVIDER="$REQ_PROV" LANE_EFFORT="$REQ_EFF" \
+  LANE_TOKEN="$TOKEN" LANE_INDEX="$i" LANE_ROLE="$ROLE" QUALIFIED="${QUALIFIED:-yes}" \
+    LANE_MODEL="$REQ_MODEL" LANE_PROVIDER="$REQ_PROV" LANE_EFFORT="$REQ_EFF" \
     LANE_SANDBOX="${LANE_SANDBOX:-workspace-write}" ROUTE_STYLE="$ROLE_STYLE" ROUTE_CATALOG="$ROUTE_CATALOG" \
     ROUTE_BASE_URL="$ROUTE_BASE_URL" GATE_STUB_EXITS="${GATE_STUB_EXITS:-}" \
-    bash "$S/run_lane.sh" "$LANE" "$B" "$OUTSUB"
+    env -u BASH_ENV -u ENV bash "$S/run_lane.sh" "$LANE" "$B" "$OUTSUB"
   C=$?
   echo "CHILD lane=$LANE index=$i exit=$C"
   [ "$C" -eq 0 ] || FAILED=1
-  # The receipt is per launch, so an older receipt cannot satisfy this check.
-  if [ ! -f "$S/${LANE}_${TOKEN}.receipt" ]; then echo "CHILD_RECEIPT_MISSING lane=$LANE token=$TOKEN"; MISSING=1; fi
+  # round-6 M6: existence alone was enough, so an EMPTY file or a forged, wrong-token,
+  # wrong-route receipt with child_exit=99 satisfied the gate. The content is validated now.
+  RCP="$S/${LANE}_${TOKEN}.receipt"
+  if [ ! -f "$RCP" ] || [ ! -s "$RCP" ]; then
+    echo "CHILD_RECEIPT_MISSING lane=$LANE token=$TOKEN (absent, or not a non-empty regular file)"; MISSING=1
+  elif ! grep -qx "token=$TOKEN" "$RCP" || ! grep -qx "child_exit=0" "$RCP" \
+       || ! grep -qx "route=$ROLE_STYLE" "$RCP" || ! grep -qx "lane=$LANE" "$RCP"; then
+    echo "CHILD_RECEIPT_INVALID lane=$LANE token=$TOKEN: $(tr '\n' ' ' < "$RCP" | cut -c1-160)"; MISSING=1
+  fi
   i=$((i+1))
 done
 
