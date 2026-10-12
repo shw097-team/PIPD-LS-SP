@@ -166,6 +166,41 @@ ck G13_CONFLICTING_RECEIPT_REJECTED 8 "$(gitq GATE_SKIP_QUALIFY=1)"
 has G13_names_the_receipt CHILD_RECEIPT_INVALID "$LOGD/G13.out"
 rm -f "$HOOK"
 
+echo "### G14 owner authorisation is per role, plain-valued and covers the provider axis (round-10)"
+# Round 10 demonstrated: `.*` was "named" by any record (BRE match), an EXECUTE-scoped exception
+# authorised a VERIFY lane, an unassigned provider bypassed the check, and effort was never checked.
+OWNERBAK="$LOGD/owner.bak"; cp "$OWNER" "$OWNERBAK"
+OUT=G14a; GARGS=(EXECUTE brief_nt_a.md)
+ck G14a_REGEX_MODEL_REFUSED 6 "$(gitq LANE_MODEL='.*' GATE_SKIP_QUALIFY=1)"
+has G14a_names_the_axis MODEL_DEVIATION_REQUIRES_OWNER_DECISION "$LOGD/G14a.out"
+OUT=G14b; GARGS=(VERIFY brief_nt_a.md)
+ck G14b_ROLE_CROSSING_REFUSED 6 "$(gitq LANE_MODEL=opencode-go/deepseek-v4-flash GATE_SKIP_QUALIFY=1)"
+has G14b_names_the_axis "axis=model role=VERIFY" "$LOGD/G14b.out"
+OUT=G14c; GARGS=(EXECUTE brief_nt_a.md)
+ck G14c_PROVIDER_OVERRIDE_REFUSED 6 "$(gitq LANE_PROVIDER=unassigned GATE_SKIP_QUALIFY=1)"
+has G14c_names_the_axis "axis=provider" "$LOGD/G14c.out"
+OUT=G14d; GARGS=(EXECUTE brief_nt_a.md)
+ck G14d_UNDECLARED_EFFORT_REFUSED 6 "$(gitq LANE_EFFORT=minimal GATE_SKIP_QUALIFY=1)"
+has G14d_names_the_axis "axis=effort" "$LOGD/G14d.out"
+# positive control: the role's own authorised value is still admitted, so the mechanism is a scope and
+# not a blanket refusal
+OUT=G14e; GARGS=(EXECUTE brief_nt_a.md)
+ck G14e_AUTHORISED_VALUE_STILL_RUNS 0 "$(gitq LANE_MODEL=opencode-go/deepseek-v4-flash LANE_EFFORT=none GATE_SKIP_QUALIFY=1)"
+has G14e_records_the_axes "axes=[ model effort ]" "$LOGD/G14e.out"
+
+echo "### G15 a log directory reached through a Windows junction is refused (round-10)"
+# Round 10 showed the lexical pwd -P containment test is defeated by a junction; the gate wrote its
+# log INSIDE the worktree and returned 0.
+LJ="$LOGD/junction-in"; rm -rf "$LJ"; mkdir -p "$LJ"
+if command -v cygpath >/dev/null 2>&1 && cmd //c mklink //J "$(cygpath -w "$LJ/j")" "$(cygpath -w "$WT")" >/dev/null 2>&1; then
+  OUT=G15; GARGS=(EXECUTE brief_nt_a.md)
+  ck G15_JUNCTION_REFUSED 3 "$(gitq TMPDIR="$LJ/j" GATE_SKIP_QUALIFY=1)"
+  has G15_names_the_containment "inside the worktree" "$LOGD/G15.out"
+  if [ -e "$WT/hgk-lanes" ]; then echo "FAIL G15_left_a_dir_in_the_worktree"; fail=$((fail+1)); else echo "PASS G15_left_no_dir_in_the_worktree"; pass=$((pass+1)); fi
+else
+  echo "SKIP G15_no_junction_available (reported, not passed)"
+fi
+
 echo
 echo "RESULT pass=$pass fail=$fail"
 [ "$fail" -eq 0 ] || exit 1

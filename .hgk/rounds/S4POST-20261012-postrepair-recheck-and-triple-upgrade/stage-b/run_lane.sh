@@ -111,10 +111,10 @@ mkdir -p "$R/$OUTSUB" || die 3 "cannot create round-relative output dir: $OUTSUB
 # "qualified one route, launched another" defect.
 LANE_ROLE="${LANE_ROLE:-}"
 if [ -n "$LANE_ROLE" ]; then
-  AEXP="$(python -c "import json,sys;r=json.load(open(sys.argv[1],encoding='utf-8'))['roles'][sys.argv[2]];print(r['model'],r['reasoning_effort'],r.get('route',{}).get('style','openai'))" "$S/ROUND_ASSIGNMENT.json" "$LANE_ROLE" 2>/dev/null)" \
+  AEXP="$(python -c "import json,sys;r=json.load(open(sys.argv[1],encoding='utf-8'))['roles'][sys.argv[2]];print(r['model'],r['reasoning_effort'],r.get('route',{}).get('style','openai'),r['provider'])" "$S/ROUND_ASSIGNMENT.json" "$LANE_ROLE" 2>/dev/null)" \
     || die 3 "cannot read the assignment for role $LANE_ROLE"
   [ -n "$AEXP" ] || die 3 "role $LANE_ROLE is not in the assignment"
-  read -r A_MODEL A_EFF A_STYLE <<< "$AEXP"
+  read -r A_MODEL A_EFF A_STYLE A_PROV <<< "$AEXP"
 fi
 
 case "$LANE" in
@@ -139,16 +139,25 @@ if [ -n "$LANE_ROLE" ]; then
     # was reported as owner-authorised although no such value exists in the record. A value that is
     # not a plain identifier cannot be an authorised model name, so it is refused before matching.
     die 6 "model is not a plain identifier: env=$MODEL"
-  elif [ -f "$OWNERF" ] && grep -Fqx "authorizes: $MODEL" "$OWNERF"; then
+  elif [ -f "$OWNERF" ] && grep -Fqx -- "authorizes_model: $LANE_ROLE $MODEL" "$OWNERF"; then
     echo "CHILD_OWNER_AUTHORISED_DEVIATION model=$MODEL assignment=$A_MODEL"
   else
     die 6 "model mismatch with the assignment and not owner-authorised: env=$MODEL assignment=$A_MODEL"
+  fi
+  if [ "$PROV" = "$A_PROV" ]; then
+    :
+  elif ! printf '%s' "$PROV" | grep -qE '^[A-Za-z0-9._+-]+$'; then
+    die 6 "provider is not a plain identifier: env=$PROV"
+  elif [ -f "$OWNERF" ] && grep -Fqx -- "authorizes_provider: $LANE_ROLE $PROV" "$OWNERF"; then
+    echo "CHILD_OWNER_AUTHORISED_PROVIDER provider=$PROV assignment=$A_PROV"
+  else
+    die 6 "provider mismatch with the assignment and not owner-authorised: env=$PROV assignment=$A_PROV"
   fi
   if [ "$EFF" = "$A_EFF" ]; then
     :
   elif ! printf '%s' "$EFF" | grep -qE '^[A-Za-z0-9._+-]+$'; then
     die 6 "effort is not a plain identifier: env=$EFF"
-  elif [ -f "$OWNERF" ] && grep -Fqx "authorizes_effort: $EFF" "$OWNERF"; then
+  elif [ -f "$OWNERF" ] && grep -Fqx -- "authorizes_effort: $LANE_ROLE $EFF" "$OWNERF"; then
     echo "CHILD_OWNER_AUTHORISED_EFFORT effort=$EFF assignment_effort=$A_EFF"
   else
     die 6 "effort mismatch with the assignment and not owner-authorised: env=$EFF assignment=$A_EFF"

@@ -73,4 +73,21 @@ has A3_record_says_identity_changes "changes the checker's identity" "$CLONE/$RE
 hasnot A3_no_record_for_the_killed_lane_unneeded "CHECKER_FAILOVER_START" "$LOGD/A.out"
 
 echo "RESULT pass=$pass fail=$fail"
-[ "$fail" -eq 0 ]
+[ "$fail" -eq 0 ]echo "### A4 a protocol 400 whose text ALSO carries a quota word must NOT fail over (round-10)"
+run C "Provider error 400: [invalid_request_error] The reasoning_content in the thinking mode must be passed back. Service at capacity." > "$LOGD/C.out" 2>&1
+ck A4_nonzero_exit "$?" 1
+has A4_says_not_exhaustion "CHECKER_PRIMARY_FAILED_NOT_EXHAUSTION" "$LOGD/C.out"
+has A4_names_the_hard_failure "hard_failure=[" "$LOGD/C.out"
+hasnot A4_did_not_fail_over "CHECKER_FAILOVER_START" "$LOGD/C.out"
+
+echo "### A5 a real exhaustion failover must leave its record committed and the tree clean (round-10)"
+run D "ERROR: You've hit your usage limit. Upgrade to Pro or try again at 10:37 PM." > "$LOGD/D.out" 2>&1
+has A5_failed_over "CHECKER_FAILOVER_START" "$LOGD/D.out"
+has A5_backup_ok "CHECKER_BACKUP_OK" "$LOGD/D.out"
+REC="$(grep -o 'CHECKER_FAILOVER_RECORD .*' "$LOGD/D.out" | tail -1 | awk '{print $2}')"
+if [ -n "$REC" ] && git -C "$CLONE" ls-files --error-unmatch "${REC#$CLONE/}" >/dev/null 2>&1; then echo "PASS A5_record_tracked"; pass=$((pass+1)); else echo "FAIL A5_record_tracked ($REC)"; fail=$((fail+1)); fi
+if [ -z "$(git -C "$CLONE" status --porcelain)" ]; then echo "PASS A5_tree_clean"; pass=$((pass+1)); else echo "FAIL A5_tree_clean"; fail=$((fail+1)); fi
+
+echo
+echo "RESULT pass=$pass fail=$fail"
+[ "$fail" -eq 0 ] || exit 1

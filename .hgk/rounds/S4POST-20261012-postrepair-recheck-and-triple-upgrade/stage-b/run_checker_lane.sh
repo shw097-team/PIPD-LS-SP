@@ -65,6 +65,16 @@ SIG=""
 if [ -n "$LOG1" ] && [ -f "$LOG1" ]; then
   SIG="$(grep -o -i -E "$EXHAUST_RE" "$LOG1" | sort | uniq -c | sort -rn | head -5 | tr '\n' ';' )"
 fi
+HARD_RE='invalid_request_error|reasoning_content|flagged for possible|cybersecurity|error 400|status 400|400 Bad Request'
+HARD=""
+[ -n "$LOG1" ] && [ -f "$LOG1" ] && HARD="$(grep -o -i -E "$HARD_RE" "$LOG1" 2>/dev/null | sort -u | tr '\n' ';')"
+if [ -n "$HARD" ]; then
+  # A protocol failure (an independent officer demonstrated a 400 invalid_request_error beside an
+  # incidental quota word) used to switch models and then report success - the "work around a real
+  # failure by switching models" the owner's ruling forbids. A hard-failure marker vetoes the switch.
+  echo "CHECKER_PRIMARY_FAILED_NOT_EXHAUSTION lane=$LANE exit=$CODE1 hard_failure=[$HARD] signature=[$SIG] - no failover, this is reported not worked around"
+  exit "$CODE1"
+fi
 if [ -z "$SIG" ]; then
   echo "CHECKER_PRIMARY_FAILED_NOT_EXHAUSTION lane=$LANE exit=$CODE1 - no failover, this is reported not worked around"
   exit "$CODE1"
@@ -95,6 +105,17 @@ STAMP2="$(printf '%s\n' "$OUT2" | sed -n 's/^'"$LANE"'_LANE=\([0-9TZ]*\).*/\1/p'
   echo "different model than the assigned checker, and the verdict document must say so. The failover does"
   echo "not transfer, and does not create, any acceptance this round would not otherwise have."
 } > "$REC"
+# FCR-006: the record was written after the launcher's own postflight, so the wrapper could return
+# success while the record stayed untracked. Commit it, then re-read the status, as the launcher does.
+REC_REL="${REC#$WT/}"
+git -C "$WT" add -- "$REC_REL" 2>/dev/null
+if ! git -C "$WT" -c user.email=lane-harness@local.invalid -c user.name="hgk lane harness" commit -q -m "evidence(s4post-b): checker failover record for $LANE" 2>/dev/null; then
+  echo "CHECKER_FAILOVER_RECORD_NOT_COMMITTED $REC_REL"; exit 4
+fi
+DIRT="$(git -C "$WT" status --porcelain)"
+if [ -n "$DIRT" ]; then
+  echo "CHECKER_FAILOVER_RECORD_DIRTY $(printf '%s' "$DIRT" | tr '\n' ';')"; exit 4
+fi
 echo "CHECKER_FAILOVER_RECORD $REC"
 
 if [ "$CODE2" -eq 0 ]; then echo "CHECKER_BACKUP_OK lane=$LANE stamp=$STAMP2"; exit 0; fi

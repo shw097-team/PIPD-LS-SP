@@ -39,6 +39,18 @@ WTRES="$(nrmg "$WT")"; LGRES="$(nrmg "$(dirname "$LOGDIR")")"
 [ -n "$WTRES" ] && [ -n "$LGRES" ] || { echo "REFUSED[3] cannot resolve worktree/log paths for the containment check" >&2; echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 3; }
 case "$LGRES" in "$WTRES"|"$WTRES"/*) echo "REFUSED[3] gate log dir resolves inside the worktree: $LGRES" >&2; echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 3 ;; esac
 mkdir -p "$LOGDIR"
+# FCR-004: the lexical pwd -P comparison above is defeated by a Windows junction, which let the gate
+# write its own log INSIDE the worktree and still return 0. Ask the worktree's own VCS instead: a probe
+# file placed in the log directory is visible to `git status` in the worktree exactly when that
+# directory is inside it, whatever the path spelling or link type.
+PROBE=".hgk-containment-probe-$$"
+: > "$LOGDIR/$PROBE" 2>/dev/null || { echo "REFUSED[3] gate log dir is not writable: $LOGDIR" >&2; echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 3; }
+if git -C "$WT" status --porcelain --untracked-files=all --ignored=matching 2>/dev/null | grep -qF -- "$PROBE"; then
+  rm -f "$LOGDIR/$PROBE"
+  echo "REFUSED[3] gate log dir is inside the worktree (git sees the probe): $LOGDIR" >&2
+  echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 3
+fi
+rm -f "$LOGDIR/$PROBE"
 OUTSUB="${GATE_OUTSUB:-verify/gate}"
 PDF="${GATE_PY:-python}"
 
@@ -53,19 +65,29 @@ ROUTE_BASE_URL="$(read_role "r.get('route',{}).get('base_url','http://127.0.0.1:
 echo "ASSIGNMENT role=$ROLE model=$A_MODEL provider=$A_PROV effort=$A_EFF route=$ROLE_STYLE"
 
 REQ_MODEL="${LANE_MODEL:-$A_MODEL}"; REQ_PROV="${LANE_PROVIDER:-$A_PROV}"; REQ_EFF="${LANE_EFFORT:-$A_EFF}"
-DEVIATED=0
-[ "$REQ_MODEL" = "$A_MODEL" ] || DEVIATED=1
-[ "$REQ_EFF" = "$A_EFF" ] || DEVIATED=1
+DEVIATED=0; DEV_AXES=""
+[ "$REQ_MODEL" = "$A_MODEL" ] || { DEVIATED=1; DEV_AXES="$DEV_AXES model"; }
+[ "$REQ_EFF" = "$A_EFF" ] || { DEVIATED=1; DEV_AXES="$DEV_AXES effort"; }
+# FCR-001/002/003: this block used to be a single BRE match on a bare `authorizes:` line, so a request
+# of `.*` was "named" by any record, an EXECUTE-scoped exception authorised a VERIFY lane, an unassigned
+# provider bypassed the check entirely, and the effort axis had no check at all. One plain value per
+# axis, role-qualified, matched as a fixed string.
+plain_id() { case "$1" in ""|*[!A-Za-z0-9._/-]*) return 1 ;; *) return 0 ;; esac; }
+owner_named() { plain_id "$2" && grep -Fqx -- "authorizes_$1: $ROLE $2" "$OWNERFILE" 2>/dev/null; }
+[ "$REQ_PROV" = "$A_PROV" ] || { DEVIATED=1; DEV_AXES="$DEV_AXES provider"; }
 if [ "$DEVIATED" -eq 1 ]; then
   if [ ! -f "$OWNERFILE" ]; then
-    echo "MODEL_DEVIATION_REQUIRES_OWNER_DECISION requested=$REQ_MODEL/$REQ_EFF assigned=$A_MODEL/$A_EFF owner_record=MISSING"
+    echo "MODEL_DEVIATION_REQUIRES_OWNER_DECISION requested=$REQ_MODEL/$REQ_EFF/$REQ_PROV assigned=$A_MODEL/$A_EFF/$A_PROV owner_record=MISSING"
     echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 6
   fi
-  if ! grep -qx "authorizes: $REQ_MODEL" "$OWNERFILE"; then
-    echo "MODEL_DEVIATION_REQUIRES_OWNER_DECISION requested=$REQ_MODEL is not named in the owner decision record"
-    echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 6
-  fi
-  echo "OWNER_AUTHORISED_DEVIATION model=$REQ_MODEL effort=$REQ_EFF assigned=$A_MODEL/$A_EFF record=OWNER_DECISION_MODEL_DEVIATION.md"
+  for ax in $DEV_AXES; do
+    case "$ax" in model) av="$REQ_MODEL" ;; effort) av="$REQ_EFF" ;; provider) av="$REQ_PROV" ;; esac
+    if ! owner_named "$ax" "$av"; then
+      echo "MODEL_DEVIATION_REQUIRES_OWNER_DECISION axis=$ax role=$ROLE requested=$av is not named for this role in the owner decision record"
+      echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 6
+    fi
+  done
+  echo "OWNER_AUTHORISED_DEVIATION role=$ROLE axes=[$DEV_AXES] model=$REQ_MODEL effort=$REQ_EFF provider=$REQ_PROV assigned=$A_MODEL/$A_EFF/$A_PROV record=OWNER_DECISION_MODEL_DEVIATION.md"
 fi
 
 BIN="${GATE_BIN:-${CODEX_BIN:-/c/Users/user/AppData/Local/OpenAI/Codex/bin/2e5e00daee91c61d/codex.exe}}"

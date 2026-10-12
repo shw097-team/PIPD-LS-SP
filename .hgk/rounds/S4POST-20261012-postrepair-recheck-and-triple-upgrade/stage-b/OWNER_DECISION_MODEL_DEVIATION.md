@@ -1,16 +1,19 @@
 # Owner decision record: EXECUTE lane model deviation
 
-This file is the gate's authorisation input. Its presence allows exactly the model named on the
-`authorizes:` line and nothing else; any other model is still refused.
+This file is the gate's authorisation input. Each line authorises exactly one value on one axis for
+one role, in the form `authorizes_<model|effort|provider>: <ROLE> <value>`. The value must be a plain
+identifier (letters, digits, dot, underscore, slash, hyphen) and is matched as a fixed string, so a
+deviation cannot be named by a pattern, cannot inherit another role's exception, and cannot be met by
+an axis the owner never ruled on.
 
-authorizes: opencode-go/deepseek-v4-flash
-authorizes_effort: none
+authorizes_model: EXECUTE opencode-go/deepseek-v4-flash
+authorizes_effort: EXECUTE none
 
 The `authorizes_effort` line is factual, not an extra permission: the Stage-B artifacts this record
 accepts were produced by the backup writer lanes at reasoning effort `none`, and the independent
 verifier's verdict covers that artifact set as produced.
 
-authorizes_checker: opencode-go/glm-5.3-flash
+authorizes_model: VERIFY opencode-go/glm-5.3-flash
 
 ## Checker failover (owner ruling, 2026-10-12, verbatim)
 
