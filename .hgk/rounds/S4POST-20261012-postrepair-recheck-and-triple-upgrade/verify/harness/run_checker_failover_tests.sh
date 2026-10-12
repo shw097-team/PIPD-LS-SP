@@ -50,7 +50,8 @@ run(){ FO_STATE="$LOGD/st$1" FO_MSG="$2" CODEX_BIN="$STB" LANE_WT="$CLONE" bash 
 echo "### A1 a provider content-filter kill must NOT be worked around by a model switch"
 printf 'x\n' > "$CLONE/$REL/stage-b/br_fo.md"
 run A "ERROR: This content was flagged for possible cybersecurity risk." > "$LOGD/A.out" 2>&1
-ck A1_nonzero_exit "$?" 0
+# The primary's own exit code must be propagated: 1 means "failed", which is the point.
+ck A1_nonzero_exit "$?" 1
 has A1_says_not_exhaustion "CHECKER_PRIMARY_FAILED_NOT_EXHAUSTION" "$LOGD/A.out"
 hasnot A1_did_not_fail_over "CHECKER_FAILOVER_START" "$LOGD/A.out"
 hasnot A1_no_backup_ok "CHECKER_BACKUP_OK" "$LOGD/A.out"
