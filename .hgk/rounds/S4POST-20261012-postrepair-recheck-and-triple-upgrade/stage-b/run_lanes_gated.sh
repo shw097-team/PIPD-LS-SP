@@ -61,9 +61,18 @@ else
 # make the name unique; keep the log even when the gate refuses.
 QSAFE="$(printf %s "$REQ_MODEL" | tr -c "A-Za-z0-9._-" "_")"
   QLOG="$LOGDIR/qual-$(date -u +%Y%m%dT%H%M%SZ)-$$-${ROLE}-${QSAFE}.log"
-  timeout 900 "$BIN" exec --cd "$WT" --sandbox read-only \
-    -m "$REQ_MODEL" -c "model_provider=\"$REQ_PROV\"" -c "model_reasoning_effort=\"$REQ_EFF\"" \
-    -c "model_supports_reasoning_summaries=true" --skip-git-repo-check \
+  # Same route as the writers: a catalog slug is not a provider id. Qualifying through a
+  # different route would test a different lane than the one about to be trusted.
+  ROLE_STYLE="$( "$PDF" -c "import json,sys;r=json.load(open(sys.argv[1],encoding='utf-8'))['roles'][sys.argv[2]];print(r.get('route',{}).get('style','openai'))" "$ASSIGN" "$ROLE" 2>/dev/null )"
+  if [ "$ROLE_STYLE" = "catalog" ]; then
+    QINV=(-c "model=$REQ_MODEL" -c "model_reasoning_effort=\"$REQ_EFF\""
+          -c "openai_base_url=${ROUTE_BASE_URL:-http://127.0.0.1:10102/v1}"
+          -c "model_catalog_json=${ROUTE_CATALOG:-C:/Users/user/.codex/desktop-model-catalog.json}")
+  else
+    QINV=(-m "$REQ_MODEL" -c "model_provider=\"$REQ_PROV\"" -c "model_reasoning_effort=\"$REQ_EFF\"")
+  fi
+  echo "QUALIFICATION_ROUTE style=$ROLE_STYLE model=$REQ_MODEL effort=$REQ_EFF"
+  timeout 900 "$BIN" "${QINV[@]}" exec --cd "$WT" --sandbox read-only --skip-git-repo-check \
     - < "$S/GATE_QUALIFICATION_BRIEF.md" > "$QLOG" 2>&1
   QC=$?
   if [ "$QC" -ne 0 ] || ! grep -q 'Q1_OK' "$QLOG" || ! grep -q 'Q2_OK' "$QLOG"; then

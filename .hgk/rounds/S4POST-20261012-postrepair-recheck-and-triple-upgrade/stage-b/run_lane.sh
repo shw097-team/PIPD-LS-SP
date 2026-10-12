@@ -79,12 +79,22 @@ MODEL="${LANE_MODEL:-$DEF_MODEL}"; PROV="${LANE_PROVIDER:-$DEF_PROV}"; EFF="${LA
 SANDBOX_MODE="${LANE_SANDBOX:-workspace-write}"
 LOG="$LOGDIR/${LANE}_${STAMP}.log"; LOGEXIT="$LOG.exit"
 echo "${LANE}_LANE=${STAMP} MODEL=${MODEL} provider=${PROV} reasoning=${EFF} (declared)"
-printf 'LANE=%s\nMODEL=%s\nPROVIDER=%s\nEFFORT=%s\nSTAMP=%s\nWT=%s\n' \
-  "$LANE" "$MODEL" "$PROV" "$EFF" "$STAMP" "$WT" > "$S/${LANE}_${STAMP}.manifest"
+printf 'LANE=%s\nMODEL=%s\nPROVIDER=%s\nEFFORT=%s\nSTAMP=%s\nWT=%s\nROUTE_STYLE=%s\n' \
+  "$LANE" "$MODEL" "$PROV" "$EFF" "$STAMP" "$WT" "${ROUTE_STYLE:-openai}" > "$S/${LANE}_${STAMP}.manifest"
 
-timeout 5400 "$CODEX" exec --cd "$WT" --sandbox "$SANDBOX_MODE" \
-  -m "$MODEL" -c "model_provider=\"$PROV\"" -c "model_reasoning_effort=\"$EFF\"" \
-  -c "model_supports_reasoning_summaries=true" --skip-git-repo-check \
+# Route-aware invocation. A slug like "opencode-go/deepseek-v4.1-flash" is a CATALOG
+# ENTRY, not a provider id: passing it as -m with -c model_provider=<vendor> makes the
+# CLI answer "Model provider ... not found", which is a harness error and not a model
+# result. The catalog route supplies the adapter base URL and the catalog file and lets
+# the slug resolve; the openai route is the plain OAuth shape the checker lanes used.
+if [ "${ROUTE_STYLE:-openai}" = "catalog" ]; then
+  INV=(-c "model=$MODEL" -c "model_reasoning_effort=\"$EFF\""
+       -c "openai_base_url=${ROUTE_BASE_URL:-http://127.0.0.1:10102/v1}"
+       -c "model_catalog_json=${ROUTE_CATALOG:?catalog route needs ROUTE_CATALOG}")
+else
+  INV=(-m "$MODEL" -c "model_provider=\"$PROV\"" -c "model_reasoning_effort=\"$EFF\"")
+fi
+timeout 5400 "$CODEX" "${INV[@]}" exec --cd "$WT" --sandbox "$SANDBOX_MODE" --skip-git-repo-check \
   - < "$S/$BRIEF" > "$LOG" 2>&1
 CODE=$?
 echo "$CODE" > "$LOGEXIT"
