@@ -1,0 +1,257 @@
+OpenAI Codex v0.147.0-alpha.6.5
+--------
+workdir: C:\Projects\Agent_Workspace\PIPD\worktrees\s4ext-r1-verify
+model: gpt-5.6-sol
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a12e4d-70f3-7531-96d9-735d3de24f28
+--------
+user
+You are the **Independent Acceptance Officer** for one bounded repair round. You are NOT the maker:
+you did not write this code, you must not modify it, and you must not accept it on the maker's word.
+
+## Hard rules (violating any of these voids your verdict)
+
+1. **READ-ONLY on the candidate.** Do not create, edit, delete, move or `git add/commit/checkout`
+   anything inside the repository you are verifying. `git status --porcelain` must be empty when you
+   finish; a non-mutation guard records it before and after.
+2. **No network writes.** No `git push`, no tag creation, no releases, no issues, no PRs.
+3. **Raw evidence over summaries.** Every verdict line must cite the exact command you ran and its
+   real output. If you did not run it, say `NOT_RUN` — never mark it PASS.
+4. **Try to falsify, not to confirm.** For each claim below, first attempt the counterexample.
+5. Write your machine-readable verdict to
+   `C:/Projects/Agent_Workspace/PIPD/worktrees/s4ext-r1-wt/.hgk/rounds/S4EXT-R1-20261012-external-challenge-repair/verify/AO_VERDICT.json`
+   (the directory that holds this brief; it is OUTSIDE the candidate checkout). Write NOTHING
+   inside the candidate.
+
+## Subject under test
+
+* repository root: the current working directory (a fresh clone of the pushed repair branch)
+* branch: `fix/s4-external-challenge-20261012-r1-provenance-trace`
+* candidate commit: `e2e41ae76dede9b3222257872b4e28a340dc2a0c`
+* contract: `PIPD-S4EXT-R1-REPAIR-ROUTEOUT/1`, report id
+  `PIPD-LS-SP-S4-EXTERNAL-CHALLENGE-2026-10-12-R1`
+* the published (defective) subject for contrast: tag `v0.1.1-preview.3` → commit
+  `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`
+
+The maker claims, and you must independently confirm or refute:
+
+| # | claim |
+|---|---|
+| C1 | all 8 mount-pack documents under `dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3/` name the tuple's `release_tag_target` as the release identity, and the stale value `8faa64e5…` survives only on lines that explicitly disclose it |
+| C2 | the PUBLISHED Web ZIP is byte-identical to its release metadata digest, i.e. the repair did NOT rewrite the published artefact |
+| C3 | `validate --bundle` refuses a trace bundle whose endpoints are mis-typed, orphaned, or carry a wrong 64-hex hash, with a non-zero exit — while a legal bundle still validates |
+| C4 | the same counterexample PASSES on the released wheel, so the defect classification ("runtime false PASS") is not overstated |
+| C5 | the full deterministic test suite is green on this candidate |
+| C6 | the 57-row SPEC/DEL adjudication upgrades no status, does not treat `DESIGN_ONLY` rows as implemented, and treats `DEL-008` as not S4-blocking |
+| C7 | nothing in the tree claims S4 pass, release or production verification; the claim ceiling stays maker-candidate-only |
+| C8 | no secret, token or credential is present in the tree, and the git history scan is clean |
+
+## Method
+
+* `python -m unittest discover -s tests -t .` from the repository root (report the exact `Ran N`/verdict).
+* For C3/C4 build the bundles yourself in a scratch dir OUTSIDE the repository (use the system temp
+  dir); read `src/pipd_ls_sp/validate.py` and `src/pipd_ls_sp/pipeline.py` to understand the closure
+  states, then re-derive the counterexample from first principles rather than trusting the maker's
+  scripts. The maker's own probes are in `.hgk/rounds/S4EXT-R1-20261012-external-challenge-repair/raw/`
+  and `.../evidence/` — you may read them for cross-checking, but your verdict must come from YOUR run.
+* `tools/deny_list_scan.py` and `tools/history_secret_scan.py` for C8.
+* `git rev-parse v0.1.1-preview.3^{commit}` and `sha256sum` for C1/C2.
+* If something cannot be executed here (no network, missing host), mark it `NOT_RUN` with the reason.
+
+## Output format
+
+1. A short human summary (<= 30 lines): what you ran, what you found, what you could NOT establish.
+2. A fenced ```json block containing exactly:
+
+```json
+{
+  "verdict": "PASS_CHALLENGE | FAIL_CHALLENGE | PARTIAL_CHALLENGE",
+  "subject_commit": "...",
+  "subject_tree": "...",
+  "claims": [{"id": "C1", "verdict": "PASS|FAIL|PARTIAL|NOT_RUN", "command": "...",
+              "observed": "...", "counterexample_attempted": "..."}],
+  "blocking_findings": [],
+  "non_blocking_findings": [],
+  "maker_claim_ceiling_respected": true,
+  "independent_of_maker": true,
+  "candidate_mutated": false,
+  "what_this_verdict_is_not": "a release authorization, a tag approval, or a production claim"
+}
+```
+
+Write the same JSON to that same absolute `AO_VERDICT.json` path. Be specific and adversarial; a polite summary is
+worthless. If a maker claim is unsupported, say FAIL and show the command that shows it.
+
+warning: Code Mode is unavailable because failed to spawn code-mode host C:\Users\user\AppData\Local\HG-KSEOS\runtime\codex-0.147.0-alpha.6.5\codex-code-mode-host.exe: host executable was not found. Code mode will fail closed; enable `features.code_mode_host` and install `codex-code-mode-host`.
+codex
+I’ll treat the checkout as forensic evidence: establish the clean baseline first, run all Python commands with bytecode/cache output redirected or disabled, construct C3/C4 bundles only under the system temp directory, and write only the required verdict outside this checkout. Any unsupported claim will be marked accordingly.
+2026-10-12T04:09:59.525727Z ERROR codex_core::tools::router: error=failed to spawn code-mode host C:\Users\user\AppData\Local\HG-KSEOS\runtime\codex-0.147.0-alpha.6.5\codex-code-mode-host.exe: 系統找不到指定的檔案。 (os error 2)
+codex
+The execution wrapper failed before running any command because its local host executable is missing. I’m retrying the baseline check once in isolation; if the environment remains unable to execute, the rules require `NOT_RUN` rather than inferred PASS.
+2026-10-12T04:10:03.367277Z ERROR codex_core::tools::router: error=failed to spawn code-mode host C:\Users\user\AppData\Local\HG-KSEOS\runtime\codex-0.147.0-alpha.6.5\codex-code-mode-host.exe: 系統找不到指定的檔案。 (os error 2)
+2026-10-12T04:10:08.153234Z ERROR codex_core::tools::router: error=failed to spawn code-mode host C:\Users\user\AppData\Local\HG-KSEOS\runtime\codex-0.147.0-alpha.6.5\codex-code-mode-host.exe: 系統找不到指定的檔案。 (os error 2)
+codex
+Acceptance verification could not execute: the command runner failed before process creation on three attempts with `os error 2` (missing `codex-code-mode-host.exe`).
+
+No candidate command ran, no claim was tested, and no repository mutation occurred. The required external `AO_VERDICT.json` could not be written because the same unavailable execution wrapper provides filesystem access. This is a `PARTIAL_CHALLENGE`, not acceptance.
+
+```json
+{
+  "verdict": "PARTIAL_CHALLENGE",
+  "subject_commit": "e2e41ae76dede9b3222257872b4e28a340dc2a0c",
+  "subject_tree": "NOT_RUN",
+  "claims": [
+    {
+      "id": "C1",
+      "verdict": "NOT_RUN",
+      "command": "NOT_RUN",
+      "observed": "Execution wrapper failed before process creation: failed to spawn code-mode host C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\runtime\\codex-0.147.0-alpha.6.5\\codex-code-mode-host.exe: system cannot find the file specified (os error 2).",
+      "counterexample_attempted": "NOT_RUN: repository inspection and tag resolution could not start."
+    },
+    {
+      "id": "C2",
+      "verdict": "NOT_RUN",
+      "command": "NOT_RUN",
+      "observed": "Execution wrapper failed before process creation with missing codex-code-mode-host.exe (os error 2).",
+      "counterexample_attempted": "NOT_RUN: published ZIP and metadata digests could not be calculated."
+    },
+    {
+      "id": "C3",
+      "verdict": "NOT_RUN",
+      "command": "NOT_RUN",
+      "observed": "Execution wrapper failed before process creation with missing codex-code-mode-host.exe (os error 2).",
+      "counterexample_attempted": "NOT_RUN: validator sources could not be read and independent malformed bundles could not be constructed."
+    },
+    {
+      "id": "C4",
+      "verdict": "NOT_RUN",
+      "command": "NOT_RUN",
+      "observed": "Execution wrapper failed before process creation with missing codex-code-mode-host.exe (os error 2).",
+      "counterexample_attempted": "NOT_RUN: released-wheel counterexample could not be constructed or executed."
+    },
+    {
+      "id": "C5",
+      "verdict": "NOT_RUN",
+      "command": "NOT_RUN",
+      "observed": "Execution wrapper failed before process creation with missing codex-code-mode-host.exe (os error 2); no unittest Ran N output exists.",
+      "counterexample_attempted": "NOT_RUN: python -m unittest discover -s tests -t . could not start."
+    },
+    {
+      "id": "C6",
+      "verdict": "NOT_RUN",
+      "command": "NOT_RUN",
+      "observed": "Execution wrapper failed before process creation with missing codex-code-mode-host.exe (os error 2).",
+      "counterexample_attempted": "NOT_RUN: the 57-row adjudication could not be inspected for status upgrades, DESIGN_ONLY treatment, or DEL-008 classification."
+    },
+    {
+      "id": "C7",
+      "verdict": "NOT_RUN",
+      "command": "NOT_RUN",
+      "observed": "Execution wrapper failed before process creation with missing codex-code-mode-host.exe (os error 2).",
+      "counterexample_attempted": "NOT_RUN: tree-wide forbidden-claim searches could not start."
+    },
+    {
+      "id": "C8",
+      "verdict": "NOT_RUN",
+      "command": "NOT_RUN",
+      "observed": "Execution wrapper failed before process creation with missing codex-code-mode-host.exe (os error 2).",
+      "counterexample_attempted": "NOT_RUN: tools/deny_list_scan.py and tools/history_secret_scan.py could not start."
+    }
+  ],
+  "blocking_findings": [
+    "Acceptance infrastructure is unusable: every shell invocation failed before process creation because codex-code-mode-host.exe is missing.",
+    "The required external AO_VERDICT.json was not written because filesystem tooling depends on the same unavailable execution wrapper.",
+    "Final git status cleanliness could not be independently established."
+  ],
+  "non_blocking_findings": [],
+  "maker_claim_ceiling_respected": true,
+  "independent_of_maker": true,
+  "candidate_mutated": false,
+  "what_this_verdict_is_not": "a release authorization, a tag approval, or a production claim"
+}
+```
+tokens used
+20,012
+Acceptance verification could not execute: the command runner failed before process creation on three attempts with `os error 2` (missing `codex-code-mode-host.exe`).
+
+No candidate command ran, no claim was tested, and no repository mutation occurred. The required external `AO_VERDICT.json` could not be written because the same unavailable execution wrapper provides filesystem access. This is a `PARTIAL_CHALLENGE`, not acceptance.
+
+```json
+{
+  "verdict": "PARTIAL_CHALLENGE",
+  "subject_commit": "e2e41ae76dede9b3222257872b4e28a340dc2a0c",
+  "subject_tree": "NOT_RUN",
+  "claims": [
+    {
+      "id": "C1",
+      "verdict": "NOT_RUN",
+      "command": "NOT_RUN",
+      "observed": "Execution wrapper failed before process creation: failed to spawn code-mode host C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\runtime\\codex-0.147.0-alpha.6.5\\codex-code-mode-host.exe: system cannot find the file specified (os error 2).",
+      "counterexample_attempted": "NOT_RUN: repository inspection and tag resolution could not start."
+    },
+    {
+      "id": "C2",
+      "verdict": "NOT_RUN",
+      "command": "NOT_RUN",
+      "observed": "Execution wrapper failed before process creation with missing codex-code-mode-host.exe (os error 2).",
+      "counterexample_attempted": "NOT_RUN: published ZIP and metadata digests could not be calculated."
+    },
+    {
+      "id": "C3",
+      "verdict": "NOT_RUN",
+      "command": "NOT_RUN",
+      "observed": "Execution wrapper failed before process creation with missing codex-code-mode-host.exe (os error 2).",
+      "counterexample_attempted": "NOT_RUN: validator sources could not be read and independent malformed bundles could not be constructed."
+    },
+    {
+      "id": "C4",
+      "verdict": "NOT_RUN",
+      "command": "NOT_RUN",
+      "observed": "Execution wrapper failed before process creation with missing codex-code-mode-host.exe (os error 2).",
+      "counterexample_attempted": "NOT_RUN: released-wheel counterexample could not be constructed or executed."
+    },
+    {
+      "id": "C5",
+      "verdict": "NOT_RUN",
+      "command": "NOT_RUN",
+      "observed": "Execution wrapper failed before process creation with missing codex-code-mode-host.exe (os error 2); no unittest Ran N output exists.",
+      "counterexample_attempted": "NOT_RUN: python -m unittest discover -s tests -t . could not start."
+    },
+    {
+      "id": "C6",
+      "verdict": "NOT_RUN",
+      "command": "NOT_RUN",
+      "observed": "Execution wrapper failed before process creation with missing codex-code-mode-host.exe (os error 2).",
+      "counterexample_attempted": "NOT_RUN: the 57-row adjudication could not be inspected for status upgrades, DESIGN_ONLY treatment, or DEL-008 classification."
+    },
+    {
+      "id": "C7",
+      "verdict": "NOT_RUN",
+      "command": "NOT_RUN",
+      "observed": "Execution wrapper failed before process creation with missing codex-code-mode-host.exe (os error 2).",
+      "counterexample_attempted": "NOT_RUN: tree-wide forbidden-claim searches could not start."
+    },
+    {
+      "id": "C8",
+      "verdict": "NOT_RUN",
+      "command": "NOT_RUN",
+      "observed": "Execution wrapper failed before process creation with missing codex-code-mode-host.exe (os error 2).",
+      "counterexample_attempted": "NOT_RUN: tools/deny_list_scan.py and tools/history_secret_scan.py could not start."
+    }
+  ],
+  "blocking_findings": [
+    "Acceptance infrastructure is unusable: every shell invocation failed before process creation because codex-code-mode-host.exe is missing.",
+    "The required external AO_VERDICT.json was not written because filesystem tooling depends on the same unavailable execution wrapper.",
+    "Final git status cleanliness could not be independently established."
+  ],
+  "non_blocking_findings": [],
+  "maker_claim_ceiling_respected": true,
+  "independent_of_maker": true,
+  "candidate_mutated": false,
+  "what_this_verdict_is_not": "a release authorization, a tag approval, or a production claim"
+}
+```

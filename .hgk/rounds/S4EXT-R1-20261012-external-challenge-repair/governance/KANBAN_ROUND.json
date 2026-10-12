@@ -127,6 +127,77 @@
     "ERR_INTAKE_STATE/ERR_PLAN_STATE/ERR_ADMIT_STATE = EXECUTING"
    ],
    "owner": "HG-KSEOS owner"
+  },
+  {
+   "id": "TT-S4EXT-012",
+   "title": "declared checker model unserviceable on the OAuth path",
+   "state": "REMEDIATED_FOR_THIS_ROUND_OWNER_OPEN",
+   "artifacts": [
+    "evidence/09_CHALLENGE/MODEL_SUBSTITUTION.txt"
+   ],
+   "open_items": [
+    "owner: replace the lane model or obtain entitlement"
+   ],
+   "owner": "lane owner"
+  },
+  {
+   "id": "TT-S4EXT-013",
+   "title": "checker exec wrapper host binary missing in one build",
+   "state": "REMEDIATED_FOR_THIS_ROUND",
+   "artifacts": [
+    "verify/run_ao_verify_lane.sh"
+   ],
+   "open_items": [],
+   "owner": "lane owner"
+  },
+  {
+   "id": "TT-S4EXT-014",
+   "title": "AO C3: trace endpoint TYPE contradicts the referenced record",
+   "state": "OPEN_DEFECT_FOUND_BY_AO",
+   "artifacts": [
+    "verify/AO_VERDICT.json"
+   ],
+   "open_items": [
+    "repair + re-verify"
+   ],
+   "owner": "maker"
+  },
+  {
+   "id": "TT-S4EXT-015",
+   "title": "AO C5: full suite red in a clean-room single-branch clone",
+   "state": "OPEN_DEFECT_FOUND_BY_AO",
+   "artifacts": [
+    "verify/AO_VERDICT.json",
+    "raw/clone_suite.log"
+   ],
+   "open_items": [
+    "3x test_publication_projection need the unpushed local ref r5-s4-candidate; 1x CURRENT_TREE_UNCOVERED"
+   ],
+   "owner": "maker"
+  },
+  {
+   "id": "TT-S4EXT-016",
+   "title": "AO: the suite rewrites 3 tracked evidence fixtures",
+   "state": "OPEN_DEFECT_FOUND_BY_AO",
+   "artifacts": [
+    "verify/NONMUTATION_GUARD.txt"
+   ],
+   "open_items": [
+    "dot-hgk artifacts written by tools/build_bclass_artifacts.py during tests"
+   ],
+   "owner": "maker"
+  },
+  {
+   "id": "TT-S4EXT-017",
+   "title": "AO C7: README still asserts PUBLICATION_APPROVED/RELEASED",
+   "state": "OPEN_DEFECT_FOUND_BY_AO",
+   "artifacts": [
+    "verify/AO_VERDICT.json"
+   ],
+   "open_items": [
+    "re-word README:259-260 to the owner-decision ceiling"
+   ],
+   "owner": "maker"
   }
  ],
  "counts": {
@@ -135,6 +206,6 @@
   "OPEN": 2,
   "RESOLVED": 1
  },
- "note": "DONE_CANDIDATE means the maker-side work and its probe both exist and ran. It is NOT acceptance: no card is CLOSED and no card is PASS.",
+ "note": "AO returned FAIL_CHALLENGE on the FIRST pushed candidate; its four blocking findings are now the top of the board (TT-S4EXT-014..017). DONE_CANDIDATE still means maker-side only.",
  "surface": ".hgk/kanban/canonical_dag.json is the pre-existing S0-S4 board; this round's cards are kept beside the round, not merged into it."
 }

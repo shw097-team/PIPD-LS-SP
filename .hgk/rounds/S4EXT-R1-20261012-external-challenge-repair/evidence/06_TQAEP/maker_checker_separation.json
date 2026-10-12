@@ -8,13 +8,26 @@
   ]
  },
  "checker": {
-  "identity": "the external Independent Acceptance Officer",
-  "state": "NOT_YET_RUN",
-  "reason": "no independent checker receipt exists for this candidate; the maker does not issue the acceptance receipt"
+  "identity": "external Independent Acceptance Officer (Codex CLI exec, isolated CODEX_HOME)",
+  "state": "RAN",
+  "verdict": "FAIL_CHALLENGE",
+  "subject_commit": "e2e41ae76dede9b3222257872b4e28a340dc2a0c",
+  "subject_tree": "ce41953891d96ec7c2e7412e763f5a141db1b90c",
+  "independent_of_maker": true,
+  "maker_claim_ceiling_respected": true,
+  "candidate_mutated_transiently": true,
+  "receipt": "06_TQAEP/AO_VERDICT.json",
+  "blocking_findings": [
+   "C3: candidate validate --bundle still false-PASSes a trace whose endpoint type contradicts the resolved endpoint contract.",
+   "C5: the mandated full deterministic test suite is red: 4 failures, exit 1.",
+   "C7: the literal tree-wide no-release-claim assertion is contradicted by README.md:259-260, despite the repair-specific maker-candidate ceiling.",
+   "Read-only procedure contamination: the mandated suite/scanner rewrote four tracked evidence fixtures. They were restored exactly to HEAD and final git status is empty, but a transient candidate mutation occurred, so this acceptance round cannot satisfy the hard read-only rule."
+  ],
+  "maker_response": "NOT_YET: the maker does not argue with a receipt; the findings are routed to repair (TT-S4EXT-012..015)"
  },
  "history_not_inherited": {
   "S4R2M Officer receipt": "PARTIAL, bound to a different commit/tree (dfa52053…/b427f03…)",
   "rule": "a receipt bound to another subject is not inherited as this candidate's PASS"
  },
- "self_acceptance": "NONE"
+ "self_acceptance": "NONE (the independent verdict is FAIL_CHALLENGE and is recorded verbatim)"
 }

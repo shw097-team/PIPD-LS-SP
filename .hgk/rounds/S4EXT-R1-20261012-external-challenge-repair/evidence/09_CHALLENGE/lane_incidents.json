@@ -1,0 +1,23 @@
+{
+ "schema": "PIPD-S4EXT-R1-LANE-INCIDENTS/1",
+ "declared_lane": "Independent Acceptance Officer / VERIFY + SECURITY -> Codex CLI, checker model GPT 6.1 SOL-MEDIUM (OpenAI OAuth)",
+ "incidents": [
+  {
+   "id": "D-01",
+   "class": "provider_refuses_the_declared_checker_model",
+   "observed": "HTTP 400 invalid_request_error: \"The 'gpt-6.1-sol' model is not supported when using Codex with a ChatGPT account.\" on every attempt, including from a freshly authenticated isolated CODEX_HOME",
+   "history": "the same model was accepted on 2026-10-11 by the previous round's lane (its exec log contains no such error)",
+   "remedy_taken": "ran the lane on the closest same-family sibling the account actually serves (gpt-5.6-sol, reasoning medium) and recorded declared vs actual in MODEL_SUBSTITUTION.txt",
+   "not_done": "the canonical lane config was NOT edited; the substitution lives only in the isolated lane CODEX_HOME",
+   "tt": "TT-S4EXT-012"
+  },
+  {
+   "id": "D-02",
+   "class": "checker_tool_execution_unavailable",
+   "observed": "with the HG-KSEOS runtime codex build every shell call died with \"missing codex-code-mode-host.exe (os error 2)\" so the first checker attempt could only return NOT_RUN",
+   "remedy_taken": "invoked the build whose exec wrapper resolves (…/OpenAI/Codex/bin/2e5e00daee91c61d/codex.exe, which ships codex-code-mode-host.exe beside it)",
+   "tt": "TT-S4EXT-013"
+  }
+ ],
+ "consequence_for_claims": "the first attempted run produced a NOT_RUN verdict and is retained as a failed-first receipt; only the second run's verdict is treated as the independent result"
+}
