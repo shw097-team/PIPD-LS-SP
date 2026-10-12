@@ -219,6 +219,25 @@ else
   echo "SKIP G15_the_junction_could_not_be_created_here (reported, never passed)"
 fi
 
+echo "### G16 an unroled lane is refused, so an unassigned model cannot slip through (round-11)"
+OUT=G16
+env TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$SBL" bash "$S/run_lane.sh" BRIEF_NT_A_ brief_nt_a.md verify/gate-norole >"$LOGD/G16.out" 2>&1; NRC=$?
+ck G16_UNROLED_LANE_REFUSED 3 "$NRC"
+has G16_names_the_reason "LANE_ROLE is required" "$LOGD/G16.out"
+
+echo "### G17 a resolver that cannot decide must refuse, not proceed (round-11)"
+# Round 11 got a gate to qualify while writing through a junction into the clone whenever the OS resolver
+# failed: an undecided containment was treated as outside.
+cat > "$LOGD/nopy" <<'EOS'
+#!/usr/bin/env bash
+[ "$1" = "-" ] && { echo "resolver failed" >&2; exit 1; }
+exec python "$@"
+EOS
+chmod +x "$LOGD/nopy"
+OUT=G17; GARGS=(EXECUTE brief_nt_a.md)
+ck G17_UNDECIDED_CONTAINMENT_REFUSED 3 "$(gitq GATE_PY="$LOGD/nopy" GATE_SKIP_QUALIFY=1)"
+has G17_names_the_containment "containment undecided" "$LOGD/G17.out"
+
 echo
 echo "RESULT pass=$pass fail=$fail"
 [ "$fail" -eq 0 ] || exit 1

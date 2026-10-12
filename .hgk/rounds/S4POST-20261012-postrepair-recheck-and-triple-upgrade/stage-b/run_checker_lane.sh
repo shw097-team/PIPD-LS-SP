@@ -34,17 +34,39 @@ BACKUP_MODEL="opencode-go/glm-5.3-flash"; BACKUP_PROV="opencode-go"; BACKUP_ROUT
 
 # Only these signatures may trigger the declared failover.
 EXHAUST_RE='quota|rate.?limit|429|too many requests|usage limit|insufficient|at capacity|capacity|exceeded your current'
+# `HTTP 400` and `malformed payload` added: round 11 demonstrated a hard failure spelled that way beside an
+# incidental quota word, which the previous pattern missed and which then switched models and "succeeded".
+HARD_RE='invalid_request_error|reasoning_content|flagged for possible|cybersecurity|HTTP 4[0-9][0-9]|error 4[0-9][0-9]|status 4[0-9][0-9]|malformed payload'
+
+# Every wrapper outcome leaves a tracked record, so a successful wrapper can never return 0 with an
+# untracked artefact: the failover record and the no-failover record both go through this.
+# Path spelling matters: the record can be an MSYS spelling (/tmp/..) while the worktree is native (C:/..),
+# and a native git cannot be handed the other spelling. Run git from the record's own directory and name it
+# by basename, and normalise the directory itself.
+commit_record() { # $1 file, $2 message
+  local f="$1" d b
+  d="$(dirname "$f")"; b="$(basename "$f")"
+  command -v cygpath >/dev/null 2>&1 && d="$(cygpath -m "$d")"
+  git -C "$d" add -- "$b" 2>/dev/null
+  if ! git -C "$d" -c user.email=lane-harness@local.invalid -c user.name="hgk lane harness" commit -q -m "$2" 2>/dev/null; then
+    echo "CHECKER_RECORD_NOT_COMMITTED $b"; return 1
+  fi
+  if [ -n "$(git -C "$d" status --porcelain)" ]; then
+    echo "CHECKER_RECORD_DIRTY $b"; return 1
+  fi
+  echo "CHECKER_RECORD_COMMITTED $b"; return 0
+}
 
 REC="$S/CHECKER_FAILOVER_${LANE}.md"
 
 attempt() { # $1 model  $2 provider  $3 route  -> runs the governed launcher, prints its stdout
   local model="$1" prov="$2" route="$3"
   if [ "$route" = "catalog" ]; then
-    LANE_WT="$WT" LANE_MODEL="$model" LANE_PROVIDER="$prov" ROUTE_STYLE=catalog \
+    LANE_WT="$WT" LANE_ROLE=VERIFY LANE_MODEL="$model" LANE_PROVIDER="$prov" ROUTE_STYLE=catalog \
       ROUTE_CATALOG="$CATALOG" ROUTE_BASE_URL="$BASE_URL" \
       bash "$S/run_lane.sh" "$LANE" "$BRIEF" "$OUTSUB"
   else
-    LANE_WT="$WT" LANE_MODEL="$model" LANE_PROVIDER="$prov" ROUTE_STYLE=openai \
+    LANE_WT="$WT" LANE_ROLE=VERIFY LANE_MODEL="$model" LANE_PROVIDER="$prov" ROUTE_STYLE=openai \
       bash "$S/run_lane.sh" "$LANE" "$BRIEF" "$OUTSUB"
   fi
 }
@@ -61,17 +83,37 @@ if [ "$CODE1" -eq 0 ]; then
 fi
 
 # The primary failed. Decide whether this is the exhaustion the owner's ruling covers.
-SIG=""
+# The classification must read the PROVIDER's own error channel, not the whole log. Round 11 was a review
+# lane reading the very sources that quote a 400 and a content-filter notice, so every marker a
+# whole-log matcher saw came from a quotation, not from the lane's own call - and the same weakness makes
+# a genuine exhaustion unreachable in a lane that quotes quota text. Read the error lines; if the log has
+# none, fall back to its last 80 lines, where a terminal provider failure lands.
+ERRVIEW=""
 if [ -n "$LOG1" ] && [ -f "$LOG1" ]; then
-  SIG="$(grep -o -i -E "$EXHAUST_RE" "$LOG1" | sort | uniq -c | sort -rn | head -5 | tr '\n' ';' )"
+  ERRVIEW="$(mktemp)"
+  grep -E '^(ERROR|error:|stream error|Codex error)' "$LOG1" > "$ERRVIEW" 2>/dev/null
+  [ -s "$ERRVIEW" ] || tail -n 80 "$LOG1" > "$ERRVIEW"
 fi
-HARD_RE='invalid_request_error|reasoning_content|flagged for possible|cybersecurity|error 400|status 400|400 Bad Request'
+SIG=""
+if [ -n "$ERRVIEW" ]; then
+  SIG="$(grep -o -i -E "$EXHAUST_RE" "$ERRVIEW" | sort | uniq -c | sort -rn | head -5 | tr '\n' ';' )"
+fi
 HARD=""
-[ -n "$LOG1" ] && [ -f "$LOG1" ] && HARD="$(grep -o -i -E "$HARD_RE" "$LOG1" 2>/dev/null | sort -u | tr '\n' ';')"
+[ -n "$ERRVIEW" ] && HARD="$(grep -o -i -E "$HARD_RE" "$ERRVIEW" 2>/dev/null | sort -u | tr '\n' ';')"
 if [ -n "$HARD" ]; then
   # A protocol failure (an independent officer demonstrated a 400 invalid_request_error beside an
   # incidental quota word) used to switch models and then report success - the "work around a real
   # failure by switching models" the owner's ruling forbids. A hard-failure marker vetoes the switch.
+  RECNF="$S/CHECKER_NOFAILOVER_${LANE}.md"
+  { echo "# Checker failover NOT applied - $LANE"; echo
+    echo "The primary lane failed and the failure was classified as NOT exhaustion, so no model was switched."
+    echo
+    echo "- lane: $LANE  primary exit: $CODE1  stamp: ${STAMP1:-unknown}"
+    echo "- hard-failure markers: [$HARD]"
+    echo "- exhaustion-looking markers: [$SIG]"
+    echo "- classified from the provider error channel of: $LOG1 (fallback: its last 80 lines)"
+  } > "$RECNF"
+  commit_record "$RECNF" "evidence(s4post-b): checker no-failover record for $LANE" || exit 4
   echo "CHECKER_PRIMARY_FAILED_NOT_EXHAUSTION lane=$LANE exit=$CODE1 hard_failure=[$HARD] signature=[$SIG] - no failover, this is reported not worked around"
   exit "$CODE1"
 fi
@@ -107,20 +149,7 @@ STAMP2="$(printf '%s\n' "$OUT2" | sed -n 's/^'"$LANE"'_LANE=\([0-9TZ]*\).*/\1/p'
 } > "$REC"
 # FCR-006: the record was written after the launcher's own postflight, so the wrapper could return
 # success while the record stayed untracked. Commit it, then re-read the status, as the launcher does.
-# Path spelling matters here: the record path can be an MSYS spelling (/tmp/..) while the worktree is a
-# native one (C:/..), and a native git cannot be handed the other spelling. Run git from the record's own
-# directory and name it by basename, so no path is translated at all.
-RD="$(dirname "$REC")"; RB="$(basename "$REC")"
-# native git cannot be handed an MSYS spelling: normalise it
-command -v cygpath >/dev/null 2>&1 && RD="$(cygpath -m "$RD")"
-git -C "$RD" add -- "$RB" 2>/dev/null
-if ! git -C "$RD" -c user.email=lane-harness@local.invalid -c user.name="hgk lane harness" commit -q -m "evidence(s4post-b): checker failover record for $LANE" 2>/dev/null; then
-  echo "CHECKER_FAILOVER_RECORD_NOT_COMMITTED $RB"; exit 4
-fi
-DIRT="$(git -C "$RD" status --porcelain)"
-if [ -n "$DIRT" ]; then
-  echo "CHECKER_FAILOVER_RECORD_DIRTY $(printf '%s' "$DIRT" | tr '\n' ';')"; exit 4
-fi
+commit_record "$REC" "evidence(s4post-b): checker failover record for $LANE" || exit 4
 echo "CHECKER_FAILOVER_RECORD $REC"
 
 if [ "$CODE2" -eq 0 ]; then echo "CHECKER_BACKUP_OK lane=$LANE stamp=$STAMP2"; exit 0; fi

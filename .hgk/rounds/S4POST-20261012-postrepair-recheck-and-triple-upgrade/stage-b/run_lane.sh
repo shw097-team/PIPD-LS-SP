@@ -101,9 +101,13 @@ EOPY
 )"
 # FCR-004: the lexical comparison above is defeated by a Windows junction. The shell's resolver does not
 # resolve one; the OS resolver does, so the containment test is made against realpath as well.
-if [ "$INSIDE" = "INSIDE" ]; then
-  die 3 "lane log dir resolves inside the worktree (realpath): $LOGDIR"
-fi
+# Fail CLOSED: if the resolver cannot decide, the containment is unproven, and an unproven containment is
+# how round 11 got a gate to qualify while writing through a junction into the clone.
+case "$INSIDE" in
+  INSIDE)  die 3 "lane log dir resolves inside the worktree (realpath): $LOGDIR" ;;
+  OUTSIDE) : ;;
+  *)       die 3 "containment undecided by the OS resolver: log dir=$LOGDIR worktree=$WT" ;;
+esac
 
 cd "$WT" || die 3 "cannot enter worktree"
 
@@ -135,6 +139,9 @@ case "$LANE" in
   *)   DEF_MODEL="opencode-go/deepseek-v4.1-flash"; DEF_PROV="opencode-go"; DEF_EFF="high" ;;
 esac
 MODEL="${LANE_MODEL:-$DEF_MODEL}"; PROV="${LANE_PROVIDER:-$DEF_PROV}"; EFF="${LANE_EFFORT:-$DEF_EFF}"
+# A governed lane is defined by its role: the role names the only source of truth for the model, provider
+# and effort. Without it the check below is skipped entirely, which is how an unassigned model was admitted.
+[ -n "$LANE_ROLE" ] || die 3 "LANE_ROLE is required: an unroled lane cannot be checked against the assignment"
 SANDBOX_MODE="${LANE_SANDBOX:-workspace-write}"
 
 # R5: a slug like "opencode-go/deepseek-v4.1-flash" is a CATALOG ENTRY, not a provider id. The caller

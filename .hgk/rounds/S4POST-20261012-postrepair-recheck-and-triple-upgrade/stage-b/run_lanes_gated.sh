@@ -51,10 +51,13 @@ d = os.path.normcase(d).rstrip(os.sep); w = os.path.normcase(w).rstrip(os.sep)
 print("INSIDE" if (d == w or d.startswith(w + os.sep)) else "OUTSIDE")
 EOPY
 )"
-if [ "$INSIDE" = "INSIDE" ]; then
-  echo "REFUSED[3] gate log dir resolves inside the worktree: $LOGDIR" >&2
-  echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 3
-fi
+case "$INSIDE" in
+  INSIDE)  echo "REFUSED[3] gate log dir resolves inside the worktree: $LOGDIR" >&2
+           echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 3 ;;
+  OUTSIDE) : ;;
+  *)       echo "REFUSED[3] containment undecided by the OS resolver: $LOGDIR" >&2
+           echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 3 ;;
+esac
 OUTSUB="${GATE_OUTSUB:-verify/gate}"
 PDF="${GATE_PY:-python}"
 

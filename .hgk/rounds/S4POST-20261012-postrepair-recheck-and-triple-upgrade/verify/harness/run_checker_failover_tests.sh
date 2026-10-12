@@ -89,6 +89,19 @@ REC="$(grep -o 'CHECKER_FAILOVER_RECORD .*' "$LOGD/D.out" | tail -1 | awk '{prin
 if [ -n "$REC" ] && git -C "$CLONE" ls-files --error-unmatch "$REL/stage-b/$(basename "$REC")" >/dev/null 2>&1; then echo "PASS A5_record_tracked"; pass=$((pass+1)); else echo "FAIL A5_record_tracked ($REC)"; fail=$((fail+1)); fi
 if [ -z "$(git -C "$CLONE" status --porcelain)" ]; then echo "PASS A5_tree_clean"; pass=$((pass+1)); else echo "FAIL A5_tree_clean"; fail=$((fail+1)); fi
 
+echo "### A6 a hard failure spelled HTTP 400 beside a quota word must NOT fail over (round-11)"
+run F "HTTP 400: malformed payload; quota remaining 90 percent." > "$LOGD/F.out" 2>&1
+ck A6_nonzero_exit "$?" 1
+has A6_says_not_exhaustion "CHECKER_PRIMARY_FAILED_NOT_EXHAUSTION" "$LOGD/F.out"
+hasnot A6_did_not_fail_over "CHECKER_FAILOVER_START" "$LOGD/F.out"
+# and the refusal itself must be a tracked artefact, or a successful wrapper could leave it untracked
+if git -C "$CLONE" ls-files --error-unmatch "$REL/stage-b/CHECKER_NOFAILOVER_FOF.md" >/dev/null 2>&1; then
+  echo "PASS A6_no_failover_record_tracked"; pass=$((pass+1))
+else
+  echo "FAIL A6_no_failover_record_tracked"; fail=$((fail+1))
+fi
+if [ -z "$(git -C "$CLONE" status --porcelain)" ]; then echo "PASS A6_tree_clean"; pass=$((pass+1)); else echo "FAIL A6_tree_clean"; fail=$((fail+1)); fi
+
 echo
 echo "RESULT pass=$pass fail=$fail"
 [ "$fail" -eq 0 ] || exit 1

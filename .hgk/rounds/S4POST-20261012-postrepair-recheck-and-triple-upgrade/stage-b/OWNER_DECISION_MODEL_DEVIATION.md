@@ -14,6 +14,7 @@ accepts were produced by the backup writer lanes at reasoning effort `none`, and
 verifier's verdict covers that artifact set as produced.
 
 authorizes_model: VERIFY opencode-go/glm-5.3-flash
+authorizes_provider: VERIFY opencode-go
 
 ## Checker failover (owner ruling, 2026-10-12, verbatim)
 
