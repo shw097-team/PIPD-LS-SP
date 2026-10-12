@@ -178,24 +178,36 @@ class PackDocumentsAgreeWithTupleTests(unittest.TestCase):
         self.assertEqual(len(docs), 8, docs)
 
     def test_preview3_documents_state_the_release_tag_target(self) -> None:
-        """Every document that names a release identity must name the tag it is shipped under.
+        """Every one of the eight documents must name the tag it is actually shipped under.
 
-        The superseded repair path required a literal ``release tag target`` caption in all eight
-        files; the served asset states the identity as *release id + tag commit* instead. The rule
-        kept here is the substantive one, and it is not weakened: no identity-claiming document may
-        omit the real tag target. The pack bytes are the published asset, so they are not edited to
-        satisfy a caption — see ``test_the_replacement_is_logged_and_the_first_shipped_digest_is_preserved``.
+        The superseded repair path additionally required a literal ``release tag target`` caption in
+        all eight files; the served asset states the identity as *release id + tag commit*, and the
+        pack bytes are the published asset, so the caption is not demanded. The substantive rule is
+        kept in FULL: no subset escape and no floor — every document is checked.
         """
         entry = next(r for r in load_tuple()["releases"] if r["release_id"] == "v0.1.1-preview.3")
         pack = ROOT / entry["pack_dir"]
-        claiming = 0
-        for doc in sorted(p for p in pack.rglob("*") if p.is_file() and p.name != "MANIFEST.sha256"):
+        docs = sorted(p for p in pack.rglob("*") if p.is_file() and p.name != "MANIFEST.sha256")
+        self.assertEqual(len(docs), 8, docs)
+        for doc in docs:
             text = doc.read_text(encoding="utf-8")
-            if not identity_claims(text):
-                continue
-            claiming += 1
             self.assertIn(entry["release_tag_target"], text, doc.name)
-        self.assertGreaterEqual(claiming, 5, "too few documents state a release identity at all")
+
+    def test_the_replacement_is_corroborated_outside_our_own_fields(self) -> None:
+        """The in-place replacement must be backed by a producer record, not only our own metadata.
+
+        ``asset_replaced_in_place`` and the digests in the tuple are written by this repository, so
+        they can only corroborate themselves. The release-correction round left a producer log with
+        the replaced asset's id and the new bytes; pin those, so the claim that a replacement
+        happened cannot rest on our own boolean alone.
+        """
+        log = ROOT / ".hgk/rounds/S4R2M-20261012-merge-and-preview3/release/PUBLISH_REPLACE.log"
+        self.assertTrue(log.is_file(), str(log))
+        text = log.read_text(encoding="utf-8")
+        entry = next(r for r in load_tuple()["releases"] if r["release_id"] == "v0.1.1-preview.3")
+        self.assertIn("631301834", text, "the replaced asset id is not recorded")
+        self.assertIn(entry["published_asset_sha256"], text,
+                      "the served digest is not recorded in the producer log")
 
 
 class StaleIdentityIsRefusedTests(unittest.TestCase):

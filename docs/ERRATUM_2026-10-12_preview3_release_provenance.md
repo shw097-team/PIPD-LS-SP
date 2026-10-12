@@ -3,7 +3,14 @@
 > **Document ID**：`PIPD-ERRATUM-2026-10-12-PREVIEW3-PROVENANCE`
 > **Raised**：2026-10-12 (Asia/Taipei) · **Round**：`S4EXT-R1-20261012-external-challenge-repair`
 > **Finding of record**：`F001` of `PIPD-LS-SP-S4-EXTERNAL-CHALLENGE-2026-10-12-R1` (CONFIRMED_DEFECT, P1)
-> **Frozen tuple**：`docs/RELEASE_TUPLE.json` · **Status**：`SOURCE_CORRECTED / PUBLISHED_ASSET_IMMUTABLE / RELEASE HOLD`
+> **Frozen tuple**：`docs/RELEASE_TUPLE.json` · **Status**：`SOURCE_CORRECTED / PUBLISHED_ASSET_REPLACED_IN_PLACE / RELEASE HOLD`
+>
+> **Reconciled 2026-10-12 (S4POST integration-repair round).** The first version of this banner read
+> `PUBLISHED_ASSET_IMMUTABLE`, which described the repair-branch path that was **not** taken. The
+> served asset was replaced in place by the S4R2M release correction; see §3 and
+> `docs/RELEASE_TUPLE.json`, which now carries both the first-shipped and the served digest.
+> The rest of this document is kept as raised, with the sections that describe the superseded path
+> marked in place rather than rewritten, so the earlier finding stays auditable.
 
 ## 1. What was wrong
 
@@ -44,8 +51,14 @@ ZIP digest does not protect against this — the digest faithfully protects a wr
    the explicit pair (`release tag target` `cbf69756…`; `build source commit` `cbf69756…`), and the
    preview.2 tree prefix is corrected to `91b1156f`. `SKILL.md` front matter now carries
    `release_tag_target` + `build_source_commit` instead of a single `release_tag_commit`.
+   **(SUPERSEDED — never shipped.)** The served pack does **not** use that caption scheme: the string
+   `release tag target` occurs **zero** times in it, `SKILL.md`'s front matter still carries the single
+   `release_tag_commit`, and the identity is stated as *release id + tag commit* in all eight
+   documents. This item describes the repair-branch rebuild only.
 3. **An erratum banner** in `README_MOUNT.md`, `SKILL.md` and `references/PIPD_SOURCE_MAP.md` stating
-   what the already published asset says and why it is not being rewritten.
+   what the already published asset says and why it is not being rewritten. **(SUPERSEDED — never
+   shipped.)** The served documents carry no such banner; the in-place replacement made the asset
+   state the corrected identity directly, which is why the banner was unnecessary.
 4. **A corrected rebuild (SUPERSEDED — never shipped)** — `dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3-erratum1.zip`
    plus its `.sha256` sidecar, built from the corrected source by `tools/build_mount_pack.py` (the single
    writer of `dist/mount/**`), together with the regenerated in-pack `MANIFEST.sha256`. The owner instead

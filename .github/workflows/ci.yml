@@ -54,6 +54,9 @@ jobs:
           "$RUNNER_TEMP/wheelvenv/bin/pipd" doctor | tee "$GITHUB_WORKSPACE/wheel-doctor.log"
           "$RUNNER_TEMP/wheelvenv/bin/pipd" --help | tee "$GITHUB_WORKSPACE/wheel-cli-help.log"
 
+      - name: Provenance gate is green before it is tested
+        run: python -m unittest tests.test_s4ext_release_provenance 2>&1 | tail -3
+
       - name: Negative — a mutated pack document must make the provenance gate fail
         run: |
           python - <<'PY'
@@ -69,8 +72,19 @@ jobs:
           status=$?
           set -e
           git checkout -- dist/mount
+          # Fail closed on every way this step could pass without exercising the gate:
           if [ "$status" -eq 0 ]; then
             echo "MUTATION_ACCEPTED: the provenance gate passed a tampered identity stamp" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          if ! grep -q "^FAIL:" mutation-run.log; then
+            echo "GATE_NOT_EXERCISED: the run failed without a single test failure (module deleted, import error or collection error)" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          if ! grep -qE "release_tag_target|does not carry|reproduce the served asset|byte-identical" mutation-run.log; then
+            echo "MUTATION_REFUSAL_MOTIVE_UNEXPECTED: the failure is not the identity/byte binding" >&2
             tail -30 mutation-run.log >&2
             exit 1
           fi
