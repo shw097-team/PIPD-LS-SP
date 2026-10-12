@@ -131,3 +131,93 @@ code path changed, so the substantive part of the round-2 closure holds while it
 not. The structural fix is the governed launcher `stage-b/run_lane.sh` (commit harness artifacts, refuse to
 launch against a dirty worktree, write the lane log outside the worktree) and it is being independently
 checked in round 4; this record does not claim that fix works.
+
+## CORRECTION to the model-deviation record (added after the acceptance above)
+
+The deviation record asserted, in the officer's scoped words, that the declared lane failed. That was
+accurate as a record of what happened to those three original lanes. What did **not** survive further
+testing is the implication that the assigned model is unusable - and I briefly stated that implication
+myself, then had to retract it. Both the retraction and the corrected evidence belong here.
+
+### What was retracted
+
+I built the admission gate with `-m <model> -c model_provider="opencode-go"`, which the CLI rejects with
+`Error: Model provider 'opencode-go' not found`. The gate reported `QUALIFICATION_FAILED` and refused to
+start a writer. I reported that as the gate independently reproducing the assigned lane's failure and as
+proof the assigned model cannot survive a two-tool round trip.
+
+That was wrong. `opencode-go/...` is a **model catalog slug**, not a provider id; the invocation the writer
+lanes actually used is `-c model=<slug>` with `openai_base_url` and `model_catalog_json` and **no**
+`model_provider`. My gate was testing my own misconfiguration. See `verify/harness/HARNESS_DEFECT_LOG.md`
+H5. The refusal was a false positive that would have rejected a healthy lane.
+
+### Corrected evidence, measured after the route was fixed
+
+| Check | Route | Effort | Result |
+|---|---|---|---|
+| Assigned EXECUTE model, two-tool round trip | catalog, as the writers used | high (the assignment) | **PASS** - `QUALIFICATION_PASSED`, exit 0, two shell calls succeeded at 500 ms and 459 ms, 20,593 tokens |
+| Checker model, two-tool round trip | openai OAuth | medium | PASS |
+
+The passing transcript is kept verbatim at `verify/harness/qualification_logs/`.
+
+### Why this matters to the deviation
+
+1. The assigned model **does** currently survive a multi-turn tool continuation through the correct route.
+   The deviation therefore cannot be justified by "the assigned model is unusable". That justification is
+   withdrawn here.
+2. The same transcript contains the local relay's
+   `ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade
+   Required` **and then succeeds anyway**. That is direct positive evidence for the FAR study's refutation
+   of the 426 hypothesis, obtained after that study was written, not by the study itself.
+3. What the original three lanes hit was a `400 invalid_request_error` naming the thinking-mode
+   `reasoning_content` replay requirement. A two-tool qualification is a **short** transcript; the failing
+   lanes had long ones. The FAR study already recorded the transcript-length trigger as NOT established.
+   The corrected data now says something sharper: the trigger is not "multi-turn" and not "this model", but
+   something that appears only past some transcript size or content that a short qualification does not
+   reach. **Reproducing that remains open**, and a short qualification gate would not have caught it.
+
+### Consequence for the gate's design, stated honestly
+
+The gate as specified by the FAR study (pin the assignment, refuse a deviation, require a two-tool
+qualification, aggregate child exits) is implemented and its negative tests pass. But this round shows its
+qualification's **sensitivity is bounded**: it catches a total lane outage, and it does not catch a failure
+that begins only after the transcript grows. The gate is therefore a necessary condition, not a sufficient
+one, and it must not be represented as having caught, or as being able to catch, the original failure.
+
+## CORRECTION 2 - the correction above over-corrected
+
+Correction 1 withdrew the justification for the deviation on the strength of **one** passing
+qualification. One pass is a sample, not a property, and the sample was misleading: the fault is
+intermittent.
+
+Repeated measurement through the identical corrected route, brief and CLI:
+
+| Configuration | Passes of 6 |
+|---|---|
+| assigned model at the assigned effort (`high`) | 3 |
+| assigned model at the effort the backup run used (`none`) | 2 |
+| backup model at the assigned effort (`high`) | **6** |
+
+Every failing run fails with the original message: `Provider error 400 ... The reasoning_content in the
+thinking mode must be passed back to the API.` Both tool calls succeed first; the rejection lands on the
+request after the **second** tool result, on a **479-token** transcript. So the trigger is neither
+transcript length nor first-turn capability nor tool use, and it is not the websocket 426 - that appears
+once in **every** log, including all 12 passing runs, which exonerates it with 18 samples.
+
+### Net position on the deviation
+
+- **Withdrawn**: that the assigned model is unusable. It is not; it completes runs.
+- **Restored, now on measurement rather than assertion**: the assigned lane is **flaky** at multi-turn
+  continuation, failing on a large fraction of attempts, while the backup model passed six consecutive
+  qualifying round trips at the same effort and on the same route. The operator's substitution is
+  therefore **substantially supported by controlled evidence**, not merely declared.
+- **Still not established**: which upstream model actually served either lane. Neither a flaky lane nor a
+  healthy one authenticates an identity, and this record asserts no identity.
+
+### Consequence for the gate
+
+Because one pass proves little when the fault is intermittent, the gate now requires
+**`GATE_QUALIFY_RUNS` consecutive passes (default 3)** and aborts the lane set on the first failure. The
+honest limit: this lowers the chance of admitting a flaky lane, it does not eliminate it, and a single
+passing qualification must never again be reported as evidence that a lane is sound. Full data:
+`verify/harness/QUALIFICATION_FINDINGS.md`.

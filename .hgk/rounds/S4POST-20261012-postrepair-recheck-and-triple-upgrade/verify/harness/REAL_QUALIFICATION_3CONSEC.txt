@@ -1,0 +1,17 @@
+### REAL gate qualification, EXECUTE role, requiring 3 consecutive two-tool round trips
+ASSIGNMENT role=EXECUTE model=opencode-go/deepseek-v4.1-flash provider=opencode-go effort=high
+QUALIFICATION_ROUTE style=catalog model=opencode-go/deepseek-v4.1-flash effort=high
+  qualification attempt 1/3 PASS
+QUALIFICATION_FAILED model=opencode-go/deepseek-v4.1-flash effort=high attempt=2/3 exit=1 log=/tmp/hgk-lanes/qual-20261012T130104Z-41370-EXECUTE-r2-opencode-go_deepseek-v4.1-flash.log
+GATE_REFUSED_NO_WRITERS_STARTED
+EXECUTE_QUALIFY_EXIT=7
+
+### REAL gate qualification, VERIFY role, requiring 3 consecutive two-tool round trips
+ASSIGNMENT role=VERIFY model=gpt-6.1-sol provider=openai effort=medium
+QUALIFICATION_ROUTE style=openai model=gpt-6.1-sol effort=medium
+  qualification attempt 1/3 PASS
+  qualification attempt 2/3 PASS
+  qualification attempt 3/3 PASS
+QUALIFICATION_PASSED model=gpt-6.1-sol effort=medium (consecutive_runs=3, two tool round trips each)
+GATE_QUALIFICATION_ONLY_OK role=VERIFY model=gpt-6.1-sol effort=medium
+VERIFY_QUALIFY_EXIT=0

@@ -1,17 +1,15 @@
-### qualification control matrix (read-only, no writer, no artifact)
-QUALIFY FAIL  assignment: assigned model at assigned effort  exit=1
-    first error: Error: Model provider `opencode-go` not found
-    log=C:/Users/user/AppData/Local/Temp/qual-matrix/q0_opencode-go_deepseek-v4.1-flash_high.log
-QUALIFY FAIL  effort axis: assigned model at minimal effort  exit=1
-    first error: Error: Model provider `opencode-go` not found
-    log=C:/Users/user/AppData/Local/Temp/qual-matrix/q1_opencode-go_deepseek-v4.1-flash_minimal.log
-QUALIFY FAIL  model axis: backup model at assigned effort  exit=1
-    first error: Error: Model provider `opencode-go` not found
-    log=C:/Users/user/AppData/Local/Temp/qual-matrix/q2_opencode-go_deepseek-v4-flash_high.log
-QUALIFY FAIL  the shape the backup run actually used  exit=1
-    first error: Error: Model provider `opencode-go` not found
-    log=C:/Users/user/AppData/Local/Temp/qual-matrix/q3_opencode-go_deepseek-v4-flash_minimal.log
-QUALIFY PASS  control: the checker model that is known to work
-    log=C:/Users/user/AppData/Local/Temp/qual-matrix/q4_gpt-6.1-sol_medium.log
+### corrected qualification control matrix (read-only, no writer, no artifact)
+QUALIFY FAIL  [catalog] assignment: assigned model at the assigned effort  exit=1
+    2026-10-12T12:51:27.164629Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10102/v1/responses
+    ERROR: {"error":{"message":"Provider error 400: Upstream request failed: [invalid_request_error] The `reasoning_content` in the thinking mode must be passed back to the API. (request_id: 35731224-39a1
+    log=C:/Users/user/AppData/Local/Temp/qual-matrix/q0_opencode-go_deepseek-v4.1-flash_high.log  bytes=2281
+QUALIFY PASS  [catalog] effort axis: assigned model at the effort the backup run used
+    log=C:/Users/user/AppData/Local/Temp/qual-matrix/q1_opencode-go_deepseek-v4.1-flash_none.log  bytes=1731
+QUALIFY PASS  [catalog] model axis: backup model at the assigned effort
+    log=C:/Users/user/AppData/Local/Temp/qual-matrix/q2_opencode-go_deepseek-v4-flash_high.log  bytes=1767
+QUALIFY PASS  [catalog] the exact shape the backup writer lanes ran
+    log=C:/Users/user/AppData/Local/Temp/qual-matrix/q3_opencode-go_deepseek-v4-flash_none.log  bytes=1729
+QUALIFY PASS  [openai] control: the checker model that is known to work
+    log=C:/Users/user/AppData/Local/Temp/qual-matrix/q4_gpt-6.1-sol_medium.log  bytes=1582
 
-MATRIX pass=1 fail=4
+MATRIX pass=4 fail=1

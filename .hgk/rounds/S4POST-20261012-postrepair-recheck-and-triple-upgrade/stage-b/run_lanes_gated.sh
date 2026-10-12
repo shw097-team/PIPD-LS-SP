@@ -72,14 +72,24 @@ QSAFE="$(printf %s "$REQ_MODEL" | tr -c "A-Za-z0-9._-" "_")"
     QINV=(-m "$REQ_MODEL" -c "model_provider=\"$REQ_PROV\"" -c "model_reasoning_effort=\"$REQ_EFF\"")
   fi
   echo "QUALIFICATION_ROUTE style=$ROLE_STYLE model=$REQ_MODEL effort=$REQ_EFF"
-  timeout 900 "$BIN" "${QINV[@]}" exec --cd "$WT" --sandbox read-only --skip-git-repo-check \
-    - < "$S/GATE_QUALIFICATION_BRIEF.md" > "$QLOG" 2>&1
-  QC=$?
-  if [ "$QC" -ne 0 ] || ! grep -q 'Q1_OK' "$QLOG" || ! grep -q 'Q2_OK' "$QLOG"; then
-    echo "QUALIFICATION_FAILED model=$REQ_MODEL effort=$REQ_EFF exit=$QC log=$QLOG"
-    echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 7
-  fi
-  echo "QUALIFICATION_PASSED model=$REQ_MODEL effort=$REQ_EFF (two tool round trips survived)"
+  # The failure this gate exists to catch is INTERMITTENT: the assigned model completed
+  # both tool calls and was then rejected at the next request with the thinking-replay
+  # 400 on a 479-token transcript, on roughly half of attempts. One pass is therefore
+  # not a qualification. Require RUNS consecutive passes, and say so in the record.
+  RUNS="${GATE_QUALIFY_RUNS:-3}"; k=0
+  while [ "$k" -lt "$RUNS" ]; do
+    QLOG="$LOGDIR/qual-$(date -u +%Y%m%dT%H%M%SZ)-$$-${ROLE}-r$((k+1))-${QSAFE}.log"
+    timeout 900 "$BIN" "${QINV[@]}" exec --cd "$WT" --sandbox read-only --skip-git-repo-check \
+      - < "$S/GATE_QUALIFICATION_BRIEF.md" > "$QLOG" 2>&1
+    QC=$?
+    if [ "$QC" -ne 0 ] || ! grep -q 'Q1_OK' "$QLOG" || ! grep -q 'Q2_OK' "$QLOG"; then
+      echo "QUALIFICATION_FAILED model=$REQ_MODEL effort=$REQ_EFF attempt=$((k+1))/$RUNS exit=$QC log=$QLOG"
+      echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 7
+    fi
+    echo "  qualification attempt $((k+1))/$RUNS PASS"
+    k=$((k+1))
+  done
+  echo "QUALIFICATION_PASSED model=$REQ_MODEL effort=$REQ_EFF (consecutive_runs=$RUNS, two tool round trips each)"
 fi
 
 # A dry gate: prove the lane is usable BEFORE any writer is assigned to it. No child runs.

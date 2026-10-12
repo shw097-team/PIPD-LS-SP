@@ -1,0 +1,22 @@
+### flakiness of the assigned lane (same CLI, same route, same brief)
+  run 1 FAIL exit=1 reason=426 Upgrade Required
+  run 2 PASS
+  run 3 PASS
+  run 4 PASS
+  run 5 FAIL exit=1 reason=426 Upgrade Required
+  run 6 FAIL exit=1 reason=426 Upgrade Required
+RATE [catalog] assigned model at the assigned effort :: pass=3 fail=3 of 6
+  run 1 FAIL exit=1 reason=426 Upgrade Required
+  run 2 FAIL exit=1 reason=426 Upgrade Required
+  run 3 FAIL exit=1 reason=426 Upgrade Required
+  run 4 FAIL exit=1 reason=426 Upgrade Required
+  run 5 PASS
+  run 6 PASS
+RATE [catalog] assigned model at the effort the backup run used :: pass=2 fail=4 of 6
+  run 1 PASS
+  run 2 PASS
+  run 3 PASS
+  run 4 PASS
+  run 5 PASS
+  run 6 PASS
+RATE [catalog] backup model at the assigned effort :: pass=6 fail=0 of 6
