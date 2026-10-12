@@ -128,17 +128,26 @@ mkdir -p "$R/$OUTSUB" || die 3 "cannot create round-relative output dir: $OUTSUB
 # "qualified one route, launched another" defect.
 LANE_ROLE="${LANE_ROLE:-}"
 if [ -n "$LANE_ROLE" ]; then
-  AEXP="$(python -c "import json,sys;r=json.load(open(sys.argv[1],encoding='utf-8'))['roles'][sys.argv[2]];print(r['model'],r['reasoning_effort'],r.get('route',{}).get('style','openai'),r['provider'])" "$S/ROUND_ASSIGNMENT.json" "$LANE_ROLE" 2>/dev/null)" \
+  AEXP="$(python -c "import json,sys;r=json.load(open(sys.argv[1],encoding='utf-8'))['roles'][sys.argv[2]];print(r['model'],r['reasoning_effort'],r.get('route',{}).get('style','openai'),r['provider'],r.get('route',{}).get('catalog',''),r.get('route',{}).get('base_url',''))" "$S/ROUND_ASSIGNMENT.json" "$LANE_ROLE" 2>/dev/null)" \
     || die 3 "cannot read the assignment for role $LANE_ROLE"
   [ -n "$AEXP" ] || die 3 "role $LANE_ROLE is not in the assignment"
-  read -r A_MODEL A_EFF A_STYLE A_PROV <<< "$AEXP"
+  read -r A_MODEL A_EFF A_STYLE A_PROV A_CAT A_BASE <<< "$AEXP"
 fi
 
-case "$LANE" in
-  AO*) DEF_MODEL="gpt-6.1-sol"; DEF_PROV="openai"; DEF_EFF="medium" ;;
-  *)   DEF_MODEL="opencode-go/deepseek-v4.1-flash"; DEF_PROV="opencode-go"; DEF_EFF="high" ;;
-esac
+if [ -n "$LANE_ROLE" ]; then
+  # A roled lane takes EVERY default from the assignment - model, provider, effort and route. Deriving them
+  # from the lane's name instead made the child disagree with the assignment the moment a lane was honest
+  # about its role: the checker wrapper states VERIFY and the lane is named FO*, so the name-derived effort
+  # (high) contradicted the assigned one (medium) and refused every run.
+  DEF_MODEL="$A_MODEL"; DEF_PROV="$A_PROV"; DEF_EFF="$A_EFF"; DEF_STYLE="$A_STYLE"
+else
+  case "$LANE" in
+    AO*) DEF_MODEL="gpt-6.1-sol"; DEF_PROV="openai"; DEF_EFF="medium"; DEF_STYLE="openai" ;;
+    *)   DEF_MODEL="opencode-go/deepseek-v4.1-flash"; DEF_PROV="opencode-go"; DEF_EFF="high"; DEF_STYLE="catalog" ;;
+  esac
+fi
 MODEL="${LANE_MODEL:-$DEF_MODEL}"; PROV="${LANE_PROVIDER:-$DEF_PROV}"; EFF="${LANE_EFFORT:-$DEF_EFF}"
+STYLE="${ROUTE_STYLE:-${DEF_STYLE:-openai}}"    # an unset caller route follows the assignment
 # A governed lane is defined by its role: the role names the only source of truth for the model, provider
 # and effort. Without it the check below is skipped entirely, which is how an unassigned model was admitted.
 [ -n "$LANE_ROLE" ] || die 3 "LANE_ROLE is required: an unroled lane cannot be checked against the assignment"
@@ -182,21 +191,29 @@ if [ -n "$LANE_ROLE" ]; then
   else
     die 6 "effort mismatch with the assignment and not owner-authorised: env=$EFF assignment=$A_EFF"
   fi
-  [ "${ROUTE_STYLE:-openai}" = "$A_STYLE" ] || die 6 "route mismatch with the assignment: env=${ROUTE_STYLE:-openai} assignment=$A_STYLE"
+  if [ "$STYLE" != "$A_STYLE" ]; then
+    # The route is a fourth axis: the owner's checker ruling runs the backup through the catalog route
+    # although the VERIFY role is assigned the plain one, so it must be named here like any other axis.
+    if [ -f "$OWNERF" ] && grep -Fqx -- "authorizes_route: $LANE_ROLE $STYLE" "$OWNERF"; then
+      echo "CHILD_OWNER_AUTHORISED_ROUTE route=$STYLE assignment=$A_STYLE"
+    else
+      die 6 "route mismatch with the assignment and not owner-authorised: env=$STYLE assignment=$A_STYLE"
+    fi
+  fi
 fi
-if [ "${ROUTE_STYLE:-openai}" = "catalog" ]; then
+if [ "$STYLE" = "catalog" ]; then
   INV=(-c "model=$MODEL" -c "model_reasoning_effort=\"$EFF\""
-       -c "openai_base_url=${ROUTE_BASE_URL:-http://127.0.0.1:10102/v1}"
-       -c "model_catalog_json=${ROUTE_CATALOG:?catalog route needs ROUTE_CATALOG}")
+       -c "openai_base_url=${ROUTE_BASE_URL:-${A_BASE:-http://127.0.0.1:10102/v1}}"
+       -c "model_catalog_json=${ROUTE_CATALOG:-${A_CAT:?the catalog route needs a catalog}}")
 else
   INV=(-m "$MODEL" -c "model_provider=\"$PROV\"" -c "model_reasoning_effort=\"$EFF\"")
 fi
 
 # A: the manifest is written OUTSIDE the worktree and copied in at postflight.
 LOG="$LOGDIR/${LANE}_${STAMP}.log"; LOGEXIT="$LOG.exit"; MAN="$LOGDIR/${LANE}_${STAMP}.manifest"
-echo "${LANE}_LANE=${STAMP} MODEL=${MODEL} provider=${PROV} reasoning=${EFF} route=${ROUTE_STYLE:-openai} (declared)"
+echo "${LANE}_LANE=${STAMP} MODEL=${MODEL} provider=${PROV} reasoning=${EFF} route=$STYLE (declared)"
 printf 'LANE=%s\nMODEL=%s\nPROVIDER=%s\nEFFORT=%s\nSTAMP=%s\nTOKEN=%s\nWT=%s\nROUTE_STYLE=%s\nSANDBOX=%s\n' \
-  "$LANE" "$MODEL" "$PROV" "$EFF" "$STAMP" "$TOKEN" "$WT" "${ROUTE_STYLE:-openai}" "$SANDBOX_MODE" > "$MAN"
+  "$LANE" "$MODEL" "$PROV" "$EFF" "$STAMP" "$TOKEN" "$WT" "$STYLE" "$SANDBOX_MODE" > "$MAN"
 
 timeout 5400 "$CODEX" "${INV[@]}" exec --cd "$WT" --sandbox "$SANDBOX_MODE" --skip-git-repo-check \
   - < "$S/$BRIEF" > "$LOG" 2>&1

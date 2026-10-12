@@ -61,5 +61,11 @@ PASS G15_JUNCTION_REFUSED (exit=3)
 PASS G15_names_the_containment
 PASS G15_not_a_resolve_failure
 PASS G15_left_no_dir_in_the_worktree
+### G16 an unroled lane is refused, so an unassigned model cannot slip through (round-11)
+PASS G16_UNROLED_LANE_REFUSED (exit=3)
+PASS G16_names_the_reason
+### G17 a resolver that cannot decide must refuse, not proceed (round-11)
+PASS G17_UNDECIDED_CONTAINMENT_REFUSED (exit=3)
+PASS G17_names_the_containment
 
-RESULT pass=48 fail=0
+RESULT pass=52 fail=0

@@ -15,6 +15,7 @@ verifier's verdict covers that artifact set as produced.
 
 authorizes_model: VERIFY opencode-go/glm-5.3-flash
 authorizes_provider: VERIFY opencode-go
+authorizes_route: VERIFY catalog
 
 ## Checker failover (owner ruling, 2026-10-12, verbatim)
 

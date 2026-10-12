@@ -6,23 +6,23 @@ PASS T2_MISSING_BRIEF_REFUSED (exit=3)
 PASS T2_no_lane_log_written
 PASS T2_child_never_launched
 ### T3 successful run: log really copied in, commit says so, no stray root dir (D3)
-PASS T3_STUB_SUCCESS (exit=0)
-PASS T3_log_copied_in
-PASS T3_commit_states_copy
-PASS T3_per_launch_receipt_written
+FAIL T3_STUB_SUCCESS expected=0 actual=6
+FAIL T3_log_copied_in
+FAIL T3_commit_states_copy
+FAIL T3_per_launch_receipt_written
 PASS D3_no_output_dir_at_repo_root
 PASS D3_output_dir_is_round_relative
 ### T4 postflight dirt is REJECTED, not merely printed (D2)
-PASS T4_POSTFLIGHT_DIRT_REJECTED (exit=5)
-PASS T4_dirt_was_detected
+FAIL T4_POSTFLIGHT_DIRT_REJECTED expected=5 actual=6
+FAIL T4_dirt_was_detected
 ### T5 a non-zero child is propagated, never advertised as success
-PASS T5_CHILD_EXIT_PROPAGATED (exit=7)
-PASS T5_lane_reports_done
+FAIL T5_CHILD_EXIT_PROPAGATED expected=7 actual=6
+FAIL T5_lane_reports_done
 ### T6 TMPDIR resolving inside the worktree is refused (F)
 PASS T6_TMPDIR_INSIDE_REFUSED (exit=3)
 ### T7 a failed receipt copy is fatal, not a note (R1)
-PASS T7_RECEIPT_COPY_FATAL (exit=6)
-PASS T7_names_the_receipt
+FAIL T7_RECEIPT_COPY_FATAL expected=6 actual=3
+FAIL T7_names_the_receipt
 ### T8 a FAILED git status is not a clean worktree (R2)
 PASS T8_STATUS_FAILURE_REFUSED (exit=2)
 PASS T8_says_status_failed
@@ -32,8 +32,8 @@ PASS T9_STAGED_OUTSIDE_REFUSED (exit=6)
 PASS T9_names_the_outside_path
 PASS T9_outside_file_was_not_committed
 ### T10 the manifest is really copied into the round (M1)
-PASS T10_MANIFEST_RUN (exit=0)
-PASS T10_manifest_present_in_round
+FAIL T10_MANIFEST_RUN expected=0 actual=6
+FAIL T10_manifest_present_in_round (stamp=)
 ### T11 a regex-spelling alias of the round is refused (M2)
 PASS T11_ALIAS_PREFIX_REFUSED (exit=6)
 PASS T11_names_the_outside_path
@@ -41,8 +41,8 @@ PASS T11_names_the_outside_path
 PASS T12_STAGED_QUERY_FAILURE_REFUSED (exit=6)
 PASS T12_names_the_query
 ### T13 dirt created by the final commit is detected (M4)
-PASS T13_POST_COMMIT_DIRT_REJECTED (exit=5)
-PASS T13_names_the_dirt
+FAIL T13_POST_COMMIT_DIRT_REJECTED expected=5 actual=6
+FAIL T13_names_the_dirt
 ### T14 a route that disagrees with the assignment is refused (M7)
 PASS T14_ROUTE_MISMATCH_REFUSED (exit=6)
 PASS T14_names_the_mismatch
@@ -53,4 +53,4 @@ PASS P1_names_the_outside_path
 PASS P2_REGEX_MODEL_REFUSED (exit=6)
 PASS P2_names_the_reason
 
-RESULT pass=38 fail=0
+RESULT pass=24 fail=14
