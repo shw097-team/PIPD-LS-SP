@@ -1,0 +1,169 @@
+# PIPD-LS-SP — install (single source of truth)
+
+This page is the **install SSOT**: every other page that mentions installing PIPD-LS-SP either is
+this page or points at it. There are **two install routes and only two** — **Web** and **Agent** —
+and they have different ceilings. Pick one, read its ceiling, and do not read a green build (or a
+copied file) as anything more than what the [states table](#states-that-are-not-the-same) below says.
+
+Version pin for everything on this page: release **`v0.1.1-preview.3`**, release-tag target and
+build-source commit **`cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`**. The authority for these facts is
+[`docs/RELEASE_TUPLE.json`](../RELEASE_TUPLE.json); read it before you rely on any digest quoted
+below.
+
+---
+
+## Route 1 — Web (single-document fallback)
+
+There is **no public plugin directory listing yet**: nothing has been published to a plugin
+directory, so no user can install PIPD-LS-SP from one. The Web route today is therefore a **single
+document**, `PIPD_WEB_FALLBACK.md`, produced by [`tools/build_web_fallback.py`](../../tools/build_web_fallback.py)
+from a frozen mount pack. You attach that one document to a conversation or a Knowledge base; you do
+not install anything. Its ceiling is **`DOC_MOUNT_ONLY`** — no Python CLI, no MCP, no repository
+write, no S4 acceptance (spelled out [below](#the-web-fallback-document-and-its-doc_mount_only-ceiling)).
+The conditional directory route is described [further down](#the-directory-route-conditional-not-available-today).
+
+---
+
+## Route 2 — Agent (one copy-paste prompt)
+
+The Agent route is **one copy-paste prompt**: [`PIPD_AGENT_INSTALL_PROMPT.md`](PIPD_AGENT_INSTALL_PROMPT.md).
+It targets four supported hosts — **Hermes Agent**, **Codex Desktop (GUI)**, **Codex CLI** and
+**Claude Code** — and it makes the host do the work: detect its own identity/version/OS, prove its
+own discovery mechanism, show the exact paths and the diff, stop for approval, and then verify the
+load. **File presence is not evidence.** A host is only counted when it proves *real discovery* and
+an **8/8 effective load** of the eight skills, each with one positive and one negative trigger; if
+all that happened is that files were copied, the correct report is `NOT_VERIFIED`. Web GPT-6 is a
+**consumer of the fallback document, not an agent host** — it does not load the skills and is not a
+qualifying host for this route.
+
+The eight skills the route installs are the eight `skills/pipd-*` packs — `pipd-route-intake`,
+`pipd-authority-source`, `pipd-profile-tailor`, `pipd-pi-compile`, `pipd-pd-bind`,
+`pipd-execution-contract`, `pipd-assurance-tqaep`, `pipd-package-project` — six files each, **48
+files** in total.
+
+---
+
+## The Web fallback document and its `DOC_MOUNT_ONLY` ceiling
+
+`PIPD_WEB_FALLBACK.md` is one markdown document built from a *frozen mount pack* — a directory that
+carries its own `MANIFEST.sha256`, e.g. the checked-in
+[`dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3/`](../../dist/mount/) pack. Build it with
+the tool's own CLI:
+
+```bash
+python tools/build_web_fallback.py \
+  --mount-pack dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3 \
+  --release-id v0.1.1-preview.3 \
+  --release-commit cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a \
+  --out PIPD_WEB_FALLBACK.md
+```
+
+The tool is fail-closed, not best-effort. It **refuses** (typed reason, non-zero exit) instead of
+warning, on `MANIFEST_DIGEST_MISMATCH`, `MEMBER_SYMLINK`, `PATH_ESCAPE`, `UNEXPECTED_EXTRA_FILE`,
+`RELEASE_STAMP_MISSING`, `MEMBER_NOT_TEXT`, `SIZE_CAP_EXCEEDED` (it never truncates) and
+`DESTINATION_EXISTS` / `DESTINATION_SYMLINK`. It writes with `O_EXCL`, embeds no timestamp, stamps
+`DOC_MOUNT_ONLY` plus the member inventory, and is byte-deterministic across rebuilds.
+
+**The ceiling is `DOC_MOUNT_ONLY`.** That means, precisely:
+
+| not available through the fallback document | why |
+|---|---|
+| the Python **CLI** (`pipd`) | the document is content; it runs no `pipd` on the reader's machine |
+| **MCP** or any tool surface | nothing is registered and nothing is invoked |
+| **repository writing** | the document writes nothing to any checkout |
+| **S4 acceptance** | mounting a document accepts no stage, qualifies no host and approves no release |
+
+The host that consumes it is a read-only semantic surface: it can help you *design* work; it cannot
+execute, install, test, approve or release anything. For an 8/8 loaded skill set with real
+discovery, use the Agent route.
+
+---
+
+## The Directory route (conditional, not available today)
+
+A plugin directory listing is a *different* route, and it is **conditional on a published,
+account-visible listing** — one that actually exists and can be found from an account. None exists
+today. Treat every "install from the directory" instruction you read anywhere as **not available**
+until all of the following are true, and each is separately evidenced:
+
+1. the package root manifest conforms to the directory's own vendor schema (Agent Plugins 1.0), not
+   to PIPD's internal bookkeeping manifest;
+2. the directory's portal has reviewed and approved the submitted package (its own record, not ours);
+3. the listing is published and account-visible, and the bytes it serves match the receipt digest.
+
+Until then the Web route is exactly the single document in Route 1. Do not present a conditional
+route as an available one.
+
+---
+
+## States that are NOT the same
+
+These five words are kept apart on purpose. None of them is upgraded by a green build, and the
+right-hand column is what would have to exist for the word to be true — **not** what exists now.
+
+| state | meaning | required evidence | state today |
+|---|---|---|---|
+| `BUILD_PASS` | the deterministic packager built the candidate and its own tests are green | the build tool exits `0` with a byte-identical rebuild (two builds, same input, same bytes), the two upgrade test modules plus the full suite green, and a receipt whose `claim_ceiling` is `LOCAL_PACKAGER_PASS_ONLY` | **NOT claimed** — the builder *refuses* on the deliberately absent owner inputs (`derivations.json` is empty, no pinned publisher identity, no pinned official/vendor schema digest, no icon), so no candidate ZIP is claimed |
+| `PORTAL_APPROVED` | the plugin directory's own review approved the submitted package | the portal's approval record / identifier for that submission — the directory's verdict, never our own summary | **NOT_EXECUTED** — the manifest records `official_portal_verification: NOT_EXECUTED`; no submission was reviewed |
+| `PUBLISHED` | the package is live in the public directory and its served bytes are the ones we hashed | a published, account-visible listing **plus** the served asset's digest agreeing with the receipt | **NOT_PUBLISHED** — no public directory listing exists yet |
+| `HOST_QUALIFIED` | a specific host really loads the eight skills | per-host, host-produced evidence: the host resolved the project root, really discovered the skills, reported **8/8 effective load**, and passed one positive and one negative trigger; raw logs attached | **NOT_VERIFIED** — no host has produced that evidence; a copied file reports `NOT_VERIFIED` |
+| `S4_FULL_PASS` | the S0–S4 challenge is accepted as a *full* pass | independent verifier receipts covering the whole S0–S4 challenge, not scoped receipts | **NOT claimed** — the challenge is `PARTIAL_CHALLENGE`; scoped receipts only, and `G-RELEASE_FULL_PASS` is not granted |
+
+`BUILD_PASS` != `PORTAL_APPROVED` != `PUBLISHED` != `HOST_QUALIFIED` != `S4_FULL_PASS`. A green
+`BUILD_PASS` on this repository does **not** imply any of the other four — and there is no `BUILD_PASS`
+today either.
+
+---
+
+## Advanced and recovery
+
+Everything below is subordinate to the two routes above. It is not an alternative route.
+
+### Version pin
+
+Pin the **immutable** identity, never a moving branch tip:
+
+- release id **`v0.1.1-preview.3`**; release-tag target **`cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`**.
+- authoritative record: [`docs/RELEASE_TUPLE.json`](../RELEASE_TUPLE.json).
+- **Known open item, stated rather than hidden:** the immutable `v0.1.1-preview.3` **tag** still
+  holds the pre-correction pack, so a rebuild *from the tag's tree* does not reproduce the currently
+  served asset. The served asset was corrected in place and is reproducible from this tree
+  (`docs/RELEASE_TUPLE.json` → `authority_note`). Closing that needs a new immutable preview, not
+  another in-place replacement — it is a Release Owner item and it is **not closed**.
+
+### Hashes
+
+- Wheel `pipd_ls_sp-0.1.1a3-py3-none-any.whl`: the published digest is recorded in the repository
+  front page (`README.md`). Verify the bytes you downloaded against that digest before installing;
+  this page does not replace the sidecar.
+- Mount pack ZIP `PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip`: digest recorded in
+  `docs/RELEASE_TUPLE.json` (`published_asset_sha256`), with a `.sha256` sidecar next to the ZIP.
+- Inside an unpacked pack, `MANIFEST.sha256` lists every member's sha256 (LF-normalised text bytes
+  hash as stored). `tools/build_web_fallback.py` recomputes it and refuses on any mismatch.
+
+### Uninstall / rollback
+
+- **Web fallback:** delete `PIPD_WEB_FALLBACK.md`, and detach it from the conversation or Knowledge
+  base. Nothing was installed, so nothing else changes.
+- **Agent route:** remove exactly the files the prompt listed in its *uninstall path* line before it
+  wrote anything — the prompt refuses to run without printing that path first, and it refuses global
+  writes, so removal is confined to the project-local skill directory. Re-run the prompt to see the
+  list again; do not delete files it did not name.
+- **Wheel (CLI):** inside the virtual environment you installed into,
+  `python -m pip uninstall pipd-ls-sp`; or delete that environment. Nothing is installed outside it.
+
+### Reporting a failure
+
+Report what the host or the tool actually produced, not a summary of what you hoped for. Include:
+
+- host, OS and host version, and the shell/file/network permissions the host declared;
+- the pinned source you used (repo URL + the 40-hex commit, and the pack ZIP digest if you used one);
+- the **effective** skill count (discovered and loaded, not files copied);
+- every refusal case you hit, with the tool's or host's typed reason, verbatim;
+- the raw log paths.
+
+This repository's own read-only gate for the upgrade is
+[`.github/workflows/public-plugin-verify.yml`](../../.github/workflows/public-plugin-verify.yml); it
+uploads its raw logs as the `public-plugin-verify-raw-logs` artifact, which is the shape a failure
+report should have. A failure report is never an acceptance claim: see the
+[states table](#states-that-are-not-the-same) — none of those five words is granted by reporting.

@@ -7,14 +7,29 @@ REFUSE with a typed reason (non-zero exit), never warn. Nothing here publishes a
 is a *candidate* whose receipt says ``claim_ceiling: LOCAL_PACKAGER_PASS_ONLY`` and
 ``official_portal_verification: NOT_EXECUTED``.
 
+Two manifests, one package:
+  * ``plugin.json`` is the OFFICIAL Agent Plugins 1.0 package-root manifest. It is validated
+    against the byte-locked vendor schema ``vendor-plugin.schema.json`` (a byte copy of
+    ``https://agent-plugins.org/schemas/1.0.0/plugin.schema.json``), so a private PIPD manifest
+    placed at the root would be refused by ``additionalProperties: false``.
+  * ``plugin.release.json`` is PIPD's own release bookkeeping (claim ceiling, portal state,
+    publisher record, icon digests, the eight skill names and the pinned digest of the official
+    vendor schema). The same object is embedded in the official manifest under the vendor-blessed
+    ``extensions["com.pipd.s4"]`` namespace, and both copies must agree.
+
 Owner-gated inputs (all missing on purpose in the checked-in candidate):
   * a per-skill derivation record in ``derivations.json`` whose ``source_sha256`` matches the
     frozen ledger (each ``SKILL.md`` carries non-portable frontmatter, so a byte-copy projection is
     impossible and every skill needs an owner-approved derivation),
-  * the pinned official-schema digest (``official_schema_sha256`` must equal the sha256 of the local
-    ``plugin.schema.json`` subset),
+  * the pinned digest of the official (vendor) schema in ``official_schema_sha256``,
   * the publisher identity,
   * the icon digests.
+
+Typed refusals added by the vendor-schema lock: ``VENDOR_SCHEMA_MISSING``, ``VENDOR_SCHEMA_INVALID``,
+``VENDOR_SCHEMA_ID_MISMATCH``, ``OFFICIAL_SCHEMA_ID_MISMATCH``, ``VENDOR_SCHEMA_DIGEST_MISMATCH``,
+``RELEASE_BOOKKEEPING_MISSING`` and ``RELEASE_EXTENSION_MISMATCH``. The former
+``OFFICIAL_SCHEMA_DIGEST_MISMATCH`` is subsumed by ``VENDOR_SCHEMA_DIGEST_MISMATCH``: the pinned
+digest now names the official vendor schema bytes, not the local subset.
 
 Determinism: fixed ZIP metadata (1980-01-01, mode 0644, DEFLATED level 9). The archive is written
 to a scratch file, read back and compared member-by-member before it is promoted into place, so two
@@ -51,7 +66,17 @@ from freeze_public_plugin_source import (  # noqa: E402  (sibling tool, stdlib-o
     canonical_bytes,
 )
 
-MANIFEST_SCHEMA_ID = "PIPD-PUBLIC-PLUGIN-MANIFEST/1"
+# PIPD's release bookkeeping document (``plugin.release.json``); the local ``plugin.schema.json``
+# subset pins this closed key set.
+RELEASE_SCHEMA_ID = "PIPD-PUBLIC-PLUGIN-MANIFEST/1"
+# The official Agent Plugins 1.0 vendor schema: its ``$id`` is the manifest ``$schema``, and its
+# exact bytes are pinned here so a swapped schema cannot silently widen the accepted manifest.
+VENDOR_SCHEMA_ID = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
+VENDOR_SCHEMA_SHA256 = "0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883"
+VENDOR_SCHEMA_FILENAME = "vendor-plugin.schema.json"
+RELEASE_BOOKKEEPING_FILENAME = "plugin.release.json"
+# The vendor-blessed reverse-domain namespace that carries PIPD's own release bookkeeping.
+RELEASE_EXTENSION_KEY = "com.pipd.s4"
 PORTABLE_KEYS = ("name", "description", "license", "compatibility", "metadata", "allowed-tools")
 NON_PORTABLE_KEYS = ("version", "owner", "triggers", "schemas", "references", "tests")
 
@@ -212,7 +237,13 @@ def _type_ok(value, typ: str) -> bool:
 
 
 def validate_subset(instance, schema, path: str = "$") -> list[dict]:
-    """A tiny, dependency-free validator for the local plugin.schema.json subset."""
+    """A tiny, dependency-free JSON-Schema subset validator (local subset AND vendor schema).
+
+    Supported keywords: ``type``, ``const``, ``enum``, ``minLength``, ``maxLength``, ``pattern``,
+    ``minimum``, ``maximum``, ``minItems``, ``maxItems``, ``uniqueItems``, ``items``, ``required``,
+    ``properties`` and both forms of ``additionalProperties`` (``false`` closes the key set; an
+    object schema validates every key that ``properties`` does not name).
+    """
     errors: list[dict] = []
     if not isinstance(schema, dict):
         return errors
@@ -258,7 +289,8 @@ def validate_subset(instance, schema, path: str = "$") -> list[dict]:
                 errors.append({"path": f"{path}.{required_key}", "keyword": "required",
                                "message": "required property is absent"})
         props = schema.get("properties", {})
-        if schema.get("additionalProperties") is False:
+        extra = schema.get("additionalProperties")
+        if extra is False:
             for key in instance:
                 if key not in props:
                     errors.append({"path": f"{path}.{key}", "keyword": "additionalProperties",
@@ -266,6 +298,8 @@ def validate_subset(instance, schema, path: str = "$") -> list[dict]:
         for key, value in instance.items():
             if key in props:
                 errors += validate_subset(value, props[key], f"{path}.{key}")
+            elif isinstance(extra, dict):
+                errors += validate_subset(value, extra, f"{path}.{key}")
     return errors
 
 
@@ -357,6 +391,11 @@ def project_skill_md(skill: str, source_bytes: bytes, record: dict) -> tuple[byt
     except UnicodeDecodeError as exc:
         raise Refusal("SKILL_NOT_UTF8", f"{skill}/SKILL.md is not UTF-8: {exc}") from exc
     keys, mapping, body = parse_skill_md(text)
+    # The frontmatter `name` is the skill's portable identity: it must name this skill directory.
+    if mapping.get("name") != skill:
+        raise Refusal("SKILL_FRONTMATTER_INVALID",
+                      f"{skill}: frontmatter `name` is {mapping.get('name')!r}; "
+                      f"it must be the skill name {skill!r}")
     kept = [k for k in keys if k in PORTABLE_KEYS]
     dropped = [k for k in keys if k not in PORTABLE_KEYS]
     if set(record.get("kept_keys", [])) != set(kept):
@@ -478,7 +517,35 @@ def _load_json(path: Path, code: str) -> dict:
         raise Refusal(code, f"{path} is not parseable JSON: {exc}") from exc
 
 
-def _check_owner_inputs(manifest: dict, schema_bytes: bytes, derivations_doc: dict,
+def _load_vendor_schema(packaging_root: Path) -> tuple[bytes, dict]:
+    """Load the byte-locked official vendor schema: the lock is the ``$id`` AND the exact bytes.
+
+    The bytes fetched once from the Agent Plugins 1.0 specification are committed next to the
+    manifests, so this gate can be re-run offline; it is NOT the vendor's own validator, which
+    stays NOT_EXECUTED.
+    """
+    path = packaging_root / VENDOR_SCHEMA_FILENAME
+    if not path.is_file():
+        raise Refusal("VENDOR_SCHEMA_MISSING", f"the locked vendor schema is absent: {path}")
+    data = path.read_bytes()
+    try:
+        doc = json.loads(data.decode("utf-8"))
+    except (UnicodeDecodeError, ValueError) as exc:
+        raise Refusal("VENDOR_SCHEMA_INVALID", f"{path} is not parseable JSON: {exc}") from exc
+    if not isinstance(doc, dict):
+        raise Refusal("VENDOR_SCHEMA_INVALID", f"{path} is not a JSON object")
+    if doc.get("$id") != VENDOR_SCHEMA_ID:
+        raise Refusal("VENDOR_SCHEMA_ID_MISMATCH",
+                      f"vendor schema $id is {doc.get('$id')!r}; expected {VENDOR_SCHEMA_ID!r}")
+    observed = sha256_bytes(data)
+    if observed != VENDOR_SCHEMA_SHA256:
+        raise Refusal("VENDOR_SCHEMA_DIGEST_MISMATCH",
+                      f"vendor schema bytes hash to {observed}; the locked digest is "
+                      f"{VENDOR_SCHEMA_SHA256}")
+    return data, doc
+
+
+def _check_owner_inputs(release: dict, vendor_schema_bytes: bytes, derivations_doc: dict,
                         skill_paths: dict[str, str], ledger_files: dict[str, str]) -> dict[str, dict]:
     """Gate every owner input. The FIRST missing input raises, in canonical skill order."""
     records = derivations_doc.get("derivations")
@@ -506,27 +573,30 @@ def _check_owner_inputs(manifest: dict, schema_bytes: bytes, derivations_doc: di
         if not isinstance(record.get("kept_keys"), list) or not isinstance(record.get("dropped_keys"), list):
             raise Refusal("DERIVATION_RECORD_INVALID", f"{skill}: kept_keys/dropped_keys must be lists")
 
-    pinned = manifest.get("official_schema_sha256")
+    pinned = release.get("official_schema_sha256")
     if is_placeholder(pinned):
         raise Refusal("OWNER_INPUT_MISSING",
-                      "official_schema_sha256 is not pinned (value is a placeholder)")
+                      "official_schema_sha256 (the digest of the official Agent Plugins vendor "
+                      "schema) is not pinned (value is a placeholder)")
     if not HEX64.match(str(pinned)):
         raise Refusal("OFFICIAL_SCHEMA_DIGEST_INVALID",
                       f"official_schema_sha256 is not 64 hex chars: {pinned!r}")
-    if pinned != sha256_bytes(schema_bytes):
-        raise Refusal("OFFICIAL_SCHEMA_DIGEST_MISMATCH",
-                      "official_schema_sha256 does not match the local plugin.schema.json bytes")
+    observed = sha256_bytes(vendor_schema_bytes)
+    if pinned != observed:
+        raise Refusal("VENDOR_SCHEMA_DIGEST_MISMATCH",
+                      f"pinned official_schema_sha256 {pinned} does not match the vendor schema "
+                      f"bytes it validates against ({observed})")
 
-    publisher = manifest.get("publisher") or {}
+    publisher = release.get("publisher") or {}
     if any(is_placeholder(publisher.get(key)) for key in ("name", "identity", "identity_sha256")):
         raise Refusal("OWNER_INPUT_MISSING",
                       "publisher identity is not pinned (name/identity/identity_sha256 are placeholders)")
     if not HEX64.match(str(publisher.get("identity_sha256"))):
         raise Refusal("PUBLISHER_IDENTITY_INVALID", "publisher.identity_sha256 is not 64 hex chars")
 
-    icons = manifest.get("icons")
+    icons = release.get("icons")
     if not isinstance(icons, list) or not icons:
-        raise Refusal("OWNER_INPUT_MISSING", "the manifest pins no icons")
+        raise Refusal("OWNER_INPUT_MISSING", "the release bookkeeping pins no icons")
     for icon in icons:
         rel = icon.get("path")
         if is_placeholder(icon.get("sha256")):
@@ -579,11 +649,24 @@ def build_plugin(*, source_root: Path, ledger: dict, source_commit: str | None,
         if sha256_bytes(disk_files[rel]) != ledger_files[rel]:
             raise Refusal("SOURCE_DIGEST_MISMATCH", f"{rel} does not match the frozen ledger")
 
-    # --- manifest + local schema --------------------------------------------------------
+    # --- the official root manifest + the locked vendor schema ---------------------------
     manifest = _load_json(packaging_root / "plugin.json", "MANIFEST_MISSING")
-    if manifest.get("schema") != MANIFEST_SCHEMA_ID:
+    release = _load_json(packaging_root / RELEASE_BOOKKEEPING_FILENAME,
+                         "RELEASE_BOOKKEEPING_MISSING")
+    vendor_bytes, vendor_doc = _load_vendor_schema(packaging_root)
+    # (a) the official manifest must name the vendor schema it is validated against
+    if manifest.get("$schema") != VENDOR_SCHEMA_ID:
+        raise Refusal("OFFICIAL_SCHEMA_ID_MISMATCH",
+                      f"the root manifest `$schema` must be the vendor $id {VENDOR_SCHEMA_ID!r}, "
+                      f"got {manifest.get('$schema')!r}")
+    # (b) validate the official manifest against the vendor schema with our own subset validator
+    violations = validate_subset(manifest, vendor_doc)
+    if violations:
+        first = violations[0]
         raise Refusal("MANIFEST_SCHEMA_VIOLATION",
-                      f"`schema` must be {MANIFEST_SCHEMA_ID!r}, got {manifest.get('schema')!r}")
+                      f"{first['path']}: {first['keyword']} — {first['message']}")
+
+    # --- PIPD's release bookkeeping + the local subset ------------------------------------
     schema_path = packaging_root / "plugin.schema.json"
     schema_bytes = schema_path.read_bytes() if schema_path.is_file() else None
     if schema_bytes is None:
@@ -592,19 +675,24 @@ def build_plugin(*, source_root: Path, ledger: dict, source_commit: str | None,
         schema_doc = json.loads(schema_bytes.decode("utf-8"))
     except (UnicodeDecodeError, ValueError) as exc:
         raise Refusal("SCHEMA_INVALID", f"{schema_path} is not parseable JSON: {exc}") from exc
-    violations = validate_subset(manifest, schema_doc)
+    violations = validate_subset(release, schema_doc)
     if violations:
         first = violations[0]
         raise Refusal("MANIFEST_SCHEMA_VIOLATION",
-                      f"{first['path']}: {first['keyword']} — {first['message']}")
-    if sorted(manifest.get("skills", [])) != sorted(expected_skills):
+                      f"plugin.release.json {first['path']}: {first['keyword']} — {first['message']}")
+    if sorted(release.get("skills", [])) != sorted(expected_skills):
         raise Refusal("MANIFEST_SCHEMA_VIOLATION",
-                      "manifest skills must name exactly the eight frozen skills")
+                      "the release bookkeeping skills must name exactly the eight frozen skills")
+    embedded = (manifest.get("extensions") or {}).get(RELEASE_EXTENSION_KEY)
+    if embedded != release:
+        raise Refusal("RELEASE_EXTENSION_MISMATCH",
+                      f"the root manifest extensions[{RELEASE_EXTENSION_KEY!r}] must be the "
+                      f"{RELEASE_BOOKKEEPING_FILENAME} object verbatim")
 
     derivations_doc = _load_json(packaging_root / "derivations.json", "DERIVATIONS_MISSING")
 
     # --- icons (owner-gated, validated after generation) --------------------------------
-    icons = manifest.get("icons") or []
+    icons = release.get("icons") or []
     if generate_icons:
         for icon in icons:
             target = packaging_root / icon["path"]
@@ -613,7 +701,7 @@ def build_plugin(*, source_root: Path, ledger: dict, source_commit: str | None,
 
     # --- owner-input gate (FIRST missing input refuses, deterministically) --------------
     skill_paths = {name: f"skills/{name}/SKILL.md" for name in expected_skills}
-    records = _check_owner_inputs(manifest, schema_bytes, derivations_doc, skill_paths, ledger_files)
+    records = _check_owner_inputs(release, vendor_bytes, derivations_doc, skill_paths, ledger_files)
 
     for icon in icons:
         target = packaging_root / icon["path"]
@@ -627,7 +715,7 @@ def build_plugin(*, source_root: Path, ledger: dict, source_commit: str | None,
             raise Refusal("ICON_INVALID", f"{icon['path']}: {problems[0]}")
 
     # --- assemble the plugin member set -------------------------------------------------
-    plugin_id = str(manifest["plugin_id"])
+    plugin_id = str(release["plugin_id"])
     root = plugin_id
     members: dict[str, bytes] = {}
     mapping_rows: list[dict] = []
@@ -651,7 +739,9 @@ def build_plugin(*, source_root: Path, ledger: dict, source_commit: str | None,
                 "mode": mode,
             })
     members[f"{root}/plugin.json"] = canonical_json_bytes(manifest)
+    members[f"{root}/{RELEASE_BOOKKEEPING_FILENAME}"] = canonical_json_bytes(release)
     members[f"{root}/plugin.schema.json"] = schema_bytes
+    members[f"{root}/{VENDOR_SCHEMA_FILENAME}"] = vendor_bytes
     members[f"{root}/derivations.json"] = canonical_json_bytes(derivations_doc)
     for icon in icons:
         members[f"{root}/{icon['path']}"] = (packaging_root / icon["path"]).read_bytes()
@@ -674,10 +764,12 @@ def build_plugin(*, source_root: Path, ledger: dict, source_commit: str | None,
     receipt_doc = {
         "schema": "PIPD-PUBLIC-PLUGIN-RELEASE-RECEIPT/1",
         "plugin_id": plugin_id,
-        "version": manifest.get("version"),
+        "version": release.get("version"),
         "source_commit": source_commit,
         "source_tree": ledger.get("tree"),
         "source_ledger_version": ledger.get("ledger_version"),
+        "official_schema_sha256": str(release.get("official_schema_sha256")),
+        "official_schema_id": VENDOR_SCHEMA_ID,
         "claim_ceiling": "LOCAL_PACKAGER_PASS_ONLY",
         "official_portal_verification": "NOT_EXECUTED",
         "member_count": len(members) + 1,

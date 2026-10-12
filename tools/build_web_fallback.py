@@ -10,7 +10,9 @@ it REFUSES (typed reason, non-zero exit) rather than warn on
   * ``MEMBER_SYMLINK``            a symlinked member (or pack) is present
   * ``PATH_ESCAPE``               a manifest path escapes the pack root
   * ``UNEXPECTED_EXTRA_FILE``     a file exists in the pack that the manifest does not list
-  * ``RELEASE_STAMP_MISSING``     a member document does not stamp the release commit
+  * ``RELEASE_STAMP_MISSING``     a member document does not stamp the pinned release id AND the
+                                  pinned commit (a member naming only one of the two is stale)
+  * ``MEMBER_NOT_TEXT``           a member is not UTF-8 text (it could not be embedded verbatim)
   * ``SIZE_CAP_EXCEEDED``         the composed document would exceed the cap (NEVER truncated)
   * ``DESTINATION_EXISTS`` / ``DESTINATION_SYMLINK``  the output file already exists
 
@@ -68,6 +70,21 @@ def _canonical_bytes(data: bytes) -> bytes:
     return data.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
 
 
+def _is_text_member(data: bytes) -> bool:
+    """A member is embeddable verbatim only if it is UTF-8 text with no NUL byte.
+
+    The fallback document is markdown, so a non-text member could only be embedded through a lossy
+    ``decode(..., "replace")`` that silently corrupts the source bytes. Fail closed instead.
+    """
+    if b"\x00" in data:
+        return False
+    try:
+        data.decode("utf-8")
+    except UnicodeDecodeError:
+        return False
+    return True
+
+
 def _parse_manifest(text: str) -> list[tuple[str, str]]:
     entries: list[tuple[str, str]] = []
     for raw in text.splitlines():
@@ -92,7 +109,8 @@ def _escapes(rel: str) -> bool:
             or any(part == "" for part in parts) or parts[0] in (".", ""))
 
 
-def load_and_verify_pack(mount_pack: Path, release_commit: str) -> list[tuple[str, str, bytes]]:
+def load_and_verify_pack(mount_pack: Path, release_commit: str,
+                         release_id: str | None = None) -> list[tuple[str, str, bytes]]:
     """Return [(rel, sha256, bytes), ...] for a verified, exactly-listed pack."""
     mount_pack = Path(mount_pack)
     if _path_is_symlink(mount_pack):
@@ -121,6 +139,9 @@ def load_and_verify_pack(mount_pack: Path, release_commit: str) -> list[tuple[st
         if actual != digest:
             raise Refusal("MANIFEST_DIGEST_MISMATCH",
                           f"{rel}: copied digest {digest} != computed {actual}")
+        if not _is_text_member(data):
+            raise Refusal("MEMBER_NOT_TEXT",
+                          f"{rel} is not UTF-8 text; refusing to embed it in a markdown document")
         listed_paths.add(rel)
         listed.append((rel, digest, data))
 
@@ -144,9 +165,16 @@ def load_and_verify_pack(mount_pack: Path, release_commit: str) -> list[tuple[st
         raise Refusal("UNEXPECTED_EXTRA_FILE", f"pack carries unlisted file(s): {extra}")
 
     for rel, _digest, data in listed:
-        if rel.endswith(".md") and release_commit not in data.decode("utf-8", "replace"):
+        if not rel.endswith(".md"):
+            continue
+        text = data.decode("utf-8")
+        if release_commit not in text:
             raise Refusal("RELEASE_STAMP_MISSING",
-                          f"{rel} does not stamp the release commit {release_commit}")
+                          f"{rel} does not stamp the pinned release commit {release_commit}")
+        if release_id and release_id not in text:
+            raise Refusal("RELEASE_STAMP_MISSING",
+                          f"{rel} does not stamp the release id {release_id}; a member that names "
+                          "the pinned commit but not the release is a stale release stamp")
     return listed
 
 
@@ -211,7 +239,7 @@ def build_fallback(*, mount_pack: Path, release_id: str, release_commit: str, ou
                       f"release commit is not 40 hex chars: {release_commit!r}")
     if size_cap <= 0:
         raise Refusal("SIZE_CAP_INVALID", f"size cap must be positive: {size_cap!r}")
-    members = load_and_verify_pack(mount_pack, release_commit)
+    members = load_and_verify_pack(mount_pack, release_commit, release_id)
     document = compose_document(release_id, release_commit, members, size_cap)
     if len(document) > size_cap:
         raise Refusal("SIZE_CAP_EXCEEDED",

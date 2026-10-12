@@ -11,6 +11,25 @@ deterministically.
 Licensed **Apache-2.0**. This repository is an owner-authorised open-source **preview / beta**, not
 a production release — read [Claim ceiling](#claim-ceiling) before building on it.
 
+## Install
+
+Install is one of **two routes**, and [`docs/install/README.md`](docs/install/README.md) is the
+single source of truth for both:
+
+- **Web** — no public plugin directory listing exists yet, so the Web route today is the single
+  document `PIPD_WEB_FALLBACK.md` (built by `tools/build_web_fallback.py` from a frozen mount pack).
+  Its ceiling is **`DOC_MOUNT_ONLY`**: no Python CLI, no MCP, no repository write, no S4 acceptance.
+  A directory listing, once one is published and account-visible, is a *conditional* future route
+  and is not available today.
+- **Agent** — one copy-paste prompt,
+  [`docs/install/PIPD_AGENT_INSTALL_PROMPT.md`](docs/install/PIPD_AGENT_INSTALL_PROMPT.md), for the
+  four supported hosts (Hermes Agent, Codex Desktop (GUI), Codex CLI, Claude Code). Each host must
+  prove **real discovery** and an **8/8 effective load** of the eight skills; file presence is not
+  evidence, and a host that only copied files reports `NOT_VERIFIED`.
+
+Version pin, hashes, uninstall/rollback and how to report a failure live in
+[`docs/install/README.md`](docs/install/README.md).
+
 ## Start here
 
 | | |
