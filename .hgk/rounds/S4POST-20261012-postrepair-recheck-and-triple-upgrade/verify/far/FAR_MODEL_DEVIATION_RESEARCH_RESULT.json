@@ -1,0 +1,1100 @@
+{
+  "finding_id": "FAR-S4POST-MODEL-DEVIATION-20261012-001",
+  "subject": "Declared EXECUTE opencode-go/deepseek-v4.1-flash: three failed lanes; reruns requested opencode-go/deepseek-v4-flash with effort none. Test maker thinking-mode adapter attribution, transport, and serving identity.",
+  "scope": {
+    "mode": "READ_ONLY_RESEARCH_AND_REPORT",
+    "date": "2026-10-12",
+    "timezone": "Asia/Taipei",
+    "writes": "Only this round verify/far: two reports and this UTF-8 writer; no candidate repair, model substitution, live inference, commit, push, or credential use.",
+    "path_resolution": "Round records resolved to this round root, not the literal ../../ from stage-b (which would leave the round). Prior FAR is stage-b/FAR_20261012T115535Z.log. B4 rerun actually has stamp 102527Z, not 101611Z; no invented B4 101611 file."
+  },
+  "evidence": [
+    {
+      "id": "E01",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/MODEL_DECLARED_20261012T101452Z.txt",
+      "role": "historical round artifact",
+      "bytes": 32,
+      "sha256": "f45d66bd4091435bbc6a53714c5ffc6c049ce52b5ca7be00b550cebbbc137420",
+      "line_count": 1,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 1,
+          "quote": "opencode-go/deepseek-v4.1-flash"
+        }
+      ]
+    },
+    {
+      "id": "E02",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/MODEL_DECLARED_20261012T101611Z.txt",
+      "role": "historical round artifact",
+      "bytes": 30,
+      "sha256": "1651864efefdf3780b54576bc72c78019c0073ee07032bd1e3e7112f84dc8ddd",
+      "line_count": 1,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 1,
+          "quote": "opencode-go/deepseek-v4-flash"
+        }
+      ]
+    },
+    {
+      "id": "E03",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/MODEL_DECLARED_20261012T102527Z.txt",
+      "role": "historical round artifact",
+      "bytes": 30,
+      "sha256": "1651864efefdf3780b54576bc72c78019c0073ee07032bd1e3e7112f84dc8ddd",
+      "line_count": 1,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 1,
+          "quote": "opencode-go/deepseek-v4-flash"
+        }
+      ]
+    },
+    {
+      "id": "E04",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/B1_20261012T101452Z.log",
+      "role": "historical round artifact",
+      "bytes": 51514,
+      "sha256": "f720edf5195d9d233b90b1431dc1ce3d915a6331904fdf70dbbe71b273b880f2",
+      "line_count": 615,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 10,
+          "quote": "OpenAI Codex v0.162.0-alpha.17.2\n--------\nworkdir: C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\nmodel: opencode-go/deepseek-v4.1-flash\nprovider: openai\napproval: never\nsandbox: danger-full-access\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a12f9b-a66c-7060-8920-19fc977c0b56"
+        },
+        {
+          "start_line": 85,
+          "end_line": 85,
+          "quote": "2026-10-12T10:14:53.044694Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10102/v1/responses"
+        },
+        {
+          "start_line": 88,
+          "end_line": 90,
+          "quote": "exec\n\"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -Command 'Get-Location; git branch --show-current; git status --short | Select-Object -First 40' in C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\n succeeded in 544ms:"
+        },
+        {
+          "start_line": 119,
+          "end_line": 121,
+          "quote": "exec\n\"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -Command 'Get-ChildItem -Recurse -Depth 2 -Force | Where-Object { $_.FullName -notmatch '\"'\\\\\\\\\\\\.git\\\\\\\\' } | Select-Object -ExpandProperty FullName\" in C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\n succeeded in 889ms:"
+        },
+        {
+          "start_line": 612,
+          "end_line": 613,
+          "quote": "ERROR: {\"error\":{\"message\":\"Provider error 400: Upstream request failed: [invalid_request_error] The `reasoning_content` in the thinking mode must be passed back to the API. (request_id: d89dfa28-3f50-4003-b880-638b1bf67420)\",\"type\":\"upstream_error\",\"code\":null}}\nERROR: {\"error\":{\"message\":\"Provider error 400: Upstream request failed: [invalid_request_error] The `reasoning_content` in the thinking mode must be passed back to the API. (request_id: d89dfa28-3f50-4003-b880-638b1bf67420)\",\"type\":\"upstream_error\",\"code\":null}}"
+        }
+      ]
+    },
+    {
+      "id": "E04X",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/B1_20261012T101452Z.exit",
+      "role": "historical round artifact",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "line_count": 1,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 1,
+          "quote": "1"
+        }
+      ]
+    },
+    {
+      "id": "E05",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/B2_20261012T101452Z.log",
+      "role": "historical round artifact",
+      "bytes": 46087,
+      "sha256": "710ce8d0ff3cf326c585f613c2e95e0e7443cf95ea607cdd757304a4b13ff942",
+      "line_count": 1010,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 10,
+          "quote": "OpenAI Codex v0.162.0-alpha.17.2\n--------\nworkdir: C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\nmodel: opencode-go/deepseek-v4.1-flash\nprovider: openai\napproval: never\nsandbox: danger-full-access\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a12f9b-a689-75d2-85f5-9c8d77d75029"
+        },
+        {
+          "start_line": 58,
+          "end_line": 58,
+          "quote": "2026-10-12T10:14:53.063247Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10102/v1/responses"
+        },
+        {
+          "start_line": 61,
+          "end_line": 63,
+          "quote": "exec\n\"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -Command 'Get-Content -LiteralPath tools/build_web_fallback.py -Raw' in C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\n succeeded in 493ms:"
+        },
+        {
+          "start_line": 322,
+          "end_line": 324,
+          "quote": "exec\n\"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -Command 'git -C . status --porcelain; git -C . branch --show-current; git -C . log --oneline -3' in C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\n succeeded in 590ms:"
+        },
+        {
+          "start_line": 1007,
+          "end_line": 1008,
+          "quote": "ERROR: {\"error\":{\"message\":\"Provider error 400: Upstream request failed: [invalid_request_error] The `reasoning_content` in the thinking mode must be passed back to the API. (request_id: 944dccd0-9950-4a63-8fee-ee46bae16723)\",\"type\":\"upstream_error\",\"code\":null}}\nERROR: {\"error\":{\"message\":\"Provider error 400: Upstream request failed: [invalid_request_error] The `reasoning_content` in the thinking mode must be passed back to the API. (request_id: 944dccd0-9950-4a63-8fee-ee46bae16723)\",\"type\":\"upstream_error\",\"code\":null}}"
+        }
+      ]
+    },
+    {
+      "id": "E05X",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/B2_20261012T101452Z.exit",
+      "role": "historical round artifact",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "line_count": 1,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 1,
+          "quote": "1"
+        }
+      ]
+    },
+    {
+      "id": "E06",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/B3_20261012T101452Z.log",
+      "role": "historical round artifact",
+      "bytes": 12815,
+      "sha256": "ff0d066a183e15d39aefd4a2ffe7389531e721f3671a958ccdd086f9876a3f37",
+      "line_count": 184,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 10,
+          "quote": "OpenAI Codex v0.162.0-alpha.17.2\n--------\nworkdir: C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\nmodel: opencode-go/deepseek-v4.1-flash\nprovider: openai\napproval: never\nsandbox: danger-full-access\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a12f9b-a684-7b70-ac2e-302180b1ea86"
+        },
+        {
+          "start_line": 85,
+          "end_line": 85,
+          "quote": "2026-10-12T10:14:53.065573Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10102/v1/responses"
+        },
+        {
+          "start_line": 88,
+          "end_line": 90,
+          "quote": "exec\n\"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -Command 'git status --short; git log --oneline -3; git rev-parse HEAD' in C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\n succeeded in 503ms:"
+        },
+        {
+          "start_line": 117,
+          "end_line": 119,
+          "quote": "exec\n\"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -Command 'ls; echo ---; ls docs 2>$null; echo ---; ls .github/workflows 2>$null' in C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\n succeeded in 456ms:"
+        },
+        {
+          "start_line": 181,
+          "end_line": 182,
+          "quote": "ERROR: {\"error\":{\"message\":\"Provider error 400: Upstream request failed: [invalid_request_error] The `reasoning_content` in the thinking mode must be passed back to the API. (request_id: 18bd104d-a62e-4484-b480-584482583f04)\",\"type\":\"upstream_error\",\"code\":null}}\nERROR: {\"error\":{\"message\":\"Provider error 400: Upstream request failed: [invalid_request_error] The `reasoning_content` in the thinking mode must be passed back to the API. (request_id: 18bd104d-a62e-4484-b480-584482583f04)\",\"type\":\"upstream_error\",\"code\":null}}"
+        }
+      ]
+    },
+    {
+      "id": "E06X",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/B3_20261012T101452Z.exit",
+      "role": "historical round artifact",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "line_count": 1,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 1,
+          "quote": "1"
+        }
+      ]
+    },
+    {
+      "id": "E07",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/B1_attempt3_20261012T101611Z.log",
+      "role": "historical round artifact",
+      "bytes": 527071,
+      "sha256": "7bd93f4fb52cff48a6aa9aaa6d2ee4aa4e319df9a7e951dd60c7d87bbfab9312",
+      "line_count": 11769,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 10,
+          "quote": "OpenAI Codex v0.162.0-alpha.17.2\n--------\nworkdir: C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\nmodel: opencode-go/deepseek-v4-flash\nprovider: openai\napproval: never\nsandbox: danger-full-access\nreasoning effort: none\nreasoning summaries: none\nsession id: 01a12f9c-ddf7-7173-90d9-52137b7ca4b5"
+        },
+        {
+          "start_line": 85,
+          "end_line": 85,
+          "quote": "2026-10-12T10:16:12.767250Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10102/v1/responses"
+        }
+      ]
+    },
+    {
+      "id": "E07X",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/B1_attempt3_20261012T101611Z.exit",
+      "role": "historical round artifact",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "line_count": 1,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 1,
+          "quote": "0"
+        }
+      ]
+    },
+    {
+      "id": "E08",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/B2_attempt3_20261012T101611Z.log",
+      "role": "historical round artifact",
+      "bytes": 488680,
+      "sha256": "524c10c744df011c4ea8bb4cc6977000eaee65c43b0aa75f0c56d4a16d1da0f7",
+      "line_count": 10220,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 10,
+          "quote": "OpenAI Codex v0.162.0-alpha.17.2\n--------\nworkdir: C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\nmodel: opencode-go/deepseek-v4-flash\nprovider: openai\napproval: never\nsandbox: danger-full-access\nreasoning effort: none\nreasoning summaries: none\nsession id: 01a12f9c-dde4-7081-b4f2-d19d45bb8407"
+        },
+        {
+          "start_line": 58,
+          "end_line": 58,
+          "quote": "2026-10-12T10:16:12.760048Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10102/v1/responses"
+        },
+        {
+          "start_line": 1498,
+          "end_line": 1500,
+          "quote": "exec\n\"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -Command '$d=\".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b\"; Get-Content \"$d/B2_20261012T101452Z.log\" -Tail 40; Write-Output \"=== exit ===\"; Get-Content \"$d/B2_20261012T101452Z.exit\"' in C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\n succeeded in 522ms:"
+        },
+        {
+          "start_line": 1537,
+          "end_line": 1544,
+          "quote": "ERROR: {\"error\":{\"message\":\"Provider error 400: Upstream request failed: [invalid_request_error] The `reasoning_content` in the thinking mode must be passed back to the API. (request_id: 944dccd0-9950-4a63-8fee-ee46bae16723)\",\"type\":\"upstream_error\",\"code\":null}}\nERROR: {\"error\":{\"message\":\"Provider error 400: Upstream request failed: [invalid_request_error] The `reasoning_content` in the thinking mode must be passed back to the API. (request_id: 944dccd0-9950-4a63-8fee-ee46bae16723)\",\"type\":\"upstream_error\",\"code\":null}}\ntokens used\n13,227\n=== exit ===\n1\n\ncodex"
+        }
+      ]
+    },
+    {
+      "id": "E08X",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/B2_attempt3_20261012T101611Z.exit",
+      "role": "historical round artifact",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "line_count": 1,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 1,
+          "quote": "0"
+        }
+      ]
+    },
+    {
+      "id": "E09",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/B3_attempt3_20261012T101611Z.log",
+      "role": "historical round artifact",
+      "bytes": 2062254,
+      "sha256": "1f4166f4a2d3ba5e43e6381254511272e7910ad7b5b251f7fd888c405b3aab48",
+      "line_count": 29978,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 10,
+          "quote": "OpenAI Codex v0.162.0-alpha.17.2\n--------\nworkdir: C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\nmodel: opencode-go/deepseek-v4-flash\nprovider: openai\napproval: never\nsandbox: danger-full-access\nreasoning effort: none\nreasoning summaries: none\nsession id: 01a12f9c-de00-70c2-96b7-3fb1eb349128"
+        },
+        {
+          "start_line": 85,
+          "end_line": 85,
+          "quote": "2026-10-12T10:16:12.758623Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10102/v1/responses"
+        }
+      ]
+    },
+    {
+      "id": "E09X",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/B3_attempt3_20261012T101611Z.exit",
+      "role": "historical round artifact",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "line_count": 1,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 1,
+          "quote": "0"
+        }
+      ]
+    },
+    {
+      "id": "E10",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/B4_attempt3_20261012T102527Z.log",
+      "role": "historical round artifact",
+      "bytes": 1967861,
+      "sha256": "1466fc7e119324744b1df989d95827d8452842f613f65172505817a9409c8f82",
+      "line_count": 35714,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 10,
+          "quote": "OpenAI Codex v0.162.0-alpha.17.2\n--------\nworkdir: C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\nmodel: opencode-go/deepseek-v4-flash\nprovider: openai\napproval: never\nsandbox: danger-full-access\nreasoning effort: none\nreasoning summaries: none\nsession id: 01a12fa5-58dd-7b71-b21d-2ceb0ff4a04e"
+        },
+        {
+          "start_line": 92,
+          "end_line": 92,
+          "quote": "2026-10-12T10:25:27.991839Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10102/v1/responses"
+        }
+      ]
+    },
+    {
+      "id": "E10X",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/B4_attempt3_20261012T102527Z.exit",
+      "role": "historical round artifact",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "line_count": 1,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 1,
+          "quote": "0"
+        }
+      ]
+    },
+    {
+      "id": "E11",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/probe_opencode-go_deepseek-v4_1-flash.log",
+      "role": "historical round artifact",
+      "bytes": 891,
+      "sha256": "4a1b0824243b726f500d80ed2b520a21d4ae792b01afaaf79b6f27435108e8b9",
+      "line_count": 24,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 10,
+          "quote": "OpenAI Codex v0.162.0-alpha.17.2\n--------\nworkdir: C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\nmodel: opencode-go/deepseek-v4.1-flash\nprovider: openai\napproval: never\nsandbox: workspace-write [workdir, /tmp, $TMPDIR]\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a12f9a-2bb6-7213-a568-0701accc7a1a"
+        },
+        {
+          "start_line": 13,
+          "end_line": 24,
+          "quote": "PROBE. Do no file work. Print exactly these two lines and nothing else:\nPROBE_OK\nMODEL_SEEN=<the model id you believe you are running as>\n\n2026-10-12T10:13:15.561537Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10102/v1/responses\ncodex\nPROBE_OK\nMODEL_SEEN=claude (Anthropic; cannot verify exact version — no reliable self-introspection)\ntokens used\n10,554\nPROBE_OK\nMODEL_SEEN=claude (Anthropic; cannot verify exact version — no reliable self-introspection)"
+        }
+      ]
+    },
+    {
+      "id": "E12",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/probe_opencode-go_deepseek-v4-flash.log",
+      "role": "historical round artifact",
+      "bytes": 746,
+      "sha256": "6a821eeee505b0efefcbadfe8ea30c1a7ccef69410fc481ff31ea8b20855d460",
+      "line_count": 24,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 10,
+          "quote": "OpenAI Codex v0.162.0-alpha.17.2\n--------\nworkdir: C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\nmodel: opencode-go/deepseek-v4-flash\nprovider: openai\napproval: never\nsandbox: workspace-write [workdir, /tmp, $TMPDIR]\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a12f9a-4c8e-7d92-b157-97b2addcf54c"
+        },
+        {
+          "start_line": 13,
+          "end_line": 24,
+          "quote": "PROBE. Do no file work. Print exactly these two lines and nothing else:\nPROBE_OK\nMODEL_SEEN=<the model id you believe you are running as>\n\n2026-10-12T10:13:23.938664Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10102/v1/responses\ncodex\nPROBE_OK\nMODEL_SEEN=gpt-5-codex\ntokens used\n8,487\nPROBE_OK\nMODEL_SEEN=gpt-5-codex"
+        }
+      ]
+    },
+    {
+      "id": "E13",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/probe_gpt-6.1-sol.log",
+      "role": "historical round artifact",
+      "bytes": 675,
+      "sha256": "f0c702a542bb298893aacc0566f0f1483acb8bb052b326c4ebfda26eeb8a33cf",
+      "line_count": 24,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 10,
+          "quote": "OpenAI Codex v0.162.0-alpha.17.2\n--------\nworkdir: C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\nmodel: gpt-6.1-sol\nprovider: openai\napproval: never\nsandbox: workspace-write [workdir, /tmp, $TMPDIR]\nreasoning effort: medium\nreasoning summaries: none\nsession id: 01a12f9a-76cd-7640-9943-e8afd0055a5b"
+        },
+        {
+          "start_line": 13,
+          "end_line": 24,
+          "quote": "PROBE. Do no file work. Print exactly these two lines and nothing else:\nPROBE_OK\nMODEL_SEEN=<the model id you believe you are running as>\n\nwarning: Model metadata for `gpt-6.1-sol` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\ncodex\nPROBE_OK\nMODEL_SEEN=unknown\ntokens used\n54,706\nPROBE_OK\nMODEL_SEEN=unknown"
+        }
+      ]
+    },
+    {
+      "id": "E14",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/PROBE.md",
+      "role": "historical round artifact",
+      "bytes": 138,
+      "sha256": "eca4e1f1e3d8eff0328d506aa07b56b56c9ff082b362d1e38a6fe632bd73d85d",
+      "line_count": 3,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 3,
+          "quote": "PROBE. Do no file work. Print exactly these two lines and nothing else:\nPROBE_OK\nMODEL_SEEN=<the model id you believe you are running as>"
+        }
+      ]
+    },
+    {
+      "id": "E15",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lanes_v2.sh",
+      "role": "historical round artifact",
+      "bytes": 1042,
+      "sha256": "9dbe4e4072cd83e3a19439e522d855202e3eae8caf91bfd394333c625c6bcd41",
+      "line_count": 24,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 24,
+          "quote": "#!/usr/bin/env bash\n# S4POST Stage B resumed round: three parallel bounded writer lanes on the DECLARED model.\nset -u\nWT=C:/Projects/Agent_Workspace/PIPD/worktrees/s4post-b-wt\nW=\"$WT/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b\"\nCB=/c/Users/user/AppData/Local/OpenAI/Codex/bin/2e5e00daee91c61d/codex.exe\nMODEL=\"${EXEC_MODEL:-opencode-go/deepseek-v4.1-flash}\"\nSTAMP=$(date -u +%Y%m%dT%H%M%SZ)\ncd \"$WT\" || exit 1\necho \"LANE_SET=$STAMP MODEL=$MODEL\"\necho \"$MODEL\" > \"$W/MODEL_DECLARED_$STAMP.txt\"\n\nfor L in B1 B2 B3; do\n  (\n    timeout 2700 \"$CB\" -c model=\"$MODEL\" -c openai_base_url='http://127.0.0.1:10102/v1' \\\n      -c model_catalog_json='C:/Users/user/.codex/desktop-model-catalog.json' \\\n      exec --cd \"$WT\" --skip-git-repo-check -s danger-full-access - \\\n      < \"$W/WRITER_${L}_BRIEF_v2.md\" > \"$W/${L}_${STAMP}.log\" 2>&1\n    echo \"$?\" > \"$W/${L}_${STAMP}.exit\"\n  ) &\ndone\nwait\nfor L in B1 B2 B3; do echo \"$L exit=$(cat \"$W/${L}_${STAMP}.exit\" 2>/dev/null) log=$W/${L}_${STAMP}.log\"; done\necho \"LANES_DONE\""
+        }
+      ]
+    },
+    {
+      "id": "E16",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lanes_v3.sh",
+      "role": "historical round artifact",
+      "bytes": 1588,
+      "sha256": "db0dc1f67d411291e07622fc25d17e3839ad5edfdab51436b7cbbcb1fdd0f037",
+      "line_count": 30,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 30,
+          "quote": "#!/usr/bin/env bash\n# S4POST Stage B resumed round, attempt 3: bounded writer lanes on the DECLARED BACKUP model.\n# Reason for the substitution (D-03 class): the declared EXECUTE model opencode-go/deepseek-v4.1-flash\n# aborts with \"The `reasoning_content` in the thinking mode must be passed back to the API\"\n# (HTTP 400, upstream) once the transcript grows; measured 3/3 lanes in attempt 2 of this round.\n# The backup opencode-go/deepseek-v4-flash was probed healthy with a one-line echo before this run.\nset -u\nWT=C:/Projects/Agent_Workspace/PIPD/worktrees/s4post-b-wt\nW=\"$WT/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b\"\nCB=/c/Users/user/AppData/Local/OpenAI/Codex/bin/2e5e00daee91c61d/codex.exe\nMODEL=\"${EXEC_MODEL:-opencode-go/deepseek-v4-flash}\"\nSTAMP=$(date -u +%Y%m%dT%H%M%SZ)\ncd \"$WT\" || exit 1\necho \"LANE_SET=$STAMP MODEL=$MODEL (backup; declared model aborts on the thinking-mode adapter bug)\"\nprintf '%s\\n' \"$MODEL\" > \"$W/MODEL_DECLARED_$STAMP.txt\"\n\nfor L in \"$@\"; do\n  (\n    timeout 3000 \"$CB\" -c model=\"$MODEL\" \\\n      -c model_reasoning_effort='\"none\"' \\\n      -c openai_base_url='http://127.0.0.1:10102/v1' \\\n      -c model_catalog_json='C:/Users/user/.codex/desktop-model-catalog.json' \\\n      exec --cd \"$WT\" --skip-git-repo-check -s danger-full-access - \\\n      < \"$W/WRITER_${L}_BRIEF_v2.md\" > \"$W/${L}_attempt3_${STAMP}.log\" 2>&1\n    echo \"$?\" > \"$W/${L}_attempt3_${STAMP}.exit\"\n  ) &\ndone\nwait\nfor L in \"$@\"; do echo \"$L exit=$(cat \"$W/${L}_attempt3_${STAMP}.exit\" 2>/dev/null) log=$W/${L}_attempt3_${STAMP}.log\"; done\necho \"LANES_DONE\""
+        }
+      ]
+    },
+    {
+      "id": "E17",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/fallback-green.log",
+      "role": "historical round artifact",
+      "bytes": 148,
+      "sha256": "2f53d234e69bb4352e8a7bbeedcdbe8a6f7ee85522d3d2823545e5e8376e89c8",
+      "line_count": 1,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 1,
+          "quote": "BUILT \\tmp\\tmp.EGn4PaQ5fg\\fallback.md bytes=42145 sha256=c88ddc49cfe5fb59fe1a713fdde4cfd6a06ed54cc5831885130e053ce990c2af members=8 DOC_MOUNT_ONLY"
+        }
+      ]
+    },
+    {
+      "id": "E18",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/AO2_RESULT.md",
+      "role": "historical round artifact",
+      "bytes": 3225,
+      "sha256": "25a8a4784f95071d2fc1f29653494bc3a3c5f8186a9012bf076239230ded37cc",
+      "line_count": 43,
+      "excerpts": [
+        {
+          "start_line": 3,
+          "end_line": 8,
+          "quote": "Checker: `gpt-6.1-sol`, provider `openai` (OAuth), reasoning effort `medium` - the declared\nVERIFY/SECURITY model. Subject: `0768174` / tree `6141fa9`, pushed to\n`feat/s4post-triple-upgrade-20261012-r2`. Lane log: `stage-b/AO2_20261012T112125Z.log`.\nVerdict file: `verify/ao2/AO_VERDICT_STAGEB_R2.md` (89 KB, officer-authored, left verbatim).\n\n## Verdict: `FAIL_CHALLENGE`, narrowed to one non-code item"
+        },
+        {
+          "start_line": 35,
+          "end_line": 43,
+          "quote": "## What this does and does not license\n\nBoth real defects found in round 1 are now independently reproduced RED to GREEN by a different\nactor on a different model, in an external snapshot. The remaining failure is the handover-hygiene\nitem, addressed in `AO2_HANDOVER_CLOSURE.md` and closed by the evidence-only commit that follows the\nverified subject.\n\n`BUILD_PASS`, `LOCAL_HOST_QUALIFIED`, `PORTAL_APPROVED`, `PUBLISHED`, `PRODUCTION_VERIFIED` and\n`PIPD_S4_FULL_PASS` remain **NOT GRANTED**. Public release gate stays **FAIL-CLOSED / HOLD**."
+        }
+      ]
+    },
+    {
+      "id": "E19",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/SELF_ITERATION_AFTER_AO.md",
+      "role": "historical round artifact",
+      "bytes": 4282,
+      "sha256": "477bcd9d67797e8f7e73593ebf3d060d00cdbcfa9c0ef53edae2a4171ec3ef00",
+      "line_count": 43,
+      "excerpts": [
+        {
+          "start_line": 3,
+          "end_line": 11,
+          "quote": "Subject: the Stage-B candidate that was pushed as `feat/s4post-triple-upgrade-20261012-r2`.\nChecker: independent acceptance officer lane, `gpt-6.1-sol` / provider `openai` / reasoning `medium`\n(the declared checker model), reported in `verify/ao/AO_VERDICT_STAGEB.md`.\n\n## Verdict of the challenge\n\n`FAIL_CHALLENGE`. Not a claim about the whole upgrade: the officer confirmed the packaging and\nfallback suites green, the write-set guard clean, and the pushed commit matching the local HEAD. It\nblocked on three findings, and two of them were real defects rather than paperwork."
+        },
+        {
+          "start_line": 35,
+          "end_line": 43,
+          "quote": "## State after the iteration\n\n| Item | State |\n|---|---|\n| Full suite | `Ran 572 tests ... OK (skipped=6)`, exit 0 — `raw/orch_full_suite_after_ao01_fix_clean.log` |\n| Focused packaging + fallback | `Ran 47 tests ... OK` (44 before, plus the 3 new `AO-01` cases) |\n| Write set | clean against the fixed Stage-A tip `52542c39` |\n| Claim ceiling | unchanged: `CODE_CANDIDATE_READY_PENDING_PUBLISH` at best; no Portal, no Host UAT, no `S4_FULL_PASS` |\n| Re-verification | dispatched as a fresh independent lane on the new commit, copying the subject outside the tree |"
+        }
+      ]
+    },
+    {
+      "id": "E20",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/ROUND_RESULT.md",
+      "role": "historical round artifact",
+      "bytes": 6909,
+      "sha256": "c7a11f816f159b63a1d3f3900da284091b312515f7d6ce1cf03728826f3ba298",
+      "line_count": 107,
+      "excerpts": [
+        {
+          "start_line": 3,
+          "end_line": 5,
+          "quote": "> Round `S4POST-20261012-postrepair-recheck-and-triple-upgrade`\n> Produced by the Hermes governed orchestrator under HG-KSEOS control.\n> This is a maker-side result. It is not an independent acceptance and it grants no release."
+        },
+        {
+          "start_line": 64,
+          "end_line": 68,
+          "quote": "| 檔案 | 內容 |\n|---|---|\n| `evidence/EVIDENCE_RETURN_PACK.json` | 候選綁定的返包（含 lane 模型替換與全部 NOT_EXECUTED） |\n| `evidence/08_PLUGIN/FROZEN_SOURCE_LEDGER.json` | 凍結來源帳 |\n| `evidence/08_PLUGIN/REAL_BUILD_ATTEMPT.txt` | 真實主體建置 **REFUSED**（exit 2，無產物） |"
+        },
+        {
+          "start_line": 78,
+          "end_line": 80,
+          "quote": "## 8. 獨立 Checker 收據與 Maker 差異\n\n**無獨立 Checker 收據。** 本輪全部測試、凍結、建置嘗試與守衛皆由 Maker（Hermes 編排層 + Codex bounded writers）產出，屬同一 session 的自測。`AO_VERDICT.json`（FAIL @ `e2e41a…`）與 `AO_VERDICT.attempt5.json`（scoped PASS @ `c876276…`）皆屬**更早的 frozen subject**，本輪未挪用、未覆寫。下一個合法動作是對 `47abe088…` 派一輪唯讀獨立驗收。"
+        },
+        {
+          "start_line": 103,
+          "end_line": 107,
+          "quote": "## 12. 終止狀態\n\n`PARTIAL`。\n\nA 與 B 的候選實作、證據與推送皆已完成且可外部複驗；**BUILD_PASS／HOST_QUALIFIED／PORTAL_APPROVED／PUBLISHED／PIPD_S4_FULL_PASS 一律未授予**。`PUSHED ≠ MERGED`、`BUILD_CANDIDATE ≠ BUILD_PASS`、`PUBLIC_PLUGIN_VERIFIED ≠ PIPD_S4_FULL_PASS`。"
+        }
+      ]
+    },
+    {
+      "id": "E21",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao/AO_VERDICT_STAGEB.md",
+      "role": "historical round artifact",
+      "bytes": 24677,
+      "sha256": "21dde5a2a37bdbdbbc02c295828b97e166e7a4bf032a4e95d4b5f57b3fef6a4c",
+      "line_count": 296,
+      "excerpts": [
+        {
+          "start_line": 278,
+          "end_line": 294,
+          "quote": "## Verdict\n\n**FAIL_CHALLENGE**\n\nScope: the measured local challenge of commit 2a903bd09c7760c494f20ed98b840fae789b24d6 finds an actual complete-owner-fixture output hardlink overwrite and a CI guard mismatch; it also records a dirty delivered tree and a non-passing isolated 569-test run. It DOES NOT authorize release, merge, publish, or S4 full pass, and does not cover vendor/Portal/GUI/other-host/account UAT or an original-tree full-suite execution.\n\nPassing subclaims remain passing: requested commit/remote readback, eight/48 ledger inventory and hashes, stacked-base zero-outside-path diff, unchanged skills subtree, 44 focused tests, and owner refusal/no archive in the clean isolated copy. A FAIL_CHALLENGE is not a claim that every candidate feature failed.\n\n## Makers-vs-checker differences\n\n- Maker totals 44 and 569: measured totals match; 44 is green, while the isolated 569 run exits 1 with 4 failures, 3 errors and 6 skips. Original-tree full-suite execution remains NOT_EXECUTED under the hard write prohibition; local-copy environmental effects prevent a clean regression attribution.\n- Clean subject assumption: false before checker outputs existed; three untracked stage-b files were already present.\n- Requested local branch identity: local branch lacks -r2; remote -r2 and local HEAD nevertheless resolve to the specified commit.\n- Real owner refusal: not reached in the requested original freeze/build chain (dirty tree, then missing ledger). Reproduced only in a separate clean committed copy after copy-local longpath configuration. Refusal text is stdout, not stderr.\n- F05 'REPAIRED' coverage: root symlink refusal passes, but generalized sentinel safety does not; real hardlink overwrite measured. Matrix's test_21-path locator is absent from the packaging test module.\n- CI 'read-only'/'upgrade paths' wording: no explicit remote write step, but runner checkout writes and the guard/filter set is not the required allowlist. Remote CI execution NOT_EXECUTED.\n- All external/human qualification gates remain NOT_EXECUTED. This report grants none of them."
+        }
+      ]
+    },
+    {
+      "id": "E22",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/FAR_20261012T115535Z.log",
+      "role": "historical round artifact",
+      "bytes": 203800,
+      "sha256": "4ecf2c1627e104e7faeaf54e07520761222bb8ea295cf31aa466b6c87a46ee40",
+      "line_count": 2784,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 10,
+          "quote": "OpenAI Codex v0.162.0-alpha.17.2\n--------\nworkdir: C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\nmodel: gpt-6.1-sol\nprovider: openai\napproval: never\nsandbox: danger-full-access\nreasoning effort: medium\nreasoning summaries: none\nsession id: 01a12ff7-dbcd-7643-8c0f-af3210112f26"
+        },
+        {
+          "start_line": 2767,
+          "end_line": 2767,
+          "quote": "Error: --codex-run-as-apply-patch requires a UTF-8 PATCH argument."
+        },
+        {
+          "start_line": 2781,
+          "end_line": 2782,
+          "quote": "ERROR: Selected model is at capacity. Please try a different model.\nERROR: Selected model is at capacity. Please try a different model."
+        }
+      ]
+    },
+    {
+      "id": "E22X",
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/FAR_20261012T115535Z.exit",
+      "role": "historical round artifact",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "line_count": 1,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 1,
+          "quote": "1"
+        }
+      ]
+    },
+    {
+      "id": "E23",
+      "path": "C:/Users/user/.codex/desktop-model-catalog.json",
+      "role": "current host snapshot; not a frozen 10:14Z configuration or proof of code loaded then",
+      "bytes": 79993,
+      "sha256": "1b62cbaa3ce8bee9383be037906acb132ff098841a68510fafe18c8e8e71a417",
+      "line_count": 2451,
+      "excerpts": [
+        {
+          "start_line": 2,
+          "end_line": 3,
+          "quote": "  \"fetched_at\": \"2000-01-01T00:00:00Z\",\n  \"client_version\": \"0.0.0\","
+        },
+        {
+          "start_line": 65,
+          "end_line": 67,
+          "quote": "      \"slug\": \"opencode-go/deepseek-v4-flash\",\n      \"display_name\": \"opencode-go/deepseek-v4-flash\",\n      \"description\": \"Routed via opencodex → opencode-go (opencode).\","
+        },
+        {
+          "start_line": 75,
+          "end_line": 93,
+          "quote": "      \"supported_reasoning_levels\": [\n        {\n          \"effort\": \"low\",\n          \"description\": \"Fast responses with lighter reasoning\"\n        },\n        {\n          \"effort\": \"high\",\n          \"description\": \"Greater reasoning depth for complex problems\"\n        },\n        {\n          \"effort\": \"max\",\n          \"description\": \"Maximum reasoning depth for the hardest problems\"\n        },\n        {\n          \"effort\": \"ultra\",\n          \"description\": \"Maximum reasoning with automatic task delegation\"\n        }\n      ],\n      \"default_reasoning_level\": \"high\","
+        },
+        {
+          "start_line": 224,
+          "end_line": 226,
+          "quote": "      \"slug\": \"opencode-go/deepseek-v4.1-flash\",\n      \"display_name\": \"opencode-go/deepseek-v4.1-flash\",\n      \"description\": \"Routed via opencodex → opencode-go (opencode).\","
+        },
+        {
+          "start_line": 234,
+          "end_line": 262,
+          "quote": "      \"supported_reasoning_levels\": [\n        {\n          \"effort\": \"low\",\n          \"description\": \"Fast responses with lighter reasoning\"\n        },\n        {\n          \"effort\": \"medium\",\n          \"description\": \"Balances speed and reasoning depth for everyday tasks\"\n        },\n        {\n          \"effort\": \"high\",\n          \"description\": \"Greater reasoning depth for complex problems\"\n        },\n        {\n          \"effort\": \"xhigh\",\n          \"description\": \"Extra high reasoning depth for complex problems\"\n        },\n        {\n          \"effort\": \"max\",\n          \"description\": \"Maximum reasoning depth for the hardest problems\"\n        },\n        {\n          \"effort\": \"ultra\",\n          \"description\": \"Maximum reasoning with automatic task delegation\"\n        }\n      ],\n      \"default_reasoning_level\": \"medium\",\n      \"supports_reasoning_summaries\": false,\n      \"default_reasoning_summary\": \"none\","
+        }
+      ]
+    },
+    {
+      "id": "E24",
+      "path": "C:/Users/user/.codex/config.toml",
+      "role": "current host snapshot; not a frozen 10:14Z configuration or proof of code loaded then",
+      "bytes": 9211,
+      "sha256": "d643b88de63686050d4263d8b6c3b23b0460943ccdfd2bfd28e142c977c2bedb",
+      "line_count": 333,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 11,
+          "quote": "# FACTORY RESTORED 2026-10-10T13:19+0800 by Hermes, on owner instruction (\"先把本地桌面版\n# GPT 應用程式的模型供應路由恢復成原廠設置\"). Three injected keys were removed from the\n# effective file (kept here as a comment for audit; a pre-restore copy is on disk):\n#   openai_base_url = \"http://127.0.0.1:10102/v1\"              <- local adapter, injected\n#   model_catalog_json = \"...\\\\.codex\\\\desktop-model-catalog.json\" <- adapter's custom catalogue, injected\n#   model = \"opencode-go/deepseek-v4.1-flash\"                  <- non-OpenAI default model, injected\n# Pre-restore backup: C:\\Users\\user\\.codex\\config.toml.bak-factory-restore-20261010T131939\n# The governed EXECUTE/VERIFY lane is NOT affected: it runs with its own\n# CODEX_HOME=C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes (separate config.toml).\n\nmodel_reasoning_effort = \"high\""
+        }
+      ]
+    },
+    {
+      "id": "E25",
+      "path": "C:/Users/user/.codex/desktop-model-router/config.json",
+      "role": "current host snapshot; not a frozen 10:14Z configuration or proof of code loaded then",
+      "bytes": 6698,
+      "sha256": "7b51217966169459c96f047d9c8d047e8bde11a9b1b23cbd678293443cd4140b",
+      "line_count": 285,
+      "excerpts": [
+        {
+          "start_line": 2,
+          "end_line": 5,
+          "quote": "  \"defaultProvider\": \"openai\",\n  \"syncResumeHistory\": false,\n  \"codexShimAutoRestore\": false,\n  \"websockets\": false,"
+        },
+        {
+          "start_line": 24,
+          "end_line": 24,
+          "quote": "      \"baseUrl\": \"https://opencode.ai/zen/go/v1\","
+        },
+        {
+          "start_line": 26,
+          "end_line": 26,
+          "quote": "      \"defaultModel\": \"deepseek-v4-flash\","
+        },
+        {
+          "start_line": 247,
+          "end_line": 254,
+          "quote": "      \"preserveReasoningContentModels\": [\n        \"glm-5.2\",\n        \"kimi-k3\",\n        \"kimi-k2.7-code\",\n        \"kimi-k2.7-code-highspeed\",\n        \"deepseek-v4-pro\",\n        \"deepseek-v4-flash\"\n      ],"
+        },
+        {
+          "start_line": 272,
+          "end_line": 274,
+          "quote": "      \"selectedModels\": [\n        \"deepseek-v4.1-flash\"\n      ],"
+        },
+        {
+          "start_line": 284,
+          "end_line": 284,
+          "quote": "  \"port\": 10102"
+        }
+      ]
+    },
+    {
+      "id": "E26",
+      "path": "C:/Users/user/.codex/desktop-model-router/router.ts",
+      "role": "current host snapshot; not a frozen 10:14Z configuration or proof of code loaded then",
+      "bytes": 2407,
+      "sha256": "a10ac3621513036fb01d9f281ed897b13a85ae81fb57cc373964d3df43fd5f36",
+      "line_count": 42,
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 2,
+          "quote": "import { startServer } from 'C:/Users/user/AppData/Roaming/npm/node_modules/@bitkyc08/opencodex/src/server/index.ts';\nimport { createReadinessGate } from 'C:/Users/user/AppData/Roaming/npm/node_modules/@bitkyc08/opencodex/src/server/readiness.ts';"
+        },
+        {
+          "start_line": 33,
+          "end_line": 41,
+          "quote": "\n// Start the installed protocol adapter without its CLI's global config injection.\n// Configuration and credentials belong to this isolated desktop router only.\nconst gate = createReadinessGate();\nconst server = startServer(10102, { readinessGate: gate });\nBun.serve = originalServe;\nconsole.log(`Desktop model router listening on 127.0.0.1:${server.port}`);\n// No Codex config/catalog synchronization runs in this standalone adapter host.\ngate.markReady();"
+        }
+      ]
+    },
+    {
+      "id": "E27",
+      "path": "C:/Users/user/AppData/Roaming/npm/node_modules/@bitkyc08/opencodex/src/providers/registry.ts",
+      "role": "current host snapshot; not a frozen 10:14Z configuration or proof of code loaded then",
+      "bytes": 119652,
+      "sha256": "ac8116c15c445aafb4b35f14c395480c7a7d86497f81ee071e4ede515de1e075",
+      "line_count": 2283,
+      "excerpts": [
+        {
+          "start_line": 352,
+          "end_line": 353,
+          "quote": "const DEEPSEEK_THINKING_MODELS = [\"deepseek-v4-pro\", \"deepseek-v4-flash\"];\nconst OPENCODE_FREE_DEEPSEEK_MODELS = [\"deepseek-v4-flash-free\"];"
+        },
+        {
+          "start_line": 1087,
+          "end_line": 1088,
+          "quote": "    id: \"opencode-go\", label: \"opencode go\", adapter: \"openai-chat\", baseUrl: \"https://opencode.ai/zen/go/v1\",\n    authKind: \"key\", featured: true, dashboardUrl: \"https://opencode.ai/auth\", defaultModel: \"kimi-k2.7-code\","
+        },
+        {
+          "start_line": 1132,
+          "end_line": 1133,
+          "quote": "    // Issue #78: DeepSeek V4 thinking mode requires reasoning_content replay on tool-call turns.\n    preserveReasoningContentModels: [\"glm-5.2\", \"kimi-k3\", \"kimi-k2.7-code\", \"kimi-k2.7-code-highspeed\", ...DEEPSEEK_THINKING_MODELS],"
+        }
+      ]
+    },
+    {
+      "id": "E28",
+      "path": "C:/Users/user/AppData/Roaming/npm/node_modules/@bitkyc08/opencodex/src/adapters/openai-chat.ts",
+      "role": "current host snapshot; not a frozen 10:14Z configuration or proof of code loaded then",
+      "bytes": 58944,
+      "sha256": "8546a393a82297a8755982c026ae251df679b3a46a60ef8a2a8a5f1a6d8f785e",
+      "line_count": 1228,
+      "excerpts": [
+        {
+          "start_line": 332,
+          "end_line": 354,
+          "quote": "        let reasoningContent = thinkingParts.map(p => p.thinking).join(\"\");\n        // History transformations (compaction, lost assistant turn, resumed\n        // threads) can strip the reasoning item while the tool round survives.\n        // Re-attach the reasoning the bridge recorded for these call ids so\n        // preserveReasoningContentModels providers (DeepSeek thinking mode)\n        // never receive a bare tool-call continuation (issue #950).\n        if (\n          reasoningContent.length === 0\n          && toolCalls.length > 0\n          && modelInList(provider.preserveReasoningContentModels, parsed.modelId)\n        ) {\n          const cached = toolCalls\n            .map(tc => (tc.id ? peekReasoningForCall(tc.id, replayCacheScope) : undefined))\n            .filter((text): text is string => typeof text === \"string\" && text.length > 0);\n          // Parallel calls share one preceding reasoning block, which is\n          // recorded under every call id — join unique texts only.\n          if (cached.length > 0) {\n            reasoningContent = [...new Set(cached)].join(\"\\n\");\n          }\n        }\n        if (reasoningContent.length > 0 && modelInList(provider.preserveReasoningContentModels, parsed.modelId)) {\n          chatMsg.reasoning_content = reasoningContent;\n        }"
+        }
+      ]
+    },
+    {
+      "id": "E29",
+      "path": "C:/Users/user/AppData/Roaming/npm/node_modules/@bitkyc08/opencodex/src/router.ts",
+      "role": "current host snapshot; not a frozen 10:14Z configuration or proof of code loaded then",
+      "bytes": 34533,
+      "sha256": "450f6d32f4a282fffc9cee1993294cc67e35cb787f8bb310b92e4eef7735f342",
+      "line_count": 711,
+      "excerpts": [
+        {
+          "start_line": 288,
+          "end_line": 288,
+          "quote": "  const preserveReasoningContentModels = mergeStringArray(registryEntry.preserveReasoningContentModels, provider.preserveReasoningContentModels);"
+        },
+        {
+          "start_line": 598,
+          "end_line": 625,
+          "quote": "  // 0. Explicit \"<provider>/<model>\" namespace (e.g. \"opencode-go/deepseek-v4-pro\").\n  //    Only triggers when the prefix matches a CONFIGURED provider, so genuine\n  //    slash-containing model ids (e.g. \"anthropic/claude-...\") fall through when\n  //    no such provider exists.\n  if (slash > 0) {\n    const provName = modelId.slice(0, slash);\n    if (provName === LEGACY_CHATGPT_PROVIDER_ID || provName === LEGACY_OPENAI_MULTI_PROVIDER_ID) {\n      throw new Error(`No provider configured for model: ${modelId}`);\n    }\n    if (hasOwnProvider(config.providers, provName)) {\n      const prov = config.providers[provName];\n      if (prov.disabled === true) throw new Error(`Provider is disabled: ${provName}`);\n      const known = knownModelIdsForProvider(provName, prov);\n      // Self-namespaced native id — the vendor segment equals the provider id, so the FULL ref is\n      // itself a known model (e.g. orcarouter/auto). Route it whole instead of stripping to the\n      // remainder, which would send a bare `auto` the upstream cannot resolve.\n      if (known.includes(modelId)) {\n        return routeResult(provName, prov, modelId, \"explicit-provider\", \"explicit-provider-namespace\");\n      }\n      // Codex-facing alias ids (`provider/vendor-model`) decode back to the native\n      // slash id via an exact known-id lookup; raw full-slash selectors keep working.\n      return routeResult(\n        provName,\n        prov,\n        decodeRoutedModelId(modelId.slice(slash + 1), known),\n        \"explicit-provider\",\n        \"explicit-provider-namespace\",\n      );"
+        },
+        {
+          "start_line": 656,
+          "end_line": 665,
+          "quote": "  if (config.defaultProvider === LEGACY_CHATGPT_PROVIDER_ID) {\n    throw new Error(`No provider configured for model: ${modelId}`);\n  }\n  if (hasOwnProvider(config.providers, config.defaultProvider)) {\n    const defaultProv = config.providers[config.defaultProvider];\n    if (defaultProv.disabled === true) throw new Error(`Default provider is disabled: ${config.defaultProvider}`);\n    return routeResult(config.defaultProvider, defaultProv, modelId, \"default-provider\", \"default-provider\");\n  }\n\n  throw new Error(`No provider configured for model: ${modelId}`);"
+        }
+      ]
+    },
+    {
+      "id": "E30",
+      "path": "C:/Users/user/AppData/Roaming/npm/node_modules/@bitkyc08/opencodex/src/server/index.ts",
+      "role": "current host snapshot; not a frozen 10:14Z configuration or proof of code loaded then",
+      "bytes": 75298,
+      "sha256": "66203ffe27b514a6ce15a5aa7e368eeb3166562f0b10b4ba335c74df716ea771",
+      "line_count": 1571,
+      "excerpts": [
+        {
+          "start_line": 682,
+          "end_line": 689,
+          "quote": "        // WS transport gate: Codex's built-in `openai` provider hardcodes supports_websockets=true,\n        // so under Design B it always tries the WS transport first. When the feature is off, reject\n        // the upgrade with 426 — codex-rs maps a connect-time UPGRADE_REQUIRED to a clean\n        // session-scoped HTTP fallback (client.rs WebsocketStreamOutcome::FallbackToHttp) instead of\n        // surfacing broken-pipe errors from sockets a \"disabled\" feature would otherwise accept.\n        if (!websocketsEnabled(config)) {\n          return withCors(formatErrorResponse(426, \"upgrade_required\", \"Responses WebSocket transport is disabled; use HTTP\"), req, policy);\n        }"
+        }
+      ]
+    }
+  ],
+  "sequence": [
+    {
+      "order": 1,
+      "time_utc": "2026-10-12T10:13:15.561537Z",
+      "event": "v4.1/high probe: local websocket 426, then PROBE_OK and generated MODEL_SEEN=claude; no probe exit artifact supplied.",
+      "evidence": [
+        "E11",
+        "E14"
+      ]
+    },
+    {
+      "order": 2,
+      "time_utc": "2026-10-12T10:13:23.938664Z",
+      "event": "v4/high probe: same websocket 426, then PROBE_OK and generated MODEL_SEEN=gpt-5-codex. gpt-6.1-sol/medium probe has metadata warning and MODEL_SEEN=unknown; its exact start time is not recorded in these excerpts.",
+      "evidence": [
+        "E12",
+        "E13"
+      ]
+    },
+    {
+      "order": 3,
+      "time_utc": "2026-10-12T10:14:52Z",
+      "event": "Declaration v4.1; v2 starts B1/B2/B3 on loopback 10102 with catalog reference; no explicit effort override. Each CLI reports high. Each executes tools, then returns provider-reported 400 reasoning_content replay rejection and exit 1. No terminal capacity/unavailable error in these three lanes.",
+      "evidence": [
+        "E01",
+        "E04",
+        "E04X",
+        "E05",
+        "E05X",
+        "E06",
+        "E06X",
+        "E15"
+      ]
+    },
+    {
+      "order": 4,
+      "time_utc": "2026-10-12T10:16:11Z",
+      "event": "New declaration v4; v3 B1/B2/B3 changes BOTH requested model and effort to none. All exit 0 despite initial websocket 426. B2 lines 1537-1542 quote the old failed B2 log as output of Get-Content (1498-1500); these are NOT a live backup failure.",
+      "evidence": [
+        "E02",
+        "E07",
+        "E07X",
+        "E08",
+        "E08X",
+        "E09",
+        "E09X",
+        "E16"
+      ]
+    },
+    {
+      "order": 5,
+      "time_utc": "2026-10-12T10:25:27Z",
+      "event": "B4 rerun declared v4/none; websocket 426, final exit 0. Overlap with earlier writers possible: no precise completion timestamps establish non-overlap or a strict finishing order.",
+      "evidence": [
+        "E03",
+        "E10",
+        "E10X"
+      ]
+    },
+    {
+      "order": 6,
+      "time_utc": "2026-10-12T11:55:35Z (filename start stamp)",
+      "event": "Previous FAR requested gpt-6.1-sol/medium. Writer handoff error then two direct Selected model is at capacity errors; exit file 1. No FAR result existed when this research started. Capacity is a second, distinct lane-availability observation, not the cause of the earlier 400s.",
+      "evidence": [
+        "E22",
+        "E22X"
+      ]
+    }
+  ],
+  "probe_trust": [
+    {
+      "probe": "E11",
+      "printed": "CLI model v4.1 / provider openai / high; websocket 426 at ws://127.0.0.1:10102/v1/responses; PROBE_OK; MODEL_SEEN=claude (Anthropic; cannot verify exact version — no reliable self-introspection).",
+      "trust": "CLI header proves requested configuration, not actual upstream. Generated identity has no authentication value. The 426 proves rejection by that local websocket endpoint, not Anthropic service or total unavailability. Subsequent completion implies another functioning response path, likely HTTP fallback; exact upstream not established by this log."
+    },
+    {
+      "probe": "E12",
+      "printed": "CLI model v4 / provider openai / high; same local 426; PROBE_OK; MODEL_SEEN=gpt-5-codex.",
+      "trust": "Same ceiling. A successful one-shot at high neither tests history replay nor qualifies v3 effort none. The self-ID discrepancy is an identity-verification warning, NOT proof of silent GPT routing."
+    },
+    {
+      "probe": "E13",
+      "printed": "CLI model gpt-6.1-sol / provider openai / medium; metadata not found, defaulting to fallback metadata; PROBE_OK; MODEL_SEEN=unknown.",
+      "trust": "Metadata fallback is client capability metadata, not proven model fallback. Absence of a websocket complaint does not prove OAuth origin or direct backend identity. No transport-authenticated model receipt is in this probe."
+    }
+  ],
+  "hypotheses": [
+    {
+      "statement": "The three original lane processes failed because their continuations were rejected for the thinking-history reasoning_content requirement.",
+      "verdict": "SUPPORTED",
+      "evidence": [
+        "E04:612-613",
+        "E05:1007-1008",
+        "E06:181-182",
+        "E04X",
+        "E05X",
+        "E06X"
+      ],
+      "qualification": "Observed immediate failure category; not exact implementation blame."
+    },
+    {
+      "statement": "The declared model was wholly unavailable or never answered.",
+      "verdict": "REFUTED",
+      "evidence": [
+        "E11:18-24",
+        "E04:88-90",
+        "E06:88-90"
+      ],
+      "qualification": "It answered via the requested route enough to generate text and invoke tools; no proof of upstream model identity or universal availability."
+    },
+    {
+      "statement": "Websocket 426 alone caused the nonzero lanes or demonstrates that another provider served them.",
+      "verdict": "REFUTED",
+      "evidence": [
+        "E11:17-24",
+        "E12:17-24",
+        "E07:85",
+        "E07X",
+        "E09:85",
+        "E09X",
+        "E10:92",
+        "E10X",
+        "E30"
+      ],
+      "qualification": "Same warning precedes successful probes and exit-0 reruns. Current source intentionally rejects disabled WS to trigger HTTP; historical fallback route remains inferred."
+    },
+    {
+      "statement": "The defect only manifests once the transcript is long.",
+      "verdict": "NOT_SEPARABLE",
+      "evidence": [
+        "E16:3-6",
+        "E06:88-119",
+        "E06:181-182"
+      ],
+      "qualification": "Shortest failure follows two tool invocations. No controlled length variation, wire history, or threshold measurement; transcript growth is not established as the necessary trigger."
+    },
+    {
+      "statement": "Changing only the model fixed the defect, proving a v4.1-specific runtime implementation bug.",
+      "verdict": "NOT_SEPARABLE",
+      "evidence": [
+        "E15:15-17",
+        "E16:19-23",
+        "E04:8",
+        "E07:8"
+      ],
+      "qualification": "Model and reasoning effort changed together. No same-model none run or v4 high multi-turn control. A successful text-only v4 high probe cannot separate them."
+    },
+    {
+      "statement": "Local adapter metadata omits v4.1 from the reasoning-replay eligibility list, so the currently installed adapter does not emit reasoning_content for this model on the shown path.",
+      "verdict": "SUPPORTED",
+      "evidence": [
+        "E25:247-254",
+        "E27:352-353",
+        "E27:1132-1133",
+        "E29:288",
+        "E28:338-353"
+      ],
+      "qualification": "Both configured and registry lists omit the ID; merged eligibility gates output and cached replay. This is an observed current model-capability registration gap. Medium-confidence explanation of historical 400s because no frozen loaded source/config or historical wire capture was supplied."
+    },
+    {
+      "statement": "The historical failed requests used exactly the current metadata/code, and no other client/relay/upstream component lost reasoning history.",
+      "verdict": "NOT_SEPARABLE",
+      "evidence": [
+        "E04:612-613",
+        "E25",
+        "E26",
+        "E27",
+        "E28"
+      ],
+      "qualification": "Present snapshot cannot certify code/config active at 10:14Z. Sanitized rejected request and loaded version digest are missing."
+    },
+    {
+      "statement": "The model actually serving the probes/writers was Claude or GPT rather than requested DeepSeek (silent model-route substitution).",
+      "verdict": "NOT_SEPARABLE",
+      "evidence": [
+        "E11:20",
+        "E12:20",
+        "E15:15-16",
+        "E29:598-625"
+      ],
+      "qualification": "Self-report is not identity evidence. Current resolver handles configured explicit namespace without falling to default provider; this weighs against local silent fallback for that config but does not prove historical or upstream routing. Actual silent substitution is a distinct provenance defect class, not demonstrated here."
+    },
+    {
+      "statement": "The harness allowed a requested-model deviation and did not fail closed when child lanes failed.",
+      "verdict": "SUPPORTED",
+      "evidence": [
+        "E01",
+        "E02",
+        "E03",
+        "E15:7-23",
+        "E16:11-30"
+      ],
+      "qualification": "EXEC_MODEL override and v3 default permit changed declaration without comparing to immutable round assignment. Children record exits; final echo LANES_DONE normally returns 0. Outer historical exit is not supplied, so this is a control-flow defect, not a fabricated observed parent exit."
+    },
+    {
+      "statement": "The backup B2 itself emitted the same fatal 400 shown at lines 1537-1538.",
+      "verdict": "REFUTED",
+      "evidence": [
+        "E08:1498-1500",
+        "E08:1537-1544",
+        "E08X"
+      ],
+      "qualification": "Nested historical log output, same old request ID, then continuation and final exit 0."
+    },
+    {
+      "statement": "The earlier FAR suffered an additional lane-capacity failure.",
+      "verdict": "SUPPORTED",
+      "evidence": [
+        "E22:2781-2782",
+        "E22X"
+      ],
+      "qualification": "Exact direct observations; cannot attribute to concurrency, rate limit, or provider pool. Writer encoding failure is separate."
+    }
+  ],
+  "root_cause": {
+    "statement": "Immediate original failure: provider-reported thinking-history replay contract rejection during tool continuation. Best-supported mechanistic lead: v4.1 is advertised in the client catalog but absent from BOTH current relay and registry reasoning-content preservation lists; the current adapter gates replay on those lists. Deviation-enabling root: the launcher lacks immutable assignment admission, multi-turn qualification, and child-exit aggregation, so a text-only probe plus a model-and-effort switch could produce candidates without proving the assigned execution route.",
+    "confidence": "MEDIUM",
+    "confidence_breakdown": "HIGH for the observed 400/exit-1 category and visible launcher gap; HIGH for current replay-registration omission; MEDIUM for that omission as historical implementation root; LOW for any claim of actual serving-model identity.",
+    "residual_uncertainty": "No captured outgoing assistant history, frozen loaded adapter/config digest, or correlated resolved/upstream model response. Cannot rule out additional history loss in Codex/relay/upstream, or isolate effort none from model change. Cannot establish transcript-size necessity or silent upstream model substitution.",
+    "evidence": [
+      "E04",
+      "E05",
+      "E06",
+      "E15",
+      "E16",
+      "E23",
+      "E25",
+      "E27",
+      "E28",
+      "E29"
+    ]
+  },
+  "document_cross_check": [
+    {
+      "document": "stage-b/run_lanes_v3.sh:3-6,14",
+      "finding": "The observed 400 text and 3/3 original failures are supported. Calling it a v4.1 adapter bug once transcript grows is more precise than historical logs permit. Current registration omission provides a concrete candidate component, not historical proof. Healthy one-line echo is only a text-path check."
+    },
+    {
+      "document": "AO2_RESULT.md:3-5,37-38; SELF_ITERATION_AFTER_AO.md:4-5",
+      "finding": "They identify requested checker gpt-6.1-sol/openai and describe different-model independence; these are role/request records, not transport-authenticated served-model identity. Neither diagnoses the writer 400 root cause. Do not turn them into such evidence."
+    },
+    {
+      "document": "ROUND_RESULT.md:66,78-80; verify/ao/AO_VERDICT_STAGEB.md:278-294",
+      "finding": "Round result points to lane-substitution disclosure and says no independent checker receipt for its then-subject, whereas later AO/AO2 report challenges of different subject tips. These are differently scoped/time-versioned records, not a model-cause contradiction. No thinking-adapter diagnosis in the three round-root documents or first AO verdict; the precise causal assertion is in v3 script, not validated by these acceptance records."
+    },
+    {
+      "document": "stage-b/fallback-green.log:1",
+      "finding": "BUILT fallback.md ... DOC_MOUNT_ONLY is a web/document packaging result, not model failover, model availability, or authenticated model identity evidence."
+    }
+  ],
+  "remedy": {
+    "recommendation": "Lowest-friction prevention is a fail-closed admission gate in the launching harness: pin the immutable round model AND effort; refuse any changed model before writers start; run a no-candidate-write two-tool-roundtrip qualification through the identical CLI/endpoint/catalog/effort and require process exit 0; aggregate actual child exits. This would expose the observed replay rejection before the production writer pool and block the later changed-model run. It does not claim to authenticate upstream identity.",
+    "smallest_diff_pseudocode": [
+      "ROUND_MODEL := approved immutable assignment (v4.1 here); ROUND_EFFORT := approved explicit effort (high for original failing config)",
+      "MODEL := EXEC_MODEL or ROUND_MODEL; if MODEL != ROUND_MODEL: emit MODEL_DEVIATION_REQUIRES_OWNER_DECISION; exit nonzero",
+      "preflight := same CLI + 10102 endpoint + same catalog + MODEL + ROUND_EFFORT, no candidate write permissions, two harmless tool calls each followed by another assistant request",
+      "if preflight child exit != 0 or required tool/result continuations did not complete: emit PREFLIGHT_FAILED plus actual transport error; exit nonzero; start zero writers",
+      "start writers only on qualified config; retain immutable assignment plus requested configuration, receipt and raw preflight log separately",
+      "wait each child; if any child exit != 0 or exit record missing: final harness exit nonzero; never overwrite assignment or automatically substitute a model"
+    ],
+    "hard_signal": "Child/process status and provider 400 rejection are cheap non-generated signals. Structured tool/result completion can qualify the exercised path; generated PROBE_OK/MODEL_SEEN cannot. A finite preflight cannot guarantee all later transcript lengths, so child-exit aggregation remains necessary.",
+    "cost": {
+      "files_touched_if_adopted": [
+        "stage-b/run_lanes_v2.sh",
+        "stage-b/run_lanes_v3.sh",
+        "one immutable assignment input plus one harness negative-test fixture in owner-selected harness test location"
+      ],
+      "owner": "Round/harness owner; shared launcher owner should consolidate later rather than duplicate policy indefinitely.",
+      "credential_or_service": "No new service or human credential for pin/equality and exit aggregation. A live preflight uses existing lane access, two harmless tool cycles, small token/latency cost; may refuse on capacity. Changed model/effort requires an owner decision and a new explicitly approved assignment, not an automatic retry.",
+      "not_applied": "Research only: none of these files or runtime configuration was modified."
+    },
+    "mechanistic_repair_candidate_not_authorized": {
+      "change": "After owner confirms historical loaded route/version and an on-wire replay test, add deepseek-v4.1-flash to opencode-go.preserveReasoningContentModels in desktop-model-router/config.json (one list entry), or have adapter maintainer add the equivalent registry entry and regression. Confirm replay cache/parser handling as well; do not assume a list entry fixes missing thinking data.",
+      "cost": "Desktop relay owner, one user-owned config file and reload/restart outside this lane authority; no new service/credential. Durable upstream registry support would touch providers/registry.ts and adapter regression tests; requires maintainer decision. Current source plus config strongly motivate this candidate but historical certainty is not available.",
+      "verification": "Same v4.1/high two-tool replay fixture: before must reproduce missing reasoning_content/400, after must preserve prior assistant reasoning in outgoing payload and complete; capture sanitized request IDs and loaded config/source hashes. No live reproducer or repair was run here."
+    },
+    "identity_extension_owner_decision": "For actual serving-model enforcement, require the RELAY resolver to refuse unknown/mismatched aliases before inference and return a request-correlated non-generated resolved provider/model receipt; launcher refuses missing/mismatch. Existing evidence does not demonstrate an available strict-route handshake. If this guarantee is required, relay owner must supply it; do not invent a header/API. A receipt that merely echoes the request is not sufficient, and relay-resolved identity still does not cryptographically authenticate vendor internals.",
+    "candidate_tradeoffs": [
+      "Immutable assignment equality plus aggregate exits: cheapest deterministic defense against the observed explicit substitution/hidden child status. Cannot establish actual upstream model.",
+      "Two-cycle exact-config preflight: low incremental cost, catches this family of tool-history rejection earlier; adds inference latency and consumes existing quota.",
+      "Current replay list registration: smallest plausible root repair, but owner-controlled, historical attribution uncertain, and separate from deviation prevention.",
+      "Strict relay resolution receipt/refusal: right defense against silent model routing, but more owner work; not inferable from websocket status or client metadata.",
+      "Reject every websocket 426 or merely disable websocket: cheap but wrong; it also occurs before successful runs and does not fix replay or identity.",
+      "Self-ID probe/catalog-only admission/manual log review/long benchmark: respectively untrustworthy, insufficient, late, or higher friction than a startup gate."
+    ],
+    "negative_tests": [
+      "Set EXEC_MODEL=v4 while immutable assignment is v4.1: launcher MUST exit nonzero MODEL_DEVIATION_REQUIRES_OWNER_DECISION with zero writer starts.",
+      "Stub exact-config preflight: first response/tool succeeds, continuation returns original provider 400 and exit 1 (even with PROBE_OK/MODEL_SEEN claiming v4.1): launcher MUST refuse and launch zero writers.",
+      "Run fixture with children exiting 0,1,0 or missing exit receipt: lane-set MUST exit nonzero despite any candidate artifact or LANES_DONE text.",
+      "Return websocket 426 then a successful authenticated configured HTTP path/tool completion: 426 alone MUST NOT fail qualification; failed HTTP continuation MUST fail it.",
+      "If strict-route extension is adopted, resolve requested v4.1 to v4 or default OpenAI, or omit receipt: MUST refuse before inference/writers. Matching generated self-ID MUST NOT override refusal.",
+      "If replay registration repair is adopted, remove the v4.1 entry: outgoing-history assertion and exact-config continuation test MUST go red, not succeed by falling back."
+    ],
+    "must_not_do": [
+      "Never relabel backup-produced artifacts as declared v4.1 outputs or erase original assignment/failure logs; preserve both requested histories and deviation.",
+      "Never silently change model or effort, remove the declared model from the record, or make failed children green because files exist.",
+      "Never authenticate identity with assistant self-report, catalog presence, a header echo, or websocket 426; never call the document fallback-green log model health.",
+      "Do not infer model unavailability from these 400s or blame a particular historical adapter component as proved without historical payload/version evidence.",
+      "Do not treat this research as acceptance, publication approval, or permission to modify runtime/code."
+    ]
+  },
+  "claim_ceiling": "RESEARCH FINDING ONLY. The three original requested-config lanes failed with thinking-history 400s; requested backup/none reruns exited 0. Current relay replay metadata omits v4.1 and supplies a concrete historical root-cause lead, not a frozen historical proof. No authenticated actual serving model, no controlled model-versus-effort causal isolation, no proof of universal model unavailability, no historical parent exit assertion, no live reproduction/repair, no release or acceptance grant.",
+  "additional_observation": "Prior FAR log directly reports Selected model is at capacity twice (2781-2782), separately from UTF-8 patch handoff failure (2767). Capacity origin/concurrency not established; this run did not silently substitute a model or encounter a new capacity error.",
+  "verification": {
+    "all_listed_inputs_read": "All evidence entries decoded from full bytes and SHA-256 recorded; quotes retain original text with one-based line numbers. No credentials reproduced; current config excerpts selected only for non-secret routing metadata.",
+    "reports": "Writer reopens each distinct UTF-8/LF output, validates JSON and nontrivial size, prints byte count and SHA-256. No pre-existing reports were found; appended lane-mechanics observations are included without dropping required sections."
+  }
+}
