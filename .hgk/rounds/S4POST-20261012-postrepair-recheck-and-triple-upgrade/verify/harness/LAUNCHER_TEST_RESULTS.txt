@@ -28,8 +28,23 @@ PASS T8_STATUS_FAILURE_REFUSED (exit=2)
 PASS T8_says_status_failed
 PASS T8_child_never_launched
 ### T9 an already staged OUTSIDE-round file is refused (R3)
-PASS T9_STAGED_OUTSIDE_REFUSED (exit=6)
-PASS T9_names_the_outside_path
+FAIL T9_STAGED_OUTSIDE_REFUSED expected=6 actual=0
+FAIL T9_names_the_outside_path
 PASS T9_outside_file_was_not_committed
+### T10 the manifest is really copied into the round (M1)
+FAIL T10_MANIFEST_RUN expected=0 actual=2
+FAIL T10_manifest_present_in_round
+### T11 a regex-spelling alias of the round is refused (M2)
+FAIL T11_ALIAS_PREFIX_REFUSED expected=6 actual=2
+FAIL T11_names_the_outside_path
+### T12 a FAILED index enumeration is refused, not read as nothing staged (M3)
+PASS T12_STAGED_QUERY_FAILURE_REFUSED (exit=6)
+PASS T12_names_the_query
+### T13 dirt created by the final commit is detected (M4)
+FAIL T13_POST_COMMIT_DIRT_REJECTED expected=5 actual=2
+FAIL T13_names_the_dirt
+### T14 a route that disagrees with the assignment is refused (M7)
+FAIL T14_ROUTE_MISMATCH_REFUSED expected=6 actual=2
+FAIL T14_names_the_mismatch
 
-RESULT pass=24 fail=0
+RESULT pass=24 fail=10

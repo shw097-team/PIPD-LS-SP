@@ -47,16 +47,16 @@ status_count() {
 #     is staged outside the round".
 # Fixed-string prefix matching via case, and the query's own exit status is checked.
 staged_outside() {
-  local out rc p
-  out="$(git diff --cached --name-only -z 2>/dev/null)"; rc=$?
+  local out rc
+  out="$(git diff --cached --name-only 2>/dev/null)"; rc=$?
   [ "$rc" -eq 0 ] || { echo "__STAGED_QUERY_FAILED__"; return; }
-  printf '%s' "$out" | tr '\0' '\n' | while IFS= read -r p; do
-    [ -z "$p" ] && continue
-    case "$p" in
-      "$RELROUND"/*) ;;
-      *) printf '%s\n' "$p" ;;
-    esac
-  done
+  # -F is the fix for the regex-wildcard hole: the round prefix is matched as a literal.
+  # NOTE, a measured trap on this host: "git diff --cached --name-only -z" captured into a
+  # shell variable loses its NUL separators and its final newline, so "while read" never ran
+  # its body once and every staged path - including outside ones - read as none. Plain
+  # newline output is used here instead. Names containing a newline are not handled, which
+  # is a stated limit of this check.
+  printf '%s\n' "$out" | sed '/^[[:space:]]*$/d' | grep -v -F -- "${RELROUND}/"
 }
 commit_all() {
   git add -A -- "$RELROUND" 2>/dev/null || { echo "GIT_ADD_FAILED" >&2; return 1; }

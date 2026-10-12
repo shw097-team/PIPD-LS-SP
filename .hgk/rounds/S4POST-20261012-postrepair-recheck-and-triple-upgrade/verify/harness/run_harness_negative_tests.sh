@@ -104,9 +104,13 @@ else echo "PASS T9_outside_file_was_not_committed"; pass=$((pass+1)); fi
 git -C "$CLONE" reset -q 2>/dev/null; rm -f "$CLONE/outside-round-fixture.txt"
 
 echo "### T10 the manifest is really copied into the round (M1)"
-rm -f "$CLONE/$REL/stage-b/"*.manifest 2>/dev/null
+# Check for THIS run's manifest by its own stamp. An earlier version of this test deleted
+# every committed manifest first, which dirtied the clone and broke later cases.
 ck T10_MANIFEST_RUN 0 "$(run 0 0 0 NT10 brief_nt.md verify/nt)"
-ls "$CLONE/$REL/stage-b/"*".manifest" >/dev/null 2>&1 && { echo PASS T10_manifest_present_in_round; pass=$((pass+1)); } || { echo FAIL T10_manifest_present_in_round; fail=$((fail+1)); }
+T10ST="$(grep -o 'NT10_LANE=[0-9TZ]*' "$LOGD/NT10.out" | head -1 | cut -d= -f2)"
+if [ -n "$T10ST" ] && [ -f "$CLONE/$REL/stage-b/NT10_${T10ST}.manifest" ]; then
+  echo "PASS T10_manifest_present_in_round"; pass=$((pass+1))
+else echo "FAIL T10_manifest_present_in_round (stamp=$T10ST)"; fail=$((fail+1)); fi
 
 echo "### T11 a regex-spelling alias of the round is refused (M2)"
 mkdir -p "$CLONE/Xhgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade"
