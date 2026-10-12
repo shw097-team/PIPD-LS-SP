@@ -10,11 +10,12 @@ SHA="$(git -C "$WT" rev-parse HEAD)" || { echo HEAD_UNRESOLVED; exit 9; }
 git clone -q --no-hardlinks "$WT" "$CLONE" 2>/dev/null || { echo CLONE_FAILED; exit 9; }
 git -C "$CLONE" checkout -q "$SHA" || { echo CHECKOUT_FAILED; exit 9; }
 git -C "$CLONE" config user.email nt@local.invalid; git -C "$CLONE" config user.name nt
-# M8: GATE_SKIP_QUALIFY is a testing switch that now needs an owner-visible acknowledgement.
-printf 'authorizes_skip_qualification: EXECUTE\nauthorizes_skip_qualification: VERIFY\n' > "$S/GATE_SKIP_QUALIFY_ACK.md"
 REL=".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade"; S="$CLONE/$REL/stage-b"
 G="$S/run_lanes_gated.sh"; OWNER="$S/OWNER_DECISION_MODEL_DEVIATION.md"
 [ -f "$G" ] || { echo GATE_NOT_IN_CLONE; exit 9; }
+# M8: GATE_SKIP_QUALIFY is a testing switch that now needs an owner-visible acknowledgement.
+# This is created after S is defined; it was placed earlier once and broke the whole script.
+printf 'authorizes_skip_qualification: EXECUTE\nauthorizes_skip_qualification: VERIFY\n' > "$S/GATE_SKIP_QUALIFY_ACK.md"
 
 SBL="$BASE/stub-lane.sh"; SBQ="$BASE/stub-qualify-ok.sh"; SBQF="$BASE/stub-qualify-fail.sh"
 cat > "$SBL" <<'EOF'
