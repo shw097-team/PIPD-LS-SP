@@ -1,0 +1,80 @@
+COMMAND: "C:\Program Files\Git\usr\bin\bash.exe" -c "nl -ba \"$1\"" ao4 C:/Projects/Agent_Workspace/PIPD/worktrees/s4post-b-wt/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lane.sh
+CWD: C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-b-wt
+EXIT_CODE: 0
+RAW STDOUT:
+     1	#!/usr/bin/env bash
+     2	# Governed lane launcher - fixes the recurring handover-hygiene defect.
+     3	#
+     4	# Root cause it addresses: the previous runners wrote the brief, the runner itself and the lane log
+     5	# INTO the same worktree that was then handed to the officer. The delivery was therefore dirty by
+     6	# construction, and two independent officers correctly refused to call it clean.
+     7	#
+     8	# This wrapper enforces five things:
+     9	#   1. FAIL-CLOSED preflight: the worktree must be clean before an officer is launched against it.
+    10	#   2. Harness artifacts under the round directory are COMMITTED before launch, not left untracked.
+    11	#   3. The lane log is written OUTSIDE the worktree (system temp), so the log cannot dirty the delivery.
+    12	#   4. The officer's own output directory is created before launch and is the only permitted dirt.
+    13	#   5. Postflight: copy the log in, commit the lane artifacts, and assert the worktree is clean again.
+    14	#
+    15	# usage: run_lane.sh <lanelupper> <brief-basename> <in-round-output-subdir> [model]
+    16	#   e.g. run_lane.sh AO4 VERIFIER_AO4_BRIEF.md verify/ao4
+    17	set -u
+    18	# The worktree is overridable so the refusal path can be tested in an external clone by a checker,
+    19	# without ever dirtying the real delivery.
+    20	WT="${LANE_WT:-C:/Projects/Agent_Workspace/PIPD/worktrees/s4post-b-wt}"
+    21	RELROUND=".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade"
+    22	R="$WT/$RELROUND"
+    23	W="$R/stage-b"
+    24	CB=/c/Users/user/AppData/Local/OpenAI/Codex/bin/2e5e00daee91c61d/codex.exe
+    25	LANE="${1:?lane name required}"
+    26	BRIEF="${2:?brief basename required}"
+    27	OUTSUB="${3:?round-relative output subdir required}"
+    28	MODEL="${4:-gpt-6.1-sol}"
+    29	STAMP=$(date -u +%Y%m%dT%H%M%SZ)
+    30	LOGDIR="${TMPDIR:-$LOCALAPPDATA/Temp}/hgk-lanes"
+    31	LOGOUT="$LOGDIR/${LANE}_${STAMP}.log"
+    32	
+    33	cd "$WT" || exit 1
+    34	mkdir -p "$LOGDIR"
+    35	
+    36	# --- 1/2. preflight: commit harness artifacts, then require a clean worktree -------------------
+    37	git add -A -- "$RELROUND" >/dev/null 2>&1
+    38	if ! git diff --cached --quiet; then
+    39	  git -c core.safecrlf=false commit -q \
+    40	    -m "chore(s4post-b): commit harness artifacts before the ${LANE} lane handover" \
+    41	    -m "Fail-closed preflight of the governed lane launcher: an officer must be handed a clean worktree."
+    42	fi
+    43	DIRT=$(git status --porcelain | wc -l)
+    44	if [ "$DIRT" -ne 0 ]; then
+    45	  echo "LANE_REFUSED: ${DIRT} dirty path(s) in the delivery; an officer must not be launched against this" >&2
+    46	  git status --porcelain >&2
+    47	  exit 2
+    48	fi
+    49	echo "PREFLIGHT_CLEAN HEAD=$(git rev-parse --short HEAD)"
+    50	
+    51	# --- 3. the log lives outside the worktree ----------------------------------------------------
+    52	mkdir -p "$WT/$OUTSUB" 2>/dev/null || mkdir -p "$R/$OUTSUB"
+    53	echo "${LANE}_LANE=$STAMP MODEL=$MODEL provider=openai reasoning=medium (declared checker)"
+    54	timeout 3000 "$CB" -c model="$MODEL" \
+    55	  -c model_reasoning_effort='"medium"' \
+    56	  -c model_catalog_json='C:/Users/user/.codex/desktop-model-catalog.json' \
+    57	  exec --cd "$WT" --skip-git-repo-check -s danger-full-access - \
+    58	  < "$W/$BRIEF" > "$LOGOUT" 2>&1
+    59	CODE=$?
+    60	echo "$CODE" > "$LOGDIR/${LANE}_${STAMP}.exit"
+    61	
+    62	# --- 5. postflight: bring the log in, commit everything the lane produced ---------------------
+    63	cp "$LOGOUT" "$W/${LANE}_${STAMP}.log"
+    64	echo "$CODE" > "$W/${LANE}_${STAMP}.exit"
+    65	git add -A -- "$RELROUND" >/dev/null 2>&1
+    66	if ! git diff --cached --quiet; then
+    67	  git -c core.safecrlf=false commit -q \
+    68	    -m "evidence(s4post-b): ${LANE} lane output (exit ${CODE}) on the frozen subject" \
+    69	    -m "Log copied in from outside the worktree; officer output committed as delivered evidence."
+    70	fi
+    71	DIRT=$(git status --porcelain | wc -l)
+    72	echo "${LANE} exit=$CODE log=$LOGOUT"
+    73	echo "POSTFLIGHT:dirty=$DIRT HEAD=$(git rev-parse --short HEAD)"
+    74	echo "${LANE}_LANE_DONE"
+
+RAW STDERR:
