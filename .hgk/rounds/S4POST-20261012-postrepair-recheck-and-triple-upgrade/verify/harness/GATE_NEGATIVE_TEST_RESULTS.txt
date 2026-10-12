@@ -26,7 +26,7 @@ PASS G7_qualification_passed
 PASS G7_no_deviation_notice
 ### G8 zero qualification attempts must NOT be advertised as a qualified lane (R4)
 PASS G8_ZERO_RUNS_REFUSED (exit=3)
-FAIL G8_says_refused
+PASS G8_says_refused
 PASS G8_did_not_claim_qualified
 ### G9 the writer must be launched through the route that was qualified (R5)
 PASS G9_EXECUTE_RUNS (exit=0)
@@ -57,9 +57,9 @@ PASS G14d_names_the_axis
 PASS G14e_AUTHORISED_VALUE_STILL_RUNS (exit=0)
 PASS G14e_records_the_axes
 ### G15 a log directory reached through a Windows junction is refused (round-10)
-FAIL G15_JUNCTION_REFUSED expected=3 actual=0
-FAIL G15_names_the_containment
+PASS G15_JUNCTION_REFUSED (exit=3)
+PASS G15_names_the_containment
 PASS G15_not_a_resolve_failure
-FAIL G15_left_a_dir_in_the_worktree
+PASS G15_left_no_dir_in_the_worktree
 
-RESULT pass=44 fail=4
+RESULT pass=48 fail=0
