@@ -1,0 +1,16 @@
+unset BASH_ENV ENV MSYS_NO_PATHCONV MSYS2_ARG_CONV_EXCL
+export LANE_WT='/tmp/ao10-u9legwpj/subject' TMPDIR='/tmp/ao10-u9legwpj/logs' CODEX_BIN='/tmp/ao10-u9legwpj/checker-stub.sh' CASE_STATE='/tmp/ao10-u9legwpj/checker-primary-effort.state'
+S="$LANE_WT/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b"
+chmod +x "$CODEX_BIN"
+bash "$S/run_checker_lane.sh" AOCHECK brief_nt.md verify/probe
+c=$?; echo SUBJECT_EXIT=$c
+command git status --porcelain
+cat "$S"/AOCHECK_*.manifest
+cat "$S"/AOCHECK_*.log
+if [ -f "$S/CHECKER_FAILOVER_AOCHECK.md" ]; then cat "$S/CHECKER_FAILOVER_AOCHECK.md"; fi
+exit "$c"
+
+# checker-stub.sh content:
+#!/usr/bin/env bash
+echo "stub argv=$*"
+exit 0

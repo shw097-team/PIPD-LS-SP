@@ -1,0 +1,73 @@
+COMMAND: ["C:/Program Files/Git/usr/bin/bash.exe", "C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests.sh"]
+CWD: C:\Users\user\AppData\Local\Temp\ao10-u9legwpj\subject
+EXIT_CODE: 1
+RAW OUTPUT:
+mkdir: cannot create directory ‘C:/Users/user’: Permission denied
+### G1 a deviating model with NO owner record is refused, zero writers
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests.sh: line 67: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/G1.out: No such file or directory
+FAIL G1_DEVIATION_REFUSED expected=6 actual=1
+FAIL G1_names_the_decision
+FAIL G1_started_no_writer
+PASS G1_no_writer_ran
+### G2 the SAME deviating model, now named in the owner record, is admitted
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests.sh: line 67: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/G2.out: No such file or directory
+FAIL G2_AUTHORISED_DEVIATION_RUNS expected=0 actual=1
+FAIL G2_records_the_deviation
+FAIL G2_lane_set_ok
+### G3 a model that cannot survive qualification is refused before any writer
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests.sh: line 67: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/G3.out: No such file or directory
+FAIL G3_QUALIFICATION_REFUSED expected=7 actual=1
+FAIL G3_names_qualification
+FAIL G3_started_no_writer
+### G4 children exiting 0,1,0 must aggregate to a failed lane set
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests.sh: line 67: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/G4.out: No such file or directory
+FAIL G4_LANE_SET_FAILED expected=8 actual=1
+FAIL G4_says_nonzero
+FAIL G4_counts_the_failure
+### G5 a child that loses its run receipt is a failure even if it exited 0
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests.sh: line 67: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/G5.out: No such file or directory
+FAIL G5_MISSING_RECEIPT_FAILS expected=8 actual=1
+FAIL G5_names_missing_receipt
+### G6 an unknown role is refused
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests.sh: line 67: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/G6.out: No such file or directory
+FAIL G6_UNKNOWN_ROLE_REFUSED expected=3 actual=1
+### G7 the assignment model with a working qualification passes end to end
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests.sh: line 67: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/G7.out: No such file or directory
+FAIL G7_HAPPY_PATH expected=0 actual=1
+FAIL G7_qualification_passed
+FAIL G7_no_deviation_notice
+### G8 zero qualification attempts must NOT be advertised as a qualified lane (R4)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests.sh: line 67: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/G8.out: No such file or directory
+FAIL G8_ZERO_RUNS_REFUSED expected=3 actual=1
+FAIL G8_says_refused
+grep: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/G8.out: No such file or directory
+PASS G8_did_not_claim_qualified
+### G9 the writer must be launched through the route that was qualified (R5)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests.sh: line 121: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/g9-argv.txt: No such file or directory
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests.sh: line 67: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/G9.out: No such file or directory
+FAIL G9_EXECUTE_RUNS expected=0 actual=1
+grep: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/g9-argv.txt: No such file or directory
+FAIL G9_child_used_the_catalog_slug
+grep: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/g9-argv.txt: No such file or directory
+PASS G9_child_did_not_use_a_provider_id
+grep: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/g9-argv.txt: No such file or directory
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests.sh: line 128: [: : integer expression expected
+FAIL G9_qualification_and_writer_agree
+### G10 a truncated / empty receipt must not satisfy the gate (M6)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests.sh: line 67: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/G10.out: No such file or directory
+FAIL G10_EMPTY_RECEIPT_REJECTED expected=8 actual=1
+FAIL G10_says_receipt_rejected
+### G11 GATE_SKIP_QUALIFY without an acknowledgement is refused (M8)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests.sh: line 67: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/G11.out: No such file or directory
+FAIL G11_SKIP_UNAUTHORISED_REFUSED expected=6 actual=1
+FAIL G11_names_the_ack
+### G12 sentinels without tool executions are not a qualification (M9)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests.sh: line 67: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/G12.out: No such file or directory
+FAIL G12_SENTINELS_ONLY_REFUSED expected=7 actual=1
+FAIL G12_names_qualification
+### G13 a committed receipt with duplicated conflicting fields is refused (round-8)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests.sh: line 67: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_gate_negative_tests/logs/G13.out: No such file or directory
+FAIL G13_CONFLICTING_RECEIPT_REJECTED expected=8 actual=1
+FAIL G13_names_the_receipt
+
+RESULT pass=3 fail=31

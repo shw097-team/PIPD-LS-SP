@@ -1,0 +1,24 @@
+COMMAND: ["C:/Program Files/Git/usr/bin/bash.exe", "C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_checker_failover_tests.sh"]
+CWD: C:\Users\user\AppData\Local\Temp\ao10-u9legwpj\subject
+EXIT_CODE: 1
+RAW OUTPUT:
+mkdir: cannot create directory ‘C:/Users/user’: Permission denied
+mkdir: cannot create directory ‘C:/Users/user’: Permission denied
+### A1 a provider content-filter kill must NOT be worked around by a model switch
+FAIL A1_nonzero_exit expected=1 actual=3
+PASS A1_says_not_exhaustion
+PASS A1_did_not_fail_over
+PASS A1_no_backup_ok
+### A2 a protocol 400 must NOT be worked around by a model switch
+PASS B2_says_not_exhaustion
+PASS B2_did_not_fail_over
+### A3 an exhaustion signal DOES fail over, and records both models
+FAIL A3_exit_zero expected=0 actual=3
+FAIL A3_exhaustion_seen
+FAIL A3_failover_started
+FAIL A3_backup_ok
+FAIL A3_record_names_backup
+FAIL A3_record_names_primary
+FAIL A3_record_says_identity_changes
+PASS A3_no_record_for_the_killed_lane_unneeded
+RESULT pass=6 fail=8

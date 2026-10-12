@@ -7,11 +7,11 @@
     "S4-MODEL-ROUTING-CONFORMANCE"
   ],
   "candidate": {
-    "commit": "",
-    "package_sha256": "",
-    "distribution_digest": ""
+    "commit": "35c5099debfad1fa7a11192de2495c6c359c06f8",
+    "package_sha256": "2864ac2abda38e0c1f511d8f7c2f8df4430e8dc5b7e3e4a83ec4676290ecd2fe",
+    "distribution_digest": "af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f"
   },
-  "evidence_manifest_sha256": "",
+  "evidence_manifest_sha256": "2e5a1d19e80ba8759c07c6d1e4b085d3d3ebf67988f1e269965b0266adcfbbe9",
   "oracle": {
     "identity": "NO_INTERNAL_ORACLE_IN_THIS_ROUND",
     "package_digest": ""
@@ -48,5 +48,24 @@
     "public release gate remains FAIL-CLOSED / HOLD",
     "the empty candidate digests above are NOT evidence of anything - binding them is the reviewer's own Phase A step"
   ],
-  "requested_review_scope": "Independent clean-room challenge review of the Stage-B handover closure claim and of the governed lane harness repairs (rounds 5-8 counterexample classes), bound to the exact frozen candidate the reviewer captures at the start of its own run. Read-only; do not modify the candidate."
+  "requested_review_scope": "Independent clean-room challenge review of the Stage-B handover closure claim and of the governed lane harness repairs (rounds 5-8 counterexample classes), bound to the exact frozen candidate the reviewer captures at the start of its own run. Read-only; do not modify the candidate.",
+  "freeze_method": {
+    "package": "git archive --format=tar 35c5099debfad1fa7a11192de2495c6c359c06f8 (system temp candidate.tar)",
+    "distribution": "dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip",
+    "manifest": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/EVIDENCE_RETURN_PACK.json",
+    "tree": "06984281502581e0a9ef97e2fc80c100eef73856",
+    "temp": "C:\\Users\\user\\AppData\\Local\\Temp\\ao10-u9legwpj",
+    "distribution_semantics": "observed delivered mount ZIP only; association to current Stage-B not established"
+  },
+  "observed_release_artifacts": {
+    "wheel": {
+      "path": "dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl",
+      "sha256": "e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec"
+    },
+    "mount_zip": {
+      "path": "dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip",
+      "sha256": "af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f"
+    },
+    "limitation": "historical release artifacts; current Stage-B package conformance not established"
+  }
 }

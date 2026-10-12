@@ -1,0 +1,361 @@
+[
+  {
+    "finding_id": "FCR-001",
+    "title": "Gate approves regex model and undeclared effort",
+    "classification": "CONFIRMED_DEFECT",
+    "severity": "HIGH",
+    "gate_ids": [
+      "S4-MODEL-ROUTING-CONFORMANCE"
+    ],
+    "acceptance_ids": [
+      "stage-b/ROUND_ASSIGNMENT.json:purpose",
+      "stage-b/OWNER_DECISION_MODEL_DEVIATION.md:authorizes/authorizes_effort",
+      "stage-b/run_lanes_gated.sh:55-69"
+    ],
+    "subject_identity": "35c5099debfad1fa7a11192de2495c6c359c06f8",
+    "source_locators": [
+      "stage-b/ROUND_ASSIGNMENT.json:purpose",
+      "stage-b/OWNER_DECISION_MODEL_DEVIATION.md:authorizes/authorizes_effort",
+      "stage-b/run_lanes_gated.sh:55-69"
+    ],
+    "evidence_ids": [
+      "owner-regex-qualify-only-isolated.txt",
+      "owner-regex-full-isolated.txt",
+      "effort-qualify-only-isolated.txt"
+    ],
+    "observed": "Qualify-only model=.* and undeclared effort return 0 / OWNER_AUTHORISED_DEVIATION / QUALIFICATION_PASSED. Full regex run returns 8 because child refuses 6.",
+    "expected": "Literal exact role-scoped model AND effort authorization before any invocation; invalid request never receives qualification success.",
+    "contradiction": "Qualify-only model=.* and undeclared effort return 0 / OWNER_AUTHORISED_DEVIATION / QUALIFICATION_PASSED. Full regex run returns 8 because child refuses 6.; expected Literal exact role-scoped model AND effort authorization before any invocation; invalid request never receives qualification success.",
+    "reproducibility": "REPRODUCED",
+    "claim_impact": "Blocks routing closure.",
+    "earliest_owner": "Gate admission",
+    "smallest_repair_scope": "Share strict role/model/effort validation with child; test both qualify-only and full entry.",
+    "retest_required": [
+      "owner-regex-qualify-only-isolated.txt",
+      "owner-regex-full-isolated.txt",
+      "effort-qualify-only-isolated.txt"
+    ],
+    "regression_required": [
+      "three frozen harness suites and affected focused controls"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  },
+  {
+    "finding_id": "FCR-002",
+    "title": "EXECUTE model exception authorizes VERIFY",
+    "classification": "CONFIRMED_DEFECT",
+    "severity": "HIGH",
+    "gate_ids": [
+      "S4-MODEL-ROUTING-CONFORMANCE"
+    ],
+    "acceptance_ids": [
+      "stage-b/ROUND_ASSIGNMENT.json:roles.VERIFY",
+      "stage-b/OWNER_DECISION_MODEL_DEVIATION.md:EXECUTE/checker scope",
+      "stage-b/run_lane.sh:130-163"
+    ],
+    "subject_identity": "35c5099debfad1fa7a11192de2495c6c359c06f8",
+    "source_locators": [
+      "stage-b/ROUND_ASSIGNMENT.json:roles.VERIFY",
+      "stage-b/OWNER_DECISION_MODEL_DEVIATION.md:EXECUTE/checker scope",
+      "stage-b/run_lane.sh:130-163"
+    ],
+    "evidence_ids": [
+      "other-role-owner-isolated.txt"
+    ],
+    "observed": "VERIFY using EXECUTE backup deepseek-v4-flash returns 0 / LANE_SET_OK; no checker exhaustion or GLM failover occurred.",
+    "expected": "EXECUTE exception stays within EXECUTE; checker substitution uses separate owner ruling.",
+    "contradiction": "VERIFY using EXECUTE backup deepseek-v4-flash returns 0 / LANE_SET_OK; no checker exhaustion or GLM failover occurred.; expected EXECUTE exception stays within EXECUTE; checker substitution uses separate owner ruling.",
+    "reproducibility": "REPRODUCED",
+    "claim_impact": "Blocks routing closure.",
+    "earliest_owner": "Gate and child owner readers",
+    "smallest_repair_scope": "Enforce role-bound exception keys and exact values in both components.",
+    "retest_required": [
+      "other-role-owner-isolated.txt"
+    ],
+    "regression_required": [
+      "three frozen harness suites and affected focused controls"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  },
+  {
+    "finding_id": "FCR-003",
+    "title": "Provider override reaches governed VERIFY worker",
+    "classification": "CONFIRMED_DEFECT",
+    "severity": "HIGH",
+    "gate_ids": [
+      "S4-MODEL-ROUTING-CONFORMANCE"
+    ],
+    "acceptance_ids": [
+      "stage-b/ROUND_ASSIGNMENT.json:roles.VERIFY.provider",
+      "stage-b/run_lanes_gated.sh:55,77,136",
+      "stage-b/run_lane.sh:124,163-173"
+    ],
+    "subject_identity": "35c5099debfad1fa7a11192de2495c6c359c06f8",
+    "source_locators": [
+      "stage-b/ROUND_ASSIGNMENT.json:roles.VERIFY.provider",
+      "stage-b/run_lanes_gated.sh:55,77,136",
+      "stage-b/run_lane.sh:124,163-173"
+    ],
+    "evidence_ids": [
+      "provider-override-isolated.txt"
+    ],
+    "observed": "LANE_PROVIDER=unassigned reaches worker stub model_provider=\"unassigned\"; gate prints assigned provider=openai yet returns 0.",
+    "expected": "Pin assigned provider/full route tuple or explicit scoped exception.",
+    "contradiction": "LANE_PROVIDER=unassigned reaches worker stub model_provider=\"unassigned\"; gate prints assigned provider=openai yet returns 0.; expected Pin assigned provider/full route tuple or explicit scoped exception.",
+    "reproducibility": "REPRODUCED",
+    "claim_impact": "Blocks routing conformance; no real provider result inferred.",
+    "earliest_owner": "Gate binding and child re-derivation",
+    "smallest_repair_scope": "Validate provider at both entries and bind physical route parameters to qualification/receipt.",
+    "retest_required": [
+      "provider-override-isolated.txt"
+    ],
+    "regression_required": [
+      "three frozen harness suites and affected focused controls"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  },
+  {
+    "finding_id": "FCR-004",
+    "title": "Windows junction bypasses gate log containment",
+    "classification": "CONFIRMED_DEFECT",
+    "severity": "HIGH",
+    "gate_ids": [
+      "S4-STAGE-B-HANDOVER-CLOSURE"
+    ],
+    "acceptance_ids": [
+      "user log/write boundary",
+      "stage-b/run_lanes_gated.sh:33-41",
+      "verify/harness/HARNESS_DEFECT_LOG.md:H1-H3"
+    ],
+    "subject_identity": "35c5099debfad1fa7a11192de2495c6c359c06f8",
+    "source_locators": [
+      "user log/write boundary",
+      "stage-b/run_lanes_gated.sh:33-41",
+      "verify/harness/HARNESS_DEFECT_LOG.md:H1-H3"
+    ],
+    "evidence_ids": [
+      "gate-logdir-isolated.txt",
+      "gate-junction.txt",
+      "junction-readback.txt"
+    ],
+    "observed": "Direct in-tree parent refused 3; external parent/hgk-lanes junction to candidate clone returns 0, writing qualification log into gate-junction-target/ with untracked git status.",
+    "expected": "Qualification logs physically outside candidate, including an existing log-directory junction.",
+    "contradiction": "Direct in-tree parent refused 3; external parent/hgk-lanes junction to candidate clone returns 0, writing qualification log into gate-junction-target/ with untracked git status.; expected Qualification logs physically outside candidate, including an existing log-directory junction.",
+    "reproducibility": "REPRODUCED",
+    "claim_impact": "Blocks handover closure.",
+    "earliest_owner": "Gate containment",
+    "smallest_repair_scope": "Resolve actual LOGDIR destination, validate before writing; handle missing path safely; add junction/direct positive-negative controls.",
+    "retest_required": [
+      "gate-logdir-isolated.txt",
+      "gate-junction.txt",
+      "junction-readback.txt"
+    ],
+    "regression_required": [
+      "three frozen harness suites and affected focused controls"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  },
+  {
+    "finding_id": "FCR-005",
+    "title": "Protocol failure with incidental quota triggers checker switch",
+    "classification": "CONFIRMED_DEFECT",
+    "severity": "HIGH",
+    "gate_ids": [
+      "S4-MODEL-ROUTING-CONFORMANCE"
+    ],
+    "acceptance_ids": [
+      "stage-b/ROUND_ASSIGNMENT.json:checker_failover.does_not_trigger_on",
+      "stage-b/OWNER_DECISION_MODEL_DEVIATION.md:Checker failover",
+      "stage-b/run_checker_lane.sh:36,62-79"
+    ],
+    "subject_identity": "35c5099debfad1fa7a11192de2495c6c359c06f8",
+    "source_locators": [
+      "stage-b/ROUND_ASSIGNMENT.json:checker_failover.does_not_trigger_on",
+      "stage-b/OWNER_DECISION_MODEL_DEVIATION.md:Checker failover",
+      "stage-b/run_checker_lane.sh:36,62-79"
+    ],
+    "evidence_ids": [
+      "checker-mixed-failure.txt"
+    ],
+    "observed": "Synthetic primary emits Provider error 400: invalid_request_error; quota mentioned in explanatory context, exits 1. Wrapper matches quota, switches to GLM backup, returns 0.",
+    "expected": "Protocol 400 is reported without model switch; incidental exhaustion words cannot override prohibited failure class.",
+    "contradiction": "Synthetic primary emits Provider error 400: invalid_request_error; quota mentioned in explanatory context, exits 1. Wrapper matches quota, switches to GLM backup, returns 0.; expected Protocol 400 is reported without model switch; incidental exhaustion words cannot override prohibited failure class.",
+    "reproducibility": "REPRODUCED",
+    "claim_impact": "Blocks routing failover contract; all provider failures here synthetic.",
+    "earliest_owner": "Checker failure classifier",
+    "smallest_repair_scope": "Use typed failure/exhaustion reason with prohibited-class precedence; test mixed and incidental text.",
+    "retest_required": [
+      "checker-mixed-failure.txt"
+    ],
+    "regression_required": [
+      "three frozen harness suites and affected focused controls"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  },
+  {
+    "finding_id": "FCR-006",
+    "title": "Checker returns success with dirty failover record",
+    "classification": "CONFIRMED_DEFECT",
+    "severity": "HIGH",
+    "gate_ids": [
+      "S4-STAGE-B-HANDOVER-CLOSURE"
+    ],
+    "acceptance_ids": [
+      "user S4-STAGE-B-HANDOVER-CLOSURE",
+      "verify/harness/HARNESS_DEFECT_LOG.md:H1",
+      "stage-b/run_checker_lane.sh:86-108"
+    ],
+    "subject_identity": "35c5099debfad1fa7a11192de2495c6c359c06f8",
+    "source_locators": [
+      "user S4-STAGE-B-HANDOVER-CLOSURE",
+      "verify/harness/HARNESS_DEFECT_LOG.md:H1",
+      "stage-b/run_checker_lane.sh:86-108"
+    ],
+    "evidence_ids": [
+      "checker-mixed-failure.txt"
+    ],
+    "observed": "Wrapper writes CHECKER_FAILOVER_AOCHECK.md after child POSTFLIGHT:dirty=0, returns 0; immediate status reports that record untracked.",
+    "expected": "All wrapper artifacts included in final hygiene observation before success.",
+    "contradiction": "Wrapper writes CHECKER_FAILOVER_AOCHECK.md after child POSTFLIGHT:dirty=0, returns 0; immediate status reports that record untracked.; expected All wrapper artifacts included in final hygiene observation before success.",
+    "reproducibility": "REPRODUCED",
+    "claim_impact": "Blocks outer-wrapper handover closure.",
+    "earliest_owner": "Outer checker lifecycle",
+    "smallest_repair_scope": "Apply governed record-write/final postflight to outer wrapper with write-fault and success/failure probes.",
+    "retest_required": [
+      "checker-mixed-failure.txt"
+    ],
+    "regression_required": [
+      "three frozen harness suites and affected focused controls"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  },
+  {
+    "finding_id": "FCR-007",
+    "title": "Historical evidence does not close current Stage-B binding",
+    "classification": "EVIDENCE_GAP",
+    "severity": "HIGH",
+    "gate_ids": [
+      "S4-STAGE-B-HANDOVER-CLOSURE",
+      "S4-MODEL-ROUTING-CONFORMANCE"
+    ],
+    "acceptance_ids": [
+      "evidence/EVIDENCE_RETURN_PACK.json:frozen_subject/independent_checker/open_tt",
+      "01_subject/FROZEN_SUBJECT.json",
+      "skill exact-subject requirement"
+    ],
+    "subject_identity": "35c5099debfad1fa7a11192de2495c6c359c06f8",
+    "source_locators": [
+      "evidence/EVIDENCE_RETURN_PACK.json:frozen_subject/independent_checker/open_tt",
+      "01_subject/FROZEN_SUBJECT.json",
+      "skill exact-subject requirement"
+    ],
+    "evidence_ids": [
+      "source-inventory.json",
+      "freeze-digests.json",
+      "candidate-archive.txt"
+    ],
+    "observed": "Frozen manifest names Stage-B 32962532b7b7176eafbd3d353ced63a3056027fb and independent_checker NOT_RUN. Reviewed HEAD differs; delivered wheel/ZIP are historical assets, not a validated current Stage-B package.",
+    "expected": "Fresh current-subject acceptance evidence and explicit archive/distribution/manifest relationship.",
+    "contradiction": "Frozen manifest names Stage-B 32962532b7b7176eafbd3d353ced63a3056027fb and independent_checker NOT_RUN. Reviewed HEAD differs; delivered wheel/ZIP are historical assets, not a validated current Stage-B package.; expected Fresh current-subject acceptance evidence and explicit archive/distribution/manifest relationship.",
+    "reproducibility": "EVIDENCE_ONLY",
+    "claim_impact": "Caps current aggregate closure; source-bound deterministic probes remain valid.",
+    "earliest_owner": "Evidence publisher / acceptance owner",
+    "smallest_repair_scope": "Produce a new current canonical index and independent scoped acceptance; retain historical pack unchanged.",
+    "retest_required": [
+      "source-inventory.json",
+      "freeze-digests.json",
+      "candidate-archive.txt"
+    ],
+    "regression_required": [
+      "three frozen harness suites and affected focused controls"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  },
+  {
+    "finding_id": "FCR-008",
+    "title": "Brief gate denominator differs from frozen raw results",
+    "classification": "NON_BLOCKING_OBSERVATION",
+    "severity": "LOW",
+    "gate_ids": [
+      "S4-STAGE-B-HANDOVER-CLOSURE",
+      "S4-MODEL-ROUTING-CONFORMANCE"
+    ],
+    "acceptance_ids": [
+      "user maker count claim 32/0",
+      "verify/harness/GATE_NEGATIVE_TEST_RESULTS.txt:last line"
+    ],
+    "subject_identity": "35c5099debfad1fa7a11192de2495c6c359c06f8",
+    "source_locators": [
+      "user maker count claim 32/0",
+      "verify/harness/GATE_NEGATIVE_TEST_RESULTS.txt:last line"
+    ],
+    "evidence_ids": [
+      "run_gate_negative_tests-isolated.txt",
+      "source-inventory.json"
+    ],
+    "observed": "Frozen log and independent isolated run say RESULT pass=34 fail=0, exit 0; brief says 32/0. Other counts reproduce 38/0 and 14/0.",
+    "expected": "Accurate current assertion denominator and source binding.",
+    "contradiction": "Frozen log and independent isolated run say RESULT pass=34 fail=0, exit 0; brief says 32/0. Other counts reproduce 38/0 and 14/0.; expected Accurate current assertion denominator and source binding.",
+    "reproducibility": "REPRODUCED",
+    "claim_impact": "Nonblocking summary disagreement; assertions are not release acceptance.",
+    "earliest_owner": "Claim summary publisher",
+    "smallest_repair_scope": "Correct subsequent summary with exact log/commit; no code repair required.",
+    "retest_required": [
+      "run_gate_negative_tests-isolated.txt",
+      "source-inventory.json"
+    ],
+    "regression_required": [
+      "three frozen harness suites and affected focused controls"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "RESOLVED"
+  },
+  {
+    "finding_id": "FCR-009",
+    "title": "AO9 intake path missing at freeze and moved during review",
+    "classification": "EVIDENCE_GAP",
+    "severity": "LOW",
+    "gate_ids": [
+      "S4-STAGE-B-HANDOVER-CLOSURE",
+      "S4-MODEL-ROUTING-CONFORMANCE"
+    ],
+    "acceptance_ids": [
+      "intake raw_evidence AO9 locator",
+      "frozen AO9 doubled path"
+    ],
+    "subject_identity": "35c5099debfad1fa7a11192de2495c6c359c06f8",
+    "source_locators": [
+      "intake raw_evidence AO9 locator",
+      "frozen AO9 doubled path"
+    ],
+    "evidence_ids": [
+      "ao9-frozen.txt",
+      "ao9-actual-frozen-locator.txt",
+      "delivery-boundary.json"
+    ],
+    "observed": "verify/ao9/AO9_LANE_STOPPED.md absent at frozen commit (128); verify/verify/ao9/AO9_LANE_STOPPED.md exists (0). End delivery status shows doubled-path deletion and corrected-path untracked file, outside reviewer writes.",
+    "expected": "Declared locator resolves on frozen subject; concurrent correction is explicitly uncommitted evidence.",
+    "contradiction": "verify/ao9/AO9_LANE_STOPPED.md absent at frozen commit (128); verify/verify/ao9/AO9_LANE_STOPPED.md exists (0). End delivery status shows doubled-path deletion and corrected-path untracked file, outside reviewer writes.; expected Declared locator resolves on frozen subject; concurrent correction is explicitly uncommitted evidence.",
+    "reproducibility": "EVIDENCE_ONLY",
+    "claim_impact": "Bounded history traceability gap, not evidence of any model verdict.",
+    "earliest_owner": "Evidence index publisher",
+    "smallest_repair_scope": "Correct a new index and freeze it; retain history; do not silently substitute later file.",
+    "retest_required": [
+      "ao9-frozen.txt",
+      "ao9-actual-frozen-locator.txt",
+      "delivery-boundary.json"
+    ],
+    "regression_required": [
+      "three frozen harness suites and affected focused controls"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  }
+]

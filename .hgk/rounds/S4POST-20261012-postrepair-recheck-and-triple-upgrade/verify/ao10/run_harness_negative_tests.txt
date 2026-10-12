@@ -1,0 +1,89 @@
+COMMAND: ["C:/Program Files/Git/usr/bin/bash.exe", "C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh"]
+CWD: C:\Users\user\AppData\Local\Temp\ao10-u9legwpj\subject
+EXIT_CODE: 1
+RAW OUTPUT:
+mkdir: cannot create directory ‘C:/Users/user’: Permission denied
+### T1 dirty preflight is refused (v1 passed this; regression guard)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 41: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT1.out: No such file or directory
+FAIL T1_DIRTY_REFUSED expected=2 actual=1
+grep: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT1.out: No such file or directory
+FAIL T1_says_refused
+### T2 missing brief: D1a - refuse BEFORE launch, never fail open
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 41: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT2.out: No such file or directory
+FAIL T2_MISSING_BRIEF_REFUSED expected=3 actual=1
+PASS T2_no_lane_log_written
+grep: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT2.out: No such file or directory
+PASS T2_child_never_launched
+### T3 successful run: log really copied in, commit says so, no stray root dir (D3)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 41: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT3.out: No such file or directory
+FAIL T3_STUB_SUCCESS expected=0 actual=1
+FAIL T3_log_copied_in
+FAIL T3_commit_states_copy
+FAIL T3_per_launch_receipt_written
+PASS D3_no_output_dir_at_repo_root
+FAIL D3_output_dir_is_round_relative (missing: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/clone/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/nt)
+### T4 postflight dirt is REJECTED, not merely printed (D2)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 41: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT4.out: No such file or directory
+FAIL T4_POSTFLIGHT_DIRT_REJECTED expected=5 actual=1
+grep: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT4.out: No such file or directory
+FAIL T4_dirt_was_detected
+### T5 a non-zero child is propagated, never advertised as success
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 41: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT5.out: No such file or directory
+FAIL T5_CHILD_EXIT_PROPAGATED expected=7 actual=1
+grep: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT5.out: No such file or directory
+FAIL T5_lane_reports_done
+### T6 TMPDIR resolving inside the worktree is refused (F)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 74: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT6.out: No such file or directory
+FAIL T6_TMPDIR_INSIDE_REFUSED expected=3 actual=1
+### T7 a failed receipt copy is fatal, not a note (R1)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 82: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/T7.out: No such file or directory
+FAIL T7_RECEIPT_COPY_FATAL expected=6 actual=1
+FAIL T7_names_the_receipt
+### T8 a FAILED git status is not a clean worktree (R2)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 91: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/T8.out: No such file or directory
+FAIL T8_STATUS_FAILURE_REFUSED expected=2 actual=1
+FAIL T8_says_status_failed
+grep: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/T8.out: No such file or directory
+PASS T8_child_never_launched
+### T9 an already staged OUTSIDE-round file is refused (R3)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 41: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT9.out: No such file or directory
+FAIL T9_STAGED_OUTSIDE_REFUSED expected=6 actual=1
+FAIL T9_names_the_outside_path
+PASS T9_outside_file_was_not_committed
+### T10 the manifest is really copied into the round (M1)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 41: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT10.out: No such file or directory
+FAIL T10_MANIFEST_RUN expected=0 actual=1
+grep: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT10.out: No such file or directory
+FAIL T10_manifest_present_in_round (stamp=)
+### T11 a regex-spelling alias of the round is refused (M2)
+mkdir: cannot create directory ‘C:/Users/user’: Permission denied
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 117: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/clone/Xhgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/outside.txt: No such file or directory
+fatal: pathspec 'Xhgk' did not match any files
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 41: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT11.out: No such file or directory
+FAIL T11_ALIAS_PREFIX_REFUSED expected=6 actual=1
+FAIL T11_names_the_outside_path
+### T12 a FAILED index enumeration is refused, not read as nothing staged (M3)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 128: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/T12.out: No such file or directory
+FAIL T12_STAGED_QUERY_FAILURE_REFUSED expected=6 actual=1
+FAIL T12_names_the_query
+### T13 dirt created by the final commit is detected (M4)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 41: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT13.out: No such file or directory
+FAIL T13_POST_COMMIT_DIRT_REJECTED expected=5 actual=1
+FAIL T13_names_the_dirt
+### T14 a route that disagrees with the assignment is refused (M7)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 141: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/T14.out: No such file or directory
+FAIL T14_ROUTE_MISMATCH_REFUSED expected=6 actual=1
+FAIL T14_names_the_mismatch
+### P1 a PREFIX spelling of the round is refused (round-8 smallest counterexample)
+mkdir: cannot create directory ‘C:/Users/user’: Permission denied
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 151: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/clone/prefix/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/outside.txt: No such file or directory
+fatal: pathspec 'prefix' did not match any files
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 41: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT15.out: No such file or directory
+FAIL P1_PREFIX_SUBSTRING_REFUSED expected=6 actual=1
+FAIL P1_names_the_outside_path
+### P2 a regex-shaped model value must not authorise itself (round-8)
+C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests.sh: line 160: C:/Users/user/AppData/Local/Temp/ao10-u9legwpj/run_harness_negative_tests/logs/NT16.out: No such file or directory
+FAIL P2_REGEX_MODEL_REFUSED expected=6 actual=1
+FAIL P2_names_the_reason
+
+RESULT pass=5 fail=33
