@@ -34,3 +34,16 @@ PASS G9_child_used_the_catalog_slug
 PASS G9_child_did_not_use_a_provider_id
 PASS G9_qualification_and_writer_agree
 ### G10 a truncated / empty receipt must not satisfy the gate (M6)
+PASS G10_EMPTY_RECEIPT_REJECTED (exit=8)
+PASS G10_says_receipt_rejected
+### G11 GATE_SKIP_QUALIFY without an acknowledgement is refused (M8)
+PASS G11_SKIP_UNAUTHORISED_REFUSED (exit=6)
+PASS G11_names_the_ack
+### G12 sentinels without tool executions are not a qualification (M9)
+PASS G12_SENTINELS_ONLY_REFUSED (exit=7)
+PASS G12_names_qualification
+### G13 a committed receipt with duplicated conflicting fields is refused (round-8)
+PASS G13_CONFLICTING_RECEIPT_REJECTED (exit=8)
+PASS G13_names_the_receipt
+
+RESULT pass=34 fail=0

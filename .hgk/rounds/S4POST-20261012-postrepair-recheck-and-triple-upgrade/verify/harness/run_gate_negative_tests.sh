@@ -156,14 +156,15 @@ echo "### G13 a committed receipt with duplicated conflicting fields is refused 
 # The hook below injects the conflicting lines and amends, so the tree stays clean; only the gate's
 # own receipt validation can catch it.
 HOOK="$CLONE/.git/hooks/post-commit"
-MARK="$LOGD/g13.marker"
-rm -f "$MARK"
-printf '#!/usr/bin/env bash\nM="%s"\nT="$(git rev-parse --show-toplevel)"\nfor f in "$T"/.hgk/rounds/*/stage-b/*.receipt; do\n  [ -f "$f" ] || continue\n  [ -f "$M" ] && exit 0\n  printf "child_exit=99\\nroute=wrong\\nmodel=wrong-model\\nqualified=no\\n" >> "$f"\n  git add "$f"\n  git commit --amend --no-edit -q\n  : > "$M"\ndone\nexit 0\n' "$MARK" > "$HOOK"
+# A per-file sentinel, not one global marker: the clone carries receipts from the earlier cases, so a
+# global marker was set during the preflight commit (on an OLD receipt) and the current receipt was
+# never touched - the gate then correctly returned 0 and the case failed for its own fixture's reason.
+printf '#!/usr/bin/env bash\nT="$(git rev-parse --show-toplevel)"\nfor f in "$T"/.hgk/rounds/*/stage-b/*.receipt; do\n  [ -f "$f" ] || continue\n  grep -q "^INJECTED=1$" "$f" && continue\n  printf "child_exit=99\\nroute=wrong\\nmodel=wrong-model\\nqualified=no\\nINJECTED=1\\n" >> "$f"\n  git add "$f"\n  git commit --amend --no-edit -q\ndone\nexit 0\n' > "$HOOK"
 chmod +x "$HOOK"
 OUT=G13; GARGS=(EXECUTE brief_nt_a.md)
 ck G13_CONFLICTING_RECEIPT_REJECTED 8 "$(gitq GATE_SKIP_QUALIFY=1)"
 has G13_names_the_receipt CHILD_RECEIPT_INVALID "$LOGD/G13.out"
-rm -f "$HOOK" "$MARK"
+rm -f "$HOOK"
 
 echo
 echo "RESULT pass=$pass fail=$fail"
