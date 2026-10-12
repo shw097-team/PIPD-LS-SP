@@ -65,7 +65,9 @@ has G4_says_nonzero LANE_SET_FAILED "$LOGD/G4.out"
 has G4_counts_the_failure any_child_nonzero=1 "$LOGD/G4.out"
 
 echo "### G5 a child that loses its run receipt is a failure even if it exited 0"
-OUT=G5; GARGS=(EXECUTE brief_nt_a.md brief_nt_b.md)
+OUT=G5; # Unique brief names: G4 already committed receipts for A/B in the same clone, so an
+# inherited receipt would make this assertion vacuous.
+GARGS=(EXECUTE brief_nt_d.md brief_nt_e.md)
 ck G5_MISSING_RECEIPT_FAILS 8 "$(gitq GATE_SKIP_QUALIFY=1 GATE_STUB_DELETE_LOG=1)"
 has G5_names_missing_receipt CHILD_RECEIPT_MISSING "$LOGD/G5.out"
 

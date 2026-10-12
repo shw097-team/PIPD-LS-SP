@@ -1,28 +1,28 @@
 ### G1 a deviating model with NO owner record is refused, zero writers
-FAIL G1_DEVIATION_REFUSED expected=6 actual=127
-FAIL G1_names_the_decision
-FAIL G1_started_no_writer
+PASS G1_DEVIATION_REFUSED (exit=6)
+PASS G1_names_the_decision
+PASS G1_started_no_writer
 PASS G1_no_writer_ran
 ### G2 the SAME deviating model, now named in the owner record, is admitted
-FAIL G2_AUTHORISED_DEVIATION_RUNS expected=0 actual=127
-FAIL G2_records_the_deviation
-FAIL G2_lane_set_ok
+PASS G2_AUTHORISED_DEVIATION_RUNS (exit=0)
+PASS G2_records_the_deviation
+PASS G2_lane_set_ok
 ### G3 a model that cannot survive qualification is refused before any writer
-FAIL G3_QUALIFICATION_REFUSED expected=7 actual=127
-FAIL G3_names_qualification
-FAIL G3_started_no_writer
+PASS G3_QUALIFICATION_REFUSED (exit=7)
+PASS G3_names_qualification
+PASS G3_started_no_writer
 ### G4 children exiting 0,1,0 must aggregate to a failed lane set
-FAIL G4_LANE_SET_FAILED expected=8 actual=127
-FAIL G4_says_nonzero
-FAIL G4_counts_the_failure
+PASS G4_LANE_SET_FAILED (exit=8)
+PASS G4_says_nonzero
+PASS G4_counts_the_failure
 ### G5 a child that loses its run receipt is a failure even if it exited 0
-FAIL G5_MISSING_RECEIPT_FAILS expected=8 actual=127
+PASS G5_MISSING_RECEIPT_FAILS (exit=8)
 FAIL G5_names_missing_receipt
 ### G6 an unknown role is refused
-FAIL G6_UNKNOWN_ROLE_REFUSED expected=3 actual=127
+PASS G6_UNKNOWN_ROLE_REFUSED (exit=3)
 ### G7 the assignment model with a working qualification passes end to end
-FAIL G7_HAPPY_PATH expected=0 actual=127
-FAIL G7_qualification_passed
-FAIL G7_no_deviation_notice
+PASS G7_HAPPY_PATH (exit=0)
+PASS G7_qualification_passed
+PASS G7_no_deviation_notice
 
-RESULT pass=1 fail=18
+RESULT pass=18 fail=1
