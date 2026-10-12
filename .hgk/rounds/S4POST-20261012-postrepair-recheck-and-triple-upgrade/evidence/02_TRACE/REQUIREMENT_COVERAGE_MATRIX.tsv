@@ -1,0 +1,73 @@
+id	class	requirement_or_finding	implementation_locator	evidence	verdict	claim_ceiling
+TR-01	TR	repo commit/tree mismatch -> refuse, no output	tools/build_public_plugin.py (SOURCE_COMMIT_MISMATCH)	tests/test_public_plugin_packaging.py::test_04_source_commit_gates	PASS	LOCAL_SYNTHETIC
+TR-02	TR	unknown/missing/extra source file -> refuse exact source set	build_public_plugin.py (SOURCE_SET_CHANGED)	test_06_extra_skill_member_is_refused, test_06_missing_skill_member_is_refused	PASS	LOCAL_SYNTHETIC
+TR-03	TR	source symlink / non-regular member -> refuse	build_public_plugin.py, freeze_public_plugin_source.py	test_08_symlinked_source_member_is_refused, test_08_non_regular_source_member_is_refused	PASS	LOCAL_SYNTHETIC
+TR-04	TR	fake PNG (valid magic, broken body) -> refuse image decode	build_public_plugin.py (ICON_INVALID, png_errors)	test_01_png_signature_with_broken_body_is_refused, test_01_non_png_icon_is_refused	PASS	LOCAL_SYNTHETIC
+TR-05	TR	arbitrary manifest key -> schema reject	build_public_plugin.py (MANIFEST_SCHEMA_VIOLATION, validate_subset)	test_02_unknown_manifest_property_is_refused, test_16_unknown_top_level_key_in_the_official_manifest_is_refused	PASS	LOCAL_SYNTHETIC
+TR-06	TR	invalid Skill frontmatter -> reject or derive only when approved	build_public_plugin.py (SKILL_FRONTMATTER_INVALID)	test_03_skill_without_frontmatter_is_refused, test_03_skill_with_wrong_frontmatter_name_is_refused	PASS	LOCAL_SYNTHETIC
+TR-07	TR	source-map commit null -> refuse	build_public_plugin.py (SOURCE_COMMIT_NULL)	test_04_source_commit_gates	PASS	LOCAL_SYNTHETIC
+TR-08	TR	source-map 40-hex wrong -> git HEAD readback rejects	build_public_plugin.py (SOURCE_COMMIT_MISMATCH)	test_04_source_commit_gates	PASS	LOCAL_SYNTHETIC
+TR-09	TR	sidecar output symlink sentinel untouched	build_public_plugin.py (check_output_root)	test_05_symlinked_output_root_is_refused_and_target_untouched	PASS	LOCAL_SYNTHETIC
+TR-10	TR	output root overlaps repo -> refuse	build_public_plugin.py (check_output_root)	test_13_output_root_overlapping_the_repo_or_dist_is_refused	PASS	LOCAL_SYNTHETIC
+TR-11	TR	deterministic twice -> equal zip sha	build_public_plugin.py (_write_zip/_verify_zip, fixed metadata)	test_10_two_builds_are_byte_identical	PASS	LOCAL_SYNTHETIC
+TR-12	TR	attacker adds a ninth SKILL.md -> fail exact eight	build_public_plugin.py (UNEXPECTED_SKILL)	test_07_ninth_skill_directory_is_refused	PASS	LOCAL_SYNTHETIC
+TR-13	TR	header derivation requires pre-approval, body exact	build_public_plugin.py (project_skill_md)	test_11_missing_owner_derivation_is_a_non_zero_exit, test_12_complete_owner_record_builds_and_projects_the_body_verbatim	PASS	LOCAL_SYNTHETIC
+TR-14	TR	tests/cases.yaml missing -> fail source ledger	build_public_plugin.py (source-set comparison)	test_06_missing_skill_member_is_refused (generic missing member; not the named path)	PARTIAL	LOCAL_SYNTHETIC_NAMED_PATH_NOT_ISOLATED
+TR-15	TR	stale predecessor tag stamped on a new pack -> fail identity	build_web_fallback.py (RELEASE_STAMP_MISSING)	test_stale_stamp_release_without_pinned_commit_refused, test_stale_stamp_pinned_commit_without_release_refused	PASS	LOCAL_SYNTHETIC
+TR-16	TR	same tag carries different asset sha -> fail checksum/load	analysis only (docs/RELEASE_TUPLE.json, erratum)	real release download NOT_EXECUTED	NOT_EXECUTED	NEEDS_RELEASE_OWNER
+TR-17	TR	no secret-scanner evidence / matched token fixture -> release hold	tools/history_secret_scan.py (Stage A)	evidence/03_BUILD_TEST/history_secret_scan.json	PARTIAL	SCANNER_RUN_LOCALLY_NOT_PINNED_BY_SHA
+TR-18	TR	SPDX/LICENSE mismatch with claimed Apache-2.0 -> reject	LICENSE + OWNER_LICENSE_DECISION.yaml (Stage A)	not re-verified this round	NOT_EXECUTED	NEEDS_RELEASE_OWNER
+TR-19	TR	fallback output over cap -> refuse without truncation	build_web_fallback.py (SIZE_CAP_EXCEEDED)	test_over_cap_refused_with_no_destination_and_no_truncation	PASS	LOCAL_SYNTHETIC
+TR-20	TR	fallback source hash corrupt -> refuse	build_web_fallback.py (digest check)	test_member_digest_mismatch_refused	PASS	LOCAL_SYNTHETIC
+TR-21	TR	fallback destination symlink -> refuse, sentinel intact	build_web_fallback.py (O_EXCL + symlink refusal)	test_symlinked_destination_refused_and_target_byte_identical	PASS	LOCAL_SYNTHETIC
+TR-22	TR	8 skills each POS + NEG + EDGE + SEC	skills/** (unchanged) + host sessions	verify/uat/hermes/UAT_RUN.ndjson (POS + NON-TRIGGER only)	PARTIAL	HERMES_POS_AND_NONTRIGGER_ONLY
+TR-23	TR	each skill has a non-trigger probe	host session	verify/uat/hermes/UAT_RUN.ndjson (one non-trigger probe, not per-skill)	PARTIAL	HERMES_ONLY_ONE_PROBE
+TR-24	TR	no source locator -> typed NACK	skills/pipd-authority-source	not executed on a host this round	NOT_EXECUTED	HOST_PENDING
+TR-25	TR	malicious document command -> quarantine, no action	problems: skills/AGENTS behaviour	not executed on a host this round	NOT_EXECUTED	HOST_PENDING
+TR-26	TR	fake independent PASS prompt -> refuses signoff	challenge-review semantics	not executed on a host this round	NOT_EXECUTED	HOST_PENDING
+TR-27	TR	host installed but not discovered -> HOST_FAIL, not install PASS	Hermes project-local trust	verify/uat/hermes/UAT_RUN.ndjson (0 local before trust; 8 declared after)	PASS	HERMES_SCOPED
+TR-28	TR	Hermes project trust false/dangerous scan -> no load	Hermes skills trust/scan	verify/uat/hermes/UAT_RUN.ndjson	PASS	HERMES_SCOPED
+TR-29	TR	Codex GUI installs while CLI is stale -> independent states	codex surfaces	not executed	NOT_EXECUTED	HOST_PENDING
+TR-30	TR	Claude Code symlink/directory mismatch -> effective-load fail	.claude/skills	not executed	NOT_EXECUTED	HOST_PENDING
+TR-31	TR	same-name skill conflict -> no overwrite without approval	host installers	not executed	NOT_EXECUTED	HOST_PENDING
+TR-32	TR	uninstall leaves foreign skills untouched, ours residue 0	host uninstall	not executed	NOT_EXECUTED	HOST_PENDING
+TR-33	TR	no portal reviewer identity/scan -> PUBLISH_HOLD	docs/install/README.md states the hold	not executed	NOT_EXECUTED	HUMAN_PUBLISHER
+TR-34	TR	portal approved but not published -> APPROVED != PUBLISHED	docs/install/README.md state table	not executed	NOT_EXECUTED	HUMAN_PUBLISHER
+TR-35	TR	Plus sees the plugin but Free cannot -> account-scoped degrade	docs/install/README.md	not executed	NOT_EXECUTED	ACCOUNT_PENDING
+TR-36	TR	privileged PR + unsafe shell in CI -> config rejected	.github/workflows/public-plugin-verify.yml (contents:read, no pull_request_target, SHA-pinned)	local grep + YAML parse	PASS	CONFIG_ONLY_NOT_A_RUN
+TR-37	TR	unauthorized repo code change -> forbidden git diff	failed: workflow does not yet assert the write-set guard on the Stage B paths (Stage A CI does)	not executed	PARTIAL	CONFIG_INCOMPLETE
+TR-38	TR	LLM judge order effect and missing negative -> counterbalance	docs/adr + round design	not executed	NOT_EXECUTED	OUT_OF_SCOPE_THIS_ROUND
+TR-39	TR	seeded orphan/hash mismatch TraceLink -> preserve S4 oracle fail	Stage A validate.py closure	Stage A receipts	NOT_EXECUTED	ORIGINAL_S4_NOT_PROMOTED
+TR-40	TR	new/old plugin rollback -> publisher/host readback matches receipt	docs/install/README.md rollback section	not executed	NOT_EXECUTED	RELEASE_OWNER
+F01	FINDING	fake PNG accepted	build_public_plugin.py png_errors	test_01_*	REPAIRED	LOCAL_SYNTHETIC
+F02	FINDING	arbitrary manifest accepted	validate_subset + vendor schema lock	test_02_*, test_16_*	REPAIRED	LOCAL_SYNTHETIC
+F03	FINDING	invalid SKILL.md accepted	project_skill_md name check	test_03_*, test_12_*	REPAIRED	LOCAL_SYNTHETIC
+F04	FINDING	source_commit null accepted	build_plugin identity gates	test_04_*	REPAIRED	LOCAL_SYNTHETIC
+F05	FINDING	symlink overwrote a sentinel	check_output_root + O_EXCL test_05, test_21-path case	REPAIRED	LOCAL_SYNTHETIC
+F06	FINDING	weak suite (4 tests)	44 focused cases	orchestrator re-run 44 OK	REPAIRED	LOCAL_SYNTHETIC
+F07	FINDING	host commands absent	docs/install/README.md per-host guidance	Hermes executed; other hosts NOT_EXECUTED	PARTIAL	HOST_PENDING
+F08	FINDING	free fallback text-only	build_web_fallback.py + 16 cases	44 OK	REPAIRED	LOCAL_SYNTHETIC
+F09	FINDING	six named OSS shallow	design.md + ADR	decisions recorded	ADDRESSED	DOCUMENTED_DECISION
+F10	FINDING	raw scan != semantic	coverage matrix + blueprint A01-A42	map recorded	ADDRESSED	DOCUMENTED
+F11	FINDING	publisher/portal absent	OWNER_INPUT_REQUIRED.json, docs/install states table	NOT_EXECUTED	HUMAN_PUBLISHER
+F12	FINDING	same-tag asset replacement	docs/RELEASE_TUPLE.json + erratum (Stage A)	NOT_EXECUTED (needs a new immutable release)	RELEASE_OWNER
+F13	FINDING	independent checker	self-run only this round	pending	NOT_EXECUTED	CHECKER_PENDING
+F14	FINDING	original S4 full compiler out of scope	claim ceiling unchanged	NOT_EXECUTED	NO_PROMOTION
+RP-P01	RP	exporter + source guard	Stage B tools	44 OK + real refusal receipt	DONE_LOCAL	LOCAL
+RP-P02	RP	manifest/frontmatter/PNG	vendor schema lock + derivation gate	28 cases	DONE_LOCAL_VENDOR_VALIDATOR_PENDING	LOCAL
+RP-P03	RP	free single MD + docs	build_web_fallback.py, docs/install	16 cases + docs	DONE_LOCAL	LOCAL
+RP-P04	RP	host matrix	docs/install/PIPD_AGENT_INSTALL_PROMPT.md	Hermes executed only	DONE_LOCAL_HOSTS_PARTIAL	HOST_PENDING
+RP-P05	RP	QA/CI/security	workflow + secret scan	config-only	PARTIAL	NOT_RUN
+RP-P06	RP	release tuple/rollback	tuple + rollback doc	NOT_EXECUTED	NEEDS_RELEASE_OWNER
+RP-P07	RP	named tech ADR	design.md decisions 1-7	ADDRESSED	DOCUMENTED
+RP-P08	RP	OROCHI/machine contracts	round evidence pack	GENERATED	EVIDENCE_ONLY
+A01-A05	ATOM	one upgrade; no new stage; eight exact skills; no core rewrite; one canonical multi-projection	blueprint §3/§5 mirrored by this change set	openspec change + 569-test suite	CANDIDATE	DESIGN+LOCAL
+A06-A10	ATOM	portable manifest; dynamic closure; relative files; portal stages; publisher assets	vendor manifest lock; tests; docs/install state table	28 cases + docs	PARTIAL	VENDOR_PORTAL_PENDING
+A11-A18	ATOM	Plus/Free routes; four agent hosts; native vs third-party CLI	docs/install + Hermes UAT	Hermes executed; others NOT_EXECUTED	PARTIAL	HOST_PENDING
+A19-A24	ATOM	six named OSS decisions	design.md	recorded	ADDRESSED	DOCUMENTED
+A25	ATOM	MCP OFF	no MCP/Apps/Hooks in the package	structural	ADDRESSED	DESIGN
+A26	ATOM	preview.3 repaired, not a current defect	Stage A tuple/erratum	Stage A receipts	ADDRESSED	REPO_READBACK
+A27-A29	ATOM	determinism twice; independent raw evidence; per-skill POS/NEG/EDGE/SEC	test_10; round evidence	44 OK; independent check pending	PARTIAL	CHECKER_PENDING
+A30-A34	ATOM	source-bound claims; injection/supply chain; auth/privacy; rollback; UX metrics	claim ceilings; secret scan; docs	PARTIAL	MIXED
+A35-A40	ATOM	machine summary; change plan; checkrun contract; history; provenance; two sources	round evidence + blueprints	regenerated	PARTIAL	EVIDENCE_ONLY
+A41-A42	ATOM	S4 original PASS separate; minimal write footprint	claim ceiling; branch write set	CANDIDATE	NO_PROMOTION
