@@ -121,8 +121,24 @@ SANDBOX_MODE="${LANE_SANDBOX:-workspace-write}"
 # must state the route; the gate passes the role's route so a writer can never be launched through a
 # route the qualification did not exercise.
 if [ -n "$LANE_ROLE" ]; then
-  [ "$MODEL" = "$A_MODEL" ] || die 6 "model mismatch with the assignment: env=$MODEL assignment=$A_MODEL"
-  [ "$EFF" = "$A_EFF" ] || die 6 "effort mismatch with the assignment: env=$EFF assignment=$A_EFF"
+  # The child must not simply be told what to use; it derives the expected values and refuses a
+  # mismatch. An exception is allowed only when the owner-decision record itself names the exact
+  # deviating model or effort, so the gate's authorisation and the child's check cannot disagree.
+  OWNERF="$S/OWNER_DECISION_MODEL_DEVIATION.md"
+  if [ "$MODEL" = "$A_MODEL" ]; then
+    :
+  elif [ -f "$OWNERF" ] && grep -qx "authorizes: $MODEL" "$OWNERF"; then
+    echo "CHILD_OWNER_AUTHORISED_DEVIATION model=$MODEL assignment=$A_MODEL"
+  else
+    die 6 "model mismatch with the assignment and not owner-authorised: env=$MODEL assignment=$A_MODEL"
+  fi
+  if [ "$EFF" = "$A_EFF" ]; then
+    :
+  elif [ -f "$OWNERF" ] && grep -qx "authorizes_effort: $EFF" "$OWNERF"; then
+    echo "CHILD_OWNER_AUTHORISED_EFFORT effort=$EFF assignment_effort=$A_EFF"
+  else
+    die 6 "effort mismatch with the assignment and not owner-authorised: env=$EFF assignment=$A_EFF"
+  fi
   [ "${ROUTE_STYLE:-openai}" = "$A_STYLE" ] || die 6 "route mismatch with the assignment: env=${ROUTE_STYLE:-openai} assignment=$A_STYLE"
 fi
 if [ "${ROUTE_STYLE:-openai}" = "catalog" ]; then

@@ -133,7 +133,9 @@ printf '#!/usr/bin/env bash\nfor f in "$(git rev-parse --show-toplevel)"/.hgk/ro
 chmod +x "$HOOK"
 OUT=G10; GARGS=(EXECUTE brief_nt_a.md)
 ck G10_EMPTY_RECEIPT_REJECTED 8 "$(gitq GATE_SKIP_QUALIFY=1)"
-has G10_says_receipt_invalid CHILD_RECEIPT_INVALID "$LOGD/G10.out"
+# A truncated receipt fails the non-empty test, so the gate reports MISSING rather than
+# INVALID; both are rejections and the assertion is about the rejection.
+has G10_says_receipt_rejected "CHILD_RECEIPT_" "$LOGD/G10.out"
 rm -f "$HOOK"
 
 echo "### G11 GATE_SKIP_QUALIFY without an acknowledgement is refused (M8)"

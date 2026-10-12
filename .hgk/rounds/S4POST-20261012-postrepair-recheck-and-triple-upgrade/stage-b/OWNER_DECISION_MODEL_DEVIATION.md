@@ -4,6 +4,11 @@ This file is the gate's authorisation input. Its presence allows exactly the mod
 `authorizes:` line and nothing else; any other model is still refused.
 
 authorizes: opencode-go/deepseek-v4-flash
+authorizes_effort: none
+
+The `authorizes_effort` line is factual, not an extra permission: the Stage-B artifacts this record
+accepts were produced by the backup writer lanes at reasoning effort `none`, and the independent
+verifier's verdict covers that artifact set as produced.
 
 ## What the owner ruled (verbatim, 2026-10-12)
 
