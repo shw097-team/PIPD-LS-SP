@@ -71,14 +71,15 @@ ck T5_CHILD_EXIT_PROPAGATED 7 "$(run 7 0 0 NT5 brief_nt.md verify/nt)"
 grep -q 'NT5_LANE_DONE' "$LOGD/NT5.out" && { echo PASS T5_lane_reports_done; pass=$((pass+1)); } || { echo FAIL T5_lane_reports_done; fail=$((fail+1)); }
 
 echo "### T6 TMPDIR resolving inside the worktree is refused (F)"
-TMPDIR="$CLONE/tmp-inside" LANE_WT="$CLONE" CODEX_BIN="$STUB" bash "$L" NT6 brief_nt.md verify/nt >"$LOGD/NT6.out" 2>&1; c=$?
+TMPDIR="$CLONE/tmp-inside" LANE_WT="$CLONE" LANE_ROLE=EXECUTE CODEX_BIN="$STUB" bash "$L" NT6 brief_nt.md verify/nt >"$LOGD/NT6.out" 2>&1; c=$?
+has NT6_names_the_containment "resolves inside the worktree" "$LOGD/NT6.out"
 ck T6_TMPDIR_INSIDE_REFUSED 3 "$c"
 
 echo "### T7 a failed receipt copy is fatal, not a note (R1)"
 (
   cp() { local last="${@: -1}"; case "$last" in *.exit) return 23;; *) command cp "$@";; esac; }
   export -f cp
-  env TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$STUB" bash "$L" NT7 brief_nt.md verify/nt
+  env TMPDIR="$LOGD" LANE_WT="$CLONE" LANE_ROLE=EXECUTE CODEX_BIN="$STUB" bash "$L" NT7 brief_nt.md verify/nt
 ) >"$LOGD/T7.out" 2>&1; c=$?
 ck T7_RECEIPT_COPY_FATAL 6 "$c"
 has T7_names_the_receipt POSTFLIGHT_RECEIPT_COPY_FAILED "$LOGD/T7.out"
@@ -87,7 +88,7 @@ echo "### T8 a FAILED git status is not a clean worktree (R2)"
 (
   git() { if [ "${1:-}" = "status" ]; then return 128; fi; command git "$@"; }
   export -f git
-  env TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$STUB" bash "$L" NT8 brief_nt.md verify/nt
+  env TMPDIR="$LOGD" LANE_WT="$CLONE" LANE_ROLE=EXECUTE CODEX_BIN="$STUB" bash "$L" NT8 brief_nt.md verify/nt
 ) >"$LOGD/T8.out" 2>&1; c=$?
 ck T8_STATUS_FAILURE_REFUSED 2 "$c"
 has T8_says_status_failed "git status failed" "$LOGD/T8.out"
@@ -124,7 +125,7 @@ echo "### T12 a FAILED index enumeration is refused, not read as nothing staged 
 (
   git() { if [ "${1:-}" = "diff" ]; then return 128; fi; command git "$@"; }
   export -f git
-  env TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$STUB" bash "$L" NT12 brief_nt.md verify/nt
+  env TMPDIR="$LOGD" LANE_WT="$CLONE" LANE_ROLE=EXECUTE CODEX_BIN="$STUB" bash "$L" NT12 brief_nt.md verify/nt
 ) >"$LOGD/T12.out" 2>&1; c=$?
 ck T12_STAGED_QUERY_FAILURE_REFUSED 6 "$c"
 has T12_names_the_query STAGED_QUERY_FAILED_REFUSED "$LOGD/T12.out"
@@ -139,7 +140,7 @@ rm -f "$HOOK" "$CLONE/T13_HOOK_DIRT.txt"
 
 echo "### T14 a route that disagrees with the assignment is refused (M7)"
 LANE_ROLE=EXECUTE LANE_MODEL=opencode-go/deepseek-v4.1-flash LANE_EFFORT=high ROUTE_STYLE=openai \
-  env TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$STUB" bash "$L" NT14 brief_nt.md verify/nt >"$LOGD/T14.out" 2>&1; c=$?
+  env TMPDIR="$LOGD" LANE_WT="$CLONE" LANE_ROLE=EXECUTE CODEX_BIN="$STUB" bash "$L" NT14 brief_nt.md verify/nt >"$LOGD/T14.out" 2>&1; c=$?
 ck T14_ROUTE_MISMATCH_REFUSED 6 "$c"
 has T14_names_the_mismatch "route mismatch" "$LOGD/T14.out"
 
@@ -158,7 +159,7 @@ echo "### P2 a regex-shaped model value must not authorise itself (round-8)"
 # The owner-record match was a basic regular expression, so LANE_MODEL='.*' matched the record line
 # and was reported as owner-authorised. A value that is not a plain identifier is refused first.
 LANE_ROLE=EXECUTE LANE_MODEL='.*' LANE_EFFORT=high ROUTE_STYLE=catalog \
-  env TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$STUB" bash "$L" NT16 brief_nt.md verify/nt >"$LOGD/NT16.out" 2>&1; c=$?
+  env TMPDIR="$LOGD" LANE_WT="$CLONE" LANE_ROLE=EXECUTE CODEX_BIN="$STUB" bash "$L" NT16 brief_nt.md verify/nt >"$LOGD/NT16.out" 2>&1; c=$?
 ck P2_REGEX_MODEL_REFUSED 6 "$c"
 has P2_names_the_reason "not a plain identifier" "$LOGD/NT16.out"
 

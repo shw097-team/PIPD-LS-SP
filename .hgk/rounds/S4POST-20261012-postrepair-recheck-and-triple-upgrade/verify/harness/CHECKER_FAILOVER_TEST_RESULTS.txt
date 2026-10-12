@@ -1,5 +1,5 @@
 ### A1 a provider content-filter kill must NOT be worked around by a model switch
-FAIL A1_nonzero_exit expected=1 actual=6
+PASS A1_nonzero_exit (exit=1)
 PASS A1_says_not_exhaustion
 PASS A1_did_not_fail_over
 PASS A1_no_backup_ok
@@ -7,29 +7,29 @@ PASS A1_no_backup_ok
 PASS B2_says_not_exhaustion
 PASS B2_did_not_fail_over
 ### A3 an exhaustion signal DOES fail over, and records both models
-FAIL A3_exit_zero expected=0 actual=6
-FAIL A3_exhaustion_seen
-FAIL A3_failover_started
-FAIL A3_backup_ok
-FAIL A3_record_names_backup
-FAIL A3_record_names_primary
-FAIL A3_record_says_identity_changes
+PASS A3_exit_zero (exit=0)
+PASS A3_exhaustion_seen
+PASS A3_failover_started
+PASS A3_backup_ok
+PASS A3_record_names_backup
+PASS A3_record_names_primary
+PASS A3_record_says_identity_changes
 PASS A3_no_record_for_the_killed_lane_unneeded
 ### A4 a protocol 400 whose text ALSO carries a quota word must NOT fail over (round-10)
-FAIL A4_nonzero_exit expected=1 actual=6
+PASS A4_nonzero_exit (exit=1)
 PASS A4_says_not_exhaustion
-FAIL A4_names_the_hard_failure
+PASS A4_names_the_hard_failure
 PASS A4_did_not_fail_over
 ### A5 a real exhaustion failover must leave its record committed and the tree clean (round-10)
-FAIL A5_failed_over
-FAIL A5_backup_ok
-FAIL A5_record_tracked ()
+PASS A5_failed_over
+PASS A5_backup_ok
+PASS A5_record_tracked
 PASS A5_tree_clean
 ### A6 a hard failure spelled HTTP 400 beside a quota word must NOT fail over (round-11)
-FAIL A6_nonzero_exit expected=1 actual=6
+PASS A6_nonzero_exit (exit=1)
 PASS A6_says_not_exhaustion
 PASS A6_did_not_fail_over
-FAIL A6_no_failover_record_tracked
+PASS A6_no_failover_record_tracked
 PASS A6_tree_clean
 
-RESULT pass=12 fail=15
+RESULT pass=27 fail=0
