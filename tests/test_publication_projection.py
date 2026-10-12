@@ -56,6 +56,23 @@ def setUpModule() -> None:
             "published, so it is absent from every clone. Run them in the authoring repository, or "
             "set PIPD_FROZEN_COMMIT/PIPD_FROZEN_TREE to an equivalent pair that is present."
         )
+    # S4EXT-R1 AO finding C5: the objects can exist while the *ref* the gate resolves does not.
+    # The gate pins the local branch `r5-s4-candidate`, which was never pushed, so in a clean-room
+    # clone the tool exits FAIL and these tests reported a red suite instead of an absent fixture.
+    unresolvable = []
+    for ref in ("r5-s4-candidate",):
+        try:
+            B.resolve_ref(ref)
+        except Exception:
+            unresolvable.append(ref)
+    if unresolvable:
+        raise unittest.SkipTest(
+            "the publication gate resolves the local branch ref(s) "
+            + ", ".join(unresolvable)
+            + ", which were never pushed and therefore do not exist in any clone. The gate cannot "
+            "pass here whatever the candidate contains, so these tests assert nothing in this "
+            "environment: run them in the authoring repository, or create an equivalent ref."
+        )
 
 
 class ProductPathEquality(unittest.TestCase):

@@ -350,5 +350,50 @@ class CliBundleClosureRouteTests(unittest.TestCase):
                                 "a refused bundle must not exit 0 on the CLI surface")
 
 
+class EndpointTypeCoherenceTests(unittest.TestCase):
+    """S4EXT-R1 external-AO finding C3.
+
+    The first candidate rejected mis-typed *values* but still PASSed an endpoint whose declared
+    TYPE named a different family than the record its id resolves to. The graph must fail closed:
+    a PI-PKG record referenced as if it were a PD-PKG is not a closed chain, it is a wrong claim.
+    """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls._tmp = tempfile.TemporaryDirectory()
+        repo = Path(cls._tmp.name) / "repo"
+        _init_git_repo(repo)
+        cls.pi = _bundle(repo)["PI-PKG"]
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls._tmp.cleanup()
+
+    def test_declared_type_contradicting_the_resolved_family_is_refused(self) -> None:
+        pi = json.loads(json.dumps(self.pi))
+        edge = pi["trace"][0]
+        edge["from_type"] = "PD-PKG"            # the id still resolves to the PI-PKG record
+        res = validate.validate_bundle({"PI-PKG": pi}, SCHEMAS_DIR)
+        self.assertEqual(res["verdict"], "FAIL", res)
+        self.assertEqual(res["closure"], "FAILED", res)
+        self.assertTrue(
+            any("contradicts the resolved record family" in f["detail"] for f in res["findings"]),
+            res["findings"])
+
+    def test_a_wrong_type_on_either_side_is_refused(self) -> None:
+        for side, bad in (("from_type", "PD-PKG"), ("to_type", "PI-PKG")):
+            with self.subTest(side=side):
+                pi = json.loads(json.dumps(self.pi))
+                pi["trace"][0][side] = bad
+                res = validate.validate_bundle({"PI-PKG": pi}, SCHEMAS_DIR)
+                self.assertEqual(res["verdict"], "FAIL", res)
+                self.assertEqual(res["closure"], "FAILED", res)
+
+    def test_the_untouched_legal_edge_still_closes(self) -> None:
+        res = validate.validate_bundle({"PI-PKG": json.loads(json.dumps(self.pi))}, SCHEMAS_DIR)
+        self.assertEqual(res["closure"], "FULL", res)
+        self.assertEqual(res["verdict"], "PASS", res)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

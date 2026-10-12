@@ -205,6 +205,29 @@ def closure_findings(bundle: dict[str, dict[str, Any]]) -> dict[str, Any]:
                 "findings": [{"contract": "*", "kind": "CLOSURE",
                               "detail": f"trace closure could not be computed: {exc!r}"}]}
     problems: list[str] = []
+    # S4EXT-R1 external-AO finding C3: a syntactically valid endpoint whose declared TYPE
+    # contradicts the family of the record its id actually resolves to must fail closed. Without
+    # this, "PD-PKG/from" could point at a PI-PKG record and still be reported as a closed graph.
+    family_of: dict[str, str] = {}
+    for name, rec in records.items():
+        fam = str(rec.get("schema_version") or "").split("@")[0] or name
+        if rec.get("subject_id"):
+            family_of[str(rec["subject_id"])] = fam
+        for atom in (rec.get("stable_semantic_contract", {}) or {}).get("atoms", []) or []:
+            if isinstance(atom, dict) and atom.get("subject_id"):
+                # an atom declares its OWN family (RequirementAtom@1), not the parent's
+                afam = str(atom.get("schema_version") or "").split("@")[0] or fam
+                family_of[str(atom["subject_id"])] = afam
+    for _name, rec in records.items():
+        for edge in trace_edges(rec):
+            for side in ("from", "to"):
+                declared = edge.get(f"{side}_type")
+                resolved = family_of.get(str(edge.get(f"{side}_id") or ""))
+                if declared and resolved and str(declared) != resolved:
+                    problems.append(
+                        "endpoint type contradicts the resolved record family: "
+                        f"{side}_type={declared} but {side}_id={edge.get(f'{side}_id')} "
+                        f"resolves to {resolved}")
     for orphan in report.get("orphans") or []:
         problems.append(f"orphan trace endpoint: {orphan} is not present in the bundle")
     for bad in report.get("bad_hashes") or []:

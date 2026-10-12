@@ -256,8 +256,8 @@ Status words are kept separate on purpose, and none of them is upgraded by this 
 | `LOCAL_QUALIFIED` | claimed locally (deterministic tests + CLI smoke) |
 | `RUNTIME_READY` | **NOT claimed** |
 | `INDEPENDENT_PASS` | **NOT claimed as a full pass.** Verifiers working only from published bytes returned scoped receipts — `9/9` on the preview, `6/6` on a defect repair, and a further `PASS` on `v0.1.0-preview.2` — but the S0–S4 challenge as a whole is **`PARTIAL_CHALLENGE`**, not a full pass |
-| `PUBLICATION_APPROVED` | **GRANTED for the limited preview only** — owner licence decision `Apache-2.0`. **`G-RELEASE_FULL_PASS` is NOT granted.** |
-| `RELEASED` | limited to `OWNER_AUTHORIZED_OPEN_SOURCE_PREVIEW_BETA_PUBLISHED`, at the preview tags |
+| `PUBLICATION_APPROVED` | the `Apache-2.0` licence decision was taken by the **owner**, for the already-published preview tags only. This repository claims **no** publication approval for the S4EXT-R1 repair candidate, and **`G-RELEASE_FULL_PASS` is NOT granted** |
+| `RELEASED` | describes the **existing** `OWNER_AUTHORIZED_OPEN_SOURCE_PREVIEW_BETA_PUBLISHED` preview tags only; the S4EXT-R1 repair branch is **unreleased** and its public path is an open owner decision |
 | `PRODUCTION_VERIFIED` | **NOT claimed** |
 
 **Stage coverage.** S0 and S1 were reached; the S2–S4 work followed. **S5 (HGK live), S6 (GENIE),
