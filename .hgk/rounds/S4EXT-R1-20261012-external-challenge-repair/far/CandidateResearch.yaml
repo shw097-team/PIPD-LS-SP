@@ -1,0 +1,49 @@
+schema: FAR-CANDIDATE-RESEARCH/1
+run_id: FAR-PIPD-S4EXT-ARTIFACT-SELFREF-001
+decision_question: >
+  which minimal change makes the two tracked-artifact sites verifiable under a read-only acceptance
+  rule, without weakening any gate and without silently changing what an artifact asserts
+
+conclusion: >
+  Both sites are the same defect class, "a value that depends on the environment at generation time
+  is stored inside a commit-tracked file". Neither is a wrong value, and neither is a product defect.
+  But the challenger lane falsified two load-bearing parts of the first draft, and the falsifications
+  matter more than the original finding:
+  (1) the recorded identity is NOT the parent commit - it is an ancestor, measured at 69 commits
+      behind HEAD - so the invariant is "the recorded identity is an ancestor of HEAD", not
+      "HEAD or HEAD^";
+  (2) a sha256 chain over both files DOES exist, outside the crosswalk: .hgk/artifacts/evidence_manifest.json
+      records both digests and they currently MATCH the on-disk bytes, and
+      tools/build_publication_manifest.py folds local_sha256 into crosswalk_digest. So regenerating
+      either artifact silently staleness-marks a tracked digest; nothing recomputes per-entry sha256
+      against disk, so the staleness is silent rather than red.
+  The minimal remedy is therefore additive and double: an explicit input so the value is reproducible
+  (--for-commit for the generator, --out for the scanner), plus a machine check that the recorded
+  identity is an ancestor of HEAD and that the evidence manifest's per-entry digest still equals the
+  bytes on disk. The second half is new work that this study discovered; it is worth more than the
+  mutation symptom that started the study.
+
+confidence: MEDIUM_HIGH
+confidence_basis: >
+  lane A read the generators, the crosswalk builder, the tests and two prior rounds' disclosures; lane
+  B loaded the FAR mechanics and produced the gate receipt; lane C was an independent fresh-context
+  challenger told to falsify rather than confirm, and it falsified two of three load-bearing
+  conclusions. Every load-bearing counterevidence item was then re-verified by the author with a
+  direct command before this file was written (recorded identity is an ancestor, 69 commits behind;
+  both manifest digests equal the on-disk sha256). Not HIGH because the impact of the silent digest
+  staleness is unmeasured: no gate was found that turns it red.
+
+counterevidence:
+  - "conditional mutation: the mutation happens only when the tools are run; a clean worktree today reflects a prior commit or restore, not a structural fix"
+  - "operational reality: the prior AO already logged candidate_head rebinding as regression class stale-or-moved-binding, and had to restore artifacts from its own frozen snapshot"
+  - "a real hard failure exists, just later: regenerating the evidence manifest without re-sealing produces SEAL_STALE"
+  - "house precedent for this hazard class is preserve-and-restore, not redirect: tests/test_publication_projection.py preserves repository projection bytes because the gate has no --out option"
+
+nonclaims:
+  - "no product behaviour, schema, gate, claim ceiling or published artifact is asserted wrong"
+  - "no acceptance rule is narrowed; the maker's position is that the tools must be fixed so the literal rule becomes satisfiable, never that the rule should be relaxed after a FAIL"
+  - "this study does not change the round verdict"
+
+open_questions:
+  - "OQ-01: why candidate_head was introduced for TECHNOLOGY_ADMISSIONS.json without the note that the wheel manifest carries; the repository records no reason"
+  - "OQ-02: the measured impact of the silent per-entry digest staleness, since no gate detects it"

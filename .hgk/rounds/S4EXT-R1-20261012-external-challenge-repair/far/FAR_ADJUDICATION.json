@@ -1,0 +1,103 @@
+{
+ "schema": "FAR-ADJUDICATION/1",
+ "study": "FAR-PIPD-S4EXT-ARTIFACT-SELFREF-001",
+ "status": "FINAL_PENDING_OWNER_GATE2",
+ "scoring_key": {
+  "resistance": "LOW = additive, touches no gate/schema/claim/published artifact, rollback = revert one commit; MEDIUM = changes artifact semantics or an existing command contract; HIGH = changes what the repo asserts or invalidates an evidence chain",
+  "necessity": "HIGH = without it a mandated acceptance read cannot pass; MEDIUM = removes a recurring false signal; LOW = hygiene only"
+ },
+ "items": [
+  {
+   "id": "TT-S4EXT-018",
+   "object": ".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json :: candidate_head",
+   "root_cause": "a generation-time identity is stored inside a commit-tracked artifact, so the committed value necessarily names the parent commit and no later regeneration can reproduce it (claims C-01..C-03)",
+   "precedent": "the same class was already adjudicated in this repo: docs/ROUND3_DISCLOSURE.md item A6 (a tracked scan artifact recorded the scanned revision while being committed by a later commit) was fixed by renaming the field to source_revision_scanned and adding an explicit candidate_binding note, NOT by rewriting the generator; and tools/build_dist.py:192 already annotates its equivalent field as a legacy identity that is not the release tip (claims C-04, C-16)",
+   "options": [
+    {
+     "id": "F-018-A-REVISED",
+     "change": "(i) add an explicit --for-commit <sha> input to tools/admit_technologies.py (default = current behaviour) plus a documented canonical regeneration command; (ii) add a note naming the field's semantics, following tools/build_dist.py:192 and the docs/ROUND3_DISCLOSURE.md A6 rename precedent; (iii) machine check: the recorded candidate_head must be an ANCESTOR of HEAD; against the real data the value is 8ad0fd32..., 69 commits behind HEAD, so the originally drafted HEAD-or-HEAD^ rule was WRONG; (iv) machine check: the evidence manifest's per-entry sha256 must still equal the bytes on disk",
+     "effect": "the volatile environment input becomes explicit and reproducible; a silent-staleness class becomes a red-light class; the verifier's literal read-only rule becomes satisfiable with no rule change",
+     "resistance": "LOW",
+     "necessity": "HIGH",
+     "rollback": "revert one commit; no tracked value changes"
+    },
+    {
+     "id": "F-018-B",
+     "change": "move the volatile field out of the tracked artifact into an untracked run receipt",
+     "effect": "also makes the file byte-stable, but changes an EVIDENCED artifact's shape",
+     "resistance": "MEDIUM",
+     "necessity": "MEDIUM",
+     "note": "no crosswalk row stores a hash of this file (claim C-08/C-09), so this is cheaper than first assumed — the maker's earlier DEL-005 caution was overstated and is corrected in the ledger"
+    },
+    {
+     "id": "F-018-C",
+     "change": "delete the field from the generator",
+     "effect": "removes the generation-identity binding that the house deliberately keeps",
+     "resistance": "MEDIUM_HIGH",
+     "necessity": "LOW",
+     "verdict": "REJECT"
+    }
+   ],
+   "recommendation": "F-018-A-REVISED"
+  },
+  {
+   "id": "TT-S4EXT-019",
+   "object": "tools/history_secret_scan.py :: hardcoded output path",
+   "root_cause": "main() writes the scan result to a constant path inside the tracked tree (tools/history_secret_scan.py:122, :124), so the mandated scanner mutates the candidate whenever it is run (claim C-11)",
+   "precedent": "scan_worktree(root=...) is already parameterised and tests/test_evidence_manifest.py only calls scan_worktree/printable_summary, so no caller depends on the CLI default (claim C-17)",
+   "options": [
+    {
+     "id": "F-019-A",
+     "change": "add an additive optional --out PATH to main(); default unchanged; document in the docstring that the default writes into the tracked tree",
+     "effect": "a verifier or harness runs the scan into scratch and the candidate stays byte-identical",
+     "resistance": "LOW",
+     "necessity": "HIGH",
+     "rollback": "revert one commit; default behaviour untouched"
+    },
+    {
+     "id": "F-019-B",
+     "change": "change the default output to an untracked run path and write the tracked copy only on request",
+     "effect": "stronger, but relocates an artifact that docs/SPEC_DEL_CROSSWALK.json references by path",
+     "resistance": "MEDIUM",
+     "necessity": "MEDIUM"
+    },
+    {
+     "id": "F-019-C",
+     "change": "no code change; declare the artifact a generated output in the acceptance rule",
+     "effect": "zero cost but leaves the rule ambiguous, which is the actual blocker",
+     "resistance": "ZERO",
+     "necessity": "LOW",
+     "verdict": "REJECT_WITH_REASON"
+    }
+   ],
+   "recommendation": "F-019-A"
+  },
+  {
+   "id": "TT-S4EXT-020",
+   "object": ".hgk/artifacts/evidence_manifest.json per-entry sha256 vs disk, and the publication crosswalk_digest derived from it",
+   "root_cause": "no tool or test recomputes per-entry sha256 against disk: tools/build_evidence_manifest.py verify() re-checks only manifest<->seal, and tools/build_publication_manifest.py copies local_sha256 out of the evidence manifest without recomputing, so a regenerated artifact silently staleness-marks a tracked digest that crosswalk_digest folds in",
+   "discovered_by": "lane C fresh-context challenger, re-verified by the author",
+   "options": [
+    {
+     "id": "F-020-A",
+     "change": "add per-entry digest verification to the evidence manifest check and the publication projection check",
+     "resistance": "LOW",
+     "necessity": "HIGH",
+     "note": "converts a silent class into a red-light class; worth more than the mutation symptom the study started from"
+    }
+   ],
+   "recommendation": "F-020-A",
+   "owner": "artifact owner; the tool has no gate today"
+  }
+ ],
+ "cross_cutting": {
+  "id": "C-15",
+  "statement": "the AO applied a literal rule, any candidate mutation voids the verdict, and that rule is unsatisfiable while the repo's own mandated tools write inside the tree; the correct response is to fix the tools so the LITERAL rule holds, NOT to narrow the rule after a FAIL",
+  "maker_commitment": "the maker will not reframe the verifier's rule; both recommendations above remove the mutation site instead"
+ },
+ "nonclaims": [
+  "no product behaviour is asserted to be wrong by this study",
+  "no gate is weakened, moved or reinterpreted",
+  "this study does not change the round verdict, which remains FAIL_CHALLENGE until a fresh independent run says otherwise"
+ ]
+}

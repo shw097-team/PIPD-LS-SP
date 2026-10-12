@@ -26,6 +26,47 @@
    "remedy_taken": "NONE by the maker: editing the tool or the artifact changes the DEL-005 / PIPD-SP-SPEC-030 evidence chain that the crosswalk row hashes, so the choice between (a) dropping the self-referential field and (b) making --check compare against HEAD belongs to the artifact owner (TT-S4EXT-018)",
    "impact": "byte-stable within a commit and it does not change what the artifact asserts about technology admission; the residual effect is a dirty worktree after a suite run",
    "reproduced_at": "a900f3a (clean-room single-branch clone): git status --porcelain -> ' M .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json'"
+  },
+  {
+   "id": "D-03",
+   "class": "provider_adapter_incompatibility",
+   "scope": "EXECUTE lane (bounded writer)",
+   "observed": "codex exec with model opencode-go/deepseek-v4.1-flash died after the first tool call with: Provider error 400: Upstream request failed: [invalid_request_error] The `reasoning_content` in the thinking mode must be passed back to the API. The adapter does not echo reasoning_content, so a thinking-mode model cannot sustain a tool-calling session.",
+   "effect": "the writer made NO file changes (verified: no new files, no edits); no partial damage",
+   "evidence": "writer/WRITER_OUTPUT.log"
+  },
+  {
+   "id": "D-04",
+   "class": "declared_model_substitution",
+   "scope": "EXECUTE lane (bounded writer)",
+   "declared": "opencode-go/deepseek-v4.1-flash (the round's mandated EXECUTE model)",
+   "actual": "opencode-go/deepseek-v4-flash (same provider, sibling without the thinking-mode tool-call defect)",
+   "authority": "the user's standing rule: on a lane refusal, switch to that lane's backup and continue rather than pause",
+   "proof_before_use": "a two-turn tool-calling probe returned the expected output (42)",
+   "note": "the declared model is NOT silently replaced: both the declared and the actual model are recorded here and in the writer receipt"
+  },
+  {
+   "id": "TT-S4EXT-021",
+   "class": "silent_stale_digest_chain",
+   "observed": "the per-entry sha256 recorded in .hgk/artifacts/evidence_manifest.json is stale for 41 of 1085 entries (1044 match, 0 missing); nothing recomputes them against disk and tools/build_publication_manifest.py folds them into crosswalk_digest",
+   "status": "PRE_EXISTING, disclosed, NOT fixed by this round",
+   "remedy": "FAR F-020-A: additive detect-and-report verifier; the count is reported, never asserted to be zero, and the repo-wide gate is NOT tightened"
+  },
+  {
+   "id": "TT-S4EXT-022",
+   "class": "test_side_candidate_mutation",
+   "observed": "tests/test_technology_admission.py:156 invokes tools/admit_technologies.py --report WITHOUT --artifact, and tools/admit_technologies.py:520 writes the tracked .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json; the mandated suite thus rewrote the committed candidate_head 8ad0fd32... -> current HEAD during the run",
+   "identified_by": "independent acceptance officer, attempt 3, blocking item 1 (with exact file:line)",
+   "remedy": "pass --artifact <tmp> at that call site (the tool already ships --artifact); this is the LOW-resistance half of FAR item TT-S4EXT-018"
+  },
+  {
+   "id": "TT-S4EXT-024",
+   "class": "generation_identity_not_ancestor",
+   "observed": "the new verifier's identity check reports that some tracked artifacts name a candidate_head that is NOT an ancestor of HEAD (e.g. .hgk/artifacts/s2/PERF_BUDGET.json, .hgk/artifacts/s2/pilots/GOLDEN_PILOTS.json, gp01-gp03.json); 56 records are checked",
+   "status": "NEW_FINDING_REPORTED_NOT_FIXED",
+   "owner": "artifact owner",
+   "note": "this is exactly why the FAR check was scoped report-only: a hard gate would have turned the repo red on arrival",
+   "tool": "tools/verify_evidence_digests.py (identity_checks)"
   }
  ],
  "consequence_for_claims": "the first attempted run produced a NOT_RUN verdict and is retained as a failed-first receipt; only the second run's verdict is treated as the independent result",
@@ -38,6 +79,17 @@
    "log": "raw/cleanroom_suite_at_a900f3a.log",
    "result": "Ran 521 tests, OK (skipped=6)",
    "note": "current HEAD; same single residual dirt = TT-S4EXT-018"
+  }
+ },
+ "execution_outcome": {
+  "writer_lane": "Codex CLI, actual model opencode-go/deepseek-v4-flash (declared opencode-go/deepseek-v4.1-flash; see D-03/D-04)",
+  "writer_disclosure": "the writer accidentally ran the generator once without --artifact, rewrote the tracked artifact, then restored it with git checkout -- and disclosed it",
+  "verified_by_the_author_independently": {
+   "new_module": "python -m unittest tests.test_s4ext_artifact_reproducibility -> Ran 4, OK",
+   "touched_modules": "tests.test_technology_admission tests.test_evidence_manifest tests.test_tooling_executes -> Ran 28, OK (skipped=1)",
+   "full_suite": "python -m unittest discover -s tests -t . -> Ran 525 tests, OK (skipped=6), exit 0",
+   "read_only_condition": ".hgk/artifacts/ was EMPTY before and EMPTY after the full suite run (raw/cleanroom_suite_after_writer.log)",
+   "verifier": "python tools/verify_evidence_digests.py -> checked 1085, match 1041, missing 0, stale 44 (41 pre-existing + 3 from this change's own edited files), identity_checks 56"
   }
  }
 }

@@ -9,7 +9,7 @@
  },
  "checker": {
   "identity": "external Independent Acceptance Officer (Codex CLI exec, isolated CODEX_HOME)",
-  "state": "RAN_TWICE",
+  "state": "RAN_THREE_TIMES",
   "verdict": "FAIL_CHALLENGE",
   "subject_commit": "e2e41ae76dede9b3222257872b4e28a340dc2a0c",
   "subject_tree": "ce41953891d96ec7c2e7412e763f5a141db1b90c",
@@ -52,6 +52,26 @@
      "C7: the literal claim that nothing in the tree claims release is false; README.md:260 asserts RELEASED for existing preview tags, although it explicitly keeps this repair unreleased.",
      "Verifier procedural violation: an initially misdirected full-suite run transiently changed .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json, and the required history scanner transiently changed .hgk/artifacts/history_secret_scan.json. Both were restored to their exact HEAD blob hashes and final git status is empty, but the brief says any candidate mutation voids the verdict."
     ]
+   },
+   {
+    "attempt": 3,
+    "subject": "88be4b5a8a8f",
+    "verdict": "FAIL_CHALLENGE",
+    "claims": {
+     "C1": "PASS",
+     "C2": "PASS",
+     "C3": "PASS",
+     "C4": "PASS",
+     "C5": "PASS",
+     "C6": "PASS",
+     "C7": "PASS",
+     "C8": "PASS"
+    },
+    "blocking": 1,
+    "blocking_findings": [
+     "READ_ONLY RULE VIOLATION / candidate test-side mutation: the mandated command python -m unittest discover -s tests -t . rewrote tracked .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json candidate_head from committed 8ad0fd3254561d5d043a8fa1e9d64918892c751b to current 88be4b5a8a8f79f40f276651373f58b06148acd0. git diff --stat reported 1 file changed, 1 insertion(+), 1 deletion(-). tests/test_technology_admission.py:156 invokes tools/admit_technologies.py --report without --artifact; tools/admit_technologies.py:520 writes the tracked file. The exact side effect was restored from HEAD solely to meet the required final clean guard; final git status --porcelain was empty and both worktree/index diff exits were 0. This transient candidate mutation voids a PASS verdict under hard rule 1."
+    ],
+    "receipt": "06_TQAEP/AO_VERDICT.attempt3.json"
    }
   ]
  },
@@ -74,6 +94,7 @@
    "C5": "FIXED and independently re-confirmed PASS (its own clean-room run: Ran 521, OK, skipped=6)",
    "C7": "re-fixed after attempt 2 flagged the surviving RELEASED assertion; the claim ledger now has no RELEASED token",
    "remaining": "two of attempt 2's blocking items are TOOLING, not candidate defects: the self-referential candidate_head artifact (TT-S4EXT-018) and history_secret_scan.py writing its canonical artifact into the tracked tree. Both are routed to their owners; the round cannot reach PASS_CHALLENGE until they are fixed, and the maker will NOT narrow the verifier's rule to make them disappear"
-  }
+  },
+  "round3": "C7 is now independently PASS. Every other claim C1-C8 is PASS. The single remaining blocker is the read-only violation, whose exact mechanism the AO pinned to tests/test_technology_admission.py:156 -> tools/admit_technologies.py:520, i.e. the SUITE itself rewrites the tracked artifact. That is now being fixed at the call site, which is the low-resistance half of FAR item TT-S4EXT-018; the FAR study's other two items (--for-commit reproducibility, --out for the scanner) plus the new digest verifier (TT-S4EXT-021) are in the same change."
  }
 }

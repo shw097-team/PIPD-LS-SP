@@ -44,6 +44,10 @@ FIX = ROOT / "fixtures"
 # regenerated output is written next to that copy so the repo artefact is never touched.
 ARTIFACT: "Path | None" = None
 
+# Optional override (set from ``--for-commit``): when present it is recorded as the artefact's
+# generation identity instead of the current HEAD, so the emitted file reproduces byte-for-byte.
+FOR_COMMIT: "str | None" = None
+
 sys_path = str(ROOT / "src")
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
@@ -82,6 +86,8 @@ def _cached_payload() -> dict:
 
 
 def _candidate_head() -> str:
+    if FOR_COMMIT:
+        return FOR_COMMIT
     head = _git("rev-parse", "HEAD")
     return head or str(_cached_payload().get("candidate_head", ""))
 
@@ -488,6 +494,10 @@ def build_payload() -> dict:
         "honest_ceiling": "DESIGN_DISPOSITION_TERMINALIZED per source. This is NOT an active "
                           "installation and NOT a licence determination; both are receiver-side.",
         "candidate_head": _candidate_head(),
+        "candidate_head_note": (
+            "generation identity: this names the source revision this artefact was generated from; "
+            "it is an ANCESTOR of the commit that carries this file and is NOT the release tip, and "
+            "regenerating with the same --for-commit reproduces this file byte-for-byte"),
     }
     consistency_pass = (n == 22 and schema_ok == n and neg_pass == n and roll_pass == n
                         and disp_pass == n and not refused)
@@ -501,7 +511,7 @@ def build_payload() -> dict:
 
 
 def main(argv: list[str] | None = None) -> int:
-    global ARTIFACT
+    global ARTIFACT, FOR_COMMIT
     ap = argparse.ArgumentParser(description="Technology admission rulings (PKG-00 §9).")
     ap.add_argument("--report", action="store_true",
                     help="compute the per-row verdict from the artefact and print TRUE denominators")
@@ -509,7 +519,12 @@ def main(argv: list[str] | None = None) -> int:
                     help="compute the report over the admissions in this artefact copy instead of "
                          "the source/repo artefact; output is written next to the copy and the repo "
                          "artefact is left untouched")
+    ap.add_argument("--for-commit", metavar="SHA", default=None,
+                    help="record SHA as the artefact's generation identity instead of the current "
+                         "HEAD; the emitted file is then reproducible byte-for-byte")
     args = ap.parse_args(argv)
+    if args.for_commit:
+        FOR_COMMIT = args.for_commit
 
     out_dir = OUT
     if args.artifact:

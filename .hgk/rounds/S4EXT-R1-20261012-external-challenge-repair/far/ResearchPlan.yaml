@@ -1,0 +1,44 @@
+schema: FAR-RESEARCH-PLAN/1
+plan_id: FAR-PIPD-S4EXT-ARTIFACT-SELFREF-001-P1
+request_id: FAR-PIPD-S4EXT-ARTIFACT-SELFREF-001
+
+subquestions:
+  Q1: >
+    What exactly varies between two generations of .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json, and
+    which code path writes the varying value?
+  Q2: >
+    Is that value's semantics already declared somewhere in the same tool family, i.e. is this a
+    known by-design identity field or an undetected defect?
+  Q3: >
+    What is the blast radius of regenerating either artifact: does any consumer hash it, assert on it,
+    or reference it by digest?
+  Q4: >
+    What is the minimum change that makes a read-only verification pass, and does that change touch
+    any gate, claim, or published artifact?
+  Q5: >
+    Did any earlier independent round already adjudicate the same symptom, and with what conclusion?
+
+claim_classes: [FACT, DEFECT_PATTERN, ROOT_CAUSE, CONTRADICTION, RECOMMENDATION]
+
+lanes:
+  lane_a_on_disk_assets:
+    method: read the generators, the crosswalk rows, the tests, and the prior AO verdict on disk
+    status: INVESTIGATED
+  lane_b_callable_skills:
+    method: load the hgk-governed-execution skill's FAR mechanics and run scripts/far_gate_check.py
+    status: INVESTIGATED
+  lane_c_fresh_context:
+    method: >
+      an independent fresh-context challenger, read-only, not an author of the change, told to
+      FALSIFY the three load-bearing conclusions rather than confirm them
+    status: DISPATCHED
+
+stop_criteria:
+  - every claim cites a concrete file:line or a command with its exit code
+  - no recommendation without a mapped root cause
+  - abstain per question if the evidence is silent
+  - a claim that the challenger falsifies is corrected, not defended
+
+nonclaims:
+  - this study does not re-open any of the AO's other findings
+  - this study does not decide the round's verdict; it decides two artifact sites

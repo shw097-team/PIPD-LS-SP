@@ -1,0 +1,43 @@
+{
+ "gate": "UD-FAR-RESEARCH-GATE-2026-08-14-001",
+ "proposal": "Make two tracked artifact sites verifiable under a read-only acceptance rule by additive means only: add an explicit --for-commit <sha> input to tools/admit_technologies.py so the recorded candidate_head is reproducible, add an optional --out PATH to tools/history_secret_scan.py so the mandated scan need not write into the tracked tree, annotate the recorded identity's semantics, and add a machine check that the recorded identity is an ANCESTOR of HEAD and that the evidence manifest's per-entry sha256 still equals the bytes on disk (a silent-staleness gap this study discovered). No gate, schema, claim ceiling or published artifact changes; the acceptance rule is NOT narrowed.",
+ "proposal_hash": "08d6274ff365fd07",
+ "timestamp_utc": "2026-10-12T05:16:39.047423+00:00",
+ "three_source_check": {
+  "source1_on_disk_assets": {
+   "status": "INVESTIGATED",
+   "detail": "tools/admit_technologies.py:84-86,:490; tools/build_dist.py:191-196; tools/history_secret_scan.py:31,:95-101,:122,:124; tools/build_spec_del_crosswalk.py:182-184,:407-409; tools/build_publication_manifest.py:426-438,:623-624,:731-737; tools/build_evidence_manifest.py:196-208; docs/SPEC_DEL_CROSSWALK.json; docs/ROUND3_DISCLOSURE.md item A6 (same defect class already adjudicated); .hgk/ao/ao_s2s4_verdict.json; tests/test_evidence_manifest.py:31,:133,:145; tests/test_publication_projection.py:230,:236-240"
+  },
+  "source2_callable_skills": {
+   "status": "INVESTIGATED",
+   "detail": "loaded the hgk-governed-execution skill and ran scripts/far_gate_check.py to produce this receipt; FAR house shape taken from the existing FAR-SWOF-KSEOS-RCA-001 round"
+  },
+  "source3_fresh_context": {
+   "status": "INVESTIGATED",
+   "detail": "lane C was an independent fresh-context challenger (read-only, not an author) instructed to FALSIFY three load-bearing conclusions; it returned PARTIALLY_CONFIRMS, falsifying the drafted HEAD-or-HEAD^ rule and the claim that no digest chain exists. The author then re-verified both with direct commands: git rev-list --count 8ad0fd32..HEAD = 69, merge-base --is-ancestor = YES, and both evidence-manifest digests equal the on-disk sha256."
+  }
+ },
+ "challenge_lane": {
+  "verdict": "PARTIALLY_CONFIRMS",
+  "falsified": [
+   "the drafted rule candidate_head == HEAD or HEAD^: the recorded value is an ancestor, 69 commits behind HEAD",
+   "the inference that regenerating these artifacts breaks no digest chain: evidence_manifest.json and the publication crosswalk_digest both record them"
+  ],
+  "carried_forward": [
+   "candidate_head is by-design generation-time identity, annotated elsewhere in the same tool family (SUPPORTED)",
+   "crosswalk ROWS carry paths with no hash; the digest chain lives in the evidence/publication manifests instead (SUPPORTED; the narrow claim stands, the broad inference does not)",
+   "an additive --out on the scanner is necessary but NOT sufficient without refreshing the tracked digests (SUPPORTED)"
+  ],
+  "transcript": "hermes delegation deleg_2224a75c task-0 (leaf, fresh context)"
+ },
+ "research_verdict": "CONFIRMS_USEFUL",
+ "evidence_refs": [
+  "far/ResearchRequest.yaml",
+  "far/ResearchPlan.yaml",
+  "far/ClaimLedger.tsv",
+  "far/CandidateResearch.yaml",
+  "far/FAR_ADJUDICATION.json",
+  "far/Gate1_Receipt.template.json"
+ ],
+ "gate2_user_submission_allowed": true
+}

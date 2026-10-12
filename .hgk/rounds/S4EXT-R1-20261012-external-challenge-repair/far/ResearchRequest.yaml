@@ -1,0 +1,47 @@
+schema: FAR-RESEARCH-REQUEST/1
+request_id: FAR-PIPD-S4EXT-ARTIFACT-SELFREF-001
+created_date: "2026-10-12"
+owner: user (Human Policy Owner)
+task_class: RESEARCH_GENERAL
+raised_by: >
+  the S4EXT-R1 round's independent acceptance officer (AO), which returned FAIL_CHALLENGE and named
+  two tracked-artifact sites as blocking its mandated read-only verification
+authority: >
+  the round's user authorization: the user authorized automatic FAR research on every new gap and
+  adjudication, requiring a low-resistance and high-engineering-necessity best adjudication
+
+decision_question: >
+  Two tracked files inside the product repository are written by the repository's own tooling during a
+  mandated acceptance run, so a read-only verifier sees the candidate mutate under it:
+  (a) .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json embeds candidate_head, the git HEAD at generation
+      time, so once committed it names its own parent commit and never reproduces;
+  (b) tools/history_secret_scan.py writes its canonical artifact to a hardcoded path inside the
+      tracked tree.
+  Which minimal change makes the candidate verifiable under a read-only rule, without weakening any
+  gate, without inventing a second governance system, and without silently changing what any existing
+  artifact asserts?
+
+scope:
+  in_scope:
+    - .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json and its generator tools/admit_technologies.py
+    - .hgk/artifacts/history_secret_scan.json and its generator tools/history_secret_scan.py
+    - the consumers, namely docs/SPEC_DEL_CROSSWALK.json rows, tests/, and the AO's acceptance rule
+  out_of_scope:
+    - product semantics, schemas, release identity, the published preview artifacts
+    - any change to HG-KSEOS or Fabric (this is a product-repo decision only)
+  forbidden_without_separate_authority:
+    - rewriting the acceptance rule after the fact to make a FAIL disappear
+    - deleting a tracked artifact that a crosswalk row references
+
+boundaries:
+  budget: "bounded - 3 lanes (on-disk assets, callable skills, fresh-context challenger)"
+  abstain_condition: >
+    if the corpus cannot support a causative claim about why the field exists, record an OpenQuestion
+    rather than asserting one
+
+required_output:
+  - ResearchPlan.yaml
+  - ClaimLedger.tsv
+  - CandidateResearch.yaml (with counterevidence and nonclaims)
+  - FAR_ADJUDICATION.json (options, resistance score, necessity score, recommendation)
+  - Gate1_Receipt.json (three-source check + challenge lane + research_verdict)
