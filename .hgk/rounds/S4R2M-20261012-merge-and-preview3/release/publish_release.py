@@ -70,6 +70,14 @@ def sha256(p: Path) -> str:
 
 
 def main() -> int:
+    import argparse
+    ap = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
+    ap.add_argument("--replace", nargs="*", default=[],
+                    help="asset names to delete and re-upload (a published asset is immutable, so "
+                         "correcting one is an explicit, recorded act — never a silent overwrite)")
+    args = ap.parse_args()
+    replace = set(args.replace)
+
     token = load_token()
     if not token:
         print(json.dumps({"verdict": "AUTH_BLOCKED", "reason": "no credential at the configured source"}))
@@ -124,11 +132,24 @@ def main() -> int:
         if not p.is_file():
             print(json.dumps({"asset": name, "result": "LOCAL_MISSING"})); return 5
         if name in existing:
-            up.append({"asset": name, "result": "ALREADY_UPLOADED", "local_sha256": sha256(p)[:16]}); continue
+            if name not in replace:
+                up.append({"asset": name, "result": "ALREADY_UPLOADED", "local_sha256": sha256(p)[:16]})
+                continue
+            # explicit correction: a published asset is immutable, so the old one is deleted (and
+            # its id and prior state recorded) before the corrected bytes are uploaded under the
+            # same name. This is the only place an existing asset is ever touched.
+            old_id = existing[name]
+            dst, dr = call(f"{API}/repos/{ORG}/{REPO}/releases/assets/{old_id}", token, "DELETE")
+            print(json.dumps({"step": "replace", "asset": name, "deleted_asset_id": old_id,
+                              "delete_status": dst}))
+            if dst not in (204, 200):
+                print(json.dumps({"asset": name, "result": "DELETE_FAILED", "status": dst,
+                                  "detail": str(dr)[:200]})); return 6
         st, r = call(f"{UPLOADS}/repos/{ORG}/{REPO}/releases/{rel_id}/assets?name={name}", token,
                      "POST", raw=p.read_bytes(), ctype="application/octet-stream")
         up.append({"asset": name, "result": "UPLOADED" if st in (200, 201) else "FAILED",
                    "status": st, "local_sha256": sha256(p)[:16],
+                   "replaced": name in replace,
                    "detail": "" if st in (200, 201) else str(r)[:200]})
         if st not in (200, 201):
             print(json.dumps({"step": "upload", "assets": up}, ensure_ascii=False)); return 6

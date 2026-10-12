@@ -1,7 +1,7 @@
 # PIPD_SOURCE_MAP — the canonical external SSOT and this pack's binding
 
-> Release identity: **v0.1.1-preview.3** — tag commit `8faa64e581e8c25f5ec355475e29561847da3ead`
-> (tree `58301503`). Derived view. This document is a **pointer**, not a master copy: it contains no
+> Release identity: **v0.1.1-preview.3** — tag commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`
+> (tree `91b1156f`). Derived view. This document is a **pointer**, not a master copy: it contains no
 > copy of any normative body.
 
 ## The single source of truth is external
@@ -31,8 +31,8 @@ not by embedding:
 | binding surface | value |
 | --- | --- |
 | release tag | `v0.1.1-preview.3` |
-| tag commit | `8faa64e581e8c25f5ec355475e29561847da3ead` |
-| release tree | `58301503` |
+| tag commit | `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a` |
+| release tree | `91b1156f` |
 | published wheel | `pipd_ls_sp-0.1.1a3-py3-none-any.whl` |
 | published wheel sha256 | `e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec` |
 | published capability | `OWNER_AUTHORIZED_OPEN_SOURCE_PREVIEW_BETA_PUBLISHED` |
@@ -65,7 +65,7 @@ consumers. Hash-or-`NOT_PUBLIC` is stated; nothing is invented.
 
 ## Source Locators
 
-Bound to `v0.1.1-preview.3`, tag commit `8faa64e581e8c25f5ec355475e29561847da3ead`.
+Bound to `v0.1.1-preview.3`, tag commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`.
 
 | object | source locator |
 | --- | --- |

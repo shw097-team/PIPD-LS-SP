@@ -1,6 +1,6 @@
 # PIPD_EXAMPLES — one normal case, two refusals
 
-> Release identity: **v0.1.1-preview.3** — tag commit `8faa64e581e8c25f5ec355475e29561847da3ead`.
+> Release identity: **v0.1.1-preview.3** — tag commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`.
 > Derived, read-only content. These are **design-assistant** exchanges: the host sketches, refuses, and
 > hands off. It never executes. Any "quoted" document text below is a short attributed excerpt or a
 > locator, never a normative body.
@@ -104,7 +104,7 @@ NEXT STEP       : if the user needs a real verdict, an authorised independent ch
 
 ## Source Locators
 
-Bound to `v0.1.1-preview.3`, tag commit `8faa64e581e8c25f5ec355475e29561847da3ead`.
+Bound to `v0.1.1-preview.3`, tag commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`.
 
 | object | source locator |
 | --- | --- |

@@ -1,10 +1,10 @@
 ---
 name: pipd-ls-sp-s4-mount
 description: Dispatcher for the PIPD-LS-SP S4 pre-implementation design workflow on a Web/ChatGPT chat host. Routes a design request across the eight existing pipd-* skills. Read-only; carries no tool, execution, or approval authority.
-version: 0.1.0-preview.2
+version: 0.1.1-preview.3
 owner: PIPD
 release_identity: v0.1.1-preview.3
-release_tag_commit: 8faa64e581e8c25f5ec355475e29561847da3ead
+release_tag_commit: cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a
 authority: DISPATCHER_ONLY
 ---
 
@@ -14,7 +14,7 @@ This is a **dispatcher**, not a ninth skill. It decides whether an incoming requ
 PIPD-LS-SP design workflow and, if so, which of the **eight existing `skills/pipd-*` skills** owns the
 next step. It adds no new capability, no new contract family and no runtime.
 
-Bind it to release **v0.1.1-preview.3** (tag commit `8faa64e581e8c25f5ec355475e29561847da3ead`).
+Bind it to release **v0.1.1-preview.3** (tag commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`).
 
 ## Read first
 
@@ -82,7 +82,7 @@ independent verifier, or a runtime. In particular:
 
 ## Source Locators
 
-Bound to `v0.1.1-preview.3`, tag commit `8faa64e581e8c25f5ec355475e29561847da3ead`.
+Bound to `v0.1.1-preview.3`, tag commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`.
 
 | object | source locator |
 | --- | --- |

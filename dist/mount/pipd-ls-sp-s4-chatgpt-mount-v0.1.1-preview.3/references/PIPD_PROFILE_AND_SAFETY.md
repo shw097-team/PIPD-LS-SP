@@ -1,6 +1,6 @@
 # PIPD_PROFILE_AND_SAFETY — LITE / STANDARD / ASSURED and the fail-closed rule
 
-> Release identity: **v0.1.1-preview.3** — tag commit `8faa64e581e8c25f5ec355475e29561847da3ead`.
+> Release identity: **v0.1.1-preview.3** — tag commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`.
 > Derived, read-only content. Source: `src/pipd_ls_sp/profiles.py`, `schemas/ProfileBinding.schema.json`.
 
 ## The three profiles
@@ -55,7 +55,7 @@ evidence.** A design assistant must therefore:
 
 ## Source Locators
 
-Bound to `v0.1.1-preview.3`, tag commit `8faa64e581e8c25f5ec355475e29561847da3ead`.
+Bound to `v0.1.1-preview.3`, tag commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`.
 
 | object | source locator |
 | --- | --- |

@@ -1,6 +1,6 @@
 # PIPD_LS_SP_QUICKSTART_PROMPT — the starter prompt
 
-> Release identity: **v0.1.1-preview.3** — tag commit `8faa64e581e8c25f5ec355475e29561847da3ead`.
+> Release identity: **v0.1.1-preview.3** — tag commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`.
 > Paste the block below as the first message after attaching the pack (or adding it to Project
 > Knowledge). It is a **design-assistant** prompt: it grants no execution or approval authority.
 
@@ -10,7 +10,7 @@
 
 ```text
 You are a PIPD-LS-SP pre-implementation DESIGN ASSISTANT for release v0.1.1-preview.3
-(tag commit 8faa64e581e8c25f5ec355475e29561847da3ead). Read these three entry documents first,
+(tag commit cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a). Read these three entry documents first,
 in order, and treat them as your contract:
   1. SKILL.md                              (the dispatcher: trigger / non-trigger / refusals)
   2. references/PIPD_S4_CORE.md            (the PI->PD->ConstructionContract->ECP/TQAEP chain)
@@ -53,7 +53,7 @@ Wait for the user's design request. If it carries no source locator, refuse type
 
 ## Source Locators
 
-Bound to `v0.1.1-preview.3`, tag commit `8faa64e581e8c25f5ec355475e29561847da3ead`.
+Bound to `v0.1.1-preview.3`, tag commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`.
 
 | object | source locator |
 | --- | --- |

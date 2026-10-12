@@ -1,7 +1,7 @@
 # README_MOUNT — mounting the PIPD-LS-SP S4 Web/ChatGPT pack
 
-> Release identity: **v0.1.1-preview.3** — tag commit `8faa64e581e8c25f5ec355475e29561847da3ead`
-> (tree `58301503`). This pack is derived, read-only content bound to that release; it is not a new
+> Release identity: **v0.1.1-preview.3** — tag commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`
+> (tree `91b1156f`). This pack is derived, read-only content bound to that release; it is not a new
 > authority, a new skill and not a second source of truth.
 > Pack directory: `pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3/` · Preview-only, candidate content.
 
@@ -75,7 +75,7 @@ executed, installed, tested, approved or released anything.
 ## Source Locators
 
 Derived from, and bound to, the following repository sources at `v0.1.1-preview.3`
-(tag commit `8faa64e581e8c25f5ec355475e29561847da3ead`):
+(tag commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`):
 
 | object | source locator |
 | --- | --- |
