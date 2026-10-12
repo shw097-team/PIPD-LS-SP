@@ -1,0 +1,48 @@
+COMMAND: git diff --quiet HEAD --; git diff --cached --quiet HEAD --
+TRACKED_WORKTREE_EXIT_CODE=0
+INDEX_EXIT_CODE=0
+COMMAND: git status --porcelain --untracked-files=all
+?? .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/09_RELEASE/PUSH_CREDENTIAL_INCIDENT.md
+?? .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/AO2_20261012T112125Z.log
+?? .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/VERIFIER_AO2_BRIEF.md
+?? .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_ao2_lane.sh
+?? .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/uat/hermes/HOST_UAT_HERMES.md
+?? verify/ao2/A_identity.txt
+?? verify/ao2/B_current_artifact.txt
+?? verify/ao2/B_current_control.txt
+?? verify/ao2/B_current_mapping.txt
+?? verify/ao2/B_current_receipt.txt
+?? verify/ao2/B_current_sidecar.txt
+?? verify/ao2/B_pre-fix_artifact.txt
+?? verify/ao2/B_pre-fix_control.txt
+?? verify/ao2/B_pre-fix_mapping.txt
+?? verify/ao2/B_pre-fix_receipt.txt
+?? verify/ao2/B_pre-fix_sidecar.txt
+?? verify/ao2/B_pre_fix_extraction.txt
+?? verify/ao2/C_candidate.txt
+?? verify/ao2/C_dist.txt
+?? verify/ao2/C_docs.txt
+?? verify/ao2/C_guard_exact.sh
+?? verify/ao2/C_missing.txt
+?? verify/ao2/C_restore.txt
+?? verify/ao2/C_unresolved.txt
+?? verify/ao2/C_workflow_raw.txt
+?? verify/ao2/D_committed_evidence.txt
+?? verify/ao2/D_integrity_raw.txt
+?? verify/ao2/E_focused_raw.txt
+?? verify/ao2/F_claims_raw.txt
+?? verify/ao2/audit_driver_raw.txt
+?? verify/ao2/run_audit.py
+?? verify/ao2/scratch_path.txt
+EXIT_CODE=0
+COMMAND: git log -1 --format=%H %s -- tools/build_public_plugin.py
+07681745a436a7d82e85a0aa494d8165acad92a0 fix(s4post-b): close AO-01 exclusive release members, AO-03 positive write-set allowlist
+EXIT_CODE=0
+COMMAND: git rev-parse HEAD^
+2a903bd09c7760c494f20ed98b840fae789b24d6
+EXIT_CODE=0
+COMMAND: python --version
+Python 3.11.17
+EXIT_CODE=0
+COMMAND: git -C external-copy status --porcelain
+EXIT_CODE=0

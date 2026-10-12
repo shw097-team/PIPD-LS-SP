@@ -1,0 +1,702 @@
+COMMAND: git show HEAD:.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao/AO_VERDICT_STAGEB.md
+CWD: C:\Users\user\AppData\Local\Temp\pipd-ao2-845c9684eb78431f9bcc43b83bba4a74\candidate
+# Independent Acceptance Challenge — Frozen Stage B
+
+Date: 2026-10-12 (Asia/Taipei). The checker did not implement this candidate. No candidate repairs, commits, formatting changes, or release approvals were made. All checker-created files and temporary checkouts are confined to this report's ao directory.
+
+## Subject
+
+- Repository: shw097-team/PIPD-LS-SP.
+- Requested remote branch: feat/s4post-triple-upgrade-20261012-r2.
+- Measured HEAD: 2a903bd09c7760c494f20ed98b840fae789b24d6.
+- Measured HEAD tree: ccb4d4407a27b0d53d13cc5c38f61f8a92fc7485.
+- Actual local branch: feat/s4post-triple-upgrade-20261012 (not the requested remote branch name).
+- Stacked base: 52542c395a0f91dc2ba4bd6123acd4cdecd780dc. No main-based write-set comparison was substituted.
+- Original tree T: C:/Projects/Agent_Workspace/PIPD/worktrees/s4post-b-wt.
+- AO: T/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao.
+
+Commands below use T and AO as these exact path abbreviations. Full invocations and raw outputs are retained in the adjacent transcript/log files. Get-Content/rg source inspections and temporary-copy setup are recorded in those transcripts as well.
+
+Primary commands:
+
+~~~text
+git -C T rev-parse HEAD
+git -C T rev-parse HEAD^{tree}
+git -C T branch --show-current
+git -C T status --porcelain
+git -C T diff --name-status 52542c395a0f91dc2ba4bd6123acd4cdecd780dc 2a903bd09c7760c494f20ed98b840fae789b24d6
+git -C T diff --name-only 52542c395a0f91dc2ba4bd6123acd4cdecd780dc 2a903bd09c7760c494f20ed98b840fae789b24d6
+git -C T diff --exit-code 52542c395a0f91dc2ba4bd6123acd4cdecd780dc 2a903bd09c7760c494f20ed98b840fae789b24d6 -- skills/
+git -C T rev-parse 52542c395a0f91dc2ba4bd6123acd4cdecd780dc:skills 2a903bd09c7760c494f20ed98b840fae789b24d6:skills
+python -m unittest tests.test_public_plugin_packaging tests.test_web_fallback
+python -m unittest discover -s tests -t .
+python tools/freeze_public_plugin_source.py --repo-root T --out AO/frozen_check.json
+python tools/build_public_plugin.py --source-root T --ledger AO/frozen_check.json --source-commit 2a903bd09c7760c494f20ed98b840fae789b24d6 --out-dir AO/build-output
+python AO/probe_f05.py
+git ls-remote origin refs/heads/feat/s4post-triple-upgrade-20261012-r2
+git diff --exit-code
+git diff --cached --exit-code
+~~~
+
+The focused unittest command ran in T. Full discovery ran ONLY in AO/candidate-copy, an independent --no-hardlinks clone checked out at the named commit; it did not run in T. The first clone checkout failed with a long filename; a command-local core.longpaths=true retry checked it out successfully. Both attempts and their outputs are preserved. A second clean clone, AO/owner-candidate, was used only for the supplementary owner-gate reproduction; core.longpaths=true was configured in that copy, never in T.
+
+For Python execution, PYTHONDONTWRITEBYTECODE=1 and PYTHONUTF8=1 were set. TEMP, TMP and TMPDIR were redirected to AO/temp. This prevents normal test temporary files and bytecode from being written elsewhere. The full suite contains fixed ROOT/.hgk/artifacts writes, which is why it was not run against the original worktree. No tests were changed.
+
+Initial status BEFORE any AO output existed:
+
+~~~text
+?? .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/AO_20261012T105531Z.log
+?? .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/VERIFIER_AO_BRIEF.md
+?? .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_ao_lane.sh
+~~~
+
+These three pre-existing untracked files were not removed or edited. Subsequent status additionally lists verify/ao/, the explicitly permitted checker output. Final tracked and staged diffs both exited 0 with no output; HEAD and tree remained unchanged. This is tracked-content integrity, NOT a clean-worktree assertion.
+
+Remote readback exited 0:
+
+~~~text
+2a903bd09c7760c494f20ed98b840fae789b24d6 refs/heads/feat/s4post-triple-upgrade-20261012-r2
+~~~
+
+## What I reproduced
+
+### A. Skill ledger and identity
+
+Ledger directories = 8; ledger file keys = 48; actual directories = 8; actual files = 48. Directory and file path sets match. The initial PowerShell property-count display expanded to 48 individual ones; a separate count correctly measured 48 (C_preflight_raw.txt). The successful independent all-file canonical hash check measured 0 mismatches and 146511 canonical bytes. Its failed quoting attempt is also retained, not suppressed.
+
+Eight names: pipd-assurance-tqaep, pipd-authority-source, pipd-execution-contract, pipd-package-project, pipd-pd-bind, pipd-pi-compile, pipd-profile-tailor, pipd-route-intake.
+
+Three raw on-disk SHA256 recomputations, each matching its ledger value:
+
+~~~text
+skills/pipd-assurance-tqaep/SKILL.md
+703d354c5b04caa96c3deded4cd57c3a6ba91603a6419479117e4b83d568f776
+skills/pipd-authority-source/SKILL.md
+89d04cf2e753e539f1d661beaa8e0df348f6ca8db9e423f516656106dcf68e91
+skills/pipd-execution-contract/SKILL.md
+903c0af6ce09929b3c9c9f23abe650989c0a952fa4372dbe9414d076e7648478
+~~~
+
+Exact hash command: Get-FileHash -LiteralPath <each path above> -Algorithm SHA256. Raw evidence: AB_checks_raw.txt. All-file supplemental check: A_ledger_all_retry_raw.txt. The checked-in ledger identifies earlier commit 32962532b7b7176eafbd3d353ced63a3056027fb and tree 40b9507a97eea29cdc20f55e69cedb34ee8e2302; it is a historical source ledger, not a declaration of the current Stage-B commit/tree. Its skill bytes were independently checked rather than assuming identity metadata matched.
+
+### B. Stacked-base write set
+
+The exact diff commands are listed under Subject; their entire 79-path name-status output is in AB_checks_raw.txt. Independently counted output:
+
+~~~text
+diff_exit=0
+Changed=79; Outside=0
+skills/ changed=0
+src/ changed=0
+schemas/ changed=0
+dist/ changed=0
+skills_diff_exit=0
+9341a4915cdd3f30da757af9c8c37ffeac363487
+9341a4915cdd3f30da757af9c8c37ffeac363487
+~~~
+
+Outside paths were counted against this anchored allowlist:
+
+~~~text
+^(packaging/|tools/|tests/|docs/install/|docs/adr/|openspec/changes/s4post-triple-upgrade/|\.github/workflows/public-plugin-verify\.yml$|README\.md$|\.hgk/rounds/S4POST-20261012)
+~~~
+
+Zero outside paths and identical skills subtree IDs establish the committed write-set and byte-identity claims for this base/candidate pair. They do not establish the CI guard is equivalent.
+
+### C. Independently observed test counts
+
+| Run | Location | Exit | Total | Failures | Errors | Skips | Derived passing test cases |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Focused requested modules | Original T | 0 | 44 | 0 | 0 | 0 | 44 |
+| Full discovery, first incomplete copy | AO/candidate-copy | 1 | NOT_COLLECTED | N/A | collection abort | N/A | N/A |
+| Full discovery, successfully checked-out copy | AO/candidate-copy | 1 | 569 | 4 | 3 | 6 | 556 |
+| Full discovery against original T | NOT_EXECUTED | N/A | N/A | N/A | N/A | N/A | N/A |
+
+Observed totals DO NOT differ from 44 and 569 for the completed runs. The full run is NOT an all-pass reproduction; 556 = 569 - 4 - 3 - 6 is an arithmetic derivation, not a maker-provided number. Copy location and Windows path/Git-ancestor effects constrain interpretation.
+
+Focused raw stderr:
+
+~~~text
+............................................
+----------------------------------------------------------------------
+Ran 44 tests in 1.804s
+
+OK
+~~~
+
+Full-copy raw conclusion:
+
+~~~text
+Ran 569 tests in 104.122s
+
+FAILED (failures=4, errors=3, skipped=6)
+~~~
+
+Raw stdout/stderr and exits: C_focused_*.txt, C_full_copy_*.txt, C_full_copy_retry_*.txt; setup transcripts: C_full_preflight_raw.txt and C_full_retry_preflight_raw.txt. No failure logs were replaced by successful retries.
+
+### E. Supplementary owner-gate reproduction
+
+Original-tree reproduction is separately reported as failed below. A clean isolated committed copy, after setting its LOCAL core.longpaths=true, froze with exit 0. Using that freshly produced ledger against that copy and a separate AO/copy-build-output directory exited 2:
+
+~~~text
+REFUSED OWNER_INPUT_MISSING: no owner derivation record for skill 'pipd-assurance-tqaep' (derivations.json is empty by design; every skill needs an owner-approved record whose source_sha256 matches the frozen ledger)
+~~~
+
+stderr was empty, stdout carried the refusal, and the target directory contained 0 entries. Commands and raw outputs: E_isolated_owner_retry_raw.txt, E_copy_freeze_retry_stdout.txt, E_copy_build_retry_stdout.txt, E_copy_build_retry_stderr.txt. This is a clean-copy owner refusal, NOT successful execution of the requested original-tree freeze. The preceding copy attempt also failed because Git without its longpaths configuration reported four long-path deletions; its raw failure is retained in E_copy_freeze_stdout.txt.
+
+## What I could NOT reproduce
+
+### Clean original worktree / original owner-gate chain
+
+Initial git status already disproved the clean-worktree precondition. The exact original freeze command in Subject exited 2:
+
+~~~text
+REFUSED DIRTY_WORKTREE: worktree is not clean:
+?? .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/AO_20261012T105531Z.log
+?? .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/VERIFIER_AO_BRIEF.md
+?? .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_ao_lane.sh
+?? .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao/
+~~~
+
+It did not create frozen_check.json. The requested subsequent build exited 2 with empty stderr and the following stdout:
+
+~~~text
+REFUSED LEDGER_UNREADABLE: [Errno 2] No such file or directory: 'C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-b-wt\.hgk\rounds\S4POST-20261012-postrepair-recheck-and-triple-upgrade\verify\ao\frozen_check.json'
+~~~
+
+AO/build-output remained empty (0 entries). This proves no archive for this attempted chain, but DOES NOT prove owner-gate execution there. The output-directory placement inside T would also trigger OUTPUT_ROOT_OVERLAPS_REPO if a valid ledger were supplied; the observed failure was earlier LEDGER_UNREADABLE. I did not bypass either original-tree gate. Raw: E_refusal_raw.txt and E_freeze_*/E_build_*.txt.
+
+### Original-tree full unittest command
+
+NOT_EXECUTED in T: tests/test_tqaep_design_positive.py:50 creates ROOT/.hgk/artifacts/tqaep_design_tmp; lines 59–60 write pi.json and ecp.json, and line 131 writes empty_pi. Restoring bytes afterward would still violate the prohibition on transient candidate writes. Source inspection is in C_preflight_raw.txt/C_full_preflight_raw.txt. The command was instead attempted in a committed clone under AO. Initial checkout failure (exit 128) was:
+
+~~~text
+fatal: cannot create directory at '.hgk/rounds/R11-20261011-s4-credential-closure-and-fda-integration/openspec/changes/pipd-ls-sp-r11-credential-closure': Filename too long
+~~~
+
+The subsequent discovery on that incomplete checkout aborted before collecting tests:
+
+~~~text
+ImportError: Start directory is not importable: 'tests'
+~~~
+
+After successful longpaths checkout, the 569-test run still failed. Exact failing cases:
+
+- tests.test_atomic_requirements.RepoContextBinding.test_non_git_root_degrades_and_discloses: AssertionError: 'git' != 'filesystem'.
+- tests.test_atomic_requirements.RepoContextBinding.test_stale_context_is_refused: equal currentness_epoch fingerprints.
+- tests.test_atomic_requirements.RepoContextBinding.test_tracked_files_exclude_vcs_internals: AssertionError: 0 != 2.
+- tests.test_s4ext_artifact_reproducibility.ArtifactReproducibility.test_t2_scanner_stays_out_of_the_tree: AssertionError: False is not true : the scan artefact was not written to --out.
+- tests.test_tooling_executes.TestToolingExecutes.test_cli_smoke_runs: shutil.Error during nested copytree, including Windows missing/long-path errors.
+- tests.test_tooling_executes.TestToolingExecutes.test_export_manifest_has_no_vcs_paths: FileNotFoundError [WinError 3] on a long evidence path.
+- tests.test_tooling_executes.TestToolingExecutes.test_tracked_file_metric_excludes_vcs_internals: shutil.Error during nested copytree, including WinError 206.
+
+These are measured local-copy failures. The forced deep AO directory, temporary directories nested inside a Git checkout, and Windows long-path handling are confounders; I do not label these seven cases newly introduced Stage-B regressions. The raw tracebacks are unabridged in C_full_copy_retry_stderr.txt.
+
+### G. External and human gates
+
+- Vendor's own manifest validator: NOT_EXECUTED — only the repository's local validator and synthetic tests were run; no vendor validator was invoked.
+- OpenAI Portal scan/review: NOT_EXECUTED — no Portal submission, scan receipt, or review was performed.
+- Real Host effective-load beyond this machine: NOT_EXECUTED — no external host was installed or exercised.
+- codex-desktop GUI: NOT_EXECUTED — no GUI load/install/use acceptance flow was operated.
+- Claude Code: NOT_EXECUTED — no Claude Code runtime or integration was launched.
+- Windows account UAT: NOT_EXECUTED — unattended unit tests under this process are not a user/account UAT.
+- GitHub Actions workflow execution: NOT_EXECUTED — the workflow was inspected locally; a remote run was not started or certified.
+- Real filesystem symlink-overwrite attempt: NOT_EXECUTED — os.symlink failed with OSError(22, '用戶端沒有這項特殊權限。'); a real hardlink attack WAS executed instead.
+
+## Findings
+
+### AO-01 — HIGH — An output hardlink permits sentinel overwrite despite F05 closure language
+
+Claim: the coverage matrix calls F05 'symlink overwrote a sentinel' REPAIRED and identifies 'check_output_root + O_EXCL test_05, test_21-path case'.
+
+Exact falsifying command, with TEMP/TMP/TMPDIR=AO/temp and PYTHONDONTWRITEBYTECODE=1:
+
+~~~text
+python AO/probe_f05.py
+~~~
+
+The harness imports the candidate's existing complete-owner fixture and invokes its REAL Env.build -> build_plugin. No candidate code is patched. It precreates the checksum output as a real hardlink to a sentinel outside the output directory; all attack files remain inside AO/temp. Raw output:
+
+~~~text
+symlink: NOT_EXECUTED link creation failed: OSError(22, '用戶端沒有這項特殊權限。')
+hardlink: before=b'INDEPENDENT_AO_SENTINEL_DO_NOT_OVERWRITE\n'
+hardlink: builder_verdict=BUILT
+hardlink: after=b'e77501f25007ceb96d3e107070ad6d223731a07b51c04fcfdfb1b2676df918a6  pipd-ls-sp-public-skills.zip\n'
+hardlink: sentinel_untouched=False
+probe_exit=0
+~~~
+
+Evidence: probe_f05.py and D_f05_probe_raw.txt. tools/build_public_plugin.py:800 writes sidecar bytes non-exclusively; lines 804–805 likewise write mapping/receipt paths. Root/ancestor symlink rejection does not protect pre-existing output members. The measured attack is a HARDLINK, not a successfully created symlink; it establishes an actual unauthorized overwrite in the complete-owner fixture, not that today's owner-missing release configuration can produce a real archive. The local attacker must be able to prepopulate the output directory/link. No TOCTOU exploitation, production attacker access, or vendor-host behavior was measured.
+
+### AO-02 — MEDIUM — Delivered-tree clean precondition is false
+
+Claim: the candidate must be clean. Exact falsifying command: git -C T status --porcelain, run before AO output creation. Raw initial status is under Subject and shows three pre-existing untracked stage-b files. The subsequent freeze refuses DIRTY_WORKTREE, not the owner gate. This is a delivery/environment finding, not a tracked-code mutation. The remote commit itself matches.
+
+### AO-03 — MEDIUM — CI's write-set guard is narrower than the required upgrade allowlist
+
+Claim under challenge: the workflow guard matches the stated upgrade set and protects dist as well as frozen paths. Exact inspection/falsification commands:
+
+~~~text
+Get-Content .github/workflows/public-plugin-verify.yml
+foreach($path in @('dist/payload.zip','unrelated/changed.txt','docs/elsewhere.md','skills/pipd-route-intake/SKILL.md')) { Write-Output "path=$path rejected_by_workflow_guard=$($path -match '^(skills|src|schemas)/')" }
+~~~
+
+Raw evaluation (DF_detail_raw.txt):
+
+~~~text
+path=dist/payload.zip rejected_by_workflow_guard=False
+path=unrelated/changed.txt rejected_by_workflow_guard=False
+path=docs/elsewhere.md rejected_by_workflow_guard=False
+path=skills/pipd-route-intake/SKILL.md rejected_by_workflow_guard=True
+~~~
+
+The guard only rejects ^(skills|src|schemas)/. It has no positive allowed-path check and no dist exclusion. It derives BASE from PR base or HEAD~1, not from the fixed stacked base. A workflow_dispatch run on this commit defaults to the immediately preceding commit, so it does not necessarily examine the entire stacked Stage-B write set. This is a guard-logic mismatch; I did NOT execute a mutated remote CI run. The independently measured committed diff nevertheless has zero violations.
+
+### D. Historical test coverage assessment (F01–F05)
+
+All methods below belong to PublicPluginPackagingTest in tests/test_public_plugin_packaging.py. Entire source is preserved in C_preflight_raw.txt; targeted excerpts in D_sources_raw.txt and DF_detail_raw.txt. Their executions are included in the 44 passing focused cases.
+
+| Defect | Method(s) | What the test actually does | Scope assessment |
+|---|---|---|---|
+| F01 fake PNG accepted | test_01_png_signature_with_broken_body_is_refused; test_01_non_png_icon_is_refused | Replaces real fixture icon bytes, supplies matching malicious digest, invokes real builder, checks ICON_INVALID and motive (truncated_chunk/signature), checks no output. | Direct regression inputs, not vacuous. Does not establish every PNG validity rule or Portal scanning. |
+| F02 arbitrary manifest accepted | test_02_unknown_manifest_property_is_refused; test_16_unknown_top_level_key_in_the_official_manifest_is_refused; test_16_the_previous_internal_manifest_is_refused_as_the_package_root | Inserts unknown keys / legacy root shape into packaging fixtures and checks exact real-builder schema refusal. | Direct local schema regression, not vacuous. Local validate_subset and byte-pinned schema are NOT execution of the vendor's own validator. |
+| F03 invalid SKILL.md accepted | test_03_skill_without_frontmatter_is_refused; test_03_skill_with_wrong_frontmatter_name_is_refused; test_12_complete_owner_record_builds_and_projects_the_body_verbatim | Freezes the malformed source first (preventing a hash-drift proxy), invokes real builder, checks SKILL_FRONTMATTER_INVALID; positive case checks body and kept/dropped keys in a built zip. | Direct missing-frontmatter/name regressions with a real positive build. Not exhaustive vendor skill-format qualification. |
+| F04 null source_commit accepted | test_04_source_commit_gates | Calls real builder with None, abc123 and a differing 40-hex value; checks SOURCE_COMMIT_NULL/INVALID/MISMATCH and no zip. | Direct regression at Python API boundary. Does not separately execute a subprocess CLI omitting --source-commit in this method. |
+| F05 symlink overwrote sentinel | test_05_symlinked_output_root_is_refused_and_target_untouched | Makes the OUTPUT ROOT a symlink, or substitutes only _path_is_symlink if Windows disallows it; checks OUTPUT_ROOT_SYMLINK, sentinel bytes, and directory members. | Genuine root gate test, but on this machine it exercises a predicate seam, not real filesystem symlink resolution. A proxy for generalized overwrite safety; does not test output-member symlinks/hardlinks or concurrent swaps. AO-01 actually overwrites a sentinel through a hardlink. |
+
+No listed test was found to be vacuous or to assert an unrelated refusal code. F05 is materially narrower than the closure language. Exact additional inspection: rg -n '^    def test_(05|21)' tests/test_public_plugin_packaging.py. The frozen module has test_05 but no test_21; the coverage matrix's test_21-path locator cannot be resolved there. mkstemp's exclusive temporary zip creation does not make the subsequent sidecar/receipt writes exclusive.
+
+### F. CI workflow inspection
+
+- Actual triggers: pull_request with path filters and workflow_dispatch; no push trigger.
+- Permissions block: contents: read; checkout specifies persist-credentials: false. No explicit repository-push/tag/publish command or write-token permission was found.
+- Literal pull_request_target DOES appear, in the comment on line 9; it is NOT a YAML trigger. Likewise secrets.* appears in that comment, not a secret-consuming expression. A literal 'nowhere in the file' claim would be false; absence of that active trigger is supported by inspection.
+- No step explicitly needs a configured secret. This is a source inspection, not proof of every third-party action's implementation or all code executed by pip install/tests.
+- Steps CAN and DO write to the runner's checkout: py_compile writes bytecode; pip's editable installation/test suite has writes; the mutation step rewrites a tracked dist/mount README then git checkout restores it; logs and fallback work files are created. Therefore 'no repository write' is defensible only as NO REMOTE GITHUB REPOSITORY MUTATION, not as a read-only local worktree promise.
+- Path filters include docs/RELEASE_TUPLE.json and dist/mount/**, which are outside the user-specified upgrade set, while omitting broad tools/tests, docs/adr, OpenSpec and round-evidence paths. 'restricted to the upgrade paths' in the header is not an exact description of this task's allowlist.
+- docs/install/README.md:165 calls it a 'read-only gate'; that wording needs the remote-versus-local distinction. The file/docs explicitly deny Portal/publication/host/S4 acceptance; those ceilings are appropriately stated, not independently granted here.
+- Guard/base discrepancies and measured regex evidence are in AO-03. Entire workflow and documentation search output: F_workflow_raw.txt.
+
+## Verdict
+
+**FAIL_CHALLENGE**
+
+Scope: the measured local challenge of commit 2a903bd09c7760c494f20ed98b840fae789b24d6 finds an actual complete-owner-fixture output hardlink overwrite and a CI guard mismatch; it also records a dirty delivered tree and a non-passing isolated 569-test run. It DOES NOT authorize release, merge, publish, or S4 full pass, and does not cover vendor/Portal/GUI/other-host/account UAT or an original-tree full-suite execution.
+
+Passing subclaims remain passing: requested commit/remote readback, eight/48 ledger inventory and hashes, stacked-base zero-outside-path diff, unchanged skills subtree, 44 focused tests, and owner refusal/no archive in the clean isolated copy. A FAIL_CHALLENGE is not a claim that every candidate feature failed.
+
+## Makers-vs-checker differences
+
+- Maker totals 44 and 569: measured totals match; 44 is green, while the isolated 569 run exits 1 with 4 failures, 3 errors and 6 skips. Original-tree full-suite execution remains NOT_EXECUTED under the hard write prohibition; local-copy environmental effects prevent a clean regression attribution.
+- Clean subject assumption: false before checker outputs existed; three untracked stage-b files were already present.
+- Requested local branch identity: local branch lacks -r2; remote -r2 and local HEAD nevertheless resolve to the specified commit.
+- Real owner refusal: not reached in the requested original freeze/build chain (dirty tree, then missing ledger). Reproduced only in a separate clean committed copy after copy-local longpath configuration. Refusal text is stdout, not stderr.
+- F05 'REPAIRED' coverage: root symlink refusal passes, but generalized sentinel safety does not; real hardlink overwrite measured. Matrix's test_21-path locator is absent from the packaging test module.
+- CI 'read-only'/'upgrade paths' wording: no explicit remote write step, but runner checkout writes and the guard/filter set is not the required allowlist. Remote CI execution NOT_EXECUTED.
+- All external/human qualification gates remain NOT_EXECUTED. This report grants none of them.
+
+Raw evidence index: A_identity_raw.txt; AB_checks_raw.txt; C_preflight_raw.txt; A_ledger_all_retry_raw.txt; C_focused_stdout.txt/C_focused_stderr.txt/C_focused_exit.txt; C_full_preflight_raw.txt; C_full_copy_stdout.txt/C_full_copy_stderr.txt/C_full_copy_exit.txt; C_full_retry_preflight_raw.txt; C_full_copy_retry_stdout.txt/C_full_copy_retry_stderr.txt/C_full_copy_retry_exit.txt; D_sources_raw.txt; DF_detail_raw.txt; D_f05_probe_raw.txt; E_refusal_raw.txt and E_freeze_*/E_build_*; E_isolated_owner_raw.txt and E_copy_*; E_isolated_owner_retry_raw.txt and E_copy_*_retry_*; F_workflow_raw.txt; final_integrity_raw.txt. These retain failed attempts as well as successful checks. Temporary clones and attack harness live below AO and are not candidate fixes.
+
+EXIT_CODE=0
+COMMAND: git show HEAD:.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/08_PLUGIN/UPG_GATE_RECEIPT.json
+CWD: C:\Users\user\AppData\Local\Temp\pipd-ao2-845c9684eb78431f9bcc43b83bba4a74\candidate
+{
+  "schema": "PIPD-S4POST-UPG-GATE-RECEIPT/1",
+  "round_id": "S4POST-20261012-postrepair-recheck-and-triple-upgrade",
+  "stage": "B",
+  "change_id": "S4-UX-DISTRIBUTION-UPGRADE-R1",
+  "branch": "feat/s4post-triple-upgrade-20261012",
+  "stacked_on": {"branch": "fix/s4post-integration-repair-20261012", "tip_at_freeze": "52542c3"},
+  "frozen_subject": {
+    "commit": "32962532b7b7176eafbd3d353ced63a3056027fb",
+    "tree": "40b9507a97eea29cdc20f55e69cedb34ee8e2302",
+    "ledger": "evidence/08_PLUGIN/FROZEN_SOURCE_LEDGER.json",
+    "skills": 8,
+    "source_files": 48
+  },
+  "gates": [
+    {"gate": "UPG-G00", "name": "SOURCE_FREEZE", "verdict": "PASS",
+     "evidence": "freeze_public_plugin_source.py run on the frozen worktree: commit/tree 40-hex, exact eight skill names, path->sha256 for all 48 files, canonicalised text members; raw output evidence/08_PLUGIN/FROZEN_SOURCE_LEDGER.json",
+     "not_claimed": "the tag crosswalk and the vendor asset digests are read from the GitHub API, not re-downloaded this round"},
+    {"gate": "UPG-G01", "name": "SOURCE_IMMUTABLE", "verdict": "PASS",
+     "evidence": "evidence/08_PLUGIN/WRITESET_GUARD.txt: diff against the stacked Stage-A base lists zero paths outside the upgrade set, zero writes under skills/**, src/** or schemas/**, zero writes under dist/**",
+     "not_claimed": "the guard is computed against the stacked base; the Stage-A core writes it inherits are the owner's to ratify on the Stage-A PR"},
+    {"gate": "UPG-G02", "name": "EXACT_SKILLS", "verdict": "PASS",
+     "evidence": "ledger skill set == the eight frozen names; the builder refuses a ninth directory (test_07) and any member absent from the ledger (test_06)"},
+    {"gate": "UPG-G03", "name": "SEMANTIC_PROJECTION", "verdict": "PARTIAL",
+     "evidence": "byte-exact for every non-SKILL member; the derived SKILL.md asserts the body is unchanged (test_12) and marks the row DERIVED_WITH_OWNER_APPROVAL",
+     "residual": "no real subject can be projected yet: all eight packs carry non-portable frontmatter and no owner derivation record exists, so the real build refuses (REAL_BUILD_ATTEMPT.txt)"},
+    {"gate": "UPG-G04", "name": "PACKAGE_FORMAT", "verdict": "PARTIAL",
+     "evidence": "official Agent Plugins manifest validated against a byte-locked vendor schema (28 packaging cases); deterministic ZIP with member read-back; structural PNG decode; no mcp/app/hooks member",
+     "residual": "the vendor's own validator and the Portal scan are NOT_EXECUTED; the local validators are ours (stdlib), declared in the ADR"},
+    {"gate": "UPG-G05", "name": "RELEASE_PROVENANCE", "verdict": "TEMP_CLOSED",
+     "evidence": "two builds from identical inputs are byte-identical (test_10); the real subject build is attempted and REFUSED at the first owner gate with no archive written",
+     "residual": "a real artifact digest cannot exist until the owner supplies the four inputs; a new immutable release is required and the owner owns the tag"},
+    {"gate": "UPG-G06", "name": "SKILL_BEHAVIOR", "verdict": "PARTIAL",
+     "evidence": "Hermes Agent: project-local trust declared 8/8 load and a one-shot session listed all eight skills (POS); a non-PIPD question triggered no workflow (NON-TRIGGER). Stage A executed the Codex CLI host UAT.",
+     "residual": "typed-refusal and adversarial scenarios were not run on a host this round; no per-skill trigger/negative matrix"},
+    {"gate": "UPG-G07", "name": "WEB_CONSUMER", "verdict": "TEMP_CLOSED",
+     "evidence": "no public directory listing exists, so the documented Web route is the single fallback document; its generator is tested (16 cases) and refuses rather than truncates",
+     "residual": "no real Plus or Free account UAT; no document generated from a real published mount"},
+    {"gate": "UPG-G08", "name": "AGENT_CONSUMER", "verdict": "PARTIAL",
+     "evidence": "Hermes Agent executed locally; Codex CLI executed in Stage A; both are scoped to their own host",
+     "residual": "Codex Desktop (GUI) and Claude Code were NOT_EXECUTED; no host may be described as universally verified"},
+    {"gate": "UPG-G09", "name": "PUBLIC_RELEASE", "verdict": "PUBLIC_HOLD",
+     "evidence": "no verified publisher identity, no Portal draft, no scan, no review, no publish; the four owner inputs are listed in packaging/public-plugin/OWNER_INPUT_REQUIRED.json",
+     "residual": "the agent performs none of these acts"}
+  ],
+  "claims_this_round_does_not_make": [
+    "BUILD_PASS", "HOST_QUALIFIED", "PORTAL_APPROVED", "PUBLISHED", "PRODUCTION_VERIFIED",
+    "PIPD_S4_FULL_PASS", "independent acceptance of this candidate"
+  ],
+  "claim_ceiling": "MAKER_CANDIDATE_AND_LOCAL_TESTS_ONLY",
+  "raw_evidence_index": [
+    "evidence/08_PLUGIN/FROZEN_SOURCE_LEDGER.json",
+    "evidence/08_PLUGIN/REAL_BUILD_ATTEMPT.txt",
+    "evidence/08_PLUGIN/WRITESET_GUARD.txt",
+    "evidence/02_TRACE/REQUIREMENT_COVERAGE_MATRIX.tsv",
+    "evidence/10_OWNER/GSTACK_ROUTE_RESOLUTION.json",
+    "evidence/10_OWNER/OPENSPEC_VALIDATE.txt",
+    "raw/orch_focused_public_plugin.log",
+    "raw/orch_full_suite_stageB.log",
+    "verify/uat/hermes/UAT_RUN.ndjson",
+    "stage-b/B1_attempt3_20261012T101611Z.log",
+    "stage-b/B2_attempt3_20261012T101611Z.log",
+    "stage-b/B3_attempt3_20261012T101611Z.log",
+    "stage-b/B4_attempt3_20261012T102527Z.log"
+  ]
+}
+
+EXIT_CODE=0
+COMMAND: git show HEAD:.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/ROUND_RESULT.md
+CWD: C:\Users\user\AppData\Local\Temp\pipd-ao2-845c9684eb78431f9bcc43b83bba4a74\candidate
+# S4POST_AND_UPGRADE_RESULT
+
+> Round `S4POST-20261012-postrepair-recheck-and-triple-upgrade`
+> Produced by the Hermes governed orchestrator under HG-KSEOS control.
+> This is a maker-side result. It is not an independent acceptance and it grants no release.
+
+## 1. 兩個編譯裁定與 Contract
+
+| 階段 | ChangeSet | Contract | 裁定 |
+|---|---|---|---|
+| A | `S4POST-INTEGRATION-REPAIR`（NARROW_REPAIR） | `openspec/changes/pipd-ls-sp-s4-postrelease-narrow-repair/` | 實作完成，maker 自測通過；獨立驗收未執行 |
+| B | `S4-UX-DISTRIBUTION-UPGRADE-R1`（UPGRADE） | `openspec/changes/s4post-triple-upgrade/`（`openspec validate --strict` 通過，4/4 artifacts） | 實作完成，maker 自測通過；獨立驗收未執行 |
+
+B 依指示採 **stacked PR**：base = A 分支。B 的 diff 相對 stacked base 為 **0 個越界路徑、0 個 `skills/**`／`src/**`／`schemas/**` 寫入、0 個 `dist/**` 寫入**。
+
+## 2. 現行 subject hashes
+
+| 主體 | 值 |
+|---|---|
+| `main`（未動） | `224591431a164ab72a9423cd180e417e8a762403` |
+| `v0.1.1-preview.3` tag（未動） | tag object `e94cc7f9567acb59de4691ee6166815ac96a9700` |
+| Stage A 分支 tip | `52542c395a0f91dc2ba4bd6123acd4cdecd780dc` |
+| Stage B 候選 commit | `47abe088c683f6f4acba45b84623e4fd963c684f` |
+| Stage B frozen source tree | `40b9507a97eea29cdc20f55e69cedb34ee8e2302` |
+| frozen source ledger | 8 skills / 48 files |
+
+## 3. HGK 准入與綁定
+
+本輪的 `SOURCE_FROZEN` 由 worktree 的 `git rev-parse HEAD`/`HEAD^{tree}` 直接產生並寫入 `evidence/08_PLUGIN/FROZEN_SOURCE_LEDGER.json`；`PACKAGE_BUILT` 事件**未發生**（建置在第一個 owner gate 即 refuse）。未取得任何新的外部 HGK WorkOrder admission 檔；本輪以使用者 WorkOrder 為授權來源，並在 `evidence/10_OWNER/` 保存 GSTACK route resolution 與 OpenSpec validate 收據。**不得把本輪敘述為 HGK 已核准發行。**
+
+## 4. A／B 任務、PR、Commit、推送狀態
+
+| 項目 | 狀態 |
+|---|---|
+| A 分支推送 | ✅ `fix/s4post-integration-repair-20261012` → `52542c39…`（已推） |
+| B 分支推送 | ✅ 推到**新分支** `feat/s4post-triple-upgrade-20261012-r2` → `47abe088…`（已推） |
+| B 舊分支 | 遠端 `feat/s4post-triple-upgrade-20261012` 停在 `38f9067d…`；本機分支已 rebase 到 A tip，**非 fast-forward**。依規範**不 force push**，故另推新分支名 |
+| PR | 建立 Draft PR 需 Repo Owner 或有 Pull requests 權限的連線器。候選：`https://github.com/shw097-team/PIPD-LS-SP/pull/new/feat/s4post-triple-upgrade-20261012-r2`（base 應設為 A 分支） |
+| Merge | ❌ 未合併、非 Maker 權限 |
+
+## 5. 准出 Gate 與未閉合項
+
+| Gate | 裁定 |
+|---|---|
+| UPG-G00 SOURCE_FREEZE | PASS |
+| UPG-G01 SOURCE_IMMUTABLE | PASS（stacked base 相對） |
+| UPG-G02 EXACT_SKILLS | PASS |
+| UPG-G03 SEMANTIC_PROJECTION | PARTIAL（真實主體投影被 owner gate 擋下，符合設計） |
+| UPG-G04 PACKAGE_FORMAT | PARTIAL（vendor 官方 validator／Portal 未跑） |
+| UPG-G05 RELEASE_PROVENANCE | TEMP_CLOSED（可重現性已在 fixture 證明；真實產物 withheld） |
+| UPG-G06 SKILL_BEHAVIOR | PARTIAL（Hermes POS + NON-TRIGGER 實跑；REFUSAL/ADV 未跑） |
+| UPG-G07 WEB_CONSUMER | TEMP_CLOSED |
+| UPG-G08 AGENT_CONSUMER | PARTIAL（Hermes 實跑；Codex Desktop／Claude Code 未跑） |
+| UPG-G09 PUBLIC_RELEASE | PUBLIC_HOLD |
+
+未閉合 TT/CR：`TT-S4POST-EVIDENCE-06`（部分處理）、`TT-UPG-P01` owner inputs ×4、`TT-UPG-P04` release owner、`CR-F01-PNG-PORTAL`、`CR-F02-SCHEMA-LOCK`、`CR-F13` 獨立性、`TR-16/17/18/29–35/38–40` NOT_EXECUTED。
+
+## 6. 逐要求 mapping 檔
+
+`evidence/02_TRACE/REQUIREMENT_COVERAGE_MATRIX.tsv`：TR-01–TR-40、F01–F14、RP-P01–08、A01–A42 逐列，含 implementation locator、evidence、verdict 與 claim ceiling。**NOT_EXECUTED / PARTIAL 逐列明示，不以計數冒充完成。**
+
+## 7. Evidence Return Pack 索引
+
+| 檔案 | 內容 |
+|---|---|
+| `evidence/EVIDENCE_RETURN_PACK.json` | 候選綁定的返包（含 lane 模型替換與全部 NOT_EXECUTED） |
+| `evidence/08_PLUGIN/FROZEN_SOURCE_LEDGER.json` | 凍結來源帳 |
+| `evidence/08_PLUGIN/REAL_BUILD_ATTEMPT.txt` | 真實主體建置 **REFUSED**（exit 2，無產物） |
+| `evidence/08_PLUGIN/WRITESET_GUARD.txt` | 寫入集合守衛 |
+| `evidence/08_PLUGIN/UPG_GATE_RECEIPT.json` | UPG-G00–G09 |
+| `evidence/10_OWNER/GSTACK_ROUTE_RESOLUTION.json` | GSTACK named-method route，invariants 全零 |
+| `evidence/10_OWNER/OPENSPEC_VALIDATE.txt` | OpenSpec CLI 收據 |
+| `raw/orch_focused_public_plugin.log` | 44 測試 OK |
+| `raw/orch_full_suite_stageB.log` | 569 測試 OK（skipped=6） |
+| `verify/uat/hermes/UAT_RUN.ndjson` | Hermes host UAT |
+| `evidence/09_RELEASE/PUSH_READBACK.txt` | 推送前後 refs 對比 |
+
+## 8. 獨立 Checker 收據與 Maker 差異
+
+**無獨立 Checker 收據。** 本輪全部測試、凍結、建置嘗試與守衛皆由 Maker（Hermes 編排層 + Codex bounded writers）產出，屬同一 session 的自測。`AO_VERDICT.json`（FAIL @ `e2e41a…`）與 `AO_VERDICT.attempt5.json`（scoped PASS @ `c876276…`）皆屬**更早的 frozen subject**，本輪未挪用、未覆寫。下一個合法動作是對 `47abe088…` 派一輪唯讀獨立驗收。
+
+## 9. 各 Host 實際 UAT 狀態
+
+| Host | 狀態 |
+|---|---|
+| Hermes Agent | PARTIAL：project-local trust 宣告 8/8 載入；one-shot session 列出全部 8 個 `pipd-*`；非 PIPD 問題未觸發工作流。REFUSAL／ADVERSARIAL 未跑 |
+| Codex CLI | Stage A 執行過；本階段未重跑 |
+| Codex Desktop (GUI) | NOT_RUN |
+| Web（Plus／Free） | NOT_RUN（無公開 listing） |
+| Claude Code | NOT_RUN |
+
+## 10. Rollback pointer
+
+未發布，僅需清理**本輪派生**產物：worktree `PIPD/worktrees/s4post-b-wt`、建置輸出 `PIPD/worktrees/s4post-b-build-out`、`packaging/public-plugin/assets/icon-128.png`（gitignored）。遠端無任何需回滾的 main／tag／asset 變更；已推的兩個分支可由 Owner 刪除。
+
+## 11. 下一個合法 Owner／HITL 行為
+
+1. Repo Owner 以 A 分支為 base 建 B 的 Draft PR，並決定是否合併 A。
+2. Owner 補四項輸入（`packaging/public-plugin/OWNER_INPUT_REQUIRED.json`）：8 份 frontmatter derivation、vendor schema digest pin、publisher identity、brand icons。
+3. 對 `47abe088…` 派獨立唯讀驗收（VERIFY_ONLY），並接受／否決本輪候選。
+4. Release Owner 決定 Plugin SemVer 與新 immutable release；Human Publisher 執行 Portal draft→scan→review→Publish。
+
+## 12. 終止狀態
+
+`PARTIAL`。
+
+A 與 B 的候選實作、證據與推送皆已完成且可外部複驗；**BUILD_PASS／HOST_QUALIFIED／PORTAL_APPROVED／PUBLISHED／PIPD_S4_FULL_PASS 一律未授予**。`PUSHED ≠ MERGED`、`BUILD_CANDIDATE ≠ BUILD_PASS`、`PUBLIC_PLUGIN_VERIFIED ≠ PIPD_S4_FULL_PASS`。
+
+EXIT_CODE=0
+COMMAND: git show HEAD:packaging/public-plugin/OWNER_INPUT_REQUIRED.json
+CWD: C:\Users\user\AppData\Local\Temp\pipd-ao2-845c9684eb78431f9bcc43b83bba4a74\candidate
+{
+  "schema": "PIPD-PUBLIC-PLUGIN-OWNER-INPUTS/1",
+  "what_this_is": "The four owner inputs that BLOCK the public plugin candidate. The build refuses with a typed, non-zero reason until each is supplied. This file is a template with the exact shape; it is NOT an approval and the agent may not fill it.",
+  "supply_1_derivations": {
+    "where": "packaging/public-plugin/derivations.json",
+    "shape": {
+      "schema": "PIPD-PUBLIC-PLUGIN-DERIVATIONS/1",
+      "derivations": [
+        {
+          "skill": "<one of the eight frozen skill names>",
+          "source_path": "skills/<skill>/SKILL.md",
+          "source_sha256": "<copy the value for that path out of evidence/08_PLUGIN/FROZEN_SOURCE_LEDGER.json; do NOT retype it>",
+          "approved_by": "<the approving owner identity>",
+          "approval_receipt": "<ticket / ADR / message id that records the approval>",
+          "kept_keys": ["name", "description"],
+          "dropped_keys": ["version", "owner", "triggers", "schemas", "references", "tests"]
+        }
+      ]
+    },
+    "why": "Every one of the eight SKILL.md packs carries frontmatter outside the Agent Skills portable set, so a byte-copy projection is impossible. The body is never altered; only the listed keys move into the metadata map.",
+    "count_required": 8
+  },
+  "supply_2_vendor_schema_and_digest": {
+    "where": "packaging/public-plugin/vendor-plugin.schema.json (already a byte copy of the round's download) and the pin field inside packaging/public-plugin/plugin.json -> extensions['com.pipd.s4'].official_schema_sha256",
+    "note": "The pin must equal the sha256 of the byte copy the builder validates against. The builder refuses VENDOR_SCHEMA_DIGEST_MISMATCH otherwise. The vendor's own validator and the Portal scan remain NOT_EXECUTED and are not claimed by this pin."
+  },
+  "supply_3_publisher_identity": {
+    "where": "the publisher record inside packaging/public-plugin/plugin.release.json",
+    "fields": ["name", "identity", "identity_sha256"],
+    "why": "A public listing is attributed to a verified human publisher. No agent may assert that identity."
+  },
+  "supply_4_icons": {
+    "where": "packaging/public-plugin/assets/ (gitignored) and the icon digests pinned in packaging/public-plugin/plugin.json",
+    "current_state": "The candidate generates a deterministic placeholder icon with a stdlib PNG writer so the pipeline is testable end to end. Owner brand assets, and the Portal's icon scan, are NOT supplied and NOT executed.",
+    "pin": "Regenerate or replace, then pin the resulting sha256 in the manifest's icon entry."
+  },
+  "owner_only_acts_after_these": [
+    "choose the plugin SemVer",
+    "create the new immutable release tag and its assets (never rewrite v0.1.1-preview.3)",
+    "perform the Portal draft -> scan -> review -> Publish sequence",
+    "ratify or reject the Stage A/B candidates"
+  ],
+  "claim_ceiling": "MAKER_CANDIDATE_AND_LOCAL_TESTS_ONLY"
+}
+
+EXIT_CODE=0
+COMMAND: git show HEAD:docs/install/README.md
+CWD: C:\Users\user\AppData\Local\Temp\pipd-ao2-845c9684eb78431f9bcc43b83bba4a74\candidate
+# PIPD-LS-SP — install (single source of truth)
+
+This page is the **install SSOT**: every other page that mentions installing PIPD-LS-SP either is
+this page or points at it. There are **two install routes and only two** — **Web** and **Agent** —
+and they have different ceilings. Pick one, read its ceiling, and do not read a green build (or a
+copied file) as anything more than what the [states table](#states-that-are-not-the-same) below says.
+
+Version pin for everything on this page: release **`v0.1.1-preview.3`**, release-tag target and
+build-source commit **`cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`**. The authority for these facts is
+[`docs/RELEASE_TUPLE.json`](../RELEASE_TUPLE.json); read it before you rely on any digest quoted
+below.
+
+---
+
+## Route 1 — Web (single-document fallback)
+
+There is **no public plugin directory listing yet**: nothing has been published to a plugin
+directory, so no user can install PIPD-LS-SP from one. The Web route today is therefore a **single
+document**, `PIPD_WEB_FALLBACK.md`, produced by [`tools/build_web_fallback.py`](../../tools/build_web_fallback.py)
+from a frozen mount pack. You attach that one document to a conversation or a Knowledge base; you do
+not install anything. Its ceiling is **`DOC_MOUNT_ONLY`** — no Python CLI, no MCP, no repository
+write, no S4 acceptance (spelled out [below](#the-web-fallback-document-and-its-doc_mount_only-ceiling)).
+The conditional directory route is described [further down](#the-directory-route-conditional-not-available-today).
+
+---
+
+## Route 2 — Agent (one copy-paste prompt)
+
+The Agent route is **one copy-paste prompt**: [`PIPD_AGENT_INSTALL_PROMPT.md`](PIPD_AGENT_INSTALL_PROMPT.md).
+It targets four supported hosts — **Hermes Agent**, **Codex Desktop (GUI)**, **Codex CLI** and
+**Claude Code** — and it makes the host do the work: detect its own identity/version/OS, prove its
+own discovery mechanism, show the exact paths and the diff, stop for approval, and then verify the
+load. **File presence is not evidence.** A host is only counted when it proves *real discovery* and
+an **8/8 effective load** of the eight skills, each with one positive and one negative trigger; if
+all that happened is that files were copied, the correct report is `NOT_VERIFIED`. Web GPT-6 is a
+**consumer of the fallback document, not an agent host** — it does not load the skills and is not a
+qualifying host for this route.
+
+The eight skills the route installs are the eight `skills/pipd-*` packs — `pipd-route-intake`,
+`pipd-authority-source`, `pipd-profile-tailor`, `pipd-pi-compile`, `pipd-pd-bind`,
+`pipd-execution-contract`, `pipd-assurance-tqaep`, `pipd-package-project` — six files each, **48
+files** in total.
+
+---
+
+## The Web fallback document and its `DOC_MOUNT_ONLY` ceiling
+
+`PIPD_WEB_FALLBACK.md` is one markdown document built from a *frozen mount pack* — a directory that
+carries its own `MANIFEST.sha256`, e.g. the checked-in
+[`dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3/`](../../dist/mount/) pack. Build it with
+the tool's own CLI:
+
+```bash
+python tools/build_web_fallback.py \
+  --mount-pack dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3 \
+  --release-id v0.1.1-preview.3 \
+  --release-commit cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a \
+  --out PIPD_WEB_FALLBACK.md
+```
+
+The tool is fail-closed, not best-effort. It **refuses** (typed reason, non-zero exit) instead of
+warning, on `MANIFEST_DIGEST_MISMATCH`, `MEMBER_SYMLINK`, `PATH_ESCAPE`, `UNEXPECTED_EXTRA_FILE`,
+`RELEASE_STAMP_MISSING`, `MEMBER_NOT_TEXT`, `SIZE_CAP_EXCEEDED` (it never truncates) and
+`DESTINATION_EXISTS` / `DESTINATION_SYMLINK`. It writes with `O_EXCL`, embeds no timestamp, stamps
+`DOC_MOUNT_ONLY` plus the member inventory, and is byte-deterministic across rebuilds.
+
+**The ceiling is `DOC_MOUNT_ONLY`.** That means, precisely:
+
+| not available through the fallback document | why |
+|---|---|
+| the Python **CLI** (`pipd`) | the document is content; it runs no `pipd` on the reader's machine |
+| **MCP** or any tool surface | nothing is registered and nothing is invoked |
+| **repository writing** | the document writes nothing to any checkout |
+| **S4 acceptance** | mounting a document accepts no stage, qualifies no host and approves no release |
+
+The host that consumes it is a read-only semantic surface: it can help you *design* work; it cannot
+execute, install, test, approve or release anything. For an 8/8 loaded skill set with real
+discovery, use the Agent route.
+
+---
+
+## The Directory route (conditional, not available today)
+
+A plugin directory listing is a *different* route, and it is **conditional on a published,
+account-visible listing** — one that actually exists and can be found from an account. None exists
+today. Treat every "install from the directory" instruction you read anywhere as **not available**
+until all of the following are true, and each is separately evidenced:
+
+1. the package root manifest conforms to the directory's own vendor schema (Agent Plugins 1.0), not
+   to PIPD's internal bookkeeping manifest;
+2. the directory's portal has reviewed and approved the submitted package (its own record, not ours);
+3. the listing is published and account-visible, and the bytes it serves match the receipt digest.
+
+Until then the Web route is exactly the single document in Route 1. Do not present a conditional
+route as an available one.
+
+---
+
+## States that are NOT the same
+
+These five words are kept apart on purpose. None of them is upgraded by a green build, and the
+right-hand column is what would have to exist for the word to be true — **not** what exists now.
+
+| state | meaning | required evidence | state today |
+|---|---|---|---|
+| `BUILD_PASS` | the deterministic packager built the candidate and its own tests are green | the build tool exits `0` with a byte-identical rebuild (two builds, same input, same bytes), the two upgrade test modules plus the full suite green, and a receipt whose `claim_ceiling` is `LOCAL_PACKAGER_PASS_ONLY` | **NOT claimed** — the builder *refuses* on the deliberately absent owner inputs (`derivations.json` is empty, no pinned publisher identity, no pinned official/vendor schema digest, no icon), so no candidate ZIP is claimed |
+| `PORTAL_APPROVED` | the plugin directory's own review approved the submitted package | the portal's approval record / identifier for that submission — the directory's verdict, never our own summary | **NOT_EXECUTED** — the manifest records `official_portal_verification: NOT_EXECUTED`; no submission was reviewed |
+| `PUBLISHED` | the package is live in the public directory and its served bytes are the ones we hashed | a published, account-visible listing **plus** the served asset's digest agreeing with the receipt | **NOT_PUBLISHED** — no public directory listing exists yet |
+| `HOST_QUALIFIED` | a specific host really loads the eight skills | per-host, host-produced evidence: the host resolved the project root, really discovered the skills, reported **8/8 effective load**, and passed one positive and one negative trigger; raw logs attached | **NOT_VERIFIED** — no host has produced that evidence; a copied file reports `NOT_VERIFIED` |
+| `S4_FULL_PASS` | the S0–S4 challenge is accepted as a *full* pass | independent verifier receipts covering the whole S0–S4 challenge, not scoped receipts | **NOT claimed** — the challenge is `PARTIAL_CHALLENGE`; scoped receipts only, and `G-RELEASE_FULL_PASS` is not granted |
+
+`BUILD_PASS` != `PORTAL_APPROVED` != `PUBLISHED` != `HOST_QUALIFIED` != `S4_FULL_PASS`. A green
+`BUILD_PASS` on this repository does **not** imply any of the other four — and there is no `BUILD_PASS`
+today either.
+
+---
+
+## Advanced and recovery
+
+Everything below is subordinate to the two routes above. It is not an alternative route.
+
+### Version pin
+
+Pin the **immutable** identity, never a moving branch tip:
+
+- release id **`v0.1.1-preview.3`**; release-tag target **`cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`**.
+- authoritative record: [`docs/RELEASE_TUPLE.json`](../RELEASE_TUPLE.json).
+- **Known open item, stated rather than hidden:** the immutable `v0.1.1-preview.3` **tag** still
+  holds the pre-correction pack, so a rebuild *from the tag's tree* does not reproduce the currently
+  served asset. The served asset was corrected in place and is reproducible from this tree
+  (`docs/RELEASE_TUPLE.json` → `authority_note`). Closing that needs a new immutable preview, not
+  another in-place replacement — it is a Release Owner item and it is **not closed**.
+
+### Hashes
+
+- Wheel `pipd_ls_sp-0.1.1a3-py3-none-any.whl`: the published digest is recorded in the repository
+  front page (`README.md`). Verify the bytes you downloaded against that digest before installing;
+  this page does not replace the sidecar.
+- Mount pack ZIP `PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip`: digest recorded in
+  `docs/RELEASE_TUPLE.json` (`published_asset_sha256`), with a `.sha256` sidecar next to the ZIP.
+- Inside an unpacked pack, `MANIFEST.sha256` lists every member's sha256 (LF-normalised text bytes
+  hash as stored). `tools/build_web_fallback.py` recomputes it and refuses on any mismatch.
+
+### Uninstall / rollback
+
+- **Web fallback:** delete `PIPD_WEB_FALLBACK.md`, and detach it from the conversation or Knowledge
+  base. Nothing was installed, so nothing else changes.
+- **Agent route:** remove exactly the files the prompt listed in its *uninstall path* line before it
+  wrote anything — the prompt refuses to run without printing that path first, and it refuses global
+  writes, so removal is confined to the project-local skill directory. Re-run the prompt to see the
+  list again; do not delete files it did not name.
+- **Wheel (CLI):** inside the virtual environment you installed into,
+  `python -m pip uninstall pipd-ls-sp`; or delete that environment. Nothing is installed outside it.
+
+### Reporting a failure
+
+Report what the host or the tool actually produced, not a summary of what you hoped for. Include:
+
+- host, OS and host version, and the shell/file/network permissions the host declared;
+- the pinned source you used (repo URL + the 40-hex commit, and the pack ZIP digest if you used one);
+- the **effective** skill count (discovered and loaded, not files copied);
+- every refusal case you hit, with the tool's or host's typed reason, verbatim;
+- the raw log paths.
+
+This repository's own read-only gate for the upgrade is
+[`.github/workflows/public-plugin-verify.yml`](../../.github/workflows/public-plugin-verify.yml); it
+uploads its raw logs as the `public-plugin-verify-raw-logs` artifact, which is the shape a failure
+report should have. A failure report is never an acceptance claim: see the
+[states table](#states-that-are-not-the-same) — none of those five words is granted by reporting.
+
+EXIT_CODE=0
