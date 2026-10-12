@@ -1,0 +1,71 @@
+{
+  "schema": "PIPD-S4POST-SUBAGENT-FINDINGS/1",
+  "round_id": "S4POST-20261012-postrepair-recheck-and-triple-upgrade",
+  "dispatched": "deleg_c874632f (3 leaf sub-agents, model deepseek-v4.1-flash, parallel, READ-ONLY)",
+  "transcripts": {
+    "adversarial_reconcile": "hermes/cache/delegation/live/deleg_c874632f/task-0.log",
+    "digest_basis": "hermes/cache/delegation/live/deleg_c874632f/task-1.log",
+    "stage_b_recon": "hermes/cache/delegation/live/deleg_c874632f/task-2.log"
+  },
+
+  "A_adversarial_on_stage_A": {
+    "verdict": "no hole lets the repaired defect class recur and no path lets the digest revert pass the suite; five P2 items found",
+    "verified_positives": [
+      "tampering a pack document (tag commit replaced by 40 zeros) exits non-zero with 3 FAILs",
+      "reverting published_asset_sha256 to the first-shipped digest exits non-zero",
+      "the whole 524-test suite is green on the subject",
+      "no consumer in the tree still reads the renamed keys (only a historical raw log mentions the old name)"
+    ],
+    "handled_in_a99998e": {
+      "F1_CI_fail_open": "FIXED - the negative step only required a non-zero module exit, so deleting the module or any import/collection error printed MUTATION_REFUSED_AS_EXPECTED and exited 0 with no verification done. Now: gate must be green first, an actual FAIL: line is required, and the failure motive must be the identity/byte binding",
+      "F2_assertion_narrowed": "FIXED - the tag-target assertion was a subset + floor of 5; restored to all eight documents",
+      "F3_erratum_contradiction": "FIXED - banner said PUBLISHED_ASSET_IMMUTABLE while the tuple says replaced-in-place; section 2 described the superseded caption scheme (string occurs zero times in the served pack). Banner reconciled, superseded items marked in place",
+      "F5_replacement_rests_on_our_own_fields": "FIXED - new assertion pins the producer record (replaced asset id 631301834 and the served digest in the release-correction log)"
+    },
+    "disclosed_residual": {
+      "F4_identity_parser_blind_spot": "the parser exempts lines carrying disclosure markers and does not examine non-pack documents. Risk is low because any pack byte change breaks the rebuild binding; recorded for the next round rather than silently accepted"
+    }
+  },
+
+  "B_digest_basis_measurement": {
+    "THIS_INVALIDATES_PART_OF_THE_PREVIOUS_ROUNDS_FAR": true,
+    "measured_on_subject": {"checked": 1085, "match_raw_disk": 1038, "stale": 47},
+    "previous_round_claimed": {"match": 1041, "stale": 44},
+    "delta_unexplained": "3 entries; not reproducible from any tracked-file state observable on this checkout - one of the two measurements was taken on a different checkout or read the disk differently",
+    "classification_of_the_47": {
+      "raw_candidate_content_drift": 41,
+      "crlf_of_candidate_eol_only": 4,
+      "crlf_of_candidate_with_content_drift": 1,
+      "crlf_of_disk_no_candidate": 1,
+      "unclassified": 0,
+      "aggregate": {"content_drift_after_eol_normalisation": 42, "pure_line_ending_only": 5}
+    },
+    "falsified_claim": "the previous round asserted that a CRLF basis explains every mismatch and that UNEXPLAINED was zero. A CRLF-only verifier resolves just 5 of the 47; the other 42 differ in content, not line endings, because their recorded digest is the raw blob of the sealed candidate revision",
+    "correct_gate": "BENIGN only when a basis hashes to the recorded digest AND normalize_eol(basis) == normalize_eol(disk); otherwise UNEXPLAINED_DRIFT. Accepting a candidate-blob or CRLF basis on a hash match alone is a false pass",
+    "consequence": "on this tree a corrected --strict must still exit non-zero (42 real drifts)",
+    "ancestry": {"identity_checks": 56, "ancestors": 35, "non_ancestors": 21, "errors": 0, "note": "the 21 non-ancestors are three off-main R2/R3 candidate heads; the tool already treats this as report-only, so the proposed change is a NO-OP"}
+  },
+
+  "C_stage_b_recon": {
+    "blocker_1_all_eight_skills_need_a_derivation_record": "every SKILL.md carries the same non-portable key set {version, owner, triggers, schemas, references, tests}; none is a subset of the portable set {name, description, license, compatibility, metadata, allowed-tools}, so a byte-copy projection is impossible and eight owner-approved derivation records are required",
+    "blocker_2_icon_provenance": "no image asset of any kind exists in the repo and skills/** is a denied write path; Pillow 12.3.0 can synthesise a valid PNG but there is no owner-supplied source and no verification oracle, so a 'verified PNG' claim has no in-repo basis",
+    "inventory": {"skills": 8, "files_per_skill": 6, "total": 48, "deviations": 0},
+    "reusable": ["build_mount_pack._member_bytes (LF normalisation)", "build_mount_pack._write_member (fixed ZIP metadata)", "build_mount_pack._content_files", "skill_pack_check.load_frontmatter", "skill_pack_check.Checker"],
+    "must_be_new": ["a plugin-ZIP writer with fixed plugin.json metadata, a source->destination mapping and a release receipt"],
+    "collisions": "none inside the declared write set; packaging/, docs/install/ and any plugin.json are absent; dist/ holds 41 tracked release assets and must not be written"
+  },
+
+  "claim_ceiling": "MAKER_CANDIDATE_AND_LOCAL_TESTS_ONLY; sub-agent output is a self-report that was acted on only where it was independently re-measured in this round",
+
+  "orchestrator_remeasurement": {
+    "why": "a sub-agent self-report is not evidence; the correction that invalidates the previous round's FAR was re-measured here",
+    "method": "for sampled entries, compare the recorded digest against raw disk bytes, crlf/lf variants of disk, and the raw/crlf/lf variants of the sealed candidate blob (git show <candidate>:<path>), then require modulo-EOL content equality",
+    "results": [
+      {"path": "schemas/ArtifactIdentity.schema.json", "recorded_prefix": "67d26f18d263", "raw_disk_prefix": "d747387f45e5", "matching_bases": ["raw_cand", "lf_cand"], "disk_bytes": 952, "candidate_bytes": 669, "class": "UNEXPLAINED_CONTENT_DRIFT"},
+      {"path": "README.md", "recorded_prefix": "ed81d2fa393b", "raw_disk_prefix": "7873b93ff601", "matching_bases": ["crlf_cand"], "disk_bytes": 20622, "candidate_bytes": 11037, "class": "UNEXPLAINED_CONTENT_DRIFT"}
+    ],
+    "conclusion": "CONFIRMED - the mismatches are predominantly content drift, not line-ending artefacts; the matching candidate-blob basis does NOT make them benign because the content differs beyond EOL normalisation",
+    "previous_round_FAR_status": "the adopted F-020-A/F-021-A rationale ('a CRLF basis explains every mismatch, so the alarm itself was the defect') is FALSIFIED on this checkout and must not be implemented as written; the basis classifier is still adopted, but only with the content-equality gate and with --strict still failing on the 42 real drifts"
+  },
+  "minor_discrepancy_noted": "two of the sub-agent's illustrative paths (its R8/R9 examples) are not present in this manifest under those names; the class-level finding was reproduced with two other entries and is unaffected"
+}
