@@ -8,7 +8,8 @@ PASS T2_child_never_launched
 ### T3 successful run: log really copied in, commit says so, no stray root dir (D3)
 PASS T3_STUB_SUCCESS (exit=0)
 PASS T3_log_copied_in
-FAIL T3_commit_states_copy
+PASS T3_commit_states_copy
+PASS T3_per_launch_receipt_written
 PASS D3_no_output_dir_at_repo_root
 PASS D3_output_dir_is_round_relative
 ### T4 postflight dirt is REJECTED, not merely printed (D2)
@@ -31,4 +32,4 @@ PASS T9_STAGED_OUTSIDE_REFUSED (exit=6)
 PASS T9_names_the_outside_path
 PASS T9_outside_file_was_not_committed
 
-RESULT pass=22 fail=1
+RESULT pass=24 fail=0
