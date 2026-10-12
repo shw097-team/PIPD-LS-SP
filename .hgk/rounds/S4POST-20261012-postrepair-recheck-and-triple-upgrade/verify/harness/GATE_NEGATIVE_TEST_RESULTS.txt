@@ -4,9 +4,9 @@ PASS G1_names_the_decision
 PASS G1_started_no_writer
 PASS G1_no_writer_ran
 ### G2 the SAME deviating model, now named in the owner record, is admitted
-FAIL G2_AUTHORISED_DEVIATION_RUNS expected=0 actual=8
+PASS G2_AUTHORISED_DEVIATION_RUNS (exit=0)
 PASS G2_records_the_deviation
-FAIL G2_lane_set_ok
+PASS G2_lane_set_ok
 ### G3 a model that cannot survive qualification is refused before any writer
 PASS G3_QUALIFICATION_REFUSED (exit=7)
 PASS G3_names_qualification
@@ -35,7 +35,7 @@ PASS G9_child_did_not_use_a_provider_id
 PASS G9_qualification_and_writer_agree
 ### G10 a truncated / empty receipt must not satisfy the gate (M6)
 PASS G10_EMPTY_RECEIPT_REJECTED (exit=8)
-FAIL G10_says_receipt_invalid
+PASS G10_says_receipt_rejected
 ### G11 GATE_SKIP_QUALIFY without an acknowledgement is refused (M8)
 PASS G11_SKIP_UNAUTHORISED_REFUSED (exit=6)
 PASS G11_names_the_ack
@@ -43,4 +43,4 @@ PASS G11_names_the_ack
 PASS G12_SENTINELS_ONLY_REFUSED (exit=7)
 PASS G12_names_qualification
 
-RESULT pass=29 fail=3
+RESULT pass=32 fail=0
