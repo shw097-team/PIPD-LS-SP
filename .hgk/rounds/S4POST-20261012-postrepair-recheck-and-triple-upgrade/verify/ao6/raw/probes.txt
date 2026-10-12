@@ -1,0 +1,172 @@
+COMMAND[R1]: bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lane.sh R1 brief_nt.md verify/ao6
+PREFLIGHT_CLEAN HEAD=239fead
+R1_LANE=20261012T132956Z MODEL=opencode-go/deepseek-v4.1-flash provider=opencode-go reasoning=high route=openai (declared)
+R1 exit=0 log=/tmp/a68bba55/logs/hgk-lanes/R1_20261012T132956Z.log
+POSTFLIGHT_RECEIPT_COPY_FAILED receipt=/tmp/a68bba55/logs/hgk-lanes/R1_20261012T132956Z.log.exit
+POSTFLIGHT:dirty=0 HEAD=c24a901
+R1_LANE_DONE
+EXIT[R1]=6
+STATUS_EXIT[R1]=0
+COMMAND[R2]: bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lane.sh R2 brief_nt.md verify/ao6
+REFUSED[2] git status failed; cleanliness cannot be established, refusing to launch R2
+REFUSED_R2_DONE
+EXIT[R2]=2
+STATUS_EXIT[R2]=0
+COMMAND[R3]: bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lane.sh R3 brief_nt.md verify/ao6
+STAGED_OUTSIDE_ROUND_REFUSED: outside.txt
+REFUSED[6] harness preflight commit failed; refusing to hand over
+REFUSED_R3_DONE
+EXIT[R3]=6
+A  outside.txt
+STATUS_EXIT[R3]=0
+COMMAND[R4]: env GATE_QUALIFY_RUNS=0 bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lanes_gated.sh EXECUTE brief_nt_a.md
+ASSIGNMENT role=EXECUTE model=opencode-go/deepseek-v4.1-flash provider=opencode-go effort=high route=catalog
+REFUSED[3] GATE_QUALIFY_RUNS must be >= 1, got: 0
+GATE_REFUSED_NO_WRITERS_STARTED
+EXIT[R4]=3
+STATUS_EXIT[R4]=0
+COMMAND[R5]: env ROUTE_STYLE=openai ROUTE_BASE_URL=http://bad.invalid ROUTE_CATALOG=bad.json bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lanes_gated.sh EXECUTE brief_nt_a.md
+ASSIGNMENT role=EXECUTE model=opencode-go/deepseek-v4.1-flash provider=opencode-go effort=high route=catalog
+QUALIFICATION_ROUTE style=catalog model=opencode-go/deepseek-v4.1-flash effort=high consecutive_runs_required=1
+  qualification attempt 1/1 PASS
+QUALIFICATION_PASSED model=opencode-go/deepseek-v4.1-flash effort=high consecutive_runs=1 route=catalog
+PREFLIGHT_CLEAN HEAD=239fead
+BRIEF_NT_A__LANE=20261012T133001Z MODEL=opencode-go/deepseek-v4.1-flash provider=opencode-go reasoning=high route=catalog (declared)
+BRIEF_NT_A_ exit=0 log=/tmp/a68bba55/logs/hgk-lanes/BRIEF_NT_A__20261012T133001Z.log
+RECEIPT_WRITTEN BRIEF_NT_A__20261012T133001Z-0.receipt
+POSTFLIGHT:dirty=0 HEAD=7aa9f0c
+BRIEF_NT_A__LANE_DONE
+CHILD lane=BRIEF_NT_A_ index=0 exit=0
+LANE_SET_OK lanes=1 model=opencode-go/deepseek-v4.1-flash effort=high route=catalog
+EXIT[R5]=0
+STATUS_EXIT[R5]=0
+STUB argv=-c model=opencode-go/deepseek-v4.1-flash -c model_reasoning_effort="high" -c openai_base_url=http://127.0.0.1:10102/v1 -c model_catalog_json=C:/Users/user/.codex/desktop-model-catalog.json exec --cd /tmp/a68bba55/c --sandbox read-only --skip-git-repo-check -
+STUB argv=-c model=opencode-go/deepseek-v4.1-flash -c model_reasoning_effort="high" -c openai_base_url=http://127.0.0.1:10102/v1 -c model_catalog_json=C:/Users/user/.codex/desktop-model-catalog.json exec --cd /tmp/a68bba55/c --sandbox workspace-write --skip-git-repo-check -
+COMMAND[SECOND_COMMIT]: bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lane.sh SECOND brief_nt.md verify/ao6
+PREFLIGHT_CLEAN HEAD=239fead
+SECOND_LANE=20261012T133003Z MODEL=opencode-go/deepseek-v4.1-flash provider=opencode-go reasoning=high route=openai (declared)
+SECOND exit=0 log=/tmp/a68bba55/logs/hgk-lanes/SECOND_20261012T133003Z.log
+RECEIPT_WRITTEN SECOND_20261012T133003Z.receipt
+POSTFLIGHT:dirty=0 HEAD=66ba186
+SECOND_LANE_DONE
+EXIT[SECOND_COMMIT]=0
+?? AO6_HOOK_DIRT.txt
+STATUS_EXIT[SECOND_COMMIT]=0
+COMMAND[REGEX_ALIAS]: bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lane.sh ALIAS brief_nt.md verify/ao6
+PREFLIGHT_CLEAN HEAD=19336d3
+ALIAS_LANE=20261012T133005Z MODEL=opencode-go/deepseek-v4.1-flash provider=opencode-go reasoning=high route=openai (declared)
+ALIAS exit=0 log=/tmp/a68bba55/logs/hgk-lanes/ALIAS_20261012T133005Z.log
+RECEIPT_WRITTEN ALIAS_20261012T133005Z.receipt
+POSTFLIGHT:dirty=0 HEAD=7a7993f
+ALIAS_LANE_DONE
+EXIT[REGEX_ALIAS]=0
+STATUS_EXIT[REGEX_ALIAS]=0
+7a7993fd20f876e4ad9b2f5afc599e7b7a68f1c9 evidence(s4post-b): ALIAS lane receipt 20261012T133005Z (child exit 0)
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/ALIAS_20261012T133005Z.receipt
+acbc99e5e93ed05d148106105468024503247b78 evidence(s4post-b): ALIAS lane output 20261012T133005Z (lane log copied in from outside the worktree; child exit 0)
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/ALIAS_20261012T133005Z.exit
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/ALIAS_20261012T133005Z.log
+COMMAND[DOT_ALIAS]: bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lane.sh DOT brief_nt.md verify/ao6
+STAGED_OUTSIDE_ROUND_REFUSED: outside.txt
+REFUSED[6] harness preflight commit failed; refusing to hand over
+REFUSED_DOT_DONE
+EXIT[DOT_ALIAS]=6
+A  outside.txt
+STATUS_EXIT[DOT_ALIAS]=0
+COMMAND[CASE_VARIANT]: bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lane.sh CASE brief_nt.md verify/ao6
+STAGED_OUTSIDE_ROUND_REFUSED: casepath/outside.txt
+REFUSED[6] harness preflight commit failed; refusing to hand over
+REFUSED_CASE_DONE
+EXIT[CASE_VARIANT]=6
+A  casepath/outside.txt
+STATUS_EXIT[CASE_VARIANT]=0
+COMMAND[IGNORED_STAGED]: bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lane.sh IGNORE brief_nt.md verify/ao6
+STAGED_OUTSIDE_ROUND_REFUSED: outside.txt
+REFUSED[6] harness preflight commit failed; refusing to hand over
+REFUSED_IGNORE_DONE
+EXIT[IGNORED_STAGED]=6
+A  outside.txt
+STATUS_EXIT[IGNORED_STAGED]=0
+COMMAND[SUBMODULE_GITLINK]: bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lane.sh SUB brief_nt.md verify/ao6
+STAGED_OUTSIDE_ROUND_REFUSED: outside-submodule
+REFUSED[6] harness preflight commit failed; refusing to hand over
+REFUSED_SUB_DONE
+EXIT[SUBMODULE_GITLINK]=6
+AD outside-submodule
+STATUS_EXIT[SUBMODULE_GITLINK]=0
+COMMAND[IGNORED_DIRT]: bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lane.sh HIDDEN brief_nt.md verify/ao6
+PREFLIGHT_CLEAN HEAD=239fead
+HIDDEN_LANE=20261012T133011Z MODEL=opencode-go/deepseek-v4.1-flash provider=opencode-go reasoning=high route=openai (declared)
+HIDDEN exit=0 log=/tmp/a68bba55/logs/hgk-lanes/HIDDEN_20261012T133011Z.log
+RECEIPT_WRITTEN HIDDEN_20261012T133011Z.receipt
+POSTFLIGHT:dirty=0 HEAD=4e20dd9
+HIDDEN_LANE_DONE
+EXIT[IGNORED_DIRT]=0
+STATUS_EXIT[IGNORED_DIRT]=0
+!! AO6_IGNORED.txt
+256deec10ade8b6c1a270a67129801b4aba93a75
+COMMAND[OLD_RECEIPT]: bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lanes_gated.sh EXECUTE brief_nt_a.md
+ASSIGNMENT role=EXECUTE model=opencode-go/deepseek-v4.1-flash provider=opencode-go effort=high route=catalog
+QUALIFICATION_ROUTE style=catalog model=opencode-go/deepseek-v4.1-flash effort=high consecutive_runs_required=1
+  qualification attempt 1/1 PASS
+QUALIFICATION_PASSED model=opencode-go/deepseek-v4.1-flash effort=high consecutive_runs=1 route=catalog
+PREFLIGHT_CLEAN HEAD=6829951
+BRIEF_NT_A__LANE=20000101T000000Z MODEL=opencode-go/deepseek-v4.1-flash provider=opencode-go reasoning=high route=catalog (declared)
+BRIEF_NT_A_ exit=0 log=/tmp/a68bba55/logs/hgk-lanes/BRIEF_NT_A__20000101T000000Z.log
+INJECT_RECEIPT_WRITE_FAILURE
+RECEIPT_WRITTEN BRIEF_NT_A__20000101T000000Z-0.receipt
+POSTFLIGHT:dirty=0 HEAD=92f33bd
+BRIEF_NT_A__LANE_DONE
+CHILD lane=BRIEF_NT_A_ index=0 exit=0
+LANE_SET_OK lanes=1 model=opencode-go/deepseek-v4.1-flash effort=high route=catalog
+EXIT[OLD_RECEIPT]=0
+STATUS_EXIT[OLD_RECEIPT]=0
+e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+COMMAND[FORGED_RECEIPT]: bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lanes_gated.sh EXECUTE brief_nt_a.md
+ASSIGNMENT role=EXECUTE model=opencode-go/deepseek-v4.1-flash provider=opencode-go effort=high route=catalog
+QUALIFICATION_ROUTE style=catalog model=opencode-go/deepseek-v4.1-flash effort=high consecutive_runs_required=1
+  qualification attempt 1/1 PASS
+QUALIFICATION_PASSED model=opencode-go/deepseek-v4.1-flash effort=high consecutive_runs=1 route=catalog
+PREFLIGHT_CLEAN HEAD=239fead
+BRIEF_NT_A__LANE=20261012T133017Z MODEL=opencode-go/deepseek-v4.1-flash provider=opencode-go reasoning=high route=catalog (declared)
+BRIEF_NT_A_ exit=0 log=/tmp/a68bba55/logs/hgk-lanes/BRIEF_NT_A__20261012T133017Z.log
+RECEIPT_WRITTEN BRIEF_NT_A__20261012T133016Z-0.receipt
+POSTFLIGHT:dirty=0 HEAD=06d7ea1
+BRIEF_NT_A__LANE_DONE
+CHILD lane=BRIEF_NT_A_ index=0 exit=0
+LANE_SET_OK lanes=1 model=opencode-go/deepseek-v4.1-flash effort=high route=catalog
+EXIT[FORGED_RECEIPT]=0
+ M .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/BRIEF_NT_A__20261012T133016Z-0.receipt
+STATUS_EXIT[FORGED_RECEIPT]=0
+FORGED child_exit=99 token=wrong route=wrong
+COMMAND[MANIFEST]: bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lane.sh MANIFEST brief_nt.md verify/ao6
+PREFLIGHT_CLEAN HEAD=239fead
+MANIFEST_LANE=20261012T133019Z MODEL=opencode-go/deepseek-v4.1-flash provider=opencode-go reasoning=high route=openai (declared)
+MANIFEST exit=0 log=/tmp/a68bba55/logs/hgk-lanes/MANIFEST_20261012T133019Z.log
+RECEIPT_WRITTEN MANIFEST_20261012T133019Z.receipt
+POSTFLIGHT:dirty=0 HEAD=c7ad79c
+MANIFEST_LANE_DONE
+EXIT[MANIFEST]=0
+STATUS_EXIT[MANIFEST]=0
+/tmp/a68bba55/logs/hgk-lanes/MANIFEST_20261012T133019Z.manifest
+COMMAND[SKIP_QUALIFY]: env GATE_SKIP_QUALIFY=1 bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lanes_gated.sh EXECUTE brief_nt_a.md
+ASSIGNMENT role=EXECUTE model=opencode-go/deepseek-v4.1-flash provider=opencode-go effort=high route=catalog
+QUALIFICATION_SKIPPED_BY_ENV (testing switch; a lane admitted this way is NOT qualified)
+PREFLIGHT_CLEAN HEAD=239fead
+BRIEF_NT_A__LANE=20261012T133022Z MODEL=opencode-go/deepseek-v4.1-flash provider=opencode-go reasoning=high route=catalog (declared)
+BRIEF_NT_A_ exit=0 log=/tmp/a68bba55/logs/hgk-lanes/BRIEF_NT_A__20261012T133022Z.log
+RECEIPT_WRITTEN BRIEF_NT_A__20261012T133021Z-0.receipt
+POSTFLIGHT:dirty=0 HEAD=abd2409
+BRIEF_NT_A__LANE_DONE
+CHILD lane=BRIEF_NT_A_ index=0 exit=0
+LANE_SET_OK lanes=1 model=opencode-go/deepseek-v4.1-flash effort=high route=catalog
+EXIT[SKIP_QUALIFY]=0
+STATUS_EXIT[SKIP_QUALIFY]=0
+COMMAND[FILTER_ONLY]: env GATE_QUALIFY_ONLY=1 bash /tmp/a68bba55/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lanes_gated.sh EXECUTE brief_nt_a.md
+ASSIGNMENT role=EXECUTE model=opencode-go/deepseek-v4.1-flash provider=opencode-go effort=high route=catalog
+QUALIFICATION_ROUTE style=catalog model=opencode-go/deepseek-v4.1-flash effort=high consecutive_runs_required=1
+  qualification attempt 1/1 PASS
+QUALIFICATION_PASSED model=opencode-go/deepseek-v4.1-flash effort=high consecutive_runs=1 route=catalog
+GATE_QUALIFICATION_ONLY_OK role=EXECUTE model=opencode-go/deepseek-v4.1-flash effort=high
+EXIT[FILTER_ONLY]=0
+STATUS_EXIT[FILTER_ONLY]=0

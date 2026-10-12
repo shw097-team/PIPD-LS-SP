@@ -1,0 +1,40 @@
+{
+  "round": "S4POST-20261012-postrepair-recheck-and-triple-upgrade",
+  "purpose": "Immutable per-role model assignment. A launcher must refuse a requested model or effort that differs from the role entry unless an explicit owner-decision record authorises that exact model.",
+  "roles": {
+    "EXECUTE": {
+      "model": "opencode-go/deepseek-v4.1-flash",
+      "provider": "opencode-go",
+      "reasoning_effort": "high",
+      "source": "owner instruction, 2026-10-12: EXECUTE lane = DeepSeek V4.1 Flash (OPENCODE GO)",
+      "route": {
+        "style": "catalog",
+        "model_key": "model",
+        "base_url": "http://127.0.0.1:10102/v1",
+        "catalog": "C:/Users/user/.codex/desktop-model-catalog.json",
+        "note": "opencode-go/... is a catalog slug, not a provider id. Passing it with -c model_provider=<vendor> makes the CLI fail with 'Model provider not found', which is a harness error, not a model result."
+      },
+      "allowed_efforts": [
+        "none",
+        "minimal",
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "VERIFY": {
+      "model": "gpt-6.1-sol",
+      "provider": "openai",
+      "reasoning_effort": "medium",
+      "source": "owner instruction, 2026-10-12: Independent Acceptance Officer / VERIFY / SECURITY checker model = GPT 6.1 SOL-MEDIUM (OpenAI OAuth)",
+      "route": {
+        "style": "openai",
+        "note": "plain OAuth route the checker lanes used"
+      }
+    }
+  },
+  "backup_declared_for_execute": {
+    "model": "opencode-go/deepseek-v4-flash",
+    "note": "Named by the operator's lane script as the fallback. It is NOT the assignment for this round; using it requires the owner-decision record beside this file."
+  }
+}

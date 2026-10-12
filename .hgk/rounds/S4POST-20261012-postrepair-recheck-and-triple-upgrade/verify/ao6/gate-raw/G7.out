@@ -1,0 +1,14 @@
+ASSIGNMENT role=VERIFY model=gpt-6.1-sol provider=openai effort=medium route=openai
+QUALIFICATION_ROUTE style=openai model=gpt-6.1-sol effort=medium consecutive_runs_required=3
+  qualification attempt 1/3 PASS
+  qualification attempt 2/3 PASS
+  qualification attempt 3/3 PASS
+QUALIFICATION_PASSED model=gpt-6.1-sol effort=medium consecutive_runs=3 route=openai
+PREFLIGHT_CLEAN HEAD=786f068
+BRIEF_NT_A__LANE=20261012T132716Z MODEL=gpt-6.1-sol provider=openai reasoning=medium route=openai (declared)
+BRIEF_NT_A_ exit=0 log=/tmp/ao6-84de844529bf4b3f98c2bf73b65639cc/gate-posix/logs/hgk-lanes/BRIEF_NT_A__20261012T132716Z.log
+RECEIPT_WRITTEN BRIEF_NT_A__20261012T132716Z-0.receipt
+POSTFLIGHT:dirty=0 HEAD=c1481db
+BRIEF_NT_A__LANE_DONE
+CHILD lane=BRIEF_NT_A_ index=0 exit=0
+LANE_SET_OK lanes=1 model=gpt-6.1-sol effort=medium route=openai
