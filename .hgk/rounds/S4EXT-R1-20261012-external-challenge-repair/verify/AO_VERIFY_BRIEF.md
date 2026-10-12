@@ -19,7 +19,7 @@ you did not write this code, you must not modify it, and you must not accept it 
 
 * repository root: the current working directory (a fresh clone of the pushed repair branch)
 * branch: `fix/s4-external-challenge-20261012-r1-provenance-trace`
-* candidate commit: `e2e41ae76dede9b3222257872b4e28a340dc2a0c`
+* candidate commit: `268ad6b10edef215b4f084514b28481e32a121bc`
 * contract: `PIPD-S4EXT-R1-REPAIR-ROUTEOUT/1`, report id
   `PIPD-LS-SP-S4-EXTERNAL-CHALLENGE-2026-10-12-R1`
 * the published (defective) subject for contrast: tag `v0.1.1-preview.3` → commit

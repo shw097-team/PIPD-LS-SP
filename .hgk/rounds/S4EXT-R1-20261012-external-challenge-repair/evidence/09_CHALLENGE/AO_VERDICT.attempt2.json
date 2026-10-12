@@ -1,0 +1,75 @@
+{
+  "verdict": "FAIL_CHALLENGE",
+  "subject_commit": "268ad6b10edef215b4f084514b28481e32a121bc",
+  "subject_tree": "8633006a293f4cd920a069e955b1960c66006ed2",
+  "claims": [
+    {
+      "id": "C1",
+      "verdict": "PASS",
+      "command": "git rev-parse 'v0.1.1-preview.3^{commit}'; PowerShell Get-ChildItem -Recurse -File over dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3 excluding MANIFEST.sha256, counting target/stale hashes; rg -n --fixed-strings 8faa64e581e8c25f5ec355475e29561847da3ead <pack>",
+      "observed": "git dereference was cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a. DOC_COUNT=8. Target counts by document were 6,4,4,4,4,4,6,6; stale counts were 0,1,0,0,0,0,2,1. The four stale lines were SKILL.md:13 and README_MOUNT.md:4 errata plus PIPD_SOURCE_MAP.md:4 erratum and :37 lineage note. Filtering out erratum/lineage note/previously published/stale produced no output.",
+      "counterexample_attempted": "Searched every stale-hash occurrence and then removed only lines with explicit disclosure markers; no undisclosed stale identity assertion remained."
+    },
+    {
+      "id": "C2",
+      "verdict": "PASS",
+      "command": "sha256sum dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip; Get-Content dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip.sha256; Get-Content -Raw docs/RELEASE_TUPLE.json",
+      "observed": "sha256sum output: 73c6c7e255846e9012a4f5f0e849af93343b363fb158f2474b4d18143d1dcfde *dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip. Sidecar and RELEASE_TUPLE published_asset_sha256 both contain the identical digest.",
+      "counterexample_attempted": "Compared the artifact bytes independently against both metadata sources; no mismatch was found."
+    },
+    {
+      "id": "C3",
+      "verdict": "PASS",
+      "command": "From a system-temp fixture repo, python -B generated a PI-PKG bundle with pipd_ls_sp.pipeline; then python -B -m pipd_ls_sp.cli --root C:/Projects/Agent_Workspace/PIPD/worktrees/s4ext-r1-verify validate --bundle <legal|mistyped|orphan|wronghash>.json",
+      "observed": "legal: verdict=PASS, closure=FULL, findings=[], EXIT=0. from_type changed PI-PKG->PD-PKG: verdict=FAIL, closure=FAILED, type-contradiction finding, EXIT=1. to_id changed to ATOM-ffffffffffffffff: verdict=FAIL, orphan and endpoint-not-present findings, EXIT=1. to_hash changed to 64 lowercase d characters: verdict=FAIL, hash-mismatch finding, EXIT=1.",
+      "counterexample_attempted": "Constructed the legal edge from first principles, then separately injected an enum-valid but semantically wrong endpoint family, an orphan id, and a syntactically valid wrong 64-hex digest."
+    },
+    {
+      "id": "C4",
+      "verdict": "PASS",
+      "command": "sha256sum dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl; extract wheel in system temp; python -I -B -c \"import runpy,sys; sys.path.insert(0,<released-wheel>); sys.argv=['pipd','--root',<scratch>,'validate','--bundle',<same bundle>]; runpy.run_module('pipd_ls_sp.cli',run_name='__main__')\"",
+      "observed": "Released wheel SHA-256 was e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec. Its installed schemas returned verdict=PASS, findings=[], EXIT=0 for the identical legal, mistyped, orphan, and wronghash bundles; unlike the candidate output, no closure field was present.",
+      "counterexample_attempted": "Ran all three candidate-refused JSON files unchanged through the isolated released wheel, not merely a reconstructed analogue; each false-PASSed."
+    },
+    {
+      "id": "C5",
+      "verdict": "PASS",
+      "command": "$env:PYTHONDONTWRITEBYTECODE='1'; python -B -m unittest discover -s tests -t . (cwd C:/Users/user/AppData/Local/Temp/pipd-ao-suite-d46e8cdc29a64032b969fc06d56d3639, local no-hardlink clone at subject commit)",
+      "observed": "HEAD=268ad6b10edef215b4f084514b28481e32a121bc; Ran 521 tests in 104.322s; OK (skipped=6); SUITE_EXIT=0. The clone ended with a test-generated modification to .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json, demonstrating why the suite could not safely be run in the protected checkout.",
+      "counterexample_attempted": "Ran full discovery at the exact subject commit with bytecode disabled. Six environment-gated tests were skipped, including two reporting pip unavailable; no test failure or error occurred."
+    },
+    {
+      "id": "C6",
+      "verdict": "PASS",
+      "command": "python -B - (inline JSON comparison of docs/SPEC_DEL_CROSSWALK.json rows against docs/S4_SPEC_DEL_ADJUDICATION.json rows by id, status, disposition, s4_blocking, and DEL-008 fields)",
+      "observed": "ROW_COUNTS 57 57; ID_SET_DIFF [] []; STATUS_MISMATCHES []; crosswalk counts DESIGN_ONLY=4, EVIDENCED=44, EVIDENCE_GAP=9. All four DESIGN_ONLY rows have disposition DESIGN_ONLY_NOT_IMPLEMENTED and s4_blocking=false; DESIGN_IMPLEMENTATION_COUNTEREXAMPLES []. DEL-008 is stage S1/S5, crosswalk_status EVIDENCE_GAP, disposition S5_PLUS_OUT_OF_SCOPE, s4_blocking=false. summary.closed_outright_this_round=[].",
+      "counterexample_attempted": "Searched for missing/extra IDs, any adjudication status differing from its source, any implementation/pass-like disposition on DESIGN_ONLY, and an S4-blocking DEL-008; none existed."
+    },
+    {
+      "id": "C7",
+      "verdict": "FAIL",
+      "command": "git grep -n -I -E '^\\| `(INDEPENDENT_PASS|PUBLICATION_APPROVED|RELEASED|PRODUCTION_VERIFIED)`' HEAD -- README.md; git grep -n -I -E 'MAKER_CANDIDATE_AND_LOCAL_TESTS_ONLY_UNTIL_EXTERNAL_REQUALIFICATION|this round is not a release action|not a publication approval, a release admission' HEAD -- docs openspec/changes/pipd-ls-sp-s4ext-r1-external-challenge-repair .hgk/rounds/S4EXT-R1-20261012-external-challenge-repair/ROUND_REPORT.md",
+      "observed": "README.md:260 says RELEASED describes the existing OWNER_AUTHORIZED_OPEN_SOURCE_PREVIEW_BETA_PUBLISHED preview tags. README.md:259 limits PUBLICATION_APPROVED to those tags and denies it for this repair; README.md:261 says PRODUCTION_VERIFIED NOT claimed. Repair-specific files do state MAKER_CANDIDATE_AND_LOCAL_TESTS_ONLY_UNTIL_EXTERNAL_REQUALIFICATION and say this round is not a release action.",
+      "counterexample_attempted": "Searched the committed tree for explicit claim-ladder assertions. The literal tree-wide no-release-claim assertion is contradicted by README.md:260, even though the bounded repair candidate itself is not promoted."
+    },
+    {
+      "id": "C8",
+      "verdict": "PASS",
+      "command": "python -B tools/deny_list_scan.py; python -B tools/history_secret_scan.py",
+      "observed": "deny_list_scan default policy: occurrences_total=106, writer_usage_count=51, r4_writer_usage=[], r4_scope=.hgk/rounds/R4-20261009-focused-repair/, verdict=PASS, exit 0. history_secret_scan: source_revision_scanned=268ad6b10edef215b4f084514b28481e32a121bc, objects_listed=3235, worktree_files_scanned=1552, history_hits_total=0, worktree_hits_total=0, status_codes history=CLEAN/worktree=CLEAN, verdict=PASS, exit 0.",
+      "counterexample_attempted": "Ran the prescribed current-tree/history pattern scanners rather than relying on maker receipts. No credential-pattern hit was found. The history tool wrote its tracked receipt as a side effect; that file was restored byte-exactly from HEAD and this procedural mutation is separately blocking."
+    }
+  ],
+  "blocking_findings": [
+    "C7: the literal claim that nothing in the tree claims release is false; README.md:260 asserts RELEASED for existing preview tags, although it explicitly keeps this repair unreleased.",
+    "Verifier procedural violation: an initially misdirected full-suite run transiently changed .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json, and the required history scanner transiently changed .hgk/artifacts/history_secret_scan.json. Both were restored to their exact HEAD blob hashes and final git status is empty, but the brief says any candidate mutation voids the verdict."
+  ],
+  "non_blocking_findings": [
+    "The successful suite run reported OK with 6 environment-gated skips; two skip messages explicitly cited pip unavailable.",
+    "tools/history_secret_scan.py is not read-only: executing the prescribed scanner updates a tracked receipt unless run against a disposable clone."
+  ],
+  "maker_claim_ceiling_respected": true,
+  "independent_of_maker": true,
+  "candidate_mutated": true,
+  "what_this_verdict_is_not": "a release authorization, a tag approval, or a production claim"
+}

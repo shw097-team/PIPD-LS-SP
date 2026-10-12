@@ -153,7 +153,7 @@
   {
    "id": "TT-S4EXT-014",
    "title": "AO C3: trace endpoint TYPE contradicts the referenced record",
-   "state": "OPEN_DEFECT_FOUND_BY_AO",
+   "state": "FIXED_INDEPENDENTLY_CONFIRMED_PASS",
    "artifacts": [
     "verify/AO_VERDICT.json"
    ],
@@ -165,7 +165,7 @@
   {
    "id": "TT-S4EXT-015",
    "title": "AO C5: full suite red in a clean-room single-branch clone",
-   "state": "OPEN_DEFECT_FOUND_BY_AO",
+   "state": "FIXED_INDEPENDENTLY_CONFIRMED_PASS",
    "artifacts": [
     "verify/AO_VERDICT.json",
     "raw/clone_suite.log"
@@ -178,7 +178,7 @@
   {
    "id": "TT-S4EXT-017",
    "title": "AO C7: README still asserts PUBLICATION_APPROVED/RELEASED",
-   "state": "OPEN_DEFECT_FOUND_BY_AO",
+   "state": "RE_FIXED_PENDING_THIRD_RUN",
    "artifacts": [
     "verify/AO_VERDICT.json"
    ],
@@ -190,7 +190,7 @@
   {
    "id": "TT-S4EXT-014",
    "title": "AO C3: trace endpoint TYPE contradicts the referenced record",
-   "state": "FIXED_CANDIDATE_PENDING_REVERIFY",
+   "state": "FIXED_INDEPENDENTLY_CONFIRMED_PASS",
    "artifacts": [
     "src/pipd_ls_sp/validate.py",
     "tests/test_s4ext_trace_closure.py"
@@ -203,7 +203,7 @@
   {
    "id": "TT-S4EXT-015",
    "title": "AO C5: full suite red in a clean-room clone",
-   "state": "FIXED_VERIFIED_LOCALLY",
+   "state": "FIXED_INDEPENDENTLY_CONFIRMED_PASS",
    "artifacts": [
     "tests/test_publication_projection.py",
     "raw/cleanroom_suite.log"
@@ -229,7 +229,7 @@
   {
    "id": "TT-S4EXT-017",
    "title": "AO C7: README still asserted PUBLICATION_APPROVED/RELEASED",
-   "state": "FIXED_CANDIDATE_PENDING_REVERIFY",
+   "state": "RE_FIXED_PENDING_THIRD_RUN",
    "artifacts": [
     "README.md"
    ],
@@ -249,6 +249,18 @@
     "artifact owner chooses: drop the field, or compare against HEAD in --check"
    ],
    "owner": "artifact owner"
+  },
+  {
+   "id": "TT-S4EXT-019",
+   "title": "history_secret_scan.py writes its canonical artifact into the tracked tree",
+   "state": "OPEN_OWNER_DECISION",
+   "artifacts": [
+    "evidence/06_TQAEP/AO_VERDICT.attempt2.json"
+   ],
+   "open_items": [
+    "tool owner: write to a temp/out path, or declare the artifact a generated output"
+   ],
+   "owner": "tool owner"
   }
  ],
  "counts": {
@@ -257,6 +269,6 @@
   "OPEN": 2,
   "RESOLVED": 1
  },
- "note": "AO returned FAIL_CHALLENGE on the FIRST pushed candidate; its four blocking findings are now the top of the board (TT-S4EXT-014..017). DONE_CANDIDATE still means maker-side only.",
+ "note": "AO attempt 1: 4 blocking. AO attempt 2 (subject 268ad6b1): 8/9 claims PASS, 3 blocking -> C7 maker-side re-fixed; the other two are tooling sites owned elsewhere. The round verdict stays FAIL_CHALLENGE; the maker does not narrow the verifier rule to clear it.",
  "surface": ".hgk/kanban/canonical_dag.json is the pre-existing S0-S4 board; this round's cards are kept beside the round, not merged into it."
 }

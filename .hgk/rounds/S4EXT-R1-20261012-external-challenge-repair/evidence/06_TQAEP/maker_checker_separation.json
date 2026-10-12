@@ -9,7 +9,7 @@
  },
  "checker": {
   "identity": "external Independent Acceptance Officer (Codex CLI exec, isolated CODEX_HOME)",
-  "state": "RAN",
+  "state": "RAN_TWICE",
   "verdict": "FAIL_CHALLENGE",
   "subject_commit": "e2e41ae76dede9b3222257872b4e28a340dc2a0c",
   "subject_tree": "ce41953891d96ec7c2e7412e763f5a141db1b90c",
@@ -23,7 +23,37 @@
    "C7: the literal tree-wide no-release-claim assertion is contradicted by README.md:259-260, despite the repair-specific maker-candidate ceiling.",
    "Read-only procedure contamination: the mandated suite/scanner rewrote four tracked evidence fixtures. They were restored exactly to HEAD and final git status is empty, but a transient candidate mutation occurred, so this acceptance round cannot satisfy the hard read-only rule."
   ],
-  "maker_response": "NOT_YET: the maker does not argue with a receipt; the findings are routed to repair (TT-S4EXT-012..015)"
+  "maker_response": "NOT_YET: the maker does not argue with a receipt; the findings are routed to repair (TT-S4EXT-012..015)",
+  "attempts": [
+   {
+    "attempt": 1,
+    "subject": "e2e41ae7",
+    "verdict": "FAIL_CHALLENGE",
+    "blocking": 4,
+    "receipt": "06_TQAEP/AO_VERDICT.json"
+   },
+   {
+    "attempt": 2,
+    "subject": "268ad6b1",
+    "verdict": "FAIL_CHALLENGE",
+    "claims": {
+     "C1": "PASS",
+     "C2": "PASS",
+     "C3": "PASS",
+     "C4": "PASS",
+     "C5": "PASS",
+     "C6": "PASS",
+     "C7": "FAIL",
+     "C8": "PASS"
+    },
+    "blocking": 2,
+    "receipt": "06_TQAEP/AO_VERDICT.attempt2.json",
+    "blocking_findings": [
+     "C7: the literal claim that nothing in the tree claims release is false; README.md:260 asserts RELEASED for existing preview tags, although it explicitly keeps this repair unreleased.",
+     "Verifier procedural violation: an initially misdirected full-suite run transiently changed .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json, and the required history scanner transiently changed .hgk/artifacts/history_secret_scan.json. Both were restored to their exact HEAD blob hashes and final git status is empty, but the brief says any candidate mutation voids the verdict."
+    ]
+   }
+  ]
  },
  "history_not_inherited": {
   "S4R2M Officer receipt": "PARTIAL, bound to a different commit/tree (dfa52053…/b427f03…)",
@@ -38,6 +68,12 @@
    "C7": "README.md re-worded",
    "read_only_contamination": "tests/test_tqaep_design_positive.py restores its fixtures; one remaining site routed to the artifact owner as TT-S4EXT-018"
   },
-  "next": "fresh independent AO run against the repair commit; the previous receipt is invalidated by the new commit"
+  "next": "fresh independent AO run against the repair commit; the previous receipt is invalidated by the new commit",
+  "round2": {
+   "C3": "FIXED and independently re-confirmed PASS",
+   "C5": "FIXED and independently re-confirmed PASS (its own clean-room run: Ran 521, OK, skipped=6)",
+   "C7": "re-fixed after attempt 2 flagged the surviving RELEASED assertion; the claim ledger now has no RELEASED token",
+   "remaining": "two of attempt 2's blocking items are TOOLING, not candidate defects: the self-referential candidate_head artifact (TT-S4EXT-018) and history_secret_scan.py writing its canonical artifact into the tracked tree. Both are routed to their owners; the round cannot reach PASS_CHALLENGE until they are fixed, and the maker will NOT narrow the verifier's rule to make them disappear"
+  }
  }
 }

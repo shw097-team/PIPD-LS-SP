@@ -1,0 +1,77 @@
+{
+  "verdict": "FAIL_CHALLENGE",
+  "subject_commit": "e2e41ae76dede9b3222257872b4e28a340dc2a0c",
+  "subject_tree": "ce41953891d96ec7c2e7412e763f5a141db1b90c",
+  "claims": [
+    {
+      "id": "C1",
+      "verdict": "PASS",
+      "command": "git rev-parse 'v0.1.1-preview.3^{commit}'; python -c <independent 8-document identity/stale-line audit>; Push-Location dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3; sha256sum -c MANIFEST.sha256",
+      "observed": "tag target cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a; doc_count=8; target_missing=[]; four stale-value occurrences, all on explicit erratum/lineage disclosure lines; stale_without_explicit_disclosure=[]; all 8 manifest entries OK; manifest_exit=0",
+      "counterexample_attempted": "Searched every non-manifest pack document for a missing tuple target and every exact 8faa64e581e8c25f5ec355475e29561847da3ead occurrence for a line lacking erratum/stale/previously-published/lineage disclosure language."
+    },
+    {
+      "id": "C2",
+      "verdict": "PASS",
+      "command": "sha256sum dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip; Push-Location dist/mount; sha256sum -c PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip.sha256; git rev-parse HEAD:dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip; git rev-parse v0.1.1-preview.3:dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip",
+      "observed": "sha256 73c6c7e255846e9012a4f5f0e849af93343b363fb158f2474b4d18143d1dcfde; sidecar check 'OK', exit 0; candidate and released tag both resolve the ZIP to blob d0806f47ea25afe70dc365e6a7111e04d247a05c",
+      "counterexample_attempted": "Compared both the byte digest against frozen release metadata/sidecar and the candidate ZIP blob identity against the published tag's ZIP blob."
+    },
+    {
+      "id": "C3",
+      "verdict": "FAIL",
+      "command": "$env:PYTHONDONTWRITEBYTECODE='1'; $env:PYTHONPATH='<candidate>/src'; foreach($case in 'legal','mistyped','orphan','wronghash'){ python -m pipd_ls_sp.cli --root <candidate> validate --bundle $env:TEMP/pipd-ao-s4ext-r1-20261012/$case.json; Write-Output ($case+'_exit='+$LASTEXITCODE) }",
+      "observed": "legal: verdict PASS, closure FULL, exit 0; mistyped from_type=PD-PKG for from_id PI-12345678: verdict PASS, closure FULL, exit 0; orphan: verdict FAIL, closure FAILED, exit 1; wrong 64-hex from_hash: verdict FAIL, closure FAILED, exit 1",
+      "counterexample_attempted": "Built four bundles from first principles in the system temp directory. The only difference in the decisive counterexample was changing a valid PI endpoint's from_type from PI-PKG to the schema-legal but factually wrong PD-PKG. The candidate false-PASSed it."
+    },
+    {
+      "id": "C4",
+      "verdict": "PASS",
+      "command": "$env:PYTHONPATH='$env:TEMP/pipd-ao-s4ext-r1-20261012/released-wheel'; python -m pipd_ls_sp.cli --root $env:TEMP/pipd-ao-s4ext-r1-20261012 validate --bundle $env:TEMP/pipd-ao-s4ext-r1-20261012/mistyped.json",
+      "observed": "released wheel used INSTALLED schemas and returned verdict PASS, findings=[], exit 0 for the same mistyped endpoint bundle; it also PASSed orphan and wronghash variants with exit 0",
+      "counterexample_attempted": "Verified the wheel blob is identical at HEAD and v0.1.1-preview.3 (5d9f9c6249ab6b55ded39e036115fafacc9147fd), extracted that wheel outside the repo, and ran it isolated from candidate source."
+    },
+    {
+      "id": "C5",
+      "verdict": "FAIL",
+      "command": "$env:PYTHONDONTWRITEBYTECODE='1'; $env:PYTHONPATH='<candidate>/src'; python -m unittest discover -s tests -t .",
+      "observed": "Ran 535 tests in 123.329s; FAILED (failures=4, skipped=5); exit 1. Three failures report cannot resolve ref 'r5-s4-candidate'; the fourth expected CURRENT_TREE_UNCOVERED but stdout was empty.",
+      "counterexample_attempted": "Ran the complete mandated discovery command from the fresh candidate clone, not a selected subset."
+    },
+    {
+      "id": "C6",
+      "verdict": "PASS",
+      "command": "python -c <compare docs/S4_SPEC_DEL_ADJUDICATION.json against docs/SPEC_DEL_CROSSWALK.json by id, status, oracle, DESIGN_ONLY disposition, DEL-008, and summary>",
+      "observed": "row_counts adjudication=57 and crosswalk=57; status_or_oracle_upgrades=[]; four DESIGN_ONLY rows all disposition DESIGN_ONLY_NOT_IMPLEMENTED and s4_blocking=false; DEL-008 disposition=S5_PLUS_OUT_OF_SCOPE and s4_blocking=false; closed_outright_this_round=[]",
+      "counterexample_attempted": "Compared all 57 IDs for any status or oracle rewrite, then separately inspected every DESIGN_ONLY row and DEL-008 rather than relying on summary counts."
+    },
+    {
+      "id": "C7",
+      "verdict": "FAIL",
+      "command": "git grep -n -I -E '^\\| `(INDEPENDENT_PASS|PUBLICATION_APPROVED|RELEASED|PRODUCTION_VERIFIED)`' HEAD -- README.md; git grep -n -I -E 'MAKER_CANDIDATE_AND_LOCAL_TESTS_ONLY_UNTIL_EXTERNAL_REQUALIFICATION|this round is not a release action|not a publication approval, a release admission' HEAD -- docs openspec/changes/pipd-ls-sp-s4ext-r1-external-challenge-repair",
+      "observed": "README.md:259 says PUBLICATION_APPROVED is GRANTED for the limited preview; README.md:260 says RELEASED at the preview tags. Repair-specific files do state MAKER_CANDIDATE_AND_LOCAL_TESTS_ONLY_UNTIL_EXTERNAL_REQUALIFICATION and 'this round is not a release action'. The literal claim that nothing in the tree claims release is false, although the repair itself is not promoted.",
+      "counterexample_attempted": "Searched current assertion-bearing status rows for affirmative ladder states, then checked whether repair-specific ceiling language narrowed those historical preview claims."
+    },
+    {
+      "id": "C8",
+      "verdict": "PASS",
+      "command": "python tools/deny_list_scan.py; python tools/history_secret_scan.py",
+      "observed": "deny_list_scan default: verdict PASS, r4_writer_usage=[], exit 0; history_secret_scan: objects_listed=3185, worktree_files_scanned=1528, history_hits_total=0, worktree_hits_total=0, status_codes history=CLEAN/worktree=CLEAN, verdict PASS, exit 0",
+      "counterexample_attempted": "Ran the required current-tree deny-list classifier and the scanner over both reachable Git objects and worktree files using all six configured credential patterns."
+    }
+  ],
+  "blocking_findings": [
+    "C3: candidate validate --bundle still false-PASSes a trace whose endpoint type contradicts the resolved endpoint contract.",
+    "C5: the mandated full deterministic test suite is red: 4 failures, exit 1.",
+    "C7: the literal tree-wide no-release-claim assertion is contradicted by README.md:259-260, despite the repair-specific maker-candidate ceiling.",
+    "Read-only procedure contamination: the mandated suite/scanner rewrote four tracked evidence fixtures. They were restored exactly to HEAD and final git status is empty, but a transient candidate mutation occurred, so this acceptance round cannot satisfy the hard read-only rule."
+  ],
+  "non_blocking_findings": [
+    "Five unit tests were skipped because pip was unavailable in the test interpreter; this is reported separately from the four actual failures.",
+    "Final restoration verification matched HEAD blob IDs for all four contaminated files and final git status --porcelain was empty."
+  ],
+  "maker_claim_ceiling_respected": true,
+  "independent_of_maker": true,
+  "candidate_mutated": true,
+  "what_this_verdict_is_not": "a release authorization, a tag approval, or a production claim"
+}
