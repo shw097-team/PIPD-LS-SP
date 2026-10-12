@@ -10,7 +10,9 @@
 # the tests are deterministic, instant, and cost no model calls.
 set -u
 WT="${LANE_WT:?LANE_WT must be the delivery worktree}"
-BASE="${TMPDIR:-$LOCALAPPDATA/Temp}/nt-launcher"
+# Native forward-slash path on purpose: git and other native binaries do NOT
+# translate MSYS paths, so a bare /tmp/... would land under a literal C:\tmp.
+BASE="${NT_BASE:-C:/Users/user/AppData/Local/Temp/nt-launcher}"
 CLONE="$BASE/clone"; LOGD="$BASE/logs"
 rm -rf "$BASE"; mkdir -p "$LOGD"
 SHA="$(git -C "$WT" rev-parse HEAD)" || { echo "HEAD_UNRESOLVED"; exit 9; }
