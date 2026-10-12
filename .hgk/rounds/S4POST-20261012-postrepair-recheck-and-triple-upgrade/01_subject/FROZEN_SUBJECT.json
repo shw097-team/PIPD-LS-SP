@@ -1,0 +1,56 @@
+{
+  "schema": "PIPD-S4POST-FROZEN-SUBJECT/1",
+  "round_id": "S4POST-20261012-postrepair-recheck-and-triple-upgrade",
+  "frozen_at_utc": "2026-10-12T08:05Z",
+  "observed_by": "Hermes governed orchestrator (PLAN lane), local read-only readback",
+  "repository": "shw097-team/PIPD-LS-SP",
+  "guard_disclosure": {
+    "what": "the repair branch's tree digest happens to contain the guard's three-letter marker, so the literal is withheld from this file",
+    "effect": "no meaning is altered: the value is presented as a safe prefix, its length and the exact command that reproduces it",
+    "rule": "hgk-governed-execution/references/guard-false-positives.md step 3, which requires the omission to be disclosed in the artefact itself"
+  },
+  "refs": {
+    "main": {"commit": "224591431a164ab72a9423cd180e417e8a762403", "tree": "1a9fcb94a42eb589e405c2453793be986419d4cb", "message": "release correction: bind the web mount pack to the release it is actually shipped under"},
+    "main_previous_accepted": {"commit": "0a05f4fde899d5990a8c098e3feaa2d9d1d7e0de", "tree": "f24969fba0413bc8bd18d7fa8dff15998c72f98e"},
+    "repair_branch_head": {
+      "branch": "fix/s4-external-challenge-20261012-r1-provenance-trace",
+      "commit": "eef951acdfe0e2b4d93dde7732d264441d9bd674",
+      "tree_prefix": "aafbf",
+      "tree_length": 40,
+      "reproduce": "git -C C:/Projects/Agent_Workspace/PIPD rev-parse eef951acdfe0e2b4d93dde7732d264441d9bd674^{tree}"
+    },
+    "repair_branch_officer_subject": {"commit": "c8762764485a93695851e58229fabee916c354a7", "scope": "the only commit an independent acceptance officer has issued PASS_CHALLENGE for"},
+    "preview3_annotated_tag_object": "e94cc7f9567acb59de4691ee6166815ac96a9700",
+    "preview3_tag_target_commit": "cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a",
+    "preview3_tag_target_tree": "91b1156f5f34f598bd1c81f9fc2ab04518328fd6",
+    "preview2_commit": "8faa64e581e8c25f5ec355475e29561847da3ead",
+    "stage_a_branch": {"branch": "fix/s4post-integration-repair-20261012", "base_commit": "224591431a164ab72a9423cd180e417e8a762403", "note": "worktree had to be removed and recreated: an interrupted worktree add had left an empty index plus a stale index.lock, so 1443 tracked paths read as staged deletions while the on-disk bytes were a clean checkout"},
+    "stage_b_branch": {"branch": "feat/s4post-triple-upgrade-20261012", "base": "STACKED_ON_STAGE_A_UNLESS_A_MERGED"}
+  },
+  "divergence": {
+    "main_vs_repair_branch": "diverged; the repair branch is 11 ahead of the merge base and main is 1 ahead",
+    "main_own_changes_since_0a05f4f": {"files": 16, "path_prefixes": {"dist/": 11, ".hgk/": 5}, "touches_src_schemas_tests_examples": false},
+    "consequence": "the repair branch's src/schemas/tests/examples work applies onto main without conflict because nothing in the core was moved by main"
+  },
+  "core_deltas_to_port": {
+    "src/pipd_ls_sp/validate.py": "+82/-2",
+    "schemas/TraceLink.schema.json": "+76/-8",
+    "schemas/PI-PKG.schema.json": "+99/-1",
+    "src/pipd_ls_sp/profiles.py": "+8/-1",
+    "new_tests": ["tests/test_s4ext_trace_closure.py", "tests/test_s4ext_profile_boundaries.py", "tests/test_s4ext_release_provenance.py", "tests/test_s4ext_first_run_portable.py", "tests/test_s4ext_spec_del_adjudication.py", "tests/test_s4ext_artifact_reproducibility.py"],
+    "new_examples": ["examples/first-run/run.sh", "examples/first-run/run.ps1"],
+    "new_tools": ["tools/verify_evidence_digests.py"]
+  },
+  "release_assets_api_reported": {
+    "wheel_pipd_ls_sp-0.1.1a3-py3-none-any.whl": "e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec",
+    "web_zip_PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip": "af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f",
+    "source_zip": "ee6ee342223fd31361a4fe47f3c4bdc5cd56f0391b7d1f6575bbd34ed1e8e1e1",
+    "release_notes": "cebde58af56ad77be8fe168d49de15377d310e66097b285a2dc1a8c2195c7fa9",
+    "sha256sums": "c4230f985c160e83f5799d14d4090d44360f395b4799e1c01534d3654051ba9d"
+  },
+  "known_stale_claims_in_tree": [
+    "the repair branch's erratum still treats the earlier public web ZIP digest 73c6... as current; the public asset was replaced on 2026-10-12 and the API now reports af342...; the tuple that binds the two must be reconciled by the owner, not overwritten by this round"
+  ],
+  "claim_ceiling": "MAKER_CANDIDATE_AND_RAW_EVIDENCE_ONLY",
+  "not_claimed": ["S4_FULL_PASS", "PRODUCTION_VERIFIED", "PUBLISHED", "PORTAL_APPROVED", "HOST_QUALIFIED", "that the acceptance officer's scoped PASS extends past c876276"]
+}

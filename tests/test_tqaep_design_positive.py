@@ -51,8 +51,19 @@ class TqaepDesignTime(unittest.TestCase):
         cls.tmp.mkdir(parents=True, exist_ok=True)
         cls.pi_p = cls.tmp / "pi.json"
         cls.ecp_p = cls.tmp / "ecp.json"
+        # S4EXT-R1 AO finding: these fixtures live inside the tracked tree, so regenerating them
+        # read as a transient candidate mutation during independent verification. Capture the bytes
+        # that are on disk BEFORE this module writes anything, and put them back afterwards, so the
+        # worktree is byte-identical when the module finishes.
+        cls._pre_existing = {p: p.read_bytes() for p in (cls.pi_p, cls.ecp_p) if p.is_file()}
         cls.pi_p.write_text(json.dumps(cls.pi, ensure_ascii=False), encoding="utf-8")
         cls.ecp_p.write_text(json.dumps(cls.ecp, ensure_ascii=False), encoding="utf-8")
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        for path, original in getattr(cls, "_pre_existing", {}).items():
+            if not path.is_file() or path.read_bytes() != original:
+                path.write_bytes(original)
 
     # (a) a legal design-time call exits 0 and is honest about what it established.
     def test_legal_design_time_call_exits_zero_and_declares_design_ceiling(self) -> None:

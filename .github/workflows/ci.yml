@@ -1,0 +1,91 @@
+name: ci
+
+# Read-only verification gate. It grants nothing: a green run is not a release, a merge or an
+# external acceptance. Triggers are push and pull_request only — no pull_request_target, no
+# secrets, no tag creation, no publish step.
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  offline-gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the frozen subject
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: "3.11"
+
+      - name: Install (declared dependencies only) and record what was resolved
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip freeze | tee resolved-deps.txt
+
+      - name: Full unittest suite (raw log)
+        run: python -m unittest discover -s tests -t . -v 2>&1 | tee full-unittest.log
+
+      - name: Focused S4 repair / closure suites (raw log)
+        run: python -m unittest discover -s tests -p 'test_s4ext_*.py' -v 2>&1 | tee focused-s4ext.log
+
+      - name: Build the wheel and exercise it in a clean venv with no source on PYTHONPATH
+        run: |
+          python -m pip install build
+          python -m build --wheel
+          python -m venv "$RUNNER_TEMP/wheelvenv"
+          "$RUNNER_TEMP/wheelvenv/bin/python" -m pip install --upgrade pip
+          "$RUNNER_TEMP/wheelvenv/bin/python" -m pip install dist/*.whl
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/wheelvenv/bin/pipd" doctor | tee "$GITHUB_WORKSPACE/wheel-doctor.log"
+          "$RUNNER_TEMP/wheelvenv/bin/pipd" --help | tee "$GITHUB_WORKSPACE/wheel-cli-help.log"
+
+      - name: Negative — a mutated pack document must make the provenance gate fail
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          doc = Path("dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3/README_MOUNT.md")
+          text = doc.read_text(encoding="utf-8")
+          mutated = text.replace("cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a", "0" * 40)
+          assert mutated != text, "the mutation fixture no longer matches the checked-in document"
+          doc.write_text(mutated, encoding="utf-8")
+          PY
+          set +e
+          python -m unittest tests.test_s4ext_release_provenance > mutation-run.log 2>&1
+          status=$?
+          set -e
+          git checkout -- dist/mount
+          if [ "$status" -eq 0 ]; then
+            echo "MUTATION_ACCEPTED: the provenance gate passed a tampered identity stamp" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          echo "MUTATION_REFUSED_AS_EXPECTED"
+
+      - name: Upload raw logs
+        if: always()
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b  # v4.5.0
+        with:
+          name: ci-raw-logs
+          path: |
+            resolved-deps.txt
+            full-unittest.log
+            focused-s4ext.log
+            wheel-doctor.log
+            wheel-cli-help.log
+            mutation-run.log
+          if-no-files-found: warn

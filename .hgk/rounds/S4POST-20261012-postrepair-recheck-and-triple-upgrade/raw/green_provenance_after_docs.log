@@ -1,0 +1,93 @@
+EFFFEE.F..........C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tools\build_s4_spec_del_adjudication.py:223: ResourceWarning: unclosed file <_io.TextIOWrapper name='C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\SPEC_DEL_CROSSWALK.json' mode='r' encoding='utf-8'>
+  crosswalk = json.load(open(CROSSWALK, encoding="utf-8"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.................
+======================================================================
+ERROR: test_erratum_candidate_is_not_the_published_asset (tests.test_s4ext_release_provenance.DistributionArtifactTests.test_erratum_candidate_is_not_the_published_asset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 271, in test_erratum_candidate_is_not_the_published_asset
+    self.assertNotEqual(_sha256_file(ROOT / entry["corrected_candidate_zip"]),
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 80, in _sha256_file
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+                          ^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1050, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\dist\\mount\\PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3-erratum1.zip'
+
+======================================================================
+ERROR: test_rebuild_from_the_tree_is_byte_deterministic (tests.test_s4ext_release_provenance.DistributionArtifactTests.test_rebuild_from_the_tree_is_byte_deterministic)
+The published ZIP could NOT be reproduced from the LF tree (it captured CRLF members).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 293, in test_rebuild_from_the_tree_is_byte_deterministic
+    self.assertEqual(digests[0], _sha256_file(ROOT / entry["corrected_candidate_zip"]),
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 80, in _sha256_file
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+                          ^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1050, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\dist\\mount\\PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3-erratum1.zip'
+
+======================================================================
+ERROR: test_rebuild_members_are_lf_normalised (tests.test_s4ext_release_provenance.DistributionArtifactTests.test_rebuild_members_are_lf_normalised)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 298, in test_rebuild_members_are_lf_normalised
+    with zipfile.ZipFile(ROOT / entry["corrected_candidate_zip"]) as zf:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\zipfile.py", line 1337, in __init__
+    self.fp = io.open(file, filemode)
+              ^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\dist\\mount\\PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3-erratum1.zip'
+
+======================================================================
+FAIL: test_erratum_candidate_zip_verifies_and_matches_its_sidecar (tests.test_s4ext_release_provenance.DistributionArtifactTests.test_erratum_candidate_zip_verifies_and_matches_its_sidecar)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 263, in test_erratum_candidate_zip_verifies_and_matches_its_sidecar
+    self.assertTrue(zip_path.is_file(), entry["corrected_candidate_zip"])
+AssertionError: False is not true : dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3-erratum1.zip
+
+======================================================================
+FAIL: test_published_zip_retains_its_historical_crlf_members (tests.test_s4ext_release_provenance.DistributionArtifactTests.test_published_zip_retains_its_historical_crlf_members)
+Evidence of the old build behaviour, kept so the finding is auditable, not erased.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 308, in test_published_zip_retains_its_historical_crlf_members
+    self.assertGreater(crlf, 0, "the published preview.3 ZIP did capture CRLF members")
+AssertionError: 0 not greater than 0 : the published preview.3 ZIP did capture CRLF members
+
+======================================================================
+FAIL: test_published_zips_are_byte_identical_to_the_recorded_digest (tests.test_s4ext_release_provenance.DistributionArtifactTests.test_published_zips_are_byte_identical_to_the_recorded_digest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 257, in test_published_zips_are_byte_identical_to_the_recorded_digest
+    self.assertEqual(_sha256_file(zip_path), entry["published_asset_sha256"],
+AssertionError: 'af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f' != '73c6c7e255846e9012a4f5f0e849af93343b363fb158f2474b4d18143d1dcfde'
+- af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f
++ 73c6c7e255846e9012a4f5f0e849af93343b363fb158f2474b4d18143d1dcfde
+ : dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip was modified: the published asset is immutable
+
+======================================================================
+FAIL: test_preview3_every_document_states_both_commit_fields (tests.test_s4ext_release_provenance.PackDocumentsAgreeWithTupleTests.test_preview3_every_document_states_both_commit_fields)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 185, in test_preview3_every_document_states_both_commit_fields
+    self.assertIn("release tag target", text, doc.name)
+AssertionError: 'release tag target' not found in '# PIPD_LS_SP_QUICKSTART_PROMPT — the starter prompt\n\n> Release identity: **v0.1.1-preview.3** — tag commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`.\n> Paste the block below as the first message after attaching the pack (or adding it to Project\n> Knowledge). It is a **design-assistant** prompt: it grants no execution or approval authority.\n\n---\n\n## The prompt (copy the block)\n\n```text\nYou are a PIPD-LS-SP pre-implementation DESIGN ASSISTANT for release v0.1.1-preview.3\n(tag commit cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a). Read these three entry documents first,\nin order, and treat them as your contract:\n  1. SKILL.md                              (the dispatcher: trigger / non-trigger / refusals)\n  2. references/PIPD_S4_CORE.md            (the PI->PD->ConstructionContract->ECP/TQAEP chain)\n  3. references/PIPD_SOURCE_MAP.md         (the canonical external SSOT and this pack\'s binding)\n\nYour role is bounded:\n- Act ONLY as a pre-implementation design assistant. Do NOT act as an executor, an authoriser, an\n  independent verifier, or a runtime.\n- The chat host has NO tool execution, repository writing, CLI invocation, HITL authority, or\n  network/file access. Those are NOT_AVAILABLE here and belong to an authorised external executor.\n\nRules you must follow on every turn:\n- Dispatch the request across the eight existing pipd-* skills only (never invent a ninth skill).\n- Mark any missing input as a TYPED REFUSAL (e.g. NO_SOURCE_LOCATOR, MISSING_INPUT,\n  UNAUTHORISED_ACTION, S5_S6_NOT_AUTHORISED, UNKNOWN_RISK_NOT_ASSESSED). Do not fill gaps with\n  invented content.\n- NEVER fabricate a git HEAD, a test run, an install, an owner approval, a release, or a production\n  state. If you did not run it, say you did not run it.\n- Unknown risk is NOT_ASSESSED. Never describe an unassessed risk as "low-risk" or "verified".\n\nEnd every substantive answer with these four parts:\n  1. SOURCE LOCATORS   - the exact repo paths / objects your answer is derived from.\n  2. ACTUAL EVIDENCE   - what was really observed (raw, not paraphrased into a claim).\n  3. CLAIM CEILING     - the candidate-level claim this answer may support (see PIPD_S4_CORE.md).\n  4. NEXT STEP         - the single next action, and who is authorised to take it.\n\nWait for the user\'s design request. If it carries no source locator, refuse typed and ask for one.\n```\n\n---\n\n## What the host must do (short form)\n\n1. **Read the entry docs first** — `SKILL.md`, then `references/PIPD_S4_CORE.md`, then\n   `references/PIPD_SOURCE_MAP.md`.\n2. Be a **pre-implementation design assistant**; not an executor, authoriser, independent verifier or\n   runtime.\n3. Refuse missing input as a **typed refusal**; never fabricate state.\n4. Close with **source locators, actual evidence, the candidate claim ceiling and the next step**.\n\n## Source Locators\n\nBound to `v0.1.1-preview.3`, tag commit `cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`.\n\n| object | source locator |\n| --- | --- |\n| dispatcher | `SKILL.md` (this pack) |\n| core chain | `references/PIPD_S4_CORE.md` (this pack) |\n| source map | `references/PIPD_SOURCE_MAP.md` (this pack) |\n| skills | `skills/pipd-route-intake/` … `skills/pipd-package-project/` |\n| claim ceiling source | `schemas/ClaimCeiling.schema.json`, `PREVIEW_NOTES_v0.1.1-preview.3.md` |\n\nDerived content; no normative body is copied here. No token, credential or PII.\n' : PIPD_LS_SP_QUICKSTART_PROMPT.md
+
+----------------------------------------------------------------------
+Ran 35 tests in 0.582s
+
+FAILED (failures=4, errors=3)

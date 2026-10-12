@@ -132,6 +132,19 @@ Beyond that the pipeline is `intake` -> `compile-pi` -> `bind-pd` -> `compile-ec
 `compile-tqaep` -> `validate`, and **the middle steps take real inputs, not free text** — verified
 against the CLI rather than assumed.
 
+### Run it: one command, no shell expertise needed
+
+Two self-locating scripts perform the whole chain and print a single success token:
+
+```bash
+bash examples/first-run/run.sh                 # Linux / macOS / git-bash
+powershell -File examples/first-run/run.ps1    # Windows PowerShell
+```
+
+They check their preconditions first and fail typed with a non-zero exit when one is missing, and
+they print `FIRST_RUN_OK` only after `validate` has passed. The copy-paste chain below is the same
+work spelled out step by step, for when you want to watch each stage.
+
 ### Run it: the whole compiler chain, copy-paste
 
 These are the exact commands that produced the checked-in [`examples/first-run/`](examples/first-run/)
@@ -139,14 +152,14 @@ fixture, run from this checkout root. For `init`, `intake`, `profile`, `compile-
 `compile-ecp`, `compile-tqaep`, `validate` and `doctor`, `--root` is a global option and must
 precede the subcommand; `project` and `export` **additionally** accept `--root` after the
 subcommand. `--root <dir>` points at a workspace (use a directory outside the tree so scratch files
-never pollute the checkout), and the fixture paths are the real files in this repository. Both
-absolute paths below (`PY`, `PYTHONPATH`) are pinned for this environment — adjust them to your
-interpreter and checkout; any Python >= 3.11 with `jsonschema` works:
+never pollute the checkout), and the fixture paths are the real files in this repository. Nothing
+below is pinned to a developer machine: `PY` is your own interpreter and `PYTHONPATH` is this
+checkout's `src/` (any Python >= 3.11 with `jsonschema` works):
 
 ```bash
-PY=/c/Users/user/AppData/Local/Programs/Python/Python311/python.exe   # any Python >= 3.11 + jsonschema
-export PYTHONPATH="C:/Projects/Agent_Workspace/PIPD-postrelease-wt/src"   # this checkout's src/
-ART="C:/Users/user/AppData/Local/Temp/pipd-first-run"    # a scratch dir OUTSIDE the checkout
+PY=python3                                              # any Python >= 3.11 + jsonschema
+export PYTHONPATH="$PWD/src"                            # this checkout's src/
+ART="$(mktemp -d)/pipd-first-run"                       # a scratch dir OUTSIDE the checkout
 rm -rf "$ART" && mkdir -p "$ART"
 CTX="$ART/ctx"; mkdir -p "$CTX"          # the read-only dir bind-pd probes (empty -> stable)
 

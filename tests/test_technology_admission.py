@@ -152,10 +152,23 @@ class TechnologyAdmissionRepair(unittest.TestCase):
 
 
 def _run_report() -> tuple[int, dict]:
-    """Run the tool end-to-end via subprocess and parse the JSON it prints to stdout."""
-    proc = subprocess.run([sys.executable, str(ROOT / "tools" / "admit_technologies.py"),
-                           "--report"], capture_output=True, text=True)
-    return proc.returncode, json.loads(proc.stdout)
+    """Run the tool end-to-end via subprocess and parse the JSON it prints to stdout.
+
+    The invocation is redirected to a temporary artefact copy: without ``--artifact`` the tool
+    rewrites the TRACKED ``.hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json`` (and its
+    ``candidate_head``), which a read-only acceptance run must not do.
+    """
+    sandbox = Path(tempfile.mkdtemp())
+    try:
+        tmp_artifact = sandbox / "TECHNOLOGY_ADMISSIONS.json"
+        tmp_artifact.write_bytes((ROOT / ".hgk" / "artifacts" / "s1" / "TECHNOLOGY_ADMISSIONS.json")
+                                 .read_bytes())
+        proc = subprocess.run([sys.executable, str(ROOT / "tools" / "admit_technologies.py"),
+                               "--report", "--artifact", str(tmp_artifact)],
+                              capture_output=True, text=True)
+        return proc.returncode, json.loads(proc.stdout)
+    finally:
+        shutil.rmtree(sandbox, ignore_errors=True)
 
 
 def _report_with_row(mutate) -> dict:

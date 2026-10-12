@@ -33,7 +33,14 @@ def compute_profile(requested: str, *, axes: list[str] | None = None,
     ``"NOT_ASSESSED"`` unless risk evidence is explicitly supplied, and the ladder value
     ``"LOW_RISK_VERIFIED"`` is never emitted - an axis count is not a risk score.
     """
-    name = (requested or "").upper()
+    if requested is None or isinstance(requested, str):
+        name = (requested or "").upper()
+    else:
+        # O009: `(requested or "").upper()` raised a bare AttributeError for a truthy non-string
+        # (an int/object reached this function straight from a caller, not through argparse).
+        # A malformed request is a TYPED refusal, never a native AttributeError.
+        raise ProfileVeto(
+            f"profile must be a string, got {type(requested).__name__} ({requested!r})")
     if name not in PROFILES:
         raise ProfileVeto(f"unknown profile {requested!r}")
     cfg = PROFILES[name]
