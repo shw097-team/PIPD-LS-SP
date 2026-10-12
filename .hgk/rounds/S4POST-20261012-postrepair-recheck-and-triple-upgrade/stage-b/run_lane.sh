@@ -69,15 +69,20 @@ echo "PREFLIGHT_CLEAN HEAD=$(git rev-parse --short HEAD)"
 mkdir -p "$R/$OUTSUB" || die 3 "cannot create round-relative output dir: $OUTSUB"
 
 case "$LANE" in
-  AO*) MODEL="gpt-6.1-sol"; PROV="openai"; EFF="medium" ;;
-  *)   MODEL="opencode-go/deepseek-v4.1-flash"; PROV="opencode-go"; EFF="high" ;;
+  AO*) DEF_MODEL="gpt-6.1-sol"; DEF_PROV="openai"; DEF_EFF="medium" ;;
+  *)   DEF_MODEL="opencode-go/deepseek-v4.1-flash"; DEF_PROV="opencode-go"; DEF_EFF="high" ;;
 esac
+# The admission gate pins these for every child it starts; the defaults apply only to
+# a hand launch. A pinned value is recorded in the lane manifest, so a lane can never
+# be mistaken for one that ran on the assignment.
+MODEL="${LANE_MODEL:-$DEF_MODEL}"; PROV="${LANE_PROVIDER:-$DEF_PROV}"; EFF="${LANE_EFFORT:-$DEF_EFF}"
+SANDBOX_MODE="${LANE_SANDBOX:-workspace-write}"
 LOG="$LOGDIR/${LANE}_${STAMP}.log"; LOGEXIT="$LOG.exit"
 echo "${LANE}_LANE=${STAMP} MODEL=${MODEL} provider=${PROV} reasoning=${EFF} (declared)"
 printf 'LANE=%s\nMODEL=%s\nPROVIDER=%s\nEFFORT=%s\nSTAMP=%s\nWT=%s\n' \
   "$LANE" "$MODEL" "$PROV" "$EFF" "$STAMP" "$WT" > "$S/${LANE}_${STAMP}.manifest"
 
-timeout 5400 "$CODEX" exec --cd "$WT" --sandbox workspace-write \
+timeout 5400 "$CODEX" exec --cd "$WT" --sandbox "$SANDBOX_MODE" \
   -m "$MODEL" -c "model_provider=\"$PROV\"" -c "model_reasoning_effort=\"$EFF\"" \
   -c "model_supports_reasoning_summaries=true" --skip-git-repo-check \
   - < "$S/$BRIEF" > "$LOG" 2>&1

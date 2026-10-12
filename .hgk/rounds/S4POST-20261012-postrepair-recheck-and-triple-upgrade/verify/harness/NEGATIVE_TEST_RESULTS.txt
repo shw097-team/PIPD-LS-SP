@@ -1,6 +1,6 @@
 ### T1 dirty preflight is refused (v1 passed this; regression guard)
-FAIL T1_DIRTY_REFUSED expected=2 actual=3
-FAIL T1_says_refused
+PASS T1_DIRTY_REFUSED (exit=2)
+PASS T1_says_refused
 ### T2 missing brief: D1a - refuse BEFORE launch, never fail open
 PASS T2_MISSING_BRIEF_REFUSED (exit=3)
 PASS T2_no_lane_log_written
@@ -18,6 +18,6 @@ PASS T4_dirt_was_detected
 PASS T5_CHILD_EXIT_PROPAGATED (exit=7)
 PASS T5_lane_reports_done
 ### T6 TMPDIR resolving inside the worktree is refused (F)
-FAIL T6_TMPDIR_INSIDE_REFUSED expected=3 actual=5
+PASS T6_TMPDIR_INSIDE_REFUSED (exit=3)
 
-RESULT pass=12 fail=3
+RESULT pass=15 fail=0
