@@ -1116,3 +1116,369 @@ docs/RELEASE_TUPLE.json:59:  "authority_note": "This file records identity facts
 .hgk/rounds/POSTRELEASE-20261011-s4-narrow-repair/lane/smoke-1.log
 .hgk/rounds/POSTRELEASE-20261011-s4-narrow-repair/lane/smoke-2.log
 
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command 'Get-Content docs/ERRATUM_2026-10-12_preview3_release_provenance.md | Select-Object -First 17; Get-Content .ao/C1-full-suite.log -ErrorAction SilentlyContinue | Select-Object -Last 8' in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-verify-decl
+ exited 1 in 992ms:
+# ERRATUM 1 — v0.1.1-preview.3 Web Mount pack release identity
+
+> **Document ID**：`PIPD-ERRATUM-2026-10-12-PREVIEW3-PROVENANCE`
+> **Raised**：2026-10-12 (Asia/Taipei) · **Round**：`S4EXT-R1-20261012-external-challenge-repair`
+> **Finding of record**：`F001` of `PIPD-LS-SP-S4-EXTERNAL-CHALLENGE-2026-10-12-R1` (CONFIRMED_DEFECT, P1)
+> **Frozen tuple**：`docs/RELEASE_TUPLE.json` · **Status**：`SOURCE_CORRECTED / PUBLISHED_ASSET_IMMUTABLE / RELEASE HOLD`
+
+## 1. What was wrong
+
+The published GitHub release **`v0.1.1-preview.3`** carries a Web Mount ZIP whose eight documents
+declared the release identity as:
+
+```text
+v0.1.1-preview.3 — tag commit 8faa64e581e8c25f5ec355475e29561847da3ead
+```
+
+That value is **the `v0.1.0-preview.2` tag target**, not this release's. The GitHub tag object
+
+ succeeded in 155123ms:
+{"label": "C1-full-suite", "exit": 0, "tail": ["ResourceWarning: Enable tracemalloc to get the object allocation traceback", "..................................................................................VIOLATION: PIPD-SP-SPEC-001: evidence_ref missing: does/not/exist/mutation.json", "check failed: 1 violation(s)", ".VIOLATION: PIPD-SP-SPEC-001: EVIDENCED oracle file missing: tests/ORACLE_DOES_NOT_EXIST.py", "check failed: 1 violation(s)", ".........................................................SKIP test_installed_doctor_diagnoses_installed_schema_surface: pip unavailable in test interpreter: C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python", "sSKIP test_installed_package_is_self_sufficient: pip unavailable in test interpreter: C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python", "s....", "----------------------------------------------------------------------", "Ran 524 tests in 153.486s", "", "OK (skipped=6)"]}
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "@'
+import json, re, subprocess, sys
+import yaml
+from run import ROOT, run, claim
+erratum=ROOT/'docs/ERRATUM_2026-10-12_preview3_release_provenance.md'
+lines=erratum.read_text(encoding='utf-8').splitlines()
+claim('C4','FAIL','docs/RELEASE_TUPLE.json:48 current=af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f; :49 first_shipped_asset_sha256=73c6c7e255846e9012a4f5f0e849af93343b363fb158f2474b4d18143d1dcfde; :55-56 superseded candidate NOT shipped; erratum:58-60 old digest withdrawn; erratum:6 '+lines[5]+'; erratum:48 '+lines[47],'Stale PUBLISHED_ASSET_IMMUTABLE status and not-being-rewritten assertion survive outside a superseded disclosure marker')
+workflow=yaml.load((ROOT/'.github/workflows/ci.yml').read_text(encoding='utf-8'),Loader=yaml.BaseLoader)
+steps=workflow['jobs']['offline-gate']['steps']
+names=[item['name'] for item in steps]
+negative=next(item['run'] for item in steps if item['name'].startswith('Negative'))
+serialized=json.dumps(workflow)
+checks=dict(parsed=True,contents_read=workflow['permissions']=={'contents':'read'},no_pull_request_target='pull_request_target' not in workflow['on'],no_secrets_reference=not re.search(r'secrets\\s*[.\\[]',serialized,re.I),no_tag_or_publish_step=not re.search(r'git\\s+tag|git\\s+push|gh\\s+release|npm\\s+publish|twine\\s+upload',serialized),negative_refusal_gate=all(part in negative for part in ['doc.write_text','tests.test_s4ext_release_provenance','status="'$?'"','exit 1','MUTATION_REFUSED_AS_EXPECTED']))
+claim('C5','PASS' if all(checks.values()) else 'FAIL',json.dumps(dict(checks=checks,step_names=names,negative_failure='if [ \""'$status" -eq 0 ]; then ... exit 1; fi'"')),'Parsed using PyYAML 6.0.3 BaseLoader; negative step fails CI if tampering is accepted')
+code,text=run('C6-diff',['git','diff','--stat','224591431a164ab72a9423cd180e417e8a762403','f3c80ec','--','dist/mount'])
+claim('C6','PASS' if code==0 and not text.strip() else 'FAIL',f'exit={code}; raw stdout={json.dumps(text)}; .ao/C6-diff.log','No changes under dist/mount')
+code,text=run('C7-history-scan',[sys.executable,'-B','tools/history_secret_scan.py','--out','.ao/history_secret_scan.json'])
+if code==0:
+    result=json.loads((ROOT/'.ao/history_secret_scan.json').read_text())
+    sys.path.insert(0,str(ROOT/'src'))
+    from pipd_ls_sp.workspace import SECRET_PATTERNS
+    tracked=subprocess.run(['git','ls-files','-z'],cwd=ROOT,capture_output=True,check=True).stdout.decode().split('\\0')
+    logs=[path for path in tracked if path and (Path(path).suffix=='.log' or 'log' in Path(path).name.lower())]
+    hits=sum(len(pattern.findall((ROOT/path).read_text(encoding='utf-8',errors='replace'))) for path in logs for name,pattern in SECRET_PATTERNS)
+    claim('C7','PASS' if result['verdict']=='PASS' and result['status_codes']=={'history':'CLEAN','worktree':'CLEAN'} and hits==0 else 'FAIL',json.dumps(dict(verdict=result['verdict'],status_codes=result['status_codes'],history_hits_total=result['history_hits_total'],worktree_hits_total=result['worktree_hits_total'],objects_listed=result['objects_listed'],committed_logs_scanned=len(logs),committed_log_credential_pattern_hits=hits,report='.ao/history_secret_scan.json')),'--out redirects the tracked default report to scratch; no matched credential bytes emitted')
+else:
+    claim('C7','NOT_RUN' if code=='NOT_RUN' else 'FAIL',f'exit={code}; .ao/C7-history-scan.log','170-second cap' if code=='NOT_RUN' else 'Scan did not return CLEAN')
+'@ | Set-Content .ao/claims4567.py -Encoding utf8
+python -B .ao/claims4567.py" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-verify-decl
+ exited 1 in 11213ms:
+{"label": "C6-diff", "exit": 0, "tail": []}
+{"label": "C7-history-scan", "exit": 0, "tail": ["  \"bearer_literal\"", " ],", " \"objects_listed\": 3463,", " \"worktree_files_scanned\": 2928,", " \"history_hits_total\": 0,", " \"worktree_hits_total\": 0,", " \"status_codes\": {", "  \"history\": \"CLEAN\",", "  \"worktree\": \"CLEAN\"", " },", " \"verdict\": \"PASS\"", "}"]}
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-verify-decl\.ao\claims4567.py", line 22, in <module>
+    logs=[path for path in tracked if path and (Path(path).suffix=='.log' or 'log' in Path(path).name.lower())]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-verify-decl\.ao\claims4567.py", line 22, in <listcomp>
+    logs=[path for path in tracked if path and (Path(path).suffix=='.log' or 'log' in Path(path).name.lower())]
+                                                ^^^^
+NameError: name 'Path' is not defined. Did you mean: 'path'?
+
+**Considering code execution**
+
+I'm contemplating whether to repair a candidate scratch fix for some code that's causing crashes. I'm wondering if I should execute the tail section of my script using Python's stdin by adding imports that read specific portions. It seems like reusing code could be a one-off solution, but I need to think it through. Right now, I just want to get it sorted out without too much hassle! Let’s explore this further.
+codex
+The suite passes; stale erratum assertions block acceptance.
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "@'
+import json, subprocess, sys
+from pathlib import Path
+sys.path.insert(0,str(Path('.ao').resolve()))
+from run import ROOT, RECEIPT, run, claim
+result=json.loads((ROOT/'.ao/history_secret_scan.json').read_text())
+sys.path.insert(0,str(ROOT/'src'))
+from pipd_ls_sp.workspace import SECRET_PATTERNS
+tracked=subprocess.run(['git','ls-files','-z'],cwd=ROOT,capture_output=True,check=True).stdout.decode().split('\\0')
+logs=[path for path in tracked if path and (Path(path).suffix=='.log' or 'log' in Path(path).name.lower())]
+hits=sum(len(pattern.findall((ROOT/path).read_text(encoding='utf-8',errors='replace'))) for path in logs for name,pattern in SECRET_PATTERNS)
+claim('C7','PASS' if result['verdict']=='PASS' and result['status_codes']=={'history':'CLEAN','worktree':'CLEAN'} and hits==0 else 'FAIL',json.dumps(dict(verdict=result['verdict'],status_codes=result['status_codes'],history_hits_total=result['history_hits_total'],worktree_hits_total=result['worktree_hits_total'],objects_listed=result['objects_listed'],committed_logs_scanned=len(logs),committed_log_credential_pattern_hits=hits,report='.ao/history_secret_scan.json')),'--out redirects the tracked default report to scratch; no matched credential bytes emitted')
+code,status=run('C8-status',['git','status','--porcelain'])
+mutated=any(line and not line.startswith('?? ') for line in status.splitlines())
+allowed=all(line=='?? .ao/' for line in status.splitlines())
+claim('C8','PASS' if code==0 and not mutated and allowed else 'FAIL',f'exit={code}; raw porcelain={json.dumps(status)}; .ao/C8-status.log','Candidate tracked files remain unchanged')
+receipt=json.loads(RECEIPT.read_text())
+receipt['subject']=subprocess.run(['git','rev-parse','f3c80ec'],cwd=ROOT,capture_output=True,text=True,check=True).stdout.strip()
+receipt['tree']=subprocess.run(['git','rev-parse','f3c80ec"'^{tree}'"'],cwd=ROOT,capture_output=True,text=True,check=True).stdout.strip()
+receipt['candidate_mutated']=mutated
+receipt['claims'].sort(key=lambda item:item['id'])
+receipt['blocking']=[item['id'] for item in receipt['claims'] if item['result']"'!='"'PASS']
+receipt['verdict']='FAIL_CHALLENGE' if any(item['result']=='FAIL' for item in receipt['claims']) else ('PARTIAL_CHALLENGE' if receipt['blocking'] else 'PASS_CHALLENGE')
+receipt['identity']='Independent Acceptance Officer'
+receipt['execution_disclosure']='One early grouped inspection printed 237 lines, exceeding the approximate 200-line output cap; subsequent outputs were bounded. No candidate repair performed.'
+RECEIPT.write_text(json.dumps(receipt,indent=2)+'\\n',encoding='utf-8')
+print(json.dumps(receipt,indent=2))
+'@ | python -B -" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-verify-decl
+ succeeded in 1029ms:
+{"label": "C8-status", "exit": 0, "tail": ["?? .ao/"]}
+{
+  "subject": "f3c80ec5f97fd6163192491efaae184a773b421c",
+  "verdict": "FAIL_CHALLENGE",
+  "claims": [
+    {
+      "id": "C1",
+      "result": "PASS",
+      "evidence": "exit=0; Ran 524 tests in 153.486s\nOK (skipped=6); .ao/C1-full-suite.log",
+      "note": ""
+    },
+    {
+      "id": "C2",
+      "result": "PASS",
+      "evidence": "BASE exit=1: Ran 30 tests in 2.474s\nFAILED (failures=16, errors=11); SUBJECT exit=0: Ran 30 tests in 2.175s\nOK; .ao/C2-base.log; .ao/C2-subject.log",
+      "note": "git archive BASE under .ao/base; subject tests copied to base=True"
+    },
+    {
+      "id": "C3",
+      "result": "PASS",
+      "evidence": "{\"checked_zip\": \"af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f\", \"sidecar\": \"af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f\", \"published_asset_sha256\": \"af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f\", \"rebuild_1\": \"af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f\", \"rebuild_2\": \"af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f\", \"crlf_members\": 0, \"byte_identical\": [true, true]}",
+      "note": "Local checked-in asset comparison; no live release fetch requested"
+    },
+    {
+      "id": "C4",
+      "result": "FAIL",
+      "evidence": "docs/RELEASE_TUPLE.json:48 current=af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f; :49 first_shipped_asset_sha256=73c6c7e255846e9012a4f5f0e849af93343b363fb158f2474b4d18143d1dcfde; :55-56 superseded candidate NOT shipped; erratum:58-60 old digest withdrawn; erratum:6 > **Frozen tuple**\uff1a`docs/RELEASE_TUPLE.json` \u00b7 **Status**\uff1a`SOURCE_CORRECTED / PUBLISHED_ASSET_IMMUTABLE / RELEASE HOLD`; erratum:48    what the already published asset says and why it is not being rewritten.",
+      "note": "Stale PUBLISHED_ASSET_IMMUTABLE status and not-being-rewritten assertion survive outside a superseded disclosure marker"
+    },
+    {
+      "id": "C5",
+      "result": "PASS",
+      "evidence": "{\"checks\": {\"parsed\": true, \"contents_read\": true, \"no_pull_request_target\": true, \"no_secrets_reference\": true, \"no_tag_or_publish_step\": true, \"negative_refusal_gate\": true}, \"step_names\": [\"Check out the frozen subject\", \"Set up Python 3.11\", \"Install (declared dependencies only) and record what was resolved\", \"Full unittest suite (raw log)\", \"Focused S4 repair / closure suites (raw log)\", \"Build the wheel and exercise it in a clean venv with no source on PYTHONPATH\", \"Negative \\u2014 a mutated pack document must make the provenance gate fail\", \"Upload raw logs\"], \"negative_failure\": \"if [ \\\"$status\\\" -eq 0 ]; then ... exit 1; fi\"}",
+      "note": "Parsed using PyYAML 6.0.3 BaseLoader; negative step fails CI if tampering is accepted"
+    },
+    {
+      "id": "C6",
+      "result": "PASS",
+      "evidence": "exit=0; raw stdout=\"\"; .ao/C6-diff.log",
+      "note": "No changes under dist/mount"
+    },
+    {
+      "id": "C7",
+      "result": "PASS",
+      "evidence": "{\"verdict\": \"PASS\", \"status_codes\": {\"history\": \"CLEAN\", \"worktree\": \"CLEAN\"}, \"history_hits_total\": 0, \"worktree_hits_total\": 0, \"objects_listed\": 3463, \"committed_logs_scanned\": 121, \"committed_log_credential_pattern_hits\": 0, \"report\": \".ao/history_secret_scan.json\"}",
+      "note": "--out redirects the tracked default report to scratch; no matched credential bytes emitted"
+    },
+    {
+      "id": "C8",
+      "result": "PASS",
+      "evidence": "exit=0; raw porcelain=\"?? .ao/\\n\"; .ao/C8-status.log",
+      "note": "Candidate tracked files remain unchanged"
+    }
+  ],
+  "tree": "97248370450f1d061c65442d900fec90f9d4b9eb",
+  "candidate_mutated": false,
+  "blocking": [
+    "C4"
+  ],
+  "identity": "Independent Acceptance Officer",
+  "execution_disclosure": "One early grouped inspection printed 237 lines, exceeding the approximate 200-line output cap; subsequent outputs were bounded. No candidate repair performed."
+}
+
+codex
+{
+  "subject": "f3c80ec5f97fd6163192491efaae184a773b421c",
+  "tree": "97248370450f1d061c65442d900fec90f9d4b9eb",
+  "candidate_mutated": false,
+  "blocking": ["C4"],
+  "verdict": "FAIL_CHALLENGE",
+  "claims": [
+    {
+      "id": "C1",
+      "result": "PASS",
+      "evidence": "exit=0; Ran 524 tests in 153.486s\nOK (skipped=6); .ao/C1-full-suite.log",
+      "note": "Completed within the 170-second cap."
+    },
+    {
+      "id": "C2",
+      "result": "PASS",
+      "evidence": "BASE exit=1; Ran 30 tests in 2.474s; FAILED (failures=16, errors=11). SUBJECT exit=0; Ran 30 tests in 2.175s; OK. Logs: .ao/C2-base.log, .ao/C2-subject.log",
+      "note": "BASE exported using git archive under .ao/base; identical subject trace tests copied into that snapshot."
+    },
+    {
+      "id": "C3",
+      "result": "PASS",
+      "evidence": {
+        "checked_zip_sha256": "af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f",
+        "sidecar_sha256": "af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f",
+        "published_asset_sha256": "af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f",
+        "rebuild_1_sha256": "af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f",
+        "rebuild_2_sha256": "af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f",
+        "crlf_members": 0,
+        "byte_identical": [true, true]
+      },
+      "note": "Both builds used copied pack sources under .ao/; comparison covers the checked-in ZIP, sidecar and release tuple, not a live download."
+    },
+    {
+      "id": "C4",
+      "result": "FAIL",
+      "evidence": "docs/RELEASE_TUPLE.json:48 records current af342d28…; :49 retains historical 73c6c7e2…; :55-56 marks erratum1 NOT shipped. Erratum:58-60 withdraws the old digest claim. However, erratum:6 still states SOURCE_CORRECTED / PUBLISHED_ASSET_IMMUTABLE / RELEASE HOLD, and :48 states 'what the already published asset says and why it is not being rewritten.'",
+      "note": "Stale immutability/non-rewrite assertions survive outside a superseded disclosure marker."
+    },
+    {
+      "id": "C5",
+      "result": "PASS",
+      "evidence": {
+        "parsed": true,
+        "permissions": {"contents": "read"},
+        "pull_request_target_trigger": false,
+        "secrets_reference": false,
+        "tag_or_publish_step": false,
+        "step_names": [
+          "Check out the frozen subject",
+          "Set up Python 3.11",
+          "Install (declared dependencies only) and record what was resolved",
+          "Full unittest suite (raw log)",
+          "Focused S4 repair / closure suites (raw log)",
+          "Build the wheel and exercise it in a clean venv with no source on PYTHONPATH",
+          "Negative — a mutated pack document must make the provenance gate fail",
+          "Upload raw logs"
+        ],
+        "negative_failure": "Tamper document; run provenance tests; if status equals 0, exit 1."
+      },
+      "note": "Parsed using PyYAML 6.0.3 BaseLoader; the negative step fails CI if tampering is accepted."
+    },
+    {
+      "id": "C6",
+      "result": "PASS",
+      "evidence": "git diff --stat 224591431a164ab72a9423cd180e417e8a762403 f3c80ec -- dist/mount: exit=0; raw output=\"\"",
+      "note": "No changes under dist/mount, including ZIP files."
+    },
+    {
+      "id": "C7",
+      "result": "PASS",
+      "evidence": {
+        "verdict": "PASS",
+        "status_codes": {"history": "CLEAN", "worktree": "CLEAN"},
+        "history_hits_total": 0,
+        "worktree_hits_total": 0,
+        "objects_listed": 3463,
+        "committed_logs_scanned": 121,
+        "committed_log_credential_pattern_hits": 0,
+        "report": ".ao/history_secret_scan.json"
+      },
+      "note": "Used --out to avoid rewriting the tracked default scan report; no credential matches emitted."
+    },
+    {
+      "id": "C8",
+      "result": "PASS",
+      "evidence": "git status --porcelain: exit=0; raw output=\"?? .ao/\\n\"",
+      "note": "No tracked candidate files modified."
+    }
+  ],
+  "identity": "Independent Acceptance Officer",
+  "execution_disclosure": "One early grouped inspection printed 237 lines, exceeding the approximate 200-line cap; subsequent outputs were bounded. No candidate repair performed."
+}
+
+Independent Acceptance Officer — subject `f3c80ec`.
+Verdict: **FAIL_CHALLENGE**, blocked by C4.
+All eight claims tested; none marked NOT_RUN.
+Full receipt and raw logs saved under `.ao/`.
+Candidate tracked files remain unchanged.
+tokens used
+91,452
+{
+  "subject": "f3c80ec5f97fd6163192491efaae184a773b421c",
+  "tree": "97248370450f1d061c65442d900fec90f9d4b9eb",
+  "candidate_mutated": false,
+  "blocking": ["C4"],
+  "verdict": "FAIL_CHALLENGE",
+  "claims": [
+    {
+      "id": "C1",
+      "result": "PASS",
+      "evidence": "exit=0; Ran 524 tests in 153.486s\nOK (skipped=6); .ao/C1-full-suite.log",
+      "note": "Completed within the 170-second cap."
+    },
+    {
+      "id": "C2",
+      "result": "PASS",
+      "evidence": "BASE exit=1; Ran 30 tests in 2.474s; FAILED (failures=16, errors=11). SUBJECT exit=0; Ran 30 tests in 2.175s; OK. Logs: .ao/C2-base.log, .ao/C2-subject.log",
+      "note": "BASE exported using git archive under .ao/base; identical subject trace tests copied into that snapshot."
+    },
+    {
+      "id": "C3",
+      "result": "PASS",
+      "evidence": {
+        "checked_zip_sha256": "af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f",
+        "sidecar_sha256": "af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f",
+        "published_asset_sha256": "af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f",
+        "rebuild_1_sha256": "af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f",
+        "rebuild_2_sha256": "af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f",
+        "crlf_members": 0,
+        "byte_identical": [true, true]
+      },
+      "note": "Both builds used copied pack sources under .ao/; comparison covers the checked-in ZIP, sidecar and release tuple, not a live download."
+    },
+    {
+      "id": "C4",
+      "result": "FAIL",
+      "evidence": "docs/RELEASE_TUPLE.json:48 records current af342d28…; :49 retains historical 73c6c7e2…; :55-56 marks erratum1 NOT shipped. Erratum:58-60 withdraws the old digest claim. However, erratum:6 still states SOURCE_CORRECTED / PUBLISHED_ASSET_IMMUTABLE / RELEASE HOLD, and :48 states 'what the already published asset says and why it is not being rewritten.'",
+      "note": "Stale immutability/non-rewrite assertions survive outside a superseded disclosure marker."
+    },
+    {
+      "id": "C5",
+      "result": "PASS",
+      "evidence": {
+        "parsed": true,
+        "permissions": {"contents": "read"},
+        "pull_request_target_trigger": false,
+        "secrets_reference": false,
+        "tag_or_publish_step": false,
+        "step_names": [
+          "Check out the frozen subject",
+          "Set up Python 3.11",
+          "Install (declared dependencies only) and record what was resolved",
+          "Full unittest suite (raw log)",
+          "Focused S4 repair / closure suites (raw log)",
+          "Build the wheel and exercise it in a clean venv with no source on PYTHONPATH",
+          "Negative — a mutated pack document must make the provenance gate fail",
+          "Upload raw logs"
+        ],
+        "negative_failure": "Tamper document; run provenance tests; if status equals 0, exit 1."
+      },
+      "note": "Parsed using PyYAML 6.0.3 BaseLoader; the negative step fails CI if tampering is accepted."
+    },
+    {
+      "id": "C6",
+      "result": "PASS",
+      "evidence": "git diff --stat 224591431a164ab72a9423cd180e417e8a762403 f3c80ec -- dist/mount: exit=0; raw output=\"\"",
+      "note": "No changes under dist/mount, including ZIP files."
+    },
+    {
+      "id": "C7",
+      "result": "PASS",
+      "evidence": {
+        "verdict": "PASS",
+        "status_codes": {"history": "CLEAN", "worktree": "CLEAN"},
+        "history_hits_total": 0,
+        "worktree_hits_total": 0,
+        "objects_listed": 3463,
+        "committed_logs_scanned": 121,
+        "committed_log_credential_pattern_hits": 0,
+        "report": ".ao/history_secret_scan.json"
+      },
+      "note": "Used --out to avoid rewriting the tracked default scan report; no credential matches emitted."
+    },
+    {
+      "id": "C8",
+      "result": "PASS",
+      "evidence": "git status --porcelain: exit=0; raw output=\"?? .ao/\\n\"",
+      "note": "No tracked candidate files modified."
+    }
+  ],
+  "identity": "Independent Acceptance Officer",
+  "execution_disclosure": "One early grouped inspection printed 237 lines, exceeding the approximate 200-line cap; subsequent outputs were bounded. No candidate repair performed."
+}
+
+Independent Acceptance Officer — subject `f3c80ec`.
+Verdict: **FAIL_CHALLENGE**, blocked by C4.
+All eight claims tested; none marked NOT_RUN.
+Full receipt and raw logs saved under `.ao/`.
+Candidate tracked files remain unchanged.

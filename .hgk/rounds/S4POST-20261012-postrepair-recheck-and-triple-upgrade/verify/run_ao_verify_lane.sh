@@ -2,12 +2,12 @@
 # S4POST stage-A independent acceptance lane.
 # Fresh clone of the product repo at the frozen subject; the checker works read-only inside it.
 set -u
-SUBJECT=f3c80ec5f97fd6163192491efaae184a773b421c
+SUBJECT="${1:-f3c80ec5f97fd6163192491efaae184a773b421c}"
 REPO=C:/Projects/Agent_Workspace/PIPD
 CLONE=C:/Projects/Agent_Workspace/PIPD/worktrees/s4post-a-verify-decl
 ROUND=C:/Projects/Agent_Workspace/PIPD/worktrees/s4post-a-wt/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade
 CB=/c/Users/user/AppData/Local/OpenAI/Codex/bin/2e5e00daee91c61d/codex.exe
-LOG="$ROUND/verify/AO_VERIFY_SUBJECT_F3C80EC_gpt-6.1-sol_medium.log"
+LOG="$ROUND/verify/AO_VERIFY_SUBJECT_${SUBJECT:0:8}_gpt-6.1-sol_medium.log"
 
 rm -rf "$CLONE"
 git clone --quiet "$REPO" "$CLONE"
