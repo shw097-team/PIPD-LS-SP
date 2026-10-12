@@ -1,0 +1,10 @@
+COMMAND: python -c from pathlib import Path; import re,sys; root=Path(sys.argv[1]); path=root/"AO_VERDICT_STAGEB_R3.md"; text=path.read_text(encoding="utf-8"); required=["## ADJUDICATION A","## ADJUDICATION B","## NOT_EXECUTED","## LIMITS OF THIS REPORT"]; print("REPORT",path); print("BYTES",path.stat().st_size); print("REQUIRED_SECTIONS",{section:text.count(section) for section in required}); print("PENDING_MARKER", "AO3_REPORT_CONTINUATION_PENDING" in text); print("FENCE_COUNT",sum(line.startswith("```") for line in text.splitlines())); print("REFERENCED_PROBE_LOGS_EXIST",all((root/name).is_file() for name in re.findall(r"`(probe-[a-z0-9-]+\.txt)`",text))); print("VERDICT_LINES",[(index,line) for index,line in enumerate(text.splitlines(),1) if line.startswith("## ADJUDICATION") or line.startswith("### Verdict:")]); assert all(text.count(section)==1 for section in required); assert "AO3_REPORT_CONTINUATION_PENDING" not in text C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-b-wt\.hgk\rounds\S4POST-20261012-postrepair-recheck-and-triple-upgrade\verify\ao3
+EXIT_CODE: 0
+RAW OUTPUT:
+REPORT C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-b-wt\.hgk\rounds\S4POST-20261012-postrepair-recheck-and-triple-upgrade\verify\ao3\AO_VERDICT_STAGEB_R3.md
+BYTES 58131
+REQUIRED_SECTIONS {'## ADJUDICATION A': 1, '## ADJUDICATION B': 1, '## NOT_EXECUTED': 1, '## LIMITS OF THIS REPORT': 1}
+PENDING_MARKER False
+FENCE_COUNT 40
+REFERENCED_PROBE_LOGS_EXIST True
+VERDICT_LINES [(83, '## ADJUDICATION A'), (85, '### Verdict: NOT_CLOSED'), (463, '## ADJUDICATION B'), (465, '### Verdict: ACCEPT_WITH_CONDITIONS')]

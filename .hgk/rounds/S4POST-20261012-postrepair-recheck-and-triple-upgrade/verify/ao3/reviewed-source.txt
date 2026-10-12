@@ -1,0 +1,3173 @@
+COMMAND: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\venv\Scripts\python.exe -c "from pathlib import Path; import sys; [(print(\"FILE:\",p),print(Path(p).read_text(encoding=\"utf-8\",errors=\"replace\"))) for p in sys.argv[1:]]" tools/build_public_plugin.py tools/build_web_fallback.py tools/freeze_public_plugin_source.py .github/workflows/public-plugin-verify.yml tests/test_public_plugin_packaging.py tests/test_web_fallback.py docs/install/README.md .hgk\rounds\S4POST-20261012-postrepair-recheck-and-triple-upgrade\AO2_HANDOVER_CLOSURE.md .hgk\rounds\S4POST-20261012-postrepair-recheck-and-triple-upgrade\verify\ao2\LOCATION_NOTE.md
+CWD: C:\Users\user\AppData\Local\Temp\pipd-ao3-d2_pq808\candidate
+EXIT_CODE: 0
+RAW OUTPUT:
+FILE: tools/build_public_plugin.py
+#!/usr/bin/env python3
+"""S4POST Stage B: build the deterministic, fail-closed public Skills-only plugin candidate.
+
+This tool turns the eight ``skills/pipd-*`` packs into ONE portable plugin ZIP. It is
+fail-closed by construction: every owner-gated input that has not been supplied yet makes the build
+REFUSE with a typed reason (non-zero exit), never warn. Nothing here publishes anything; the output
+is a *candidate* whose receipt says ``claim_ceiling: LOCAL_PACKAGER_PASS_ONLY`` and
+``official_portal_verification: NOT_EXECUTED``.
+
+Two manifests, one package:
+  * ``plugin.json`` is the OFFICIAL Agent Plugins 1.0 package-root manifest. It is validated
+    against the byte-locked vendor schema ``vendor-plugin.schema.json`` (a byte copy of
+    ``https://agent-plugins.org/schemas/1.0.0/plugin.schema.json``), so a private PIPD manifest
+    placed at the root would be refused by ``additionalProperties: false``.
+  * ``plugin.release.json`` is PIPD's own release bookkeeping (claim ceiling, portal state,
+    publisher record, icon digests, the eight skill names and the pinned digest of the official
+    vendor schema). The same object is embedded in the official manifest under the vendor-blessed
+    ``extensions["com.pipd.s4"]`` namespace, and both copies must agree.
+
+Owner-gated inputs (all missing on purpose in the checked-in candidate):
+  * a per-skill derivation record in ``derivations.json`` whose ``source_sha256`` matches the
+    frozen ledger (each ``SKILL.md`` carries non-portable frontmatter, so a byte-copy projection is
+    impossible and every skill needs an owner-approved derivation),
+  * the pinned digest of the official (vendor) schema in ``official_schema_sha256``,
+  * the publisher identity,
+  * the icon digests.
+
+Typed refusals added by the vendor-schema lock: ``VENDOR_SCHEMA_MISSING``, ``VENDOR_SCHEMA_INVALID``,
+``VENDOR_SCHEMA_ID_MISMATCH``, ``OFFICIAL_SCHEMA_ID_MISMATCH``, ``VENDOR_SCHEMA_DIGEST_MISMATCH``,
+``RELEASE_BOOKKEEPING_MISSING`` and ``RELEASE_EXTENSION_MISMATCH``. The former
+``OFFICIAL_SCHEMA_DIGEST_MISMATCH`` is subsumed by ``VENDOR_SCHEMA_DIGEST_MISMATCH``: the pinned
+digest now names the official vendor schema bytes, not the local subset.
+
+Determinism: fixed ZIP metadata (1980-01-01, mode 0644, DEFLATED level 9). The archive is written
+to a scratch file, read back and compared member-by-member before it is promoted into place, so two
+builds from the same inputs are byte-identical.
+
+CLI
+---
+``--source-root DIR``     frozen checkout (default: the repository of this file)
+``--ledger FILE``         frozen source ledger from ``freeze_public_plugin_source.py``
+``--source-commit HEX40`` the pinned source commit (must equal the ledger commit)
+``--packaging-root DIR``  authoring directory (default: <repo>/packaging/public-plugin)
+``--out-dir DIR``         release directory for the candidate ZIP (must not overlap the repo)
+``--generate-icons``      (re)write the deterministic PNG icons into the packaging assets first
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+import re
+import struct
+import sys
+import tempfile
+import zipfile
+import zlib
+from pathlib import Path
+
+_HERE = Path(__file__).resolve().parent
+if str(_HERE) not in sys.path:
+    sys.path.insert(0, str(_HERE))
+from freeze_public_plugin_source import (  # noqa: E402  (sibling tool, stdlib-only)
+    EXPECTED_SKILLS,
+    canonical_bytes,
+)
+
+# PIPD's release bookkeeping document (``plugin.release.json``); the local ``plugin.schema.json``
+# subset pins this closed key set.
+RELEASE_SCHEMA_ID = "PIPD-PUBLIC-PLUGIN-MANIFEST/1"
+# The official Agent Plugins 1.0 vendor schema: its ``$id`` is the manifest ``$schema``, and its
+# exact bytes are pinned here so a swapped schema cannot silently widen the accepted manifest.
+VENDOR_SCHEMA_ID = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
+VENDOR_SCHEMA_SHA256 = "0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883"
+VENDOR_SCHEMA_FILENAME = "vendor-plugin.schema.json"
+RELEASE_BOOKKEEPING_FILENAME = "plugin.release.json"
+# The vendor-blessed reverse-domain namespace that carries PIPD's own release bookkeeping.
+RELEASE_EXTENSION_KEY = "com.pipd.s4"
+PORTABLE_KEYS = ("name", "description", "license", "compatibility", "metadata", "allowed-tools")
+NON_PORTABLE_KEYS = ("version", "owner", "triggers", "schemas", "references", "tests")
+
+FIXED_DATE_TIME = (1980, 1, 1, 0, 0, 0)
+FIXED_MODE = 0o644
+COMPRESS_LEVEL = 9
+
+HEX40 = re.compile(r"^[0-9a-f]{40}$")
+HEX64 = re.compile(r"^[0-9a-f]{64}$")
+PLACEHOLDERS = frozenset(
+    {"", "OWNER_INPUT_REQUIRED", "TODO", "TBD", "PLACEHOLDER", "CHANGEME", "<owner>", "NONE"}
+)
+
+PNG_SIG = b"\x89PNG\r\n\x1a\n"
+
+DERIVATION_MISSING_TEMPLATE = (
+    "no owner derivation record for skill '{skill}' (derivations.json is empty by design; "
+    "every skill needs an owner-approved record whose source_sha256 matches the frozen ledger)"
+)
+
+
+class Refusal(Exception):
+    """A fail-closed build refusal. ``code`` is the machine-checkable typed reason."""
+
+    def __init__(self, code: str, detail: str) -> None:
+        super().__init__(f"REFUSED {code}: {detail}")
+        self.code = code
+        self.detail = detail
+
+
+# --------------------------------------------------------------------------- helpers
+def sha256_bytes(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def canonical_json_bytes(doc) -> bytes:
+    return (json.dumps(doc, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
+
+
+def is_placeholder(value) -> bool:
+    return value is None or (isinstance(value, str) and value.strip().upper() in PLACEHOLDERS)
+
+
+def _path_is_symlink(path) -> bool:
+    """Seam for tests: a single predicate the symlink gates consult."""
+    return os.path.islink(path)
+
+
+# --------------------------------------------------------------------------- PNG (stdlib only)
+def _png_chunk(chunk_type: bytes, data: bytes) -> bytes:
+    crc = zlib.crc32(chunk_type + data) & 0xFFFFFFFF
+    return struct.pack(">I", len(data)) + chunk_type + data + struct.pack(">I", crc)
+
+
+def png_icon_bytes(size: int = 128) -> bytes:
+    """A deterministic RGBA icon: no Pillow, no new dependency, no wall-clock input."""
+    if size < 8:
+        raise ValueError("icon size must be at least 8 px")
+    raw = bytearray()
+    for y in range(size):
+        raw.append(0)  # filter type 0 (None)
+        for x in range(size):
+            r = (x * 255) // (size - 1)
+            g = (y * 255) // (size - 1)
+            border = x < size // 16 or x >= size - size // 16 or y < size // 16 or y >= size - size // 16
+            b = 0x10 if border else 0x60
+            raw += bytes((r, g, b, 255))
+    ihdr = struct.pack(">IIBBBBB", size, size, 8, 6, 0, 0, 0)
+    return (PNG_SIG + _png_chunk(b"IHDR", ihdr)
+            + _png_chunk(b"IDAT", zlib.compress(bytes(raw), 9))
+            + _png_chunk(b"IEND", b""))
+
+
+def png_errors(data: bytes) -> list[str]:
+    """Decode the PNG structurally: signature, chunk CRCs, IHDR and an inflated IDAT."""
+    if len(data) < 8:
+        return ["too_short"]
+    if data[:8] != PNG_SIG:
+        return ["signature"]
+    errors: list[str] = []
+    pos = 8
+    width = height = bit_depth = color_type = None
+    idat = bytearray()
+    seen_ihdr = seen_iend = False
+    first_chunk = None
+    while pos < len(data):
+        if pos + 8 > len(data):
+            errors.append("truncated_chunk_header")
+            break
+        length = struct.unpack(">I", data[pos:pos + 4])[0]
+        chunk_type = data[pos + 4:pos + 8]
+        pos += 8
+        if pos + length + 4 > len(data):
+            errors.append(f"truncated_chunk_body:{chunk_type.decode('latin1')}")
+            break
+        body = data[pos:pos + length]
+        crc = data[pos + length:pos + length + 4]
+        pos += length + 4
+        if first_chunk is None:
+            first_chunk = chunk_type
+            if chunk_type != b"IHDR":
+                errors.append("ihdr_not_first")
+        if crc != struct.pack(">I", zlib.crc32(chunk_type + body) & 0xFFFFFFFF):
+            errors.append(f"crc:{chunk_type.decode('latin1')}")
+        if chunk_type == b"IHDR":
+            seen_ihdr = True
+            if len(body) != 13:
+                errors.append("ihdr_length")
+            else:
+                width, height, bit_depth, color_type, _comp, _filt, interlace = struct.unpack(
+                    ">IIBBBBB", body)
+                if width == 0 or height == 0:
+                    errors.append("ihdr_zero_dimension")
+                if bit_depth != 8:
+                    errors.append("ihdr_bit_depth")
+                if color_type not in (0, 2, 4, 6):
+                    errors.append("ihdr_color_type")
+                if interlace != 0:
+                    errors.append("ihdr_interlace")
+        elif chunk_type == b"IDAT":
+            idat += body
+        elif chunk_type == b"IEND":
+            seen_iend = True
+            break
+    if not seen_ihdr:
+        errors.append("ihdr_missing")
+    if not seen_iend:
+        errors.append("iend_missing")
+    if seen_ihdr and seen_iend and width and height:
+        channels = {0: 1, 2: 3, 4: 2, 6: 4}.get(color_type, 0)
+        try:
+            inflated = zlib.decompress(bytes(idat))
+        except zlib.error:
+            errors.append("idat_inflate")
+        else:
+            if channels == 0 or len(inflated) != height * (1 + width * channels):
+                errors.append("idat_size")
+    return errors
+
+
+# --------------------------------------------------------------------------- JSON-schema subset
+def _type_ok(value, typ: str) -> bool:
+    if typ == "object":
+        return isinstance(value, dict)
+    if typ == "array":
+        return isinstance(value, list)
+    if typ == "string":
+        return isinstance(value, str)
+    if typ == "integer":
+        return isinstance(value, int) and not isinstance(value, bool)
+    if typ == "number":
+        return isinstance(value, (int, float)) and not isinstance(value, bool)
+    if typ == "boolean":
+        return isinstance(value, bool)
+    if typ == "null":
+        return value is None
+    return True
+
+
+def validate_subset(instance, schema, path: str = "$") -> list[dict]:
+    """A tiny, dependency-free JSON-Schema subset validator (local subset AND vendor schema).
+
+    Supported keywords: ``type``, ``const``, ``enum``, ``minLength``, ``maxLength``, ``pattern``,
+    ``minimum``, ``maximum``, ``minItems``, ``maxItems``, ``uniqueItems``, ``items``, ``required``,
+    ``properties`` and both forms of ``additionalProperties`` (``false`` closes the key set; an
+    object schema validates every key that ``properties`` does not name).
+    """
+    errors: list[dict] = []
+    if not isinstance(schema, dict):
+        return errors
+    if "type" in schema:
+        types = schema["type"] if isinstance(schema["type"], list) else [schema["type"]]
+        if not any(_type_ok(instance, t) for t in types):
+            return [{"path": path, "keyword": "type", "message": f"expected one of {types}"}]
+    if "const" in schema and instance != schema["const"]:
+        errors.append({"path": path, "keyword": "const",
+                       "message": f"expected const {schema['const']!r}"})
+    if "enum" in schema and instance not in schema["enum"]:
+        errors.append({"path": path, "keyword": "enum",
+                       "message": f"expected one of {schema['enum']!r}"})
+    if isinstance(instance, str):
+        if "minLength" in schema and len(instance) < schema["minLength"]:
+            errors.append({"path": path, "keyword": "minLength", "message": "too short"})
+        if "maxLength" in schema and len(instance) > schema["maxLength"]:
+            errors.append({"path": path, "keyword": "maxLength", "message": "too long"})
+        if "pattern" in schema and re.search(schema["pattern"], instance) is None:
+            errors.append({"path": path, "keyword": "pattern",
+                           "message": f"does not match {schema['pattern']!r}"})
+    if isinstance(instance, int) and not isinstance(instance, bool):
+        if "minimum" in schema and instance < schema["minimum"]:
+            errors.append({"path": path, "keyword": "minimum", "message": "below minimum"})
+        if "maximum" in schema and instance > schema["maximum"]:
+            errors.append({"path": path, "keyword": "maximum", "message": "above maximum"})
+    if isinstance(instance, list):
+        if "minItems" in schema and len(instance) < schema["minItems"]:
+            errors.append({"path": path, "keyword": "minItems", "message": "too few items"})
+        if "maxItems" in schema and len(instance) > schema["maxItems"]:
+            errors.append({"path": path, "keyword": "maxItems", "message": "too many items"})
+        if schema.get("uniqueItems"):
+            seen = {json.dumps(item, sort_keys=True) for item in instance}
+            if len(seen) != len(instance):
+                errors.append({"path": path, "keyword": "uniqueItems", "message": "duplicates"})
+        items = schema.get("items")
+        if isinstance(items, dict):
+            for i, item in enumerate(instance):
+                errors += validate_subset(item, items, f"{path}[{i}]")
+    if isinstance(instance, dict):
+        for required_key in schema.get("required", []):
+            if required_key not in instance:
+                errors.append({"path": f"{path}.{required_key}", "keyword": "required",
+                               "message": "required property is absent"})
+        props = schema.get("properties", {})
+        extra = schema.get("additionalProperties")
+        if extra is False:
+            for key in instance:
+                if key not in props:
+                    errors.append({"path": f"{path}.{key}", "keyword": "additionalProperties",
+                                   "message": "additional property is not allowed"})
+        for key, value in instance.items():
+            if key in props:
+                errors += validate_subset(value, props[key], f"{path}.{key}")
+            elif isinstance(extra, dict):
+                errors += validate_subset(value, extra, f"{path}.{key}")
+    return errors
+
+
+# --------------------------------------------------------------------------- frontmatter
+def _unquote(value: str) -> str:
+    value = value.strip()
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in ("'", '"'):
+        return value[1:-1]
+    return value
+
+
+def parse_skill_md(text: str) -> tuple[list[str], dict, str]:
+    """Split ``SKILL.md`` into (ordered keys, mapping, body). Never mutates the body text."""
+    first_nl = text.find("\n")
+    if first_nl == -1 or text[:first_nl].strip() != "---":
+        raise Refusal("SKILL_FRONTMATTER_INVALID", "SKILL.md does not open with a `---` line")
+    pos = first_nl + 1
+    fm_lines: list[str] = []
+    body: str | None = None
+    while True:
+        nl = text.find("\n", pos)
+        if nl == -1:
+            if text[pos:].strip() == "---":
+                body = ""
+                break
+            raise Refusal("SKILL_FRONTMATTER_INVALID", "frontmatter is not terminated by `---`")
+        line = text[pos:nl]
+        if line.strip() == "---":
+            body = text[nl + 1:]
+            break
+        fm_lines.append(line)
+        pos = nl + 1
+    mapping: dict[str, object] = {}
+    keys: list[str] = []
+    current: str | None = None
+    for raw in fm_lines:
+        line = raw.rstrip("\r")
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        if line.lstrip().startswith("- "):
+            if current is None:
+                raise Refusal("SKILL_FRONTMATTER_INVALID", "list item without a preceding key")
+            cast = mapping[current]
+            if not isinstance(cast, list):
+                raise Refusal("SKILL_FRONTMATTER_INVALID", f"key {current!r} mixes scalar and list")
+            cast.append(_unquote(line.lstrip()[2:]))
+            continue
+        if ":" not in line:
+            raise Refusal("SKILL_FRONTMATTER_INVALID",
+                          f"frontmatter line is not `key: value`: {line!r}")
+        key, _, value = line.partition(":")
+        key = key.strip()
+        value = value.strip()
+        if not key:
+            raise Refusal("SKILL_FRONTMATTER_INVALID", f"empty frontmatter key: {line!r}")
+        if key in mapping:
+            raise Refusal("SKILL_FRONTMATTER_INVALID", f"duplicate frontmatter key {key!r}")
+        if value == "":
+            mapping[key] = []
+            current = key
+        else:
+            mapping[key] = _unquote(value)
+            current = None
+        keys.append(key)
+    if not keys:
+        raise Refusal("SKILL_FRONTMATTER_INVALID", "frontmatter carries no keys")
+    if body is None:
+        raise Refusal("SKILL_FRONTMATTER_INVALID", "frontmatter has no body")
+    return keys, mapping, body
+
+
+def _emit_frontmatter(mapping: dict, keys: list[str]) -> str:
+    lines = ["---"]
+    for key in keys:
+        value = mapping[key]
+        if isinstance(value, list):
+            lines.append(f"{key}:")
+            lines.extend(f"  - {item}" for item in value)
+        else:
+            lines.append(f"{key}: {value}")
+    lines.append("---")
+    return "\n".join(lines) + "\n"
+
+
+def project_skill_md(skill: str, source_bytes: bytes, record: dict) -> tuple[bytes, dict]:
+    """Project one derived ``SKILL.md``: keep portable keys only, body byte-identical."""
+    try:
+        text = source_bytes.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise Refusal("SKILL_NOT_UTF8", f"{skill}/SKILL.md is not UTF-8: {exc}") from exc
+    keys, mapping, body = parse_skill_md(text)
+    # The frontmatter `name` is the skill's portable identity: it must name this skill directory.
+    if mapping.get("name") != skill:
+        raise Refusal("SKILL_FRONTMATTER_INVALID",
+                      f"{skill}: frontmatter `name` is {mapping.get('name')!r}; "
+                      f"it must be the skill name {skill!r}")
+    kept = [k for k in keys if k in PORTABLE_KEYS]
+    dropped = [k for k in keys if k not in PORTABLE_KEYS]
+    if set(record.get("kept_keys", [])) != set(kept):
+        raise Refusal("DERIVATION_KEY_SET_MISMATCH",
+                      f"{skill}: record kept_keys {record.get('kept_keys')} != observed {kept}")
+    if set(record.get("dropped_keys", [])) != set(dropped):
+        raise Refusal("DERIVATION_KEY_SET_MISMATCH",
+                      f"{skill}: record dropped_keys {record.get('dropped_keys')} != observed {dropped}")
+    projected = (_emit_frontmatter(mapping, kept) + body).encode("utf-8")
+    # The body must survive the projection byte-for-byte.
+    _pk, _pm, projected_body = parse_skill_md(projected.decode("utf-8"))
+    if projected_body.encode("utf-8") != body.encode("utf-8"):
+        raise Refusal("PROJECTION_BODY_CHANGED", f"{skill}: frontmatter projection changed the body")
+    return projected, {"kept_keys": kept, "dropped_keys": dropped}
+
+
+# --------------------------------------------------------------------------- source walking
+def _list_skill_dirs(skills_root: Path) -> dict[str, Path]:
+    if not skills_root.is_dir():
+        raise Refusal("SKILLS_ROOT_MISSING", str(skills_root))
+    out: dict[str, Path] = {}
+    for child in sorted(skills_root.iterdir()):
+        if child.name.startswith(".") or child.name == "__pycache__":
+            continue
+        if _path_is_symlink(child):
+            raise Refusal("SOURCE_SYMLINK", str(child))
+        if not child.is_dir():
+            raise Refusal("SOURCE_SPECIAL_MEMBER", f"{child} is not a skill directory")
+        out[child.name] = child
+    return out
+
+
+def _walk_source_files(repo_root: Path, skill_dir: Path) -> dict[str, bytes]:
+    files: dict[str, bytes] = {}
+    for dirpath, dirnames, filenames in os.walk(skill_dir, topdown=True, followlinks=False):
+        dirnames.sort()
+        filenames.sort()
+        for d in list(dirnames):
+            p = Path(dirpath) / d
+            if _path_is_symlink(p):
+                raise Refusal("SOURCE_SYMLINK", str(p))
+            if d.startswith(".") or d == "__pycache__":
+                raise Refusal("HIDDEN_OR_SPECIAL_MEMBER", str(p))
+        for f in filenames:
+            p = Path(dirpath) / f
+            if _path_is_symlink(p):
+                raise Refusal("SOURCE_SYMLINK", str(p))
+            if not p.is_file():
+                raise Refusal("SOURCE_SPECIAL_MEMBER", str(p))
+            if f.startswith("."):
+                raise Refusal("HIDDEN_OR_SPECIAL_MEMBER", str(p))
+            files[p.relative_to(repo_root).as_posix()] = canonical_bytes(p.read_bytes())
+    return files
+
+
+# --------------------------------------------------------------------------- output-root gates
+def _find_symlink_ancestor(path: Path) -> Path | None:
+    for anc in (path, *path.parents):
+        if _path_is_symlink(anc):
+            return anc
+    return None
+
+
+def check_output_root(out_dir: Path, source_root: Path) -> None:
+    symlink = _find_symlink_ancestor(out_dir)
+    if symlink is not None:
+        raise Refusal("OUTPUT_ROOT_SYMLINK", f"{symlink} is a symlink; refusing to write through it")
+    out_res = out_dir.resolve()
+    repo_res = source_root.resolve()
+    dist_res = (repo_res / "dist").resolve()
+    if out_res == dist_res or dist_res in out_res.parents:
+        raise Refusal("OUTPUT_ROOT_IN_DIST",
+                      f"output root {out_res} is inside the release directory {dist_res}")
+    if out_res == repo_res or repo_res in out_res.parents:
+        raise Refusal("OUTPUT_ROOT_OVERLAPS_REPO",
+                      f"output root {out_res} overlaps the repository {repo_res}")
+    if out_res in repo_res.parents:
+        raise Refusal("OUTPUT_ROOT_OVERLAPS_REPO",
+                      f"output root {out_res} is an ancestor of the repository {repo_res}")
+    if os.name == "posix" and out_dir.exists() and (os.stat(out_dir).st_mode & 0o002):
+        raise Refusal("OUTPUT_ROOT_WORLD_WRITABLE", f"output root {out_dir} is world-writable")
+
+
+# --------------------------------------------------------------------------- ZIP
+def _write_zip(path: Path, members: dict[str, bytes]) -> None:
+    with zipfile.ZipFile(path, "w") as zf:
+        for arcname in sorted(members):
+            info = zipfile.ZipInfo(arcname, date_time=FIXED_DATE_TIME)
+            info.compress_type = zipfile.ZIP_DEFLATED
+            info.external_attr = FIXED_MODE << 16
+            info.create_system = 0
+            zf.writestr(info, members[arcname], compress_type=zipfile.ZIP_DEFLATED,
+                        compresslevel=COMPRESS_LEVEL)
+
+
+def _exclusive_write(path: Path, data: bytes) -> None:
+    """Create a release sidecar exclusively; refuse a pre-existing path of any kind.
+
+    ``Path.write_bytes`` opens an existing name and truncates the inode behind it, so an attacker who
+    can prepopulate the output directory - with a symlink, or with a hardlink to a file outside it -
+    can make the builder overwrite that file. Measured against this tool as AO-01 of the round's
+    independent acceptance challenge. ``O_EXCL`` refuses any pre-existing name (a hardlink is an
+    ordinary regular file, so only exclusivity closes it) and ``O_NOFOLLOW`` refuses a symlink.
+    """
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0)
+    try:
+        fd = os.open(path, flags, 0o644)
+    except FileExistsError as exc:
+        raise Refusal("OUTPUT_MEMBER_EXISTS",
+                      f"{path} already exists; refusing to overwrite an existing release member") from exc
+    except OSError as exc:
+        raise Refusal("OUTPUT_MEMBER_UNSAFE",
+                      f"{path} cannot be created exclusively: {exc}") from exc
+    try:
+        with os.fdopen(fd, "wb") as fh:
+            fh.write(data)
+            fh.flush()
+            os.fsync(fh.fileno())
+    except BaseException:
+        try:
+            path.unlink()
+        except OSError:
+            pass
+        raise
+
+
+def _verify_zip(path: Path, members: dict[str, bytes]) -> None:
+    with zipfile.ZipFile(path) as zf:
+        infos = zf.infolist()
+        if [i.filename for i in infos] != sorted(members):
+            raise Refusal("INTERNAL_ZIP_MISMATCH", "member names or order differ from the plan")
+        for info in infos:
+            if info.date_time != FIXED_DATE_TIME:
+                raise Refusal("INTERNAL_ZIP_MISMATCH", f"non-fixed date_time on {info.filename}")
+            if (info.external_attr >> 16) != FIXED_MODE:
+                raise Refusal("INTERNAL_ZIP_MISMATCH", f"non-fixed mode on {info.filename}")
+            if info.compress_type != zipfile.ZIP_DEFLATED:
+                raise Refusal("INTERNAL_ZIP_MISMATCH", f"unexpected compression on {info.filename}")
+            if zf.read(info.filename) != members[info.filename]:
+                raise Refusal("INTERNAL_ZIP_MISMATCH", f"member bytes differ for {info.filename}")
+
+
+# --------------------------------------------------------------------------- build
+def _load_json(path: Path, code: str) -> dict:
+    if not path.is_file():
+        raise Refusal(code, f"required input is absent: {path}")
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        raise Refusal(code, f"{path} is not parseable JSON: {exc}") from exc
+
+
+def _load_vendor_schema(packaging_root: Path) -> tuple[bytes, dict]:
+    """Load the byte-locked official vendor schema: the lock is the ``$id`` AND the exact bytes.
+
+    The bytes fetched once from the Agent Plugins 1.0 specification are committed next to the
+    manifests, so this gate can be re-run offline; it is NOT the vendor's own validator, which
+    stays NOT_EXECUTED.
+    """
+    path = packaging_root / VENDOR_SCHEMA_FILENAME
+    if not path.is_file():
+        raise Refusal("VENDOR_SCHEMA_MISSING", f"the locked vendor schema is absent: {path}")
+    data = path.read_bytes()
+    try:
+        doc = json.loads(data.decode("utf-8"))
+    except (UnicodeDecodeError, ValueError) as exc:
+        raise Refusal("VENDOR_SCHEMA_INVALID", f"{path} is not parseable JSON: {exc}") from exc
+    if not isinstance(doc, dict):
+        raise Refusal("VENDOR_SCHEMA_INVALID", f"{path} is not a JSON object")
+    if doc.get("$id") != VENDOR_SCHEMA_ID:
+        raise Refusal("VENDOR_SCHEMA_ID_MISMATCH",
+                      f"vendor schema $id is {doc.get('$id')!r}; expected {VENDOR_SCHEMA_ID!r}")
+    observed = sha256_bytes(data)
+    if observed != VENDOR_SCHEMA_SHA256:
+        raise Refusal("VENDOR_SCHEMA_DIGEST_MISMATCH",
+                      f"vendor schema bytes hash to {observed}; the locked digest is "
+                      f"{VENDOR_SCHEMA_SHA256}")
+    return data, doc
+
+
+def _check_owner_inputs(release: dict, vendor_schema_bytes: bytes, derivations_doc: dict,
+                        skill_paths: dict[str, str], ledger_files: dict[str, str]) -> dict[str, dict]:
+    """Gate every owner input. The FIRST missing input raises, in canonical skill order."""
+    records = derivations_doc.get("derivations")
+    if not isinstance(records, list):
+        raise Refusal("DERIVATIONS_INVALID", "derivations.json must carry a `derivations` list")
+    by_skill: dict[str, dict] = {}
+    for record in records:
+        if isinstance(record, dict) and isinstance(record.get("skill"), str):
+            by_skill[record["skill"]] = record
+
+    for skill in sorted(EXPECTED_SKILLS):
+        record = by_skill.get(skill)
+        if record is None:
+            raise Refusal("OWNER_INPUT_MISSING", DERIVATION_MISSING_TEMPLATE.format(skill=skill))
+        source_rel = skill_paths[skill]
+        if record.get("source_path") != source_rel:
+            raise Refusal("DERIVATION_RECORD_INVALID",
+                          f"{skill}: source_path {record.get('source_path')!r} != {source_rel!r}")
+        if record.get("source_sha256") != ledger_files.get(source_rel):
+            raise Refusal("DERIVATION_SOURCE_MISMATCH",
+                          f"{skill}: source_sha256 does not match the frozen ledger")
+        if is_placeholder(record.get("approved_by")) or is_placeholder(record.get("approval_receipt")):
+            raise Refusal("DERIVATION_RECORD_INVALID",
+                          f"{skill}: approved_by / approval_receipt must name the owner approval")
+        if not isinstance(record.get("kept_keys"), list) or not isinstance(record.get("dropped_keys"), list):
+            raise Refusal("DERIVATION_RECORD_INVALID", f"{skill}: kept_keys/dropped_keys must be lists")
+
+    pinned = release.get("official_schema_sha256")
+    if is_placeholder(pinned):
+        raise Refusal("OWNER_INPUT_MISSING",
+                      "official_schema_sha256 (the digest of the official Agent Plugins vendor "
+                      "schema) is not pinned (value is a placeholder)")
+    if not HEX64.match(str(pinned)):
+        raise Refusal("OFFICIAL_SCHEMA_DIGEST_INVALID",
+                      f"official_schema_sha256 is not 64 hex chars: {pinned!r}")
+    observed = sha256_bytes(vendor_schema_bytes)
+    if pinned != observed:
+        raise Refusal("VENDOR_SCHEMA_DIGEST_MISMATCH",
+                      f"pinned official_schema_sha256 {pinned} does not match the vendor schema "
+                      f"bytes it validates against ({observed})")
+
+    publisher = release.get("publisher") or {}
+    if any(is_placeholder(publisher.get(key)) for key in ("name", "identity", "identity_sha256")):
+        raise Refusal("OWNER_INPUT_MISSING",
+                      "publisher identity is not pinned (name/identity/identity_sha256 are placeholders)")
+    if not HEX64.match(str(publisher.get("identity_sha256"))):
+        raise Refusal("PUBLISHER_IDENTITY_INVALID", "publisher.identity_sha256 is not 64 hex chars")
+
+    icons = release.get("icons")
+    if not isinstance(icons, list) or not icons:
+        raise Refusal("OWNER_INPUT_MISSING", "the release bookkeeping pins no icons")
+    for icon in icons:
+        rel = icon.get("path")
+        if is_placeholder(icon.get("sha256")):
+            raise Refusal("OWNER_INPUT_MISSING", f"icon digest for '{rel}' is not pinned")
+    return by_skill
+
+
+def build_plugin(*, source_root: Path, ledger: dict, source_commit: str | None,
+                 packaging_root: Path, out_dir: Path, generate_icons: bool = False,
+                 expected_skills: tuple[str, ...] = EXPECTED_SKILLS) -> dict:
+    source_root = Path(source_root).resolve()
+    packaging_root = Path(packaging_root).resolve()
+    out_dir = Path(out_dir)
+
+    # --- identity gates -----------------------------------------------------------------
+    if source_commit is None:
+        raise Refusal("SOURCE_COMMIT_NULL", "the pinned source commit is null; refusing to build")
+    if not HEX40.match(str(source_commit)):
+        raise Refusal("SOURCE_COMMIT_INVALID", f"source commit is not 40 hex chars: {source_commit!r}")
+    if source_commit != ledger.get("commit"):
+        raise Refusal("SOURCE_COMMIT_MISMATCH",
+                      f"source commit {source_commit} != ledger commit {ledger.get('commit')}")
+
+    # --- output-root gates --------------------------------------------------------------
+    check_output_root(out_dir, source_root)
+
+    # --- source set vs the frozen ledger ------------------------------------------------
+    skills_root = source_root / "skills"
+    dirs = _list_skill_dirs(skills_root)
+    unexpected = sorted(n for n in dirs if n not in set(expected_skills))
+    if unexpected:
+        raise Refusal("UNEXPECTED_SKILL",
+                      f"the plugin is exactly 8 skills; found extra skill(s) {unexpected}")
+    missing_skill = sorted(n for n in expected_skills if n not in dirs)
+    if missing_skill:
+        raise Refusal("MISSING_SKILL", f"frozen ledger expects skill(s) {missing_skill}")
+    if sorted(dirs) != sorted(ledger.get("skills", [])):
+        raise Refusal("SKILL_SET_CHANGED", "on-disk skill set != frozen ledger skill set")
+
+    disk_files: dict[str, bytes] = {}
+    for name in sorted(dirs):
+        disk_files.update(_walk_source_files(source_root, dirs[name]))
+    ledger_files = dict(ledger.get("files", {}))
+    extra = sorted(set(disk_files) - set(ledger_files))
+    missing = sorted(set(ledger_files) - set(disk_files))
+    if extra or missing:
+        raise Refusal("SOURCE_SET_CHANGED",
+                      f"source set changed vs the frozen ledger; extra={extra} missing={missing}")
+    for rel in sorted(ledger_files):
+        if sha256_bytes(disk_files[rel]) != ledger_files[rel]:
+            raise Refusal("SOURCE_DIGEST_MISMATCH", f"{rel} does not match the frozen ledger")
+
+    # --- the official root manifest + the locked vendor schema ---------------------------
+    manifest = _load_json(packaging_root / "plugin.json", "MANIFEST_MISSING")
+    release = _load_json(packaging_root / RELEASE_BOOKKEEPING_FILENAME,
+                         "RELEASE_BOOKKEEPING_MISSING")
+    vendor_bytes, vendor_doc = _load_vendor_schema(packaging_root)
+    # (a) the official manifest must name the vendor schema it is validated against
+    if manifest.get("$schema") != VENDOR_SCHEMA_ID:
+        raise Refusal("OFFICIAL_SCHEMA_ID_MISMATCH",
+                      f"the root manifest `$schema` must be the vendor $id {VENDOR_SCHEMA_ID!r}, "
+                      f"got {manifest.get('$schema')!r}")
+    # (b) validate the official manifest against the vendor schema with our own subset validator
+    violations = validate_subset(manifest, vendor_doc)
+    if violations:
+        first = violations[0]
+        raise Refusal("MANIFEST_SCHEMA_VIOLATION",
+                      f"{first['path']}: {first['keyword']} — {first['message']}")
+
+    # --- PIPD's release bookkeeping + the local subset ------------------------------------
+    schema_path = packaging_root / "plugin.schema.json"
+    schema_bytes = schema_path.read_bytes() if schema_path.is_file() else None
+    if schema_bytes is None:
+        raise Refusal("SCHEMA_MISSING", f"local schema subset is absent: {schema_path}")
+    try:
+        schema_doc = json.loads(schema_bytes.decode("utf-8"))
+    except (UnicodeDecodeError, ValueError) as exc:
+        raise Refusal("SCHEMA_INVALID", f"{schema_path} is not parseable JSON: {exc}") from exc
+    violations = validate_subset(release, schema_doc)
+    if violations:
+        first = violations[0]
+        raise Refusal("MANIFEST_SCHEMA_VIOLATION",
+                      f"plugin.release.json {first['path']}: {first['keyword']} — {first['message']}")
+    if sorted(release.get("skills", [])) != sorted(expected_skills):
+        raise Refusal("MANIFEST_SCHEMA_VIOLATION",
+                      "the release bookkeeping skills must name exactly the eight frozen skills")
+    embedded = (manifest.get("extensions") or {}).get(RELEASE_EXTENSION_KEY)
+    if embedded != release:
+        raise Refusal("RELEASE_EXTENSION_MISMATCH",
+                      f"the root manifest extensions[{RELEASE_EXTENSION_KEY!r}] must be the "
+                      f"{RELEASE_BOOKKEEPING_FILENAME} object verbatim")
+
+    derivations_doc = _load_json(packaging_root / "derivations.json", "DERIVATIONS_MISSING")
+
+    # --- icons (owner-gated, validated after generation) --------------------------------
+    icons = release.get("icons") or []
+    if generate_icons:
+        for icon in icons:
+            target = packaging_root / icon["path"]
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(png_icon_bytes(int(icon.get("size", 128))))
+
+    # --- owner-input gate (FIRST missing input refuses, deterministically) --------------
+    skill_paths = {name: f"skills/{name}/SKILL.md" for name in expected_skills}
+    records = _check_owner_inputs(release, vendor_bytes, derivations_doc, skill_paths, ledger_files)
+
+    for icon in icons:
+        target = packaging_root / icon["path"]
+        if not target.is_file() or _path_is_symlink(target):
+            raise Refusal("ICON_MISSING", f"pinned icon is absent or not a regular file: {target}")
+        data = target.read_bytes()
+        if sha256_bytes(data) != icon["sha256"]:
+            raise Refusal("ICON_DIGEST_MISMATCH", f"{icon['path']} does not match its pinned digest")
+        problems = png_errors(data)
+        if problems:
+            raise Refusal("ICON_INVALID", f"{icon['path']}: {problems[0]}")
+
+    # --- assemble the plugin member set -------------------------------------------------
+    plugin_id = str(release["plugin_id"])
+    root = plugin_id
+    members: dict[str, bytes] = {}
+    mapping_rows: list[dict] = []
+    for name in sorted(expected_skills):
+        skill_prefix = f"skills/{name}/"
+        for rel in sorted(r for r in disk_files if r.startswith(skill_prefix)):
+            rest = rel[len(skill_prefix):]
+            dest = f"{root}/{rel}"
+            if rest == "SKILL.md":
+                dest_bytes, _ = project_skill_md(name, disk_files[rel], records[name])
+                mode = "DERIVED_WITH_OWNER_APPROVAL"
+            else:
+                dest_bytes = disk_files[rel]
+                mode = "EXACT"
+            members[dest] = dest_bytes
+            mapping_rows.append({
+                "source_path": rel,
+                "source_sha256": ledger_files[rel],
+                "destination_path": dest,
+                "destination_sha256": sha256_bytes(dest_bytes),
+                "mode": mode,
+            })
+    members[f"{root}/plugin.json"] = canonical_json_bytes(manifest)
+    members[f"{root}/{RELEASE_BOOKKEEPING_FILENAME}"] = canonical_json_bytes(release)
+    members[f"{root}/plugin.schema.json"] = schema_bytes
+    members[f"{root}/{VENDOR_SCHEMA_FILENAME}"] = vendor_bytes
+    members[f"{root}/derivations.json"] = canonical_json_bytes(derivations_doc)
+    for icon in icons:
+        members[f"{root}/{icon['path']}"] = (packaging_root / icon["path"]).read_bytes()
+
+    for arcname in members:
+        for part in arcname.split("/"):
+            if part.startswith(".") or part in ("__pycache__", "Thumbs.db"):
+                raise Refusal("HIDDEN_OR_SPECIAL_MEMBER", f"refusing to package {arcname!r}")
+
+    mapping_doc = {
+        "schema": "PIPD-PUBLIC-PLUGIN-SOURCE-MAPPING/1",
+        "plugin_id": plugin_id,
+        "source_commit": source_commit,
+        "source_tree": ledger.get("tree"),
+        "source_ledger_version": ledger.get("ledger_version"),
+        "entries": mapping_rows,
+    }
+    mapping_bytes = canonical_json_bytes(mapping_doc)
+    members[f"{root}/SOURCE_TO_PLUGIN_MAPPING.json"] = mapping_bytes
+    receipt_doc = {
+        "schema": "PIPD-PUBLIC-PLUGIN-RELEASE-RECEIPT/1",
+        "plugin_id": plugin_id,
+        "version": release.get("version"),
+        "source_commit": source_commit,
+        "source_tree": ledger.get("tree"),
+        "source_ledger_version": ledger.get("ledger_version"),
+        "official_schema_sha256": str(release.get("official_schema_sha256")),
+        "official_schema_id": VENDOR_SCHEMA_ID,
+        "claim_ceiling": "LOCAL_PACKAGER_PASS_ONLY",
+        "official_portal_verification": "NOT_EXECUTED",
+        "member_count": len(members) + 1,
+        "mapping_sha256": sha256_bytes(mapping_bytes),
+        "determinism": {"zip_mtime": "1980-01-01T00:00:00Z", "mode": "0644",
+                        "compression": "DEFLATED:9"},
+    }
+    receipt_bytes = canonical_json_bytes(receipt_doc)
+    members[f"{root}/RELEASE_RECEIPT.json"] = receipt_bytes
+
+    # --- deterministic ZIP, read-back verify, then promote ------------------------------
+    out_dir.mkdir(parents=True, exist_ok=True)
+    if _path_is_symlink(out_dir):
+        raise Refusal("OUTPUT_ROOT_SYMLINK", f"{out_dir} became a symlink; refusing to write")
+    final_zip = out_dir / f"{plugin_id}.zip"
+    if _path_is_symlink(final_zip) or final_zip.exists():
+        raise Refusal("OUTPUT_ARTIFACT_EXISTS",
+                      f"{final_zip} already exists; refusing to replace an existing release artifact")
+    fd, tmp_name = tempfile.mkstemp(prefix=".public-plugin-", suffix=".zip", dir=str(out_dir))
+    os.close(fd)
+    tmp_zip = Path(tmp_name)
+    sidecar = final_zip.with_name(final_zip.name + ".sha256")
+    mapping_path = out_dir / "SOURCE_TO_PLUGIN_MAPPING.json"
+    receipt_path = out_dir / "RELEASE_RECEIPT.json"
+    promoted = False
+    created: list[Path] = []
+    try:
+        _write_zip(tmp_zip, members)
+        _verify_zip(tmp_zip, members)
+        # The sidecars are created EXCLUSIVELY and BEFORE the artifact is promoted, so a pre-seeded
+        # output member refuses the whole build while nothing has been published yet. Only members
+        # this call actually created are rolled back: a member that was already there (and caused the
+        # refusal) is left exactly as the attacker/operator left it, never deleted.
+        digest = sha256_bytes(tmp_zip.read_bytes())
+        for target, payload in ((sidecar, f"{digest}  {final_zip.name}\n".encode("utf-8")),
+                                (mapping_path, mapping_bytes),
+                                (receipt_path, receipt_bytes)):
+            _exclusive_write(target, payload)
+            created.append(target)
+        os.replace(tmp_zip, final_zip)
+        promoted = True
+    finally:
+        if tmp_zip.exists():
+            tmp_zip.unlink()
+        if not promoted:
+            for partial in created:
+                if partial.exists() and not _path_is_symlink(partial):
+                    try:
+                        partial.unlink()
+                    except OSError:
+                        pass
+
+    return {
+        "verdict": "BUILT",
+        "out_zip": str(final_zip),
+        "zip_sha256": digest,
+        "sidecar": str(sidecar),
+        "member_count": len(members),
+        "mapping": str(mapping_path),
+        "receipt": str(receipt_path),
+        "claim_ceiling": "LOCAL_PACKAGER_PASS_ONLY",
+        "official_portal_verification": "NOT_EXECUTED",
+    }
+
+
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    default_repo = Path(__file__).resolve().parents[1]
+    ap.add_argument("--source-root", default=str(default_repo))
+    ap.add_argument("--ledger", required=True)
+    ap.add_argument("--source-commit", default=None)
+    ap.add_argument("--packaging-root", default=None)
+    ap.add_argument("--out-dir", required=True)
+    ap.add_argument("--generate-icons", action="store_true")
+    args = ap.parse_args(argv)
+    source_root = Path(args.source_root).resolve()
+    packaging_root = (Path(args.packaging_root) if args.packaging_root
+                      else source_root / "packaging" / "public-plugin")
+    try:
+        ledger = json.loads(Path(args.ledger).read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        print(f"REFUSED LEDGER_UNREADABLE: {exc}")
+        return 2
+    try:
+        report = build_plugin(
+            source_root=source_root,
+            ledger=ledger,
+            source_commit=args.source_commit,
+            packaging_root=packaging_root,
+            out_dir=Path(args.out_dir),
+            generate_icons=args.generate_icons,
+        )
+    except Refusal as exc:
+        print(str(exc))
+        return 2
+    print(f"BUILT {report['out_zip']} sha256={report['zip_sha256']} "
+          f"members={report['member_count']} "
+          f"claim_ceiling={report['claim_ceiling']} "
+          f"official_portal_verification={report['official_portal_verification']}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
+FILE: tools/build_web_fallback.py
+#!/usr/bin/env python3
+"""S4POST Stage B: project one frozen Web mount pack into ONE bounded fallback document.
+
+There is no public directory listing for the plugin yet, so the current Web route is a single
+markdown document a reader can attach to a conversation or a Knowledge base. This tool builds that
+document from a *frozen mount pack* (a directory carrying ``MANIFEST.sha256``) and is fail-closed:
+it REFUSES (typed reason, non-zero exit) rather than warn on
+
+  * ``MANIFEST_DIGEST_MISMATCH``  a member's bytes no longer match ``MANIFEST.sha256``
+  * ``MEMBER_SYMLINK``            a symlinked member (or pack) is present
+  * ``PATH_ESCAPE``               a manifest path escapes the pack root
+  * ``UNEXPECTED_EXTRA_FILE``     a file exists in the pack that the manifest does not list
+  * ``RELEASE_STAMP_MISSING``     a member document does not stamp the pinned release id AND the
+                                  pinned commit (a member naming only one of the two is stale)
+  * ``MEMBER_NOT_TEXT``           a member is not UTF-8 text (it could not be embedded verbatim)
+  * ``SIZE_CAP_EXCEEDED``         the composed document would exceed the cap (NEVER truncated)
+  * ``DESTINATION_EXISTS`` / ``DESTINATION_SYMLINK``  the output file already exists
+
+The document is written with ``O_EXCL`` and stamps ``DOC_MOUNT_ONLY`` plus the member inventory. No
+timestamp is embedded, so two builds are byte-identical.
+
+CLI
+---
+``--mount-pack DIR``      unpacked frozen mount pack (contains MANIFEST.sha256)
+``--release-id TEXT``     e.g. v0.1.1-preview.3 (informational stamp)
+``--release-commit HEX40`` the commit the members must stamp
+``--size-cap BYTES``      hard cap for the composed document (default 524288)
+``--out FILE``            destination markdown file (must not exist)
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import os
+import re
+import sys
+from pathlib import Path
+
+MANIFEST_NAME = "MANIFEST.sha256"
+FALLBACK_SCHEMA = "PIPD-WEB-FALLBACK/1"
+DEFAULT_SIZE_CAP = 524288
+HEX40 = re.compile(r"^[0-9a-f]{40}$")
+
+
+class Refusal(Exception):
+    """A fail-closed refusal. ``code`` is the machine-checkable typed reason."""
+
+    def __init__(self, code: str, detail: str) -> None:
+        super().__init__(f"REFUSED {code}: {detail}")
+        self.code = code
+        self.detail = detail
+
+
+def _path_is_symlink(path) -> bool:
+    """Seam for tests: a single predicate the destination gate consults."""
+    return os.path.islink(path)
+
+
+def _sha256(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def _canonical_bytes(data: bytes) -> bytes:
+    if b"\x00" in data:
+        return data
+    try:
+        data.decode("utf-8")
+    except UnicodeDecodeError:
+        return data
+    return data.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+
+
+def _is_text_member(data: bytes) -> bool:
+    """A member is embeddable verbatim only if it is UTF-8 text with no NUL byte.
+
+    The fallback document is markdown, so a non-text member could only be embedded through a lossy
+    ``decode(..., "replace")`` that silently corrupts the source bytes. Fail closed instead.
+    """
+    if b"\x00" in data:
+        return False
+    try:
+        data.decode("utf-8")
+    except UnicodeDecodeError:
+        return False
+    return True
+
+
+def _parse_manifest(text: str) -> list[tuple[str, str]]:
+    entries: list[tuple[str, str]] = []
+    for raw in text.splitlines():
+        line = raw.rstrip("\n")
+        if not line.strip():
+            continue
+        if "  " not in line:
+            raise Refusal("MANIFEST_INVALID", f"line has no two-space separator: {line!r}")
+        digest, rel = line.split("  ", 1)
+        digest, rel = digest.strip(), rel.strip()
+        if not re.fullmatch(r"[0-9a-f]{64}", digest):
+            raise Refusal("MANIFEST_INVALID", f"digest is not 64 hex chars: {digest!r}")
+        entries.append((digest, rel))
+    if not entries:
+        raise Refusal("MANIFEST_INVALID", "MANIFEST.sha256 lists no members")
+    return entries
+
+
+def _escapes(rel: str) -> bool:
+    parts = rel.replace("\\", "/").split("/")
+    return (rel.startswith("/") or "\\" in rel or ":" in rel or ".." in parts
+            or any(part == "" for part in parts) or parts[0] in (".", ""))
+
+
+def load_and_verify_pack(mount_pack: Path, release_commit: str,
+                         release_id: str | None = None) -> list[tuple[str, str, bytes]]:
+    """Return [(rel, sha256, bytes), ...] for a verified, exactly-listed pack."""
+    mount_pack = Path(mount_pack)
+    if _path_is_symlink(mount_pack):
+        raise Refusal("MEMBER_SYMLINK", f"mount pack {mount_pack} is a symlink")
+    if not mount_pack.is_dir():
+        raise Refusal("MOUNT_PACK_MISSING", f"mount pack is not a directory: {mount_pack}")
+    manifest_path = mount_pack / MANIFEST_NAME
+    if _path_is_symlink(manifest_path):
+        raise Refusal("MEMBER_SYMLINK", f"{manifest_path} is a symlink")
+    if not manifest_path.is_file():
+        raise Refusal("MANIFEST_MISSING", f"{manifest_path} is absent")
+    entries = _parse_manifest(manifest_path.read_text(encoding="utf-8"))
+
+    listed: list[tuple[str, str, bytes]] = []
+    listed_paths: set[str] = set()
+    for digest, rel in entries:
+        if _escapes(rel):
+            raise Refusal("PATH_ESCAPE", f"manifest path escapes the pack root: {rel!r}")
+        member = mount_pack / rel
+        if _path_is_symlink(member):
+            raise Refusal("MEMBER_SYMLINK", f"{member} is a symlink")
+        if not member.is_file():
+            raise Refusal("MANIFEST_MEMBER_MISSING", f"manifest lists {rel} but it is absent")
+        data = member.read_bytes()
+        actual = _sha256(_canonical_bytes(data))
+        if actual != digest:
+            raise Refusal("MANIFEST_DIGEST_MISMATCH",
+                          f"{rel}: copied digest {digest} != computed {actual}")
+        if not _is_text_member(data):
+            raise Refusal("MEMBER_NOT_TEXT",
+                          f"{rel} is not UTF-8 text; refusing to embed it in a markdown document")
+        listed_paths.add(rel)
+        listed.append((rel, digest, data))
+
+    on_disk: set[str] = set()
+    for dirpath, dirnames, filenames in os.walk(mount_pack, followlinks=False):
+        dirnames.sort()
+        filenames.sort()
+        for d in dirnames:
+            if _path_is_symlink(Path(dirpath) / d):
+                raise Refusal("MEMBER_SYMLINK", str(Path(dirpath) / d))
+        for f in filenames:
+            p = Path(dirpath) / f
+            if _path_is_symlink(p):
+                raise Refusal("MEMBER_SYMLINK", str(p))
+            rel = p.relative_to(mount_pack).as_posix()
+            if rel == MANIFEST_NAME:
+                continue
+            on_disk.add(rel)
+    extra = sorted(on_disk - listed_paths)
+    if extra:
+        raise Refusal("UNEXPECTED_EXTRA_FILE", f"pack carries unlisted file(s): {extra}")
+
+    for rel, _digest, data in listed:
+        if not rel.endswith(".md"):
+            continue
+        text = data.decode("utf-8")
+        if release_commit not in text:
+            raise Refusal("RELEASE_STAMP_MISSING",
+                          f"{rel} does not stamp the pinned release commit {release_commit}")
+        if release_id and release_id not in text:
+            raise Refusal("RELEASE_STAMP_MISSING",
+                          f"{rel} does not stamp the release id {release_id}; a member that names "
+                          "the pinned commit but not the release is a stale release stamp")
+    return listed
+
+
+def compose_document(release_id: str, release_commit: str,
+                     members: list[tuple[str, str, bytes]], size_cap: int) -> bytes:
+    """Compose the single bounded markdown document (no truncation anywhere)."""
+    lines: list[str] = [
+        f"<!-- {FALLBACK_SCHEMA} DOC_MOUNT_ONLY -->",
+        "# PIPD-LS-SP S4 Web fallback — single-document mount (DOC_MOUNT_ONLY)",
+        "",
+        f"- release_id: {release_id}",
+        f"- release_commit: {release_commit}",
+        "- doc_mount_only: true",
+        f"- member_count: {len(members)}",
+        f"- size_cap_bytes: {size_cap}",
+        "",
+        "> DOC_MOUNT_ONLY: this is a document drop, not an installed plugin, not a host-registered",
+        "> skill and not a public directory listing (none exists yet). It executes nothing. Verify a",
+        "> member against the inventory below before you rely on it.",
+        "",
+        "## Member inventory",
+        "",
+        "| member | sha256 |",
+        "| --- | --- |",
+    ]
+    for rel, digest, _data in members:
+        lines.append(f"| {rel} | {digest} |")
+    for rel, _digest, data in members:
+        lines += ["", f"## Member: {rel}", "", f"<!-- BEGIN MEMBER {rel} -->"]
+        lines.append(data.decode("utf-8", "replace"))
+        lines.append(f"<!-- END MEMBER {rel} -->")
+    text = "\n".join(lines)
+    if not text.endswith("\n"):
+        text += "\n"
+    return text.encode("utf-8")
+
+
+def write_exclusive(out_path: Path, data: bytes) -> None:
+    out_path = Path(out_path)
+    if _path_is_symlink(out_path):
+        raise Refusal("DESTINATION_SYMLINK", f"destination {out_path} is a symlink")
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
+    try:
+        fd = os.open(out_path, flags, 0o644)
+    except FileExistsError as exc:
+        raise Refusal("DESTINATION_EXISTS",
+                      f"destination {out_path} already exists; refusing to overwrite") from exc
+    try:
+        with os.fdopen(fd, "wb") as handle:
+            handle.write(data)
+    except BaseException:
+        if out_path.exists() and not _path_is_symlink(out_path):
+            out_path.unlink()
+        raise
+
+
+def build_fallback(*, mount_pack: Path, release_id: str, release_commit: str, out_path: Path,
+                   size_cap: int = DEFAULT_SIZE_CAP) -> dict:
+    if not HEX40.match(str(release_commit)):
+        raise Refusal("RELEASE_COMMIT_INVALID",
+                      f"release commit is not 40 hex chars: {release_commit!r}")
+    if size_cap <= 0:
+        raise Refusal("SIZE_CAP_INVALID", f"size cap must be positive: {size_cap!r}")
+    members = load_and_verify_pack(mount_pack, release_commit, release_id)
+    document = compose_document(release_id, release_commit, members, size_cap)
+    if len(document) > size_cap:
+        raise Refusal("SIZE_CAP_EXCEEDED",
+                      f"composed document is {len(document)} bytes > cap {size_cap}; "
+                      "refusing to truncate")
+    write_exclusive(Path(out_path), document)
+    return {
+        "verdict": "BUILT",
+        "out": str(out_path),
+        "bytes": len(document),
+        "sha256": _sha256(document),
+        "member_count": len(members),
+        "doc_mount_only": True,
+    }
+
+
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--mount-pack", required=True)
+    ap.add_argument("--release-id", required=True)
+    ap.add_argument("--release-commit", required=True)
+    ap.add_argument("--size-cap", type=int, default=DEFAULT_SIZE_CAP)
+    ap.add_argument("--out", required=True)
+    args = ap.parse_args(argv)
+    try:
+        report = build_fallback(
+            mount_pack=Path(args.mount_pack),
+            release_id=args.release_id,
+            release_commit=args.release_commit,
+            out_path=Path(args.out),
+            size_cap=args.size_cap,
+        )
+    except Refusal as exc:
+        print(str(exc))
+        return 2
+    print(f"BUILT {report['out']} bytes={report['bytes']} sha256={report['sha256']} "
+          f"members={report['member_count']} DOC_MOUNT_ONLY")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
+FILE: tools/freeze_public_plugin_source.py
+#!/usr/bin/env python3
+"""S4POST Stage B: freeze the eight public skill packs into a source ledger.
+
+The public plugin builder (``build_public_plugin.py``) may only consume the eight ``skills/pipd-*``
+packs through a frozen ledger produced here from a *clean checkout*. The ledger pins the repo, the
+commit (40 hex), the tree (40 hex), the exact eight skill names and a ``path -> sha256`` for every
+file under them, and it is the binding the owner derivation records must match
+(``source_sha256``). This tool REFUSES (typed reason, non-zero exit) instead of warning:
+
+  * ``DIRTY_WORKTREE``          git status --porcelain is not empty
+  * ``NOT_REPO_ROOT``           the given root is not the git top-level
+  * ``GIT_UNAVAILABLE`` / ``GIT_FAILED``  git could not run
+  * ``WRONG_SKILL_SET``         the skills root is missing or carries an unexpected skill
+  * ``SYMLINK_MEMBER``          a symlinked file or directory inside a skill
+  * ``NON_REGULAR_FILE``        a special/irregular file inside a skill (FIFO, socket, ...)
+  * ``HIDDEN_OR_SPECIAL_MEMBER`` a dot-file/dot-directory inside a skill
+  * ``SKILLS_ROOT_MISSING``     the skills root does not exist
+
+Text members are canonicalised to LF (the repository pins ``* text=auto eol=lf``) so the same
+checkout hashes identically on any platform; binary members are hashed raw. No git history is
+written, no commit is created, nothing is published.
+
+CLI
+---
+``--repo-root DIR``            repository root (default: the directory of this file)
+``--skills-root DIR``          override the skills root (default: <repo>/skills)
+``--out FILE``                 write the ledger JSON to FILE (default: stdout only)
+``--no-git``                   skip the git clean/commit/tree gates (fixtures; requires the
+                               ``--ledger-commit`` and ``--ledger-tree`` overrides)
+``--ledger-commit HEX40``      freeze this commit instead of the git HEAD (fixtures/audits)
+``--ledger-tree HEX40``        freeze this tree instead of the git HEAD^{tree}
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+import re
+import shutil
+import stat
+import subprocess
+import sys
+from pathlib import Path
+
+LEDGER_VERSION = "PIPD-PUBLIC-PLUGIN-SOURCE-LEDGER/1"
+EXPECTED_SKILLS = (
+    "pipd-assurance-tqaep",
+    "pipd-authority-source",
+    "pipd-execution-contract",
+    "pipd-package-project",
+    "pipd-pd-bind",
+    "pipd-pi-compile",
+    "pipd-profile-tailor",
+    "pipd-route-intake",
+)
+HEX40 = re.compile(r"^[0-9a-f]{40}$")
+
+
+class FreezeRefusal(Exception):
+    """A fail-closed refusal. ``code`` is the machine-checkable typed reason."""
+
+    def __init__(self, code: str, detail: str) -> None:
+        super().__init__(f"REFUSED {code}: {detail}")
+        self.code = code
+        self.detail = detail
+
+
+def _sha256_bytes(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def canonical_bytes(data: bytes) -> bytes:
+    """Canonical member bytes: LF-normalised for text, raw for binary."""
+    if b"\x00" in data:
+        return data
+    try:
+        data.decode("utf-8")
+    except UnicodeDecodeError:
+        return data
+    return data.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+
+
+def _git(repo: Path, *args: str) -> str:
+    git = shutil.which("git")
+    if git is None:
+        raise FreezeRefusal("GIT_UNAVAILABLE", "no `git` executable on PATH")
+    proc = subprocess.run([git, "-C", str(repo), *args], capture_output=True, text=True)
+    if proc.returncode != 0:
+        raise FreezeRefusal(
+            "GIT_FAILED",
+            f"`git {' '.join(args)}` exited {proc.returncode}: "
+            f"{(proc.stderr or proc.stdout).strip()}",
+        )
+    return proc.stdout
+
+
+def _walk_skill_files(repo_root: Path, skill_dir: Path) -> dict[str, str]:
+    """Every regular file under one skill, as ``repo-relative POSIX path -> canonical sha256``."""
+    files: dict[str, str] = {}
+    for dirpath, dirnames, filenames in os.walk(skill_dir, topdown=True, followlinks=False):
+        dirnames.sort()
+        filenames.sort()
+        for d in list(dirnames):
+            p = Path(dirpath) / d
+            if p.is_symlink():
+                raise FreezeRefusal("SYMLINK_MEMBER", str(p))
+            if d.startswith(".") or d in ("__pycache__",):
+                raise FreezeRefusal("HIDDEN_OR_SPECIAL_MEMBER", str(p))
+        for f in filenames:
+            p = Path(dirpath) / f
+            st = os.lstat(p)
+            if stat.S_ISLNK(st.st_mode):
+                raise FreezeRefusal("SYMLINK_MEMBER", str(p))
+            if not stat.S_ISREG(st.st_mode):
+                raise FreezeRefusal(
+                    "NON_REGULAR_FILE",
+                    f"{p} is not a regular file (mode {oct(stat.S_IMODE(st.st_mode))})")
+            if f.startswith(".") or f in ("__pycache__",):
+                raise FreezeRefusal("HIDDEN_OR_SPECIAL_MEMBER", str(p))
+            rel = p.relative_to(repo_root).as_posix()
+            files[rel] = _sha256_bytes(canonical_bytes(p.read_bytes()))
+    return files
+
+
+def _skill_entries(skills_root: Path) -> dict[str, Path]:
+    if not skills_root.is_dir():
+        raise FreezeRefusal("SKILLS_ROOT_MISSING", str(skills_root))
+    entries: dict[str, Path] = {}
+    for child in sorted(skills_root.iterdir()):
+        if child.name.startswith(".") or child.name == "__pycache__":
+            continue
+        if child.is_symlink():
+            raise FreezeRefusal("SYMLINK_MEMBER", str(child))
+        if not child.is_dir():
+            raise FreezeRefusal("NON_REGULAR_FILE",
+                                f"{child} sits directly in the skills root and is not a skill dir")
+        entries[child.name] = child
+    return entries
+
+
+def freeze(repo_root: Path, skills_root: Path | None = None, *, require_git: bool = True,
+           commit_override: str | None = None, tree_override: str | None = None,
+           repo_url_override: str | None = None,
+           expected_skills: tuple[str, ...] = EXPECTED_SKILLS) -> dict:
+    """Produce the frozen source ledger. Raises :class:`FreezeRefusal` on any deviation."""
+    repo_root = Path(repo_root).resolve()
+    skills_root = Path(skills_root).resolve() if skills_root is not None else repo_root / "skills"
+
+    if require_git:
+        top = _git(repo_root, "rev-parse", "--show-toplevel").strip()
+        if Path(top).resolve() != repo_root:
+            raise FreezeRefusal("NOT_REPO_ROOT",
+                                f"git top-level {top!r} != given repo root {repo_root}")
+        dirty = _git(repo_root, "status", "--porcelain", "--untracked-files=normal").strip()
+        if dirty:
+            raise FreezeRefusal("DIRTY_WORKTREE",
+                                "worktree is not clean:\n" + "\n".join(dirty.splitlines()[:20]))
+        commit = _git(repo_root, "rev-parse", "HEAD").strip()
+        tree = _git(repo_root, "rev-parse", "HEAD^{tree}").strip()
+        repo_url = _git(repo_root, "remote", "get-url", "origin").strip() or "NO_REMOTE"
+    else:
+        if commit_override is None or tree_override is None:
+            raise FreezeRefusal("FIXTURE_OVERRIDE_MISSING",
+                                "--no-git requires --ledger-commit and --ledger-tree")
+        commit, tree = commit_override, tree_override
+        repo_url = repo_url_override or "FIXTURE_NO_GIT"
+
+    for label, value in (("commit", commit), ("tree", tree)):
+        if not HEX40.match(value):
+            raise FreezeRefusal("IDENTITY_INVALID",
+                                f"{label} is not 40 hex chars: {value!r}")
+
+    entries = _skill_entries(skills_root)
+    missing = [n for n in expected_skills if n not in entries]
+    extra = [n for n in sorted(entries) if n not in set(expected_skills)]
+    if missing or extra:
+        raise FreezeRefusal("WRONG_SKILL_SET",
+                            f"expected exactly {sorted(expected_skills)}; "
+                            f"missing={missing} extra={extra}")
+
+    files: dict[str, str] = {}
+    for name in sorted(entries):
+        files.update(_walk_skill_files(repo_root, entries[name]))
+
+    total = sum(len(canonical_bytes((repo_root / rel).read_bytes())) for rel in files)
+    return {
+        "ledger_version": LEDGER_VERSION,
+        "repo": repo_url,
+        "commit": commit,
+        "tree": tree,
+        "skills": sorted(entries),
+        "canonicalization": "text=LF;binary=raw",
+        "file_count": len(files),
+        "total_canonical_bytes": total,
+        "files": files,
+    }
+
+
+def canonical_json(doc: dict) -> str:
+    return json.dumps(doc, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+
+
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--repo-root", default=str(Path(__file__).resolve().parents[1]))
+    ap.add_argument("--skills-root", default=None)
+    ap.add_argument("--out", default=None)
+    ap.add_argument("--no-git", action="store_true", help="fixture mode (no git gates)")
+    ap.add_argument("--ledger-commit", default=None)
+    ap.add_argument("--ledger-tree", default=None)
+    ap.add_argument("--repo-url", default=None)
+    args = ap.parse_args(argv)
+    try:
+        ledger = freeze(
+            Path(args.repo_root),
+            Path(args.skills_root) if args.skills_root else None,
+            require_git=not args.no_git,
+            commit_override=args.ledger_commit,
+            tree_override=args.ledger_tree,
+            repo_url_override=args.repo_url,
+        )
+    except FreezeRefusal as exc:
+        print(str(exc))
+        return 2
+    text = canonical_json(ledger)
+    if args.out:
+        out = Path(args.out)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(text, encoding="utf-8", newline="")
+    sys.stdout.write(text)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
+FILE: .github/workflows/public-plugin-verify.yml
+name: public-plugin-verify
+
+# Read-only verification of the S4POST Stage B upgrade (the public-plugin projection, the web
+# fallback and the install routes). It grants nothing: a green run here is NOT a portal approval,
+# NOT a publication, NOT a host qualification and NOT an S4 acceptance — see
+# docs/install/README.md, "States that are NOT the same".
+#
+# Triggers are pull_request and workflow_dispatch only. There is deliberately no privileged
+# pull-request trigger (the token for `pull_request` from a fork is read-only, which is the point),
+# no configured secret is read, no repository write, no tag and no publish step. The name of the
+# forbidden privileged trigger is intentionally not written anywhere in this file, so a plain grep
+# for it returns nothing.
+# The PR path filter also lists pre-existing paths this job happens to touch (docs/RELEASE_TUPLE.json,
+# dist/mount/**); that filter decides WHEN the job runs, it is NOT the write-set allowlist - the
+# allowlist is enforced by the "wrote only inside its allowed set" step below.
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/public-plugin-verify.yml"
+      - "README.md"
+      - "docs/install/**"
+      - "docs/RELEASE_TUPLE.json"
+      - "packaging/public-plugin/**"
+      - "tools/freeze_public_plugin_source.py"
+      - "tools/build_public_plugin.py"
+      - "tools/build_web_fallback.py"
+      - "tests/test_public_plugin_packaging.py"
+      - "tests/test_web_fallback.py"
+      - "dist/mount/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-plugin-verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the frozen subject
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          persist-credentials: false
+          # full history + tags: the release-identity gate re-derives the release tags with
+          # `git rev-parse <tag>^{commit}`, and the "wrote no frozen path" step needs the base sha.
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: "3.11"
+
+      - name: Prove the upgrade wrote only inside its allowed set
+        # Positive allowlist, not a frozen-path blacklist: a change outside the set fails even if it
+        # is harmless, and dist/ is denied explicitly. Measured as AO-03 of the round's independent
+        # acceptance challenge, which showed the earlier blacklist-only guard let dist/ and arbitrary
+        # non-frozen paths through.
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          # The fixed Stage-A tip this Stage-B branch is stacked on. Used only when the event does not
+          # carry a PR base (workflow_dispatch), so the whole stacked write set is examined.
+          STACKED_BASE_SHA: 52542c395a0f91dc2ba4bd6123acd4cdecd780dc
+        run: |
+          set -euo pipefail
+          BASE="${PR_BASE_SHA:-${STACKED_BASE_SHA}}"
+          if ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then
+            echo "BASE_UNRESOLVED: ${BASE} is not present in this checkout; refusing to guess" >&2
+            exit 1
+          fi
+          git merge-base --is-ancestor "$BASE" HEAD
+          CHANGED="$(git diff --name-only "${BASE}...HEAD")"
+          printf '%s\n' "$CHANGED"
+          ALLOWED='^(packaging/public-plugin/|tools/freeze_public_plugin_source\.py$|tools/build_public_plugin\.py$|tools/build_web_fallback\.py$|tests/test_public_plugin_packaging\.py$|tests/test_web_fallback\.py$|docs/install/|docs/adr/|openspec/changes/s4post-triple-upgrade/|\.github/workflows/public-plugin-verify\.yml$|README\.md$|\.hgk/rounds/S4POST-20261012)'
+          DENIED='^(skills/|src/|schemas/|dist/)'
+          bad=0
+          while IFS= read -r path; do
+            [ -n "$path" ] || continue
+            if printf '%s' "$path" | grep -Eq "$DENIED"; then
+              echo "UPGRADE_WROTE_FROZEN_PATH: $path" >&2
+              bad=1
+            elif ! printf '%s' "$path" | grep -Eq "$ALLOWED"; then
+              echo "UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: $path" >&2
+              bad=1
+            fi
+          done <<< "$CHANGED"
+          if [ "$bad" -ne 0 ]; then
+            echo "WRITE_SET_VIOLATION (base ${BASE})" >&2
+            exit 1
+          fi
+          echo "WRITE_SET_CLEAN_AGAINST_${BASE}"
+
+      - name: Compile the three upgrade tools
+        # Nothing is installed for this step: the three tools import the standard library only.
+        run: |
+          python -m py_compile \
+            tools/freeze_public_plugin_source.py \
+            tools/build_public_plugin.py \
+            tools/build_web_fallback.py
+          echo "PY_COMPILE_OK"
+
+      - name: Assert the upgrade is stdlib-only (no third-party import)
+        # WHY THERE IS NO `pip install -r <file>` FOR THE UPGRADE IN THIS WORKFLOW: the three tools
+        # and the two new test modules import the standard library only, so there is no requirements
+        # file for them to pull — none exists. This step enforces that claim fail-closed, so a later
+        # third-party import fails the gate instead of silently needing a dependency.
+        run: |
+          python - <<'PY'
+          import ast
+          import sys
+          from pathlib import Path
+
+          TARGETS = (
+              "tools/freeze_public_plugin_source.py",
+              "tools/build_public_plugin.py",
+              "tools/build_web_fallback.py",
+              "tests/test_public_plugin_packaging.py",
+              "tests/test_web_fallback.py",
+          )
+          # The repository's own modules plus its package/test roots are not third-party.
+          OWN = {
+              "tools", "tests",
+              "freeze_public_plugin_source", "build_public_plugin", "build_web_fallback",
+              "pipd_ls_sp",
+          }
+          stdlib = set(sys.stdlib_module_names)
+          offenders = []
+          for rel in TARGETS:
+              path = Path(rel)
+              if not path.is_file():
+                  offenders.append(f"{rel}: MISSING (the upgrade is incomplete)")
+                  continue
+              tree = ast.parse(path.read_text(encoding="utf-8"), filename=rel)
+              for node in ast.walk(tree):
+                  if isinstance(node, ast.Import):
+                      roots = [alias.name.split(".")[0] for alias in node.names]
+                  elif isinstance(node, ast.ImportFrom) and node.level == 0 and node.module:
+                      roots = [node.module.split(".")[0]]
+                  else:
+                      continue
+                  for root in roots:
+                      if root not in stdlib and root not in OWN:
+                          offenders.append(f"{rel}: {root}")
+          if offenders:
+              print("NON_STDLIB_IMPORT:")
+              for entry in offenders:
+                  print(f"  {entry}")
+              raise SystemExit(1)
+          print("STDLIB_ONLY_OK")
+          PY
+
+      - name: The two new test modules pass with no third-party dependency installed
+        # Almost the strictest form of "the upgrade pulls no requirement": this runs BEFORE anything
+        # is installed, so a third-party import in either module fails here rather than being masked
+        # by an environment that happens to have the package.
+        run: |
+          python -m unittest tests.test_public_plugin_packaging tests.test_web_fallback -v \
+            2>&1 | tee upgrade-tests.log
+
+      - name: Install the project's own declared runtime dependency only
+        # The ONLY installation in this workflow, and it exists for the pre-existing suite, not for
+        # the upgrade. It resolves the project's own declared closure from pyproject metadata; no
+        # ad-hoc requirements file is pulled, and `requirements.lock` (which records the closure as
+        # installed, is NOT hash-pinned, and is therefore not an install recipe) is not used here.
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip freeze | tee resolved-deps.txt
+
+      - name: Full unittest suite (raw log)
+        run: python -m unittest discover -s tests -t . -v 2>&1 | tee full-unittest.log
+
+      - name: Negative — a mutated pack document must fail the identity binding
+        # FAIL-CLOSED: the failure MOTIVE must be the identity binding, not merely a non-zero exit.
+        # (a) the gate is green first, (b) a pack document is mutated, (c) the re-run must contain a
+        # real `FAIL:` line whose motive names the release-identity fields. A deleted module, an
+        # import error or a collection error exits non-zero too, and must NOT satisfy this step.
+        env:
+          PACK: dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3
+        run: |
+          set -euo pipefail
+
+          # (a) green first — a gate that is already red must not be read as "the mutation was caught".
+          python -m unittest tests.test_s4ext_release_provenance 2>&1 | tee pre-mutation.log
+          grep -qE "^OK" pre-mutation.log
+
+          # (b) mutate the pack DOCUMENT: replace the release identity it stamps with a wrong one.
+          python - <<'PY'
+          from pathlib import Path
+          doc = Path("dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3/README_MOUNT.md")
+          text = doc.read_text(encoding="utf-8")
+          mutated = text.replace("cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a", "0" * 40)
+          assert mutated != text, "the mutation fixture no longer matches the checked-in document"
+          doc.write_text(mutated, encoding="utf-8")
+          PY
+
+          set +e
+          python -m unittest tests.test_s4ext_release_provenance > mutation-run.log 2>&1
+          status=$?
+          set -e
+          git checkout -- "$PACK"
+          if [ -n "$(git status --porcelain "$PACK")" ]; then
+            echo "RESTORE_FAILED: the mutated pack document was not restored" >&2
+            exit 1
+          fi
+
+          # (c) fail closed on every way this step could "pass" without exercising the binding.
+          if [ "$status" -eq 0 ]; then
+            echo "MUTATION_ACCEPTED: the identity binding passed a tampered pack document" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          if ! grep -qE "^FAIL:" mutation-run.log; then
+            echo "GATE_NOT_EXERCISED: no real test failure (deleted module, import error or collection error)" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          if grep -qE "ModuleNotFoundError|ImportError|No module named" mutation-run.log; then
+            echo "GATE_NOT_EXERCISED: the run failed on an import/collection error, not on the binding" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          if ! grep -qE "does not carry|foreign release object" mutation-run.log; then
+            echo "MUTATION_REFUSAL_MOTIVE_UNEXPECTED: the failure is not the identity binding" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          if ! grep -qE "release_tag_target|build_source_commit" mutation-run.log; then
+            echo "MUTATION_REFUSAL_MOTIVE_UNEXPECTED: the failure does not name the identity fields" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          echo "MUTATION_REFUSED_ON_IDENTITY_BINDING"
+
+      - name: Negative — the fallback builder must refuse a pack whose bytes drifted from MANIFEST.sha256
+        # Second half of the same binding, exercised through the upgrade's OWN tool: the byte
+        # binding (a member's bytes against MANIFEST.sha256) and the identity stamp it embeds.
+        env:
+          RELEASE_ID: v0.1.1-preview.3
+          RELEASE_COMMIT: cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a
+          PACK: dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3
+        run: |
+          set -euo pipefail
+          # A RELATIVE work dir under the workspace, so the shell and the tool resolve the SAME
+          # directory on any runner (no dependence on /tmp being shared).
+          WORK=".public-plugin-verify-work"
+          rm -rf "$WORK"
+          mkdir -p "$WORK"
+          trap 'rm -rf "$WORK"' EXIT
+
+          # green first: the untouched frozen pack must project into ONE DOC_MOUNT_ONLY document.
+          python tools/build_web_fallback.py \
+            --mount-pack "$PACK" \
+            --release-id "$RELEASE_ID" \
+            --release-commit "$RELEASE_COMMIT" \
+            --out "$WORK/fallback.md" 2>&1 | tee fallback-green.log
+          grep -q "DOC_MOUNT_ONLY" fallback-green.log
+
+          # mutate a COPY's member bytes so they no longer match the pack's own MANIFEST.sha256.
+          mkdir -p "$WORK/evil"
+          cp -r "$PACK/." "$WORK/evil/"
+          printf '\n<!-- tampered: these bytes no longer match MANIFEST.sha256 -->\n' >> "$WORK/evil/SKILL.md"
+
+          set +e
+          python tools/build_web_fallback.py \
+            --mount-pack "$WORK/evil" \
+            --release-id "$RELEASE_ID" \
+            --release-commit "$RELEASE_COMMIT" \
+            --out "$WORK/evil-fallback.md" > fallback-refusal.log 2>&1
+          status=$?
+          set -e
+          cat fallback-refusal.log
+
+          if [ "$status" -eq 0 ]; then
+            echo "MUTATION_ACCEPTED: the fallback builder accepted a pack whose bytes drifted" >&2
+            exit 1
+          fi
+          if ! grep -q "REFUSED MANIFEST_DIGEST_MISMATCH" fallback-refusal.log; then
+            echo "MUTATION_REFUSAL_MOTIVE_UNEXPECTED: the refusal is not the byte binding (MANIFEST.sha256)" >&2
+            exit 1
+          fi
+          echo "BYTE_DRIFT_REFUSED_ON_MANIFEST_BINDING"
+
+      - name: Upload raw logs
+        if: always()
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b  # v4.5.0
+        with:
+          name: public-plugin-verify-raw-logs
+          path: |
+            resolved-deps.txt
+            upgrade-tests.log
+            full-unittest.log
+            pre-mutation.log
+            mutation-run.log
+            fallback-green.log
+            fallback-refusal.log
+          if-no-files-found: warn
+
+FILE: tests/test_public_plugin_packaging.py
+"""Packaging tests for the public Skills-only plugin builder and source freezer.
+
+These tests pin the fail-closed contract of ``tools/build_public_plugin.py`` and
+``tools/freeze_public_plugin_source.py``. Every case drives the REAL ``build_plugin(...)`` /
+``freeze(...)`` functions (never a re-implementation) and every case runs inside a private
+temporary directory: no network, no writes into the repository, nothing under ``dist/`` or
+``.hgk/``.
+
+They are also the historical red cases: they were written against the defect where the builder
+accepted a ``SKILL.md`` whose frontmatter ``name`` did not match its skill directory (the tool is
+fixed here, in ``project_skill_md``), and they pin the digest-pinnable, locally authored
+``plugin.schema.json`` subset that the builder validates the manifest with.
+
+The package root is the OFFICIAL Agent Plugins 1.0 manifest (``packaging/public-plugin/plugin.json``
+validated against the byte-locked ``vendor-plugin.schema.json``); PIPD's own bookkeeping is
+``packaging/public-plugin/plugin.release.json``, embedded verbatim in the manifest's
+``extensions["com.pipd.s4"]`` namespace. The vendor's own validator and the Portal scan stay
+NOT_EXECUTED.
+
+Symlinks are exercised through the documented ``build_public_plugin._path_is_symlink`` seam when
+the host refuses to create a real symlink (unprivileged Windows), so the gate itself is always
+executed; where the OS allows the real thing, the real thing is used.
+"""
+from __future__ import annotations
+
+import contextlib
+import functools
+import hashlib
+import io
+import json
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
+import unittest
+import zipfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+TOOLS = ROOT / "tools"
+if str(TOOLS) not in sys.path:
+    sys.path.insert(0, str(TOOLS))
+
+import build_public_plugin as B  # noqa: E402  (sibling tool, stdlib-only)
+import freeze_public_plugin_source as F  # noqa: E402  (sibling tool, stdlib-only)
+
+PACKAGING = ROOT / "packaging" / "public-plugin"
+SCHEMA_PATH = PACKAGING / "plugin.schema.json"
+CHECKED_IN_MANIFEST = PACKAGING / "plugin.json"
+CHECKED_IN_RELEASE = PACKAGING / "plugin.release.json"
+VENDOR_SCHEMA_PATH = PACKAGING / "vendor-plugin.schema.json"
+# The bytes the round downloaded from the Agent Plugins 1.0 specification. The byte-copy case is
+# skipped when the round's evidence tree is absent; the digest assertion always runs.
+ROUND_VENDOR_SCHEMA = (ROOT / ".hgk" / "rounds" /
+                       "S4POST-20261012-postrepair-recheck-and-triple-upgrade" / "stage-b" /
+                       "vendor" / "plugin.schema.json")
+VENDOR_SCHEMA_SHA256 = "0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883"
+GIT = shutil.which("git")
+
+COMMIT = "c" * 40
+TREE = "d" * 40
+PLUGIN_ID = "pipd-ls-sp-public-skills"
+SKILLS = tuple(F.EXPECTED_SKILLS)
+
+# The fixture frontmatter carries both portable and non-portable keys, exactly like the real packs.
+APPROVED_KEYS = ("name", "description", "license")
+DROPPED_KEYS = ("version", "owner", "triggers", "schemas", "references", "tests")
+
+FIXED_DATE_TIME = (1980, 1, 1, 0, 0, 0)
+FIXED_MODE = 0o644
+
+
+def sha256(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def skill_md_text(name: str, *, declared_name: str | None = None) -> str:
+    declared = name if declared_name is None else declared_name
+    return (
+        "---\n"
+        f"name: {declared}\n"
+        "description: Fixture skill for the public plugin packaging tests.\n"
+        "license: Apache-2.0\n"
+        "version: 1\n"
+        "owner: PIPD-EC (deterministic compiler)\n"
+        "triggers:\n"
+        "  - fixture trigger\n"
+        "schemas:\n"
+        "  - schemas/input.schema.json\n"
+        "references:\n"
+        "  - references/contract.md\n"
+        "tests:\n"
+        "  - tests/cases.yaml\n"
+        "---\n"
+        "\n"
+        f"# {name}\n"
+        "\n"
+        "## Contract (imperative)\n"
+        "\n"
+        "1. Keep the body byte-identical across the frontmatter projection.\n"
+        "2. Never let a packaging run touch a real repository tree.\n"
+    )
+
+
+class Env:
+    """A throwaway source checkout + packaging root, entirely under one temp directory."""
+
+    def __init__(self, root: Path) -> None:
+        self.root = root
+        self.source = root / "source"
+        self.skills = self.source / "skills"
+        self.packaging = root / "packaging"
+        self.assets = self.packaging / "assets"
+        self.out = root / "release"
+        for name in SKILLS:
+            skill_dir = self.skills / name
+            skill_dir.mkdir(parents=True, exist_ok=True)
+            (skill_dir / "SKILL.md").write_text(skill_md_text(name), encoding="utf-8", newline="")
+        self.assets.mkdir(parents=True, exist_ok=True)
+        # The real, checked-in local schema subset is what the builder must consume.
+        shutil.copyfile(SCHEMA_PATH, self.packaging / "plugin.schema.json")
+        # The real, checked-in byte copy of the official vendor schema, too.
+        shutil.copyfile(VENDOR_SCHEMA_PATH, self.packaging / "vendor-plugin.schema.json")
+        (self.assets / "icon-128.png").write_bytes(B.png_icon_bytes(128))
+
+    @property
+    def schema_bytes(self) -> bytes:
+        return (self.packaging / "plugin.schema.json").read_bytes()
+
+    @property
+    def vendor_bytes(self) -> bytes:
+        return (self.packaging / "vendor-plugin.schema.json").read_bytes()
+
+    @property
+    def icon_bytes(self) -> bytes:
+        return (self.assets / "icon-128.png").read_bytes()
+
+    def freeze(self) -> dict:
+        return F.freeze(self.source, require_git=False, commit_override=COMMIT,
+                        tree_override=TREE, repo_url_override="FIXTURE_NO_NETWORK")
+
+    def release_doc(self, **overrides) -> dict:
+        """PIPD's release bookkeeping: the shape the local ``plugin.schema.json`` subset pins."""
+        doc = {
+            "schema": B.RELEASE_SCHEMA_ID,
+            "plugin_id": PLUGIN_ID,
+            "display_name": "PIPD Fixture Public Skills",
+            "version": "0.1.1",
+            "license": "Apache-2.0",
+            "skills": list(SKILLS),
+            "official_schema_sha256": sha256(self.vendor_bytes),
+            "publisher": {
+                "name": "PIPD Owner",
+                "identity": "owner@example.invalid",
+                "identity_sha256": "f" * 64,
+            },
+            "icons": [{"path": "assets/icon-128.png", "sha256": sha256(self.icon_bytes),
+                       "size": 128}],
+            "release": {"claim_ceiling": "LOCAL_PACKAGER_PASS_ONLY",
+                        "official_portal_verification": "NOT_EXECUTED"},
+        }
+        doc.update(overrides)
+        return doc
+
+    def official_manifest(self, *, release: dict | None = None, **overrides) -> dict:
+        """The official Agent Plugins 1.0 package-root manifest."""
+        rel = release if release is not None else self.release_doc()
+        doc = {
+            "$schema": B.VENDOR_SCHEMA_ID,
+            "name": PLUGIN_ID,
+            "version": rel["version"],
+            "description": "PIPD fixture public Skills-only plugin.",
+            "repository": "https://example.invalid/pipd-ls-sp",
+            "license": "Apache-2.0",
+            "keywords": ["agent-plugins", "skills", "fixture"],
+            "extensions": {
+                B.RELEASE_EXTENSION_KEY: rel,
+                "com.openai": {"interface": {"display_name": "PIPD Fixture Public Skills"}},
+            },
+        }
+        doc.update(overrides)
+        return doc
+
+    def write_packaging(self, ledger: dict, *, manifest: dict | None = None,
+                        release: dict | None = None, derivations: dict | None = None) -> None:
+        rel = release if release is not None else self.release_doc()
+        man = manifest if manifest is not None else self.official_manifest(release=rel)
+        (self.packaging / "plugin.json").write_bytes(B.canonical_json_bytes(man))
+        (self.packaging / "plugin.release.json").write_bytes(B.canonical_json_bytes(rel))
+        deriv = derivations if derivations is not None else derivations_doc(ledger)
+        (self.packaging / "derivations.json").write_bytes(B.canonical_json_bytes(deriv))
+
+    def write_ledger(self, ledger: dict) -> Path:
+        path = self.root / "ledger.json"
+        path.write_bytes(B.canonical_json_bytes(ledger))
+        return path
+
+    def build(self, ledger: dict, *, source_commit: str | None = COMMIT, **kwargs):
+        return B.build_plugin(source_root=self.source, ledger=ledger, source_commit=source_commit,
+                              packaging_root=self.packaging, out_dir=self.out, **kwargs)
+
+
+def derivation_record(ledger: dict, name: str, **overrides) -> dict:
+    rel = f"skills/{name}/SKILL.md"
+    record = {
+        "skill": name,
+        "source_path": rel,
+        "source_sha256": ledger["files"][rel],
+        "kept_keys": list(APPROVED_KEYS),
+        "dropped_keys": list(DROPPED_KEYS),
+        "approved_by": "owner@example.invalid",
+        "approval_receipt": "owner-approval-receipt-20261012-0001",
+    }
+    record.update(overrides)
+    return record
+
+
+def derivations_doc(ledger: dict, *, overrides: dict[str, dict] | None = None) -> dict:
+    overrides = overrides or {}
+    return {
+        "schema": "PIPD-PUBLIC-PLUGIN-DERIVATIONS/1",
+        "derivations": [derivation_record(ledger, name, **overrides.get(name, {}))
+                        for name in sorted(SKILLS)],
+    }
+
+
+@contextlib.contextmanager
+def temp_env():
+    with tempfile.TemporaryDirectory() as tmp:
+        yield Env(Path(tmp))
+
+
+@contextlib.contextmanager
+def as_symlink(path: Path, target: Path):
+    """Present ``path`` as a symlink to ``target``; fall back to the documented seam.
+
+    The seam (``build_public_plugin._path_is_symlink``) exists precisely so the symlink gates can
+    be exercised on hosts that forbid real symlinks. Only the predicate is substituted; every
+    other line of the gate is the real, unmodified code.
+    """
+    try:
+        os.symlink(target, path, target_is_directory=target.is_dir())
+    except (OSError, NotImplementedError):
+        real = B._path_is_symlink
+        wanted = Path(path)
+
+        def fake(candidate, _wanted=wanted, _real=real):
+            try:
+                if Path(candidate) == _wanted:
+                    return True
+            except TypeError:
+                pass
+            return _real(candidate)
+
+        B._path_is_symlink = fake
+        try:
+            yield
+        finally:
+            B._path_is_symlink = real
+    else:
+        try:
+            yield
+        finally:
+            try:
+                path.unlink()
+            except OSError:
+                pass
+
+
+def zip_entries(path: Path) -> tuple[list[zipfile.ZipInfo], dict[str, bytes]]:
+    with zipfile.ZipFile(path) as archive:
+        infos = archive.infolist()
+        members = {info.filename: archive.read(info.filename) for info in infos}
+    return infos, members
+
+
+class PublicPluginPackagingTest(unittest.TestCase):
+    # ------------------------------------------------------------------ helpers
+    def assert_refusal(self, code: str, func, *args, **kwargs) -> B.Refusal:
+        with self.assertRaises(B.Refusal) as caught:
+            func(*args, **kwargs)
+        self.assertEqual(caught.exception.code, code, str(caught.exception))
+        return caught.exception
+
+    def assert_no_zip(self, env: Env) -> None:
+        if env.out.exists():
+            self.assertEqual([p.name for p in env.out.iterdir()], [],
+                             "a refused build must not leave anything behind")
+
+    def run_git(self, repo: Path, *args: str) -> str:
+        proc = subprocess.run(
+            [GIT, "-C", str(repo), "-c", "user.email=fixture@example.invalid",
+             "-c", "user.name=packaging-fixture", "-c", "commit.gpgsign=false",
+             "-c", "init.defaultBranch=main", *args],
+            capture_output=True, text=True)
+        self.assertEqual(proc.returncode, 0, proc.stderr or proc.stdout)
+        return proc.stdout
+
+    # ------------------------------------------------------- 0. the schema subset
+    def test_00_local_schema_is_a_locally_authored_subset(self) -> None:
+        doc = json.loads(SCHEMA_PATH.read_bytes().decode("utf-8"))
+        self.assertEqual(doc["$schema"], "https://json-schema.org/draft/2020-12/schema")
+        self.assertIs(doc["additionalProperties"], False)
+        description = doc["description"].upper()
+        self.assertIn("LOCALLY AUTHORED SUBSET", description)
+        self.assertIn("NOT THE OFFICIAL VENDOR SCHEMA", description)
+        self.assertIn("NOT_EXECUTED", description)
+        self.assertEqual(sorted(doc["properties"]), sorted([
+            "schema", "plugin_id", "display_name", "version", "license", "skills",
+            "official_schema_sha256", "publisher", "icons", "release"]))
+        # The builder's own validator consumes the subset and accepts PIPD's release bookkeeping
+        # (the release document is what the locally authored closed key set still describes)...
+        release = json.loads(CHECKED_IN_RELEASE.read_bytes().decode("utf-8"))
+        self.assertEqual(B.validate_subset(release, doc), [])
+        # ... rejects an unknown key, a ninth skill, and a non-enum skill name.
+        self.assertTrue(B.validate_subset({**release, "custom": 1}, doc))
+        extra = json.loads(json.dumps(release))
+        extra["skills"] = list(SKILLS) + ["pipd-extra-skill"]
+        self.assertTrue(B.validate_subset(extra, doc))
+        renamed = json.loads(json.dumps(release))
+        renamed["skills"] = ["pipd-not-a-skill"] + list(SKILLS)[1:]
+        self.assertTrue(B.validate_subset(renamed, doc))
+
+    # --------------------------------------------------------- 1. broken icon data
+    def test_01_png_signature_with_broken_body_is_refused(self) -> None:
+        fake = B.PNG_SIG + b"garbage-body"
+        with temp_env() as env:
+            ledger = env.freeze()
+            (env.assets / "icon-128.png").write_bytes(fake)
+            env.write_packaging(ledger, release=env.release_doc(icons=[
+                {"path": "assets/icon-128.png", "sha256": sha256(fake), "size": 128}]))
+            exc = self.assert_refusal("ICON_INVALID", env.build, ledger)
+            self.assertIn("truncated_chunk", str(exc))
+            self.assert_no_zip(env)
+
+    def test_01_non_png_icon_is_refused(self) -> None:
+        fake = b"GIF89a this is not a png file\n"
+        with temp_env() as env:
+            ledger = env.freeze()
+            (env.assets / "icon-128.png").write_bytes(fake)
+            env.write_packaging(ledger, release=env.release_doc(icons=[
+                {"path": "assets/icon-128.png", "sha256": sha256(fake), "size": 128}]))
+            exc = self.assert_refusal("ICON_INVALID", env.build, ledger)
+            self.assertIn("signature", str(exc))
+            self.assert_no_zip(env)
+
+    # ------------------------------------------------------- 2. manifest key set
+    def test_02_unknown_manifest_property_is_refused(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            doc = env.official_manifest()
+            doc["custom"] = {"anything": 1}
+            env.write_packaging(ledger, manifest=doc)
+            exc = self.assert_refusal("MANIFEST_SCHEMA_VIOLATION", env.build, ledger)
+            self.assertIn("custom", str(exc))
+            self.assert_no_zip(env)
+
+    # --------------------------------------------------------- 3. SKILL frontmatter
+    def test_03_skill_without_frontmatter_is_refused(self) -> None:
+        with temp_env() as env:
+            (env.skills / "pipd-pd-bind" / "SKILL.md").write_text(
+                "# pipd-pd-bind\n\nno frontmatter lives here\n", encoding="utf-8", newline="")
+            ledger = env.freeze()
+            env.write_packaging(ledger, derivations=derivations_doc(
+                ledger, overrides={"pipd-pd-bind": {"kept_keys": [], "dropped_keys": []}}))
+            self.assert_refusal("SKILL_FRONTMATTER_INVALID", env.build, ledger)
+            self.assert_no_zip(env)
+
+    def test_03_skill_with_wrong_frontmatter_name_is_refused(self) -> None:
+        with temp_env() as env:
+            (env.skills / "pipd-pi-compile" / "SKILL.md").write_text(
+                skill_md_text("pipd-pi-compile", declared_name="some-other-skill"),
+                encoding="utf-8", newline="")
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            exc = self.assert_refusal("SKILL_FRONTMATTER_INVALID", env.build, ledger)
+            self.assertIn("some-other-skill", str(exc))
+            self.assert_no_zip(env)
+
+    # ------------------------------------------------------------ 4. source commit
+    def test_04_source_commit_gates(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            self.assert_refusal("SOURCE_COMMIT_NULL", env.build, ledger, source_commit=None)
+            self.assert_refusal("SOURCE_COMMIT_INVALID", env.build, ledger, source_commit="abc123")
+            self.assert_refusal("SOURCE_COMMIT_MISMATCH", env.build, ledger, source_commit="e" * 40)
+            self.assert_no_zip(env)
+
+    # ------------------------------------------------- 5. symlinked output release
+    def test_05_symlinked_output_root_is_refused_and_target_untouched(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            target = env.root / "release-target"
+            target.mkdir()
+            sentinel = target / "SENTINEL.txt"
+            sentinel_bytes = b"sentinel bytes that must survive untouched\n"
+            sentinel.write_bytes(sentinel_bytes)
+            link = env.root / "release-link"
+            with as_symlink(link, target):
+                env.out = link
+                self.assert_refusal("OUTPUT_ROOT_SYMLINK", env.build, ledger)
+            self.assertEqual(sentinel.read_bytes(), sentinel_bytes)
+            self.assertEqual(sorted(p.name for p in target.iterdir()), ["SENTINEL.txt"])
+
+    # ------------------------------------------------------ 6. source set vs ledger
+    def test_06_extra_skill_member_is_refused(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            (env.skills / "pipd-pd-bind" / "notes.md").write_text(
+                "not in the frozen ledger\n", encoding="utf-8", newline="")
+            exc = self.assert_refusal("SOURCE_SET_CHANGED", env.build, ledger)
+            self.assertIn("notes.md", str(exc))
+            self.assert_no_zip(env)
+
+    def test_06_missing_skill_member_is_refused(self) -> None:
+        with temp_env() as env:
+            (env.skills / "pipd-pd-bind" / "notes.md").write_text(
+                "frozen member\n", encoding="utf-8", newline="")
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            self.assertIn("skills/pipd-pd-bind/notes.md", ledger["files"])
+            (env.skills / "pipd-pd-bind" / "notes.md").unlink()
+            exc = self.assert_refusal("SOURCE_SET_CHANGED", env.build, ledger)
+            self.assertIn("notes.md", str(exc))
+            self.assert_no_zip(env)
+
+    # ---------------------------------------------------------- 7. ninth skill dir
+    def test_07_ninth_skill_directory_is_refused(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            ninth = env.skills / "pipd-extra-skill"
+            ninth.mkdir()
+            (ninth / "SKILL.md").write_text(skill_md_text("pipd-extra-skill"),
+                                            encoding="utf-8", newline="")
+            exc = self.assert_refusal("UNEXPECTED_SKILL", env.build, ledger)
+            self.assertIn("pipd-extra-skill", str(exc))
+            self.assert_no_zip(env)
+
+    # ------------------------------------------------- 8. symlink / non-regular member
+    def test_08_symlinked_source_member_is_refused(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            member = env.skills / "pipd-authority-source" / "notes.md"
+            member.write_text("payload\n", encoding="utf-8", newline="")
+            with as_symlink(member, env.skills / "pipd-authority-source" / "SKILL.md"):
+                exc = self.assert_refusal("SOURCE_SYMLINK", env.build, ledger)
+            self.assertIn("notes.md", str(exc))
+            self.assert_no_zip(env)
+
+    def test_08_non_regular_source_member_is_refused(self) -> None:
+        # A non-directory entry where a skill pack is expected.
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            (env.skills / "STRAY_MEMBER.txt").write_text(
+                "not a skill directory\n", encoding="utf-8", newline="")
+            exc = self.assert_refusal("SOURCE_SPECIAL_MEMBER", env.build, ledger)
+            self.assertIn("STRAY_MEMBER.txt", str(exc))
+            self.assert_no_zip(env)
+        if hasattr(os, "mkfifo"):
+            # POSIX only: a FIFO inside a skill is a non-regular source member.
+            with temp_env() as env:
+                ledger = env.freeze()
+                env.write_packaging(ledger)
+                os.mkfifo(env.skills / "pipd-pd-bind" / "pipe")
+                exc = self.assert_refusal("SOURCE_SPECIAL_MEMBER", env.build, ledger)
+                self.assertIn("pipe", str(exc))
+
+    # ------------------------------------------------------- 9. dirty worktree freeze
+    @unittest.skipUnless(GIT, "git is required to exercise the real freeze() git gates")
+    def test_09_dirty_worktree_at_freeze_time_is_refused(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp) / "repo"
+            repo.mkdir()
+            self.run_git(repo, "init", "--quiet")
+            (repo / "UNTRACKED.txt").write_text("uncommitted\n", encoding="utf-8")
+            with self.assertRaises(F.FreezeRefusal) as caught:
+                F.freeze(repo)
+            self.assertEqual(caught.exception.code, "DIRTY_WORKTREE")
+            self.assertIn("UNTRACKED.txt", str(caught.exception))
+
+    # --------------------------------------------------------- 10. determinism
+    def test_10_two_builds_are_byte_identical(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            first = env.build(ledger)
+            first_zip = Path(first["out_zip"])
+            first_bytes = first_zip.read_bytes()
+            first_infos, first_members = zip_entries(first_zip)
+
+            second = B.build_plugin(source_root=env.source, ledger=ledger, source_commit=COMMIT,
+                                    packaging_root=env.packaging, out_dir=env.root / "release-2")
+            second_zip = Path(second["out_zip"])
+            second_bytes = second_zip.read_bytes()
+            second_infos, second_members = zip_entries(second_zip)
+
+            self.assertEqual(sha256(first_bytes), first["zip_sha256"])
+            self.assertEqual(first_bytes, second_bytes)
+            self.assertEqual(sha256(first_bytes), sha256(second_bytes))
+            self.assertEqual(first_members, second_members)
+            self.assertEqual([i.filename for i in first_infos],
+                             [i.filename for i in second_infos])
+            self.assertEqual([i.filename for i in first_infos], sorted(first_members))
+            for info in first_infos:
+                self.assertEqual(info.date_time, FIXED_DATE_TIME)
+                self.assertEqual(info.external_attr >> 16, FIXED_MODE)
+                self.assertEqual(info.compress_type, zipfile.ZIP_DEFLATED)
+
+    # ------------------------------------- 11. missing owner record -> non-zero exit
+    def test_11_missing_owner_derivation_is_a_non_zero_exit(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger, derivations={
+                "schema": "PIPD-PUBLIC-PLUGIN-DERIVATIONS/1", "derivations": []})
+            ledger_path = env.write_ledger(ledger)
+            captured = io.StringIO()
+            with contextlib.redirect_stdout(captured):
+                code = B.main(["--source-root", str(env.source), "--ledger", str(ledger_path),
+                               "--source-commit", COMMIT, "--packaging-root", str(env.packaging),
+                               "--out-dir", str(env.out)])
+            printed = captured.getvalue().strip()
+            self.assertEqual(printed,
+                             "REFUSED OWNER_INPUT_MISSING: "
+                             + B.DERIVATION_MISSING_TEMPLATE.format(skill="pipd-assurance-tqaep"))
+            self.assertEqual(code, 2)
+            self.assertNotEqual(code, 0)
+            self.assert_no_zip(env)
+
+    # ------------------------------------------ 12. complete record -> verbatim body
+    def test_12_complete_owner_record_builds_and_projects_the_body_verbatim(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            report = env.build(ledger)
+            self.assertEqual(report["verdict"], "BUILT")
+            infos, members = zip_entries(Path(report["out_zip"]))
+            root = PLUGIN_ID
+
+            mapping = json.loads(members[f"{root}/SOURCE_TO_PLUGIN_MAPPING.json"].decode("utf-8"))
+            receipt = json.loads(members[f"{root}/RELEASE_RECEIPT.json"].decode("utf-8"))
+            self.assertEqual(receipt["claim_ceiling"], "LOCAL_PACKAGER_PASS_ONLY")
+            self.assertEqual(receipt["official_portal_verification"], "NOT_EXECUTED")
+            rows = {row["source_path"]: row for row in mapping["entries"]}
+
+            for name in SKILLS:
+                rel = f"skills/{name}/SKILL.md"
+                row = rows[rel]
+                self.assertEqual(row["mode"], "DERIVED_WITH_OWNER_APPROVAL")
+                self.assertEqual(row["destination_path"], f"{root}/{rel}")
+                self.assertEqual(row["source_sha256"], ledger["files"][rel])
+
+                source_bytes = F.canonical_bytes((env.skills / name / "SKILL.md").read_bytes())
+                _, source_map, source_body = B.parse_skill_md(source_bytes.decode("utf-8"))
+                projected = members[f"{root}/{rel}"]
+                _, projected_map, projected_body = B.parse_skill_md(projected.decode("utf-8"))
+
+                # The body survives the projection byte-for-byte; only approved keys move.
+                self.assertEqual(projected_body, source_body)
+                self.assertEqual(set(projected_map), set(APPROVED_KEYS))
+                for key in APPROVED_KEYS:
+                    self.assertEqual(projected_map[key], source_map[key])
+                for key in DROPPED_KEYS:
+                    self.assertNotIn(key, projected_map)
+                self.assertEqual(row["destination_sha256"], sha256(projected))
+
+            self.assertEqual(members[f"{root}/plugin.schema.json"], env.schema_bytes)
+
+    # ------------------------------------------- 13. output root overlap / dist
+    def test_13_output_root_overlapping_the_repo_or_dist_is_refused(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            cases = (
+                (env.source, "OUTPUT_ROOT_OVERLAPS_REPO"),
+                (env.source / "candidate", "OUTPUT_ROOT_OVERLAPS_REPO"),
+                (env.root, "OUTPUT_ROOT_OVERLAPS_REPO"),
+                (env.source / "dist", "OUTPUT_ROOT_IN_DIST"),
+                (env.source / "dist" / "nested", "OUTPUT_ROOT_IN_DIST"),
+            )
+            for out_dir, code in cases:
+                with self.subTest(out_dir=str(out_dir)):
+                    call = functools.partial(
+                        B.build_plugin, source_root=env.source, ledger=ledger,
+                        source_commit=COMMIT, packaging_root=env.packaging, out_dir=out_dir)
+                    self.assert_refusal(code, call)
+            self.assertFalse((env.source / "dist").exists())
+
+    # --------------------------------------------- 14. owner placeholders refuse
+    def test_14_owner_placeholders_are_refused(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger, release=env.release_doc(
+                official_schema_sha256="OWNER_INPUT_REQUIRED"))
+            self.assert_refusal("OWNER_INPUT_MISSING", env.build, ledger)
+
+            env.write_packaging(ledger, release=env.release_doc(publisher={
+                "name": "OWNER_INPUT_REQUIRED",
+                "identity": "owner@example.invalid",
+                "identity_sha256": "f" * 64,
+            }))
+            self.assert_refusal("OWNER_INPUT_MISSING", env.build, ledger)
+
+            env.write_packaging(ledger, release=env.release_doc(icons=[
+                {"path": "assets/icon-128.png", "sha256": "OWNER_INPUT_REQUIRED", "size": 128}]))
+            self.assert_refusal("OWNER_INPUT_MISSING", env.build, ledger)
+            self.assert_no_zip(env)
+
+    # --------------------------------------- 15. the official manifest vs the vendor schema
+    def test_15_official_manifest_validates_against_the_vendor_schema(self) -> None:
+        vendor_bytes = VENDOR_SCHEMA_PATH.read_bytes()
+        vendor_doc = json.loads(vendor_bytes.decode("utf-8"))
+        self.assertEqual(sha256(vendor_bytes), B.VENDOR_SCHEMA_SHA256)
+        self.assertEqual(B.VENDOR_SCHEMA_SHA256, VENDOR_SCHEMA_SHA256)
+        self.assertEqual(vendor_doc["$id"], B.VENDOR_SCHEMA_ID)
+        self.assertEqual(vendor_doc["required"], ["$schema", "name"])
+        self.assertIs(vendor_doc["additionalProperties"], False)
+        self.assertEqual(sorted(vendor_doc["properties"]), sorted([
+            "$schema", "name", "version", "description", "author", "homepage", "repository",
+            "license", "keywords", "extensions"]))
+
+        manifest = json.loads(CHECKED_IN_MANIFEST.read_bytes().decode("utf-8"))
+        release = json.loads(CHECKED_IN_RELEASE.read_bytes().decode("utf-8"))
+        self.assertEqual(manifest["$schema"], vendor_doc["$id"])
+        self.assertEqual(B.validate_subset(manifest, vendor_doc), [])
+        self.assertEqual(sorted(manifest), sorted([
+            "$schema", "name", "version", "description", "repository", "license", "keywords",
+            "extensions"]))
+        # PIPD's bookkeeping is in the vendor-blessed namespace, embedded verbatim, and pinned.
+        self.assertEqual(manifest["extensions"][B.RELEASE_EXTENSION_KEY], release)
+        self.assertEqual(release["official_schema_sha256"], B.VENDOR_SCHEMA_SHA256)
+        self.assertEqual(release["skills"], list(SKILLS))
+        # The closed key set and the extensions object type are enforced, not assumed.
+        self.assertTrue(B.validate_subset({**manifest, "plugin_id": "leaked"}, vendor_doc))
+        self.assertTrue(B.validate_subset(
+            {**manifest, "extensions": {"com.x": "not-an-object"}}, vendor_doc))
+        self.assertEqual(B.validate_subset(
+            {**manifest, "extensions": {"com.x": {"any": ["object"]}}}, vendor_doc), [])
+
+    @unittest.skipUnless(ROUND_VENDOR_SCHEMA.is_file(),
+                         "the round's downloaded vendor schema is not present on this host")
+    def test_15_checked_in_vendor_schema_is_a_byte_copy_of_the_downloaded_bytes(self) -> None:
+        self.assertEqual(VENDOR_SCHEMA_PATH.read_bytes(), ROUND_VENDOR_SCHEMA.read_bytes())
+
+    # ---------------------------------------- 16. the root manifest is the official one
+    def test_16_unknown_top_level_key_in_the_official_manifest_is_refused(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            doc = env.official_manifest()
+            doc["official_schema_sha256"] = "0" * 64  # the shape the old internal manifest had
+            env.write_packaging(ledger, manifest=doc)
+            exc = self.assert_refusal("MANIFEST_SCHEMA_VIOLATION", env.build, ledger)
+            self.assertIn("official_schema_sha256", str(exc))
+            self.assertIn("additionalProperties", str(exc))
+            self.assert_no_zip(env)
+
+    def test_16_the_previous_internal_manifest_is_refused_as_the_package_root(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            legacy = env.release_doc()
+            for doc, code, needle in (
+                    (legacy, "OFFICIAL_SCHEMA_ID_MISMATCH", "$schema"),
+                    ({**legacy, "$schema": B.VENDOR_SCHEMA_ID},
+                     "MANIFEST_SCHEMA_VIOLATION", "required")):
+                with self.subTest(code=code):
+                    env.write_packaging(ledger, manifest=doc)
+                    exc = self.assert_refusal(code, env.build, ledger)
+                    self.assertIn(needle, str(exc))
+            self.assert_no_zip(env)
+
+    # ------------------------------------------------ 17. the vendor schema lock
+    def test_17_pinned_vendor_digest_mismatch_is_refused(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger, release=env.release_doc(
+                official_schema_sha256="a" * 64))
+            exc = self.assert_refusal("VENDOR_SCHEMA_DIGEST_MISMATCH", env.build, ledger)
+            self.assertIn(B.VENDOR_SCHEMA_SHA256, str(exc))
+            self.assert_no_zip(env)
+
+            # Unpinned is the pre-existing owner gate; a malformed digest is its own gate.
+            env.write_packaging(ledger, release=env.release_doc(
+                official_schema_sha256="OWNER_INPUT_REQUIRED"))
+            self.assert_refusal("OWNER_INPUT_MISSING", env.build, ledger)
+            env.write_packaging(ledger, release=env.release_doc(
+                official_schema_sha256="not-a-digest"))
+            self.assert_refusal("OFFICIAL_SCHEMA_DIGEST_INVALID", env.build, ledger)
+            self.assert_no_zip(env)
+
+    def test_17_locked_vendor_schema_bytes_are_refused_when_they_drift(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            target = env.packaging / "vendor-plugin.schema.json"
+            doc = json.loads(target.read_text(encoding="utf-8"))
+            doc["description"] = doc["description"] + " (drifted)"
+            target.write_bytes(B.canonical_json_bytes(doc))
+            exc = self.assert_refusal("VENDOR_SCHEMA_DIGEST_MISMATCH", env.build, ledger)
+            self.assertIn("locked digest", str(exc))
+            self.assert_no_zip(env)
+
+    def test_17_vendor_schema_id_mismatch_is_refused(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            target = env.packaging / "vendor-plugin.schema.json"
+            doc = json.loads(target.read_text(encoding="utf-8"))
+            doc["$id"] = "https://example.invalid/schemas/1.0.0/plugin.schema.json"
+            target.write_bytes(B.canonical_json_bytes(doc))
+            exc = self.assert_refusal("VENDOR_SCHEMA_ID_MISMATCH", env.build, ledger)
+            self.assertIn(B.VENDOR_SCHEMA_ID, str(exc))
+            self.assert_no_zip(env)
+
+    # ------------------------------------------------ 18. the vendor name pattern
+    def test_18_official_name_violating_the_vendor_pattern_is_refused(self) -> None:
+        bad_names = ("PIPD Public Skills", "pipd--ls--sp", "pipd..ls", "-pipd", "pipd-", "PIPD_LS")
+        with temp_env() as env:
+            ledger = env.freeze()
+            for name in bad_names:
+                with self.subTest(name=name):
+                    env.write_packaging(ledger, manifest=env.official_manifest(name=name))
+                    exc = self.assert_refusal("MANIFEST_SCHEMA_VIOLATION", env.build, ledger)
+                    self.assertIn("pattern", str(exc))
+            self.assert_no_zip(env)
+            env.write_packaging(ledger)
+            self.assertEqual(env.build(ledger)["verdict"], "BUILT")
+
+    # ---------------------------------- 19. the zip root manifest is the official one
+    def test_19_zip_root_plugin_json_is_the_official_shaped_manifest(self) -> None:
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            report = env.build(ledger)
+            infos, members = zip_entries(Path(report["out_zip"]))
+            root = PLUGIN_ID
+            vendor_doc = json.loads(VENDOR_SCHEMA_PATH.read_bytes().decode("utf-8"))
+            root_manifest = json.loads(members[f"{root}/plugin.json"].decode("utf-8"))
+
+            self.assertEqual(root_manifest["$schema"], B.VENDOR_SCHEMA_ID)
+            self.assertEqual(root_manifest["name"], PLUGIN_ID)
+            self.assertEqual(B.validate_subset(root_manifest, vendor_doc), [])
+            # The internal bookkeeping is NOT at the root: it is namespaced and shipped separately.
+            for leaked in ("schema", "plugin_id", "display_name", "skills", "publisher", "icons",
+                           "release", "official_schema_sha256"):
+                self.assertNotIn(leaked, root_manifest)
+            release_member = json.loads(members[f"{root}/plugin.release.json"].decode("utf-8"))
+            self.assertEqual(root_manifest["extensions"][B.RELEASE_EXTENSION_KEY], release_member)
+            self.assertEqual(release_member["skills"], list(SKILLS))
+            self.assertEqual(release_member["official_schema_sha256"], sha256(env.vendor_bytes))
+            self.assertIn("com.openai", root_manifest["extensions"])
+            self.assertEqual(members[f"{root}/vendor-plugin.schema.json"], env.vendor_bytes)
+
+            # The bookkeeping document still satisfies the local closed-key-set subset.
+            subset_doc = json.loads(SCHEMA_PATH.read_bytes().decode("utf-8"))
+            self.assertEqual(B.validate_subset(release_member, subset_doc), [])
+            # The receipt records the identity of the schema the root manifest was validated with.
+            receipt = json.loads(members[f"{root}/RELEASE_RECEIPT.json"].decode("utf-8"))
+            self.assertEqual(receipt["official_schema_sha256"], sha256(env.vendor_bytes))
+            self.assertEqual(receipt["official_schema_id"], B.VENDOR_SCHEMA_ID)
+            self.assertEqual([info.filename for info in infos], sorted(members))
+
+
+    # ------------------------------------ 18. AO-01: a pre-seeded output member must not be written
+    def test_18_preseeded_hardlinked_sidecar_is_refused_and_never_overwritten(self) -> None:
+        """AO-01 of the round's independent acceptance challenge, kept as a permanent regression.
+
+        The sidecar/mapping/receipt writes used to go through ``Path.write_bytes``, which opens
+        whatever the name already resolves to. A hardlink pre-seeded into the output directory made
+        the builder truncate and rewrite a file OUTSIDE it. The independent acceptance officer
+        measured exactly that on the unpatched tool; this case keeps the hole closed, and it must
+        hold even where the OS refuses to create symlinks (a hardlink is an ordinary regular file).
+        """
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            env.out.mkdir(parents=True, exist_ok=True)
+            outside = env.root / "OUTSIDE_SENTINEL.txt"
+            outside_bytes = b"INDEPENDENT_ACCEPTANCE_SENTINEL_DO_NOT_OVERWRITE\n"
+            outside.write_bytes(outside_bytes)
+            seeded = env.out / f"{PLUGIN_ID}.zip.sha256"
+            try:
+                os.link(outside, seeded)
+            except (OSError, NotImplementedError, AttributeError) as exc:  # pragma: no cover
+                self.skipTest(f"host cannot create a hardlink: {exc}")
+            self.assertEqual(seeded.stat().st_ino, outside.stat().st_ino)
+            exc = self.assert_refusal("OUTPUT_MEMBER_EXISTS", env.build, ledger)
+            self.assertIn(seeded.name, str(exc))
+            self.assertEqual(outside.read_bytes(), outside_bytes,
+                             "the file behind the pre-seeded hardlink was overwritten")
+            # Nothing else may be published either: the refusal happens before the artifact is promoted.
+            self.assertNotIn(f"{PLUGIN_ID}.zip", [p.name for p in env.out.iterdir()])
+            self.assertEqual([p.name for p in env.out.iterdir()], [seeded.name])
+
+    def test_18_preseeded_artifact_name_is_refused(self) -> None:
+        """A pre-existing release artifact name refuses the build before anything is written."""
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            env.out.mkdir(parents=True, exist_ok=True)
+            (env.out / f"{PLUGIN_ID}.zip").write_bytes(b"ATTACKER_SUPPLIED_BYTES")
+            exc = self.assert_refusal("OUTPUT_ARTIFACT_EXISTS", env.build, ledger)
+            self.assertIn(f"{PLUGIN_ID}.zip", str(exc))
+            self.assertEqual((env.out / f"{PLUGIN_ID}.zip").read_bytes(), b"ATTACKER_SUPPLIED_BYTES")
+            self.assertEqual([p.name for p in env.out.iterdir()], [f"{PLUGIN_ID}.zip"])
+
+    def test_18_preseeded_mapping_member_is_refused_and_rolled_back(self) -> None:
+        """A pre-seeded mapping member refuses the build and the partial sidecars are rolled back."""
+        with temp_env() as env:
+            ledger = env.freeze()
+            env.write_packaging(ledger)
+            env.out.mkdir(parents=True, exist_ok=True)
+            seeded = env.out / "SOURCE_TO_PLUGIN_MAPPING.json"
+            seeded.write_bytes(b"ATTACKER_SUPPLIED_MAPPING")
+            self.assert_refusal("OUTPUT_MEMBER_EXISTS", env.build, ledger)
+            self.assertEqual(seeded.read_bytes(), b"ATTACKER_SUPPLIED_MAPPING")
+            self.assertEqual([p.name for p in env.out.iterdir()], ["SOURCE_TO_PLUGIN_MAPPING.json"])
+
+
+if __name__ == "__main__":
+    unittest.main()
+
+FILE: tests/test_web_fallback.py
+"""Stage B lane B2: the Web fallback single-document projection.
+
+Exercises ``tools/build_web_fallback.py`` end to end against temp-directory mount packs. Nothing
+here touches the network or the real repository tree: every fixture is authored under a
+``tempfile.TemporaryDirectory`` and every pack is a small ``MANIFEST.sha256`` plus its members.
+
+The tool reproduces one frozen mount pack into ONE bounded markdown document
+(``DOC_MOUNT_ONLY``) and is fail-closed. The cases below pin the positive exact projection and the
+refusals:
+
+ 1. exact projection: verbatim member bytes, member inventory table, ``DOC_MOUNT_ONLY`` stamp
+ 2. stale release stamp (only the release id, or only the pinned commit, is REFUSED)
+ 3. over-cap composition REFUSED, and the destination is never created (no truncation)
+ 4. member digest disagreeing with ``MANIFEST.sha256`` REFUSED
+ 5. an unexpected extra file REFUSED; a manifest entry with no file REFUSED
+ 6. an existing destination REFUSED with its bytes unchanged (``O_EXCL``)
+ 7. a symlinked destination REFUSED, with the file behind it byte-identical
+ 8. a symlinked manifest / symlinked member REFUSED; a member path escaping the root REFUSED
+ 9. a non-UTF-8 / non-text member REFUSED
+10. the CLI ``main()`` refusal path exits non-zero and refuses above-cap output instead of trimming
+
+The fixtures are authored as LF-only UTF-8, which is exactly the canonical byte sequence the pack
+builder ``tools/build_mount_pack.py`` hashes (EOL-normalised text members), so a member's manifest
+digest is simply ``sha256`` of the bytes written here.
+"""
+from __future__ import annotations
+
+import contextlib
+import hashlib
+import io
+import os
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+for _entry in (str(ROOT), str(ROOT / "src")):
+    if _entry not in sys.path:
+        sys.path.insert(0, _entry)
+
+from tools import build_web_fallback as WFB  # noqa: E402
+
+# Call the module's real entry point exactly once, resolved by name. The brief names it ``build()``;
+# the tool currently exposes ``build_fallback()``. Never a re-implementation.
+build = getattr(WFB, "build", None) or WFB.build_fallback
+
+RELEASE_ID = "v0.1.1-preview.3"
+RELEASE_COMMIT = "9f1c0b3d5e7a2468ac5df1b9c3e70d4f6a8b0c2e"
+
+
+# --------------------------------------------------------------------------- fixture helpers
+
+def _sha256(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def _manifest_text(entries: list[tuple[str, bytes]]) -> str:
+    return "".join(f"{_sha256(data)}  {rel}\n" for rel, data in entries)
+
+
+def _write_pack(root: Path, members: dict[str, bytes], *, manifest: str | None = None) -> Path:
+    """Author a mount pack: member files (LF bytes verbatim) plus a derived ``MANIFEST.sha256``."""
+    root.mkdir(parents=True, exist_ok=True)
+    for rel, data in members.items():
+        member = root / rel
+        member.parent.mkdir(parents=True, exist_ok=True)
+        member.write_bytes(data)
+    text = manifest if manifest is not None else _manifest_text(list(members.items()))
+    (root / WFB.MANIFEST_NAME).write_bytes(text.encode("utf-8"))
+    return root
+
+
+def _stamp(name: str, extra: str = "") -> bytes:
+    """A member document carrying BOTH the pinned release id and the pinned commit."""
+    text = (f"# {name}\n\n"
+            f"- release_id: {RELEASE_ID}\n"
+            f"- release_commit: {RELEASE_COMMIT}\n\n"
+            f"Verbatim body for {name}.\n{extra}")
+    return text.encode("utf-8")
+
+
+_SYMLINK_PROBE: list = [None]
+
+
+def _symlinks_supported() -> bool:
+    """Whether this host can actually create a symlink (Windows often cannot without privilege)."""
+    if _SYMLINK_PROBE[0] is None:
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "target"
+            target.write_bytes(b"x")
+            link = Path(tmp) / "link"
+            try:
+                os.symlink(target, link)
+                _SYMLINK_PROBE[0] = os.path.islink(link)
+            except (OSError, NotImplementedError, AttributeError):
+                _SYMLINK_PROBE[0] = False
+    return bool(_SYMLINK_PROBE[0])
+
+
+@contextlib.contextmanager
+def _seam_symlink(path: Path):
+    """Report exactly ``path`` as a symlink through the tool's documented ``_path_is_symlink`` seam.
+
+    Used only when the host cannot create a real symlink; the refusal gate itself is unchanged.
+    """
+    seam_path = os.path.abspath(str(path))
+    real = WFB._path_is_symlink
+
+    def fake(candidate):
+        return os.path.abspath(str(candidate)) == seam_path or real(candidate)
+
+    WFB._path_is_symlink = fake
+    try:
+        yield
+    finally:
+        WFB._path_is_symlink = real
+
+
+class WebFallbackTests(unittest.TestCase):
+    def setUp(self):
+        self._td = tempfile.TemporaryDirectory()
+        self.addCleanup(self._td.cleanup)
+        self.td = Path(self._td.name)
+
+    # ---------------------------------------------------------------- fixtures
+
+    def members(self) -> dict[str, bytes]:
+        return {
+            "PIPD_A.md": _stamp("PIPD_A.md", "Alpha payload line.\n"),
+            "references/PIPD_B.md": _stamp("PIPD_B.md", "Beta payload line.\n"),
+        }
+
+    def pack(self, members: dict[str, bytes] | None = None, *, manifest: str | None = None,
+             name: str = "pack") -> Path:
+        return _write_pack(self.td / name, members if members is not None else self.members(),
+                           manifest=manifest)
+
+    def build_pack(self, pack: Path, out: Path, *, size_cap: int = WFB.DEFAULT_SIZE_CAP) -> dict:
+        return build(mount_pack=pack, release_id=RELEASE_ID, release_commit=RELEASE_COMMIT,
+                     out_path=out, size_cap=size_cap)
+
+    def assert_refused(self, pack: Path, out: Path, code: str, *,
+                       size_cap: int = WFB.DEFAULT_SIZE_CAP):
+        with self.assertRaises(WFB.Refusal) as caught:
+            self.build_pack(pack, out, size_cap=size_cap)
+        self.assertEqual(caught.exception.code, code, str(caught.exception))
+        self.assertFalse(out.exists(), "a refused build must not leave a destination behind")
+        return caught.exception
+
+    # ------------------------------------------------------------- 1. positive
+
+    def test_exact_projection_verbatim_inventory_and_ceiling_stamp(self):
+        members = self.members()
+        pack = self.pack(members)
+        out = self.td / "fallback.md"
+
+        report = self.build_pack(pack, out)
+
+        self.assertEqual(report["verdict"], "BUILT")
+        self.assertTrue(report["doc_mount_only"])
+        self.assertEqual(report["member_count"], len(members))
+        self.assertEqual(report["out"], str(out))
+        document = out.read_bytes()
+        self.assertEqual(len(document), report["bytes"])
+        self.assertEqual(_sha256(document), report["sha256"])
+
+        # ONE markdown document, and nothing else beside it.
+        self.assertEqual([p.name for p in self.td.iterdir() if p.is_file()], ["fallback.md"])
+
+        text = document.decode("utf-8")
+        self.assertIn(WFB.FALLBACK_SCHEMA, text)
+        self.assertIn("DOC_MOUNT_ONLY", text)
+        self.assertIn(f"- release_id: {RELEASE_ID}", text)
+        self.assertIn(f"- release_commit: {RELEASE_COMMIT}", text)
+        self.assertIn("## Member inventory", text)
+
+        for rel, data in members.items():
+            # inventory table row, keyed by the manifest digest
+            self.assertIn(f"| {rel} | {_sha256(data)} |", text)
+            # embedded section carries the source bytes verbatim
+            self.assertIn(data, document)
+            begin = f"<!-- BEGIN MEMBER {rel} -->\n"
+            end = f"\n<!-- END MEMBER {rel} -->"
+            start = text.index(begin) + len(begin)
+            stop = text.index(end, start)
+            self.assertEqual(text[start:stop].encode("utf-8"), data,
+                             f"{rel} was not embedded verbatim")
+
+        # Deterministic: the same inputs produce byte-identical documents (no timestamp anywhere).
+        again = self.td / "fallback-again.md"
+        self.build_pack(pack, again)
+        self.assertEqual(out.read_bytes(), again.read_bytes())
+
+    # ------------------------------------------------------- 2. stale release stamp
+
+    def test_stale_stamp_release_without_pinned_commit_refused(self):
+        doc = (f"# Doc\n\n- release_id: {RELEASE_ID}\n\nno pinned commit here\n").encode("utf-8")
+        pack = self.pack({"PIPD_A.md": doc}, name="pack-stale-a")
+        self.assert_refused(pack, self.td / "stale-a.md", "RELEASE_STAMP_MISSING")
+
+    def test_stale_stamp_pinned_commit_without_release_refused(self):
+        doc = (f"# Doc\n\n- release_commit: {RELEASE_COMMIT}\n\nno release id here\n").encode("utf-8")
+        pack = self.pack({"PIPD_A.md": doc}, name="pack-stale-b")
+        self.assert_refused(pack, self.td / "stale-b.md", "RELEASE_STAMP_MISSING")
+
+    # ----------------------------------------------------------------- 3. over cap
+
+    def test_over_cap_refused_with_no_destination_and_no_truncation(self):
+        pack = self.pack()
+        out = self.td / "overflow.md"
+        exc = self.assert_refused(pack, out, "SIZE_CAP_EXCEEDED", size_cap=64)
+        self.assertIn("refusing to truncate", exc.detail)
+        self.assertFalse(out.exists(), "an over-cap build must not truncate a prefix to disk")
+
+    # -------------------------------------------------------------- 4. digest mismatch
+
+    def test_member_digest_mismatch_refused(self):
+        members = self.members()
+        manifest = (f"{_sha256(members['PIPD_A.md'])}  PIPD_A.md\n"
+                    f"{'0' * 64}  references/PIPD_B.md\n")
+        pack = self.pack(members, manifest=manifest, name="pack-digest")
+        self.assert_refused(pack, self.td / "digest.md", "MANIFEST_DIGEST_MISMATCH")
+
+    # ---------------------------------------------- 5. extra file / manifest entry missing
+
+    def test_unexpected_extra_file_refused(self):
+        pack = self.pack()
+        (pack / "EXTRA.md").write_bytes(b"# a file the manifest never listed\n")
+        self.assert_refused(pack, self.td / "extra.md", "UNEXPECTED_EXTRA_FILE")
+
+    def test_manifest_entry_without_file_refused(self):
+        members = self.members()
+        manifest = _manifest_text(list(members.items()))
+        pack = _write_pack(self.td / "pack-missing",
+                           {"PIPD_A.md": members["PIPD_A.md"]}, manifest=manifest)
+        self.assert_refused(pack, self.td / "missing.md", "MANIFEST_MEMBER_MISSING")
+
+    # -------------------------------------------------------- 6. destination exists
+
+    def test_existing_destination_refused_and_bytes_unchanged(self):
+        pack = self.pack()
+        out = self.td / "exists.md"
+        before = b"# pre-existing document\nkeep every byte\n"
+        out.write_bytes(before)
+        with self.assertRaises(WFB.Refusal) as caught:
+            self.build_pack(pack, out)
+        self.assertEqual(caught.exception.code, "DESTINATION_EXISTS")
+        self.assertEqual(out.read_bytes(), before, "O_EXCL must never overwrite the destination")
+
+    # ------------------------------------------------------- 7. symlinked destination
+
+    def test_symlinked_destination_refused_and_target_byte_identical(self):
+        pack = self.pack()
+        sentinel = self.td / "sentinel.md"
+        sentinel_bytes = b"# sentinel behind the symlink\nmust stay byte-identical\n"
+        sentinel.write_bytes(sentinel_bytes)
+        dest = self.td / "link.md"
+
+        if _symlinks_supported():
+            os.symlink(sentinel, dest)
+            ctx = contextlib.nullcontext()
+        else:
+            ctx = _seam_symlink(dest)  # the tool's own test seam; the gate code is unchanged
+        with ctx:
+            exc = self.assert_refused(pack, dest, "DESTINATION_SYMLINK")
+        self.assertIn("symlink", exc.detail)
+        self.assertEqual(sentinel.read_bytes(), sentinel_bytes,
+                         "the file behind the symlink must be untouched")
+        if _symlinks_supported():
+            self.assertTrue(os.path.islink(dest))
+        else:
+            self.assertFalse(dest.exists())
+
+    # ---------------------------- 8. symlinked manifest / symlinked member / path escape
+
+    def test_symlinked_manifest_refused(self):
+        pack = self.pack()
+        manifest = pack / WFB.MANIFEST_NAME
+        out = self.td / "manifest-link.md"
+        if _symlinks_supported():
+            target = self.td / "manifest-target.txt"
+            target.write_bytes(manifest.read_bytes())
+            manifest.unlink()
+            os.symlink(target, manifest)
+            ctx = contextlib.nullcontext()
+        else:
+            ctx = _seam_symlink(manifest)
+        with ctx:
+            self.assert_refused(pack, out, "MEMBER_SYMLINK")
+
+    def test_symlinked_member_refused(self):
+        members = self.members()
+        pack = self.pack(members)
+        member = pack / "references/PIPD_B.md"
+        out = self.td / "member-link.md"
+        if _symlinks_supported():
+            target = self.td / "member-target.md"
+            target.write_bytes(members["references/PIPD_B.md"])
+            member.unlink()
+            os.symlink(target, member)
+            ctx = contextlib.nullcontext()
+        else:
+            ctx = _seam_symlink(member)
+        with ctx:
+            self.assert_refused(pack, out, "MEMBER_SYMLINK")
+
+    def test_member_path_escaping_root_refused(self):
+        members = self.members()
+        escape_digest = _sha256(b"# outside\n")
+        manifest = _manifest_text(list(members.items())) + f"{escape_digest}  ../outside.md\n"
+        pack = self.pack(members, manifest=manifest, name="pack-escape")
+        self.assert_refused(pack, self.td / "escape.md", "PATH_ESCAPE")
+
+    # --------------------------------------------------------------- 9. non-text member
+
+    def test_non_utf8_member_refused(self):
+        members = self.members()
+        members["blob.bin"] = b"\xff\xfe\x00\x01\x80not utf-8 \xc3\x28\n"
+        pack = self.pack(members, name="pack-binary")
+        self.assert_refused(pack, self.td / "binary.md", "MEMBER_NOT_TEXT")
+
+    # --------------------------------------------------------- 10. CLI refusal path
+
+    def test_cli_refusal_is_nonzero_and_above_cap_is_refused_not_trimmed(self):
+        pack = self.pack()
+        out = self.td / "cli-overflow.md"
+        argv = ["--mount-pack", str(pack), "--release-id", RELEASE_ID,
+                "--release-commit", RELEASE_COMMIT, "--size-cap", "64", "--out", str(out)]
+        stdout = io.StringIO()
+        with contextlib.redirect_stdout(stdout):
+            rc = WFB.main(argv)
+        self.assertNotEqual(rc, 0, "a refusal must exit non-zero through main()")
+        self.assertIn("SIZE_CAP_EXCEEDED", stdout.getvalue())
+        self.assertFalse(out.exists(), "above-cap output must be refused, never trimmed")
+
+    def test_cli_refusal_is_nonzero_for_a_stale_stamp(self):
+        doc = (f"# Doc\n\n- release_id: {RELEASE_ID}\n\nstale, no commit\n").encode("utf-8")
+        pack = self.pack({"PIPD_A.md": doc}, name="pack-cli-stale")
+        out = self.td / "cli-stale.md"
+        stdout = io.StringIO()
+        with contextlib.redirect_stdout(stdout):
+            rc = WFB.main(["--mount-pack", str(pack), "--release-id", RELEASE_ID,
+                           "--release-commit", RELEASE_COMMIT, "--out", str(out)])
+        self.assertNotEqual(rc, 0)
+        self.assertIn("RELEASE_STAMP_MISSING", stdout.getvalue())
+        self.assertFalse(out.exists())
+
+    def test_cli_builds_when_the_pack_is_clean(self):
+        pack = self.pack()
+        out = self.td / "cli-ok.md"
+        stdout = io.StringIO()
+        with contextlib.redirect_stdout(stdout):
+            rc = WFB.main(["--mount-pack", str(pack), "--release-id", RELEASE_ID,
+                           "--release-commit", RELEASE_COMMIT, "--out", str(out)])
+        self.assertEqual(rc, 0, stdout.getvalue())
+        self.assertIn("DOC_MOUNT_ONLY", stdout.getvalue())
+        self.assertTrue(out.is_file())
+
+
+if __name__ == "__main__":
+    unittest.main()
+
+FILE: docs/install/README.md
+# PIPD-LS-SP — install (single source of truth)
+
+This page is the **install SSOT**: every other page that mentions installing PIPD-LS-SP either is
+this page or points at it. There are **two install routes and only two** — **Web** and **Agent** —
+and they have different ceilings. Pick one, read its ceiling, and do not read a green build (or a
+copied file) as anything more than what the [states table](#states-that-are-not-the-same) below says.
+
+Version pin for everything on this page: release **`v0.1.1-preview.3`**, release-tag target and
+build-source commit **`cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`**. The authority for these facts is
+[`docs/RELEASE_TUPLE.json`](../RELEASE_TUPLE.json); read it before you rely on any digest quoted
+below.
+
+---
+
+## Route 1 — Web (single-document fallback)
+
+There is **no public plugin directory listing yet**: nothing has been published to a plugin
+directory, so no user can install PIPD-LS-SP from one. The Web route today is therefore a **single
+document**, `PIPD_WEB_FALLBACK.md`, produced by [`tools/build_web_fallback.py`](../../tools/build_web_fallback.py)
+from a frozen mount pack. You attach that one document to a conversation or a Knowledge base; you do
+not install anything. Its ceiling is **`DOC_MOUNT_ONLY`** — no Python CLI, no MCP, no repository
+write, no S4 acceptance (spelled out [below](#the-web-fallback-document-and-its-doc_mount_only-ceiling)).
+The conditional directory route is described [further down](#the-directory-route-conditional-not-available-today).
+
+---
+
+## Route 2 — Agent (one copy-paste prompt)
+
+The Agent route is **one copy-paste prompt**: [`PIPD_AGENT_INSTALL_PROMPT.md`](PIPD_AGENT_INSTALL_PROMPT.md).
+It targets four supported hosts — **Hermes Agent**, **Codex Desktop (GUI)**, **Codex CLI** and
+**Claude Code** — and it makes the host do the work: detect its own identity/version/OS, prove its
+own discovery mechanism, show the exact paths and the diff, stop for approval, and then verify the
+load. **File presence is not evidence.** A host is only counted when it proves *real discovery* and
+an **8/8 effective load** of the eight skills, each with one positive and one negative trigger; if
+all that happened is that files were copied, the correct report is `NOT_VERIFIED`. Web GPT-6 is a
+**consumer of the fallback document, not an agent host** — it does not load the skills and is not a
+qualifying host for this route.
+
+The eight skills the route installs are the eight `skills/pipd-*` packs — `pipd-route-intake`,
+`pipd-authority-source`, `pipd-profile-tailor`, `pipd-pi-compile`, `pipd-pd-bind`,
+`pipd-execution-contract`, `pipd-assurance-tqaep`, `pipd-package-project` — six files each, **48
+files** in total.
+
+---
+
+## The Web fallback document and its `DOC_MOUNT_ONLY` ceiling
+
+`PIPD_WEB_FALLBACK.md` is one markdown document built from a *frozen mount pack* — a directory that
+carries its own `MANIFEST.sha256`, e.g. the checked-in
+[`dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3/`](../../dist/mount/) pack. Build it with
+the tool's own CLI:
+
+```bash
+python tools/build_web_fallback.py \
+  --mount-pack dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3 \
+  --release-id v0.1.1-preview.3 \
+  --release-commit cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a \
+  --out PIPD_WEB_FALLBACK.md
+```
+
+The tool is fail-closed, not best-effort. It **refuses** (typed reason, non-zero exit) instead of
+warning, on `MANIFEST_DIGEST_MISMATCH`, `MEMBER_SYMLINK`, `PATH_ESCAPE`, `UNEXPECTED_EXTRA_FILE`,
+`RELEASE_STAMP_MISSING`, `MEMBER_NOT_TEXT`, `SIZE_CAP_EXCEEDED` (it never truncates) and
+`DESTINATION_EXISTS` / `DESTINATION_SYMLINK`. It writes with `O_EXCL`, embeds no timestamp, stamps
+`DOC_MOUNT_ONLY` plus the member inventory, and is byte-deterministic across rebuilds.
+
+**The ceiling is `DOC_MOUNT_ONLY`.** That means, precisely:
+
+| not available through the fallback document | why |
+|---|---|
+| the Python **CLI** (`pipd`) | the document is content; it runs no `pipd` on the reader's machine |
+| **MCP** or any tool surface | nothing is registered and nothing is invoked |
+| **repository writing** | the document writes nothing to any checkout |
+| **S4 acceptance** | mounting a document accepts no stage, qualifies no host and approves no release |
+
+The host that consumes it is a read-only semantic surface: it can help you *design* work; it cannot
+execute, install, test, approve or release anything. For an 8/8 loaded skill set with real
+discovery, use the Agent route.
+
+---
+
+## The Directory route (conditional, not available today)
+
+A plugin directory listing is a *different* route, and it is **conditional on a published,
+account-visible listing** — one that actually exists and can be found from an account. None exists
+today. Treat every "install from the directory" instruction you read anywhere as **not available**
+until all of the following are true, and each is separately evidenced:
+
+1. the package root manifest conforms to the directory's own vendor schema (Agent Plugins 1.0), not
+   to PIPD's internal bookkeeping manifest;
+2. the directory's portal has reviewed and approved the submitted package (its own record, not ours);
+3. the listing is published and account-visible, and the bytes it serves match the receipt digest.
+
+Until then the Web route is exactly the single document in Route 1. Do not present a conditional
+route as an available one.
+
+---
+
+## States that are NOT the same
+
+These five words are kept apart on purpose. None of them is upgraded by a green build, and the
+right-hand column is what would have to exist for the word to be true — **not** what exists now.
+
+| state | meaning | required evidence | state today |
+|---|---|---|---|
+| `BUILD_PASS` | the deterministic packager built the candidate and its own tests are green | the build tool exits `0` with a byte-identical rebuild (two builds, same input, same bytes), the two upgrade test modules plus the full suite green, and a receipt whose `claim_ceiling` is `LOCAL_PACKAGER_PASS_ONLY` | **NOT claimed** — the builder *refuses* on the deliberately absent owner inputs (`derivations.json` is empty, no pinned publisher identity, no pinned official/vendor schema digest, no icon), so no candidate ZIP is claimed |
+| `PORTAL_APPROVED` | the plugin directory's own review approved the submitted package | the portal's approval record / identifier for that submission — the directory's verdict, never our own summary | **NOT_EXECUTED** — the manifest records `official_portal_verification: NOT_EXECUTED`; no submission was reviewed |
+| `PUBLISHED` | the package is live in the public directory and its served bytes are the ones we hashed | a published, account-visible listing **plus** the served asset's digest agreeing with the receipt | **NOT_PUBLISHED** — no public directory listing exists yet |
+| `HOST_QUALIFIED` | a specific host really loads the eight skills | per-host, host-produced evidence: the host resolved the project root, really discovered the skills, reported **8/8 effective load**, and passed one positive and one negative trigger; raw logs attached | **NOT_VERIFIED** — no host has produced that evidence; a copied file reports `NOT_VERIFIED` |
+| `S4_FULL_PASS` | the S0–S4 challenge is accepted as a *full* pass | independent verifier receipts covering the whole S0–S4 challenge, not scoped receipts | **NOT claimed** — the challenge is `PARTIAL_CHALLENGE`; scoped receipts only, and `G-RELEASE_FULL_PASS` is not granted |
+
+`BUILD_PASS` != `PORTAL_APPROVED` != `PUBLISHED` != `HOST_QUALIFIED` != `S4_FULL_PASS`. A green
+`BUILD_PASS` on this repository does **not** imply any of the other four — and there is no `BUILD_PASS`
+today either.
+
+---
+
+## Advanced and recovery
+
+Everything below is subordinate to the two routes above. It is not an alternative route.
+
+### Version pin
+
+Pin the **immutable** identity, never a moving branch tip:
+
+- release id **`v0.1.1-preview.3`**; release-tag target **`cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`**.
+- authoritative record: [`docs/RELEASE_TUPLE.json`](../RELEASE_TUPLE.json).
+- **Known open item, stated rather than hidden:** the immutable `v0.1.1-preview.3` **tag** still
+  holds the pre-correction pack, so a rebuild *from the tag's tree* does not reproduce the currently
+  served asset. The served asset was corrected in place and is reproducible from this tree
+  (`docs/RELEASE_TUPLE.json` → `authority_note`). Closing that needs a new immutable preview, not
+  another in-place replacement — it is a Release Owner item and it is **not closed**.
+
+### Hashes
+
+- Wheel `pipd_ls_sp-0.1.1a3-py3-none-any.whl`: the published digest is recorded in the repository
+  front page (`README.md`). Verify the bytes you downloaded against that digest before installing;
+  this page does not replace the sidecar.
+- Mount pack ZIP `PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip`: digest recorded in
+  `docs/RELEASE_TUPLE.json` (`published_asset_sha256`), with a `.sha256` sidecar next to the ZIP.
+- Inside an unpacked pack, `MANIFEST.sha256` lists every member's sha256 (LF-normalised text bytes
+  hash as stored). `tools/build_web_fallback.py` recomputes it and refuses on any mismatch.
+
+### Uninstall / rollback
+
+- **Web fallback:** delete `PIPD_WEB_FALLBACK.md`, and detach it from the conversation or Knowledge
+  base. Nothing was installed, so nothing else changes.
+- **Agent route:** remove exactly the files the prompt listed in its *uninstall path* line before it
+  wrote anything — the prompt refuses to run without printing that path first, and it refuses global
+  writes, so removal is confined to the project-local skill directory. Re-run the prompt to see the
+  list again; do not delete files it did not name.
+- **Wheel (CLI):** inside the virtual environment you installed into,
+  `python -m pip uninstall pipd-ls-sp`; or delete that environment. Nothing is installed outside it.
+
+### Reporting a failure
+
+Report what the host or the tool actually produced, not a summary of what you hoped for. Include:
+
+- host, OS and host version, and the shell/file/network permissions the host declared;
+- the pinned source you used (repo URL + the 40-hex commit, and the pack ZIP digest if you used one);
+- the **effective** skill count (discovered and loaded, not files copied);
+- every refusal case you hit, with the tool's or host's typed reason, verbatim;
+- the raw log paths.
+
+This repository's own read-only gate for the upgrade is
+[`.github/workflows/public-plugin-verify.yml`](../../.github/workflows/public-plugin-verify.yml); it
+uploads its raw logs as the `public-plugin-verify-raw-logs` artifact, which is the shape a failure
+report should have. A failure report is never an acceptance claim: see the
+[states table](#states-that-are-not-the-same) — none of those five words is granted by reporting.
+
+FILE: .hgk\rounds\S4POST-20261012-postrepair-recheck-and-triple-upgrade\AO2_HANDOVER_CLOSURE.md
+# AO-02 closure - the clean-handover requirement
+
+Round-2 verdict: `FAIL_CHALLENGE`, limited to one item. AO-01 and AO-03 both survived. The officer's
+own wording: the *committed snapshot itself is clean*; what failed was the **delivered worktree
+cleanliness promise**, and it asked that this be resolved "at handover/orchestration rather than by
+changing the otherwise-passing code fixes".
+
+## The finding, verbatim from the officer
+
+At handover, before the officer wrote anything, `git status --porcelain` already reported four
+untracked paths (the AO-02 brief, its runner, its log, and the push-credential incident note). A fifth
+(Hermes host UAT) appeared later. Authorship of untracked files is not provable from porcelain, and
+the officer correctly declined to attribute them to the candidate code.
+
+## Remediation applied
+
+1. Relocated the officer's own evidence out of the allowlist-external root `verify/` into this round's
+   `verify/ao2/` - see `verify/ao2/LOCATION_NOTE.md`; 36/36 file hashes unchanged by the move.
+2. Committed every remaining round artifact (AO-02 harness + raw log, the Hermes host UAT record, the
+   push-credential incident note, the relocated evidence) so that the handed-over worktree is clean.
+3. Verified `git status --porcelain` is empty afterwards, and recorded that readback.
+
+## Claim ceiling after this closure
+
+This closes a **handover-hygiene** item. It does not raise any gate:
+
+* AO-01 and AO-03 were already independently reproduced RED (pre-fix) and GREEN (current).
+* The closing commit is an **evidence/verification commit**: it must touch only `.hgk/rounds/**`.
+  Any diff outside that prefix means the closure is invalid and must be reverted.
+* `BUILD_PASS`, `HOST_QUALIFIED`, `PORTAL_APPROVED`, `PUBLISHED`, `PRODUCTION_VERIFIED` and
+  `PIPD_S4_FULL_PASS` all remain **NOT GRANTED**.
+* The subject the round-2 verdict is bound to is `0768174` / tree `6141fa9`. After the closure commit
+  the HEAD moves; the officer's verdict is **not** retro-applied to the new HEAD. What is claimed is
+  narrower and checkable: the code paths it verified are untouched, evidenced by a diff whose path set
+  is confined to `.hgk/rounds/**`.
+
+FILE: .hgk\rounds\S4POST-20261012-postrepair-recheck-and-triple-upgrade\verify\ao2\LOCATION_NOTE.md
+# Location note - the AO2 evidence set was relocated here, contents unchanged
+
+The round-2 officer wrote its output to `<worktree>/verify/ao2/` at the repository root, because the
+brief it was given named that relative path. The repository-root `verify/` prefix is **outside the
+Stage-B write-set allowlist** (`^packaging/public-plugin/|tools/...|docs/install/|docs/adr/|
+openspec/changes/s4post-triple-upgrade/|.github/workflows/public-plugin-verify.yml$|README.md$|
+.hgk/rounds/S4POST-20261012`), so committing it there would itself have been an allowlist violation.
+
+The directory was therefore **moved**, not rewritten, to
+`.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao2/`.
+
+Integrity of the move: all 36 files hashed before and after; the sorted sha256 multiset is identical
+(36/36), i.e. every byte of the officer's raw evidence is the same. The empty root `verify/` directory
+was then removed. No officer-authored byte was edited, and the officer's verdict was not touched.
+
+**Known consequence, disclosed rather than hidden:** absolute path strings inside the officer's own
+verdict (and inside its raw logs) still read `.../s4post-b-wt/verify/ao2/...`. Those strings are now
+stale by one directory component. This note is the crosswalk; the officer's verdict is left verbatim
+so that its authorship is intact.
+
+The brief handed to the officer was the actual defect: it should have named the round-relative path,
+or the officer should have been told that root `verify/` is outside the allowlist. Recorded as a
+round-level process finding, not a defect of the candidate code.
+
+## Second step: the double nesting was flattened
+
+The officer had created `<root>/verify/ao2/` and written its files into `.../verify/ao2/ao2/`.
+After the move that became `{round}/verify/ao2/ao2/`. The inner directory was flattened up one level
+so the evidence now sits directly in `{round}/verify/ao2/`, which also matches the `verify/ao2/<file>`
+tail the officer's verdict references. Re-hashed across the flatten: the 36 officer files are again
+byte-identical (36/36). This directory now holds 37 files: those 36 plus this note.
+
