@@ -32,7 +32,10 @@ chmod +x "$SBL" "$SBQ" "$SBQF"
 pass=0; fail=0
 ck(){ if [ "$2" = "$3" ]; then echo "PASS $1 (exit=$3)"; pass=$((pass+1)); else echo "FAIL $1 expected=$2 actual=$3"; fail=$((fail+1)); fi; }
 has(){ if grep -q "$2" "$3" 2>/dev/null; then echo "PASS $1"; pass=$((pass+1)); else echo "FAIL $1"; fail=$((fail+1)); fi; }
-gitq(){ TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$SBL" GATE_BIN="$SBQ" "$@" bash "$G" "${GARGS[@]}" >"$LOGD/$OUT.out" 2>&1; echo $?; }
+# env, not a bare "$@": the callers pass extra NAME=VALUE assignments and env accepts
+# them before the command, whereas a bare expansion tried to execute them (exit 127).
+gitq(){ env TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$SBL" GATE_BIN="$SBQ" "$@" \
+         bash "$G" "${GARGS[@]}" >"$LOGD/$OUT.out" 2>&1; echo $?; }
 
 echo "### G1 a deviating model with NO owner record is refused, zero writers"
 mv "$OWNER" "$OWNER.hidden"
