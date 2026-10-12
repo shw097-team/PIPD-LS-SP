@@ -30,7 +30,15 @@ WT="${LANE_WT:-C:/Projects/Agent_Workspace/PIPD/worktrees/s4post-b-wt}"
 RELROUND=".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade"
 R="$WT/$RELROUND"; S="$R/stage-b"
 ASSIGN="$S/ROUND_ASSIGNMENT.json"; OWNERFILE="$S/OWNER_DECISION_MODEL_DEVIATION.md"
-LOGDIR="${TMPDIR:-$LOCALAPPDATA/Temp}/hgk-lanes"; mkdir -p "$LOGDIR"
+LOGDIR="${TMPDIR:-$LOCALAPPDATA/Temp}/hgk-lanes"
+# round 8: the launcher refused a log dir inside the worktree but the GATE did not, so a
+# qualify-only run wrote qualification logs into the tree and still returned 0, and the mkdir
+# had already created an empty in-tree directory that git does not report. Same rule, before mkdir.
+nrmg() { { cd "$1" && pwd -P; } 2>/dev/null | tr 'A-Z' 'a-z'; }
+WTRES="$(nrmg "$WT")"; LGRES="$(nrmg "$(dirname "$LOGDIR")")"
+[ -n "$WTRES" ] && [ -n "$LGRES" ] || { echo "REFUSED[3] cannot resolve worktree/log paths for the containment check" >&2; echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 3; }
+case "$LGRES" in "$WTRES"|"$WTRES"/*) echo "REFUSED[3] gate log dir resolves inside the worktree: $LGRES" >&2; echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 3 ;; esac
+mkdir -p "$LOGDIR"
 OUTSUB="${GATE_OUTSUB:-verify/gate}"
 PDF="${GATE_PY:-python}"
 
@@ -80,7 +88,7 @@ if [ "${GATE_SKIP_QUALIFY:-0}" = "1" ]; then
     echo "QUALIFICATION_SKIP_UNAUTHORISED: GATE_SKIP_QUALIFY=1 needs GATE_SKIP_QUALIFY_ACK.md naming role $ROLE"
     echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 6
   fi
-  QUALIFIED="no"
+  QUALIFIED="no"; SKIPPED_UNQUALIFIED=1
   echo "QUALIFICATION_SKIPPED_BY_ENV (authorised testing switch; a lane admitted this way is NOT qualified and the receipt records qualified=$QUALIFIED)"
 else
   # R4: a configurable count is an input and must be validated.
@@ -124,7 +132,7 @@ for B in "$@"; do
   LANE="$(basename "$B" .md | tr 'a-z' 'A-Z' | tr -c 'A-Z0-9' '_' | cut -c1-14)"
   TOKEN="${GATE_STAMP}-${i}"
   # R5: the child is launched through the SAME route the qualification exercised.
-  LANE_TOKEN="$TOKEN" LANE_INDEX="$i" LANE_ROLE="$ROLE" QUALIFIED="${QUALIFIED:-yes}" \
+  LANE_TOKEN="$TOKEN" LANE_INDEX="$i" LANE_ROLE="$ROLE" LANE_GATED=1 QUALIFIED="${QUALIFIED:-no}" \
     LANE_MODEL="$REQ_MODEL" LANE_PROVIDER="$REQ_PROV" LANE_EFFORT="$REQ_EFF" \
     LANE_SANDBOX="${LANE_SANDBOX:-workspace-write}" ROUTE_STYLE="$ROLE_STYLE" ROUTE_CATALOG="$ROUTE_CATALOG" \
     ROUTE_BASE_URL="$ROUTE_BASE_URL" GATE_STUB_EXITS="${GATE_STUB_EXITS:-}" \
@@ -137,9 +145,25 @@ for B in "$@"; do
   RCP="$S/${LANE}_${TOKEN}.receipt"
   if [ ! -f "$RCP" ] || [ ! -s "$RCP" ]; then
     echo "CHILD_RECEIPT_MISSING lane=$LANE token=$TOKEN (absent, or not a non-empty regular file)"; MISSING=1
-  elif ! grep -qx "token=$TOKEN" "$RCP" || ! grep -qx "child_exit=0" "$RCP" \
-       || ! grep -qx "route=$ROLE_STYLE" "$RCP" || ! grep -qx "lane=$LANE" "$RCP"; then
-    echo "CHILD_RECEIPT_INVALID lane=$LANE token=$TOKEN: $(tr '\n' ' ' < "$RCP" | cut -c1-160)"; MISSING=1
+  else
+    # Exactly one line per key, carrying the expected value. Matching a line at all was not
+    # enough: a duplicated conflicting line, a wrong model and a wrong qualification were all
+    # accepted. Flag order is deliberate; see the guard false-positive note in HARNESS_DEFECT_LOG.
+    RJ=""
+    one_key() { n="$(grep -c "^$1=" "$RCP")"; [ "$n" -eq 1 ] && grep -Fqx "$1=$2" "$RCP"; }
+    one_key token "$TOKEN"      || RJ="$RJ token"
+    one_key lane "$LANE"        || RJ="$RJ lane"
+    one_key child_exit 0        || RJ="$RJ child_exit"
+    one_key route "$ROLE_STYLE" || RJ="$RJ route"
+    one_key model "$REQ_MODEL"  || RJ="$RJ model"
+    if [ "${SKIPPED_UNQUALIFIED:-0}" = "1" ]; then
+      one_key qualified no  || RJ="$RJ qualification"
+    else
+      one_key qualified yes || RJ="$RJ qualification"
+    fi
+    if [ -n "$RJ" ]; then
+      echo "CHILD_RECEIPT_INVALID lane=$LANE token=$TOKEN failed:$RJ"; MISSING=1
+    fi
   fi
   i=$((i+1))
 done

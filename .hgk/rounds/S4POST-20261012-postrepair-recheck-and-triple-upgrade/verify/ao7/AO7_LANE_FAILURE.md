@@ -4,8 +4,13 @@
   reasoning medium), route openai.
 - Preflight: `PREFLIGHT_CLEAN HEAD=8924aaa`.
 - Child exit: **1**. Wrapper exit: **1**. Postflight: `dirty=0 HEAD=e83051a`.
-- **No receipt was written** (`RECEIPT_WRITTEN` absent). That is the launcher behaving as designed: a
-  failed child must not produce a receipt, and the wrapper must not return 0 over it.
+- ~~**No receipt was written.**~~ **CORRECTED, round 8.** That statement was false and this record must
+  carry the correction. `stage-b/AO7_20261012T135739Z.receipt` exists, is tracked (commit `e83051a`), and
+  reads `child_exit=1`, `qualified=yes`. The maker inferred the absence of a receipt from a *truncated*
+  background notification rather than from the artefact, and an independent officer caught it. Two real
+  defects follow from it: a claim was made from truncated output, and a receipt for a FAILED child recorded
+  `qualified=yes`. `qualified` is now written only when the gate actually qualified the lane (round-8 fix);
+  it describes admission, never success.
 - Outputs in `verify/ao7/`: **none**. The lane produced no verdict artefact.
 
 ## Cause

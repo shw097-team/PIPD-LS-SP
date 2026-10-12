@@ -143,6 +143,25 @@ LANE_ROLE=EXECUTE LANE_MODEL=opencode-go/deepseek-v4.1-flash LANE_EFFORT=high RO
 ck T14_ROUTE_MISMATCH_REFUSED 6 "$c"
 has T14_names_the_mismatch "route mismatch" "$LOGD/T14.out"
 
+echo "### P1 a PREFIX spelling of the round is refused (round-8 smallest counterexample)"
+# The round prefix must be matched ANCHORED at the start of the path. An unanchored fixed-string
+# search admitted "prefix/<round>/outside.txt", committed the previously staged outside path and
+# returned 0.
+mkdir -p "$CLONE/prefix/$REL"
+echo outside > "$CLONE/prefix/$REL/outside.txt"
+git -C "$CLONE" add prefix
+ck P1_PREFIX_SUBSTRING_REFUSED 6 "$(run 0 0 0 NT15 brief_nt.md verify/nt)"
+has P1_names_the_outside_path STAGED_OUTSIDE_ROUND_REFUSED "$LOGD/NT15.out"
+git -C "$CLONE" reset -q 2>/dev/null; rm -rf "$CLONE/prefix"
+
+echo "### P2 a regex-shaped model value must not authorise itself (round-8)"
+# The owner-record match was a basic regular expression, so LANE_MODEL='.*' matched the record line
+# and was reported as owner-authorised. A value that is not a plain identifier is refused first.
+LANE_ROLE=EXECUTE LANE_MODEL='.*' LANE_EFFORT=high ROUTE_STYLE=catalog \
+  env TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$STUB" bash "$L" NT16 brief_nt.md verify/nt >"$LOGD/NT16.out" 2>&1; c=$?
+ck P2_REGEX_MODEL_REFUSED 6 "$c"
+has P2_names_the_reason "not a plain identifier" "$LOGD/NT16.out"
+
 echo
 echo "RESULT pass=$pass fail=$fail"
 [ "$fail" -eq 0 ] || exit 1

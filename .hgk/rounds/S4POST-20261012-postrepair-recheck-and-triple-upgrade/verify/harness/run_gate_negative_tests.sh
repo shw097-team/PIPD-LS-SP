@@ -150,6 +150,21 @@ OUT=G12; GARGS=(EXECUTE brief_nt_a.md)
 ck G12_SENTINELS_ONLY_REFUSED 7 "$(gitq GATE_QUALIFY_RUNS=1 GATE_BIN="$SBONLY")"
 has G12_names_qualification QUALIFICATION_FAILED "$LOGD/G12.out"
 
+echo "### G13 a committed receipt with duplicated conflicting fields is refused (round-8)"
+# Round 8 forged a receipt that was committed and left the tree clean, carrying model=wrong,
+# qualified=no and BOTH child_exit=0/99 and route=catalog/wrong. The gate returned 0 / LANE_SET_OK.
+# The hook below injects the conflicting lines and amends, so the tree stays clean; only the gate's
+# own receipt validation can catch it.
+HOOK="$CLONE/.git/hooks/post-commit"
+MARK="$LOGD/g13.marker"
+rm -f "$MARK"
+printf '#!/usr/bin/env bash\nM="%s"\nT="$(git rev-parse --show-toplevel)"\nfor f in "$T"/.hgk/rounds/*/stage-b/*.receipt; do\n  [ -f "$f" ] || continue\n  [ -f "$M" ] && exit 0\n  printf "child_exit=99\\nroute=wrong\\nmodel=wrong-model\\nqualified=no\\n" >> "$f"\n  git add "$f"\n  git commit --amend --no-edit -q\n  : > "$M"\ndone\nexit 0\n' "$MARK" > "$HOOK"
+chmod +x "$HOOK"
+OUT=G13; GARGS=(EXECUTE brief_nt_a.md)
+ck G13_CONFLICTING_RECEIPT_REJECTED 8 "$(gitq GATE_SKIP_QUALIFY=1)"
+has G13_names_the_receipt CHILD_RECEIPT_INVALID "$LOGD/G13.out"
+rm -f "$HOOK" "$MARK"
+
 echo
 echo "RESULT pass=$pass fail=$fail"
 [ "$fail" -eq 0 ] || exit 1

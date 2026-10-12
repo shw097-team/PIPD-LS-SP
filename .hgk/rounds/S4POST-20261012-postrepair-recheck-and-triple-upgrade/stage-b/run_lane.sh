@@ -50,13 +50,20 @@ staged_outside() {
   local out rc
   out="$(git diff --cached --name-only 2>/dev/null)"; rc=$?
   [ "$rc" -eq 0 ] || { echo "__STAGED_QUERY_FAILED__"; return; }
-  # -F is the fix for the regex-wildcard hole: the round prefix is matched as a literal.
-  # NOTE, a measured trap on this host: "git diff --cached --name-only -z" captured into a
-  # shell variable loses its NUL separators and its final newline, so "while read" never ran
-  # its body once and every staged path - including outside ones - read as none. Plain
-  # newline output is used here instead. Names containing a newline are not handled, which
-  # is a stated limit of this check.
-  printf '%s\n' "$out" | sed '/^[[:space:]]*$/d' | grep -v -F -- "${RELROUND}/"
+  # Two separate holes were demonstrated here, so both are closed explicitly:
+  #   * a regex prefix ("^${RELROUND}/") treats the "." in ".hgk" as a wildcard;
+  #   * `grep -v -F -- "${RELROUND}/"` fixes that but searches ANYWHERE in the line, so a staged
+  #     "prefix/.hgk/rounds/<round>/outside.txt" is admitted and committed while the wrapper
+  #     returns 0 (independent officer round 8, smallest counterexample).
+  # A case pattern with a QUOTED variable is a literal, ANCHORED prefix match, which is what this
+  # check always meant to be. The comment previously claimed "via case" while the code used grep;
+  # the code now matches the comment.
+  printf '%s\n' "$out" | sed '/^[[:space:]]*$/d' | while IFS= read -r _p; do
+    case "$_p" in
+      "$RELROUND"/*) ;;
+      *) printf '%s\n' "$_p" ;;
+    esac
+  done
 }
 commit_all() {
   git add -A -- "$RELROUND" 2>/dev/null || { echo "GIT_ADD_FAILED" >&2; return 1; }
@@ -127,14 +134,21 @@ if [ -n "$LANE_ROLE" ]; then
   OWNERF="$S/OWNER_DECISION_MODEL_DEVIATION.md"
   if [ "$MODEL" = "$A_MODEL" ]; then
     :
-  elif [ -f "$OWNERF" ] && grep -qx "authorizes: $MODEL" "$OWNERF"; then
+  elif ! printf '%s' "$MODEL" | grep -qE '^[A-Za-z0-9._/:+-]+$'; then
+    # round 8: "grep -qx "authorizes: $MODEL"" is a BRE, so LANE_MODEL='.*' matched the line and
+    # was reported as owner-authorised although no such value exists in the record. A value that is
+    # not a plain identifier cannot be an authorised model name, so it is refused before matching.
+    die 6 "model is not a plain identifier: env=$MODEL"
+  elif [ -f "$OWNERF" ] && grep -Fqx "authorizes: $MODEL" "$OWNERF"; then
     echo "CHILD_OWNER_AUTHORISED_DEVIATION model=$MODEL assignment=$A_MODEL"
   else
     die 6 "model mismatch with the assignment and not owner-authorised: env=$MODEL assignment=$A_MODEL"
   fi
   if [ "$EFF" = "$A_EFF" ]; then
     :
-  elif [ -f "$OWNERF" ] && grep -qx "authorizes_effort: $EFF" "$OWNERF"; then
+  elif ! printf '%s' "$EFF" | grep -qE '^[A-Za-z0-9._+-]+$'; then
+    die 6 "effort is not a plain identifier: env=$EFF"
+  elif [ -f "$OWNERF" ] && grep -Fqx "authorizes_effort: $EFF" "$OWNERF"; then
     echo "CHILD_OWNER_AUTHORISED_EFFORT effort=$EFF assignment_effort=$A_EFF"
   else
     die 6 "effort mismatch with the assignment and not owner-authorised: env=$EFF assignment=$A_EFF"
@@ -193,7 +207,7 @@ if [ "$COPY_OK" -eq 1 ] && [ "$RECEIPT_OK" -eq 1 ] && [ "$MAN_OK" -eq 1 ]; then
   if [ -e "$REC" ]; then
     echo "RECEIPT_ALREADY_EXISTS_REFUSED $REC" >&2
   elif printf 'lane=%s\nstamp=%s\ntoken=%s\nchild_exit=%s\nmodel=%s\nroute=%s\nqualified=%s\n' \
-        "$LANE" "$STAMP" "$TOKEN" "$CODE" "$MODEL" "${ROUTE_STYLE:-openai}" "${QUALIFIED:-yes}" > "$REC" \
+        "$LANE" "$STAMP" "$TOKEN" "$CODE" "$MODEL" "${ROUTE_STYLE:-openai}" "${QUALIFIED:-no}" > "$REC" \
        && [ -f "$REC" ] && [ -s "$REC" ]; then
     RECEIPT_WRITE=1
     commit_all "evidence(s4post-b): ${LANE} lane receipt ${TOKEN} (child exit ${CODE})" \
@@ -207,12 +221,16 @@ fi
 # round-6 M4: the FINAL status query happens AFTER the receipt commit, and only this result is
 # reported. Previously the query ran before that commit, so a post-commit hook could leave dirt
 # while the wrapper still printed the earlier "dirty=0" and returned 0.
+# round 8: the HEAD read is taken FIRST. It was previously the last command to run, so a caller
+# who exported a "git" function that writes a file could install dirt AFTER the status query and
+# still see POSTFLIGHT:dirty=0 and exit 0. Nothing executable now runs after the query.
+HEADV="$(git rev-parse --short HEAD 2>/dev/null)"; [ -n "$HEADV" ] || HEADV=UNKNOWN
 DIRTY2="$(status_count)"
 [ "$DIRTY2" != "ERR" ] || { echo "POSTFLIGHT_STATUS_FAILED" >&2; POSTFAIL=1; }
 if [ "$DIRTY2" != "ERR" ] && [ "$DIRTY2" -ne 0 ]; then
   echo "POSTFLIGHT_DIRTY_REJECTED: $DIRTY2 path(s) still untracked after every commit" >&2; POSTFAIL=1
 fi
-echo "POSTFLIGHT:dirty=$DIRTY2 HEAD=$(git rev-parse --short HEAD)"
+echo "POSTFLIGHT:dirty=$DIRTY2 HEAD=$HEADV"
 echo "${LANE}_LANE_DONE"
 
 [ "$COPY_OK" -eq 1 ] || exit 4
