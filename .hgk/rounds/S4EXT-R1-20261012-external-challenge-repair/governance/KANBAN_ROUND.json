@@ -153,7 +153,7 @@
   {
    "id": "TT-S4EXT-014",
    "title": "AO C3: trace endpoint TYPE contradicts the referenced record",
-   "state": "FIXED_INDEPENDENTLY_CONFIRMED_PASS",
+   "state": "INDEPENDENTLY_VERIFIED_PASS (AO attempt 5, PASS_CHALLENGE, 0 blocking, mutated=false)",
    "artifacts": [
     "verify/AO_VERDICT.json"
    ],
@@ -165,7 +165,7 @@
   {
    "id": "TT-S4EXT-015",
    "title": "AO C5: full suite red in a clean-room single-branch clone",
-   "state": "FIXED_INDEPENDENTLY_CONFIRMED_PASS",
+   "state": "INDEPENDENTLY_VERIFIED_PASS (AO attempt 5, PASS_CHALLENGE, 0 blocking, mutated=false)",
    "artifacts": [
     "verify/AO_VERDICT.json",
     "raw/clone_suite.log"
@@ -178,7 +178,7 @@
   {
    "id": "TT-S4EXT-017",
    "title": "AO C7: README still asserts PUBLICATION_APPROVED/RELEASED",
-   "state": "FIXED_INDEPENDENTLY_CONFIRMED_PASS (AO attempt 3, C7 PASS)",
+   "state": "INDEPENDENTLY_VERIFIED_PASS (AO attempt 5, PASS_CHALLENGE, 0 blocking, mutated=false)",
    "artifacts": [
     "verify/AO_VERDICT.json"
    ],
@@ -190,7 +190,7 @@
   {
    "id": "TT-S4EXT-014",
    "title": "AO C3: trace endpoint TYPE contradicts the referenced record",
-   "state": "FIXED_INDEPENDENTLY_CONFIRMED_PASS",
+   "state": "INDEPENDENTLY_VERIFIED_PASS (AO attempt 5, PASS_CHALLENGE, 0 blocking, mutated=false)",
    "artifacts": [
     "src/pipd_ls_sp/validate.py",
     "tests/test_s4ext_trace_closure.py"
@@ -203,7 +203,7 @@
   {
    "id": "TT-S4EXT-015",
    "title": "AO C5: full suite red in a clean-room clone",
-   "state": "FIXED_INDEPENDENTLY_CONFIRMED_PASS",
+   "state": "INDEPENDENTLY_VERIFIED_PASS (AO attempt 5, PASS_CHALLENGE, 0 blocking, mutated=false)",
    "artifacts": [
     "tests/test_publication_projection.py",
     "raw/cleanroom_suite.log"
@@ -229,7 +229,7 @@
   {
    "id": "TT-S4EXT-017",
    "title": "AO C7: README still asserted PUBLICATION_APPROVED/RELEASED",
-   "state": "FIXED_INDEPENDENTLY_CONFIRMED_PASS (AO attempt 3, C7 PASS)",
+   "state": "INDEPENDENTLY_VERIFIED_PASS (AO attempt 5, PASS_CHALLENGE, 0 blocking, mutated=false)",
    "artifacts": [
     "README.md"
    ],
@@ -241,7 +241,7 @@
   {
    "id": "TT-S4EXT-018",
    "title": "self-referential candidate_head in a tracked artifact",
-   "state": "EXECUTED_LOCALLY_VERIFIED_PENDING_INDEPENDENT_RUN",
+   "state": "INDEPENDENTLY_VERIFIED_PASS (AO attempt 5, PASS_CHALLENGE, 0 blocking, mutated=false)",
    "artifacts": [
     "evidence/09_CHALLENGE/lane_incidents.json"
    ],
@@ -254,7 +254,7 @@
   {
    "id": "TT-S4EXT-019",
    "title": "history_secret_scan.py writes its canonical artifact into the tracked tree",
-   "state": "EXECUTED_LOCALLY_VERIFIED_PENDING_INDEPENDENT_RUN",
+   "state": "INDEPENDENTLY_VERIFIED_PASS (AO attempt 5, PASS_CHALLENGE, 0 blocking, mutated=false)",
    "artifacts": [
     "evidence/06_TQAEP/AO_VERDICT.attempt2.json"
    ],
@@ -276,7 +276,7 @@
   {
    "id": "TT-S4EXT-022",
    "title": "tests/test_technology_admission.py:156 makes the suite rewrite a tracked artifact",
-   "state": "EXECUTED_LOCALLY_VERIFIED_PENDING_INDEPENDENT_RUN",
+   "state": "INDEPENDENTLY_VERIFIED_PASS (AO attempt 5, PASS_CHALLENGE, 0 blocking, mutated=false)",
    "owner": "maker",
    "artifacts": [
     "far/FAR_ADJUDICATION.json"
@@ -304,6 +304,6 @@
   "OPEN": 2,
   "RESOLVED": 1
  },
- "note": "AO attempts: 1 = 4 blocking (e2e41ae7); 2 = 8/9 PASS, 3 blocking (268ad6b1); 3 = C1-C8 ALL PASS, 1 blocking = read-only violation with an exact file:line root cause (88be4b5). Round verdict remains FAIL_CHALLENGE until a clean-room run with the tool fixes says otherwise. | After the FAR execution: the mandated full suite runs clean and leaves .hgk/artifacts/ untouched; AO attempt 4 is the independent test of that claim.",
+ "note": "AO attempts: 1 FAIL(4 blocking) e2e41ae7; 2 FAIL(3) 268ad6b1; 3 FAIL(1, read-only, exact root cause) 88be4b5; 4 NO VERDICT (terminated on context load, re-run with a tightened brief); 5 PASS_CHALLENGE (9/9 claims, 0 blocking, mutated=false) on c876276. The round's independent verdict is now PASS_CHALLENGE; the claim ceiling is NOT raised by it.",
  "surface": ".hgk/kanban/canonical_dag.json is the pre-existing S0-S4 board; this round's cards are kept beside the round, not merged into it."
 }

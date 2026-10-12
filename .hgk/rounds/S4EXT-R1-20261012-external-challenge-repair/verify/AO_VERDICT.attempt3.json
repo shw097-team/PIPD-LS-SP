@@ -1,0 +1,73 @@
+{
+  "verdict": "FAIL_CHALLENGE",
+  "subject_commit": "88be4b5a8a8f79f40f276651373f58b06148acd0",
+  "subject_tree": "2fd02a401484b5760087c5ba63e322aa48f3b50e",
+  "claims": [
+    {
+      "id": "C1",
+      "verdict": "PASS",
+      "command": "git rev-parse 'v0.1.1-preview.3^{commit}'; PowerShell Get-ChildItem -Recurse -Filter '*.md' plus Select-String audit under dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3",
+      "observed": "tag target output cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a; DOC_COUNT=8; every document reported release_identity_hits=2; stale hits were 0,1,2,1 only in PIPD_LS_SP_QUICKSTART_PROMPT.md/README_MOUNT.md/PIPD_SOURCE_MAP.md/SKILL.md respectively, and every document reported stale_nondisclosure_hits=0",
+      "counterexample_attempted": "Searched every mount-pack Markdown line for the stale 8faa64e581e8c25f5ec355475e29561847da3ead and classified any line lacking erratum/previously-published/published-declares/lineage-note wording as a counterexample; none was found."
+    },
+    {
+      "id": "C2",
+      "verdict": "PASS",
+      "command": "sha256sum dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip; Get-Content dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip.sha256; git rev-parse HEAD:<zip>; git rev-parse v0.1.1-preview.3:<zip>",
+      "observed": "sha256sum and metadata both output 73c6c7e255846e9012a4f5f0e849af93343b363fb158f2474b4d18143d1dcfde; HEAD and tag ZIP blob ids both output d0806f47ea25afe70dc365e6a7111e04d247a05c; HEAD and tag digest-file blob ids both output a4efc74440a9e661c3196ce4036d62c50d5d613d",
+      "counterexample_attempted": "Compared both payload and digest metadata as Git blobs between candidate and published tag, in addition to hashing the working-tree ZIP; no rewrite or digest mismatch was found."
+    },
+    {
+      "id": "C3",
+      "verdict": "PASS",
+      "command": "$env:PYTHONPATH=<candidate>/src; python -c 'from pipd_ls_sp.cli import main; raise SystemExit(main(sys.argv[1:]))' validate --bundle <external-temp>/<legal|mistyped|orphan|wronghash>.json",
+      "observed": "legal: verdict PASS, closure FULL, findings [], EXIT=0; mistyped: verdict FAIL, closure FAILED, detail 'from_type=PD-PKG ... resolves to PI-PKG', EXIT=1; orphan: verdict FAIL, closure FAILED, orphan and endpoint-not-present findings, EXIT=1; wronghash: verdict FAIL, closure FAILED, to_hash mismatch recorded 000000000000 vs real fb883b55db3d, EXIT=1",
+      "counterexample_attempted": "Built a legal PI-PKG from pipeline.intake/compile_pi in C:/Users/user/AppData/Local/Temp/pipd-ao-d6e41bc304c240f08ed3d9bce260efba, then independently mutated its real edge to (1) a schema-valid but contradictory PD-PKG from_type, (2) an absent to_id, and (3) a syntactically valid all-zero 64-hex to_hash."
+    },
+    {
+      "id": "C4",
+      "verdict": "PASS",
+      "command": "python -m venv --system-site-packages <external-temp>/released-venv; <released-venv>/python -m pip install --no-deps dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl; PYTHONPATH=<host-dependency-site> <released-venv>/python -c 'from pipd_ls_sp.cli import main; raise SystemExit(main(sys.argv[1:]))' validate --bundle <same-json>",
+      "observed": "verified VERSION=0.1.1a3 and PIPD_MODULE=<external-temp>/released-venv/Lib/site-packages/pipd_ls_sp/__init__.py; legal, mistyped, orphan, and wronghash each returned verdict PASS, findings [], EXIT=0 using schema_source.mode INSTALLED",
+      "counterexample_attempted": "Ran the byte-identical same four JSON files used for C3 against the released wheel. Two earlier environment attempts were rejected as evidence because jsonschema or pip was unavailable; only the run with verified wheel and dependency module origins was counted."
+    },
+    {
+      "id": "C5",
+      "verdict": "PASS",
+      "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPYCACHEPREFIX=<system-temp>/pipd-ao-pycache python -m unittest discover -s tests -t .",
+      "observed": "Ran 521 tests in 136.591s; OK (skipped=6); UNITTEST_EXIT=0",
+      "counterexample_attempted": "Executed the entire mandated discovery suite, not selected repair tests. Although assertions were green, the command transiently changed .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json candidate_head from 8ad0fd... to 88be4b5..., which is separately blocking under the read-only acceptance rule."
+    },
+    {
+      "id": "C6",
+      "verdict": "PASS",
+      "command": "PowerShell ConvertFrom-Json comparison of evidence/02_STATIC/spec_del_57_row_adjudication.json against docs/SPEC_DEL_CROSSWALK.json, grouped by kind/status and keyed by id",
+      "observed": "ROW_COUNT=57; KIND_COUNTS=DEL:25,SPEC:32; STATUS_COUNTS=DESIGN_ONLY:4,EVIDENCE_GAP:9,EVIDENCED:44; MISMATCH_COUNT=0; all four DESIGN_ONLY rows have disposition DESIGN_ONLY_NOT_IMPLEMENTED and blocking=False; DEL-008 has crosswalk_status EVIDENCE_GAP, disposition S5_PLUS_OUT_OF_SCOPE, s4_blocking false; S4_BLOCKING=PIPD-SP-SPEC-020,DEL-018,DEL-019",
+      "counterexample_attempted": "Compared every adjudicated status to the source crosswalk for upgrades, enumerated DESIGN_ONLY dispositions, and directly inspected DEL-008 rather than relying on summary counts."
+    },
+    {
+      "id": "C7",
+      "verdict": "PASS",
+      "command": "git grep -n -I -E '<affirmative S4/INDEPENDENT_PASS/PUBLICATION_APPROVED/RELEASED/PRODUCTION_VERIFIED patterns>' -- ACCEPTANCE.md README.md docs/ERRATUM_2026-10-12_preview3_release_provenance.md openspec/changes/pipd-ls-sp-s4ext-r1-external-challenge-repair .hgk/rounds/S4EXT-R1-20261012-external-challenge-repair/evidence/02_STATIC/spec_del_57_row_adjudication.json",
+      "observed": "affirmative current-subject scan produced no matches and POSITIVE_SCAN_GIT_EXIT=1; ceiling scan showed ACCEPTANCE.md lines 167-170 NOT claimed, README.md lines 258-261 partial/not granted/not claimed, and proposal.md line 51 'S4 remains NOT_GRANTED, the release gate stays HOLD, production is not claimed'",
+      "counterexample_attempted": "First ran the affirmative-pattern scan over all tracked text, which found many historical, quoted, test, and explicitly negated mentions; then bound the check to the current repair subject's assertion-bearing files. No positive current-subject escalation was found."
+    },
+    {
+      "id": "C8",
+      "verdict": "PASS",
+      "command": "python tools/deny_list_scan.py --root .; git clone --quiet --local --no-hardlinks . <external-temp-clone>; cd <external-temp-clone>; python tools/history_secret_scan.py",
+      "observed": "deny scan: verdict PASS, DENY_EXIT=0, r4_writer_usage=[]; history scan at source_revision_scanned 88be4b5a8a8f79f40f276651373f58b06148acd0: objects_listed=3268, worktree_files_scanned=1558, history_hits_total=0, worktree_hits_total=0, status_codes history=CLEAN/worktree=CLEAN, verdict PASS, HISTORY_EXIT=0",
+      "counterexample_attempted": "Ran the required worktree deny scanner directly and ran the write-producing history scanner in a no-hardlink external clone at the exact candidate commit so all history objects and the committed tree were scanned without writing its report into the candidate."
+    }
+  ],
+  "blocking_findings": [
+    "READ_ONLY RULE VIOLATION / candidate test-side mutation: the mandated command python -m unittest discover -s tests -t . rewrote tracked .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json candidate_head from committed 8ad0fd3254561d5d043a8fa1e9d64918892c751b to current 88be4b5a8a8f79f40f276651373f58b06148acd0. git diff --stat reported 1 file changed, 1 insertion(+), 1 deletion(-). tests/test_technology_admission.py:156 invokes tools/admit_technologies.py --report without --artifact; tools/admit_technologies.py:520 writes the tracked file. The exact side effect was restored from HEAD solely to meet the required final clean guard; final git status --porcelain was empty and both worktree/index diff exits were 0. This transient candidate mutation voids a PASS verdict under hard rule 1."
+  ],
+  "non_blocking_findings": [
+    "The full suite skipped 6 tests; emitted skip reasons included pip unavailable in the embedded interpreter for installed-wheel checks. The unittest verdict was still OK with exit 0."
+  ],
+  "maker_claim_ceiling_respected": true,
+  "independent_of_maker": true,
+  "candidate_mutated": true,
+  "what_this_verdict_is_not": "a release authorization, a tag approval, or a production claim"
+}

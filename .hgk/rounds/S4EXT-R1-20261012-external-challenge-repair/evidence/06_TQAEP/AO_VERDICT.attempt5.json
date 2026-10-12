@@ -1,0 +1,71 @@
+{
+  "verdict": "PASS_CHALLENGE",
+  "subject_commit": "c8762764485a93695851e58229fabee916c354a7",
+  "subject_tree": "c3a0ce49ba051e68319a4e63591dc25eddda3e18",
+  "claims": [
+    {
+      "id": "C1",
+      "verdict": "PASS",
+      "command": "git rev-parse 'v0.1.1-preview.3^{commit}'; PowerShell: $d='dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3'; $t='cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a'; $s='8faa64e581e8c25f5ec355475e29561847da3ead'; enumerate *.md, count target/stale occurrences, and count stale lines not matching 'erratum|previously published|published.*declares|lineage note'; Push-Location $d; sha256sum -c MANIFEST.sha256",
+      "observed": "tag target: cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a. DOC_COUNT=8. Per-document TARGET counts: 6,4,6,4,4,4,4,6; stale counts: 0,1,1,0,0,0,0,2. MISSING_TARGET=0; STALE_NONDISCLOSURE=0. MANIFEST.sha256: all 8 members OK; MANIFEST_EXIT=0.",
+      "counterexample_attempted": "Searched for any document missing the independently resolved tag target and any stale-hash line lacking explicit erratum/previously-published/published-declares/lineage-note language; none found."
+    },
+    {
+      "id": "C2",
+      "verdict": "PASS",
+      "command": "sha256sum dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip; Get-Content dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip.sha256; Get-Content -Raw docs/RELEASE_TUPLE.json; git rev-parse HEAD:dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip; git rev-parse v0.1.1-preview.3:dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip",
+      "observed": "working ZIP sha256=73c6c7e255846e9012a4f5f0e849af93343b363fb158f2474b4d18143d1dcfde; sidecar and RELEASE_TUPLE published_asset_sha256 are the same. HEAD blob=d0806f47ea25afe70dc365e6a7111e04d247a05c and tag blob=d0806f47ea25afe70dc365e6a7111e04d247a05c.",
+      "counterexample_attempted": "Compared bytes to both metadata digests and compared the Git blob at HEAD with the blob frozen at the published tag; no rewrite or digest divergence found."
+    },
+    {
+      "id": "C3",
+      "verdict": "PASS",
+      "command": "$env:PYTHONPATH='<repo>/src'; from system temp run `python -m pipd_ls_sp.cli validate --bundle <case>.json` for legal.json, mistyped.json, orphan.json, wrong_hash.json and print $LASTEXITCODE after each",
+      "observed": "legal: verdict PASS, closure FULL, findings [], exit 0. mistyped: verdict FAIL, closure FAILED, endpoint type contradiction PI-PKG vs PD-PKG, exit 1. orphan: verdict FAIL, closure FAILED, orphan endpoint plus endpoint-not-present hash finding, exit 1. wrong_hash (64 zero hex chars): verdict FAIL, closure FAILED, to_hash mismatch, exit 1.",
+      "counterexample_attempted": "Built the PI-PKG and nested RequirementAtom via candidate pipeline code, then independently mutated only one trace property per fixture: from_type, to_id, or a syntactically valid but false 64-hex to_hash."
+    },
+    {
+      "id": "C4",
+      "verdict": "PASS",
+      "command": "git rev-parse HEAD:dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl; git rev-parse v0.1.1-preview.3:dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl; sha256sum dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl; extract wheel to system temp; $env:PYTHONPATH='<temp>/released-wheel'; run `python -m pipd_ls_sp.cli validate --bundle <case>.json` for the identical four files",
+      "observed": "wheel blob at HEAD and tag: 5d9f9c6249ab6b55ded39e036115fafacc9147fd; wheel sha256=e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec. Released-wheel legal, mistyped, orphan, and wrong_hash cases each returned verdict PASS, findings [], exit 0, using schema_source mode INSTALLED.",
+      "counterexample_attempted": "Ran the exact candidate-rejected fixtures against the wheel blob proven identical to the released tag, not against a maker probe or rebuilt artefact; all malformed variants false-PASSed."
+    },
+    {
+      "id": "C5",
+      "verdict": "PASS",
+      "command": "python -m unittest discover -s tests -t .",
+      "observed": "exit 0; Ran 525 tests in 112.756s; OK (skipped=6).",
+      "counterexample_attempted": "Ran discovery over the complete tests directory and waited for the runner's terminal verdict; intentional negative-fixture FAIL text did not become a test failure. Six environment-dependent tests were explicitly skipped."
+    },
+    {
+      "id": "C6",
+      "verdict": "PASS",
+      "command": "python -c \"import json; c=json.load(open('docs/SPEC_DEL_CROSSWALK.json',encoding='utf-8')); a=json.load(open('docs/S4_SPEC_DEL_ADJUDICATION.json',encoding='utf-8')); compare row ids/statuses, DESIGN_ONLY dispositions, upgrade words, DEL-008, and closed_outright_this_round\"",
+      "observed": "ROWS 57 57; STATUS_MISMATCHES []; DESIGN_ONLY=[SPEC-028,SPEC-029,DEL-022,DEL-023], each DESIGN_ONLY_NOT_IMPLEMENTED and s4_blocking False; UPGRADES []; DEL-008 EVIDENCE_GAP S5_PLUS_OUT_OF_SCOPE False; CLOSED [].",
+      "counterexample_attempted": "Searched for changed crosswalk statuses, PASS/implemented dispositions, any DESIGN_ONLY row treated as implemented/blocking, DEL-008 marked S4-blocking, and any row closed outright; all counterexample sets were empty."
+    },
+    {
+      "id": "C7",
+      "verdict": "PASS",
+      "command": "rg -n -i \"claim.ceiling|maker.candidate|candidate.only|S4.{0,20}pass|release.{0,20}(verified|approved|authorized)|production.{0,20}(verified|verification)|INDEPENDENT_PASS|PUBLICATION_APPROVED|RELEASED|PRODUCTION_VERIFIED\" README.md ACCEPTANCE.md PREVIEW_NOTES_v0.1.1-preview.3.md docs/S4_SPEC_DEL_ADJUDICATION.json docs/RELEASE_TUPLE.json .hgk/rounds/S4EXT-R1-20261012-external-challenge-repair/ROUND_REPORT.md .hgk/rounds/S4EXT-R1-20261012-external-challenge-repair/compiler/S4EXT-R1.CONTRACT.json .hgk/rounds/S4EXT-R1-20261012-external-challenge-repair/evidence/MANIFEST.json",
+      "observed": "ROUND_REPORT: claim_ceiling=MAKER_CANDIDATE_AND_LOCAL_TESTS_ONLY_UNTIL_EXTERNAL_REQUALIFICATION, s4_overall=NOT_GRANTED, release_gate=HOLD, production=NOT_CLAIMED, and nothing in the round is RELEASED or PRODUCTION_VERIFIED. ACCEPTANCE: CANDIDATE_ONLY; INDEPENDENT_PASS/PUBLICATION_APPROVED/RELEASED/PRODUCTION_VERIFIED all NOT claimed. README: repair RELEASE_STATUS NOT PUBLISHED, G-RELEASE_FULL_PASS NOT granted, PRODUCTION_VERIFIED NOT claimed.",
+      "counterexample_attempted": "Searched the current public/acceptance/round authority surfaces for affirmative S4-pass, repair-release, publication-approval, or production-verification language; matches were denials, policy vocabulary, or explicitly scoped historical preview facts."
+    },
+    {
+      "id": "C8",
+      "verdict": "PASS",
+      "command": "python tools/deny_list_scan.py; python tools/history_secret_scan.py --out C:/Users/user/AppData/Local/Temp/PIPD_AO_history_secret_883dc50243c34fcaaf6bcbdfff101fd1.json",
+      "observed": "deny_list_scan default scope: occurrences_total=114, policy_mention_count=58, writer_usage_count=56, r4_writer_usage=[], r4_scope=.hgk/rounds/R4-20261009-focused-repair/, verdict PASS, exit 0. history_secret_scan: source_revision_scanned=c8762764485a93695851e58229fabee916c354a7, objects_listed=3307, worktree_files_scanned=1576, history_hits_total=0, worktree_hits_total=0, history=CLEAN, worktree=CLEAN, verdict PASS, exit 0.",
+      "counterexample_attempted": "Applied all six scanner patterns (GitHub fine-grained/classic, OpenAI key, AWS access key, private-key block, bearer literal) to every worktree file and all reachable Git-object bytes; zero credential hits. Also ran the required deny-list policy classifier with its declared default R4 scope."
+    }
+  ],
+  "blocking_findings": [],
+  "non_blocking_findings": [
+    "The checked-in S4EXT-R1 ROUND_REPORT.md is stale relative to this verification subject: it records candidate_commit ab06757e31b51700302422ba34094c72cc372cb5 and `Ran 518 tests`, while `git rev-parse HEAD` returned c8762764485a93695851e58229fabee916c354a7 and the fresh required suite returned `Ran 525 tests ... OK (skipped=6)`. This does not negate the independently re-run claims above but should be corrected as evidence hygiene."
+  ],
+  "maker_claim_ceiling_respected": true,
+  "independent_of_maker": true,
+  "candidate_mutated": false,
+  "what_this_verdict_is_not": "a release authorization, a tag approval, or a production claim"
+}

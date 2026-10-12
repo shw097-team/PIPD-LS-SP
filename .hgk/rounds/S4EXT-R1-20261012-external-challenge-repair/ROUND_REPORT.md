@@ -59,3 +59,21 @@ production: NOT_CLAIMED
 **Next legal action:** an external verifier re-runs the replay commands in
 `evidence/09_CHALLENGE/checker_identity.json` against `ab06757e…`; the release owner then decides
 erratum vs new preview. Nothing in this round is `RELEASED` or `PRODUCTION_VERIFIED`.
+
+## Independent acceptance (added after the acceptance officer ran five times)
+
+| attempt | subject | verdict | blocking |
+|---|---|---|---|
+| 1 | `e2e41ae7` | FAIL_CHALLENGE | 4 (C3 type coherence, C5 clean-room suite red, C7 claim ceiling, read-only) |
+| 2 | `268ad6b1` | FAIL_CHALLENGE | 3 (C7 re-fixed; the other two were tooling sites) |
+| 3 | `88be4b5` | FAIL_CHALLENGE | 1 (read-only violation, pinned to `tests/test_technology_admission.py:156`) |
+| 4 | `c876276` | **no verdict** | lane terminated after heavy context load; re-run with a tightened brief |
+| 5 | `c876276` | **PASS_CHALLENGE** | **0** - 9/9 claims PASS, `candidate_mutated: false` |
+
+The officer's own wording on attempt 5: this is *"not a release authorization, a tag approval, or a
+production claim"*. The round therefore records `INDEPENDENT_CHALLENGE_PASS` **without** raising any
+claim ceiling: `release_gate` stays `HOLD`, publication remains an owner decision.
+
+Owner-routed items that this round deliberately did NOT close: the 41 pre-existing stale per-entry
+digests in the evidence manifest, the artifacts whose `candidate_head` is not an ancestor of HEAD, and
+the EXECUTE-lane adapter limitation that forces the declared model to be substituted.

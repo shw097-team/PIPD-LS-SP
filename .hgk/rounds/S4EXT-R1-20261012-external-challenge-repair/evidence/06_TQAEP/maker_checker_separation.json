@@ -9,7 +9,7 @@
  },
  "checker": {
   "identity": "external Independent Acceptance Officer (Codex CLI exec, isolated CODEX_HOME)",
-  "state": "RAN_THREE_TIMES",
+  "state": "RAN_FIVE_ATTEMPTS_FINAL_PASS_CHALLENGE",
   "verdict": "FAIL_CHALLENGE",
   "subject_commit": "e2e41ae76dede9b3222257872b4e28a340dc2a0c",
   "subject_tree": "ce41953891d96ec7c2e7412e763f5a141db1b90c",
@@ -72,8 +72,35 @@
      "READ_ONLY RULE VIOLATION / candidate test-side mutation: the mandated command python -m unittest discover -s tests -t . rewrote tracked .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json candidate_head from committed 8ad0fd3254561d5d043a8fa1e9d64918892c751b to current 88be4b5a8a8f79f40f276651373f58b06148acd0. git diff --stat reported 1 file changed, 1 insertion(+), 1 deletion(-). tests/test_technology_admission.py:156 invokes tools/admit_technologies.py --report without --artifact; tools/admit_technologies.py:520 writes the tracked file. The exact side effect was restored from HEAD solely to meet the required final clean guard; final git status --porcelain was empty and both worktree/index diff exits were 0. This transient candidate mutation voids a PASS verdict under hard rule 1."
     ],
     "receipt": "06_TQAEP/AO_VERDICT.attempt3.json"
+   },
+   {
+    "attempt": 5,
+    "subject": "c8762764485a",
+    "verdict": "PASS_CHALLENGE",
+    "claims": {
+     "C1": "PASS",
+     "C2": "PASS",
+     "C3": "PASS",
+     "C4": "PASS",
+     "C5": "PASS",
+     "C6": "PASS",
+     "C7": "PASS",
+     "C8": "PASS"
+    },
+    "blocking": 0,
+    "candidate_mutated": false,
+    "receipt": "06_TQAEP/AO_VERDICT.attempt5.json",
+    "note": "attempt 4 terminated without a verdict after heavy context load and was re-run with a tightened brief"
    }
-  ]
+  ],
+  "final": {
+   "verdict": "PASS_CHALLENGE",
+   "subject_commit": "c8762764485a93695851e58229fabee916c354a7",
+   "subject_tree": "c3a0ce49ba051e68319a4e63591dc25eddda3e18",
+   "candidate_mutated": false,
+   "what_this_verdict_is_not": "a release authorization, a tag approval, or a production claim",
+   "author_reverification": "the author independently reproduced DOC_COUNT=8, the per-document target counts, the published ZIP sha256 73c6c7e2..., the tag dereference cbf69756, and the wheel blob 5d9f9c62... at HEAD and at the tag"
+  }
  },
  "history_not_inherited": {
   "S4R2M Officer receipt": "PARTIAL, bound to a different commit/tree (dfa52053…/b427f03…)",

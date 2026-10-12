@@ -12,7 +12,7 @@ ROUND="$MAKER/.hgk/rounds/S4EXT-R1-20261012-external-challenge-repair"
 VDIR="$ROUND/verify"
 CAND="C:/Projects/Agent_Workspace/PIPD/worktrees/s4ext-r1-verify"
 BRANCH="fix/s4-external-challenge-20261012-r1-provenance-trace"
-EXPECT_COMMIT="88be4b5a8a8f79f40f276651373f58b06148acd0"
+EXPECT_COMMIT="c8762764485a93695851e58229fabee916c354a7"
 EXPECT_TREE="$(git -C "$MAKER" rev-parse "refs/heads/$BRANCH^{tree}" 2>/dev/null)"
 # The lane was proven with this build: its exec wrapper resolves codex-code-mode-host.exe,
 # which sits beside it. The HG-KSEOS runtime build lacks that host binary and every shell
@@ -28,7 +28,7 @@ CODEX="C:/Users/user/AppData/Local/OpenAI/Codex/bin/2e5e00daee91c61d/codex.exe"
 DECLARED_MODEL="gpt-6.1-sol"
 CHECKER_MODEL="${CHECKER_MODEL:-gpt-5.6-sol}"
 CHECKER_HOME="C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/s4ext/checker-sol"
-BRIEF="$VDIR/AO_VERIFY_BRIEF.md"
+BRIEF="$VDIR/AO_VERIFY_BRIEF_v2.md"
 mkdir -p "$VDIR"
 
 # --- fresh, isolated candidate checkout of exactly what was PUSHED -------------
@@ -68,7 +68,7 @@ you did not write this code, you must not modify it, and you must not accept it 
 
 * repository root: the current working directory (a fresh clone of the pushed repair branch)
 * branch: `fix/s4-external-challenge-20261012-r1-provenance-trace`
-* candidate commit: `88be4b5a8a8f79f40f276651373f58b06148acd0`
+* candidate commit: `c8762764485a93695851e58229fabee916c354a7`
 * contract: `PIPD-S4EXT-R1-REPAIR-ROUTEOUT/1`, report id
   `PIPD-LS-SP-S4-EXTERNAL-CHALLENGE-2026-10-12-R1`
 * the published (defective) subject for contrast: tag `v0.1.1-preview.3` → commit
