@@ -29,5 +29,15 @@
   "S4R2M Officer receipt": "PARTIAL, bound to a different commit/tree (dfa52053…/b427f03…)",
   "rule": "a receipt bound to another subject is not inherited as this candidate's PASS"
  },
- "self_acceptance": "NONE (the independent verdict is FAIL_CHALLENGE and is recorded verbatim)"
+ "self_acceptance": "NONE (the independent verdict is FAIL_CHALLENGE and is recorded verbatim)",
+ "maker_response": {
+  "state": "ANSWERED_IN_CODE",
+  "covers": {
+   "C3": "src/pipd_ls_sp/validate.py + regression tests",
+   "C5": "tests/test_publication_projection.py skip + clean-room clone green (Ran 521, OK, skipped=6)",
+   "C7": "README.md re-worded",
+   "read_only_contamination": "tests/test_tqaep_design_positive.py restores its fixtures; one remaining site routed to the artifact owner as TT-S4EXT-018"
+  },
+  "next": "fresh independent AO run against the repair commit; the previous receipt is invalidated by the new commit"
+ }
 }

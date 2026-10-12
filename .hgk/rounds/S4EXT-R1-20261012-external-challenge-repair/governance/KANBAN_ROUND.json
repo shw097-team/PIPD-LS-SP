@@ -176,18 +176,6 @@
    "owner": "maker"
   },
   {
-   "id": "TT-S4EXT-016",
-   "title": "AO: the suite rewrites 3 tracked evidence fixtures",
-   "state": "OPEN_DEFECT_FOUND_BY_AO",
-   "artifacts": [
-    "verify/NONMUTATION_GUARD.txt"
-   ],
-   "open_items": [
-    "dot-hgk artifacts written by tools/build_bclass_artifacts.py during tests"
-   ],
-   "owner": "maker"
-  },
-  {
    "id": "TT-S4EXT-017",
    "title": "AO C7: README still asserts PUBLICATION_APPROVED/RELEASED",
    "state": "OPEN_DEFECT_FOUND_BY_AO",
@@ -198,6 +186,69 @@
     "re-word README:259-260 to the owner-decision ceiling"
    ],
    "owner": "maker"
+  },
+  {
+   "id": "TT-S4EXT-014",
+   "title": "AO C3: trace endpoint TYPE contradicts the referenced record",
+   "state": "FIXED_CANDIDATE_PENDING_REVERIFY",
+   "artifacts": [
+    "src/pipd_ls_sp/validate.py",
+    "tests/test_s4ext_trace_closure.py"
+   ],
+   "open_items": [
+    "independent re-run"
+   ],
+   "owner": "maker"
+  },
+  {
+   "id": "TT-S4EXT-015",
+   "title": "AO C5: full suite red in a clean-room clone",
+   "state": "FIXED_VERIFIED_LOCALLY",
+   "artifacts": [
+    "tests/test_publication_projection.py",
+    "raw/cleanroom_suite.log"
+   ],
+   "open_items": [
+    "independent re-run"
+   ],
+   "owner": "maker"
+  },
+  {
+   "id": "TT-S4EXT-016",
+   "title": "AO: the suite contaminated tracked fixtures",
+   "state": "PARTIAL_FIXED",
+   "artifacts": [
+    "tests/test_tqaep_design_positive.py",
+    "evidence/09_CHALLENGE/lane_incidents.json"
+   ],
+   "open_items": [
+    "one remaining site is the self-referential artifact, now TT-S4EXT-018"
+   ],
+   "owner": "maker"
+  },
+  {
+   "id": "TT-S4EXT-017",
+   "title": "AO C7: README still asserted PUBLICATION_APPROVED/RELEASED",
+   "state": "FIXED_CANDIDATE_PENDING_REVERIFY",
+   "artifacts": [
+    "README.md"
+   ],
+   "open_items": [
+    "independent re-run"
+   ],
+   "owner": "maker"
+  },
+  {
+   "id": "TT-S4EXT-018",
+   "title": "self-referential candidate_head in a tracked artifact",
+   "state": "OPEN_OWNER_DECISION",
+   "artifacts": [
+    "evidence/09_CHALLENGE/lane_incidents.json"
+   ],
+   "open_items": [
+    "artifact owner chooses: drop the field, or compare against HEAD in --check"
+   ],
+   "owner": "artifact owner"
   }
  ],
  "counts": {

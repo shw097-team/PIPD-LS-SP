@@ -17,6 +17,14 @@
    "observed": "with the HG-KSEOS runtime codex build every shell call died with \"missing codex-code-mode-host.exe (os error 2)\" so the first checker attempt could only return NOT_RUN",
    "remedy_taken": "invoked the build whose exec wrapper resolves (…/OpenAI/Codex/bin/2e5e00daee91c61d/codex.exe, which ships codex-code-mode-host.exe beside it)",
    "tt": "TT-S4EXT-013"
+  },
+  {
+   "id": "TT-S4EXT-018",
+   "class": "self_referential_tracked_artifact",
+   "observed": "the suite rewrote .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json during independent verification; the only differing field is \"candidate_head\", which names the commit the artifact is committed IN, so regeneration after any commit always differs",
+   "reproduction": "in a fresh clone: run tools/build_bclass_artifacts.py, then diff the file against HEAD -> one line, candidate_head <prev-commit> vs <current-commit>",
+   "remedy_taken": "NONE by the maker: editing the tool or the artifact changes the DEL-005 / PIPD-SP-SPEC-030 evidence chain that the crosswalk row hashes, so the choice between (a) dropping the self-referential field and (b) making --check compare against HEAD belongs to the artifact owner (TT-S4EXT-018)",
+   "impact": "byte-stable within a commit and it does not change what the artifact asserts about technology admission; the residual effect is a dirty worktree after a suite run"
   }
  ],
  "consequence_for_claims": "the first attempted run produced a NOT_RUN verdict and is retained as a failed-first receipt; only the second run's verdict is treated as the independent result"
