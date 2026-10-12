@@ -1,0 +1,32 @@
+MODEL SUBSTITUTION — EXECUTE lane, S4POST round, far-impl change
+recorded 2026-10-12 by the Hermes governed orchestrator (declared, not silent)
+
+declared lane (task order)  : EXECUTE = Codex bounded writer, provider/model = DeepSeek V4.1 Flash (OPENCODE GO)
+actual lane (this run)      : Codex bounded writer, provider/model = opencode-go/deepseek-v4-flash
+decided by                  : Hermes orchestrator, under the standing rule "a lane that is refused
+                              is switched to that lane's declared backup and the run continues;
+                              the substitution is declared, never silent"
+
+trigger (deterministic, not rate limiting)
+  Attempt 1 used the declared model `opencode-go/deepseek-v4.1-flash` against the local
+  OpenAI-compatible endpoint. It ran, made progress (tokens used 35,906) and then died on the
+  second provider turn with:
+      Provider error 400: Upstream request failed: [invalid_request_error]
+      The `reasoning_content` in the thinking mode must be passed back to the API.
+  This is the same adapter limitation recorded as D-03/D-04 in the preceding round: a
+  thinking-mode model served through this adapter cannot complete a multi-turn tool-call run
+  because the adapter does not echo reasoning_content back. It is NOT a 429 and NOT a capacity
+  problem, so retrying the identical model would reproduce it.
+
+effect on evidence
+  - No partial work was left behind: the far-impl worktree contained only this round's own
+    brief directory when the run died (checked with git status --porcelain: 1 untracked entry).
+  - The substitute is the same provider line already declared as the backup in the previous
+    round for exactly this failure mode.
+  - Whatever this lane produces carries the substitute identity in its receipt; the lane is
+    NOT the declared model and must not be reported as such.
+
+residual, owned outside this repo
+  The adapter defect (reasoning_content not echoed) belongs to the EXECUTE adapter, not to this
+  repository. Per the adopted far adjudication item it is reported upward; no in-repo adapter
+  patch is made.
