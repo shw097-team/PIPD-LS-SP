@@ -1,0 +1,29 @@
+COMMAND: "C:/Program Files/Git/usr/bin/bash.exe" C:/Users/user/AppData/Local/Temp/pipd-ao5-a6dcec68484d4ed6bd0021cdc7fbfa3d/candidate2/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/harness/run_harness_negative_tests.sh
+CWD: C:\Users\user\AppData\Local\Temp\pipd-ao5-a6dcec68484d4ed6bd0021cdc7fbfa3d\candidate2
+EXIT_CODE: 0
+STDOUT:
+### T1 dirty preflight is refused (v1 passed this; regression guard)
+PASS T1_DIRTY_REFUSED (exit=2)
+PASS T1_says_refused
+### T2 missing brief: D1a - refuse BEFORE launch, never fail open
+PASS T2_MISSING_BRIEF_REFUSED (exit=3)
+PASS T2_no_lane_log_written
+PASS T2_child_never_launched
+### T3 successful run: log really copied in, commit says so, no stray root dir (D3)
+PASS T3_STUB_SUCCESS (exit=0)
+PASS T3_log_copied_in
+PASS T3_commit_states_copy
+PASS D3_no_output_dir_at_repo_root
+PASS D3_output_dir_is_round_relative
+### T4 postflight dirt is REJECTED, not merely printed (D2)
+PASS T4_POSTFLIGHT_DIRT_REJECTED (exit=5)
+PASS T4_dirt_was_detected
+### T5 a non-zero child is propagated, never advertised as success
+PASS T5_CHILD_EXIT_PROPAGATED (exit=7)
+PASS T5_lane_reports_done
+### T6 TMPDIR resolving inside the worktree is refused (F)
+PASS T6_TMPDIR_INSIDE_REFUSED (exit=3)
+
+RESULT pass=15 fail=0
+
+STDERR:
