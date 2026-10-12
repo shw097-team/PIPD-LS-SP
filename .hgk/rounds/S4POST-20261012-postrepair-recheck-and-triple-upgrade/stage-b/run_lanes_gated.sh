@@ -56,7 +56,11 @@ BIN="${GATE_BIN:-${CODEX_BIN:-/c/Users/user/AppData/Local/OpenAI/Codex/bin/2e5e0
 if [ "${GATE_SKIP_QUALIFY:-0}" = "1" ]; then
   echo "QUALIFICATION_SKIPPED_BY_ENV"
 else
-  QLOG="$LOGDIR/gate-qualify-$(date -u +%Y%m%dT%H%M%SZ).log"
+  # Two qualifications in the same second collided on one path and the second overwrote
+# the first, destroying the evidence of the first one. Role, sanitised model and pid now
+# make the name unique; keep the log even when the gate refuses.
+QSAFE="$(printf %s "$REQ_MODEL" | tr -c "A-Za-z0-9._-" "_")"
+  QLOG="$LOGDIR/qual-$(date -u +%Y%m%dT%H%M%SZ)-$$-${ROLE}-${QSAFE}.log"
   timeout 900 "$BIN" exec --cd "$WT" --sandbox read-only \
     -m "$REQ_MODEL" -c "model_provider=\"$REQ_PROV\"" -c "model_reasoning_effort=\"$REQ_EFF\"" \
     -c "model_supports_reasoning_summaries=true" --skip-git-repo-check \

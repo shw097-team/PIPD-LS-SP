@@ -1,0 +1,11 @@
+### REAL QUALIFICATION - EXECUTE role, the assigned model, no writer started ###
+ASSIGNMENT role=EXECUTE model=opencode-go/deepseek-v4.1-flash provider=opencode-go effort=high
+QUALIFICATION_FAILED model=opencode-go/deepseek-v4.1-flash effort=high exit=1 log=/tmp/hgk-lanes/gate-qualify-20261012T124146Z.log
+GATE_REFUSED_NO_WRITERS_STARTED
+EXECUTE_QUALIFY_EXIT=7
+
+### REAL QUALIFICATION - VERIFY role, the checker model ###
+ASSIGNMENT role=VERIFY model=gpt-6.1-sol provider=openai effort=medium
+QUALIFICATION_PASSED model=gpt-6.1-sol effort=medium (two tool round trips survived)
+GATE_QUALIFICATION_ONLY_OK role=VERIFY model=gpt-6.1-sol effort=medium
+VERIFY_QUALIFY_EXIT=0
