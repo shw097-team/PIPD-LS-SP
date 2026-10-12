@@ -70,6 +70,35 @@ echo "### T6 TMPDIR resolving inside the worktree is refused (F)"
 TMPDIR="$CLONE/tmp-inside" LANE_WT="$CLONE" CODEX_BIN="$STUB" bash "$L" NT6 brief_nt.md verify/nt >"$LOGD/NT6.out" 2>&1; c=$?
 ck T6_TMPDIR_INSIDE_REFUSED 3 "$c"
 
+echo "### T7 a failed receipt copy is fatal, not a note (R1)"
+(
+  cp() { local last="${@: -1}"; case "$last" in *.exit) return 23;; *) command cp "$@";; esac; }
+  export -f cp
+  env TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$STUB" bash "$L" NT7 brief_nt.md verify/nt
+) >"$LOGD/T7.out" 2>&1; c=$?
+ck T7_RECEIPT_COPY_FATAL 6 "$c"
+has T7_names_the_receipt POSTFLIGHT_RECEIPT_COPY_FAILED "$LOGD/T7.out"
+
+echo "### T8 a FAILED git status is not a clean worktree (R2)"
+(
+  git() { if [ "${1:-}" = "status" ]; then return 128; fi; command git "$@"; }
+  export -f git
+  env TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$STUB" bash "$L" NT8 brief_nt.md verify/nt
+) >"$LOGD/T8.out" 2>&1; c=$?
+ck T8_STATUS_FAILURE_REFUSED 2 "$c"
+has T8_says_status_failed "git status failed" "$LOGD/T8.out"
+if grep -q "stub lane speaking" "$LOGD/T8.out"; then echo "FAIL T8_child_was_launched"; fail=$((fail+1)); else echo "PASS T8_child_never_launched"; pass=$((pass+1)); fi
+
+echo "### T9 an already staged OUTSIDE-round file is refused (R3)"
+echo "outside" > "$CLONE/outside-round-fixture.txt"
+git -C "$CLONE" add outside-round-fixture.txt
+ck T9_STAGED_OUTSIDE_REFUSED 6 "$(run 0 0 0 NT9 brief_nt.md verify/nt)"
+has T9_names_the_outside_path STAGED_OUTSIDE_ROUND_REFUSED "$LOGD/NT9.out"
+if git -C "$CLONE" log -1 --pretty=%s | grep -q "outside-round-fixture"; then
+  echo "FAIL T9_outside_file_was_committed"; fail=$((fail+1))
+else echo "PASS T9_outside_file_was_not_committed"; pass=$((pass+1)); fi
+git -C "$CLONE" reset -q 2>/dev/null; rm -f "$CLONE/outside-round-fixture.txt"
+
 echo
 echo "RESULT pass=$pass fail=$fail"
 [ "$fail" -eq 0 ] || exit 1

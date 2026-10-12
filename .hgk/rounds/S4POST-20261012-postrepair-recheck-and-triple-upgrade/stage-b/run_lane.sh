@@ -1,25 +1,20 @@
 #!/usr/bin/env bash
-# Governed lane launcher (v2) - fail-closed.
+# Governed lane launcher (v3) - fail-closed, with the round-5 fail-open counterexamples closed.
 #
-# v1 repairs (round-3 finding): commit harness artifacts before handover; refuse to
-# launch against a dirty worktree; write the lane log OUTSIDE the worktree; copy it
-# back and commit only after the run.
+# v1 (round 3): commit harness artifacts before handover; refuse a dirty worktree; log outside the tree.
+# v2 (round 4): D1 no fail-open on a missing brief or a failed main-log copy; D2 reject postflight dirt;
+#               D3 round-relative output only; F refuse a log dir inside the worktree.
+# v3 (round 5) closes five counterexamples an independent officer demonstrated against v2:
+#   R1 a failed receipt copy still returned 0                     -> receipt copy is checked and fatal
+#   R2 a FAILED git status was read as "clean" (empty output)     -> a nonzero status query is fatal
+#   R3 an already staged outside-round file got committed        -> staged paths outside the round are refused
+#   R4 (gate-side) see run_lanes_gated.sh
+#   R5 (gate-side) see run_lanes_gated.sh
+#   A  the manifest was written inside the tree after the clean check, so the handover was dirtied by the
+#      launcher itself; it is now written outside the tree and copied in at postflight, like the lane log.
 #
-# v2 repairs three reproducible v1 defects an independent officer demonstrated in
-# round 4 (verdict PARTIAL):
-#   D1  a missing brief and a failed log copy were masked and the wrapper exited 0
-#       while the child had failed. Now: brief is validated BEFORE launch, the copy
-#       is checked, the commit message states whether a log was really copied, and
-#       the wrapper propagates a nonzero status.
-#   D2  postflight dirt was counted and printed but never rejected. Now nonzero.
-#   D3  "mkdir -p $WT/$OUTSUB" created the output directory at the REPOSITORY ROOT,
-#       outside the round's permitted write set. Now round-relative only.
-#   F   TMPDIR was never validated against the worktree. Now a log dir resolving
-#       inside the worktree is refused.
-#
-# Usage: run_lane.sh <LANE> <brief-relative-to-stage-b> <round-relative-out-subdir>
-# Exit: child's code on success paths; 2 dirty preflight; 3 refused input/logdir;
-#       4 lane log missing/uncopyable; 5 postflight dirt detected.
+# Exit: child's code on full success; 2 dirty/unverifiable preflight; 3 refused input/logdir;
+#       4 lane log missing or uncopyable; 5 postflight dirty or unverifiable; 6 receipt or commit failed.
 set -u
 
 LANE="${1:-}"; BRIEF="${2:-}"; OUTSUB="${3:-}"
@@ -33,18 +28,34 @@ CODEX="${CODEX_BIN:-/c/Users/user/AppData/Local/OpenAI/Codex/bin/2e5e00daee91c61
 
 die() { echo "REFUSED[$1] $2" >&2; echo "REFUSED_${LANE}_DONE"; exit "$1"; }
 
-# D1/D3: validate inputs before anything is launched or created.
+# R2: a status query that FAILS must never be read as "clean". Counts, or the literal ERR.
+status_count() {
+  local out rc
+  out="$(git status --porcelain 2>/dev/null)"; rc=$?
+  [ "$rc" -eq 0 ] || { echo ERR; return; }
+  printf '%s\n' "$out" | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' '
+}
+# R3: refuse to commit if anything outside the round is staged.
+staged_outside() { git diff --cached --name-only 2>/dev/null | grep -v "^${RELROUND}/" | grep -v '^[[:space:]]*$'; }
+commit_all() {
+  git add -A -- "$RELROUND" 2>/dev/null || { echo "GIT_ADD_FAILED" >&2; return 1; }
+  local outside; outside="$(staged_outside)"
+  if [ -n "$outside" ]; then
+    echo "STAGED_OUTSIDE_ROUND_REFUSED: $(printf '%s' "$outside" | tr '\n' ' ')" >&2
+    return 1
+  fi
+  if ! git diff --cached --quiet 2>/dev/null; then
+    git -c user.email="$EMAIL" -c user.name="$NAME" commit -q -m "$1" >/dev/null 2>&1 || { echo "GIT_COMMIT_FAILED" >&2; return 1; }
+  fi
+  return 0
+}
+
 [ -f "$S/$BRIEF" ] || die 3 "brief not found: stage-b/$BRIEF"
 case "$OUTSUB" in /*|*..*) die 3 "OUTSUB must stay inside the round: $OUTSUB" ;; esac
 [ -d "$R" ] || die 3 "round directory not found: $RELROUND"
 
-# F: the lane log must live outside the worktree; never let TMPDIR put it inside.
 LOGDIR="${TMPDIR:-$LOCALAPPDATA/Temp}/hgk-lanes"
 mkdir -p "$LOGDIR" || die 3 "cannot create lane log directory: $LOGDIR"
-# T6 regression: "pwd -W 2>/dev/null || pwd" printed BOTH forms here (the -W form on
-# stdout and then, because it still returned nonzero, the plain form too), so the
-# captured value carried two lines and the prefix test below could never match.
-# Use one normalising resolver, physical and lowercased, for both sides.
 nrm() { { cd "$1" && pwd -P; } 2>/dev/null | tr 'A-Z' 'a-z'; }
 WTRES=$(nrm "$WT"); LGRES=$(nrm "$LOGDIR")
 [ -n "$WTRES" ] && [ -n "$LGRES" ] || die 3 "cannot resolve worktree/log paths for the containment check"
@@ -52,41 +63,27 @@ case "$LGRES" in "$WTRES"|"$WTRES"/*) die 3 "lane log dir resolves inside the wo
 
 cd "$WT" || die 3 "cannot enter worktree"
 
-commit_all() {
-  git add -A -- "$RELROUND" 2>/dev/null
-  if ! git diff --cached --quiet 2>/dev/null; then
-    git -c user.email="$EMAIL" -c user.name="$NAME" commit -q -m "$1" >/dev/null 2>&1 || true
-  fi
-}
-
 STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
-commit_all "chore(s4post-b): commit harness artifacts before the ${LANE} lane handover"
-DIRTY=$(git status --porcelain 2>/dev/null | wc -l)
+TOKEN="${LANE_TOKEN:-$STAMP}"
+commit_all "chore(s4post-b): commit harness artifacts before the ${LANE} lane handover" \
+  || die 6 "harness preflight commit failed; refusing to hand over"
+DIRTY="$(status_count)"
+[ "$DIRTY" != "ERR" ] || die 2 "git status failed; cleanliness cannot be established, refusing to launch ${LANE}"
 [ "$DIRTY" -eq 0 ] || die 2 "worktree not clean before handover: $DIRTY path(s); refusing to launch ${LANE}"
 echo "PREFLIGHT_CLEAN HEAD=$(git rev-parse --short HEAD)"
 
-# D3: round-relative only.
 mkdir -p "$R/$OUTSUB" || die 3 "cannot create round-relative output dir: $OUTSUB"
 
 case "$LANE" in
   AO*) DEF_MODEL="gpt-6.1-sol"; DEF_PROV="openai"; DEF_EFF="medium" ;;
   *)   DEF_MODEL="opencode-go/deepseek-v4.1-flash"; DEF_PROV="opencode-go"; DEF_EFF="high" ;;
 esac
-# The admission gate pins these for every child it starts; the defaults apply only to
-# a hand launch. A pinned value is recorded in the lane manifest, so a lane can never
-# be mistaken for one that ran on the assignment.
 MODEL="${LANE_MODEL:-$DEF_MODEL}"; PROV="${LANE_PROVIDER:-$DEF_PROV}"; EFF="${LANE_EFFORT:-$DEF_EFF}"
 SANDBOX_MODE="${LANE_SANDBOX:-workspace-write}"
-LOG="$LOGDIR/${LANE}_${STAMP}.log"; LOGEXIT="$LOG.exit"
-echo "${LANE}_LANE=${STAMP} MODEL=${MODEL} provider=${PROV} reasoning=${EFF} (declared)"
-printf 'LANE=%s\nMODEL=%s\nPROVIDER=%s\nEFFORT=%s\nSTAMP=%s\nWT=%s\nROUTE_STYLE=%s\n' \
-  "$LANE" "$MODEL" "$PROV" "$EFF" "$STAMP" "$WT" "${ROUTE_STYLE:-openai}" > "$S/${LANE}_${STAMP}.manifest"
 
-# Route-aware invocation. A slug like "opencode-go/deepseek-v4.1-flash" is a CATALOG
-# ENTRY, not a provider id: passing it as -m with -c model_provider=<vendor> makes the
-# CLI answer "Model provider ... not found", which is a harness error and not a model
-# result. The catalog route supplies the adapter base URL and the catalog file and lets
-# the slug resolve; the openai route is the plain OAuth shape the checker lanes used.
+# R5: a slug like "opencode-go/deepseek-v4.1-flash" is a CATALOG ENTRY, not a provider id. The caller
+# must state the route; the gate passes the role's route so a writer can never be launched through a
+# route the qualification did not exercise.
 if [ "${ROUTE_STYLE:-openai}" = "catalog" ]; then
   INV=(-c "model=$MODEL" -c "model_reasoning_effort=\"$EFF\""
        -c "openai_base_url=${ROUTE_BASE_URL:-http://127.0.0.1:10102/v1}"
@@ -94,18 +91,25 @@ if [ "${ROUTE_STYLE:-openai}" = "catalog" ]; then
 else
   INV=(-m "$MODEL" -c "model_provider=\"$PROV\"" -c "model_reasoning_effort=\"$EFF\"")
 fi
+
+# A: the manifest is written OUTSIDE the worktree and copied in at postflight.
+LOG="$LOGDIR/${LANE}_${STAMP}.log"; LOGEXIT="$LOG.exit"; MAN="$LOGDIR/${LANE}_${STAMP}.manifest"
+echo "${LANE}_LANE=${STAMP} MODEL=${MODEL} provider=${PROV} reasoning=${EFF} route=${ROUTE_STYLE:-openai} (declared)"
+printf 'LANE=%s\nMODEL=%s\nPROVIDER=%s\nEFFORT=%s\nSTAMP=%s\nTOKEN=%s\nWT=%s\nROUTE_STYLE=%s\nSANDBOX=%s\n' \
+  "$LANE" "$MODEL" "$PROV" "$EFF" "$STAMP" "$TOKEN" "$WT" "${ROUTE_STYLE:-openai}" "$SANDBOX_MODE" > "$MAN"
+
 timeout 5400 "$CODEX" "${INV[@]}" exec --cd "$WT" --sandbox "$SANDBOX_MODE" --skip-git-repo-check \
   - < "$S/$BRIEF" > "$LOG" 2>&1
 CODE=$?
-echo "$CODE" > "$LOGEXIT"
+{ [ -f "$LOG" ] && printf 'child_exit=%s\n' "$CODE" > "$LOGEXIT"; } || printf 'child_exit=%s\n' "$CODE" > "$LOGEXIT"
 echo "${LANE} exit=${CODE} log=${LOG}"
 
-# D1: never claim a copy that did not happen.
-COPY_OK=0
+# D1/R1: never claim or accept a copy that did not happen; a failed receipt copy is fatal.
+COPY_OK=0; RECEIPT_OK=0
 if [ -f "$LOG" ]; then
   if cp "$LOG" "$S/${LANE}_${STAMP}.log"; then
     COPY_OK=1
-    cp "$LOGEXIT" "$S/${LANE}_${STAMP}.exit" 2>/dev/null || true
+    if cp "$LOGEXIT" "$S/${LANE}_${STAMP}.exit" 2>/dev/null; then RECEIPT_OK=1; fi
   fi
 fi
 if [ "$COPY_OK" -eq 1 ]; then
@@ -114,14 +118,30 @@ else
   MSG="evidence(s4post-b): ${LANE} lane METADATA ONLY ${STAMP} - no lane log was copied into the tree (child exit ${CODE}); do not read this as a completed lane"
   echo "POSTFLIGHT_LOG_COPY_FAILED log=$LOG" >&2
 fi
-commit_all "$MSG"
+[ "$RECEIPT_OK" -eq 1 ] || echo "POSTFLIGHT_RECEIPT_COPY_FAILED receipt=$LOGEXIT" >&2
 
-# D2: detected dirt is a failure, not a note.
-DIRTY2=$(git status --porcelain 2>/dev/null | wc -l)
+POSTFAIL=0
+commit_all "$MSG" || POSTFAIL=1
+DIRTY2="$(status_count)"
+[ "$DIRTY2" != "ERR" ] || { echo "POSTFLIGHT_STATUS_FAILED" >&2; POSTFAIL=1; }
+if [ "$DIRTY2" != "ERR" ] && [ "$DIRTY2" -ne 0 ]; then
+  echo "POSTFLIGHT_DIRTY_REJECTED: $DIRTY2 path(s) still untracked" >&2; POSTFAIL=1
+fi
+
+# The receipt attests that everything above passed. It is written last and committed, so the gate can
+# test for THIS launch without a wildcard that an older receipt could satisfy.
+if [ "$COPY_OK" -eq 1 ] && [ "$RECEIPT_OK" -eq 1 ] && [ "$POSTFAIL" -eq 0 ]; then
+  printf 'lane=%s\nstamp=%s\ntoken=%s\nchild_exit=%s\npostflight_dirty=%s\nmodel=%s\nroute=%s\n' \
+    "$LANE" "$STAMP" "$TOKEN" "$CODE" "$DIRTY2" "$MODEL" "${ROUTE_STYLE:-openai}" > "$S/${LANE}_${TOKEN}.receipt"
+  commit_all "evidence(s4post-b): ${LANE} lane receipt ${TOKEN} (child exit ${CODE})" \
+    || { echo "RECEIPT_COMMIT_FAILED" >&2; POSTFAIL=1; }
+  echo "RECEIPT_WRITTEN ${LANE}_${TOKEN}.receipt"
+fi
+
 echo "POSTFLIGHT:dirty=$DIRTY2 HEAD=$(git rev-parse --short HEAD)"
 echo "${LANE}_LANE_DONE"
 
-# Propagation. Any of these makes the handover untrustworthy even if the child succeeded.
 [ "$COPY_OK" -eq 1 ] || exit 4
-[ "$DIRTY2" -eq 0 ] || exit 5
+[ "$RECEIPT_OK" -eq 1 ] || exit 6
+[ "$POSTFAIL" -eq 0 ] || exit 5
 exit "$CODE"

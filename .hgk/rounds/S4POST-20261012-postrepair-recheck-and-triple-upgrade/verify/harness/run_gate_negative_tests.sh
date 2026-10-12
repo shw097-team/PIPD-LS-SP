@@ -27,7 +27,9 @@ exit "$v"
 EOF
 printf '#!/usr/bin/env bash\necho Q1_OK\necho Q2_OK\nexit 0\n' > "$SBQ"
 printf '#!/usr/bin/env bash\necho "no qualification"\nexit 9\n' > "$SBQF"
-chmod +x "$SBL" "$SBQ" "$SBQF"
+SBARGV="$BASE/stub-argv.sh"
+printf '#!/usr/bin/env bash\necho "$*" >> "${ARGV_LOG:-/dev/null}"\necho Q1_OK\necho Q2_OK\nexit 0\n' > "$SBARGV"
+chmod +x "$SBL" "$SBQ" "$SBQF" "$SBARGV"
 
 pass=0; fail=0
 ck(){ if [ "$2" = "$3" ]; then echo "PASS $1 (exit=$3)"; pass=$((pass+1)); else echo "FAIL $1 expected=$2 actual=$3"; fail=$((fail+1)); fi; }
@@ -80,6 +82,20 @@ OUT=G7; GARGS=(VERIFY brief_nt_a.md)
 ck G7_HAPPY_PATH 0 "$(gitq GATE_BIN="$SBQ")"
 has G7_qualification_passed QUALIFICATION_PASSED "$LOGD/G7.out"
 has G7_no_deviation_notice LANE_SET_OK "$LOGD/G7.out"
+
+echo "### G8 zero qualification attempts must NOT be advertised as a qualified lane (R4)"
+OUT=G8; GARGS=(EXECUTE brief_nt_a.md)
+ck G8_ZERO_RUNS_REFUSED 3 "$(gitq GATE_QUALIFY_RUNS=0)"
+has G8_says_refused "REFUSED\[3\]" "$LOGD/G8.out"
+if grep -q "QUALIFICATION_PASSED" "$LOGD/G8.out"; then echo "FAIL G8_claimed_qualified"; fail=$((fail+1)); else echo "PASS G8_did_not_claim_qualified"; pass=$((pass+1)); fi
+
+echo "### G9 the writer must be launched through the route that was qualified (R5)"
+ARGV_LOG="$LOGD/g9-argv.txt"; : > "$ARGV_LOG"
+OUT=G9; GARGS=(EXECUTE brief_nt_a.md)
+ck G9_EXECUTE_RUNS 0 "$(gitq GATE_QUALIFY_RUNS=1 GATE_BIN="$SBARGV" ARGV_LOG="$ARGV_LOG")"
+if grep -q 'model=opencode-go/deepseek-v4.1-flash' "$ARGV_LOG"; then echo "PASS G9_child_used_the_catalog_slug"; pass=$((pass+1)); else echo "FAIL G9_child_used_the_catalog_slug"; fail=$((fail+1)); fi
+if grep -q 'model_provider' "$ARGV_LOG"; then echo "FAIL G9_child_used_a_provider_id"; fail=$((fail+1)); else echo "PASS G9_child_did_not_use_a_provider_id"; pass=$((pass+1)); fi
+if [ "$(grep -c 'model=opencode-go' "$ARGV_LOG")" -ge 2 ]; then echo "PASS G9_qualification_and_writer_agree"; pass=$((pass+1)); else echo "FAIL G9_qualification_and_writer_agree"; fail=$((fail+1)); fi
 
 echo
 echo "RESULT pass=$pass fail=$fail"
