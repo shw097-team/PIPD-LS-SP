@@ -1,0 +1,45 @@
+schema: FAR-RESEARCH-PLAN/1
+plan_id: FAR-PIPD-S4EXT-OWNER-OPEN-002-P1
+request_id: FAR-PIPD-S4EXT-OWNER-OPEN-002
+
+subquestions:
+  Q1: >
+    For each of the 44 stale entries, does the recorded digest equal the bytes of that path at the
+    seal's own candidate, at HEAD, or under an LF-normalised basis? Anything left over is UNEXPLAINED
+    and is the only part that can be a real defect.
+  Q2: >
+    Is the seal byte-stale, is the tool's --verify refusal correct fail-closed design, and what does
+    each existing consumer actually do with a mismatching entry?
+  Q3: >
+    Is "is an ancestor of HEAD" the right invariant for a recorded candidate_head, or do artifacts
+    generated on sibling lines legitimately record a resolvable non-ancestor?
+  Q4: >
+    What is the minimum change that makes each item decidable, and does it require rewriting any
+    tracked evidence byte, re-sealing, or changing a published digest?
+  Q5: >
+    For the EXECUTE lane, is the failure a repo defect or a provider/adapter contract gap, and what is
+    the cheapest durable mitigation?
+
+claim_classes: [FACT, DEFECT_PATTERN, ROOT_CAUSE, CONTRADICTION, RECOMMENDATION]
+
+lanes:
+  lane_a_on_disk_assets:
+    method: recompute every digest; classify against the sealed candidate, HEAD and an LF basis; read the builders and every consumer
+    status: INVESTIGATED
+  lane_b_callable_skills:
+    method: hgk-governed-execution FAR mechanics plus scripts/far_gate_check.py for the Gate 1 receipt
+    status: INVESTIGATED
+  lane_c_fresh_context:
+    method: an independent read-only challenger told to falsify four load-bearing conclusions, including an attempt to find one revision/basis that explains all six leftover entries
+    status: DISPATCHED
+
+stop_criteria:
+  - every claim cites file:line or a command with its exit code
+  - no recommendation without a mapped root cause
+  - abstain rather than assume drift
+  - a falsified claim is corrected in the ledger, not defended
+
+nonclaims:
+  - this study does not re-open the officer's PASS_CHALLENGE verdict
+  - this study does not raise any claim ceiling
+  - nothing here is a release, publication or production statement

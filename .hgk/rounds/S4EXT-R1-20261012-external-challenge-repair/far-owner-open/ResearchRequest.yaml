@@ -1,0 +1,49 @@
+schema: FAR-RESEARCH-REQUEST/1
+request_id: FAR-PIPD-S4EXT-OWNER-OPEN-002
+created_date: "2026-10-12"
+owner: user (Human Policy Owner)
+task_class: RESEARCH_GENERAL
+raised_by: >
+  the S4EXT-R1 round closed with the independent acceptance officer returning PASS_CHALLENGE and four
+  items deliberately routed to their owners rather than fixed
+authority: >
+  the user's order to research and evaluate the four owner-open items with FAR and to propose a
+  low-resistance, high-engineering-necessity adjudication
+
+decision_question: >
+  Four items were left open because each looked like somebody else's decision. For each one: is it a
+  real defect or a declared semantics that only looks like one, what is the minimum change that makes
+  it decidable, and what should the owner actually rule?
+  (TT-020) the evidence manifest's per-entry digests are not recomputed against anything;
+  (TT-021) 41 to 44 of 1085 entries have a recorded digest that differs from the worktree;
+  (TT-023) the mandated EXECUTE model cannot sustain a tool-calling session through the local adapter;
+  (TT-024) some artifacts record a candidate_head that is not an ancestor of HEAD.
+
+scope:
+  in_scope:
+    - .hgk/artifacts/evidence_manifest.json and .hgk/artifacts/evidence_manifest.seal.json
+    - tools/build_evidence_manifest.py, tools/verify_evidence_digests.py, tools/build_publication_manifest.py
+    - the EXECUTE lane's model/provider configuration and the receipt convention that records it
+    - every tracked JSON carrying a candidate_head field
+  out_of_scope:
+    - the acceptance officer's verdict, which stands on its own receipt
+    - any rewrite of tracked evidence bytes or of a published artifact
+    - changes to HG-KSEOS or Fabric
+  forbidden_without_separate_authority:
+    - re-sealing the manifest to make staleness disappear
+    - deleting entries from the manifest
+    - silently substituting a lane model without recording declared versus actual
+
+boundaries:
+  budget: "bounded - 3 lanes (on-disk assets, callable skills, fresh-context challenger)"
+  abstain_condition: >
+    if the corpus cannot explain why an entry differs, record it as UNEXPLAINED rather than assuming
+    drift
+
+required_output:
+  - ResearchPlan.yaml
+  - ClaimLedger.tsv
+  - CandidateResearch.yaml
+  - FAR_ADJUDICATION.json with per-option resistance and necessity scores
+  - Gate1_Receipt.json
+  - ResearchSynthesis.md

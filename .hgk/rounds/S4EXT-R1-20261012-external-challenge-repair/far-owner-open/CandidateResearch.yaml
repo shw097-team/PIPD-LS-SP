@@ -1,0 +1,146 @@
+schema: FAR-CANDIDATE-RESEARCH/1
+request_id: FAR-PIPD-S4EXT-OWNER-OPEN-002
+lane_c_record:
+  delegation_id: deleg_7ba46965
+  role: fresh-context read-only challenger (leaf)
+  duration_s: 587
+  overall: PARTIALLY_CONFIRMS
+  falsified:
+    - "C-10: the claim that 6 entries are unexplained and that the manifest mixes at least three revisions"
+    - "C-14: the count 14 non-ancestor identities (true value 21)"
+    - "the draft's inclusion of f541c396 among the non-ancestor heads"
+    - "the proposal to replace ancestry with a resolves-only invariant"
+  confirmed:
+    - "the seal's bytes are intact"
+    - "exit 3 REFUSED_STALE_OR_FOREIGN_MANIFEST is correct fail-closed design"
+    - "a report-only classifier breaks no existing consumer"
+    - "ancestry is already report-only in the verifier"
+  independent_recheck: >
+    every load-bearing challenger measurement was reproduced by the planner before adoption: the
+    five-basis classification gives disk 1041 / blob@cand 38 / CRLF(blob@cand) 5 / CRLF(disk) 1 /
+    unexplained 0; f541c396 --is-ancestor HEAD and refs/heads/main both exit 0; the verifier reports
+    identity_checks 56 with 35 ancestors and 21 non-ancestors over exactly three sibling heads.
+
+candidates:
+
+  TT-020_and_TT-021:
+    problem_statement: >
+      Forty-four recorded digests differ from the current worktree, nothing recomputes them, and the
+      only tool that could notice copies them verbatim into crosswalk_digest. The alarm currently
+      cannot distinguish three very different situations, and (measured) all 44 are in fact explained
+      by the seal's own as-of plus a line-ending basis.
+    options:
+      - id: F-020-A-BASIS
+        title: make the digest verifier basis-aware and seal-aware, then fail only on real drift
+        change: >
+          extend tools/verify_evidence_digests.py to try, per entry, five bases (worktree bytes, blob at
+          the seal's candidate, CRLF of that blob, CRLF of the worktree, LF of the worktree) and emit
+          one class per mismatch: MATCH_WORKTREE, EXPLAINED_AT_SEALED_CANDIDATE, EXPLAINED_BY_EOL_BASIS,
+          UNEXPLAINED_DRIFT. --strict exits non-zero only when UNEXPLAINED_DRIFT > 0. Correct the
+          docstring's stale prose (41 -> computed). No tracked evidence byte changes; no re-seal.
+        resistance: LOW
+        resistance_why: one tool file plus its test; the manifest, the seal and crosswalk_digest are untouched, so no consumer needs re-reconciliation
+        necessity: HIGH
+        necessity_why: today the alarm means nothing because a benign epoch drift and a replaced evidence file are indistinguishable; after the change it means exactly one thing
+        measured_effect: "44 stale -> 0 UNEXPLAINED_DRIFT (38 blob@cand, 5 CRLF(blob@cand), 1 CRLF(disk))"
+        recommendation: ADOPT
+      - id: F-021-B-RESEAL
+        title: re-seal the manifest at the current commit
+        change: rewrite the manifest bytes and the seal at HEAD
+        resistance: MEDIUM
+        necessity: LOW
+        why_not: >
+          recurrence is guaranteed (the next commit makes it stale again), it changes a tracked
+          artifact, the seal's recorded sha and crosswalk_digest, and the consumer review found four
+          consumers reconciling against those exact bytes -- churn bought with breakage for no added
+          assurance.
+        recommendation: REJECT
+      - id: F-021-C-PRUNE
+        title: drop or prune the entries that diverge
+        resistance: LOW
+        necessity: LOW
+        why_not: destroys the snapshot's completeness and hides the epoch relationship the seal exists to record
+        recommendation: REJECT
+      - id: F-020-B-SEAL-SEMANTICS
+        title: document what the seal's candidate actually names
+        change: >
+          state in the seal schema and reader that candidate names the WORKTREE state at seal time
+          (HEAD f541c396 plus one not-yet-committed file, worktree CRLF), not an exact commit snapshot;
+          one entry postdates the commit by about five minutes.
+        resistance: LOW
+        necessity: MEDIUM
+        necessity_why: the challenger's own residual risk is exactly this -- a reader trusting the seal's candidate as exact provenance is subtly misled
+        recommendation: ADOPT_AS_DOC_CHANGE
+
+  TT-024:
+    problem_statement: >
+      Twenty-one of 56 recorded candidate_head values are not ancestors of HEAD. The draft proposed
+      replacing the invariant with "resolves to a commit in this repository"; the challenger showed
+      that is strictly weaker, and that ancestry is already report-only anyway.
+    options:
+      - id: F-024-A-KEEP-REPORT-ONLY
+        title: keep ancestry report-only, correct the labels and prose, keep T4 as it is
+        change: >
+          leave the invariant that matters where it is (tests/test_s4ext_artifact_reproducibility.py T4
+          on s1/TECHNOLOGY_ADMISSIONS.json, which passes); relabel the 21 as a known class (cross-line
+          generation identity, expected for artifacts produced on r2/r3 lines); if a hard signal is
+          wanted later, add the strictly stronger report-only check "the recorded revision resolves AND
+          its tree contains the path with the recorded bytes".
+        resistance: LOW
+        necessity: MEDIUM
+        necessity_why: removes a false-alarm reading without weakening the one enforced assertion
+        recommendation: ADOPT
+      - id: F-024-B-RESOLVES-ONLY
+        title: replace ancestry with "resolves to a commit"
+        resistance: LOW
+        necessity: NONE
+        why_not: accepts the 21 sibling heads and even a commit whose tree lacks the artifact path; a no-op for the tool and a downgrade for T4
+        recommendation: REJECT
+      - id: F-024-C-FATAL-ANCESTRY
+        title: make ancestry fatal for all 56
+        resistance: MEDIUM
+        necessity: NEGATIVE
+        why_not: rejects 21 legitimate identities and any rebase, squash, shallow or orphan clone
+        recommendation: REJECT
+
+  TT-023:
+    problem_statement: >
+      The mandated EXECUTE model cannot sustain a tool-calling session through the local adapter
+      (HTTP 400 reasoning_content), so a bounded-writer run dies after its first tool call. The
+      catalogue cannot be used to predict this (every deepseek entry exposes no usable flag).
+    options:
+      - id: F-023-A-PROBE-AND-RECORD
+        title: probe eligibility live, pin the verified model in the lane, formalise the substitution record
+        change: >
+          the EXECUTE lane runs a two-turn tool-call probe before any long run and records
+          model_eligibility_probe in the lane receipt; the lane config pins the probed model; the
+          declared-versus-actual model is always recorded as a field (existing practice, formalised);
+          the adapter's reasoning_content gap is escalated to the adapter and provider owner as an
+          external defect.
+        resistance: LOW
+        resistance_why: one probe call plus a receipt field; nothing in the repo's governance changes
+        necessity: HIGH
+        necessity_why: each unpredicted occurrence costs a full failed writer run and invites a silent substitution
+        recommendation: ADOPT
+      - id: F-023-B-CHANGE-MODEL-FAMILY
+        title: move the EXECUTE lane to a different provider family
+        resistance: MEDIUM
+        necessity: LOW
+        why_not: alters the declared separation of duties; unnecessary while a same-provider sibling works
+        recommendation: REJECT_UNLESS_OWNER_REDECLARES_SOD
+      - id: F-023-C-FIX-ADAPTER-HERE
+        title: patch the adapter in this repository
+        resistance: HIGH
+        necessity: NONE
+        why_not: the adapter is external to this repo; a local patch would be an unowned fork of someone else's contract
+        recommendation: REJECT_HERE_ESCALATE_EXTERNALLY
+
+cross_cutting:
+  principles:
+    - fix the instrument, never lower the rule (carried over from the first FAR round)
+    - an alarm must mean exactly one thing; if a check cannot separate benign epoch drift from real corruption, the check is the defect, not the data
+    - a claim falsified by an independent challenger is corrected in the ledger, not defended
+  nonclaims:
+    - this study re-opens nothing in the acceptance officer's PASS_CHALLENGE verdict
+    - it raises no claim ceiling and asserts no release, publication or production status
+    - it changes no tracked evidence byte, no seal and no published digest

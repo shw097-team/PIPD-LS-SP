@@ -1,0 +1,97 @@
+{
+  "schema": "FAR-ADJUDICATION/1",
+  "request_id": "FAR-PIPD-S4EXT-OWNER-OPEN-002",
+  "created_date": "2026-10-12",
+  "adjudicator": "Hermes governed orchestrator (PLAN lane), under the user's FAR authorization",
+  "subject": "the four items the S4EXT-R1 round routed to owners instead of fixing",
+  "lanes": {
+    "lane_a_on_disk_assets": "INVESTIGATED",
+    "lane_b_callable_skills": "INVESTIGATED",
+    "lane_c_fresh_context_challenger": {
+      "delegation_id": "deleg_7ba46965",
+      "overall": "PARTIALLY_CONFIRMS",
+      "falsified_count": 4,
+      "adopted_only_after": "the planner independently reproduced every load-bearing measurement"
+    }
+  },
+  "self_corrections": [
+    {
+      "id": "SC-1",
+      "draft_claim": "6 of 44 mismatching entries are unexplained and the manifest mixes at least three revisions",
+      "verdict": "WITHDRAWN",
+      "corrected_fact": "with the seal-time worktree basis included (blob at the sealed candidate, and its CRLF form) UNEXPLAINED = 0 across all 1085 entries: disk 1041, blob@cand 38, CRLF(blob@cand) 5, CRLF(disk) 1",
+      "why": "the draft tested only LF-normalised disk, i.e. the wrong basis; the manifest hashes worktree bytes"
+    },
+    {
+      "id": "SC-2",
+      "draft_claim": "14 files record a non-ancestor candidate_head, values including f541c396",
+      "verdict": "CORRECTED",
+      "corrected_fact": "21 of 56 checks are non-ancestor, over exactly three sibling heads (7c5bc585 x8, 10cb3d31 x5, db229911 x8); f541c396 is an ancestor of both HEAD and refs/heads/main and is no artifact's candidate_head"
+    },
+    {
+      "id": "SC-3",
+      "draft_claim": "replace the ancestor invariant with 'resolves to a commit in this repository'",
+      "verdict": "REJECTED",
+      "corrected_fact": "that invariant is strictly weaker (it accepts the 21 sibling heads and even a commit whose tree lacks the path); ancestry is already report-only in the tool, so the proposal is a no-op there and a downgrade for the one enforced test"
+    }
+  ],
+  "adjudications": [
+    {
+      "item": "TT-021 (44 entries differ from the worktree)",
+      "decision": "ADOPT F-020-A-BASIS together with F-020-B-SEAL-SEMANTICS",
+      "what_the_owner_shipped_before_this_study": "TT-021 existed only as a measurement ('41/1085 stale')",
+      "what_the_owner_should_rule": "treat the 44 as BENIGN epoch drift explained by the seal, and make that fact decidable by the tool rather than by a hand audit",
+      "resistance": "LOW",
+      "necessity": "HIGH",
+      "evidence": "five-basis classification: UNEXPLAINED = 0; no tracked evidence byte needs to change",
+      "rejected_alternatives": [
+        "re-seal at HEAD (churn + tracked-artifact + crosswalk digest changes, four consumers reconcile against those bytes)",
+        "prune the diverging entries (destroys the snapshot)"
+      ],
+      "residual_risk_disclosed": "the CRLF/worktree reading is the best-fitting explanation of all 44 residuals, not a proven fact: no archived worktree copy exists"
+    },
+    {
+      "item": "TT-020 (nothing recomputes per-entry digests)",
+      "decision": "ADOPT F-020-A-BASIS; the verifier delivered this round becomes the consumer-facing check",
+      "what_the_owner_should_rule": "wire the verifier into the round's evidence build as a REPORTING step; stale is not failure, UNEXPLAINED_DRIFT is",
+      "resistance": "LOW",
+      "necessity": "HIGH",
+      "evidence": "no existing consumer recomputes a per-entry digest or reads a classification field, so adding one breaks nothing (challenger F8, re-checked against build_publication_manifest.py, build_evidence_md.py and the three tests)",
+      "correction_delivered": "the verifier's docstring says '41 of 1085 entries are stale'; the measured value is 44 -- prose drift to correct in the same change"
+    },
+    {
+      "item": "TT-024 (recorded candidate_head that is not an ancestor of HEAD)",
+      "decision": "ADOPT F-024-A-KEEP-REPORT-ONLY",
+      "what_the_owner_should_rule": "the 21 are a KNOWN CLASS (cross-line generation identity from the r2/r3 lines, all dated 2026-10-09), not a defect; keep the one enforced assertion (T4) as it is because it holds",
+      "resistance": "LOW",
+      "necessity": "MEDIUM",
+      "evidence": "ancestry is already report-only in verify_evidence_digests.py; the only enforcement, tests/test_s4ext_artifact_reproducibility.py T4, passes on s1/TECHNOLOGY_ADMISSIONS.json",
+      "if_a_hard_signal_is_wanted_later": "the strictly stronger report-only check is 'the recorded revision resolves AND its tree contains the path with the recorded bytes' (generation reproducibility), not 'resolves' alone",
+      "rejected_alternatives": [
+        "resolves-only (strictly weaker)",
+        "fatal ancestry for all 56 (rejects 21 legitimate identities and any rebase/squash/shallow clone)"
+      ]
+    },
+    {
+      "item": "TT-023 (the EXECUTE lane's declared model cannot sustain tool calls)",
+      "decision": "ADOPT F-023-A-PROBE-AND-RECORD; REJECT the in-repo adapter patch and the SoD change",
+      "what_the_owner_should_rule": "the lane must PROBE eligibility with a live two-turn tool call before a long run, pin the probed model, and record declared versus actual in the receipt; escalate the adapter defect (it must echo reasoning_content) to the adapter/provider owner",
+      "resistance": "LOW",
+      "necessity": "HIGH",
+      "evidence": "the catalogue exposes no usable flag for any deepseek entry, so eligibility is only decidable empirically; a same-provider sibling completes the probe",
+      "rejected_alternatives": [
+        "change the EXECUTE model family (alters the declared separation of duties; unnecessary)",
+        "patch the adapter in this repo (unowned fork of an external contract)"
+      ],
+      "residual_risk_disclosed": "the escalation has no in-repo evidence path until the adapter owner answers; the lane must keep substituting-and-declaring meanwhile"
+    }
+  ],
+  "net_requirement_change": "NONE. Every adopted option is either a report-only addition or a documentation correction. No tracked evidence byte, no seal, no published digest and no acceptance rule changes; nothing is relaxed.",
+  "claim_ceiling": "UNCHANGED -- this study is research and adjudication only. It asserts no release, no publication approval and no production status, and it re-opens nothing in the acceptance officer's PASS_CHALLENGE verdict.",
+  "owner_actions_requested": [
+    "ratify F-020-A-BASIS + F-020-B-SEAL-SEMANTICS (TT-020/TT-021)",
+    "ratify F-024-A-KEEP-REPORT-ONLY (TT-024)",
+    "ratify F-023-A-PROBE-AND-RECORD and forward the adapter defect externally (TT-023)"
+  ],
+  "implementation_note": "the three adopted changes are bounded writer work (one tool file, one docstring, one schema/reader note); they are NOT executed by this study and would each invalidate the current acceptance receipt by construction, so they need their own commit and a fresh independent verification."
+}
