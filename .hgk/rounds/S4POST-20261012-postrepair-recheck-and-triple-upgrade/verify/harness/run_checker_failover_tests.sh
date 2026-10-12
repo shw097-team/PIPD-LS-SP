@@ -5,7 +5,10 @@
 set -u
 WT="${LANE_WT:-C:/Projects/Agent_Workspace/PIPD/worktrees/s4post-b-wt}"
 REL='.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade'
-LOGD="$TMPDIR/fo-tests"; rm -rf "$LOGD"; mkdir -p "$LOGD"
+# Native git does not translate MSYS-style paths on this host: a clone destination given as
+# /tmp/x is created literally as \tmp\x, so the subsequent cd fails. Use a native path for
+# anything a native binary must resolve.
+LOGD="C:/Users/user/AppData/Local/Temp/fo-tests"; rm -rf "$LOGD"; mkdir -p "$LOGD"
 CLONE="$LOGD/c"; E="$LOGD/lanes"; mkdir -p "$E"
 export TMPDIR="$E"
 pass=0; fail=0
