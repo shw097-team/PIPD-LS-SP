@@ -41,7 +41,7 @@ run() { TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$STUB" STUB_EXIT="${1:-0}" ST
 
 echo "### T1 dirty preflight is refused (v1 passed this; regression guard)"
 touch "$CLONE/NT_DIRT.txt"
-ck T1_DIRTY_REFUSED 2 "$(run 0 0 0 NT1 BRIEF_ABSENT.md verify/nt)"
+ck T1_DIRTY_REFUSED 2 "$(run 0 0 0 NT1 brief_nt.md verify/nt)"
 grep -q 'REFUSED\[2\]' "$LOGD/NT1.out" && { echo PASS T1_says_refused; pass=$((pass+1)); } || { echo FAIL T1_says_refused; fail=$((fail+1)); }
 rm -f "$CLONE/NT_DIRT.txt"
 

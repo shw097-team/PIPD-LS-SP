@@ -41,8 +41,13 @@ case "$OUTSUB" in /*|*..*) die 3 "OUTSUB must stay inside the round: $OUTSUB" ;;
 # F: the lane log must live outside the worktree; never let TMPDIR put it inside.
 LOGDIR="${TMPDIR:-$LOCALAPPDATA/Temp}/hgk-lanes"
 mkdir -p "$LOGDIR" || die 3 "cannot create lane log directory: $LOGDIR"
-WTRES=$(cd "$WT" && pwd -W 2>/dev/null || cd "$WT" && pwd)
-LGRES=$(cd "$LOGDIR" && pwd -W 2>/dev/null || cd "$LOGDIR" && pwd)
+# T6 regression: "pwd -W 2>/dev/null || pwd" printed BOTH forms here (the -W form on
+# stdout and then, because it still returned nonzero, the plain form too), so the
+# captured value carried two lines and the prefix test below could never match.
+# Use one normalising resolver, physical and lowercased, for both sides.
+nrm() { { cd "$1" && pwd -P; } 2>/dev/null | tr 'A-Z' 'a-z'; }
+WTRES=$(nrm "$WT"); LGRES=$(nrm "$LOGDIR")
+[ -n "$WTRES" ] && [ -n "$LGRES" ] || die 3 "cannot resolve worktree/log paths for the containment check"
 case "$LGRES" in "$WTRES"|"$WTRES"/*) die 3 "lane log dir resolves inside the worktree: $LGRES" ;; esac
 
 cd "$WT" || die 3 "cannot enter worktree"
