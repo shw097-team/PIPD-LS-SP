@@ -91,6 +91,19 @@ nrm() { { cd "$1" && pwd -P; } 2>/dev/null | tr 'A-Z' 'a-z'; }
 WTRES=$(nrm "$WT"); LGRES=$(nrm "$LOGDIR")
 [ -n "$WTRES" ] && [ -n "$LGRES" ] || die 3 "cannot resolve worktree/log paths for the containment check"
 case "$LGRES" in "$WTRES"|"$WTRES"/*) die 3 "lane log dir resolves inside the worktree: $LGRES" ;; esac
+CONTAIN="${LANE_PY:-python}"
+INSIDE="$("$CONTAIN" - "$LOGDIR" "$WT" <<'EOPY' 2>/dev/null
+import os, sys
+d = os.path.realpath(sys.argv[1]); w = os.path.realpath(sys.argv[2])
+d = os.path.normcase(d).rstrip(os.sep); w = os.path.normcase(w).rstrip(os.sep)
+print("INSIDE" if (d == w or d.startswith(w + os.sep)) else "OUTSIDE")
+EOPY
+)"
+# FCR-004: the lexical comparison above is defeated by a Windows junction. The shell's resolver does not
+# resolve one; the OS resolver does, so the containment test is made against realpath as well.
+if [ "$INSIDE" = "INSIDE" ]; then
+  die 3 "lane log dir resolves inside the worktree (realpath): $LOGDIR"
+fi
 
 cd "$WT" || die 3 "cannot enter worktree"
 

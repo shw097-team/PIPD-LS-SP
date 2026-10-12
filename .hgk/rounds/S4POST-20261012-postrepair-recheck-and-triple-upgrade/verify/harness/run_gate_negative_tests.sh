@@ -61,8 +61,8 @@ chmod +x "$SBL" "$SBQ" "$SBQF" "$SBARGV" "$SBONLY"
 
 pass=0; fail=0
 ck(){ if [ "$2" = "$3" ]; then echo "PASS $1 (exit=$3)"; pass=$((pass+1)); else echo "FAIL $1 expected=$2 actual=$3"; fail=$((fail+1)); fi; }
-has(){ if grep -q "$2" "$3" 2>/dev/null; then echo "PASS $1"; pass=$((pass+1)); else echo "FAIL $1"; fail=$((fail+1)); fi; }
-hasnot(){ if grep -q "$2" "$3" 2>/dev/null; then echo "FAIL $1 (found: $2)"; fail=$((fail+1)); else echo "PASS $1"; pass=$((pass+1)); fi; }
+has(){ if grep -qF -- "$2" "$3" 2>/dev/null; then echo "PASS $1"; pass=$((pass+1)); else echo "FAIL $1"; fail=$((fail+1)); fi; }
+hasnot(){ if grep -qF -- "$2" "$3" 2>/dev/null; then echo "FAIL $1 (found: $2)"; fail=$((fail+1)); else echo "PASS $1"; pass=$((pass+1)); fi; }
 # env, not a bare "$@": the callers pass extra NAME=VALUE assignments and env accepts
 # them before the command, whereas a bare expansion tried to execute them (exit 127).
 gitq(){ env TMPDIR="$LOGD" LANE_WT="$CLONE" CODEX_BIN="$SBL" GATE_BIN="$SBQ" "$@" \

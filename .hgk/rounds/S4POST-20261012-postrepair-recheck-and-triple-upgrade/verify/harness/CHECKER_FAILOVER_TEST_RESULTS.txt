@@ -15,10 +15,9 @@ PASS A3_record_names_backup
 PASS A3_record_names_primary
 PASS A3_record_says_identity_changes
 PASS A3_no_record_for_the_killed_lane_unneeded
-RESULT pass=12 fail=2
-verify/harness/run_checker_failover_tests.sh: line 76: [: missing `]'
-FAIL A4_nonzero_exit expected=1 actual=0
-FAIL A4_says_not_exhaustion
+### A4 a protocol 400 whose text ALSO carries a quota word must NOT fail over (round-10)
+PASS A4_nonzero_exit (exit=1)
+PASS A4_says_not_exhaustion
 FAIL A4_names_the_hard_failure
 PASS A4_did_not_fail_over
 ### A5 a real exhaustion failover must leave its record committed and the tree clean (round-10)
@@ -27,4 +26,4 @@ FAIL A5_backup_ok
 FAIL A5_record_tracked ()
 FAIL A5_tree_clean
 
-RESULT pass=14 fail=8
+RESULT pass=16 fail=6

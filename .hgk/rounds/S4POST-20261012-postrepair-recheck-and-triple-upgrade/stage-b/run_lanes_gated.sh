@@ -40,17 +40,21 @@ WTRES="$(nrmg "$WT")"; LGRES="$(nrmg "$(dirname "$LOGDIR")")"
 case "$LGRES" in "$WTRES"|"$WTRES"/*) echo "REFUSED[3] gate log dir resolves inside the worktree: $LGRES" >&2; echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 3 ;; esac
 mkdir -p "$LOGDIR"
 # FCR-004: the lexical pwd -P comparison above is defeated by a Windows junction, which let the gate
-# write its own log INSIDE the worktree and still return 0. Ask the worktree's own VCS instead: a probe
-# file placed in the log directory is visible to `git status` in the worktree exactly when that
-# directory is inside it, whatever the path spelling or link type.
-PROBE=".hgk-containment-probe-$$"
-: > "$LOGDIR/$PROBE" 2>/dev/null || { echo "REFUSED[3] gate log dir is not writable: $LOGDIR" >&2; echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 3; }
-if git -C "$WT" status --porcelain --untracked-files=all --ignored=matching 2>/dev/null | grep -qF -- "$PROBE"; then
-  rm -f "$LOGDIR/$PROBE"
-  echo "REFUSED[3] gate log dir is inside the worktree (git sees the probe): $LOGDIR" >&2
+# write its own log INSIDE the worktree and still return 0. Two weaker checks failed first: git's own
+# status hid the probe because the target directory is ignored, and the shell's resolver does not resolve
+# a junction at all. The OS resolver does, so the containment test is made against realpath.
+CONTAIN="${GATE_PY:-python}"
+INSIDE="$("$CONTAIN" - "$LOGDIR" "$WT" <<'EOPY' 2>/dev/null
+import os, sys
+d = os.path.realpath(sys.argv[1]); w = os.path.realpath(sys.argv[2])
+d = os.path.normcase(d).rstrip(os.sep); w = os.path.normcase(w).rstrip(os.sep)
+print("INSIDE" if (d == w or d.startswith(w + os.sep)) else "OUTSIDE")
+EOPY
+)"
+if [ "$INSIDE" = "INSIDE" ]; then
+  echo "REFUSED[3] gate log dir resolves inside the worktree: $LOGDIR" >&2
   echo "GATE_REFUSED_NO_WRITERS_STARTED"; exit 3
 fi
-rm -f "$LOGDIR/$PROBE"
 OUTSUB="${GATE_OUTSUB:-verify/gate}"
 PDF="${GATE_PY:-python}"
 

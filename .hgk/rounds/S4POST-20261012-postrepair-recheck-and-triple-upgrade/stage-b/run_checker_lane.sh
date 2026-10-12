@@ -111,6 +111,8 @@ STAMP2="$(printf '%s\n' "$OUT2" | sed -n 's/^'"$LANE"'_LANE=\([0-9TZ]*\).*/\1/p'
 # native one (C:/..), and a native git cannot be handed the other spelling. Run git from the record's own
 # directory and name it by basename, so no path is translated at all.
 RD="$(dirname "$REC")"; RB="$(basename "$REC")"
+# native git cannot be handed an MSYS spelling: normalise it
+command -v cygpath >/dev/null 2>&1 && RD="$(cygpath -m "$RD")"
 git -C "$RD" add -- "$RB" 2>/dev/null
 if ! git -C "$RD" -c user.email=lane-harness@local.invalid -c user.name="hgk lane harness" commit -q -m "evidence(s4post-b): checker failover record for $LANE" 2>/dev/null; then
   echo "CHECKER_FAILOVER_RECORD_NOT_COMMITTED $RB"; exit 4
