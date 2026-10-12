@@ -54,7 +54,10 @@ if grep -q 'stub lane speaking' "$LOGD/NT2.out"; then echo "FAIL T2_child_was_la
 echo "### T3 successful run: log really copied in, commit says so, no stray root dir (D3)"
 ck T3_STUB_SUCCESS 0 "$(run 0 0 0 NT3 brief_nt.md verify/nt)"
 ls "$CLONE/$REL/stage-b/" | grep -q '^NT3_.*\.log$' && { echo PASS T3_log_copied_in; pass=$((pass+1)); } || { echo FAIL T3_log_copied_in; fail=$((fail+1)); }
-git -C "$CLONE" log -1 --pretty=%B | grep -qi 'copied in from outside' && { echo PASS T3_commit_states_copy; pass=$((pass+1)); } || { echo FAIL T3_commit_states_copy; fail=$((fail+1)); }
+# v3 makes two postflight commits (lane output, then the per-launch receipt), so the
+# assertion must look past the receipt commit rather than only at HEAD.
+git -C "$CLONE" log -2 --pretty=%B | grep -qi 'copied in from outside' && { echo PASS T3_commit_states_copy; pass=$((pass+1)); } || { echo FAIL T3_commit_states_copy; fail=$((fail+1)); }
+ls "$CLONE/$REL/stage-b/NT3_"*.receipt >/dev/null 2>&1 && { echo PASS T3_per_launch_receipt_written; pass=$((pass+1)); } || { echo FAIL T3_per_launch_receipt_written; fail=$((fail+1)); }
 cknot "x" "$CLONE/verify" "D3_no_output_dir_at_repo_root"
 ckeq x "$CLONE/$REL/verify/nt" "D3_output_dir_is_round_relative"
 

@@ -30,7 +30,12 @@ for k in $(seq 1 "$N"); do
   if [ "$C" -eq 0 ] && grep -q 'Q1_OK' "$LOG" && grep -q 'Q2_OK' "$LOG"; then
     echo "  run $k PASS"; p=$((p+1))
   else
-    RSN="$(grep -m1 -o -i -E 'reasoning_content|426 Upgrade Required|not found|at capacity|400|429' "$LOG" | head -1)"
+    # Take the TERMINAL error, not the first match in the file: the relay's benign
+    # 426 websocket warning always precedes the real failure, so a first-match
+    # extraction labels every failure "426", which is wrong and was wrong here.
+    RSN="$(grep -o -i -E 'reasoning_content|at capacity|Model provider .* not found' "$LOG" | tail -1)"
+    [ -n "$RSN" ] || RSN="$(grep -o -i -E '426 Upgrade Required|429|400' "$LOG" | tail -1)"
+    [ -n "$RSN" ] || RSN="undetermined (see $LOG)"
     echo "  run $k FAIL exit=$C reason=${RSN:-unknown}"; f=$((f+1))
   fi
 done

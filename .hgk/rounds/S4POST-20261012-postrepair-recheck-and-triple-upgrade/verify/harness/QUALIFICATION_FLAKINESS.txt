@@ -1,3 +1,18 @@
+# CORRECTED READING - read this before the raw run text below.
+#
+# The "reason=426 Upgrade Required" labels below were produced by a first-match extraction and are
+# MISLEADING. The relay's benign websocket warning precedes every run's real outcome, so it was always
+# the first match. Re-derived from the raw logs (18 logs, read-only):
+#
+#   runs that FAILED: 7 of 18 - every one of them carries the provider 400
+#                     "The `reasoning_content` in the thinking mode must be passed back to the API."
+#   runs that PASSED: 11 of 18 - none of them carries that 400
+#   "426 Upgrade Required": exactly once in EVERY log, all 18, passes and failures alike
+#
+# So the 426 is not the failure; the 400 is, and it appears exactly in the failing runs. The exit codes
+# and PASS/FAIL labels in the raw text are correct and were not affected by this defect.
+# Authoritative summary: QUALIFICATION_FINDINGS.md
+
 ### flakiness of the assigned lane (same CLI, same route, same brief)
   run 1 FAIL exit=1 reason=426 Upgrade Required
   run 2 PASS
