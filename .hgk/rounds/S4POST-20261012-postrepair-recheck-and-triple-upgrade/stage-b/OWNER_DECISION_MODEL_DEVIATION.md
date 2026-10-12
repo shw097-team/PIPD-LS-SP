@@ -10,6 +10,27 @@ The `authorizes_effort` line is factual, not an extra permission: the Stage-B ar
 accepts were produced by the backup writer lanes at reasoning effort `none`, and the independent
 verifier's verdict covers that artifact set as produced.
 
+authorizes_checker: opencode-go/glm-5.3-flash
+
+## Checker failover (owner ruling, 2026-10-12, verbatim)
+
+> 注意，倘若checker model：GPT 6.1 SOL-MEDIUM(OPEN AI OAuth)用量耗盡，checker model就改用備援：
+> 「GLM-5.3-Flash(OPENCODE GO)」
+
+Scope of this ruling, as implemented in `stage-b/run_checker_lane.sh`:
+
+- It is a **checker** failover only. It does not authorise a writer deviation, which is why the key is
+  `authorizes_checker:` and not the bare `authorizes:` line that the EXECUTE admission path greps. A broader
+  key here would have widened the writer gate as a side effect.
+- It triggers **only** on an exhaustion signature in the primary lane's log (quota, rate limit, 429,
+  capacity, usage limit). Any other failure - a provider content filter, a safety flag, a protocol 400, a
+  control-flow defect - is reported, never worked around by switching models.
+- The backup route is the catalog route with slug `opencode-go/glm-5.3-flash` (verified present in
+  `C:/Users/user/.codex/desktop-model-catalog.json`, models[9]), base URL `http://127.0.0.1:10102/v1`.
+- Every failover writes `stage-b/CHECKER_FAILOVER_<LANE>.md` naming both models, both stamps and both exit
+  codes. A verdict produced under the backup is a verdict by a **different checker model** and must say so.
+- No silent retry: one primary attempt, at most one backup attempt.
+
 ## What the owner ruled (verbatim, 2026-10-12)
 
 > 用戶裁決，EXECUTE 車道是否接受 backup 模型產物作為 Stage-B candidate，必須使用

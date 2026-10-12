@@ -36,5 +36,37 @@
   "backup_declared_for_execute": {
     "model": "opencode-go/deepseek-v4-flash",
     "note": "Named by the operator's lane script as the fallback. It is NOT the assignment for this round; using it requires the owner-decision record beside this file."
+  },
+  "checker_failover": {
+    "applies_to": [
+      "VERIFY",
+      "SECURITY"
+    ],
+    "primary": {
+      "model": "gpt-6.1-sol",
+      "provider": "openai",
+      "route": {
+        "style": "openai"
+      },
+      "reasoning_effort": "medium"
+    },
+    "backup": {
+      "model": "opencode-go/glm-5.3-flash",
+      "provider": "opencode-go",
+      "route": {
+        "style": "catalog",
+        "base_url": "http://127.0.0.1:10102/v1",
+        "catalog_json": "C:/Users/user/.codex/desktop-model-catalog.json"
+      }
+    },
+    "trigger": "exhaustion signature in the primary lane log (quota / rate limit / 429 / capacity / usage limit)",
+    "does_not_trigger_on": [
+      "provider content filter",
+      "safety flag",
+      "protocol 400",
+      "any control-flow failure"
+    ],
+    "authorised_by": "owner ruling 2026-10-12",
+    "record": "stage-b/CHECKER_FAILOVER_<LANE>.md"
   }
 }
