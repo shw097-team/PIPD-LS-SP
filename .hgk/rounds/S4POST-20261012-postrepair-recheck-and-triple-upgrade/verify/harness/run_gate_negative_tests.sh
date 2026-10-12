@@ -115,7 +115,7 @@ has G7_no_deviation_notice LANE_SET_OK "$LOGD/G7.out"
 echo "### G8 zero qualification attempts must NOT be advertised as a qualified lane (R4)"
 OUT=G8; GARGS=(EXECUTE brief_nt_a.md)
 ck G8_ZERO_RUNS_REFUSED 3 "$(gitq GATE_QUALIFY_RUNS=0)"
-has G8_says_refused "REFUSED\[3\]" "$LOGD/G8.out"
+has G8_says_refused "REFUSED[3]" "$LOGD/G8.out"
 if grep -q "QUALIFICATION_PASSED" "$LOGD/G8.out"; then echo "FAIL G8_claimed_qualified"; fail=$((fail+1)); else echo "PASS G8_did_not_claim_qualified"; pass=$((pass+1)); fi
 
 echo "### G9 the writer must be launched through the route that was qualified (R5)"
@@ -197,7 +197,7 @@ JUNC="$LJ/j"; JUNC_PY="${GATE_PY:-python}"
 # Create it with an API that does not go through the shell: `cmd //c mklink //J` returned success and
 # created nothing here, which made the case pass because the path could not be RESOLVED rather than
 # because the containment rule caught a junction - a false PASS.
-"$JUNC_PY" - "$JUNC" "$WT" <<'EOPY' >/dev/null 2>&1
+"$JUNC_PY" - "$JUNC" "$CLONE" <<'EOPY' >/dev/null 2>&1
 import os, subprocess, sys
 link, target = sys.argv[1], sys.argv[2]
 try:
@@ -214,7 +214,7 @@ if [ -d "$JUNC" ]; then
   # The refusal must be the containment rule, not an inability to resolve the path.
   has G15_names_the_containment "inside the worktree" "$LOGD/G15.out"
   hasnot G15_not_a_resolve_failure "cannot resolve worktree/log paths" "$LOGD/G15.out"
-  if [ -e "$WT/hgk-lanes" ]; then echo "FAIL G15_left_a_dir_in_the_worktree"; fail=$((fail+1)); else echo "PASS G15_left_no_dir_in_the_worktree"; pass=$((pass+1)); fi
+  if [ -e "$CLONE/hgk-lanes" ]; then echo "FAIL G15_left_a_dir_in_the_worktree"; fail=$((fail+1)); else echo "PASS G15_left_no_dir_in_the_worktree"; pass=$((pass+1)); fi
 else
   echo "SKIP G15_the_junction_could_not_be_created_here (reported, never passed)"
 fi

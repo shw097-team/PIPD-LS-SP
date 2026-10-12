@@ -7,10 +7,10 @@ PASS A1_no_backup_ok
 PASS B2_says_not_exhaustion
 PASS B2_did_not_fail_over
 ### A3 an exhaustion signal DOES fail over, and records both models
-FAIL A3_exit_zero expected=0 actual=4
+PASS A3_exit_zero (exit=0)
 PASS A3_exhaustion_seen
 PASS A3_failover_started
-FAIL A3_backup_ok
+PASS A3_backup_ok
 PASS A3_record_names_backup
 PASS A3_record_names_primary
 PASS A3_record_says_identity_changes
@@ -22,8 +22,8 @@ FAIL A4_names_the_hard_failure
 PASS A4_did_not_fail_over
 ### A5 a real exhaustion failover must leave its record committed and the tree clean (round-10)
 PASS A5_failed_over
-FAIL A5_backup_ok
-FAIL A5_record_tracked ()
-FAIL A5_tree_clean
+PASS A5_backup_ok
+FAIL A5_record_tracked (/tmp/fo-tests/c/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/CHECKER_FAILOVER_FOD.md)
+PASS A5_tree_clean
 
-RESULT pass=16 fail=6
+RESULT pass=20 fail=2

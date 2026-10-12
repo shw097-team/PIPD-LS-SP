@@ -13,8 +13,8 @@ CLONE="$LOGD/c"; E="$LOGD/lanes"; mkdir -p "$E"
 export TMPDIR="$E"
 pass=0; fail=0
 ck(){ if [ "$2" = "$3" ]; then echo "PASS $1 (exit=$3)"; pass=$((pass+1)); else echo "FAIL $1 expected=$3 actual=$2"; fail=$((fail+1)); fi; }
-has(){ if grep -q -- "$2" "$3" 2>/dev/null; then echo "PASS $1"; pass=$((pass+1)); else echo "FAIL $1"; fail=$((fail+1)); fi; }
-hasnot(){ if grep -q -- "$2" "$3" 2>/dev/null; then echo "FAIL $1 (found: $2)"; fail=$((fail+1)); else echo "PASS $1"; pass=$((pass+1)); fi; }
+has(){ if grep -qF -- "$2" "$3" 2>/dev/null; then echo "PASS $1"; pass=$((pass+1)); else echo "FAIL $1"; fail=$((fail+1)); fi; }
+hasnot(){ if grep -qF -- "$2" "$3" 2>/dev/null; then echo "FAIL $1 (found: $2)"; fail=$((fail+1)); else echo "PASS $1"; pass=$((pass+1)); fi; }
 
 cd "$WT" || exit 9
 git -c safe.directory="$WT" clone -q --no-hardlinks . "$CLONE" >/dev/null 2>&1 || { echo "CLONE_FAILED"; exit 9; }
@@ -86,7 +86,7 @@ run D "ERROR: You've hit your usage limit. Upgrade to Pro or try again at 10:37 
 has A5_failed_over "CHECKER_FAILOVER_START" "$LOGD/D.out"
 has A5_backup_ok "CHECKER_BACKUP_OK" "$LOGD/D.out"
 REC="$(grep -o 'CHECKER_FAILOVER_RECORD .*' "$LOGD/D.out" | tail -1 | awk '{print $2}')"
-if [ -n "$REC" ] && git -C "$CLONE" ls-files --error-unmatch "${REC#$CLONE/}" >/dev/null 2>&1; then echo "PASS A5_record_tracked"; pass=$((pass+1)); else echo "FAIL A5_record_tracked ($REC)"; fail=$((fail+1)); fi
+if [ -n "$REC" ] && git -C "$CLONE" ls-files --error-unmatch "$REL/stage-b/$(basename "$REC")" >/dev/null 2>&1; then echo "PASS A5_record_tracked"; pass=$((pass+1)); else echo "FAIL A5_record_tracked ($REC)"; fail=$((fail+1)); fi
 if [ -z "$(git -C "$CLONE" status --porcelain)" ]; then echo "PASS A5_tree_clean"; pass=$((pass+1)); else echo "FAIL A5_tree_clean"; fail=$((fail+1)); fi
 
 echo
