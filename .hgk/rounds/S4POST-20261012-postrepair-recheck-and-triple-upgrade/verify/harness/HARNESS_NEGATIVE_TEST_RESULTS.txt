@@ -19,10 +19,11 @@ PASS T4_dirt_was_detected
 PASS T5_CHILD_EXIT_PROPAGATED (exit=7)
 PASS T5_lane_reports_done
 ### T6 TMPDIR resolving inside the worktree is refused (F)
+PASS NT6_names_the_containment
 PASS T6_TMPDIR_INSIDE_REFUSED (exit=3)
 ### T7 a failed receipt copy is fatal, not a note (R1)
-FAIL T7_RECEIPT_COPY_FATAL expected=6 actual=3
-FAIL T7_names_the_receipt
+PASS T7_RECEIPT_COPY_FATAL (exit=6)
+PASS T7_names_the_receipt
 ### T8 a FAILED git status is not a clean worktree (R2)
 PASS T8_STATUS_FAILURE_REFUSED (exit=2)
 PASS T8_says_status_failed
@@ -53,4 +54,4 @@ PASS P1_names_the_outside_path
 PASS P2_REGEX_MODEL_REFUSED (exit=6)
 PASS P2_names_the_reason
 
-RESULT pass=36 fail=2
+RESULT pass=39 fail=0
