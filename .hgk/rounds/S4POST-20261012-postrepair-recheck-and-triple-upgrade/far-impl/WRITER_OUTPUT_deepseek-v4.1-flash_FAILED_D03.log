@@ -1,0 +1,1569 @@
+OpenAI Codex v0.162.0-alpha.17.2
+--------
+workdir: C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt
+model: opencode-go/deepseek-v4.1-flash
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 01a12f24-4db9-73d0-b049-c2f1460d5777
+--------
+user
+# Bounded writer brief — FAR adjudication implementation (S4POST round)
+
+You are a **bounded writer**. You may modify ONLY the files listed under "Allowed write set". Anything
+else — `skills/**`, `src/**`, `schemas/**`, `dist/**`, `.hgk/artifacts/**`, any release asset, any
+other test — is forbidden. If you believe a change outside the set is required, stop and say so in
+your final report instead of making it.
+
+## Why this round exists
+
+A prior adjudication round (FAR) decided four items. The owner authorised the three "low-resistance,
+high-necessity" ones. You implement exactly those; you do not re-decide them.
+
+- **F-020-A / F-021-A (ADOPT)** a digest checker must first establish *which bytes* a recorded digest
+  was computed over, then classify each mismatch by basis, and only fail under a strict flag when a
+  mismatch is genuinely unexplained.
+- **F-024-A (ADOPT, no behaviour change)** candidate-ancestry checks stay **report-only**: a
+  non-ancestor candidate must be reported, never fail the run.
+- **F-023-A (ADOPT)** the execute-lane model entitlement must be probed before a long run: a two-turn
+  tool-call probe, recorded as a receipt with declared-versus-actual model, and a typed refusal when
+  the second turn fails. Do **not** patch any adapter in this repo.
+
+## Allowed write set
+
+- `tools/verify_evidence_digests.py` (modify)
+- `tests/test_verify_evidence_digests_basis.py` (new)
+- `tools/model_eligibility_probe.py` (new)
+- `tests/test_model_eligibility_probe.py` (new)
+- `docs/FAR_S4POST_ADJUDICATION_2026-10-12.md` (new)
+
+## Required behaviour
+
+1. **Basis-aware classification** in `tools/verify_evidence_digests.py`.
+   For every manifest entry, compare the recorded digest against these bases and record the first one
+   that matches: `disk`, `crlf_disk`, `head_blob`, `crlf_head_blob`, `candidate_blob`,
+   `crlf_candidate_blob`, else `unexplained`. "crlf" means the byte sequence with lone LF expanded to
+   CRLF (and, for the reverse direction, CRLF collapsed to LF) before hashing; implement both
+   directions if the recorded digest can only be produced that way, and say in the docstring exactly
+   which transformations you implemented. The sealed candidate commit/tree, when a sibling seal exists,
+   must be read from it — do not hard-code a candidate.
+   CLI contract: default run prints a human report and **exits 0**; `--strict` exits non-zero **only**
+   when at least one entry is `unexplained`; `--json` prints exactly
+   `{"checked":N,"explained":M,"unexplained":K,"basis_counts":{...}}`. Existing flags and the existing
+   output the current tests read must keep working — those tests are already in the tree and must still
+   pass (`python -m unittest tests.test_tooling_executes` and any test naming this tool).
+2. **Ancestry stays report-only.** Add a test that feeds a non-ancestor candidate head and asserts the
+   run exits 0 without `--strict` while the report still names the non-ancestor value. Failing the run
+   on a non-ancestor is a regression, not a feature.
+3. **`tools/model_eligibility_probe.py`.** Given `--base-url` and `--model`, perform a **two-turn**
+   tool-call probe against an OpenAI-compatible endpoint (first request may ask for a tool call; the
+   second continues the conversation) and write a receipt JSON containing at minimum
+   `{"declared_model":..., "observed_model":..., "turn1":"PASS|FAIL", "turn2":"PASS|FAIL",
+   "eligible":true|false, "typed_reason":null|"<code>"}`. Exit 0 when both turns pass; exit 3 with a
+   typed reason when the second turn fails for the known `reasoning_content` error class; exit 2 for
+   transport/connection errors. Never print or store credentials or tokens.
+4. **Tests.** `tests/test_model_eligibility_probe.py` must drive the probe against an in-process stub
+   HTTP server built with the standard library only (`http.server`), covering: (a) both turns healthy →
+   exit 0 and `eligible: true`; (b) second turn returns HTTP 400 with a `reasoning_content` error body →
+   exit 3 and the typed reason recorded; (c) connection refused → exit 2. No network access to any real
+   host; no sleeps longer than 1 second; total test runtime under 20 seconds.
+5. **`docs/FAR_S4POST_ADJUDICATION_2026-10-12.md`.** Record the four items, and state for each whether
+   it is implemented here, deliberately not implemented (with the reason: ancestry change rejected as a
+   no-op/downgrade; in-repo adapter patch rejected), or deferred. Include an explicit claim ceiling
+   sentence: this is a candidate with local tests only, and no acceptance, release or adaptor-side
+   evidence is claimed.
+
+## Rules
+
+- Change no existing test's expectations. If an existing test fails after your change, fix your code,
+  not the test. Report the exact suite counts before and after.
+- Keep the diff small and idiomatic to the repo's existing style (stdlib only, no new dependencies).
+- Do not touch git history, do not commit, do not push, do not create tags, do not run anything that
+  needs the network beyond `127.0.0.1`.
+- Finish by running, and pasting the raw summary lines of:
+  `python -m unittest discover -s tests -t .` and `python -m unittest tests.test_verify_evidence_digests_basis tests.test_model_eligibility_probe tests.test_tooling_executes`.
+- Your final message: what you changed (file + why, one line each), the raw test summary lines, any
+  test you had to adapt and why it is not a weakening, and anything you could not do.
+
+2026-10-12T08:04:31.031362Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10102/v1/responses
+2026-10-12T08:05:00.965967Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest("http/request failed: error sending request for url (https://chatgpt.com/backend-api/ps/mcp)")))
+codex
+I'll start by exploring the repo to understand the existing tool and test conventions.
+
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command 'Get-Location; Get-ChildItem -Force | Select-Object Mode,Name' in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command 'Get-ChildItem -Recurse -File -Filter *.py | Select-Object -ExpandProperty FullName' in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt
+ succeeded in 610ms:
+
+Path
+----
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt
+
+Mode : d----
+Name : .agents
+
+
+Mode : d----
+Name : .github
+
+
+Mode : d----
+Name : .hermes
+
+
+Mode : d----
+Name : .hgk
+
+
+Mode : d----
+Name : dist
+
+
+Mode : d----
+Name : docs
+
+
+Mode : d----
+Name : examples
+
+
+Mode : d----
+Name : fixtures
+
+
+Mode : d----
+Name : openspec
+
+
+Mode : d----
+Name : schemas
+
+
+Mode : d----
+Name : skills
+
+
+Mode : d----
+Name : src
+
+
+Mode : d----
+Name : tests
+
+
+Mode : d----
+Name : tools
+
+
+Mode : -a-h-
+Name : .git
+
+
+Mode : -a---
+Name : .gitattributes
+
+
+Mode : -a---
+Name : .gitignore
+
+
+Mode : -a---
+Name : ACCEPTANCE.md
+
+
+Mode : -a---
+Name : LICENSE
+
+
+Mode : -a---
+Name : NOTICE
+
+
+Mode : -a---
+Name : OWNER_LICENSE_DECISION.yaml
+
+
+Mode : -a---
+Name : PREVIEW_NOTES_v0.1.0-preview.1.md
+
+
+Mode : -a---
+Name : PREVIEW_NOTES_v0.1.0-preview.2.md
+
+
+Mode : -a---
+Name : PREVIEW_NOTES_v0.1.1-preview.3.md
+
+
+Mode : -a---
+Name : PROVENANCE.md
+
+
+Mode : -a---
+Name : pyproject.toml
+
+
+Mode : -a---
+Name : README.md
+
+
+Mode : -a---
+Name : requirements.lock
+
+
+Mode : -a---
+Name : SBOM.cdx.json
+
+
+
+ succeeded in 629ms:
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\preflight\R5-compiler\hgk_r5_admission.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\preflight\R5-compiler\make_r5_contract.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\preflight\R5-compiler\snapshot.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\preflight\R5-compiler\lane\bridge.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\preflight\R5-compiler\rollback\wo1\cli.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\preflight\R5-compiler\rollback\wo1\projection.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\preflight\R5-compiler\rollback\wo1\workspace.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\POSTRELEASE-20261011-s4-narrow-repair\admission\admit_postrelease.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\POSTRELEASE-20261011-s4-narrow-repair\lane\run_web_mount_negatives.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\POSTRELEASE-20261011-s4-narrow-repair\lane\run_web_mount_uat.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\POSTRELEASE-20261011-s4-narrow-repair\repair\traces\r3_extract_ps.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R10-20261011-s4-bclass-decisions\hgk_r10_admission.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R11-20261011-s4-credential-closure-and-fda-integration\hgk_r11_admission.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R2-20261009-qualification\execute\own-probes\edge_selfcheck_candidate.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R4-20261009-focused-repair\H2\delta\HARNESS_D1_D6_v4.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R4-20261009-focused-repair\H2\delta\HARNESS_D1_D6_v5.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R4-20261009-focused-repair\H2\delta\HARNESS_D1_D6.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5-20261009-s4-user-operability\build_evidence_manifest.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5-20261009-s4-user-operability\build_evidence_md.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5-20261009-s4-user-operability\stage_commit_set.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5-20261009-s4-user-operability\ao\independent_check.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5-20261009-s4-user-operability\ao\rerun_b4_b5_v2.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5-20261009-s4-user-operability\ao\rerun_b4_b5.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5-20261009-s4-user-operability\ao\rerun_b4_verdict.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5-20261009-s4-user-operability\uat\uat_matrix.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5P-20261010-s4-post-challenge\lane\bridge2.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5P-20261010-s4-post-challenge\ops\bind_r5p_checker_identity.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5P-20261010-s4-post-challenge\ops\bound_digest.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5P-20261010-s4-post-challenge\ops\crosswalk_s4_evidence.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5P-20261010-s4-post-challenge\ops\curate_evidence.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5P-20261010-s4-post-challenge\ops\equivalence.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5P-20261010-s4-post-challenge\ops\external_acceptance_dryrun.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5P-20261010-s4-post-challenge\ops\pack_evidence.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5P-20261010-s4-post-challenge\ops\product_snapshot.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5P-20261010-s4-post-challenge\ops\tree_digest.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5P-20261010-s4-post-challenge\uat\uat_matrix.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5Q-20261010-s4-owner-opensource-preview\hgk_r5q_admission.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5Q-20261010-s4-owner-opensource-preview\R5Q_CONTRACT_BUILD.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5Q-20261010-s4-owner-opensource-preview\r5q_preflight.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5Q-20261010-s4-owner-opensource-preview\evidence\ce_repro\ce_repro.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5Q-20261010-s4-owner-opensource-preview\tools\r5q_license_oracle.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5Q-20261010-s4-owner-opensource-preview\tools\r5q_publish.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5Q-20261010-s4-owner-opensource-preview\tools\update_preview_surfaces.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5Q-20261010-s4-owner-opensource-preview\uat\uat_matrix_r5q.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5R-20261010-s4-ce-repair-and-codex-verify\hgk_r5r_admission.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5R-20261010-s4-ce-repair-and-codex-verify\openspec_write.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5R-20261010-s4-ce-repair-and-codex-verify\maker-e2e\maker_e2e.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R5R-20261010-s4-ce-repair-and-codex-verify\maker-e2e\trace_widening_probe.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R6-20261011-main-front-page\workorder\r6_readme_acceptance.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R7-20261011-s4-del018-closure-and-successor-preview\hgk_r7_admission.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R7-20261011-s4-del018-closure-and-successor-preview\release\r7_release.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R7-20261011-s4-del018-closure-and-successor-preview\workorder\r7_del018_proof.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R8-20261011-s4-main-consolidation\hgk_r8_admission.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\R9-20261011-s4-gap-closure\hgk_r9_admission.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\S4R2-20261011-affected-only\admission\admit_s4r2.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\S4R2-20261011-affected-only\admission\readback_and_checkpoint.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\S4R2-20261011-affected-only\compiler\generate_contract.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\S4R2-20261011-affected-only\kanban\gstack_route.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\S4R2-20261011-affected-only\preflight\reconcile_findings.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\S4R2M-20261012-merge-and-preview3\admission\admit_s4r2m.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\S4R2M-20261012-merge-and-preview3\admission\readback_and_checkpoint.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\S4R2M-20261012-merge-and-preview3\compiler\generate_contract.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\S4R2M-20261012-merge-and-preview3\kanban\gstack_route_readback.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\S4R2M-20261012-merge-and-preview3\release\publish_release.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\S4R2M-20261012-merge-and-preview3\verify\M2_mutant_probe.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\.hgk\rounds\S4R2M-20261012-merge-and-preview3\verify\run_m2_isolated.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\examples\first-run\assemble_bundle.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\examples\self-bootstrap\run_selfbootstrap.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\src\pipd_ls_sp\__init__.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\src\pipd_ls_sp\cli.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\src\pipd_ls_sp\errors.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\src\pipd_ls_sp\export_bundle.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\src\pipd_ls_sp\pipeline.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\src\pipd_ls_sp\profiles.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\src\pipd_ls_sp\projection.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\src\pipd_ls_sp\registry.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\src\pipd_ls_sp\repo_context.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\src\pipd_ls_sp\requirements.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\src\pipd_ls_sp\util.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\src\pipd_ls_sp\validate.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\src\pipd_ls_sp\workspace.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\__init__.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_atomic_requirements.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_ce_repair_regression.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_cli_typed_errors.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_deny_list_scan.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_doctor_schema_truth.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_evidence_manifest.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_evidence_md_guards.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_export_bundle.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_first_run_examples.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_git_object_reader.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_host_projection.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_negative_and_rollback.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_oracle_disagreement.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_perf_budget.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_pi_dedup.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_postrelease_contract_hardening.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_postrelease_quickstart.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_postrelease_selfbootstrap.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_postrelease_web_mount.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_preflight_check.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_project_destination_safety.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_publication_projection.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_quarantine_review.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_r10_bclass_evidence.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_round_envelope.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_round_selfscan.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s0_contracts.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s1_lite_slice.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_artifact_reproducibility.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_first_run_portable.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_profile_boundaries.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_release_provenance.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_spec_del_adjudication.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_trace_closure.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4r2_affected_only.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4r2m_docs_route.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_secret_patterns.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_skill_contracts.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_spec_del_crosswalk.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_technology_admission.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_tooling_executes.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_tqaep_design_positive.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_tt_summary.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_web_pack.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_wheel_distribution.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\admit_technologies.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\build_bclass_artifacts.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\build_dist.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\build_evidence_manifest.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\build_evidence_md_r2.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\build_evidence_md.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\build_mount_pack.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\build_publication_manifest.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\build_requirements_lock.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\build_s4_spec_del_adjudication.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\build_s5_s8_backlog.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\build_spec_del_crosswalk.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\cli_smoke.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\cli_surface_check.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\deny_list_scan.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\edge_selfcheck.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\github_publish.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\hgk_admission_driver.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\history_secret_scan.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\host_projection_check.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\kanban_canonical_complete.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\knowledge_ready_probe.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\perf_budget.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\pi_dedup_check.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\portable_install_check.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\preflight_check.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\publication_attestation.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\quarantine_review.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\registry_reconcile.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\replay_check.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\round_envelope.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\round_selfscan.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\run_golden_pilots.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\run_nrtv_judge.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\run_r3_qualification.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\run_s1_slice.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\skill_pack_check.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\tt_summary_check.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\verify_evidence_digests.py
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tools\web_pack_check.py
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "Get-Content -Raw tools\\verify_evidence_digests.py" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "Get-Content -Raw tests\\test_tooling_executes.py" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt
+ succeeded in 470ms:
+"""Guard the tooling surface that the artefact suites do not exercise.
+
+Why this test exists: a repo-wide line-ending repair accidentally added `newline=""` to
+`Path.read_text` calls in tools/cli_smoke.py. `Path.read_text` does not accept that keyword, so the
+CLI smoke runner crashed with TypeError. Nothing caught it: the unit suite does not execute
+tools/*.py, and the independent checker was (correctly) told not to run tools that write into the
+repo. A whole directory of executable tooling was therefore unverified.
+
+These tests are cheap and execute the tooling for real.
+"""
+from __future__ import annotations
+
+import py_compile
+import subprocess
+import sys
+import unittest
+from pathlib import Path
+
+# Self-bootstrap, same rule as every other test file here: a test file must be runnable standalone.
+# An independent checker had to run this one with PYTHONPATH=src, which is exactly the defect the
+# previous round flagged in another test file. Relying on a sibling's import side effects is not ok.
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+
+def _is_git_internal_path(p: str) -> bool:
+    """True when a repo-relative path is version-control machinery, NOT a project file.
+
+    This is the exact intent behind the `tracked_files` guard: `tracked_files` must never count
+    `.git`-internals. It flags an exact `.git` entry, anything under a `.git/` directory, the
+    bare-repo internals (top-level `objects/`, `refs/`, `pack/` - no ref, object or pack path),
+    and the top-level index/lock files. Ordinary project files that merely begin with the same
+    four characters (`.gitignore`, `.gitattributes`) are NOT internals.
+    """
+    if p == ".git" or p.startswith(".git/") or "/.git/" in p:
+        return True
+    parts = p.split("/")
+    if parts[0] in {"objects", "refs", "pack"}:
+        return True
+    if len(parts) == 1 and parts[0] in {"index", "index.lock", "ORIG_HEAD",
+                                        "packed-refs", "COMMIT_EDITMSG"}:
+        return True
+    return False
+
+
+class TestToolingExecutes(unittest.TestCase):
+    def test_every_module_compiles(self) -> None:
+        bad: list[str] = []
+        for d in (ROOT / "src", ROOT / "tools", ROOT / "tests"):
+            for f in sorted(d.rglob("*.py")):
+                try:
+                    py_compile.compile(str(f), doraise=True, cfile=str(f.with_suffix(".pyc.tmp")))
+                except py_compile.PyCompileError as exc:
+                    bad.append(f"{f.relative_to(ROOT)}: {exc}")
+                finally:
+                    f.with_suffix(".pyc.tmp").unlink(missing_ok=True)
+        self.assertEqual(bad, [], "modules failed to compile")
+
+    def test_cli_smoke_runs(self) -> None:
+        """The 13-command CLI surface must actually execute, not just import.
+
+        Run inside a throwaway copy of the repo: the runner writes .hgk/artifacts/cli/CLI_SMOKE.json
+        by design, and a test that rewrites tracked evidence makes "tree clean after a test run"
+        impossible. The copy has every artifact the runner reads, so nothing is skipped.
+        """
+        import os as _os
+        import shutil as _sh
+        import tempfile as _tf
+        with _tf.TemporaryDirectory() as tmp:
+            dst = Path(tmp) / "repo"
+            _sh.copytree(ROOT, dst, ignore=_sh.ignore_patterns(".git", "__pycache__", "*.db", "*.pyc"))
+            r = subprocess.run([sys.executable, "-B", "tools/cli_smoke.py"], cwd=str(dst),
+                               capture_output=True, text=True,
+                               env={**_os.environ, "PYTHONDONTWRITEBYTECODE": "1"})
+        self.assertEqual(r.returncode, 0,
+                         f"cli_smoke.py exited {r.returncode}\n{(r.stderr or r.stdout)[-800:]}")
+
+    def test_no_read_text_receives_newline(self) -> None:
+        """Pin the specific defect: Path.read_text takes no `newline` keyword."""
+        offenders = []
+        for d in (ROOT / "src", ROOT / "tools", ROOT / "tests"):
+            for f in sorted(d.rglob("*.py")):
+                text = f.read_text(encoding="utf-8")
+                i = 0
+                while True:
+                    j = text.find(".read_text(", i)
+                    if j < 0:
+                        break
+                    k = j + len(".read_text(")
+                    depth, c = 1, k
+                    while depth > 0 and c < len(text):
+                        depth += (text[c] == "(") - (text[c] == ")")
+                        c += 1
+                    if "newline=" in text[k:c]:
+                        offenders.append(str(f.relative_to(ROOT)))
+                        break
+                    i = c
+        self.assertEqual(offenders, [], "read_text() was given a `newline` argument")
+
+
+    def test_tracked_file_metric_excludes_vcs_internals(self) -> None:
+        """Pin the oracle for `_tracked_file_count` in BOTH subjects it must serve (R2-E2).
+
+        The shipped probe in `src/pipd_ls_sp/cli.py::_tracked_file_count` is the authoritative
+        definition: it returns `git ls-files` when the subject IS a git checkout, and otherwise the
+        count of files in the tree EXCLUDING `.git/` and `__pycache__/`. The old test asserted only
+        the first branch against an unconditional `git ls-files` literal. That made the oracle
+        subject-incorrect: in a non-git fresh copy the walk branch runs, git prints 0, and the test
+        FAILED (R2-E2). The oracle is rebound to the probe's own defined behavior for the subject at
+        hand, so it holds in both environments. It is not relaxed: each branch is pinned EXACTLY to
+        the authoritative count (equality, not inequality), the walk branch is additionally pinned
+        to exclude `.git/` internals and `__pycache__/` on a synthetic tree, and no magic constant
+        is used.
+        """
+        import os as _os
+        import shutil as _sh
+        import subprocess as sp
+        import tempfile as _tf
+        from pipd_ls_sp.cli import _tracked_file_count
+
+        def _walk_count(root: Path) -> int:
+            # The probe's non-git branch, stated independently of the implementation.
+            return sum(1 for p in root.rglob("*") if p.is_file()
+                       and ".git" not in p.parts and "__pycache__" not in p.parts)
+
+        def _git_tracked(root: Path, *, ceiling: str | None = None) -> tuple[int, int]:
+            env = dict(_os.environ)
+            if ceiling is not None:
+                env["GIT_CEILING_DIRECTORIES"] = ceiling
+            r = sp.run(["git", "-C", str(root), "ls-files"], capture_output=True, text=True, env=env)
+            return r.returncode, len([l for l in r.stdout.splitlines() if l.strip()])
+
+        def _git_tracked_paths(root: Path) -> list[str]:
+            # The raw subject the `.git`-internals guard inspects: the exact tracked path list.
+            r = sp.run(["git", "-C", str(root), "ls-files"], capture_output=True, text=True)
+            if r.returncode != 0:
+                return []
+            return [l for l in r.stdout.splitlines() if l.strip()]
+
+        # (a) On a real git checkout the probe must report EXACTLY the git-tracked count, never
+        #     rglob (which would also sweep .git). This is the branch the old test covered.
+        rc, tracked = _git_tracked(ROOT)
+        if rc == 0:
+            n = _tracked_file_count(ROOT)
+            self.assertEqual(n, tracked,
+                             "on a git checkout tracked_files must equal `git ls-files` exactly")
+            # (a.1) The guard's STATED intent, asserted directly: no tracked path may be a
+            #       `.git`-internals path. This is the real "counting .git internals again"
+            #       detector and it holds no matter how large the repo legitimately grows. Unlike
+            #       an absolute size cap, it does not punish a repo for committing governance
+            #       evidence under `.hgk/rounds/`.
+            internals = [p for p in _git_tracked_paths(ROOT) if _is_git_internal_path(p)]
+            self.assertEqual(
+                internals, [],
+                "tracked_files looks like it is counting .git internals again: "
+                f"these tracked paths are version-control machinery: {internals[:10]}")
+            # (a.2) Keep a sanity upper bound so a future miscount cannot slip through unnoticed.
+            #       The bound is deliberately generous against real growth: the honest count here
+            #       is ~1k and rises a few dozen files per round as receipts land under `.hgk/`.
+            #       A genuine `.git`-internals miscount is a MANY-THOUSANDS jump (packed objects,
+            #       refs, logs), not a few dozen - so 25_000 separates the two regimes with a wide
+            #       margin while still failing loudly if the metric ever walks the whole `.git/`.
+            self.assertLess(
+                n, 25_000,
+                "tracked_files is implausibly large (>= 25,000): a count this high is a "
+                ".git-internals miscount, not real repo growth")
+
+        # (b) A non-git copy (no .git at all) is the exact condition that broke the old oracle.
+        #     GIT_CEILING_DIRECTORIES stops git from climbing to an enclosing repo, so the subject is
+        #     genuinely non-git even when the temp dir sits inside a checkout; the ignore list drops
+        #     any nested scratch so the copy cannot recurse into itself.
+        with _tf.TemporaryDirectory() as td:
+            dst = Path(td) / "PIPD"
+            _sh.copytree(ROOT, dst,
+                         ignore=_sh.ignore_patterns(".git", "__pycache__", "*.db"))
+            self.assertFalse((dst / ".git").exists(), "the fresh copy must exclude .git")
+            rc2, tracked2 = _git_tracked(dst, ceiling=str(Path(td).resolve()))
+            self.assertNotEqual(rc2, 0, "the fresh copy must not resolve to a git checkout")
+            self.assertEqual(tracked2, 0, "git must report no tracked files in the fresh copy")
+            probe2 = _tracked_file_count(dst)
+            self.assertEqual(probe2, _walk_count(dst),
+                             "in a non-git copy tracked_files must equal the filesystem walk "
+                             "excluding .git/ and __pycache__/")
+
+        # (c) Pin that exclusion on a SYNTHETIC tree that actually carries `.git/` internals and a
+        #     `__pycache__/`, proving the walk branch is non-trivial and really excludes them. The
+        #     authoritative source is the probe's own defined behavior above; we only read it here.
+        with _tf.TemporaryDirectory() as td:
+            syn = Path(td) / "syn"
+            (syn / "src").mkdir(parents=True)
+            (syn / "src" / "a.py").write_text("x = 1\n", encoding="utf-8")
+            (syn / "README.md").write_text("# syn\n", encoding="utf-8")
+            (syn / ".git" / "objects" / "aa").mkdir(parents=True)
+            (syn / ".git" / "objects" / "aa" / "blob").write_text("pack\n", encoding="utf-8")
+            (syn / "__pycache__").mkdir()
+            (syn / "__pycache__" / "m.pyc").write_text("bytecode\n", encoding="utf-8")
+            rc3, _ = _git_tracked(syn, ceiling=str(Path(td).resolve()))
+            self.assertNotEqual(rc3, 0, "the synthetic tree must not resolve to a git checkout")
+            self.assertEqual(_walk_count(syn), 2, "walk must see exactly the 2 real project files")
+            self.assertEqual(_tracked_file_count(syn), 2,
+                             "tracked_files must exclude .git/ internals and __pycache__/")
+
+    def test_git_internals_guard_rejects_a_git_objects_entry(self) -> None:
+        """The guard must actually FIRE: prove it flags a `.git/objects/...` path (third site).
+
+        A guard that only ever sees a clean list proves nothing. This feeds the predicate a list
+        containing a `.git/objects/...` entry and pins that it is detected, while ordinary project
+        files that merely start with `.git` (`.gitignore`) are left alone.
+        """
+        poisoned = ["src/a.py", "README.md", ".git/objects/aa/blob", ".git/config"]
+        internals = [p for p in poisoned if _is_git_internal_path(p)]
+        self.assertEqual(internals, [".git/objects/aa/blob", ".git/config"],
+                         "the .git-internals guard failed to flag .git machinery")
+        self.assertEqual([p for p in [".gitignore", ".gitattributes"] if _is_git_internal_path(p)],
+                         [], "ordinary .git* project files must NOT be flagged as internals")
+        self.assertEqual([p for p in ["objects/aa/blob", "refs/heads/main", "index", "index.lock"]
+                          if _is_git_internal_path(p)],
+                         ["objects/aa/blob", "refs/heads/main", "index", "index.lock"],
+                         "bare-repo object/ref/pack and index/lock internals must be flagged")
+
+    def test_export_manifest_has_no_vcs_paths(self) -> None:
+        from pipd_ls_sp import workspace
+
+        bundle = workspace.export_manifest(ROOT, include=["."])
+        paths = [row["rel"] for row in bundle.get("files", [])]
+        self.assertTrue(paths, "export bundle produced no rows")
+        def _is_vcs_internal(p: str) -> bool:
+            # `.git/...` is a version-control internal. `.gitattributes` / `.gitignore` are ordinary
+            # project files that merely start with the same four characters - an earlier version of
+            # this predicate flagged them and failed on a correct tree.
+            return p == ".git" or p.startswith(".git/") or "/.git/" in p
+
+        leaked = [p for p in paths if _is_vcs_internal(p)]
+        self.assertEqual(leaked, [], "export manifest leaked version-control internals")
+        self.assertGreater(len(paths), 50,
+                           "include=['.'] must walk the tree; a tiny result means the walk was skipped")
+
+    def test_every_test_file_bootstraps_sys_path(self) -> None:
+        """No test file may depend on a sibling importing src/ first."""
+        missing = []
+        for f in sorted((ROOT / "tests").glob("test_*.py")):
+            src = f.read_text(encoding="utf-8")
+            if "sys.path.insert" not in src:
+                missing.append(f.name)
+        self.assertEqual(missing, [], "test files without a sys.path bootstrap")
+
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+ succeeded in 473ms:
+#!/usr/bin/env python3
+"""Recompute the per-entry sha256 recorded in the evidence manifest against the bytes on disk.
+
+Why this exists: nothing else recomputes the digest each entry of
+``.hgk/artifacts/evidence_manifest.json`` claims for its file, and
+``tools/build_publication_manifest.py`` folds those digests into ``crosswalk_digest``. A silent class
+of drift (a file edited after the manifest was sealed) therefore stays invisible. On the tree this
+tool was written for, 41 of 1085 entries are stale -- a PRE-EXISTING condition this tool only makes
+visible; it never repairs the manifest and never rewrites any file.
+
+It also reports generation-identity fields: for every JSON payload that carries ``candidate_head``,
+it records whether that revision is an ancestor of HEAD. This is REPORT-ONLY (never fatal): the
+committed identity is necessarily an ancestor, and reporting the few that are not makes the class
+visible instead of silent.
+
+Writes nothing except the optional ``--json`` output path; ``--strict`` is opt-in and only escalates
+a non-empty ``stale`` list to a non-zero exit.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import subprocess
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_MANIFEST = ROOT / ".hgk" / "artifacts" / "evidence_manifest.json"
+
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _identity_check(rel: str, value: object) -> dict:
+    """Report whether a recorded ``candidate_head`` is an ancestor of HEAD. Never raises."""
+    rec: dict = {"path": rel, "candidate_head": value, "is_ancestor": False, "error": None}
+    commit = value.strip() if isinstance(value, str) else ""
+    if not commit:
+        rec["error"] = "candidate_head is empty or not a string"
+        return rec
+    try:
+        resolved = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "--verify", "--quiet",
+                                   f"{commit}^{{commit}}"], capture_output=True, text=True)
+    except OSError:
+        rec["error"] = "git unavailable"
+        return rec
+    if resolved.returncode != 0:
+        rec["error"] = "candidate_head does not resolve to a commit"
+        return rec
+    ancestor = subprocess.run(["git", "-C", str(ROOT), "merge-base", "--is-ancestor", commit, "HEAD"],
+                              capture_output=True, text=True)
+    if ancestor.returncode == 0:
+        rec["is_ancestor"] = True
+    elif ancestor.returncode == 1:
+        rec["is_ancestor"] = False
+    else:
+        rec["error"] = (ancestor.stderr or "git merge-base --is-ancestor failed").strip()
+    return rec
+
+
+def build_report(manifest_path: Path) -> dict:
+    """Recompute every recorded digest by readback and collect generation-identity checks."""
+    entries = json.loads(manifest_path.read_text(encoding="utf-8"))
+    match = 0
+    missing = 0
+    stale: list[str] = []
+    identity_checks: list[dict] = []
+    for rel in sorted(entries):
+        target = ROOT / rel
+        if not target.is_file():
+            missing += 1
+            continue
+        if _sha256(target) == entries[rel]:
+            match += 1
+        else:
+            stale.append(rel)
+        try:
+            payload = json.loads(target.read_text(encoding="utf-8"))
+        except (OSError, UnicodeDecodeError, ValueError):
+            continue
+        if isinstance(payload, dict) and "candidate_head" in payload:
+            identity_checks.append(_identity_check(rel, payload["candidate_head"]))
+    return {
+        "checked": len(entries),
+        "match": match,
+        "missing": missing,
+        "stale": stale,
+        "identity_checks": identity_checks,
+    }
+
+
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(
+        description="Recompute evidence-manifest digests and report generation-identity ancestry.")
+    ap.add_argument("--manifest", metavar="PATH", default=None,
+                    help=f"manifest to verify (default: {DEFAULT_MANIFEST})")
+    ap.add_argument("--json", metavar="PATH", default=None,
+                    help="also write the JSON report to this path (the only file ever written)")
+    ap.add_argument("--strict", action="store_true",
+                    help="exit 1 when the stale list is non-empty (opt-in; report-only otherwise)")
+    args = ap.parse_args(argv)
+
+    report = build_report(Path(args.manifest) if args.manifest else DEFAULT_MANIFEST)
+    text = json.dumps(report, ensure_ascii=False, indent=1)
+    if args.json:
+        Path(args.json).write_text(text, encoding="utf-8", newline="")
+    print(text)
+    return 1 if (args.strict and report["stale"]) else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "Select-String -Path tests\\*.py,tools\\*.py,docs\\*.md -Pattern \"verify_evidence_digests\" -SimpleMatch | Select-Object Path,LineNumber,Line" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "Select-String -Path tests\\*.py -Pattern \"evidence_manifest|_sha256|candidate_head\" | Select-Object Path,LineNumber,Line | Format-Table -Wrap" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt
+ succeeded in 775ms:
+
+Path                                                                                                  LineNumber Line
+----                                                                                                  ---------- ----
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_atomic_requirements.py                   104
+                                                                                                                   self
+                                                                                                                 .asser
+                                                                                                                 tNotEq
+                                                                                                                 ual(a[
+                                                                                                                 "sourc
+                                                                                                                 e_clau
+                                                                                                                 se"]["
+                                                                                                                 source
+                                                                                                                 _sha25
+                                                                                                                 6"],
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_atomic_requirements.py                   105
+                                                                                                                
+                                                                                                                
+                                                                                                                
+                                                                                                                     b[
+                                                                                                                 "sourc
+                                                                                                                 e_clau
+                                                                                                                 se"]["
+                                                                                                                 source
+                                                                                                                 _sha25
+                                                                                                                 6"])
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_atomic_requirements.py                   200
+                                                                                                                
+                                                                                                                 self.a
+                                                                                                                 ssertR
+                                                                                                                 egex(l
+                                                                                                                 oc["so
+                                                                                                                 urce_s
+                                                                                                                 ha256"
+                                                                                                                 ], r"^
+                                                                                                                 [0-9a-
+                                                                                                                 f]{64}
+                                                                                                                 $")
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_atomic_requirements.py                   267
+                                                                                                                   self
+                                                                                                                 .asser
+                                                                                                                 tRegex
+                                                                                                                 (ctx["
+                                                                                                                 manife
+                                                                                                                 st_sha
+                                                                                                                 256"],
+                                                                                                                  r"^[0
+                                                                                                                 -9a-f]
+                                                                                                                 {64}$"
+                                                                                                                 )
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_atomic_requirements.py                   291
+                                                                                                                
+                                                                                                                
+                                                                                                                
+                                                                                                                
+                                                                                                                
+                                                                                                                    "ma
+                                                                                                                 nifest
+                                                                                                                 _sha25
+                                                                                                                 6": "f
+                                                                                                                 " * 64
+                                                                                                                 })
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_evidence_manifest.py                      30 import
+                                                                                                                  build
+                                                                                                                 _evide
+                                                                                                                 nce_ma
+                                                                                                                 nifest
+                                                                                                                  as M
+                                                                                                                  # noq
+                                                                                                                 a: E40
+                                                                                                                 2
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_evidence_manifest.py                      51
+                                                                                                                   self
+                                                                                                                 .manif
+                                                                                                                 est =
+                                                                                                                 ROOT /
+                                                                                                                  ".hgk
+                                                                                                                 " / "a
+                                                                                                                 rtifac
+                                                                                                                 ts" /
+                                                                                                                 "evide
+                                                                                                                 nce_ma
+                                                                                                                 nifest
+                                                                                                                 .json"
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_evidence_manifest.py                      52
+                                                                                                                   self
+                                                                                                                 .seal
+                                                                                                                 = ROOT
+                                                                                                                  / ".h
+                                                                                                                 gk" /
+                                                                                                                 "artif
+                                                                                                                 acts"
+                                                                                                                 / "evi
+                                                                                                                 dence_
+                                                                                                                 manife
+                                                                                                                 st.sea
+                                                                                                                 l.json
+                                                                                                                 "
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_evidence_manifest.py                      56
+                                                                                                                   forb
+                                                                                                                 idden
+                                                                                                                 = {".h
+                                                                                                                 gk/art
+                                                                                                                 ifacts
+                                                                                                                 /evide
+                                                                                                                 nce_ma
+                                                                                                                 nifest
+                                                                                                                 .json"
+                                                                                                                 ,
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_evidence_manifest.py                      57
+                                                                                                                
+                                                                                                                
+                                                                                                                    ".h
+                                                                                                                 gk/art
+                                                                                                                 ifacts
+                                                                                                                 /evide
+                                                                                                                 nce_ma
+                                                                                                                 nifest
+                                                                                                                 .seal.
+                                                                                                                 json"}
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_evidence_manifest.py                      80
+                                                                                                                
+                                                                                                                 sha =
+                                                                                                                 M._sha
+                                                                                                                 256_by
+                                                                                                                 tes(bo
+                                                                                                                 dy)
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_evidence_manifest.py                      96
+                                                                                                                   self
+                                                                                                                 .asser
+                                                                                                                 tTrue(
+                                                                                                                 self.m
+                                                                                                                 anifes
+                                                                                                                 t.exis
+                                                                                                                 ts(),
+                                                                                                                 "run t
+                                                                                                                 ools/b
+                                                                                                                 uild_e
+                                                                                                                 videnc
+                                                                                                                 e_mani
+                                                                                                                 fest.p
+                                                                                                                 y --se
+                                                                                                                 al")
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_evidence_manifest.py                      97
+                                                                                                                   self
+                                                                                                                 .asser
+                                                                                                                 tTrue(
+                                                                                                                 self.s
+                                                                                                                 eal.ex
+                                                                                                                 ists()
+                                                                                                                 , "run
+                                                                                                                  tools
+                                                                                                                 /build
+                                                                                                                 _evide
+                                                                                                                 nce_ma
+                                                                                                                 nifest
+                                                                                                                 .py --
+                                                                                                                 seal")
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_evidence_manifest.py                     101
+                                                                                                                   self
+                                                                                                                 .asser
+                                                                                                                 tEqual
+                                                                                                                 (M._sh
+                                                                                                                 a256_b
+                                                                                                                 ytes(d
+                                                                                                                 ata),
+                                                                                                                 seal_d
+                                                                                                                 oc["ma
+                                                                                                                 nifest
+                                                                                                                 "]["sh
+                                                                                                                 a256"]
+                                                                                                                 )
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_evidence_manifest.py                     116
+                                                                                                                
+                                                                                                                     "r
+                                                                                                                 e-run
+                                                                                                                 tools/
+                                                                                                                 build_
+                                                                                                                 eviden
+                                                                                                                 ce_man
+                                                                                                                 ifest.
+                                                                                                                 py --s
+                                                                                                                 eal at
+                                                                                                                  this
+                                                                                                                 commit
+                                                                                                                  to as
+                                                                                                                 sert t
+                                                                                                                 he rea
+                                                                                                                 d-back
+                                                                                                                 "
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_evidence_manifest.py                     120
+                                                                                                                   self
+                                                                                                                 .asser
+                                                                                                                 tEqual
+                                                                                                                 (res["
+                                                                                                                 manife
+                                                                                                                 st_sha
+                                                                                                                 256"],
+                                                                                                                  seal_
+                                                                                                                 doc["m
+                                                                                                                 anifes
+                                                                                                                 t"]["s
+                                                                                                                 ha256"
+                                                                                                                 ])
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_evidence_manifest.py                     149
+                                                                                                                
+                                                                                                                 "sourc
+                                                                                                                 e_sha2
+                                                                                                                 56": "
+                                                                                                                 0" * 6
+                                                                                                                 4,
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_export_bundle.py                         134
+                                                                                                                   self
+                                                                                                                 .asser
+                                                                                                                 tEqual
+                                                                                                                 (p1["m
+                                                                                                                 anifes
+                                                                                                                 t_sha2
+                                                                                                                 56"],
+                                                                                                                 p2["ma
+                                                                                                                 nifest
+                                                                                                                 _sha25
+                                                                                                                 6"],
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_export_bundle.py                         152
+                                                                                                                   self
+                                                                                                                 .asser
+                                                                                                                 tIn("m
+                                                                                                                 anifes
+                                                                                                                 t_sha2
+                                                                                                                 56", p
+                                                                                                                 ayload
+                                                                                                                 )
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_first_run_examples.py                     54 def _s
+                                                                                                                 ha256(
+                                                                                                                 path:
+                                                                                                                 Path)
+                                                                                                                 -> str
+                                                                                                                 :
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_first_run_examples.py                     94     re
+                                                                                                                 turn {
+                                                                                                                 n: _sh
+                                                                                                                 a256(a
+                                                                                                                 rt / n
+                                                                                                                 ) for
+                                                                                                                 n in A
+                                                                                                                 RTEFAC
+                                                                                                                 TS}, j
+                                                                                                                 son.lo
+                                                                                                                 ads(va
+                                                                                                                 l.stdo
+                                                                                                                 ut)
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_pi_dedup.py                               41
+                                                                                                                
+                                                                                                                 self.a
+                                                                                                                 ssertE
+                                                                                                                 qual(g
+                                                                                                                 ot["so
+                                                                                                                 urce_s
+                                                                                                                 ha256"
+                                                                                                                 ], wan
+                                                                                                                 t["sou
+                                                                                                                 rce_sh
+                                                                                                                 a256"]
+                                                                                                                 )
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_pi_dedup.py                              127
+                                                                                                                
+                                                                                                                 self.a
+                                                                                                                 ssertE
+                                                                                                                 qual(s
+                                                                                                                 et(hea
+                                                                                                                 d["hea
+                                                                                                                 d_sha2
+                                                                                                                 56"]),
+                                                                                                                  set(D
+                                                                                                                 .HEAD_
+                                                                                                                 BASELI
+                                                                                                                 NE_FIL
+                                                                                                                 ES))
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_pi_dedup.py                              128
+                                                                                                                
+                                                                                                                 for di
+                                                                                                                 gest i
+                                                                                                                 n head
+                                                                                                                 ["head
+                                                                                                                 _sha25
+                                                                                                                 6"].va
+                                                                                                                 lues()
+                                                                                                                 :
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_postrelease_web_mount.py                  59 def _s
+                                                                                                                 ha256(
+                                                                                                                 data:
+                                                                                                                 bytes)
+                                                                                                                  -> st
+                                                                                                                 r:
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_postrelease_web_mount.py                 122
+                                                                                                                
+                                                                                                                 self.a
+                                                                                                                 ssertE
+                                                                                                                 qual(e
+                                                                                                                 ntries
+                                                                                                                 [rel],
+                                                                                                                  _sha2
+                                                                                                                 56(mem
+                                                                                                                 bers[f
+                                                                                                                 "{PACK
+                                                                                                                 _NAME}
+                                                                                                                 /{rel}
+                                                                                                                 "]))
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_postrelease_web_mount.py                 259
+                                                                                                                   dige
+                                                                                                                 st = _
+                                                                                                                 sha256
+                                                                                                                 (ZIP.r
+                                                                                                                 ead_by
+                                                                                                                 tes())
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_publication_projection.py                 39 MANIFE
+                                                                                                                 ST = R
+                                                                                                                 OOT /
+                                                                                                                 ".hgk"
+                                                                                                                  / "ar
+                                                                                                                 tifact
+                                                                                                                 s" / "
+                                                                                                                 eviden
+                                                                                                                 ce_man
+                                                                                                                 ifest.
+                                                                                                                 json"
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_publication_projection.py                 84
+                                                                                                                   pub_
+                                                                                                                 produc
+                                                                                                                 t = {p
+                                                                                                                 : B.bl
+                                                                                                                 ob_con
+                                                                                                                 tent_s
+                                                                                                                 ha256(
+                                                                                                                 oid) f
+                                                                                                                 or p,
+                                                                                                                 oid in
+                                                                                                                  pub.i
+                                                                                                                 tems()
+                                                                                                                  if B.
+                                                                                                                 is_pro
+                                                                                                                 duct_p
+                                                                                                                 ath(p)
+                                                                                                                 }
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_publication_projection.py                 85
+                                                                                                                   frz_
+                                                                                                                 produc
+                                                                                                                 t = {p
+                                                                                                                 : B.bl
+                                                                                                                 ob_con
+                                                                                                                 tent_s
+                                                                                                                 ha256(
+                                                                                                                 oid) f
+                                                                                                                 or p,
+                                                                                                                 oid in
+                                                                                                                  frz.i
+                                                                                                                 tems()
+                                                                                                                  if B.
+                                                                                                                 is_pro
+                                                                                                                 duct_p
+                                                                                                                 ath(p)
+                                                                                                                 }
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_publication_projection.py                151
+                                                                                                                   proj
+                                                                                                                 ection
+                                                                                                                 ["entr
+                                                                                                                 ies"][
+                                                                                                                 victim
+                                                                                                                 ]["pub
+                                                                                                                 lished
+                                                                                                                 _blob_
+                                                                                                                 sha256
+                                                                                                                 "] = "
+                                                                                                                 0" * 6
+                                                                                                                 4
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_publication_projection.py                164
+                                                                                                                   mani
+                                                                                                                 fest,
+                                                                                                                 _ = B.
+                                                                                                                 load_e
+                                                                                                                 videnc
+                                                                                                                 e_mani
+                                                                                                                 fest()
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_publication_projection.py                185
+                                                                                                                
+                                                                                                                 projec
+                                                                                                                 tion["
+                                                                                                                 entrie
+                                                                                                                 s"][vi
+                                                                                                                 ctim][
+                                                                                                                 "publi
+                                                                                                                 shed_b
+                                                                                                                 lob_sh
+                                                                                                                 a256"]
+                                                                                                                  = "0"
+                                                                                                                  * 64
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_publication_projection.py                206
+                                                                                                                   self
+                                                                                                                 .manif
+                                                                                                                 est, _
+                                                                                                                  = B.l
+                                                                                                                 oad_ev
+                                                                                                                 idence
+                                                                                                                 _manif
+                                                                                                                 est()
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_publication_projection.py                223
+                                                                                                                
+                                                                                                                     se
+                                                                                                                 lf.ass
+                                                                                                                 ertTru
+                                                                                                                 e(entr
+                                                                                                                 y.get(
+                                                                                                                 "publi
+                                                                                                                 shed_b
+                                                                                                                 lob_sh
+                                                                                                                 a256")
+                                                                                                                 , f"{p
+                                                                                                                 ath} p
+                                                                                                                 ublic
+                                                                                                                 but no
+                                                                                                                  diges
+                                                                                                                 t")
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_publication_projection.py                225
+                                                                                                                
+                                                                                                                     se
+                                                                                                                 lf.ass
+                                                                                                                 ertIsN
+                                                                                                                 one(en
+                                                                                                                 try.ge
+                                                                                                                 t("pub
+                                                                                                                 lished
+                                                                                                                 _blob_
+                                                                                                                 sha256
+                                                                                                                 "), f"
+                                                                                                                 {path}
+                                                                                                                  non-p
+                                                                                                                 ublic
+                                                                                                                 but ha
+                                                                                                                 s dige
+                                                                                                                 st")
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_artifact_reproducibility.py          9 * T4 t
+                                                                                                                 he ``c
+                                                                                                                 andida
+                                                                                                                 te_hea
+                                                                                                                 d`` re
+                                                                                                                 corded
+                                                                                                                  in th
+                                                                                                                 e trac
+                                                                                                                 ked ar
+                                                                                                                 tefact
+                                                                                                                  is an
+                                                                                                                  ances
+                                                                                                                 tor of
+                                                                                                                  HEAD.
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_artifact_reproducibility.py         36 TRACKE
+                                                                                                                 D_MANI
+                                                                                                                 FEST =
+                                                                                                                  ROOT
+                                                                                                                 / ".hg
+                                                                                                                 k" / "
+                                                                                                                 artifa
+                                                                                                                 cts" /
+                                                                                                                  "evid
+                                                                                                                 ence_m
+                                                                                                                 anifes
+                                                                                                                 t.json
+                                                                                                                 "
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_artifact_reproducibility.py         39 def _s
+                                                                                                                 ha256(
+                                                                                                                 path:
+                                                                                                                 Path)
+                                                                                                                 -> str
+                                                                                                                 :
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_artifact_reproducibility.py         46
+                                                                                                                   befo
+                                                                                                                 re = _
+                                                                                                                 sha256
+                                                                                                                 (TRACK
+                                                                                                                 ED_ADM
+                                                                                                                 ISSION
+                                                                                                                 S)
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_artifact_reproducibility.py         48
+                                                                                                                   iden
+                                                                                                                 tity =
+                                                                                                                  track
+                                                                                                                 ed["ca
+                                                                                                                 ndidat
+                                                                                                                 e_head
+                                                                                                                 "]
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_artifact_reproducibility.py         52
+                                                                                                                   plan
+                                                                                                                 ted["c
+                                                                                                                 andida
+                                                                                                                 te_hea
+                                                                                                                 d"] =
+                                                                                                                 "f" *
+                                                                                                                 40
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_artifact_reproducibility.py         66
+                                                                                                                   self
+                                                                                                                 .asser
+                                                                                                                 tEqual
+                                                                                                                 (regen
+                                                                                                                 erated
+                                                                                                                 ["cand
+                                                                                                                 idate_
+                                                                                                                 head"]
+                                                                                                                 , iden
+                                                                                                                 tity,
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_artifact_reproducibility.py         68
+                                                                                                                   self
+                                                                                                                 .asser
+                                                                                                                 tIn("A
+                                                                                                                 NCESTO
+                                                                                                                 R", re
+                                                                                                                 genera
+                                                                                                                 ted["c
+                                                                                                                 andida
+                                                                                                                 te_hea
+                                                                                                                 d_note
+                                                                                                                 "])
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_artifact_reproducibility.py         69
+                                                                                                                   self
+                                                                                                                 .asser
+                                                                                                                 tIn("-
+                                                                                                                 -for-c
+                                                                                                                 ommit"
+                                                                                                                 , rege
+                                                                                                                 nerate
+                                                                                                                 d["can
+                                                                                                                 didate
+                                                                                                                 _head_
+                                                                                                                 note"]
+                                                                                                                 )
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_artifact_reproducibility.py         70
+                                                                                                                   self
+                                                                                                                 .asser
+                                                                                                                 tEqual
+                                                                                                                 (_sha2
+                                                                                                                 56(TRA
+                                                                                                                 CKED_A
+                                                                                                                 DMISSI
+                                                                                                                 ONS),
+                                                                                                                 before
+                                                                                                                 ,
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_artifact_reproducibility.py         75
+                                                                                                                   befo
+                                                                                                                 re = _
+                                                                                                                 sha256
+                                                                                                                 (TRACK
+                                                                                                                 ED_SCA
+                                                                                                                 N)
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_artifact_reproducibility.py         83
+                                                                                                                   self
+                                                                                                                 .asser
+                                                                                                                 tEqual
+                                                                                                                 (_sha2
+                                                                                                                 56(TRA
+                                                                                                                 CKED_S
+                                                                                                                 CAN),
+                                                                                                                 before
+                                                                                                                 ,
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_artifact_reproducibility.py        112
+                                                                                                                   iden
+                                                                                                                 tity =
+                                                                                                                  json.
+                                                                                                                 loads(
+                                                                                                                 TRACKE
+                                                                                                                 D_ADMI
+                                                                                                                 SSIONS
+                                                                                                                 .read_
+                                                                                                                 text(e
+                                                                                                                 ncodin
+                                                                                                                 g="utf
+                                                                                                                 -8"))[
+                                                                                                                 "candi
+                                                                                                                 date_h
+                                                                                                                 ead"]
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_artifact_reproducibility.py        116
+                                                                                                                
+                                                                                                                
+                                                                                                                
+                                                                                                                  f"rec
+                                                                                                                 orded
+                                                                                                                 candid
+                                                                                                                 ate_he
+                                                                                                                 ad {id
+                                                                                                                 entity
+                                                                                                                 !r} is
+                                                                                                                  not a
+                                                                                                                 n ance
+                                                                                                                 stor o
+                                                                                                                 f HEAD
+                                                                                                                 ")
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_release_provenance.py               79 def _s
+                                                                                                                 ha256_
+                                                                                                                 file(p
+                                                                                                                 ath: P
+                                                                                                                 ath) -
+                                                                                                                 > str:
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_release_provenance.py              271
+                                                                                                                
+                                                                                                                 if ent
+                                                                                                                 ry.get
+                                                                                                                 ("publ
+                                                                                                                 ished_
+                                                                                                                 asset_
+                                                                                                                 sha256
+                                                                                                                 "):
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_release_provenance.py              272
+                                                                                                                
+                                                                                                                     se
+                                                                                                                 lf.ass
+                                                                                                                 ertEqu
+                                                                                                                 al(_sh
+                                                                                                                 a256_f
+                                                                                                                 ile(zi
+                                                                                                                 p_path
+                                                                                                                 ), ent
+                                                                                                                 ry["pu
+                                                                                                                 blishe
+                                                                                                                 d_asse
+                                                                                                                 t_sha2
+                                                                                                                 56"],
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_release_provenance.py              280
+                                                                                                                   self
+                                                                                                                 .asser
+                                                                                                                 tEqual
+                                                                                                                 (_sha2
+                                                                                                                 56_fil
+                                                                                                                 e(zip_
+                                                                                                                 path),
+                                                                                                                  sidec
+                                                                                                                 ar.rea
+                                                                                                                 d_text
+                                                                                                                 (encod
+                                                                                                                 ing="u
+                                                                                                                 tf-8")
+                                                                                                                 .split
+                                                                                                                 ()[0])
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_release_provenance.py              287
+                                                                                                                   firs
+                                                                                                                 t = en
+                                                                                                                 try["f
+                                                                                                                 irst_s
+                                                                                                                 hipped
+                                                                                                                 _asset
+                                                                                                                 _sha25
+                                                                                                                 6"]
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_release_provenance.py              288
+                                                                                                                   self
+                                                                                                                 .asser
+                                                                                                                 tTrue(
+                                                                                                                 first
+                                                                                                                 and fi
+                                                                                                                 rst !=
+                                                                                                                  entry
+                                                                                                                 ["publ
+                                                                                                                 ished_
+                                                                                                                 asset_
+                                                                                                                 sha256
+                                                                                                                 "],
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_release_provenance.py              306
+                                                                                                                
+                                                                                                                     di
+                                                                                                                 gests.
+                                                                                                                 append
+                                                                                                                 (_sha2
+                                                                                                                 56_fil
+                                                                                                                 e(out)
+                                                                                                                 )
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_release_provenance.py              308
+                                                                                                                
+                                                                                                                 self.a
+                                                                                                                 ssertE
+                                                                                                                 qual(d
+                                                                                                                 igests
+                                                                                                                 [0], _
+                                                                                                                 sha256
+                                                                                                                 _file(
+                                                                                                                 ROOT /
+                                                                                                                  entry
+                                                                                                                 ["zip"
+                                                                                                                 ]),
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_technology_admission.py                  159     ``
+                                                                                                                 candid
+                                                                                                                 ate_he
+                                                                                                                 ad``),
+                                                                                                                  which
+                                                                                                                  a rea
+                                                                                                                 d-only
+                                                                                                                  accep
+                                                                                                                 tance
+                                                                                                                 run mu
+                                                                                                                 st not
+                                                                                                                  do.
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_wheel_distribution.py                     45 def _s
+                                                                                                                 ha256(
+                                                                                                                 b: byt
+                                                                                                                 es) ->
+                                                                                                                  str:
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_wheel_distribution.py                     72
+                                                                                                                
+                                                                                                                
+                                                                                                                   self
+                                                                                                                 .asser
+                                                                                                                 tEqual
+                                                                                                                 (manif
+                                                                                                                 est["m
+                                                                                                                 embers
+                                                                                                                 "][mem
+                                                                                                                 ber],
+                                                                                                                 _sha25
+                                                                                                                 6(z.re
+                                                                                                                 ad(mem
+                                                                                                                 ber)),
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_wheel_distribution.py                     86
+                                                                                                                
+                                                                                                                 self.a
+                                                                                                                 ssertE
+                                                                                                                 qual(o
+                                                                                                                 n_disk
+                                                                                                                 ["cand
+                                                                                                                 idate_
+                                                                                                                 head"]
+                                                                                                                 , mani
+                                                                                                                 fest["
+                                                                                                                 candid
+                                                                                                                 ate_he
+                                                                                                                 ad"])
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_wheel_distribution.py                     87
+                                                                                                                
+                                                                                                                 self.a
+                                                                                                                 ssertN
+                                                                                                                 otEqua
+                                                                                                                 l(mani
+                                                                                                                 fest["
+                                                                                                                 candid
+                                                                                                                 ate_he
+                                                                                                                 ad"],
+                                                                                                                 "", "c
+                                                                                                                 andida
+                                                                                                                 te_hea
+                                                                                                                 d must
+                                                                                                                  be re
+                                                                                                                 corded
+                                                                                                                 ")
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_wheel_distribution.py                     92
+                                                                                                                
+                                                                                                                 self.a
+                                                                                                                 ssertE
+                                                                                                                 qual(m
+                                                                                                                 anifes
+                                                                                                                 t["pro
+                                                                                                                 duct_d
+                                                                                                                 igest"
+                                                                                                                 ], _sh
+                                                                                                                 a256(c
+                                                                                                                 anonic
+                                                                                                                 al.enc
+                                                                                                                 ode())
+                                                                                                                 )
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_wheel_distribution.py                     93
+                                                                                                                
+                                                                                                                 self.a
+                                                                                                                 ssertE
+                                                                                                                 qual(m
+                                                                                                                 anifes
+                                                                                                                 t["sha
+                                                                                                                 256"],
+                                                                                                                  _sha2
+                                                                                                                 56(whl
+                                                                                                                 .read_
+                                                                                                                 bytes(
+                                                                                                                 )))
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_wheel_distribution.py                    116
+                                                                                                                
+                                                                                                                 self.a
+                                                                                                                 ssertE
+                                                                                                                 qual(_
+                                                                                                                 sha256
+                                                                                                                 (whl_a
+                                                                                                                 .read_
+                                                                                                                 bytes(
+                                                                                                                 )), _s
+                                                                                                                 ha256(
+                                                                                                                 whl_b.
+                                                                                                                 read_b
+                                                                                                                 ytes()
+                                                                                                                 ),
+
+
+ succeeded in 1041ms:
+
+Path                                                                                                  LineNumber Line
+----                                                                                                  ---------- ----
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-far-wt\tests\test_s4ext_artifact_reproducibility.py         33 VERIF…
+
+
+ERROR: {"error":{"message":"Provider error 400: Upstream request failed: [invalid_request_error] The `reasoning_content` in the thinking mode must be passed back to the API. (request_id: 58ef1691-1afe-46b7-8072-36cfc8e8ec50)","type":"upstream_error","code":null}}
+ERROR: {"error":{"message":"Provider error 400: Upstream request failed: [invalid_request_error] The `reasoning_content` in the thinking mode must be passed back to the API. (request_id: 58ef1691-1afe-46b7-8072-36cfc8e8ec50)","type":"upstream_error","code":null}}
+tokens used
+35,906
