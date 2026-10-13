@@ -397,3 +397,6 @@ mode=INSTALLED and doctor output) ===
       | installed-wheel contract registry: mode=INSTALLED families=19 path=/home/runner/work/_temp/wheelvenv/lib/python3.11/site-packages/pipd_ls_sp/schemas
       | installed-wheel contract registry: mode=INSTALLED families=19 path=/home/runner/work/_temp/wheelvenv/lib/python3.11/site-packages/pipd_ls_sp/schemas
       | installed-wheel contract registry: mode=INSTALLED families=19 path=/home/runner/work/_temp/wheelvenv/lib/python3.11/site-packages/pipd_ls_sp/schemas
+
+FINAL LINE (required, verbatim, nothing after it): output exactly this token on its own line:
+HGK_LANE_NONCE_OK

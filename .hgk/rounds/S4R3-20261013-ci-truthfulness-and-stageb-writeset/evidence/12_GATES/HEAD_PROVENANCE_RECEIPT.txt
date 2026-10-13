@@ -1,0 +1,54 @@
+HEAD PROVENANCE RECEIPT - which revision each write-set gate run and each hosted CI run belongs to
+generated_utc: 2026-10-13T11:56:35Z
+
+=== local worktrees, HEAD resolved AT THE TIME OF THIS RUN ===
+  s4r3a-wt
+    path      : C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt
+    branch    : fix/s4r3-stage-a-ci-truthfulness-20261013
+    HEAD      : 5310896e706e01a9cdb0123285bccec75086bcb8
+    clean     : 0 modified/untracked entries
+  s4r3c-wt
+    path      : C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3c-wt
+    branch    : feat/s4r3-stageb-successor-20261013
+    HEAD      : ee5aa3e91ae7a6398493e6e1c76448edee2d59da
+    clean     : 37 modified/untracked entries
+
+=== local write-set gate, re-run now, with the HEAD captured in the same invocation ===
+  --- s4r3a-wt ---
+    HEAD before run: 5310896e706e01a9cdb0123285bccec75086bcb8
+GATE_SELF_TEST_OK: docs/install/../../src/pipd_ls_sp/validate.py is refused as a traversal path
+GATE_SELF_TEST_OK: planted frozen-path violations and unlisted src/** are all refused
+GATE_SELF_TEST_OK: planted stage-b artefacts are all allowed
+WRITE_SET_CLEAN_AGAINST_5310896e706e01a9cdb0123285bccec75086bcb8
+
+2/2 gate runs clean
+    gate exit: 0
+    HEAD after run : 5310896e706e01a9cdb0123285bccec75086bcb8
+  --- s4r3c-wt ---
+    HEAD before run: ee5aa3e91ae7a6398493e6e1c76448edee2d59da
+GATE_SELF_TEST_OK: docs/install/../../src/pipd_ls_sp/validate.py is refused as a traversal path
+GATE_SELF_TEST_OK: planted frozen-path violations and unlisted src/** are all refused
+GATE_SELF_TEST_OK: planted stage-b artefacts are all allowed
+WRITE_SET_CLEAN_AGAINST_5310896e706e01a9cdb0123285bccec75086bcb8
+
+2/2 gate runs clean
+    gate exit: 0
+    HEAD after run : ee5aa3e91ae7a6398493e6e1c76448edee2d59da
+
+=== hosted CI runs that produced the receipts quoted in this round (run id -> head sha) ===
+  ee5aa3e    "sha": "ee5aa3e91ae7a6398493e6e1c76448edee2d59da",
+  ee5aa3e      success    verify
+  ee5aa3e      success    offline-gate
+  ee5aa3e      success    offline-gate
+  4bb23e7    "sha": "4bb23e748c0f0ad1f524ce7defbe98d492e58350",
+  4bb23e7      success    verify
+  4bb23e7      success    offline-gate
+  4bb23e7      success    offline-gate
+  aeb3c68    "sha": "aeb3c6851c03987d7bba7c139b021f0e6eabb366",
+  aeb3c68      success    verify
+  aeb3c68      success    offline-gate
+  aeb3c68      success    offline-gate
+  9d3845a    "sha": "9d3845a9b9e602c33bae74279b1f602bb723a9b0",
+  9d3845a      success    offline-gate
+  9d3845a      success    verify
+  9d3845a      success    offline-gate

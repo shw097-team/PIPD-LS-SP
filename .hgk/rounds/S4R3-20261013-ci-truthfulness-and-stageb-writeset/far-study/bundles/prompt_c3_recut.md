@@ -263,3 +263,5 @@ GATE_SELF_TEST_OK: planted stage-b artefacts are all allowed
 stage-a: GATE_SELF_TEST_OK planted stage-a artefacts are all allowed
 stage-b: GATE_SELF_TEST_OK planted stage-b artefacts are all allowed
 
+FINAL LINE (required, verbatim, nothing after it): output exactly this token on its own line:
+HGK_LANE_NONCE_OK
