@@ -62,3 +62,39 @@
 - [~] R.3 OPENSPEC: this change is the round's spec ledger, validated by the native CLI.
 - [~] R.4 Host UAT: Hermes Agent executed; Codex CLI executed in Stage A; Web and Codex Desktop report
       NOT_RUN / NOT_VERIFIED rather than a fabricated pass.
+
+## R3 remedy round - FAR low-resistance plan (owner order 2026-10-13)
+
+> Appended by the R3 round. Same legend. These entries add to - and do not restate or overwrite - any
+> status above. The round's FAR study audited this change against the blueprint, the command PROMPT and
+> the external recheck verdict, and recorded six deviations with locators
+> (`verify/far/FAR_S4POST_DEVIATION_AND_REMEDIES_20261013.md`).
+
+- [x] R3.R1/R8 Harness freeze + external-round cap declared in `HARNESS_FREEZE_AND_AO_LOOP_CAP.md`:
+      no new verification axis, no further acceptance round for this change, residual findings become CR/TT.
+- [~] R3.R2 Changeset split: the verification harness is carried by its own branch and the product
+      changeset branch keeps the product surface plus the round's result documents. Branch names and the
+      exact file counts are recorded in `R3_PUBLICATION.md`; the owner still decides which branch is the
+      change under acceptance.
+- [x] R3.R3 Evidence Return Pack completed with the three missing PB-090 fields: `commands` (focused
+      108/OK, full 572/OK, both raw logs in `verify/r3/raw/` with sha256), `release_assets` (all five
+      published `v0.1.1-preview.3` assets re-downloaded anonymously and hashed: 5/5 equal to the
+      API-reported digest) and `manifest_sha256`. Integrity vs API metadata only; tag -> source -> asset
+      reproducibility stays OPEN.
+- [x] R3.R4 `OWNER_ACTION_REQUEST.md`: the four owner supplies, the four owner-only acts, the 12 external
+      evidence items and the three design decisions the round declines to answer.
+- [~] R3.R5 Minimal read-only CI: the workflow is unchanged; the Draft PR that would give it its first
+      real run is attempted and its raw outcome recorded in `R3_PUBLICATION.md`.
+- [x] R3.R6 Evidence rerunnability is now an assertion, not a promise:
+      `verify/tools/check_evidence_locators.py` run as a positive control (PASS) and against the AO12
+      bundle (FAIL: 5 external-only locators including the lane's unreadable temp root and the canonical
+      challenge-review contract, which lives outside the tree).
+- [x] R3.R7 SoD recorded at identity level: producer `user` (S-1-5-21-...-1000), checker
+      `CodexSandboxOffline` (S-1-5-21-...-1004) - different local accounts, so the separation is process +
+      identity, not model.
+- [x] R3.surfaces: KANBAN board `s4post-r3-remedies` with a SWARM graph (root `t_fc25bc79`, six workers,
+      verifier `t_e392ea37`, synthesizer `t_33a81182`) recorded in `kanban/R3_BOARD_EVIDENCE.json`; GSTACK
+      route readback executed (`surface/GSTACK_R3_ROUTE_READBACK.json`, all 14 activation invariants 0);
+      OpenSpec validated by the native CLI (`surface/OPENSPEC_R3_EVIDENCE.json`).
+- [ ] R3.owner The four supplies, the four owner-only acts and the single integrated candidate signature
+      remain the owner's; nothing here clears them.

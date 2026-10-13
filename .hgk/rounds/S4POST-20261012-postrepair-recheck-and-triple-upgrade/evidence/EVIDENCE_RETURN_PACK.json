@@ -1,51 +1,302 @@
 {
-  "schema": "PIPD-S4POST-EXTERNAL-EVIDENCE/1",
-  "round_id": "S4POST-20261012-postrepair-recheck-and-triple-upgrade",
-  "produced_by": "Hermes governed orchestrator (PLAN lane), with four bounded Codex CLI writer lanes",
-  "frozen_subject": {
-    "repo": "shw097-team/PIPD-LS-SP",
-    "stage_a_branch": "fix/s4post-integration-repair-20261012",
-    "stage_a_base": "224591431a164ab72a9423cd180e417e8a762403",
-    "stage_b_branch": "feat/s4post-triple-upgrade-20261012",
-    "stage_b_commit": "32962532b7b7176eafbd3d353ced63a3056027fb",
-    "stage_b_tree": "40b9507a97eea29cdc20f55e69cedb34ee8e2302",
-    "release_tag_target": "NOT_RELEASED"
+ "schema": "PIPD-S4POST-EXTERNAL-EVIDENCE/1",
+ "round_id": "S4POST-20261012-postrepair-recheck-and-triple-upgrade",
+ "produced_by": "Hermes governed orchestrator (PLAN lane), with four bounded Codex CLI writer lanes",
+ "frozen_subject": {
+  "repo": "shw097-team/PIPD-LS-SP",
+  "stage_a_branch": "fix/s4post-integration-repair-20261012",
+  "stage_a_base": "224591431a164ab72a9423cd180e417e8a762403",
+  "stage_b_branch": "feat/s4post-triple-upgrade-20261012",
+  "stage_b_commit": "32962532b7b7176eafbd3d353ced63a3056027fb",
+  "stage_b_tree": "40b9507a97eea29cdc20f55e69cedb34ee8e2302",
+  "release_tag_target": "NOT_RELEASED"
+ },
+ "lanes": {
+  "plan": {
+   "actor": "Hermes orchestrator",
+   "model": "deepseek-v4.1-flash (this session)",
+   "notes": "planning, dispatch, verification of lane output, evidence authoring"
   },
-  "lanes": {
-    "plan": {"actor": "Hermes orchestrator", "model": "deepseek-v4.1-flash (this session)", "notes": "planning, dispatch, verification of lane output, evidence authoring"},
-    "execute_attempt_2": {"model_declared": "opencode-go/deepseek-v4.1-flash", "transport": "codex exec, relay 127.0.0.1:10102", "outcome": "all three lanes aborted on one error class: upstream HTTP 400 'The reasoning_content in the thinking mode must be passed back to the API'", "occurrences": 3, "artifacts_written": 0},
-    "execute_attempt_3": {"model_used": "opencode-go/deepseek-v4-flash (declared backup, D-03)", "transport": "codex exec", "lanes": {"B1": "exit 0", "B2": "exit 0", "B3": "exit 0", "B4": "exit 0"}, "disclosure": "the declared EXECUTE model could not carry the work; the substitution is declared in MODEL_DECLARED_*.txt and in this pack"},
-    "verify": {"actor": "not yet run this round", "status": "PENDING", "note": "an independent acceptance lane on gpt-6.1-sol/medium was probed healthy (probe log kept) but was not dispatched within this round's budget"}
+  "execute_attempt_2": {
+   "model_declared": "opencode-go/deepseek-v4.1-flash",
+   "transport": "codex exec, relay 127.0.0.1:10102",
+   "outcome": "all three lanes aborted on one error class: upstream HTTP 400 'The reasoning_content in the thinking mode must be passed back to the API'",
+   "occurrences": 3,
+   "artifacts_written": 0
   },
-  "orchestrator_measurements": [
-    {"command": "python -m unittest tests.test_public_plugin_packaging tests.test_web_fallback", "exit_code": 0, "tests": 44, "result": "OK", "raw_log": "raw/orch_focused_public_plugin.log"},
-    {"command": "python -m unittest discover -s tests -t .", "exit_code": 0, "tests": 569, "skipped": 6, "result": "OK", "raw_log": "raw/orch_full_suite_stageB.log"},
-    {"command": "python tools/freeze_public_plugin_source.py --repo-root <worktree> --out <ledger>", "exit_code": 0, "result": "ledger written; 8 skills / 48 files", "raw_log": "evidence/08_PLUGIN/FROZEN_SOURCE_LEDGER.json"},
-    {"command": "python tools/build_public_plugin.py --source-root <worktree> --ledger <ledger> --source-commit <HEAD> --out-dir <secure> --generate-icons", "exit_code": 2, "result": "REFUSED OWNER_INPUT_MISSING (first owner gate); no archive written", "raw_log": "evidence/08_PLUGIN/REAL_BUILD_ATTEMPT.txt"},
-    {"command": "git diff --name-only <stacked base> HEAD | write-set guard", "exit_code": 0, "result": "0 paths outside the allowed set; 0 core writes; 0 dist writes", "raw_log": "evidence/08_PLUGIN/WRITESET_GUARD.txt"},
-    {"command": "GSTACK named-method route check", "exit_code": 0, "result": "invariants_all_zero true; 12 flows resolved", "raw_log": "evidence/10_OWNER/GSTACK_ROUTE_RESOLUTION.json"},
-    {"command": "openspec validate s4post-triple-upgrade --strict ; openspec status", "exit_code": 0, "result": "Change is valid; 4/4 artifacts complete; doctor ok", "raw_log": "evidence/10_OWNER/OPENSPEC_VALIDATE.txt"}
+  "execute_attempt_3": {
+   "model_used": "opencode-go/deepseek-v4-flash (declared backup, D-03)",
+   "transport": "codex exec",
+   "lanes": {
+    "B1": "exit 0",
+    "B2": "exit 0",
+    "B3": "exit 0",
+    "B4": "exit 0"
+   },
+   "disclosure": "the declared EXECUTE model could not carry the work; the substitution is declared in MODEL_DECLARED_*.txt and in this pack"
+  },
+  "verify": {
+   "actor": "not yet run this round",
+   "status": "PENDING",
+   "note": "an independent acceptance lane on gpt-6.1-sol/medium was probed healthy (probe log kept) but was not dispatched within this round's budget"
+  }
+ },
+ "orchestrator_measurements": [
+  {
+   "command": "python -m unittest tests.test_public_plugin_packaging tests.test_web_fallback",
+   "exit_code": 0,
+   "tests": 44,
+   "result": "OK",
+   "raw_log": "raw/orch_focused_public_plugin.log"
+  },
+  {
+   "command": "python -m unittest discover -s tests -t .",
+   "exit_code": 0,
+   "tests": 569,
+   "skipped": 6,
+   "result": "OK",
+   "raw_log": "raw/orch_full_suite_stageB.log"
+  },
+  {
+   "command": "python tools/freeze_public_plugin_source.py --repo-root <worktree> --out <ledger>",
+   "exit_code": 0,
+   "result": "ledger written; 8 skills / 48 files",
+   "raw_log": "evidence/08_PLUGIN/FROZEN_SOURCE_LEDGER.json"
+  },
+  {
+   "command": "python tools/build_public_plugin.py --source-root <worktree> --ledger <ledger> --source-commit <HEAD> --out-dir <secure> --generate-icons",
+   "exit_code": 2,
+   "result": "REFUSED OWNER_INPUT_MISSING (first owner gate); no archive written",
+   "raw_log": "evidence/08_PLUGIN/REAL_BUILD_ATTEMPT.txt"
+  },
+  {
+   "command": "git diff --name-only <stacked base> HEAD | write-set guard",
+   "exit_code": 0,
+   "result": "0 paths outside the allowed set; 0 core writes; 0 dist writes",
+   "raw_log": "evidence/08_PLUGIN/WRITESET_GUARD.txt"
+  },
+  {
+   "command": "GSTACK named-method route check",
+   "exit_code": 0,
+   "result": "invariants_all_zero true; 12 flows resolved",
+   "raw_log": "evidence/10_OWNER/GSTACK_ROUTE_RESOLUTION.json"
+  },
+  {
+   "command": "openspec validate s4post-triple-upgrade --strict ; openspec status",
+   "exit_code": 0,
+   "result": "Change is valid; 4/4 artifacts complete; doctor ok",
+   "raw_log": "evidence/10_OWNER/OPENSPEC_VALIDATE.txt"
+  }
+ ],
+ "host_uat": [
+  {
+   "host": "Hermes Agent",
+   "os": "Windows 11",
+   "host_version": "Hermes CLI from the desktop runtime",
+   "effective_load": "PARTIAL",
+   "scenarios": {
+    "POS_discovery": "PASS - a one-shot session listed all eight pipd-* skills",
+    "NON_TRIGGER": "PASS - a non-PIPD question triggered no workflow",
+    "REFUSAL": "NOT_RUN",
+    "ADVERSARIAL": "NOT_RUN"
+   },
+   "transcript": "verify/uat/hermes/UAT_RUN.ndjson",
+   "non_promotion_note": "the session reported the skills as visible in its directory listing, not as loaded content; no host is claimed universally verified"
+  },
+  {
+   "host": "Codex CLI",
+   "status": "executed in Stage A",
+   "evidence": "Stage A branch receipts (evidence/07_HOSTS equivalent under .hgk/rounds/S4POST-.../verify/uat/)"
+  },
+  {
+   "host": "Codex Desktop (GUI)",
+   "status": "NOT_RUN"
+  },
+  {
+   "host": "Web (Plus / Free)",
+   "status": "NOT_RUN - no directory listing exists and no account UAT was attempted"
+  }
+ ],
+ "portal": {
+  "publisher_verified": false,
+  "draft_id": null,
+  "scan": "NOT_EXECUTED",
+  "review": "NOT_EXECUTED",
+  "publish": "NOT_EXECUTED"
+ },
+ "nonmutation": {
+  "main": "224591431a164ab72a9423cd180e417e8a762403 (untouched)",
+  "tags": "v0.1.1-preview.3 (untouched)",
+  "published_assets": "untouched",
+  "method": "git ls-remote before and after; no force, no tag write, no asset write"
+ },
+ "open_tt": [
+  "TT-S4POST-EVIDENCE-06 (partially addressed: this pack is the single candidate-bound pointer; the historical FAIL/PASS receipts are left untouched)",
+  "TT-UPG-P01 owner inputs (4)",
+  "TT-UPG-P04 release owner/new immutable release",
+  "CR-F01-PNG-PORTAL",
+  "CR-F02 vendor validator/Portal scan",
+  "TR-16/TR-17/TR-18/TR-29..TR-35/TR-38..TR-40 NOT_EXECUTED"
+ ],
+ "independent_checker": {
+  "identity": "CodexSandboxOffline (S-1-5-21-...-1004)",
+  "scope": "PIPD-LS-SP S4POST Stage-B candidate, declared scope per EXTERNAL_CHALLENGE_INTAKE.json",
+  "verdict": "FAIL_CHALLENGE",
+  "evidence": "verify/ao12/EXTERNAL_CHALLENGE_REPORT.md (+ FINDINGS.json, REVIEW_EVIDENCE_MANIFEST.json)",
+  "previous_stale_value": {
+   "identity": null,
+   "scope": null,
+   "verdict": "NOT_RUN",
+   "note": "maker self-tests are not acceptance; a fresh read-only acceptance lane is the next legal act"
+  },
+  "note": "the previous value (NOT_RUN) was STALE: twelve acceptance rounds have since run (AO6..AO12). The latest independent verdict is FAIL_CHALLENGE with 9 findings, all inside the round's own verification harness."
+ },
+ "owner_ratification": {
+  "scope": "Stage A candidate and Stage B candidate",
+  "receipt": "PENDING"
+ },
+ "claim_ceiling": "MAKER_CANDIDATE_AND_LOCAL_TESTS_ONLY",
+ "manifest_sha256": {
+  "what_it_hashes": "the candidate's own manifests/schema in this tree (NOT a release-tuple manifest; no release exists for this candidate)",
+  "files": {
+   "packaging/public-plugin/plugin.release.json": {
+    "sha256": "9a719308a34b1675b6524734f86c28fe5d3d46a44a3c8e843c6f48c224ecc957",
+    "bytes": 900
+   },
+   "packaging/public-plugin/plugin.json": {
+    "sha256": "e40192a136563ae41c9529a5eba972523cbb1f0b624886815303863fd855582e",
+    "bytes": 1789
+   },
+   "packaging/public-plugin/vendor-plugin.schema.json": {
+    "sha256": "0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883",
+    "bytes": 1805
+   }
+  }
+ },
+ "release_assets": {
+  "scope": "the PUBLISHED v0.1.1-preview.3 assets, re-read anonymously in this round",
+  "method": "anonymous HTTPS GET of each browser_download_url; SHA-256 computed on the downloaded bytes and compared to the API-reported digest",
+  "ceiling": "this verifies ASSET INTEGRITY vs API metadata ONLY. It does NOT verify that the assets were built from the tagged source (tag -> source -> build -> asset reproducibility stays OPEN, per verdict section 2.1).",
+  "assets": [
+   {
+    "name": "pipd-ls-sp-v0.1.1-preview.3-source.zip",
+    "size": 15706360,
+    "api_reported_sha256": "sha256:ee6ee342223fd31361a4fe47f3c4bdc5cd56f0391b7d1f6575bbd34ed1e8e1e1",
+    "downloaded_sha256": "ee6ee342223fd31361a4fe47f3c4bdc5cd56f0391b7d1f6575bbd34ed1e8e1e1",
+    "equal": true
+   },
+   {
+    "name": "PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip",
+    "size": 20488,
+    "api_reported_sha256": "sha256:af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f",
+    "downloaded_sha256": "af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f",
+    "equal": true
+   },
+   {
+    "name": "pipd_ls_sp-0.1.1a3-py3-none-any.whl",
+    "size": 269299,
+    "api_reported_sha256": "sha256:e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec",
+    "downloaded_sha256": "e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec",
+    "equal": true
+   },
+   {
+    "name": "PREVIEW_NOTES_v0.1.1-preview.3.md",
+    "size": 4678,
+    "api_reported_sha256": "sha256:cebde58af56ad77be8fe168d49de15377d310e66097b285a2dc1a8c2195c7fa9",
+    "downloaded_sha256": "cebde58af56ad77be8fe168d49de15377d310e66097b285a2dc1a8c2195c7fa9",
+    "equal": true
+   },
+   {
+    "name": "SHA256SUMS",
+    "size": 418,
+    "api_reported_sha256": "sha256:c4230f985c160e83f5799d14d4090d44360f395b4799e1c01534d3654051ba9d",
+    "downloaded_sha256": "c4230f985c160e83f5799d14d4090d44360f395b4799e1c01534d3654051ba9d",
+    "equal": true
+   }
   ],
-  "host_uat": [
-    {"host": "Hermes Agent", "os": "Windows 11", "host_version": "Hermes CLI from the desktop runtime", "effective_load": "PARTIAL",
-     "scenarios": {"POS_discovery": "PASS - a one-shot session listed all eight pipd-* skills", "NON_TRIGGER": "PASS - a non-PIPD question triggered no workflow", "REFUSAL": "NOT_RUN", "ADVERSARIAL": "NOT_RUN"},
-     "transcript": "verify/uat/hermes/UAT_RUN.ndjson",
-     "non_promotion_note": "the session reported the skills as visible in its directory listing, not as loaded content; no host is claimed universally verified"},
-    {"host": "Codex CLI", "status": "executed in Stage A", "evidence": "Stage A branch receipts (evidence/07_HOSTS equivalent under .hgk/rounds/S4POST-.../verify/uat/)"},
-    {"host": "Codex Desktop (GUI)", "status": "NOT_RUN"},
-    {"host": "Web (Plus / Free)", "status": "NOT_RUN - no directory listing exists and no account UAT was attempted"}
-  ],
-  "portal": {"publisher_verified": false, "draft_id": null, "scan": "NOT_EXECUTED", "review": "NOT_EXECUTED", "publish": "NOT_EXECUTED"},
-  "nonmutation": {
-    "main": "224591431a164ab72a9423cd180e417e8a762403 (untouched)",
-    "tags": "v0.1.1-preview.3 (untouched)",
-    "published_assets": "untouched",
-    "method": "git ls-remote before and after; no force, no tag write, no asset write"
+  "candidate_assets": "NOT_APPLICABLE_UNRELEASED"
+ },
+ "commands": [
+  {
+   "argv_redacted": "PYTHONPATH=<worktree> \"C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe\" python -m unittest discover -s tests -p 'test_s4ext_*.py' -v",
+   "cwd": "<worktree>",
+   "exit_code": 0,
+   "tests": 108,
+   "skipped": null,
+   "failed": 0,
+   "errors": 0,
+   "result": "OK",
+   "raw_log": "verify/r3/raw/focused.log",
+   "log_sha256": "88d8db8123e744c2699193bd5c8013fbb62c0fd952d425b779c6f9457488eba7",
+   "env": {
+    "PYTHONPATH": "<worktree> (so `tests` and the package resolve from the candidate tree, not from an installed copy)",
+    "interpreter": "CPython 3.11.9 (C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe)",
+    "jsonschema": "4.26.0 (present in the interpreter; the packaging tests validate against the vendored vendor schema)"
+   },
+   "nonmutation_note": "run inside the candidate worktree; `git status --porcelain` was compared before/after and the only entries were this round's own new evidence files"
   },
-  "open_tt": ["TT-S4POST-EVIDENCE-06 (partially addressed: this pack is the single candidate-bound pointer; the historical FAIL/PASS receipts are left untouched)",
-              "TT-UPG-P01 owner inputs (4)", "TT-UPG-P04 release owner/new immutable release", "CR-F01-PNG-PORTAL", "CR-F02 vendor validator/Portal scan",
-              "TR-16/TR-17/TR-18/TR-29..TR-35/TR-38..TR-40 NOT_EXECUTED"],
-  "independent_checker": {"identity": null, "scope": null, "verdict": "NOT_RUN", "note": "maker self-tests are not acceptance; a fresh read-only acceptance lane is the next legal act"},
-  "owner_ratification": {"scope": "Stage A candidate and Stage B candidate", "receipt": "PENDING"},
-  "claim_ceiling": "MAKER_CANDIDATE_AND_LOCAL_TESTS_ONLY"
+  {
+   "argv_redacted": "PYTHONPATH=<worktree> \"C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe\" python -m unittest discover -s tests -t . -v",
+   "cwd": "<worktree>",
+   "exit_code": 0,
+   "tests": 572,
+   "skipped": 3,
+   "failed": 0,
+   "errors": 0,
+   "result": "OK",
+   "raw_log": "verify/r3/raw/full.log",
+   "log_sha256": "185a6177ce2296ca11af42e058f9ee661725c465836a65a19be6e8436bb2bc1a",
+   "env": {
+    "PYTHONPATH": "<worktree> (so `tests` and the package resolve from the candidate tree, not from an installed copy)",
+    "interpreter": "CPython 3.11.9 (C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe)",
+    "jsonschema": "4.26.0 (present in the interpreter; the packaging tests validate against the vendored vendor schema)"
+   },
+   "nonmutation_note": "run inside the candidate worktree; `git status --porcelain` was compared before/after and the only entries were this round's own new evidence files"
+  }
+ ],
+ "sod": [
+  {
+   "producer_identity": {
+    "account": "user",
+    "sid": "S-1-5-21-2687334950-3868438633-1592137926-1000",
+    "role": "repo owner worktree / orchestrator writes"
+   },
+   "checker_identity": {
+    "account": "CodexSandboxOffline",
+    "sid": "S-1-5-21-2687334950-3868438633-1592137926-1004",
+    "role": "sealed acceptance lane (AO6..AO12)"
+   },
+   "distinct_sids": true,
+   "mechanism": "the acceptance lane ran under a DIFFERENT local account from the maker; this is a process+identity separation, not a model separation",
+   "residual": "same model family across maker and checker is absent here (checker=gpt-6.1-sol, maker=deepseek-v4.1-flash), but both ran on the same HOST and the same relay class; correlated-blind-spot risk is NOT eliminated"
+  }
+ ],
+ "binding_correction": {
+  "stale_field": "frozen_subject.stage_b_commit",
+  "stale_value": "32962532b7b7176eafbd3d353ced63a3056027fb",
+  "issue": "FCR-007 / TT-S4POST-EVIDENCE-06: the accepted scope is not bound to the integrated frozen subject",
+  "action_taken": "NONE - re-binding the accepted scope is the owner's act (see OWNER_ACTION_REQUEST.md D2)",
+  "status": "PENDING_OWNER_RATIFICATION"
+ },
+ "r3_remedies": {
+  "stamp_utc": "20261013T011018Z",
+  "authorized_by": "owner order 2026-10-13",
+  "artifacts": {
+   "R1_R8": "HARNESS_FREEZE_AND_AO_LOOP_CAP.md",
+   "R2": "branch split: product-only branch vs chore/s4post-verification-harness (see ROUND_RESULT/R3_PUBLICATION.md)",
+   "R3": "this update (commands + release_assets + manifest_sha256)",
+   "R4": "OWNER_ACTION_REQUEST.md",
+   "R5": "public-plugin-verify.yml run via Draft PR (see R3_PUBLICATION.md for the outcome)",
+   "R6": "verify/R6_EVIDENCE_RERUNNABILITY.md + verify/tools/check_evidence_locators.py",
+   "R7": "sod block above",
+   "surfaces": {
+    "kanban": "kanban/R3_BOARD_EVIDENCE.json",
+    "gstack": "surface/GSTACK_R3_ROUTE_READBACK.json",
+    "openspec": "surface/OPENSPEC_R3_EVIDENCE.json"
+   }
+  },
+  "pack_preimage_sha256": "2e5a1d19e80ba8759c07c6d1e4b085d3d3ebf67988f1e269965b0266adcfbbe9",
+  "pack_edited_at_utc": "20261013T011018Z"
+ },
+ "commands_note": "two suite runs on the candidate tree: the focused s4ext set and the full discovery. The earlier pack's `orchestrator_measurements` block (44 / 569 tests) is the previous round's snapshot and is kept as history, not overwritten."
 }
