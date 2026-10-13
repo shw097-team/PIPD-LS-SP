@@ -26,7 +26,8 @@ def sha256(p: Path) -> str:
 
 
 VOLATILE = {
-    "evidence/09_OWNER_RELEASE/PUSH_READBACK.txt",
+    # Keyed the way the filter compares it: relative to the evidence directory, not to the round root.
+    "09_OWNER_RELEASE/PUSH_READBACK.txt",
 }
 
 index = []
