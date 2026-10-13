@@ -233,9 +233,10 @@
     "interpreter": "CPython 3.11.9 (C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe)",
     "jsonschema": "4.26.0 (present in the interpreter; the packaging tests validate against the vendored vendor schema)"
    },
-   "nonmutation_note": "Measured with a named-entry diff, not a count: full suite + focused suite run in a checkout left `git status --porcelain` (and its --ignored form) with ZERO new entries, exit 0 both. An earlier non-zero count in this round was the orchestrator's own concurrent document writes, and is not reproducible as a test side effect.",
-   "log_sha256_worktree_eol": "88d8db8123e744c2699193bd5c8013fbb62c0fd952d425b779c6f9457488eba7",
-   "log_sha256_committed_blob": "3666bce6fc04a84e6e7868715349b34048eaa69ce3e677aadc96e3297cbb41d3"
+   "nonmutation_note": "Measured with a named-entry diff: no new tracked entries and no new untracked-non-ignored entries. On a FRESH clone the suites DO create the three gitignored __pycache__/ directories (src/, tests/, tools/) - byte caches, not mutations. The earlier blanket 'zero new entries of either kind' held only where those caches already existed and is restated here (independent checker C3).",
+   "log_sha256_committed_blob": "3666bce6fc04a84e6e7868715349b34048eaa69ce3e677aadc96e3297cbb41d3",
+   "log_sha256_original_worktree_CRLF_form": "88d8db8123e744c2699193bd5c8013fbb62c0fd952d425b779c6f9457488eba7",
+   "log_sha256_form_note": "Two forms, labelled: the committed blob (what a FRESH clone's disk holds, because the reponormalises line endings on checkout) and the original working-copy CRLF form recorded on this host. An independent checker found that the earlier label 'worktree_eol' implied the clone's disk form, which it is not - corrected."
   },
   {
    "argv_redacted": "PYTHONPATH=<worktree> \"C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe\" python -m unittest discover -s tests -t . -v",
@@ -253,10 +254,11 @@
     "interpreter": "CPython 3.11.9 (C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe)",
     "jsonschema": "4.26.0 (present in the interpreter; the packaging tests validate against the vendored vendor schema)"
    },
-   "nonmutation_note": "Measured with a named-entry diff, not a count: full suite + focused suite run in a checkout left `git status --porcelain` (and its --ignored form) with ZERO new entries, exit 0 both. An earlier non-zero count in this round was the orchestrator's own concurrent document writes, and is not reproducible as a test side effect.",
-   "log_sha256_worktree_eol": "185a6177ce2296ca11af42e058f9ee661725c465836a65a19be6e8436bb2bc1a",
+   "nonmutation_note": "Measured with a named-entry diff: no new tracked entries and no new untracked-non-ignored entries. On a FRESH clone the suites DO create the three gitignored __pycache__/ directories (src/, tests/, tools/) - byte caches, not mutations. The earlier blanket 'zero new entries of either kind' held only where those caches already existed and is restated here (independent checker C3).",
    "log_sha256_committed_blob": "46ff948ae879709b87e17d05c4cdbb4dc3400372b9e2ad8d3128d061353aa7a6",
-   "skipped_note": "3 in this environment; an independent third party reproduced 4 (one additional environment-dependent skip). Not a defect."
+   "skipped_note": "3 in this environment; an independent third party reproduced 4 (one additional environment-dependent skip). Not a defect.",
+   "log_sha256_original_worktree_CRLF_form": "185a6177ce2296ca11af42e058f9ee661725c465836a65a19be6e8436bb2bc1a",
+   "log_sha256_form_note": "Two forms, labelled: the committed blob (what a FRESH clone's disk holds, because the reponormalises line endings on checkout) and the original working-copy CRLF form recorded on this host. An independent checker found that the earlier label 'worktree_eol' implied the clone's disk form, which it is not - corrected."
   }
  ],
  "sod": [
@@ -340,5 +342,6 @@
   },
   "quota_note": "REST polling later returned 403 rate limit for the anonymous channel; that is INCONCLUSIVE, not a failure. Final CI state was read from the workflow status badge (quota-free): ci=passing on all three branches, main has no runs.",
   "hash_form_correction": "An earlier revision of this receipt recorded the committed-blob hash of an EMPTY blob (e3b0c442...), because the path was resolved without its round-directory prefix. Corrected here; the values above are recomputed from the pushed commits with the full path, and are asserted non-empty at write time."
- }
+ },
+ "independent_lane": "FAIL_CHALLENGE (round 1 of the owner-mandated CODEX CLI / gpt-6.1-sol lane, subject 389d3973) - published as returned, with the maker's disposition in verify/r3/AO_VERDICT_R3_SUMMARY.md"
 }

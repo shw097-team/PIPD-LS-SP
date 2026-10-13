@@ -26,7 +26,7 @@
 ## 2. 逐項建議與基礎
 
 ### ADJ-1 受驗主體與其 base（連帶解 FCR-007）
-- **基礎（今日實測）**：以宣告疊層基底 `52542c3` 比對本升級，`schemas/`＋`src/` 寫入 = **0 檔**、允許集外僅 4 檔（即當時那 4 個無 `.gitmodules` 的 gitlink，**已移除**）；以 `main` 為 base 比對才會計入 Stage-A 的 4 個 frozen-path 寫入。`public-plugin-verify` 紅即源於此 base 選擇。
+- **基礎（今日實測，已綁定 commit 對）**：`git diff --name-only 52542c3 389d3973` → **107 檔**變更，其中產品面 **22 檔**；`schemas/**` 與 `src/**` 寫入皆 **0 檔**（frozen-path 寫入 = NONE，可重跑）。先前的「126 檔／允許集外僅 4 檔」是在**不同 commit 對**與不同允許集比較下量的，數字已作廢、以本條為準；獨立檢查器另指出：以宣告基底重跑 `public-plugin-verify` **仍 exit 1**，因其拒絕集合也含本次獲准新增的 `ci.yml` 與四筆 gitlink 移除——故「紅燈僅因 base 選錯」的說法**不成立**（已更正於 `SUBJECT_AND_BASE_DECLARATION.md` §4）。逐筆見 `FAR_MEASUREMENT_RECEIPTS.json`。
 - **建議**：受驗主體＝產品支 `feat/s4post-triple-upgrade-20261013-r3`，**base 宣告為 `52542c3`**；並把本疊層明文化為**兩個變更**（Stage-A 修補＝已交付；S4POST 升級＝本次）。守衛語意**不改**（改守衛＝鬆綁風險），紅燈保留並在 PR／記錄中說明。
 - **不做**：rebase onto `main`（高阻力，且仍會把 Stage-A 的 schema/src 修補納入同一變更集）、改 `public-plugin-verify` 的 base 邏輯。
 
@@ -55,7 +55,7 @@
 - (d) **`requirements.lock`**：已核准的 CI **完全不用它**（用 `pyproject.toml`），且根目錄那份自述「NOT HASH-PINNED…`--require-hashes` will NOT work」→ §7.7 的步驟**照寫不可能通過**。建議：**改 §7.7 文字**（文件 erratum），或把 `LOCK_REQUIRED` 留作 owner 輸入；兩者選一，不要為此新增 hash-pin 工作流。
 
 ### ADJ-7 `com.ao3.*`（CR-EXT-UNREVIEWED）
-- **基礎**：產品支全樹掃描，`com.ao3` 僅出現於**本回合一份紀錄文件**，`packaging/`、`tools/`、`tests/`、`docs/install/`、`dist/web/` **0 命中**。
+- **基礎（已更正並可重跑）**：產品主體全樹掃描，`com.ao3` 出現於 **3 檔**——`00_plan/TT_S4POST_REGISTER.tsv`、`ACCEPTANCE_RECORD_STAGEB.md`、以及**本 FAR 文件自身**，**全部是本回合自己撰寫的紀錄**；`packaging/`、`tools/`、`tests/`、`docs/install/`、`dist/web/` **0 命中**。（初稿寫「1 檔」是錯的，獨立檢查器 C12 抓到，已更正而非辯解。逐檔清單見 `verify/r3/FAR_MEASUREMENT_RECEIPTS.json` 的 `ADJ7_com_ao3_scan`。）
 - **建議**：**移出產品受驗範圍**，保留為載具／格式 CR。這不是「關掉一個 CR」，而是把它歸到正確的標的。
 
 ### ADJ-8 TT 登記簿陳舊

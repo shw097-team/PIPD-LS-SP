@@ -21,7 +21,8 @@ import argparse, json, os, re, sys
 ABS = re.compile(r'([A-Za-z]:[\\/][^\s"\'`<>|)*\]]*)')
 REL = re.compile(r'([\w.\-]+(?:[\\/][\w.\-]+)+\.(?:py|ipynb|md|json|jsonl|sh|ps1|txt|log|yml|yaml|js|html|css|whl|png|toml|cfg|ini))')
 BARE = re.compile(r'([\w.\-]+\.(?:py|md|json|sh|txt|log|yml|yaml))')
-SKIP = re.compile(r'^(https?://|mailto:|git@)', re.I)
+SKIP = re.compile(r'^(mailto:|git@)', re.I)
+URL = re.compile(r'\bhttps?://[^\s"\'`<>|)\]*]+', re.I)
 
 def iter_text(p):
     if os.path.isdir(p):
@@ -47,6 +48,10 @@ def main():
         for f in iter_text(src):
             try: txt = open(f, encoding='utf-8', errors='replace').read()
             except OSError: continue
+            # A URL is not an in-tree locator. The previous form anchored SKIP at '^', so a URL
+            # inside prose (e.g. `https://host/a/b.json`) was never skipped and got fragmented into
+            # a relative-token candidate ('s://host/a/b.json'). Mask URLs before tokenising.
+            txt = URL.sub(' ', txt)
             seen = set()
             toks = [(m.group(1).strip().rstrip('.,;:'), 'path') for m in ABS.finditer(txt)]
             toks += [(m.group(1).strip().rstrip('.,;:'), 'rel') for m in REL.finditer(txt)]
