@@ -1,0 +1,121 @@
+# KANBAN board readback (board s4r3-20261013)  2026-10-13T05:07:05Z
+# board db: C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/kanban/boards/s4r3-20261013/kanban.db
+Board: s4r3-20261013 (54 other boards — `hermes kanban boards list`)
+
+✓ t_1ebae232  done      default               Swarm: S4R3: repair the R3 candidate's Stage A CI truthfulness and its Stage B write-se
+✓ t_becda8d2  done      hgk-coding-factory    S4R3 Stage A core repair (CI exit code + 11/2 hosted-Linux failures)
+✓ t_a4ec0310  done      hgk-qa                S4R3 Stage B distribution repair (write-set gate + Web fallback + navigation)
+▶ t_6383e558  ready     hgk-engineering-reviewer  Verify swarm outputs
+◻ t_bcae809b  todo      acceptance-officer    Synthesize swarm outputs
+
+# swarm graph as created (root -> 2 workers -> verifier -> synthesizer)
+Task t_1ebae232: Swarm: S4R3: repair the R3 candidate's Stage A CI truthfulness and its Stage B write-se
+  status:    done
+  assignee:  default
+  workspace: scratch
+  max-retries: 2 (default)
+  created:   2026-10-13 12:43 by default
+  completed: 2026-10-13 12:43
+  children:  t_a4ec0310, t_becda8d2
+
+Body:
+Kanban Swarm v1 planning/root card. This card is completed immediately so parallel workers can start while it remains the shared blackboard and audit anchor.
+
+Goal:
+S4R3: repair the R3 candidate's Stage A CI truthfulness and its Stage B write-set gate, ship the single Web fallback document and the single navigation, then verify independently
+
+Latest summary:
+Swarm topology planned; root remains the shared blackboard.
+
+Comments (1):
+  [2026-10-13 12:43] default: [swarm:blackboard] {"key": "topology", "value": {"goal": "S4R3: repair the R3 candidate's Stage A CI truthfulness and its Stage B write-set gate, ship the single Web fallback document and the single navigation, then verify independently", "root_id": "t_1ebae232", "synthesizer_id": "t_bcae809b", "verifier_id": "t_6383e558", "worker_ids": ["t_becda8d2", "t_a4ec0310"]}}
+
+Events (4):
+  [2026-10-13 12:43] created {'assignee': 'default', 'status': 'blocked', 'parents': [], 'creator_task_id': None, 'tenant': None, 'workspace_kind': 'scratch', 'workspace_path': None, 'branch_name': None, 'project_id': None, 'skills': None, 'goal_mode': None, 'model_override': None, 'provider_override': None}
+  [2026-10-13 12:43] blocked {'reason': 'initial_status', 'status': 'blocked', 'actor': 'default'}
+  [2026-10-13 12:43] commented {'author': 'default', 'len': 369}
+  [2026-10-13 12:43] [run 1] completed {'result_len': 0, 'summary': 'Swarm topology planned; root remains the shared blackboard.'}
+
+Runs (1):
+  #1   completed    @default  0s  2026-10-13 12:43
+        → Swarm topology planned; root remains the shared blackboard.
+
+## worker results as recorded on the cards
+### t_becda8d2
+Task t_becda8d2: S4R3 Stage A core repair (CI exit code + 11/2 hosted-Linux failures)
+  status:    done
+  assignee:  hgk-coding-factory
+  workspace: scratch
+  max-retries: 2 (default)
+  created:   2026-10-13 12:43 by default
+  completed: 2026-10-13 13:06
+  parents:   t_1ebae232
+  children:  t_6383e558
+
+Body:
+S4R3 Stage A core repair (CI exit code + 11/2 hosted-Linux failures)
+
+## Swarm protocol
+- Swarm root / shared blackboard: `t_1ebae232`.
+- Read sibling/parent handoffs from Kanban context before working.
+- Put machine-readable facts in completion metadata.
+- Put cross-worker notes on the root task using structured comments.
+- Goal: S4R3: repair the R3 candidate's Stage A CI truthfulness and its Stage B write-set gate, ship the single Web fallback document and the single navigation, then verify independently
+
+
+Result:
+DELIVERED. candidate 517d7a5d3f00935e1589908f456dfacea8fd8a74 + evidence tips 8cbe258/25f4dfe on fix/s4r3-stage-a-ci-truthfulness-20261013. Repaired: ci.yml pipefail on every real test step; PyYAML test extra; workspace.py path-flavour containment; run.sh index mode; run.ps1 temp fallback; cli_smoke self-contained IntentCard; test_web_fallback refusal assertion. Mapping: 7 root causes, 13 declared failures, 13 accounted for, 0 unexplained. Hosted ci run 38349126601 success (572 OK). Local Linux+Windows receipts committed.
+
+Comments (1):
+  [2026-10-13 13:06] default: Stage A candidate 517d7a5 + evidence 8cbe258/25f4dfe pushed; hosted ci run 38349126601 success; hosted public-plugin-verify run 38349126621 failure explained as the PRE-REPAIR gate measuring main...HEAD (reproduces S4R3-F002, does not indict the repair). Raw receipts under .hgk/rounds/S4R3-20261013-.../evidence/.
+
+Events (6):
+  [2026-10-13 12:43] created {'assignee': 'hgk-coding-factory', 'status': 'todo', 'parents': ['t_1ebae232'], 'creator_task_id': None, 'tenant': None, 'workspace_kind': 'scratch', 'workspace_path': None, 'branch_name': None, 'project_id': None, 'skills': None, 'goal_mode': None, 'model_override': None, 'provider_override': None}
+  [2026-10-13 12:43] dependency_wait {'reason': 'parent_not_done', 'parent': 't_1ebae232'}
+  [2026-10-13 12:43] promoted
+  [2026-10-13 13:06] completion_blocked_empty_result {'result_preview': None, 'summary_preview': None}
+  [2026-10-13 13:06] commented {'author': 'default', 'len': 314}
+  [2026-10-13 13:06] [run 2] completed {'result_len': 527, 'summary': 'Stage A core repair, both P0 layers. Hosted public-plugin-verify run 38349126621 is RED and is NOT an indictment of the repair: that branch does not carry the Stage B gate fix, so the PRE-REPAIR gate ran and measured main...HEAD - it reproduces S4R3-F002 verbatim. Claim ceiling: source-repair + hosted ci only; no S4 acceptance.'}
+
+Runs (1):
+  #2   completed    @hgk-coding-factory  0s  2026-10-13 13:06
+        → Stage A core repair, both P0 layers. Hosted public-plugin-verify run 38349126621 is RED and is NOT an indictment of the repair: that branch does not carry the S
+### t_a4ec0310
+Task t_a4ec0310: S4R3 Stage B distribution repair (write-set gate + Web fallback + navigation)
+  status:    done
+  assignee:  hgk-qa
+  workspace: scratch
+  max-retries: 2 (default)
+  created:   2026-10-13 12:43 by default
+  completed: 2026-10-13 13:06
+  parents:   t_1ebae232
+  children:  t_6383e558
+
+Body:
+S4R3 Stage B distribution repair (write-set gate + Web fallback + navigation)
+
+## Swarm protocol
+- Swarm root / shared blackboard: `t_1ebae232`.
+- Read sibling/parent handoffs from Kanban context before working.
+- Put machine-readable facts in completion metadata.
+- Put cross-worker notes on the root task using structured comments.
+- Goal: S4R3: repair the R3 candidate's Stage A CI truthfulness and its Stage B write-set gate, ship the single Web fallback document and the single navigation, then verify independently
+
+
+Result:
+DELIVERED. candidate 8481f29913159ed91ac6dff5ab3d691ea3614355 + evidence tip d561f52 on feat/s4r3-stage-b-distribution-20261013, opened as draft PR #4 against the Stage A branch (7 changed files, base declared 517d7a5). Gate repair: scope measured against the DECLARED base, ancestor refusal, upstream inventory separated, empty-scope disclosure, planted-path classifier self-test. Shipped docs/install/PIPD_WEB_FALLBACK.md (c88ddc49...) + .sha256, one README navigation block, docs/USER_GUIDE.md; 41 local links/anchors clean.
+
+Comments (1):
+  [2026-10-13 13:06] default: Stage B candidate 8481f29 + evidence d561f52 pushed as draft PR #4 (base = Stage A branch, 7 changed files). Hosted ci run 38349130157 success (572 OK / 108 OK, all steps executed); hosted public-plugin-verify run 38349130092 success with the repaired gate: STAGE_B_BASE_SHA 517d7a5, both classifier self-tests OK, WRITE_SET_CLEAN.
+
+Events (6):
+  [2026-10-13 12:43] created {'assignee': 'hgk-qa', 'status': 'todo', 'parents': ['t_1ebae232'], 'creator_task_id': None, 'tenant': None, 'workspace_kind': 'scratch', 'workspace_path': None, 'branch_name': None, 'project_id': None, 'skills': None, 'goal_mode': None, 'model_override': None, 'provider_override': None}
+  [2026-10-13 12:43] dependency_wait {'reason': 'parent_not_done', 'parent': 't_1ebae232'}
+  [2026-10-13 12:43] promoted
+  [2026-10-13 13:06] completion_blocked_empty_result {'result_preview': None, 'summary_preview': None}
+  [2026-10-13 13:06] commented {'author': 'default', 'len': 331}
+  [2026-10-13 13:06] [run 3] completed {'result_len': 527, 'summary': 'Stage B distribution change set. Hosted ci run 38349130157 success (Ran 572 OK / Ran 108 OK, all 10 steps executed). Hosted public-plugin-verify run 38349130092 SUCCESS with the repaired gate (STAGE_B_BASE_SHA 517d7a5, GATE_SELF_TEST_OK x2, WRITE_SET_CLEAN); the steps the frozen candidate skipped all ran. Claim ceiling: BUILD-level only; no portal, no vendor validator, no host UAT, no release tag.'}
+
+Runs (1):
+  #3   completed    @hgk-qa  0s  2026-10-13 13:06
+        → Stage B distribution change set. Hosted ci run 38349130157 success (Ran 572 OK / Ran 108 OK, all 10 steps executed). Hosted public-plugin-verify run 38349130092
