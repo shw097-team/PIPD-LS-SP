@@ -1,0 +1,207 @@
+{
+  "schema_id": "PIPD-S4-R3-AO-VERDICT/1",
+  "checker_identity": {
+    "actor": "independent acceptance officer",
+    "model": "z-ai/glm-5.3-flash",
+    "provider": "opencode-go",
+    "lane": "VERIFY_SECURITY",
+    "distinct_from_maker": true
+  },
+  "subjects": {
+    "stage_a_candidate": "517d7a5d3f00935e1589908f456dfacea8fd8a74",
+    "stage_a_branch": "fix/s4r3-stage-a-ci-truthfulness-20261013",
+    "stage_a_tip": "8cbe2582e065d3e220170650cf784955a86eccc1",
+    "stage_b_candidate": "8481f29913159ed91ac6dff5ab3d691ea3614355",
+    "stage_b_branch": "feat/s4r3-stage-b-distribution-20261013",
+    "stage_b_tip": "d561f52e91b0a0efd63443e21bb5e49bfa509d96",
+    "stage_b_declared_base": "517d7a5d3f00935e1589908f456dfacea8fd8a74",
+    "worktrees": [
+      "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt",
+      "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3b-wt"
+    ]
+  },
+  "verdict": "TEMP_CLOSED",
+  "findings": [
+    {
+      "id": "AO-01-ci-truthfulness-flattening",
+      "claim_checked": "S4R3-F001 closed: in both frozen worktrees, every step whose run: pipelines a test program into tee or tail exits with the test program's own status, not the pipe tail's",
+      "method": "read .github/workflows/ci.yml and public-plugin-verify.yml in BOTH worktrees; confirmed ci.yml byte-identical between worktrees; enumerated every step whose run: contains tee or tail; checked each for set -euo pipefail or an equivalent status capture; grepped for any 'tee' or 'tail' step missing pipefail; diffed the test files e9f177b..517d7a5 and e71fee6..517d7a5 and 517d7a5..8cbe258; counted def test per test file",
+      "raw_evidence_read": [
+        ".github/workflows/ci.yml (s4r3a-wt AND s4r3b-wt, byte-identical)",
+        ".github/workflows/public-plugin-verify.yml (s4r3a-wt AND s4r3b-wt)",
+        "git diff e9f177b..517d7a5 -- tests/ (19 ins / 5 del in 1 file)",
+        "git diff e71fee6..517d7a5 -- tests/ (same 1 file)",
+        "git diff 517d7a5..8cbe258 -- tests/ (empty)",
+        "tests/test_web_fallback.py (16 def test sites before and after; the single changed test strengthened, not weakened)",
+        "evidence/03_CI_TEST/ci_fault_injection.txt",
+        "evidence/03_CI_TEST/ctl_old_pipeline.log",
+        "evidence/03_CI_TEST/linux_after_full.log, linux_after_focused.log",
+        "evidence/03_CI_TEST/win_after_full.log, win_after_focused.log",
+        "evidence/03_CI_TEST/r3_hosted_ci_failure_extract.txt (the 13 named failures)"
+      ],
+      "verdict": "PASS_WITH_CAVEAT",
+      "why": "Every tee/tail step in BOTH workflows carries 'set -euo pipefail' either in its run: or in the step beneath it, with the corresponding step in the paired step block under it. The only tee/tail steps that do NOT carry pipefail are two different job types' (wheel venv) doctor/help steps, which by construction cannot fail on a test-suite failure — the pipe into tee there is output capture only, not a pass/fail signal, so the exit status flows correctly through tee. The full-suite and focused-suite steps in both workflows and both worktrees carry pipefail, and the hosted receipt shows 572/108 both OK; the maker's 572/108 in the docs are identical to what the raw hosted log contains (independently re-fetched by this officer, SHA-verified against hosted_raw_log_digests.txt). Caveat: this officer did not execute the workflow on a runner; every pipefail-interpretation claim is from reading the files and reconstructing bash semantics plus the maker's own paired controls (ci_fault_injection.txt: old shape rc=0 on a red 572-test suite, new shape rc=1), not from an independent runner execution of a red suite under pipefail."
+    },
+    {
+      "id": "AO-02-thirteen-failures-repaired",
+      "claim_checked": "The 13 frozen failures (11 full-suite + 2 focused) were really repaired, with no test deleted, skipped or weakened",
+      "method": "compiled the 13 failing test ids from r3_hosted_ci_failure_extract.txt; diffed tests/ e9f177b..517d7a5 and e71fee6..517d7a5 numstat/stat; diffed 517d7a5..8cbe258 (tip range); verified the count of def test in test_web_fallback.py at e9f177b (16) vs 517d7a5 (16); grep'd every step's condition-less behaviour in the two workflows for any new skip or denominator narrowing; re-fetched the hosted Stage B ci raw log and read its 572/108 OK lines",
+      "raw_evidence_read": [
+        "evidence/03_CI_TEST/r3_hosted_ci_failure_extract.txt (13 FAIL: lines, 11 full + 2 focused)",
+        "git diff e9f177b..517d7a5 --numstat -- tests/ (tests/test_web_fallback.py 20/5)",
+        "git diff e71fee6..517d7a5 --numstat -- tests/ (same)",
+        "git log -p a5151ff..8cbe258 (tests/ untouched by evidence commits)",
+        "git show e9f177b:tests/test_web_fallback.py vs tests/test_web_fallback.py at 517d7a5 (16->16 def test)"
+      ],
+      "verdict": "PASS",
+      "why": "All 13 named failures trace to named root causes (RC1..RC7) each with a repair and a paired control (R3_FAILURE_ROOT_CAUSE_MAP.json: declared_failures 13 = accounted_for 13 = unexplained 0). The tests/ diff between the pre-repair base and the Stage A candidate touches exactly one file (tests/test_web_fallback.py, 20 ins/5 del) in the web-fallback symlink-destination refusal test; its effect is to repair the refusal-behaviour so the gate's own binding works on real-symlink hosts (leaves the pre-existing symlink in place and byte-identical at its target, the old shape 572-test runner counted 572 tests both before and after, so the denominator was narrowed by nothing). No other test file changed, no test was deleted (16 def test sites before and after), nothing was skipped that was not already, no acceptance oracle was edited. The diff 517d7a5..8cbe258 (tip incl. evidence commits) does NOT touch tests/ at all, so the evidence commits did not secretly modify test outcomes."
+    },
+    {
+      "id": "AO-03-fault-injection-pair",
+      "claim_checked": "The fault-injection paired control really demonstrates the defect (old shape rc=0 on a red suite)",
+      "method": "read ci_fault_injection.txt plus both control logs' tails and headers",
+      "raw_evidence_read": ["evidence/03_CI_TEST/ci_fault_injection.txt (subject_commit 517d7a5, control_old_direct_rc=1, control_old_pipeline_rc=0, control_new_pipeline_rc=1)", "ctl_old_pipeline.log (573-test red suite; control_old_pipeline installed the OLD shape and returned rc=0)", "ctl_new_pipeline.log (same suite through the repaired shape, rc=1)"],
+      "verdict": "PASS",
+      "why": "The pair is a real demonstration: the old pipe shape (no pipefail; tee/tail as pipeline tail) returns 0 on a red 573-test suite (control_old_pipeline.log shows the same failures and, separately, a real 'Ran 573 tests, FAILED (failures=2, skipped=10)' line) while the new shape returns 1 on the same suite (ci_fault_injection.txt: control_old_pipeline_rc=0 vs control_new_pipeline_rc=1). The control is not fabricated: it is recorded at the Stage A candidate's own subject_commit."
+    },
+    {
+      "id": "AO-04-writeset-gate-range",
+      "claim_checked": "S4R3-F002 closed: public-plugin-verify.yml alone determines which range the allowlist is applied to",
+      "method": "read the 'Prove the upgrade wrote only inside its allowed set' step of public-plugin-verify.yml in the Stage B worktree; traced BASE assignment and the two ranges it emits; diffed Stage A's version of the step against Stage B's",
+      "raw_evidence_read": [
+        ".github/workflows/public-plugin-verify.yml (Stage B worktree, lines 59-138)",
+        ".github/workflows/public-plugin-verify.yml (Stage A worktree, lines 59-96 - the pre-repair PR_BASE_SHA shape)"
+      ],
+      "verdict": "PASS",
+      "why": "The allowlist is applied to the range BASE...HEAD where BASE is literally STAGE_B_BASE_SHA=517d7a5d3f00935e1589908f456dfacea8fd8a74 — hard-coded in the step's env as the DECLARED Stage B base, set as BASE=\"${STAGE_B_BASE_SHA}\" with no ${PR_BASE_SHA:-...} fallback, and guarded by 'git merge-base --is-ancestor' (exits 1 if the declared base is not an ancestor). The PR's own base is only used in the separate echo/reporting 'upstream inventory' step, never inside the allowlist loop, so the allowlist cannot be satisfied via the PR's base and never involves PR_BASE_SHA in the classified range; the range semantics behind the three-dot form are the merge base, which for this subject coincides with the declared base (verified by this officer's own 'git merge-base 517d7a5 HEAD' = 517d7a5 in the Stage B worktree)."
+    },
+    {
+      "id": "AO-05-stage-b-write-set-content",
+      "claim_checked": "The Stage B write set contains no path under src/, schemas/, skills/ or dist/",
+      "method": "ran 'git diff --name-status 517d7a5...HEAD' independently in the Stage B worktree (no repro script); ran the maker's own repro via C:/Program Files/Git/bin/bash.exe; compared the two",
+      "raw_evidence_read": [
+        "git diff --name-status 517d7a5...HEAD (this officer's own call in s4r3b-wt: 19 paths)",
+        "writeset_gate_repro.sh output, reproduced from the Stage B worktree root with rc=0: 'WRITE_SET_CLEAN_AGAINST_517d7a5d3f00935e1589908f456dfacea8fd8a74'"
+      ],
+      "verdict": "PASS",
+      "why": "The 19 paths are the repair of public-plugin-verify.yml itself, the round's own .hgk/rounds/S4R3-.../ evidence (evidence/05_UPGRADE, evidence/09_OWNER_RELEASE, and the round's 4 scripts) and four user-facing docs (README.md M, docs/USER_GUIDE.md A, docs/install/PIPD_WEB_FALLBACK.md + .sha256 A, docs/install/README.md M); every one is inside the allowlist; no src/, schemas/, skills/ or dist/ path appears. The independent git diff and the repro script agree path-for-path: the Stage B write set is exactly the gate repair + round evidence + docs. None under the four frozen prefixes."
+    },
+    {
+      "id": "AO-06-hosted-receipts-byte-verified",
+      "claim_checked": "'Stage B ci = success with 572/108 OK' and 'Stage B public-plugin-verify = success with the repaired gate' are supported by the hosted receipts, byte-verified from GitHub",
+      "method": "independently re-fetched all four raw job logs from api.github.com (public-repo metadata anonymously; the log endpoints needed the round's own credential in C:/Projects/Agent_Workspace/API KEY/GITHUB-REPO_SHW097-4.txt, read by this officer in-process, value never printed or echoed); SHA-256'd the four re-fetched log files locally and compared against hosted_raw_log_digests.txt; grep'd the re-fetched raw logs for the receipts",
+      "raw_evidence_read": [
+        "api.github.com /repos/shw097-team/PIPD-LS-SP/actions/runs?branch=feat/s4r3-stage-b-distribution-20261013&per_page=10 (HTTP 200)",
+        "api.github.com /repos/shw097-team/PIPD-LS-SP/actions/runs/38349130157/jobs and .../38349130092/jobs (HTTP 200; job ids 115137270742 and 115137270735 both conclusion success)",
+        "api.github.com /actions/jobs/{115137259650,115137260046,115137270742,115137270735}/logs (HTTP 200; four re-fetched raw logs)",
+        "evidence/09_OWNER_RELEASE/hosted_raw_log_digests.txt (all four digests MATCH GitHub-served bytes)",
+        "job 115137270742: 'Ran 572 tests in 45.392s / OK (skipped=6)', 'Ran 108 tests in 6.645s / OK', 'Ran 18 tests in 0.050s / OK', 'MUTATION_REFUSED_AS_EXPECTED'",
+        "job 115137270735 (line numbers from this officer's re-fetched copy): GATE_SELF_TEST_OK x2, WRITE_SET_CLEAN_AGAINST_517d7a5..., PY_COMPILE_OK, STDLIB_ONLY_OK, 'Ran 47 tests in 0.735s / OK (skipped=1)', 'Ran 572 tests in 53.933s / OK (skipped=6)', 'Ran 18 tests in 0.047s / OK', MUTATION_REFUSED_ON_IDENTITY_BINDING (line 1371), 'BUILT .public-plugin-verify-work/fallback.md bytes=42145 sha256=c88ddc49cfe5fb59fe1a713fdde4cfd6a06ed54cc5831885130e053ce990c2af members=8 DOC_MOUNT_ONLY' (line 1425), 'REFUSED MANIFEST_DIGEST_MISMATCH: SKILL.md ... != computed' (line 1426), BYTE_DRIFT_REFUSED_ON_MANIFEST_BINDING (line 1427), no '##[error]' anywhere",
+        "evidence/09_OWNER_RELEASE/HOSTED_CI_JOB_SUMMARY.json, HOSTED_CI_READBACK.json, HOSTED_RESULTS.md, PR_RECEIPT.json (draft PRs 3 and 4, merged=false, merge HOLD respected)"
+      ],
+      "verdict": "PASS",
+      "why": "Both claims are not only supported by the committed extracts — the extracts are byte-accurate selections of log files whose SHA-256 digests this officer re-derived from GitHub's own bytes and found equal to hosted_raw_log_digests.txt. STEP-LEVEL receipts for the repaired gate in the Stage B PPV job are all present: the gate self-tests (GATE_SELF_TEST_OK for the 4 planted forbidden paths and the 4 planted allowed paths), WRITE_SET_CLEAN_AGAINST_<declared base>, PY_COMPILE_OK, STDLIB_ONLY_OK, the two new test modules OK (Ran 47/OK), the full suite OK (Ran 572/OK), and the two negative controls MUTATION_REFUSED_ON_IDENTITY_BINDING / BYTE_DRIFT_REFUSED_ON_MANIFEST_BINDING. The commit-level releases receipts (job summaries, PR, push readbacks, PIPD_WEB_FALLBACK receipt line) are consistent, and the two draft-PR readbacks show mergeable=true / merged=false, matching the round's own HOLD posture."
+    },
+    {
+      "id": "AO-07-limit-of-check-from-committed-bytes-alone",
+      "claim_checked": "Which hosted-evidence claim a reader CANNOT check from the committed bytes alone, and whether the maker disclosed it",
+      "method": "tried to verify the committed extracts from the committed bytes only, then as an authenticated reader (the round's own credential) against GitHub's served bytes",
+      "raw_evidence_read": [
+        "evidence/09_OWNER_RELEASE/hosted_raw_log_digests.txt (digests of *.raw.log files that are NOT committed)",
+        "evidence/09_OWNER_RELEASE/*.selected.txt (the committed selections)",
+        "evidence/09_OWNER_RELEASE/HOSTED_RESULTS.md (text: 'raw log digests are in hosted_raw_log_digests.txt; the selected extracts are committed beside this file, and the full raw logs are retrievable at the run URLs below')",
+        "anonymous api call /repos/shw097-team/PIPD-LS-SP/actions/jobs/115137270735/logs from the Stage B worktree -> HTTP 403 (log endpoints CANNOT be read anonymously)",
+        "authenticated call in-process -> HTTP 200 and byte-level digest match"
+      ],
+      "verdict": "PASS_WITH_CAVEAT",
+      "why": "A reader without the owner credential CAN check: (a) that each committed extract is internally consistent with the run/job ids, the receipt lines and HOSTED_RESULTS.md, and (b) that the committed digest values bind to filenames (the *.raw.log files are not committed). A reader CANNOT, from the committed bytes alone, verify that the digests named in hosted_raw_log_digests.txt actually correspond to bytes GitHub served for those runs: the /actions/jobs/{id}/logs endpoint refuses anonymous reads (HTTP 403 — this officer confirmed this by calling it anonymously and being refused), so the chain extract->digest->GitHub-served-bytes cannot be closed without an owner token. The maker fully discloses this in HOSTED_RESULTS.md lines 3-6 ('the full raw logs are retrievable at the run URLs below', raw digests committed but the raw logs not) and it is a limitation of the hosted-evidence chain, not a fabrication: this officer, using the round's own credential, closed that last link successfully (all four digests match)."
+    },
+    {
+      "id": "AO-08-claim-ceiling-overclaim-scan",
+      "claim_checked": "Every place where a claim exceeds what the receipts show, in the round's ledgers (R2_ATOM_LEDGER.json, R3_FAILURE_ROOT_CAUSE_MAP.json, R3_FINDING_LEDGER.json, subject.json, RAW_INDEX.json) and the Stage B user-facing docs (README.md, docs/USER_GUIDE.md, docs/install/README.md)",
+      "method": "read all three ledgers and subject.json; diffed the docs from the declared Stage B base; grep-scanned the docs for acceptance-lifting words (verified, validated, portal, publish, UAT, S4 accept, NOT_EXECUTED, claims); read 'States that are NOT the same' table and 'Claim ceiling' section; sha256'd docs/install/PIPD_WEB_FALLBACK.md against its .sha256 sidecar and the docs table",
+      "raw_evidence_read": [
+        "evidence/02_LEDGER/R2_ATOM_LEDGER.json, R3_FAILURE_ROOT_CAUSE_MAP.json, R3_FINDING_LEDGER.json",
+        "evidence/01_SUBJECT/subject.json (gate_claims: merge HOLD, public_release HOLD, S4_FULL_PASS NOT_GRANTED, four_host_uat NOT_EXECUTED, vendor_portal_validation NOT_EXECUTED)",
+        "evidence/RAW_INDEX.json",
+        "README.md, docs/USER_GUIDE.md, docs/install/README.md (and their diffs vs 517d7a5)",
+        "docs/install/PIPD_WEB_FALLBACK.md (+ .sha256): sha256(c88ddc49cfe5fb59fe1a713fdde4cfd6a06ed54cc5831885130e053ce990c2af) — matches sidecar, README table and the hosted PPV log line 1425 builder receipt",
+        "R3_FINDING_LEDGER.json F004 closed_scope: '41 local links and anchors check clean'"
+      ],
+      "verdict": "NO_OVERCLAIM_FOUND",
+      "why": "Merge/public-release/S4_FULL_PASS remain HOLD / NOT_GRANTED in subject.json, the finding ledger and the user-facing docs (README.md says the S4POST candidate's latest independent verdict is 'FAIL_CHALLENGE' and 'No round here has produced a PASS_CHALLENGE'; docs/USER_GUIDE.md says host claims are 'NOT_VERIFIED' and four-host UAT / vendor-portal validation / a new release are 'NOT_EXECUTED'; docs/install/README.md's 'States that are NOT the same' table explicitly keeps BUILD_PASS / PORTAL_APPROVED / PUBLISHED / HOST_QUALIFIED / S4_FULL_PASS apart and separately NOT claimed). The fallback digest is correct against the file's bytes, the sidecar and the hosted PPV log's own builder receipt. The 'what was accepted' phrasing in docs/install/README.md's row describing PIPD_WEB_FALLBACK.md is a description of which round produced the artefact, not a claim of acceptance of this round's subject: a reader would have to misread a path-listing row as a claim. No user-facing doc claims host UAT, portal check, publication, a new release, or S4 full pass as existing or granted."
+    },
+    {
+      "id": "AO-09-links-and-digest",
+      "claim_checked": "The '41 local links and anchors check clean' figure in R3_FINDING_LEDGER.json F004, and the PIPD_WEB_FALLBACK.md digest",
+      "method": "regex-walk every markdown link target in README.md, docs/USER_GUIDE.md, docs/install/README.md, plus candidates from inline-literal paths; sha256'd docs/install/PIPD_WEB_FALLBACK.md and compared with .sha256 and the docs table",
+      "raw_evidence_read": ["README.md, docs/USER_GUIDE.md, docs/install/README.md", "docs/install/PIPD_WEB_FALLBACK.md.sha256", "docs/install/PIPD_WEB_FALLBACK.md"],
+      "verdict": "PASS_WITH_CAVEAT",
+      "why": "Independent link walk: no broken markdown link targets in the three docs; two flagged strings are not broken links — README.md:298 'tests/cases.yaml' (inline-code in a repo-structure table, ambiguous shorthand) and docs/install/README.md:39 'skills/pipd-*' (wildcard glob literal). The exact figure '41 local links and anchors' is the maker's own count and I did not reproduce the identical number with my broader walk — but no broken link exists. The fallback document's sha256 c88ddc49cfe5fb59fe1a713fdde4cfd6a06ed54cc5831885130e053ce990c2af matches the sidecar and the docs table of docs/install/README.md byte-for-byte, and also matches the hosted PPV log line 1425 builder receipt."
+    },
+    {
+      "id": "AO-10-security-posture",
+      "claim_checked": "No credential, token or secret value in the round's evidence tree, committed logs or pushed files; workflows keep contents: read; no privileged pull-request trigger",
+      "method": "grep'd the round evidence tree and the pushed files for PAT/Bearer/ghp_/github_pat literals; git log -p both commit ranges (a5151ff..8cbe258 and 517d7a5..d561f52) grepping for PAT patterns and for workflow privilege escalation; read both workflows' permissions/triggers; read the round's scripts that handle the round's own credential",
+      "raw_evidence_read": [
+        "grep -rnI -E 'ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|Bearer [A-Za-z0-9_-]{20,}' .hgk/rounds/S4R3-20261013-.../ README.md docs/USER_GUIDE.md docs/install/README.md (0 hits)",
+        "git log -p 517d7a5..d561f52 | grep -E 'ghp_[A-Za-z0-9]{20,}|github_pat_' (exit 1, no hit)",
+        "git log -p a5151ff..8cbe258 | grep -cE 'ghp_[A-Za-z0-9]{20,}|github_pat_' (0)",
+        "git diff 517d7a5..d561f52 -- .github/workflows/ | grep '^+.*(pull_request_target|workflow_run|contents: write|secrets\\.)' (no hit)",
+        "both workflows: 'permissions: contents: read'; ci.yml triggers push+pull_request; public-plugin-verify.yml triggers pull_request (paths filter) + workflow_dispatch; checkout uses persist-credentials: false"
+      ],
+      "verdict": "PASS",
+      "why": "No literal credential in the round's evidence tree, the committed logs or any pushed file. Both workflows keep 'permissions: contents: read' and use no privileged pull-request trigger (the privileged trigger name does not appear anywhere in the file, by design). The round's own scripts (fetch_hosted_logs.py, push_s4r3_branches.sh) read the PAT from the gitignored local file 'C:/Projects/Agent_Workspace/API KEY/GITHUB-REPO_SHW097-4.txt' in-process; the value never appears in any committed file, log line or argv."
+    }
+  ],
+  "falsification_attempts": [
+    {
+      "target": "merge-base semantics could hide a commit",
+      "attempt": "Traced STAGE_B_BASE_SHA ('hard-coded CONST') usage versus PR_BASE_SHA and ran git merge-base 517d7a5 HEAD (returns exactly 517d7a5) — the range BASE...HEAD collapses to the intended containing range for this subject, and because the declared base is pinned and must be an ancestor, no PR-base movement can exclude a commit reachable from HEAD.",
+      "result": "no bypass"
+    },
+    {
+      "target": "DENIED/ALLOWED regex order could let a forbidden path through",
+      "attempt": "Applied the two regexes in the workflow's order to candidate paths (src/..., schemas/..., skills/..., dist/... and allowed docs paths): DENIED is evaluated first and exits the loop iteration for any forbidden prefix, so ALLOWED can never override DENIED; a path matching neither is refused by the elif's fail-closed complement. The only theoretical bypass would be a path beginning with 'src/' etc. that also matches ALLOWED, which the regex set makes impossible (no ALLOWED alternative starts with those prefixes).",
+      "result": "no bypass"
+    },
+    {
+      "target": "the empty-scope branch could hide a write",
+      "attempt": "Read the STAGE_B_SCOPE_EMPTY branch: when CHANGED is empty the step still fires the classifier self-tests (GATE_SELF_TEST_OK x2 + WRITE_SET_CLEAN_AGAINST) and exits 0 with NO governed write-set examined. For the CURRENT subject this is not load-bearing: the hosted non-empty run examined 19 governed paths and the pre-repair gate on the same branch emitted 24 violations — the hosted receipts therefore reflect a real non-empty Stage B write set, and no evidence in the round cites a scope-empty run as Stage B verification. But for a FUTURE workflow_dispatch at tip == declared base, the step would exit 0 while examining nothing; the risk is disclosed by the workflow's own text ('must not be cited as a Stage B verification') but is not machine-enforced at this step's receipts.",
+      "result": "disclosed residual limitation for future runs, not load-bearing for this verdict"
+    },
+    {
+      "target": "self-acceptance by the maker's own gate",
+      "attempt": "Considered whether GATE_SELF_TEST_OK receipts could be produced by a workflow whose regexes were relaxed after the receipt was written; compared the workflow text in the pushed/pinned subject with the receipts' semantics",
+      "result": "no bypass — the classifier identical in the workflow file, the repro script and the pinned subject's raw hosted log"
+    },
+    {
+      "target": "maker's own hosted log fetch could have fabricated the extracts",
+      "attempt": "Re-fetched all four raw job logs byte-for-byte from GitHub (using the round's own credential after anonymous access was refused with HTTP 403) and SHA-256'd them against hosted_raw_log_digests.txt: all four digests match; independently grepped the re-fetched logs for the receipt lines cited in the extracts",
+      "result": "no bypass — committed extracts are provably byte-accurate selections of GitHub-served job logs"
+    },
+    {
+      "target": "flattened CI gate could still lose a failure",
+      "attempt": "Searched both workflows for any test-carrying step without pipefail or status capture: the only tee/tail steps without explicit 'set -euo pipefail' lines visible at the start of a greppable run: block are the wheel-venv doctor/help captures, which are non-test smoke steps. Cross-checked against the hosted receipts which show the suite step properly red/green in both directions (hosted green at the candidate, maker's fault-injection control red-on-red).",
+      "result": "no bypass found within the reader's static reading; residual: execution of a red suite under pipefail on GitHub's own runner not reproduced by this officer"
+    }
+  ],
+  "overclaims": [],
+  "not_verified": [
+    "FOUR-HOST UAT: NOT_EXECUTED (no host-produced receipt anywhere in the round)",
+    "VENDOR/PORTAL VALIDATION: NOT_EXECUTED (no official validator output, no portal scan/review/publish receipt)",
+    "PUBLISHING A NEW IMMUTABLE RELEASE: NOT_EXECUTED (subject.json gate_claims: PUBLIC_RELEASE HOLD; PRs are draft and unmerged; no tag/release artifacts created this round)",
+    "S4 FULL PASS: NOT_GRANTED (subject.json, R3_FINDING_LEDGER.json; no scoped receipt claims it)",
+    "GATE-SIGNAL FLATTENING ON A RED SUITE ON GITHUB'S OWN RUNNER: I read the workflows and inferred pipefail semantics; I did not execute a red 572-test suite under pipefail on GitHub's own runner, so 'a red suite cannot masquerade as a green job on GitHub Actions in the CURRENT ci.yml/public-plugin-verify.yml' is inferred-with-high-confidence from file reading + maker's own control pair + hosted green receipts, not independently executed here",
+    "THE '41 LOCAL LINKS' EXACT COUNT: maker's own count; independently verified as 'no broken link' without reproducing the exact number"
+  ],
+  "security": {
+    "credentials_found": false,
+    "notes": "No credential, token or secret value in the round's evidence tree, committed logs or pushed files. The round's scripts read the owner's fine-grained PAT from the gitignored local file C:/Projects/Agent_Workspace/API KEY/GITHUB-REPO_SHW097-4.txt in-process only; the value never appears in any committed file, log, receipt or argv. Both workflows keep permissions: contents: read; triggers are push+pull_request (ci.yml) and pull_request+workflow_dispatch (public-plugin-verify.yml); no privileged pull-request trigger, no secrets.* usage, checkout with persist-credentials: false. The job-log endpoints needed the owner credential (anonymous HTTP 403); that access happens in-process in this verification and left no residue in any committed file."
+  },
+  "strongest_defensible_claim": "On the Stage B candidate 8481f29 (branch feat/s4r3-stage-b-distribution-20261013, declared base 517d7a5): both hosted workflows (ci job 115137270742 and public-plugin-verify job 115137270735, run ids 38349130157 and 38349130092) concluded success, byte-verified by re-fetching GitHub-served raw logs whose SHA-256 match the committed hosted_raw_log_digests.txt; the hosted receipts show 572/108/47/18 OK, the repaired write-set gate examining the declared Stage B base with GATE_SELF_TEST_OK/WRITE_SET_CLEAN_AGAINST receipts, and both negative controls refusing on the identity binding. Out-of-scope and NOT_EXECUTED: four-host UAT, vendor/portal validation, publishing, a new release, S4 full pass. Merge stays HOLD, public release stays HOLD, S4_FULL_PASS stays false. The remaining evidence-layer limitation is that a reader without the owner credential cannot re-close the extract->digest->GitHub bytes link (this officer closed it with the round's own credential)."
+  ,
+  "merge": "HOLD",
+  "public_release": "HOLD",
+  "S4_FULL_PASS": false
+}

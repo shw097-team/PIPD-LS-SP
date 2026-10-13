@@ -1,0 +1,16 @@
+驗證完成，判定檔已寫入並通過 JSON/schema 檢查：
+
+C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3b-wt/.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/10_INDEPENDENT_VERIFY/AO_VERDICT_S4R3.json
+
+**Verdict: TEMP_CLOSED**（merge=HOLD、public_release=HOLD、S4_FULL_PASS=false）
+
+核心驗證結果（皆為本人獨立重跑，非照抄 maker）：
+- CI truthfulness：兩 worktree 內每個 tee/tail 測試步都帶 `set -euo pipefail`；13 條凍結失敗全數有 root cause＋paired control；tests/ 僅 test_web_fallback.py 一處修補（16 個測試前後不變，無刪除/跳過/放寬）；fault-injection 配對（舊形狀紅 suite rc=0、新形狀 rc=1）確實重現缺陷。
+- Write-set gate：從 workflow 文件本身判讀，allowlist 量測的區間是硬編 `STAGE_B_BASE_SHA`（517d7a5）...HEAD，PR base 只出現在報告行；獨立 `git diff --name-status 517d7a5...HEAD`＝19 條路徑，無 src/、schemas/、skills/、dist/；三項 falsification（merge-base 語義、DENIED/ALLOWED 順序、empty-scope 分支）皆無 bypass。
+- Hosted evidence：以 round 自己的 credential 重抓 4 份 raw job log，SHA-256 全數對上 hosted_raw_log_digests.txt；572/108/47/18 OK、GATE_SELF_TEST_OK、WRITE_SET_CLEAN、兩個 negative control 的拒絕回執都在 GitHub 實際 bytes 裡。**讀者無 credential 時無法從 committed bytes 自行封閉 extract→digest→GitHub bytes 這一環**（/actions/jobs/{id}/logs 匿名回 403，我實測確認）——此限制 maker 已在 HOSTED_RESULTS.md 揭露。
+- Overclaim 掃描：無（文件全數維持 NOT_EXECUTED/NOT_VERIFIED/HOLD 語言；fallback 文件 sha256 與 sidecar、README 表、hosted log 行 1425 三方一致；本地連結無斷鏈）。
+- Security：無 credential 出現在 evidence tree、committed log 或推上的檔案；兩 workflow 均 `contents: read`、無 privileged PR trigger。
+
+NOT_VERIFIED / 未執行：four-host UAT、vendor/portal validation、發佈與新 release、S4 full pass——全部 NOT_EXECUTED。另兩項列在 verdict 的 not_verified：我未在 GitHub runner 上實際執行紅 suite 驗證 pipefail 行為（依文件閱讀＋maker 在地 control pair＋hosted 綠 receipts 推斷）；「41 個連結」精確數字未復現（僅驗證無斷鏈）。
+
+一個待揭露的 side effect：驗證過程在 s4r3b-wt 根目錄留下未追蹤的 `scratch_ao/`（我重抓的 4 份 raw log 工作副本），僅供覆核；不屬於任何 commit。
