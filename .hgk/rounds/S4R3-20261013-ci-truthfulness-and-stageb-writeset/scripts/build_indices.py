@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]           # .hgk/rounds/<round>/
@@ -31,9 +32,45 @@ for p in sorted(EV.rglob("*")):
                       "bytes": p.stat().st_size, "sha256": sha256(p)})
 (EV / "RAW_INDEX.json").write_text(json.dumps(
     {"schema_id": "PIPD-S4-R3-RAW-EVIDENCE-INDEX/1", "round": ROUND,
-     "note": "Every digest below is of a file committed in this repository at the same commit as "
-             "this index, or of a raw log whose own digest is recorded next to its extract.",
+     "note": "Every digest below is of the bytes GIT STORES for that path - not of the working-tree "
+             "bytes. The repository default is `* text=auto eol=lf`, so a CRLF file is rewritten on "
+             "commit; hashing the working tree would record a digest no checkout can reproduce.",
      "files": index}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+# Self-check: the recorded digest must equal the digest of the committed blob, otherwise the index is
+# a claim no external checker can reproduce. This is exactly the failure that slipped through once -
+# a CRLF working file was hashed, then normalised to LF on commit, and one row stopped matching.
+def _committed_digest(path: str) -> str | None:
+    """Digest of the blob git stores for `path`, given repo-root-relative."""
+    top = subprocess.run(["git", "rev-parse", "--show-toplevel"], cwd=str(ROOT),
+                         capture_output=True, text=True).stdout.strip()
+    if not top:
+        return None
+    blob = subprocess.run(["git", "show", f"HEAD:{path}"], cwd=top, check=False,
+                          capture_output=True).stdout
+    return hashlib.sha256(blob).hexdigest() if blob else None
+
+
+def _repo_rel(path: str) -> str:
+    top = subprocess.run(["git", "rev-parse", "--show-toplevel"], cwd=str(ROOT),
+                         capture_output=True, text=True).stdout.strip()
+    if not top:
+        return path
+    return Path(ROOT / path).resolve().relative_to(Path(top).resolve()).as_posix()
+
+
+mismatch, unchecked = [], []
+for entry in index:
+    got = _committed_digest(_repo_rel(entry["path"]))
+    if got is None:
+        unchecked.append(entry["path"])
+    elif got != entry["sha256"]:
+        mismatch.append({"path": entry["path"], "indexed": entry["sha256"], "committed": got})
+print(json.dumps({"indexed": len(index), "committed_blob_mismatches": mismatch,
+                  "not_in_head_yet": unchecked}, ensure_ascii=False, indent=1))
+if mismatch:
+    raise SystemExit("RAW_INDEX.json does not match the committed bytes for "
+                     f"{len(mismatch)} path(s); normalise the working files first (EOL) and re-run.")
 
 FAILURE_MAP = {
     "schema_id": "PIPD-S4-R3-FAILURE-ROOT-CAUSE-MAP/1",
