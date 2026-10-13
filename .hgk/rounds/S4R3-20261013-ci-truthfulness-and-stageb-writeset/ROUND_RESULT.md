@@ -64,7 +64,8 @@ the push; `main` and tag `v0.1.1-preview.3` untouched). No force push, no tag, n
 
 | finding | class | disposition | what the ceiling is |
 |---|---|---|---|
-| `S4R3-F001` | P0 confirmed defect | **CLOSED in scope** | source repair + local Linux/Windows receipts + hosted `ci` on the candidate; not an S4 acceptance |
+| `S4R3-F001` | P0 confirmed defect | **truthfulness CLOSED / product defect EXPOSED** | the pipeline now tells the truth on every step, which is what made `S4R3-F006` visible; `F001` itself needs no further work |
+| `S4R3-F006` (**newly exposed by this round**) | P0, distribution | **OPEN_TT_OWNER** | the built wheel ships no `schemas` payload, so `pipd doctor` fails on a clean install of it; repairing it is a packaging change no round output can ratify |
 | `S4R3-F002` | P0 confirmed defect | **CLOSED in scope** | repaired gate green on the hosted run of the Stage B branch; the pre-repair gate's red run is explained, not hidden |
 | `S4R3-F003` | P1 evidence gap | **OPEN_TT_OWNER** | human publisher identity, brand assets, vendor validator, portal acts — owner-only |
 | `S4R3-F004` | P1 evidence gap | **CLOSED in scope** | artefact present + links clean, verified locally; external newcomer journeys NOT_EXECUTED |
@@ -89,7 +90,8 @@ No atom was flipped to PASS on the strength of a file existing.
 | frozen base `e71fee6e`, hosted Linux | full | `Ran 572` — **`FAILED (failures=11, skipped=6)`** under a job reported *success* | masked (the defect) |
 | frozen base `e71fee6e`, hosted Linux | focused | `Ran 108` — **`FAILED (failures=2)`** under the same green job | masked |
 | frozen base `e71fee6e`, local Windows 3.11 | full | `Ran 572 tests in 175.143s / OK (skipped=4)` | 0 |
-| Stage A, hosted Linux (`ci` run 38349126601) | full + focused + wheel | **success**, all steps executed | 0 |
+| Stage A, hosted Linux (`ci` run 38349126601, pre-residual-fix workflow) | full + focused + wheel | success — **but the wheel step was still masked, so this green did not mean the wheel worked** | 0 (masked) |
+| Stage A, hosted Linux (`ci` run 38352344981, head `ee6e3b0`, masking removed) | full + focused + wheel | **FAILURE at the wheel step** — `pipd doctor` on the freshly installed wheel returns `verdict=FAIL`, `resolved schemas surface (mode=NONE)` | 1 |
 | Stage B, hosted Linux (`ci` run 38349130157) | full | `Ran 572 tests / OK (skipped=6)` | 0 |
 | Stage B, hosted Linux | focused | `Ran 108 tests / OK` | 0 |
 | Stage A, local Windows 3.11 | full / focused | `Ran 572 / OK (skipped=4)` · `Ran 108 / OK` | 0 / 0 |
@@ -181,6 +183,20 @@ Resume checkpoint: everything a later round needs is committed on the two branch
 > its hosted run is green with its classifier self-tested (`WRITE_SET_CLEAN_AGAINST_517d7a5`, run
 > 38349130092). The Web route now ships a real, digest-stamped document and the repository has one
 > navigation and one user guide, with 41 local links and anchors clean.
+
+The Stage B green receipts still stand, but note what they do **not** cover: Stage B is stacked on
+the Stage A *candidate*, whose `ci.yml` predates the wheel-step guard, so Stage B's `ci` never ran the
+unmasked wheel step.
+
+**`S4R3-F006`, open and named:** the wheel built by this pipeline contains no `schemas` payload
+(`pipd_ls_sp/*.py` plus metadata only), so `pipd doctor` from a scratch cwd against the installed
+wheel exits 1 with `resolved schemas surface (mode=NONE)`. The same command passes in the source tree
+because the repository's own `schemas/` directory is found instead — the defect is in the
+distribution, not the workspace. It was invisible while the wheel step's exit code was tee's. Raw
+receipt: `evidence/03_CI_TEST/stageA_wheel_step_now_unmasked_FAIL.txt`. Consequence for the claim
+ceiling: this round makes the CI honest and repairs the trace/first-run/scope failures, and in doing so
+it proves that **the wheel this pipeline produces is not installable-and-diagnosable**. No relaxed
+oracle was used to hide it.
 
 **Everything above that line is source-and-build level.** No host was driven, no vendor validator
 ran, no portal act occurred, no release was cut, no S4 acceptance was granted, and the independent

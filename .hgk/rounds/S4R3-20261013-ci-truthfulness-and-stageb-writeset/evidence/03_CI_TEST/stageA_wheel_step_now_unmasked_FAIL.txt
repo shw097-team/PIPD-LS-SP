@@ -1,0 +1,126 @@
+# Stage A hosted `ci` run 38352344981 (job 115147347183), head ee6e3b0
+
+The first repair pass guarded the unittest pipelines but not the wheel step. Independent
+verification found that residual; adding `set -euo pipefail` to that step turned it RED on the
+first run - which is the whole point. What the green badge had been hiding:
+
+  pipd doctor  (from a scratch cwd, against the freshly built and installed wheel)
+    "verdict": "FAIL"
+    "findings": ["resolved schemas surface (mode=NONE): no schemas dir containing registry.json
+                  was found; tried: <wheelvenv>/lib/python3.11/schemas"]
+
+The wheel's own RECORD (see the `adding ...` lines) ships only pipd_ls_sp/*.py plus metadata -
+no schemas payload. So an installed wheel cannot resolve its schemas surface and `pipd doctor`
+exits 1. In the source check-out the same command PASSES (tests/test_wheel_distribution.py
+'run from a scratch cwd must PASS and name the INSTALLED surface ... ok'), because the repo's
+own schemas/ directory is found instead. Same command, different subject: the defect lives in
+the distribution, not in the workspace.
+
+This is NOT repaired in this round and is not hidden by relaxing `doctor`: read the log below.
+
+--- raw log, wheel step onward ---
+1330: adding 'pipd_ls_sp-0.1.1a3.dist-info/RECORD'
+1331: removing build/bdist.linux-x86_64/wheel
+1332: Successfully built pipd_ls_sp-0.1.1a3-py3-none-any.whl
+1333: total 72
+1334: -rw-r--r-- 1 runner runner 73593 Oct 13 05:38 pipd_ls_sp-0.1.1a3-py3-none-any.whl
+1335: Requirement already satisfied: pip in /home/runner/work/_temp/wheelvenv/lib/python3.11/site-packages (24.0)
+1336: Collecting pip
+1337:   Downloading pip-26.2.1-py3-none-any.whl.metadata (4.6 kB)
+1338: Downloading pip-26.2.1-py3-none-any.whl (1.8 MB)
+1339:    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 62.0 MB/s eta 0:00:00
+1340: Installing collected packages: pip
+1341:   Attempting uninstall: pip
+1342:     Found existing installation: pip 24.0
+1343:     Uninstalling pip-24.0:
+1344:       Successfully uninstalled pip-24.0
+1345: Successfully installed pip-26.2.1
+1346: Processing /home/runner/work/_temp/wheels/pipd_ls_sp-0.1.1a3-py3-none-any.whl
+1347: Collecting jsonschema>=4.0 (from pipd-ls-sp==0.1.1a3)
+1348:   Using cached jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+1349: Collecting attrs>=22.2.0 (from jsonschema>=4.0->pipd-ls-sp==0.1.1a3)
+1350:   Using cached attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+1351: Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=4.0->pipd-ls-sp==0.1.1a3)
+1352:   Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+1353: Collecting referencing>=0.28.4 (from jsonschema>=4.0->pipd-ls-sp==0.1.1a3)
+1354:   Using cached referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+1355: Collecting rpds-py>=0.25.0 (from jsonschema>=4.0->pipd-ls-sp==0.1.1a3)
+1356:   Using cached rpds_py-2026.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+1357: Collecting typing-extensions>=4.4.0 (from referencing>=0.28.4->jsonschema>=4.0->pipd-ls-sp==0.1.1a3)
+1358:   Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+1359: Using cached jsonschema-4.26.0-py3-none-any.whl (90 kB)
+1360: Using cached attrs-26.1.0-py3-none-any.whl (67 kB)
+1361: Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+1362: Using cached referencing-0.37.0-py3-none-any.whl (26 kB)
+1363: Using cached rpds_py-2026.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (375 kB)
+1364: Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+1365: Installing collected packages: typing-extensions, rpds-py, attrs, referencing, jsonschema-specifications, jsonschema, pipd-ls-sp
+1366: 
+1367: Successfully installed attrs-26.1.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 pipd-ls-sp-0.1.1a3 referencing-0.37.0 rpds-py-2026.9.1 typing-extensions-4.16.0
+1368: {
+1369:  "families": null,
+1370:  "findings": [
+1371:   "resolved schemas surface (mode=NONE): no schemas dir containing registry.json was found; tried: /home/runner/work/_temp/wheelvenv/lib/python3.11/schemas"
+1372:  ],
+1373:  "schema_source": {
+1374:   "mode": "NONE",
+1375:   "path": "",
+1376:   "tried": [
+1377:    "/home/runner/work/_temp/wheelvenv/lib/python3.11/schemas"
+1378:   ]
+1379:  },
+1380:  "skill_drift": [],
+1381:  "verdict": "FAIL"
+1382: }
+1383: ##[error]Process completed with exit code 1.
+1384: ##[group]Run actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b
+1385: with:
+1386:   name: ci-raw-logs
+1387:   path: resolved-deps.txt
+1388: full-unittest.log
+1389: focused-s4ext.log
+1390: provenance-green.log
+1391: wheel-doctor.log
+1392: wheel-cli-help.log
+1393: mutation-run.log
+1394: 
+1395:   if-no-files-found: warn
+1396:   compression-level: 6
+1397:   overwrite: false
+1398:   include-hidden-files: false
+1399: env:
+1400:   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+1401:   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+1402:   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+1403:   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+1404:   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+1405:   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+1406: ##[endgroup]
+1407: (node:4246) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+1408: (Use `node --trace-deprecation ...` to show where the warning was created)
+1409: Multiple search paths detected. Calculating the least common ancestor of all paths
+1410: The least common ancestor is /home/runner/work/PIPD-LS-SP/PIPD-LS-SP. This will be the root directory of the artifact
+1411: With the provided path, there will be 4 files uploaded
+1412: Artifact name is valid!
+1413: Root directory input is valid!
+1414: Beginning upload of artifact content to blob storage
+1415: (node:4246) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+1416: Uploaded bytes 22384
+1417: Finished uploading artifact content to blob storage!
+1418: SHA256 hash of uploaded artifact zip is be6068b42f914cf7146c22adf44217da1179fe8d74908adbb2c4bd30ed022667
+1419: Finalizing artifact upload
+1420: Artifact ci-raw-logs.zip successfully finalized. Artifact ID 11791786004
+1421: Artifact ci-raw-logs has been successfully uploaded! Final size is 22384 bytes. Artifact ID is 11791786004
+1422: Artifact download URL: https://github.com/shw097-team/PIPD-LS-SP/actions/runs/38352344981/artifacts/11791786004
+1423: Post job cleanup.
+1424: [command]/usr/bin/git version
+1425: git version 2.55.0
+1426: Temporarily overriding HOME='/home/runner/work/_temp/7322df73-51bc-4ae6-804a-a62bf27d9ffb' before making global git config changes
+1427: Adding repository directory to the temporary git global config as a safe directory
+1428: [command]/usr/bin/git config --global --add safe.directory /home/runner/work/PIPD-LS-SP/PIPD-LS-SP
+1429: [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+1430: [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+1431: [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+1432: [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+1433: Cleaning up orphan processes
+1434: ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683, actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b, actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
