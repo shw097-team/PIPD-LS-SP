@@ -44,12 +44,19 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_s4ext_*.py' -v 2>&1 | tee focused-s4ext.log
 
       - name: Build the wheel and exercise it in a clean venv with no source on PYTHONPATH
+        # Builds into a private directory and installs exactly that wheel. `dist/` already carries two
+        # committed wheels from earlier rounds (0.1.0 and 0.1.1a3), so a `dist/*.whl` glob made pip
+        # resolve both and abort with ResolutionImpossible (observed on run 38331455392, job
+        # offline-gate, step 7). Installing only the wheel just built is both the correct subject of
+        # this step and the stricter check; dist/ is left untouched.
         run: |
           python -m pip install build
-          python -m build --wheel
+          rm -rf "$RUNNER_TEMP/wheels" && mkdir -p "$RUNNER_TEMP/wheels"
+          python -m build --wheel --outdir "$RUNNER_TEMP/wheels"
+          ls -l "$RUNNER_TEMP/wheels"
           python -m venv "$RUNNER_TEMP/wheelvenv"
           "$RUNNER_TEMP/wheelvenv/bin/python" -m pip install --upgrade pip
-          "$RUNNER_TEMP/wheelvenv/bin/python" -m pip install dist/*.whl
+          "$RUNNER_TEMP/wheelvenv/bin/python" -m pip install "$RUNNER_TEMP"/wheels/*.whl
           cd "$RUNNER_TEMP"
           "$RUNNER_TEMP/wheelvenv/bin/pipd" doctor | tee "$GITHUB_WORKSPACE/wheel-doctor.log"
           "$RUNNER_TEMP/wheelvenv/bin/pipd" --help | tee "$GITHUB_WORKSPACE/wheel-cli-help.log"
