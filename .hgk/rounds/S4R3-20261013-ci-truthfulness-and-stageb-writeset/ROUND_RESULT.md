@@ -90,6 +90,8 @@ No atom was flipped to PASS on the strength of a file existing.
 | frozen base `e71fee6e`, hosted Linux | full | `Ran 572` — **`FAILED (failures=11, skipped=6)`** under a job reported *success* | masked (the defect) |
 | frozen base `e71fee6e`, hosted Linux | focused | `Ran 108` — **`FAILED (failures=2)`** under the same green job | masked |
 | frozen base `e71fee6e`, local Windows 3.11 | full | `Ran 572 tests in 175.143s / OK (skipped=4)` | 0 |
+| frozen base `e71fee6e`, local Linux (WSL Ubuntu 24.04, Py3.12) | full | `Ran 572 tests in 35.020s` — **`FAILED (failures=4, skipped=10)`** | 4 |
+| Stage A, local Linux (same dir, after the checkout) | full | `Ran 572 tests in 41.888s / OK (skipped=10)` | 0 |
 | Stage A, hosted Linux (`ci` run 38349126601, pre-residual-fix workflow) | full + focused + wheel | success — **but the wheel step was still masked, so this green did not mean the wheel worked** | 0 (masked) |
 | Stage A, hosted Linux (`ci` run 38352344981, head `ee6e3b0`, masking removed) | full + focused + wheel | **FAILURE at the wheel step** — `pipd doctor` on the freshly installed wheel returns `verdict=FAIL`, `resolved schemas surface (mode=NONE)` | 1 |
 | Stage B, hosted Linux (`ci` run 38349130157) | full | `Ran 572 tests / OK (skipped=6)` | 0 |
@@ -100,7 +102,16 @@ No atom was flipped to PASS on the strength of a file existing.
 
 Failure accounting: **13 declared failures at the frozen subject — 13 accounted for, 0 unexplained**,
 mapped to 7 named root causes with a repair and a paired control each
-(`evidence/02_LEDGER/R3_FAILURE_ROOT_CAUSE_MAP.json`).
+(`evidence/02_LEDGER/R3_FAILURE_ROOT_CAUSE_MAP.json`). A second, independent instance of the frozen
+subject (local Linux) failed **4** of the same 7 causes, and its post-checkout run is green — the
+four it could exercise, and why the other three cannot fire there, are in
+`evidence/01_SUBJECT/frozen_subject_linux_local_attribution.md`.
+
+**Skip sets differ per environment, so a green run is not uniform:** local Linux skips 10 (including
+both `test_installed_*` tests, `pip unavailable in test interpreter`), local Windows 4, hosted Linux
+6. The installed-package tests therefore execute in this round only on the hosted runner — the very
+place `S4R3-F006` shows the installed wheel failing to resolve its schemas surface. A green local run
+says nothing about the wheel being installable.
 
 Paired fault injection (`evidence/03_CI_TEST/ci_fault_injection.txt`), one deliberately failing test
 planted:
