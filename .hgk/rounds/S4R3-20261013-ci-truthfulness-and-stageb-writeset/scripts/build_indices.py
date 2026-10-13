@@ -137,6 +137,7 @@ FAILURE_MAP = {
                 "denominator narrowed and no acceptance oracle edited.",
     },
 }
+(EV / "02_LEDGER").mkdir(parents=True, exist_ok=True)
 (EV / "02_LEDGER" / "R3_FAILURE_ROOT_CAUSE_MAP.json").write_text(
     json.dumps(FAILURE_MAP, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
