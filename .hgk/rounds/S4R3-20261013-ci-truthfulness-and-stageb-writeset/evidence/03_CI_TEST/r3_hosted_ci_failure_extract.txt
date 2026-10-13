@@ -1,0 +1,33 @@
+# Extract of the raw hosted-CI job logs at the FROZEN failing subject e71fee6dd3aa73724baec4e8d9cc72127fbe36ed
+# source: .hgk/_r3repair/github/ci_job_115112781888.log (transcoded to .txt to normalise CRLF)
+# run 38341318079 job 115112781888  (GitHub API conclusion=success; the log says otherwise)
+
+=== unittest summary lines ===
+974:Ran 572 tests in 48.136s
+976:FAILED (failures=11, skipped=6)
+1335:Ran 108 tests in 6.665s
+1337:FAILED (failures=2)
+1532:Ran 18 tests in 0.046s
+
+=== FAIL/ERROR ids (11 in the full suite, 2 in the focused suite) ===
+847:FAIL: test_repair_subject_must_also_be_inside_the_authorised_root (tests.test_negative_and_rollback.TestRollback.test_repair_subject_must_also_be_inside_the_authorised_root) (subject='C:/Windows/system32/x.dll')
+856:FAIL: test_permission_bits_are_set_on_run_sh (tests.test_s4ext_first_run_portable.PortableFirstRunScriptTests.test_permission_bits_are_set_on_run_sh)
+864:FAIL: test_run_ps1_completes_the_chain_from_a_foreign_cwd (tests.test_s4ext_first_run_portable.PortableFirstRunScriptTests.test_run_ps1_completes_the_chain_from_a_foreign_cwd)
+873:FAIL: test_duplicate_skill_name_is_refused (tests.test_skill_contracts.SkillContracts.test_duplicate_skill_name_is_refused)
+883:FAIL: test_exact_eight_discover_load_route (tests.test_skill_contracts.SkillContracts.test_exact_eight_discover_load_route)
+891:FAIL: test_marker_only_pack_is_refused (tests.test_skill_contracts.SkillContracts.test_marker_only_pack_is_refused)
+902:FAIL: test_missing_input_schema_is_refused (tests.test_skill_contracts.SkillContracts.test_missing_input_schema_is_refused)
+912:FAIL: test_missing_output_schema_is_refused (tests.test_skill_contracts.SkillContracts.test_missing_output_schema_is_refused)
+922:FAIL: test_ninth_entry_is_refused (tests.test_skill_contracts.SkillContracts.test_ninth_entry_is_refused)
+933:FAIL: test_cli_smoke_runs (tests.test_tooling_executes.TestToolingExecutes.test_cli_smoke_runs)
+963:FAIL: test_symlinked_destination_refused_and_target_byte_identical (tests.test_web_fallback.WebFallbackTests.test_symlinked_destination_refused_and_target_byte_identical)
+1318:FAIL: test_permission_bits_are_set_on_run_sh (test_s4ext_first_run_portable.PortableFirstRunScriptTests.test_permission_bits_are_set_on_run_sh)
+1326:FAIL: test_run_ps1_completes_the_chain_from_a_foreign_cwd (test_s4ext_first_run_portable.PortableFirstRunScriptTests.test_run_ps1_completes_the_chain_from_a_foreign_cwd)
+
+=== the pipeline shape that produced the false green ===
+213:##[group]Run python -m unittest discover -s tests -t . -v 2>&1 | tee full-unittest.log
+214:[36;1mpython -m unittest discover -s tests -t . -v 2>&1 | tee full-unittest.log[0m
+1175:##[group]Run python -m unittest discover -s tests -p 'test_s4ext_*.py' -v 2>&1 | tee focused-s4ext.log
+1176:[36;1mpython -m unittest discover -s tests -p 'test_s4ext_*.py' -v 2>&1 | tee focused-s4ext.log[0m
+1521:##[group]Run python -m unittest tests.test_s4ext_release_provenance 2>&1 | tail -3
+1522:[36;1mpython -m unittest tests.test_s4ext_release_provenance 2>&1 | tail -3[0m

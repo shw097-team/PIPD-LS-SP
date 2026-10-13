@@ -1,0 +1,466 @@
+..........................................s...s.................................................................................................................................................................................................................................s...........s............................sss........................................s....................................................../home/shw097/r3linux/tools/build_s4_spec_del_adjudication.py:223: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/shw097/r3linux/docs/SPEC_DEL_CROSSWALK.json' mode='r' encoding='utf-8'>
+  crosswalk = json.load(open(CROSSWALK, encoding="utf-8"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+........................................................................................................F...................................................ss....F
+======================================================================
+FAIL: test_every_test_file_bootstraps_sys_path (tests.test_tooling_executes.TestToolingExecutes.test_every_test_file_bootstraps_sys_path)
+No test file may depend on a sibling importing src/ first.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/shw097/r3linux/tests/test_tooling_executes.py", line 245, in test_every_test_file_bootstraps_sys_path
+    self.assertEqual(missing, [], "test files without a sys.path bootstrap")
+AssertionError: Lists differ: ['test_zz_s4r3_ci_control.py'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'test_zz_s4r3_ci_control.py'
+
+- ['test_zz_s4r3_ci_control.py']
++ [] : test files without a sys.path bootstrap
+
+======================================================================
+FAIL: test_deliberate_failure (tests.test_zz_s4r3_ci_control.S4R3CiControl.test_deliberate_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/shw097/r3linux/tests/test_zz_s4r3_ci_control.py", line 6, in test_deliberate_failure
+    self.fail("S4R3-F001 control: this failure MUST make the step red")
+AssertionError: S4R3-F001 control: this failure MUST make the step red
+
+----------------------------------------------------------------------
+Ran 573 tests in 41.941s
+
+FAILED (failures=2, skipped=10)
+{
+ "occurrences_total": 1,
+ "policy_mention_count": 1,
+ "writer_usage_count": 0,
+ "policy_mention_files": [
+  "prompt.md"
+ ],
+ "writer_usage_files": [],
+ "r4_writer_usage": [],
+ "r4_scope": ".hgk/",
+ "verdict": "PASS"
+}
+{
+ "occurrences_total": 3,
+ "policy_mention_count": 1,
+ "writer_usage_count": 2,
+ "policy_mention_files": [
+  "contract/R4.CONTRACT.json"
+ ],
+ "writer_usage_files": [
+  ".hgk/codex/writer.log",
+  "logs/run.log"
+ ],
+ "r4_writer_usage": [
+  {
+   "path": ".hgk/codex/writer.log",
+   "line": 1,
+   "classification": "WRITER_USAGE"
+  }
+ ],
+ "r4_scope": ".hgk/",
+ "verdict": "FAIL"
+}
+SKIP test_b4_wheel_mutation_installed_doctor_fails: pip unavailable in test interpreter: /usr/bin/python3: No module named pip
+{
+ "error": "HARD_GATE_FAIL",
+ "verdict": "FAIL",
+ "refusal": "the acceptance evidence MD is NOT generated: a hard gate row is FAIL and this tool refuses to print PASS (or bury a hard FAIL behind a percentage). The failing rows are listed verbatim below.",
+ "hard_gates": [
+  {
+   "id": "G-TESTS-UNIT-SUITE",
+   "state": "FAIL",
+   "evidence": "unittest discover: Ran 47 tests, failures 2, errors 1; failing: tests.test_alpha.TestAlpha.test_one, tests.test_s0_contracts.TestS0Contracts.test_two, tests.test_beta.TestBeta.test_three"
+  },
+  {
+   "id": "G-S0-CONTRACTS-19",
+   "state": "FAIL",
+   "evidence": "failing S0 tests: tests.test_s0_contracts.TestS0Contracts.test_two"
+  },
+  {
+   "id": "G-S1-LITE-SLICE",
+   "state": "PASS",
+   "evidence": "trace_verdict=PASS, artifact_validation=PASS"
+  },
+  {
+   "id": "G-CLI-SMOKE-13",
+   "state": "PASS",
+   "evidence": "13/13 commands, nonzero_exit=0, verdicts={'init': 'PASS'}"
+  },
+  {
+   "id": "G-KNOWLEDGE-READY",
+   "state": "PASS",
+   "evidence": "KNOWLEDGE_READY_REPORT verdict=PASS, clean_coverage=True"
+  },
+  {
+   "id": "G-EVIDENCE-MANIFEST",
+   "state": "PASS",
+   "evidence": "evidence_manifest sha256=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+ ],
+ "failing_rows": [
+  "G-TESTS-UNIT-SUITE",
+  "G-S0-CONTRACTS-19"
+ ]
+}
+{
+ "out": "/tmp/tmpmr4hp9os/EVIDENCE.md",
+ "bytes": 8253,
+ "sha256": "7030bd64565c5b0c4e4a23ca3eb9e5a815819914ef6b18b9ecdb498fde141262",
+ "head": "0000000000000000000000000000000000000000",
+ "verdict": "PASS",
+ "hard_gates": [
+  "G-TESTS-UNIT-SUITE",
+  "G-S0-CONTRACTS-19",
+  "G-S1-LITE-SLICE",
+  "G-CLI-SMOKE-13",
+  "G-KNOWLEDGE-READY",
+  "G-EVIDENCE-MANIFEST"
+ ]
+}
+{
+ "verdict": "PASS",
+ "hard_gates": [
+  {
+   "id": "G-TESTS-UNIT-SUITE",
+   "state": "PASS",
+   "evidence": "unittest discover: Ran 47 tests, failures 0, errors 0"
+  },
+  {
+   "id": "G-S0-CONTRACTS-19",
+   "state": "PASS",
+   "evidence": "tests/test_s0_contracts.py green in the recorded run"
+  },
+  {
+   "id": "G-S1-LITE-SLICE",
+   "state": "PASS",
+   "evidence": "trace_verdict=PASS, artifact_validation=PASS"
+  },
+  {
+   "id": "G-CLI-SMOKE-13",
+   "state": "PASS",
+   "evidence": "13/13 commands, nonzero_exit=0, verdicts={'init': 'PASS'}"
+  },
+  {
+   "id": "G-KNOWLEDGE-READY",
+   "state": "PASS",
+   "evidence": "KNOWLEDGE_READY_REPORT verdict=PASS, clean_coverage=True"
+  },
+  {
+   "id": "G-EVIDENCE-MANIFEST",
+   "state": "PASS",
+   "evidence": "evidence_manifest sha256=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+ ]
+}
+{
+ "mode": "check",
+ "first_fail": "atom REQ-9e7c02bdfa59583d6510 still carries source_text",
+ "fails": [
+  "atom REQ-9e7c02bdfa59583d6510 still carries source_text",
+  "duplicated source_text bytes remain: 24"
+ ],
+ "residual_duplicate_atoms": 10,
+ "residual_duplicated_bytes": 249,
+ "baseline_source": "HEAD",
+ "baseline_bytes": 24016,
+ "baseline_head_sha256": {
+  "src/pipd_ls_sp/pipeline.py": "ace1c68c5cf2c5ac1e98b09853612407212c46aa2fe19e0610e796900fadabc6",
+  "src/pipd_ls_sp/requirements.py": "1ac3a64c655d93e02e2511456d08972801a89b788eec635289b51e0e7de88121"
+ },
+ "shrinkage_claimed": false,
+ "pre_change_pi_bytes": 24406,
+ "current_pi_bytes": 24395,
+ "current_resolved_materialized_bytes": 26499,
+ "serialized_delta_bytes": -11,
+ "resolved_delta_bytes": 2093,
+ "current_tree_larger": true,
+ "verdict": "FAIL"
+}
+{
+ "mode": "check",
+ "first_fail": "atoms lost vs baseline: 1 requirement id(s) absent, e.g. ['REQ-9e7c02bdfa59583d6510']",
+ "fails": [
+  "atoms lost vs baseline: 1 requirement id(s) absent, e.g. ['REQ-9e7c02bdfa59583d6510']"
+ ],
+ "residual_duplicate_atoms": 9,
+ "residual_duplicated_bytes": 225,
+ "baseline_source": "HEAD",
+ "baseline_bytes": 24016,
+ "baseline_head_sha256": {
+  "src/pipd_ls_sp/pipeline.py": "ace1c68c5cf2c5ac1e98b09853612407212c46aa2fe19e0610e796900fadabc6",
+  "src/pipd_ls_sp/requirements.py": "1ac3a64c655d93e02e2511456d08972801a89b788eec635289b51e0e7de88121"
+ },
+ "shrinkage_claimed": false,
+ "pre_change_pi_bytes": 23463,
+ "current_pi_bytes": 23537,
+ "current_resolved_materialized_bytes": 25556,
+ "serialized_delta_bytes": 74,
+ "resolved_delta_bytes": 2093,
+ "current_tree_larger": true,
+ "verdict": "FAIL"
+}
+deny_scan exit=0
+verdict: PASS (0 hits, 2 files scanned)
+{
+ "schema": "PIPD-ROUND-SELFSCAN/1",
+ "as_of": "2026-10-13T04:49:21.065865+00:00",
+ "scanned_paths": [
+  "/tmp/tmptpv1n0gt"
+ ],
+ "files_scanned": 2,
+ "hits": [],
+ "counts": {
+  "by_kind": {},
+  "total": 0
+ },
+ "deny_scan": {
+  "ran": true,
+  "exit_code": 1,
+  "tail": "stub deny hit"
+ },
+ "verdict": "HIT"
+}
+deny_scan exit=1
+verdict: HIT (0 hits, 2 files scanned)
+VIOLATION: PIPD-SP-SPEC-001: evidence_ref missing: does/not/exist/mutation.json
+check failed: 1 violation(s)
+VIOLATION: PIPD-SP-SPEC-001: EVIDENCED oracle file missing: tests/ORACLE_DOES_NOT_EXIST.py
+check failed: 1 violation(s)
+SKIP test_installed_doctor_diagnoses_installed_schema_surface: pip unavailable in test interpreter: /usr/bin/python3: No module named pip
+SKIP test_installed_package_is_self_sufficient: pip unavailable in test interpreter: /usr/bin/python3: No module named pip
+..........................................s...s.................................................................................................................................................................................................................................s...........s............................sss........................................s....................................................../home/shw097/r3linux/tools/build_s4_spec_del_adjudication.py:223: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/shw097/r3linux/docs/SPEC_DEL_CROSSWALK.json' mode='r' encoding='utf-8'>
+  crosswalk = json.load(open(CROSSWALK, encoding="utf-8"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+........................................................................................................F...................................................ss....F
+======================================================================
+FAIL: test_every_test_file_bootstraps_sys_path (tests.test_tooling_executes.TestToolingExecutes.test_every_test_file_bootstraps_sys_path)
+No test file may depend on a sibling importing src/ first.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/shw097/r3linux/tests/test_tooling_executes.py", line 245, in test_every_test_file_bootstraps_sys_path
+    self.assertEqual(missing, [], "test files without a sys.path bootstrap")
+AssertionError: Lists differ: ['test_zz_s4r3_ci_control.py'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'test_zz_s4r3_ci_control.py'
+
+- ['test_zz_s4r3_ci_control.py']
++ [] : test files without a sys.path bootstrap
+
+======================================================================
+FAIL: test_deliberate_failure (tests.test_zz_s4r3_ci_control.S4R3CiControl.test_deliberate_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/shw097/r3linux/tests/test_zz_s4r3_ci_control.py", line 6, in test_deliberate_failure
+    self.fail("S4R3-F001 control: this failure MUST make the step red")
+AssertionError: S4R3-F001 control: this failure MUST make the step red
+
+----------------------------------------------------------------------
+Ran 573 tests in 43.056s
+
+FAILED (failures=2, skipped=10)
+{
+ "occurrences_total": 1,
+ "policy_mention_count": 1,
+ "writer_usage_count": 0,
+ "policy_mention_files": [
+  "prompt.md"
+ ],
+ "writer_usage_files": [],
+ "r4_writer_usage": [],
+ "r4_scope": ".hgk/",
+ "verdict": "PASS"
+}
+{
+ "occurrences_total": 3,
+ "policy_mention_count": 1,
+ "writer_usage_count": 2,
+ "policy_mention_files": [
+  "contract/R4.CONTRACT.json"
+ ],
+ "writer_usage_files": [
+  ".hgk/codex/writer.log",
+  "logs/run.log"
+ ],
+ "r4_writer_usage": [
+  {
+   "path": ".hgk/codex/writer.log",
+   "line": 1,
+   "classification": "WRITER_USAGE"
+  }
+ ],
+ "r4_scope": ".hgk/",
+ "verdict": "FAIL"
+}
+SKIP test_b4_wheel_mutation_installed_doctor_fails: pip unavailable in test interpreter: /usr/bin/python3: No module named pip
+{
+ "error": "HARD_GATE_FAIL",
+ "verdict": "FAIL",
+ "refusal": "the acceptance evidence MD is NOT generated: a hard gate row is FAIL and this tool refuses to print PASS (or bury a hard FAIL behind a percentage). The failing rows are listed verbatim below.",
+ "hard_gates": [
+  {
+   "id": "G-TESTS-UNIT-SUITE",
+   "state": "FAIL",
+   "evidence": "unittest discover: Ran 47 tests, failures 2, errors 1; failing: tests.test_alpha.TestAlpha.test_one, tests.test_s0_contracts.TestS0Contracts.test_two, tests.test_beta.TestBeta.test_three"
+  },
+  {
+   "id": "G-S0-CONTRACTS-19",
+   "state": "FAIL",
+   "evidence": "failing S0 tests: tests.test_s0_contracts.TestS0Contracts.test_two"
+  },
+  {
+   "id": "G-S1-LITE-SLICE",
+   "state": "PASS",
+   "evidence": "trace_verdict=PASS, artifact_validation=PASS"
+  },
+  {
+   "id": "G-CLI-SMOKE-13",
+   "state": "PASS",
+   "evidence": "13/13 commands, nonzero_exit=0, verdicts={'init': 'PASS'}"
+  },
+  {
+   "id": "G-KNOWLEDGE-READY",
+   "state": "PASS",
+   "evidence": "KNOWLEDGE_READY_REPORT verdict=PASS, clean_coverage=True"
+  },
+  {
+   "id": "G-EVIDENCE-MANIFEST",
+   "state": "PASS",
+   "evidence": "evidence_manifest sha256=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+ ],
+ "failing_rows": [
+  "G-TESTS-UNIT-SUITE",
+  "G-S0-CONTRACTS-19"
+ ]
+}
+{
+ "out": "/tmp/tmprj4nxy7z/EVIDENCE.md",
+ "bytes": 8253,
+ "sha256": "7030bd64565c5b0c4e4a23ca3eb9e5a815819914ef6b18b9ecdb498fde141262",
+ "head": "0000000000000000000000000000000000000000",
+ "verdict": "PASS",
+ "hard_gates": [
+  "G-TESTS-UNIT-SUITE",
+  "G-S0-CONTRACTS-19",
+  "G-S1-LITE-SLICE",
+  "G-CLI-SMOKE-13",
+  "G-KNOWLEDGE-READY",
+  "G-EVIDENCE-MANIFEST"
+ ]
+}
+{
+ "verdict": "PASS",
+ "hard_gates": [
+  {
+   "id": "G-TESTS-UNIT-SUITE",
+   "state": "PASS",
+   "evidence": "unittest discover: Ran 47 tests, failures 0, errors 0"
+  },
+  {
+   "id": "G-S0-CONTRACTS-19",
+   "state": "PASS",
+   "evidence": "tests/test_s0_contracts.py green in the recorded run"
+  },
+  {
+   "id": "G-S1-LITE-SLICE",
+   "state": "PASS",
+   "evidence": "trace_verdict=PASS, artifact_validation=PASS"
+  },
+  {
+   "id": "G-CLI-SMOKE-13",
+   "state": "PASS",
+   "evidence": "13/13 commands, nonzero_exit=0, verdicts={'init': 'PASS'}"
+  },
+  {
+   "id": "G-KNOWLEDGE-READY",
+   "state": "PASS",
+   "evidence": "KNOWLEDGE_READY_REPORT verdict=PASS, clean_coverage=True"
+  },
+  {
+   "id": "G-EVIDENCE-MANIFEST",
+   "state": "PASS",
+   "evidence": "evidence_manifest sha256=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+ ]
+}
+{
+ "mode": "check",
+ "first_fail": "atom REQ-9e7c02bdfa59583d6510 still carries source_text",
+ "fails": [
+  "atom REQ-9e7c02bdfa59583d6510 still carries source_text",
+  "duplicated source_text bytes remain: 24"
+ ],
+ "residual_duplicate_atoms": 10,
+ "residual_duplicated_bytes": 249,
+ "baseline_source": "HEAD",
+ "baseline_bytes": 24016,
+ "baseline_head_sha256": {
+  "src/pipd_ls_sp/pipeline.py": "ace1c68c5cf2c5ac1e98b09853612407212c46aa2fe19e0610e796900fadabc6",
+  "src/pipd_ls_sp/requirements.py": "1ac3a64c655d93e02e2511456d08972801a89b788eec635289b51e0e7de88121"
+ },
+ "shrinkage_claimed": false,
+ "pre_change_pi_bytes": 24406,
+ "current_pi_bytes": 24395,
+ "current_resolved_materialized_bytes": 26499,
+ "serialized_delta_bytes": -11,
+ "resolved_delta_bytes": 2093,
+ "current_tree_larger": true,
+ "verdict": "FAIL"
+}
+{
+ "mode": "check",
+ "first_fail": "atoms lost vs baseline: 1 requirement id(s) absent, e.g. ['REQ-9e7c02bdfa59583d6510']",
+ "fails": [
+  "atoms lost vs baseline: 1 requirement id(s) absent, e.g. ['REQ-9e7c02bdfa59583d6510']"
+ ],
+ "residual_duplicate_atoms": 9,
+ "residual_duplicated_bytes": 225,
+ "baseline_source": "HEAD",
+ "baseline_bytes": 24016,
+ "baseline_head_sha256": {
+  "src/pipd_ls_sp/pipeline.py": "ace1c68c5cf2c5ac1e98b09853612407212c46aa2fe19e0610e796900fadabc6",
+  "src/pipd_ls_sp/requirements.py": "1ac3a64c655d93e02e2511456d08972801a89b788eec635289b51e0e7de88121"
+ },
+ "shrinkage_claimed": false,
+ "pre_change_pi_bytes": 23463,
+ "current_pi_bytes": 23537,
+ "current_resolved_materialized_bytes": 25556,
+ "serialized_delta_bytes": 74,
+ "resolved_delta_bytes": 2093,
+ "current_tree_larger": true,
+ "verdict": "FAIL"
+}
+deny_scan exit=0
+verdict: PASS (0 hits, 2 files scanned)
+{
+ "schema": "PIPD-ROUND-SELFSCAN/1",
+ "as_of": "2026-10-13T04:50:06.702373+00:00",
+ "scanned_paths": [
+  "/tmp/tmp9uczfavr"
+ ],
+ "files_scanned": 2,
+ "hits": [],
+ "counts": {
+  "by_kind": {},
+  "total": 0
+ },
+ "deny_scan": {
+  "ran": true,
+  "exit_code": 1,
+  "tail": "stub deny hit"
+ },
+ "verdict": "HIT"
+}
+deny_scan exit=1
+verdict: HIT (0 hits, 2 files scanned)
+VIOLATION: PIPD-SP-SPEC-001: evidence_ref missing: does/not/exist/mutation.json
+check failed: 1 violation(s)
+VIOLATION: PIPD-SP-SPEC-001: EVIDENCED oracle file missing: tests/ORACLE_DOES_NOT_EXIST.py
+check failed: 1 violation(s)
+SKIP test_installed_doctor_diagnoses_installed_schema_surface: pip unavailable in test interpreter: /usr/bin/python3: No module named pip
+SKIP test_installed_package_is_self_sufficient: pip unavailable in test interpreter: /usr/bin/python3: No module named pip

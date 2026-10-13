@@ -1,0 +1,27 @@
+{
+  "schema_id": "PIPD-S4-R3-STAGE-A-SUBJECT/1",
+  "repo": "https://github.com/shw097-team/PIPD-LS-SP",
+  "change_sequence": [
+    {"id": "S4R3-STAGE-A-CORE-REPAIR", "class": "NARROW_REPAIR"},
+    {"id": "S4R3-STAGE-B-DISTRIBUTION", "class": "UPGRADE"}
+  ],
+  "frozen_base": {
+    "branch": "feat/s4post-triple-upgrade-20261013-r3",
+    "commit": "e71fee6dd3aa73724baec4e8d9cc72127fbe36ed",
+    "tree": "2875287352529ee92277d7dc4f37cd12ffc977c7"
+  },
+  "remote_main_at_freeze": "224591431a164ab72a9423cd180e417e8a762403",
+  "stage_a_candidate": "517d7a5d3f00935e1589908f456dfacea8fd8a74",
+  "stage_a_branch": "fix/s4r3-stage-a-ci-truthfulness-20261013",
+  "stage_b_candidate": "8481f29",
+  "stage_b_branch": "feat/s4r3-stage-b-distribution-20261013",
+  "stage_b_declared_base": "517d7a5d3f00935e1589908f456dfacea8fd8a74",
+  "gate_claims": {
+    "merge": "HOLD",
+    "public_release": "HOLD",
+    "S4_FULL_PASS": "NOT_GRANTED",
+    "four_host_uat": "NOT_EXECUTED",
+    "vendor_portal_validation": "NOT_EXECUTED"
+  },
+  "note": "stage_b_candidate is the abbreviated sha of the Stage B commit recorded in the same round as stage_a_candidate; the full 40-hex value is in 09_OWNER_RELEASE/PUSH_READBACK.txt after the push."
+}
