@@ -1,5 +1,5 @@
 === S4R3-F002 local gate reproduction ===
-subject_head 9a50534ff20442fad1a5d61cdda034e4244478f1
+subject_head 856afc07fe617e2f3fa7667b52e23494ac783b4a
 declared_stage_b_base 517d7a5d3f00935e1589908f456dfacea8fd8a74
 upstream_main 224591431a164ab72a9423cd180e417e8a762403
 
@@ -56,11 +56,13 @@ A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/09_
 A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/09_RELEASE/PUSH_STAGE_B.log
 A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/09_RELEASE/push_round_branches.sh
 A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/09_RELEASE/push_stage_b_new_branch.sh
-  (truncated to 40 lines; full range has 245 paths)
+  (truncated to 40 lines; full range has 249 paths)
 
 --- governed Stage B write set: 517d7a5d3f00935e1589908f456dfacea8fd8a74...HEAD ---
 M	.github/workflows/public-plugin-verify.yml
 A	.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/ROUND_RESULT.md
+A	.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/02_LEDGER/R3_FAILURE_ROOT_CAUSE_MAP.json
+A	.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/02_LEDGER/R3_FINDING_LEDGER.json
 A	.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/05_UPGRADE/writeset_gate_local.txt
 A	.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/09_OWNER_RELEASE/HOSTED_CI_JOB_SUMMARY.json
 A	.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/09_OWNER_RELEASE/HOSTED_CI_READBACK.json
@@ -76,6 +78,8 @@ A	.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/10_INDE
 A	.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/10_INDEPENDENT_VERIFY/ao_lane_stdout.txt
 A	.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/11_ORCHESTRATION/KANBAN_READBACK.txt
 A	.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/11_ORCHESTRATION/OPENSPEC_READBACK.txt
+A	.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/RAW_INDEX.json
+A	.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/build_indices.py
 A	.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/fetch_hosted_logs.py
 A	.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/push_s4r3_branches.sh
 A	.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/read_hosted_ci.py
@@ -85,4 +89,13 @@ A	docs/USER_GUIDE.md
 A	docs/install/PIPD_WEB_FALLBACK.md
 A	docs/install/PIPD_WEB_FALLBACK.md.sha256
 M	docs/install/README.md
+  PLANT_REFUSED: src/pipd_ls_sp/validate.py
+  PLANT_REFUSED: schemas/TraceLink.schema.json
+  PLANT_REFUSED: skills/x/SKILL.md
+  PLANT_REFUSED: dist/old.whl
+  PLANT_REFUSED_TRAVERSAL: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/../evil.sh
+  PLANT_REFUSED_TRAVERSAL: docs/install/../../src/pipd_ls_sp/validate.py
+  PLANT_ALLOWED: docs/install/PIPD_WEB_FALLBACK.md
+  PLANT_ALLOWED: README.md
+  PLANT_ALLOWED: docs/USER_GUIDE.md
   WRITE_SET_CLEAN_AGAINST_517d7a5d3f00935e1589908f456dfacea8fd8a74

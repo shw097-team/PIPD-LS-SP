@@ -88,6 +88,7 @@ No atom was flipped to PASS on the strength of a file existing.
 |---|---|---|---|
 | frozen base `e71fee6e`, hosted Linux | full | `Ran 572` — **`FAILED (failures=11, skipped=6)`** under a job reported *success* | masked (the defect) |
 | frozen base `e71fee6e`, hosted Linux | focused | `Ran 108` — **`FAILED (failures=2)`** under the same green job | masked |
+| frozen base `e71fee6e`, local Windows 3.11 | full | `Ran 572 tests in 175.143s / OK (skipped=4)` | 0 |
 | Stage A, hosted Linux (`ci` run 38349126601) | full + focused + wheel | **success**, all steps executed | 0 |
 | Stage B, hosted Linux (`ci` run 38349130157) | full | `Ran 572 tests / OK (skipped=6)` | 0 |
 | Stage B, hosted Linux | focused | `Ran 108 tests / OK` | 0 |
@@ -119,6 +120,18 @@ a one-shot, fresh Hermes session with `-m glm-5.3-flash --provider opencode-go`,
 a different model from the maker lane. The verdict is at
 `evidence/10_INDEPENDENT_VERIFY/AO_VERDICT_S4R3.json` and is a **backup-arm verdict, not the
 gpt-6.1-sol verdict the order named**.
+
+**Two defects it found in the repair, both now fixed rather than reported as known-issues:**
+
+1. *Residual masking in the wheel step.* The `Build the wheel and exercise it in a clean venv` step
+   pipes `pipd doctor` and `pipd --help` through `tee` and carried no `set -euo pipefail`, so a failing
+   installed-wheel command was still masked — the same class as F001, in the one step the first repair
+   pass missed. Repaired on the Stage A branch; all six pipeline-carrying steps now carry the guard.
+2. *Allowlist regex vs `..` segments.* A path shaped `.hgk/rounds/<round>/../evil.sh` classified as
+   inside the round's evidence directory while resolving outside it. No live hole (`git diff
+   --name-only` never emits `..` for tracked paths), but now refused explicitly and asserted by a plant
+   so it cannot rot. Repaired on the Stage B branch; the local reproduction shows both traversal
+   plants refused and the scope still clean.
 
 ## 7. Changed paths
 

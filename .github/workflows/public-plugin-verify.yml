@@ -106,6 +106,18 @@ jobs:
           bad=0
           while IFS= read -r path; do
             [ -n "$path" ] || continue
+            # A path segment of `..` is refused before any pattern test. The allowlist is anchored
+            # regexes, so `.hgk/rounds/<round>/../evil.sh` would classify as inside the round's
+            # evidence directory while resolving outside it. `git diff --name-only` never emits `..`
+            # for git-tracked paths, so this is defence in depth rather than a live hole - asserted
+            # by the plant below so it cannot silently rot.
+            case "/$path/" in
+              */../*)
+                echo "UPGRADE_WROTE_PATH_TRAVERSAL: $path" >&2
+                bad=1
+                continue
+                ;;
+            esac
             if printf '%s' "$path" | grep -Eq "$DENIED"; then
               echo "UPGRADE_WROTE_FROZEN_PATH: $path" >&2
               bad=1
@@ -122,6 +134,12 @@ jobs:
               echo "GATE_SELF_TEST_FAILED: ${planted} would have been ACCEPTED" >&2
               exit 1
             fi
+          done
+          for planted in ".hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/../evil.sh" "docs/install/../../src/pipd_ls_sp/validate.py"; do
+            case "/$planted/" in
+              */../*) echo "GATE_SELF_TEST_OK: ${planted} is refused as a traversal path" ;;
+              *) echo "GATE_SELF_TEST_FAILED: ${planted} would have been accepted" >&2; exit 1 ;;
+            esac
           done
           echo "GATE_SELF_TEST_OK: planted src/**, schemas/**, skills/** and dist/** are all refused"
           for planted in "docs/install/PIPD_WEB_FALLBACK.md" "docs/USER_GUIDE.md" "README.md" "packaging/public-plugin/plugin.json"; do

@@ -1,16 +1,22 @@
-驗證完成，判定檔已寫入並通過 JSON/schema 檢查：
+驗證完成。判定檔已寫入、JSON 驗證通過：
 
 C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3b-wt/.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/10_INDEPENDENT_VERIFY/AO_VERDICT_S4R3.json
 
-**Verdict: TEMP_CLOSED**（merge=HOLD、public_release=HOLD、S4_FULL_PASS=false）
+**Verdict: TEMP_CLOSED**（merge=HOLD、public_release=HOLD、S4_FULL_PASS=false），結構 10 findings / 6 falsification attempts / 0 overclaims / 10 NOT_VERIFIED items，與排序要求的 shape 完全一致。
 
-核心驗證結果（皆為本人獨立重跑，非照抄 maker）：
-- CI truthfulness：兩 worktree 內每個 tee/tail 測試步都帶 `set -euo pipefail`；13 條凍結失敗全數有 root cause＋paired control；tests/ 僅 test_web_fallback.py 一處修補（16 個測試前後不變，無刪除/跳過/放寬）；fault-injection 配對（舊形狀紅 suite rc=0、新形狀 rc=1）確實重現缺陷。
-- Write-set gate：從 workflow 文件本身判讀，allowlist 量測的區間是硬編 `STAGE_B_BASE_SHA`（517d7a5）...HEAD，PR base 只出現在報告行；獨立 `git diff --name-status 517d7a5...HEAD`＝19 條路徑，無 src/、schemas/、skills/、dist/；三項 falsification（merge-base 語義、DENIED/ALLOWED 順序、empty-scope 分支）皆無 bypass。
-- Hosted evidence：以 round 自己的 credential 重抓 4 份 raw job log，SHA-256 全數對上 hosted_raw_log_digests.txt；572/108/47/18 OK、GATE_SELF_TEST_OK、WRITE_SET_CLEAN、兩個 negative control 的拒絕回執都在 GitHub 實際 bytes 裡。**讀者無 credential 時無法從 committed bytes 自行封閉 extract→digest→GitHub bytes 這一環**（/actions/jobs/{id}/logs 匿名回 403，我實測確認）——此限制 maker 已在 HOSTED_RESULTS.md 揭露。
-- Overclaim 掃描：無（文件全數維持 NOT_EXECUTED/NOT_VERIFIED/HOLD 語言；fallback 文件 sha256 與 sidecar、README 表、hosted log 行 1425 三方一致；本地連結無斷鏈）。
+**無法驗證（NOT_VERIFIED 要點）**
+- 四主機 UAT、vendor/portal 驗證、出版新 immutable release、S4 full pass —— 全程未執行，判為 NOT_EXECUTED（無任何 scoped receipt 主張相反）。
+- 真正的 GitHub-hosted red suite pipefail 行為 —— 我在本機用 planted red unittest 雙形狀實測（old rc=0 / new rc=1），但未在 GitHub Actions runner 本身重跑紅 suite。
+- 站外讀者僅憑 committed bytes 無法封閉 extract→digest→GitHub bytes 這環（/actions/jobs/{id}/logs 匿名回 403）；maker 已在 HOSTED_RESULTS.md 揭露此限制。
+- 「41 個 local links」確切數字 —— 我驗證「零壞連結」但未復現 41 這個數字。
+
+**Overclaims 掃描：0。** docs/install/PIPD_WEB_FALLBACK.md 的 sha256（c88ddc49…）與 .sha256 sidecar、README 表格、hosted builder receipt 三方一致。
+
+**本輪修正記錄（對照前一輪 verdict 同檔）**：此前的 AO 認為 wheel-venv smoke lines「不可能 mask 失敗」——我用 stub pipd exit 9 實測證明它**確實可被 tee 吞掉**（step_after=0），已在 AO-01 加註 residual；並補上 `'..'`-segment regex 理論缺口與 branch tip 已被推到 9a50534 的狀態註記。這個 residual 不影響 13 條 failed cases 的修復判定與 TEMP_CLOSED 結論。
+�無斷鏈）。
 - Security：無 credential 出現在 evidence tree、committed log 或推上的檔案；兩 workflow 均 `contents: read`、無 privileged PR trigger。
 
 NOT_VERIFIED / 未執行：four-host UAT、vendor/portal validation、發佈與新 release、S4 full pass——全部 NOT_EXECUTED。另兩項列在 verdict 的 not_verified：我未在 GitHub runner 上實際執行紅 suite 驗證 pipefail 行為（依文件閱讀＋maker 在地 control pair＋hosted 綠 receipts 推斷）；「41 個連結」精確數字未復現（僅驗證無斷鏈）。
 
 一個待揭露的 side effect：驗證過程在 s4r3b-wt 根目錄留下未追蹤的 `scratch_ao/`（我重抓的 4 份 raw log 工作副本），僅供覆核；不屬於任何 commit。
+AO_EXIT=0

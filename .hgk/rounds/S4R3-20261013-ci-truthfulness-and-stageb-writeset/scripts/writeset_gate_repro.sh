@@ -48,12 +48,34 @@ DENIED='^(skills/|src/|schemas/|dist/)'
   bad=0
   while IFS= read -r path; do
     [ -n "$path" ] || continue
+    case "/$path/" in
+      */../*) echo "  UPGRADE_WROTE_PATH_TRAVERSAL: $path"; bad=1; continue ;;
+    esac
     if printf '%s' "$path" | grep -Eq "$DENIED"; then
       echo "  UPGRADE_WROTE_FROZEN_PATH: $path"; bad=1
     elif ! printf '%s' "$path" | grep -Eq "$ALLOWED"; then
       echo "  UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: $path"; bad=1
     fi
   done <<< "$CHANGED"
+  # Classifier plants, including the traversal shape an anchored allowlist regex would otherwise
+  # accept while it resolves outside the directory it appears to sit in.
+  for planted in "src/pipd_ls_sp/validate.py" "schemas/TraceLink.schema.json" "skills/x/SKILL.md" "dist/old.whl" \
+                 ".hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/../evil.sh" \
+                 "docs/install/../../src/pipd_ls_sp/validate.py"; do
+    case "/$planted/" in */../*) echo "  PLANT_REFUSED_TRAVERSAL: $planted"; continue ;; esac
+    if printf '%s' "$planted" | grep -Eq "$ALLOWED" && ! printf '%s' "$planted" | grep -Eq "$DENIED"; then
+      echo "  PLANT_WOULD_BE_ACCEPTED: $planted"; bad=1
+    else
+      echo "  PLANT_REFUSED: $planted"
+    fi
+  done
+  for planted in "docs/install/PIPD_WEB_FALLBACK.md" "README.md" "docs/USER_GUIDE.md"; do
+    if printf '%s' "$planted" | grep -Eq "$DENIED" || ! printf '%s' "$planted" | grep -Eq "$ALLOWED"; then
+      echo "  PLANT_WOULD_BE_REFUSED: $planted"; bad=1
+    else
+      echo "  PLANT_ALLOWED: $planted"
+    fi
+  done
   if [ "$bad" -eq 0 ]; then
     echo "  WRITE_SET_CLEAN_AGAINST_${STAGE_B_BASE_SHA}"
   else
