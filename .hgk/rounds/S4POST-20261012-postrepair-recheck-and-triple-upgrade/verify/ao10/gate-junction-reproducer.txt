@@ -1,4 +1,0 @@
-SETUP in external clone only: PowerShell New-Item -ItemType Directory -Path <external-parent>,<clone>/gate-junction-target; New-Item -ItemType Junction -Path <external-parent>/hgk-lanes -Target <clone>/gate-junction-target
-export LANE_WT='/tmp/ao10-u9legwpj/subject' TMPDIR='/tmp/ao10-u9legwpj/junction-parent' CODEX_BIN='/tmp/ao10-u9legwpj/stub.sh' GATE_BIN='/tmp/ao10-u9legwpj/stub.sh' GATE_QUALIFY_RUNS=1 GATE_QUALIFY_ONLY=1
-bash "$LANE_WT/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/stage-b/run_lanes_gated.sh" EXECUTE brief_nt_a.md
-c=$?; echo SUBJECT_EXIT=$c; command git status --porcelain; find gate-junction-target -maxdepth 1 -type f -print; exit "$c"

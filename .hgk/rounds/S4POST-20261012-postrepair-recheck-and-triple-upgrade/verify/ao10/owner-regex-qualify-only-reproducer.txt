@@ -1,5 +1,0 @@
-unset MSYS_NO_PATHCONV MSYS2_ARG_CONV_EXCL BASH_ENV ENV
-export REL='.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade' LANE_WT='/tmp/ao10-u9legwpj/subject' TMPDIR='/tmp/ao10-u9legwpj/logs' CODEX_BIN='/tmp/ao10-u9legwpj/stub.sh' GATE_BIN='/tmp/ao10-u9legwpj/stub.sh' GATE_QUALIFY_RUNS=1
-S="$LANE_WT/$REL/stage-b"; L="$S/run_lane.sh"; G="$S/run_lanes_gated.sh"
-chmod +x "$CODEX_BIN"
-LANE_MODEL='.*' GATE_QUALIFY_ONLY=1 bash "$G" EXECUTE brief_nt_a.md; c=$?; echo SUBJECT_EXIT=$c; exit "$c"
