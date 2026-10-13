@@ -33,6 +33,7 @@
 | KANBAN | 盤 `s4post-r3-remedies`＋SWARM 圖（root `t_fc25bc79`、6 workers、verifier `t_e392ea37`、synthesizer `t_33a81182`） | `kanban/R3_BOARD_EVIDENCE.json` |
 | GSTACK | `named_methods.route()` 真實執行；14 項激活不變式**皆為 0** | `surface/GSTACK_R3_ROUTE_READBACK.json` |
 | OPENSPEC | 官方 CLI 驗證：`Change 's4post-triple-upgrade' is valid`；tasks.md 新增 R3 段落（未改動既有狀態） | `surface/OPENSPEC_R3_EVIDENCE.json`、`openspec/changes/s4post-triple-upgrade/tasks.md` |
+| **HGK admission（typed）** | 本回合 7 項義務以 canonical `ProjectLifecycleController.admit_requirement` 准入至專案 `PIPD-LS-SP-20261008`（`EXECUTING`）：`REQ-PIPD-R3-{FAR-001,EVIDENCE-002,CI-003,SURFACES-004,OWNER-005,PUBLISH-006,VERIFY-007}` → 各 `requirement_state=FROZEN`＋`TS-*`＋`WO-TS-*`，`errors=[]`，checkpoint `CK-20261008-3181EC0D` | `admission/hgk_r3_admission.py`、`admission/r3_admission.json` |
 
 ## 3. 驗收命令與預期輸出（在**匿名 clone** 內執行）
 
@@ -97,3 +98,16 @@ sha256sum /tmp/a.whl   # 應等於 Release API 的 digest（本輪已匿名驗�
 - 發布資產下載讀回：`verify/r3/RELEASE_ASSETS_READBACK.json`（5/5 相等）。
 - locator 檢查原始 JSON：`verify/tools/LOCATOR_CHECK_R3_POSITIVE.json`、`verify/ao12/LOCATOR_CHECK_AO12.json`。
 - GitHub 端（Actions／PR／release）**結果將記於 `R3_PR_ATTEMPT.md`**（同一分支後續提交），避免本文件綁定自身所處的 commit。
+
+## 9. HGK 准入（canonical，typed API）
+
+- 專案：`PIPD-LS-SP-20261008`，lifecycle state `EXECUTING`（可准入），run `RUN-DC744863`。
+- 以 `SharedSpine(hgk_root/var/shared-spine/hg-kseos.db, hgk_root/src/hg_kseos/schema.sql)` ＋
+  `ProjectLifecycleController.admit_requirement(...)` 准入 **7 項**義務（見上表），每項由 spine 生成
+  requirement（`FROZEN`）＋ taskspec ＋ workorder；`errors` 為 **空**；checkpoint 已建立。
+- 收據：`admission/r3_admission.json`；腳本：`admission/hgk_r3_admission.py`（照 R9–R11 既有形狀，
+  新 id 不動任何既有列）。
+
+**自曝的順序偏差（deviation）**：`REQ-PIPD-R3-SURFACES-004` 的文字要求「工作產物寫入前先跑准入」，
+但本回合實際上是在多數產物已寫入**之後**才補跑准入（retroactive admission）。此偏差已記錄，未粉飾；
+其後果是准入為事後凍結，而非事前授權。此點需 owner 知悉。
