@@ -58,6 +58,18 @@ python tools/build_web_fallback.py \
   --out PIPD_WEB_FALLBACK.md
 ```
 
+**The built document is committed**, so a reader with no shell can obtain it directly:
+
+| artefact | path | digest |
+|---|---|---|
+| the document | [`docs/install/PIPD_WEB_FALLBACK.md`](PIPD_WEB_FALLBACK.md) | `c88ddc49cfe5fb59fe1a713fdde4cfd6a06ed54cc5831885130e053ce990c2af` |
+| its digest file | [`docs/install/PIPD_WEB_FALLBACK.md.sha256`](PIPD_WEB_FALLBACK.md.sha256) | — |
+
+Rebuilding with the command above must reproduce those bytes exactly; the builder is deterministic
+and embeds no timestamp, so a mismatch is a real finding, not a race. The document's own header
+carries `release_id`, `release_commit`, `size_cap_bytes` and the per-member inventory — check those
+against the `.sha256` line before you rely on either file.
+
 The tool is fail-closed, not best-effort. It **refuses** (typed reason, non-zero exit) instead of
 warning, on `MANIFEST_DIGEST_MISMATCH`, `MEMBER_SYMLINK`, `PATH_ESCAPE`, `UNEXPECTED_EXTRA_FILE`,
 `RELEASE_STAMP_MISSING`, `MEMBER_NOT_TEXT`, `SIZE_CAP_EXCEEDED` (it never truncates) and

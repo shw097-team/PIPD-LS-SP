@@ -20,6 +20,7 @@ on:
       - ".github/workflows/public-plugin-verify.yml"
       - "README.md"
       - "docs/install/**"
+      - "docs/USER_GUIDE.md"
       - "docs/RELEASE_TUPLE.json"
       - "packaging/public-plugin/**"
       - "tools/freeze_public_plugin_source.py"
@@ -60,22 +61,47 @@ jobs:
         # is harmless, and dist/ is denied explicitly. Measured as AO-03 of the round's independent
         # acceptance challenge, which showed the earlier blacklist-only guard let dist/ and arbitrary
         # non-frozen paths through.
+        #
+        # S4R3-F002 REPAIR. The scope base is the DECLARED Stage B base, never the pull request's
+        # base. GitHub reports the base BRANCH tip, so when this branch is stacked on the Stage A
+        # repair branch but the PR is opened against main, the old
+        # `BASE="${PR_BASE_SHA:-${STACKED_BASE_SHA}}"` measured main...HEAD - i.e. it attributed
+        # every Stage A source change to the Stage B upgrade and failed on
+        # `tools/verify_evidence_digests.py`, then skipped the remaining steps. A Stage A change to
+        # src/**, schemas/** or a workflow is Stage A's responsibility under its own TaskSpec; it is
+        # not a Stage B write. The two ranges are now reported separately and the governed write set
+        # is Stage B's own.
         env:
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          # The fixed Stage-A tip this Stage-B branch is stacked on. Used only when the event does not
-          # carry a PR base (workflow_dispatch), so the whole stacked write set is examined.
-          STACKED_BASE_SHA: 52542c395a0f91dc2ba4bd6123acd4cdecd780dc
+          # DECLARED Stage B base: the frozen Stage A tip this distribution branch is stacked on.
+          STAGE_B_BASE_SHA: 517d7a5d3f00935e1589908f456dfacea8fd8a74
         run: |
           set -euo pipefail
-          BASE="${PR_BASE_SHA:-${STACKED_BASE_SHA}}"
+          BASE="${STAGE_B_BASE_SHA}"
           if ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then
-            echo "BASE_UNRESOLVED: ${BASE} is not present in this checkout; refusing to guess" >&2
+            echo "STAGE_B_BASE_UNRESOLVED: ${BASE} is not present in this checkout; refusing to guess" >&2
             exit 1
           fi
-          git merge-base --is-ancestor "$BASE" HEAD
+          if ! git merge-base --is-ancestor "${BASE}" HEAD; then
+            echo "STAGE_B_BASE_NOT_ANCESTOR: ${BASE} is not an ancestor of HEAD; the declared base does not belong to this subject" >&2
+            exit 1
+          fi
+          echo "=== upstream inventory (${PR_BASE_SHA:-none}...HEAD) : context, NOT the Stage B write set ==="
+          if [ -n "${PR_BASE_SHA}" ] && git cat-file -e "${PR_BASE_SHA}^{commit}" 2>/dev/null; then
+            git diff --name-status "${PR_BASE_SHA}...HEAD"
+          else
+            echo "(no pull request base on this event)"
+          fi
+          echo "=== governed Stage B write set (${BASE}...HEAD) ==="
           CHANGED="$(git diff --name-only "${BASE}...HEAD")"
-          printf '%s\n' "$CHANGED"
-          ALLOWED='^(packaging/public-plugin/|tools/freeze_public_plugin_source\.py$|tools/build_public_plugin\.py$|tools/build_web_fallback\.py$|tests/test_public_plugin_packaging\.py$|tests/test_web_fallback\.py$|docs/install/|docs/adr/|openspec/changes/s4post-triple-upgrade/|\.github/workflows/public-plugin-verify\.yml$|README\.md$|\.hgk/rounds/S4POST-20261012)'
+          if [ -z "${CHANGED}" ]; then
+            echo "STAGE_B_SCOPE_EMPTY: HEAD IS the declared Stage B base; this run therefore verifies"
+            echo "no Stage B write set at all. It is not a Stage B verification and must not be cited"
+            echo "as one - only the tree-level steps below say anything about this subject."
+          else
+            git diff --name-status "${BASE}...HEAD"
+          fi
+          ALLOWED='^(packaging/public-plugin/|tools/freeze_public_plugin_source\.py$|tools/build_public_plugin\.py$|tools/build_web_fallback\.py$|tests/test_public_plugin_packaging\.py$|tests/test_web_fallback\.py$|docs/install/|docs/USER_GUIDE\.md$|docs/adr/|openspec/changes/s4post-triple-upgrade/|\.github/workflows/public-plugin-verify\.yml$|README\.md$|\.hgk/rounds/S4POST-20261012|\.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/)'
           DENIED='^(skills/|src/|schemas/|dist/)'
           bad=0
           while IFS= read -r path; do
@@ -88,8 +114,25 @@ jobs:
               bad=1
             fi
           done <<< "$CHANGED"
+          # Self-test of the classifier ITSELF (the S4R3-F002 retest requirement: a repaired gate must
+          # demonstrably still refuse). Without this, a gate that accepts everything and a gate that
+          # refuses everything look the same from the outside.
+          for planted in "src/pipd_ls_sp/validate.py" "schemas/TraceLink.schema.json" "skills/pipd-core/SKILL.md" "dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl"; do
+            if printf '%s' "$planted" | grep -Eq "$ALLOWED" && ! printf '%s' "$planted" | grep -Eq "$DENIED"; then
+              echo "GATE_SELF_TEST_FAILED: ${planted} would have been ACCEPTED" >&2
+              exit 1
+            fi
+          done
+          echo "GATE_SELF_TEST_OK: planted src/**, schemas/**, skills/** and dist/** are all refused"
+          for planted in "docs/install/PIPD_WEB_FALLBACK.md" "docs/USER_GUIDE.md" "README.md" "packaging/public-plugin/plugin.json"; do
+            if printf '%s' "$planted" | grep -Eq "$DENIED" || ! printf '%s' "$planted" | grep -Eq "$ALLOWED"; then
+              echo "GATE_SELF_TEST_FAILED: ${planted} would have been REFUSED" >&2
+              exit 1
+            fi
+          done
+          echo "GATE_SELF_TEST_OK: planted stage-B artefacts are all allowed"
           if [ "$bad" -ne 0 ]; then
-            echo "WRITE_SET_VIOLATION (base ${BASE})" >&2
+            echo "WRITE_SET_VIOLATION (Stage B base ${BASE})" >&2
             exit 1
           fi
           echo "WRITE_SET_CLEAN_AGAINST_${BASE}"
