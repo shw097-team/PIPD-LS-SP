@@ -57,3 +57,27 @@ Receipts: `verify/VERDICT_*_A*.md` and `verify/invocation_VERIFY_SECURITY_a*.jso
 That any of this is verification of the repository. The lane audits the bundle it is handed (see
 `VERIFICATION_LANE_CAPABILITY_BOUNDARY.md`); a CONFIRMED verdict means the inline blocks settle the
 sub-claim, nothing more. Tree-level verification remains for the external acceptance officer.
+
+---
+
+## FAR round 2 (the F1 remedy): attempts 20-22
+
+| attempt | lane | purpose | outcome |
+|---|---|---|---|
+| 20 | EXECUTE | bounded writer: recommend a remedy for F1 from a packet carrying the measurement | served 10,484-byte draft; independently recommended the SAME option as the executed remedy, citing the same deciding measurement. Not treated as authority: the executor's plan was already formed from the measurement and the draft is recorded as corroboration |
+| 21 | VERIFY_SECURITY | audit bundle v1 (blocks: gate step, run log, measurement, provenance) | valid turn (rank 3, nonce, usage receipt). **R2/R3/R6 CONFIRMED; R1 REFUTED; R4/R5 INCONCLUSIVE** |
+| 22 | VERIFY_SECURITY | audit bundle v2 (corrected R1 wording; the two missing derivations carried) | valid turn (91.09 s, rank 3, nonce). **R1-R6 all CONFIRMED**, each citing the block text that decided it |
+
+### What attempt 21 REFUTED, and why that matters more than the reversal
+
+R1's v1 wording said "no allowlist entry was ADDED by this change". The checker read "this change" against
+the frozen subject, found `added: [docs/USER_GUIDE.md$]` in the measurement, and refuted the claim. The
+underlying fact was not wrong; MY WORDING WAS AMBIGUOUS about the comparison baseline, and an ambiguous
+claim is a defective claim. v1 also asked the checker to accept a necessity derivation it did not carry,
+and truncated its own pair diff at 400 chars - so R4 and R5 were INCONCLUSIVE on bundle defects, not on
+the remedy. Counted as class **E9 (bundle under-specification), which is now 5 instances this session**,
+all found by the checker and none by my own guards.
+
+Lesson recorded rather than narrated: a claim handed to a checker must name its comparison baseline
+explicitly, and any figure the claim depends on must be a carried block, not prose. The v2 bundle is what
+that rule produces; it also survives a stricter reading, which v1 did not.

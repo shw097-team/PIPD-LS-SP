@@ -1,0 +1,394 @@
+===== stage-a in s4r3a-wt (base env: e71fee6dd3aa/fix/s4r3-stage-a-ci-truthfulness-20261013) -> exit 0 =====
+=== governed stage-a write set (e71fee6dd3aa73724baec4e8d9cc72127fbe36ed...HEAD) ===
+.github/workflows/ci.yml
+.github/workflows/public-plugin-verify.yml
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/admission/s4r3_admission.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/01_SUBJECT/subject.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/02_LEDGER/R2_ATOM_LEDGER.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/02_LEDGER/R3_FAILURE_ROOT_CAUSE_MAP.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/02_LEDGER/R3_FINDING_LEDGER.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/ci_fault_injection.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/ctl_new_pipeline.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/ctl_old_pipeline.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_focused.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_cli_smoke_out.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/r3_github_raw_log_digests.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/r3_hosted_ci_failure_extract.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/r3_hosted_plugin_job_extract.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/skill_contracts_with_dep.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/win_after_focused.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/win_after_full.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/yaml_absent_negative.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/RAW_INDEX.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/hgk_s4r3_admission.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/assemble_stage_a_evidence.sh
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/build_indices.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/open_stage_prs.py
+MANIFEST.in
+examples/first-run/run.ps1
+examples/first-run/run.sh
+pyproject.toml
+setup.py
+src/pipd_ls_sp/workspace.py
+tests/test_standard_wheel_schemas.py
+tests/test_web_fallback.py
+tools/cli_smoke.py
+tools/verify_installed_wheel_registry.py
+EXCLUDED_BY_DECLARATION (^\.hgk/) from the governed PRODUCT write set: 23 path(s)
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/admission/s4r3_admission.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/01_SUBJECT/subject.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/02_LEDGER/R2_ATOM_LEDGER.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/02_LEDGER/R3_FAILURE_ROOT_CAUSE_MAP.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/02_LEDGER/R3_FINDING_LEDGER.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/ci_fault_injection.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/ctl_new_pipeline.log
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/ctl_old_pipeline.log
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_focused.log
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_cli_smoke_out.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/r3_github_raw_log_digests.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/r3_hosted_ci_failure_extract.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/r3_hosted_plugin_job_extract.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/skill_contracts_with_dep.log
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/win_after_focused.log
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/win_after_full.log
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/yaml_absent_negative.log
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/RAW_INDEX.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/hgk_s4r3_admission.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/assemble_stage_a_evidence.sh
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/build_indices.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/open_stage_prs.py
+GATE_SELF_TEST_OK: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/../evil.sh is refused as a traversal path
+GATE_SELF_TEST_OK: docs/install/../../src/pipd_ls_sp/validate.py is refused as a traversal path
+GATE_SELF_TEST_OK: planted frozen-path violations and unlisted src/** are all refused
+GATE_SELF_TEST_OK: the declared exclusion matches scaffolding only and no product path
+GATE_SELF_TEST_OK: planted stage-a artefacts are all allowed
+WRITE_SET_CLEAN_AGAINST_e71fee6dd3aa73724baec4e8d9cc72127fbe36ed
+===== stage-b in s4r3c-wt (base env: e71fee6dd3aa/fix/s4r3-stage-a-ci-truthfulness-20261013) -> exit 0 =====
+=== governed stage-b write set (759b9f0dc880b2f960363b2ceaa68446c770061d...HEAD) ===
+.github/workflows/public-plugin-verify.yml
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/HANDOVER_PACK_EXTERNAL_ACCEPTANCE.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/ROUND_RESULT_S4R3X.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/admission/s4r3x_admission.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/ALLOWLIST_MINIMUM_MEASUREMENT.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A11.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A12_A13_A14.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A7.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A8.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A9_A10.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_OUTCOME.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_ROOT_CAUSE_AND_ATTEMPT4.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C3_ALLOWLIST_BASELINE_DIFF.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C3_REFUSAL_RECEIPT_DISTILLED.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C3_REVISION_BINDING_RECEIPT.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C4_REFUSAL_TESTS_RUN.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C4_REPIN_AND_DECLARED_BASE.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C4_STAGE_B_REFUSAL_TESTS_SOURCE.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/CI_RUNS_AND_STEP_RECEIPTS.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/F006_RED_GREEN_RECEIPTS.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/FAMILY_IDENTITY_RECEIPT.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/FINDING_ALLOWLIST_WIDENED_VS_CLAIM.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GATE_BLOB_DIGESTS.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C1V2.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C1_C3.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C3E.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C3V2.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C3V3.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C1V2.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C1_C3.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C3E.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C3V2.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C3V3.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_SELFTEST_RECEIPT.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/HEAD_PROVENANCE_RECEIPT.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/LOCAL_FULL_SUITE_RECEIPTS.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/RECEIPT_PACK_C1_C2.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/SELF_CAUGHT_FALSE_GREEN.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/SUBJECTS.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/WRITE_SET_GATE_LOCAL_AND_CI.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/WRITE_SET_GATE_STEP.yml
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/guards/REAL_RECEIPT.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/writeset_gate_local_final.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/CITED_PATH_RESOLUTION.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/E8_DISPATCH_PARAM_ERROR.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/EXECUTE_STUDY_DRAFT.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/LANE_RUNS_FINAL_LEDGER.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/PLAN_LEG_DIVERGENCE.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/RETRIEVAL_CHANNEL_FINDING.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/ROUND_RESULT_FAR_DECISION_STUDY.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/VERIFICATION_LANE_CAPABILITY_BOUNDARY.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_c3e.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_v2.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_v3.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_v4.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_v5.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_c3e.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_v2.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_v3.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_v4.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_v5.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c1_colocated.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c1_v2.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_recut.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_v2.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_v3.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_v4.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3e_only.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/draft_sha256.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/far_admission.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/invocation_EXECUTE_a2.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/packet2_remediation.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/packet_execute.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt2_execute.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt_capability.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt_execute.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt_verify.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/EXECUTE_REMEDIATION_DRAFT.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/far2_admission.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/invocation_EXECUTE_a20.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/stderr_EXECUTE_a20.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/stdout_EXECUTE_a20.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/retrieval_ledger.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/stderr_EXECUTE_a2.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/stdout_EXECUTE_a2.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/CAPABILITY_PROBE_A6.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C1_COLOCATED_A7.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C1_COLOCATED_A9.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C1_V2_A11.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3E_A14.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3_RECUT_A10.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3_RECUT_A8.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3_V2_A12.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3_V3_A13.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_VERIFY_A5.md
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a10.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a11.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a12.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a13.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a14.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a3.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a4.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a5.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a6.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a7.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a8.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a9.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a10.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a11.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a12.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a13.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a14.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a3.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a4.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a5.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a6.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a7.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a8.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a9.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a10.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a11.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a12.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a13.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a14.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a3.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a4.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a5.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a6.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a7.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a8.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a9.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/hgk_s4r3x_admission.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/assemble_round_evidence.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/bundle_guards.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/collect_ci_step_evidence.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/far2_admission.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/far_admission.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/far_run_lane.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/fetch_job_log.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/make_receipt_pack.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/measure_allowlist_minimum.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/open_stageb_successor_pr.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/push_s4r3x_branches.sh
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/read_ci_for_sha.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/rem2_apply_gate_exclusion.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/report_family_identity.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_dryaudit.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_dryaudit2.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_f006.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_split_audit.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_writeset_gate_locally.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/splice_writeset_step.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/update_stageb_pr_body.py
+README.md
+docs/USER_GUIDE.md
+docs/install/PIPD_WEB_FALLBACK.md
+docs/install/PIPD_WEB_FALLBACK.md.sha256
+docs/install/README.md
+tests/test_public_plugin_packaging.py
+tools/build_public_plugin.py
+EXCLUDED_BY_DECLARATION (^\.hgk/) from the governed PRODUCT write set: 154 path(s)
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/HANDOVER_PACK_EXTERNAL_ACCEPTANCE.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/ROUND_RESULT_S4R3X.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/admission/s4r3x_admission.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/ALLOWLIST_MINIMUM_MEASUREMENT.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A11.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A12_A13_A14.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A7.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A8.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A9_A10.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_OUTCOME.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_ROOT_CAUSE_AND_ATTEMPT4.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C3_ALLOWLIST_BASELINE_DIFF.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C3_REFUSAL_RECEIPT_DISTILLED.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C3_REVISION_BINDING_RECEIPT.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C4_REFUSAL_TESTS_RUN.log
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C4_REPIN_AND_DECLARED_BASE.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C4_STAGE_B_REFUSAL_TESTS_SOURCE.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/CI_RUNS_AND_STEP_RECEIPTS.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/F006_RED_GREEN_RECEIPTS.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/FAMILY_IDENTITY_RECEIPT.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/FINDING_ALLOWLIST_WIDENED_VS_CLAIM.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GATE_BLOB_DIGESTS.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C1V2.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C1_C3.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C3E.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C3V2.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C3V3.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C1V2.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C1_C3.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C3E.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C3V2.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C3V3.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_SELFTEST_RECEIPT.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/HEAD_PROVENANCE_RECEIPT.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/LOCAL_FULL_SUITE_RECEIPTS.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/RECEIPT_PACK_C1_C2.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/SELF_CAUGHT_FALSE_GREEN.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/SUBJECTS.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/WRITE_SET_GATE_LOCAL_AND_CI.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/WRITE_SET_GATE_STEP.yml
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/guards/REAL_RECEIPT.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/writeset_gate_local_final.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/CITED_PATH_RESOLUTION.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/E8_DISPATCH_PARAM_ERROR.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/EXECUTE_STUDY_DRAFT.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/LANE_RUNS_FINAL_LEDGER.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/PLAN_LEG_DIVERGENCE.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/RETRIEVAL_CHANNEL_FINDING.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/ROUND_RESULT_FAR_DECISION_STUDY.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/VERIFICATION_LANE_CAPABILITY_BOUNDARY.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_c3e.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_v2.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_v3.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_v4.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_v5.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_c3e.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_v2.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_v3.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_v4.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_v5.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c1_colocated.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c1_v2.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_recut.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_v2.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_v3.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_v4.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3e_only.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/draft_sha256.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/far_admission.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/invocation_EXECUTE_a2.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/packet2_remediation.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/packet_execute.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt2_execute.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt_capability.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt_execute.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt_verify.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/EXECUTE_REMEDIATION_DRAFT.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/far2_admission.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/invocation_EXECUTE_a20.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/stderr_EXECUTE_a20.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/stdout_EXECUTE_a20.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/retrieval_ledger.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/stderr_EXECUTE_a2.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/stdout_EXECUTE_a2.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/CAPABILITY_PROBE_A6.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C1_COLOCATED_A7.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C1_COLOCATED_A9.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C1_V2_A11.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3E_A14.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3_RECUT_A10.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3_RECUT_A8.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3_V2_A12.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3_V3_A13.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_VERIFY_A5.md
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a10.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a11.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a12.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a13.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a14.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a3.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a4.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a5.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a6.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a7.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a8.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a9.json
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a10.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a11.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a12.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a13.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a14.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a3.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a4.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a5.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a6.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a7.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a8.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a9.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a10.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a11.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a12.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a13.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a14.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a3.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a4.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a5.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a6.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a7.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a8.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a9.txt
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/hgk_s4r3x_admission.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/assemble_round_evidence.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/bundle_guards.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/collect_ci_step_evidence.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/far2_admission.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/far_admission.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/far_run_lane.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/fetch_job_log.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/make_receipt_pack.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/measure_allowlist_minimum.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/open_stageb_successor_pr.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/push_s4r3x_branches.sh
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/read_ci_for_sha.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/rem2_apply_gate_exclusion.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/report_family_identity.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_dryaudit.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_dryaudit2.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_f006.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_split_audit.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_writeset_gate_locally.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/splice_writeset_step.py
+  excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/update_stageb_pr_body.py
+GATE_SELF_TEST_OK: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/../evil.sh is refused as a traversal path
+GATE_SELF_TEST_OK: docs/install/../../src/pipd_ls_sp/validate.py is refused as a traversal path
+GATE_SELF_TEST_OK: planted frozen-path violations and unlisted src/** are all refused
+GATE_SELF_TEST_OK: the declared exclusion matches scaffolding only and no product path
+GATE_SELF_TEST_OK: planted stage-b artefacts are all allowed
+WRITE_SET_CLEAN_AGAINST_759b9f0dc880b2f960363b2ceaa68446c770061d
+
+2/2 gate runs clean

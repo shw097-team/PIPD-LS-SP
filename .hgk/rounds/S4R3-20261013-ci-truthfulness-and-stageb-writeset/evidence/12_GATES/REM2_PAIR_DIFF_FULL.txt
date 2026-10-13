@@ -1,0 +1,17 @@
+# The two copies of the gate file, full unified diff, nothing truncated.
+Stage A copy: worktrees/s4r3a-wt/.github/workflows/public-plugin-verify.yml
+Stage B copy: worktrees/s4r3c-wt/.github/workflows/public-plugin-verify.yml
+
+diff --git "a/C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4r3a-wt\\.github\\workflows\\public-plugin-verify.yml" "b/C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4r3c-wt\\.github\\workflows\\public-plugin-verify.yml"
+index 67d52d9..9197ef7 100644
+--- "a/C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4r3a-wt\\.github\\workflows\\public-plugin-verify.yml"
++++ "b/C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4r3c-wt\\.github\\workflows\\public-plugin-verify.yml"
+@@ -98,7 +98,7 @@ jobs:
+           # Which stage this branch IS. This single line is the ONLY difference between the Stage A
+           # and Stage B copies of this file; flipping it must never be combined with a new file added
+           # to the allowlist in the same commit, or the pair stops being reviewable.
+-          STAGE: stage-a
++          STAGE: stage-b
+           # Stage A's declared base: the frozen R3 subject the external acceptance report examined.
+           STAGE_A_BASE_SHA: e71fee6dd3aa73724baec4e8d9cc72127fbe36ed
+           # Stage B's declared base: the Stage A tip that Stage B is stacked on. Taken by ref so it
