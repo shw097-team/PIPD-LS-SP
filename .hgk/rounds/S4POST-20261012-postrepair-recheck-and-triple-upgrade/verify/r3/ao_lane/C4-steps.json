@@ -1,0 +1,11 @@
+[
+  "git clone --branch feat/s4post-triple-upgrade-20261013-r3 \\\n    https://github.com/shw097-team/PIPD-LS-SP.git /tmp/r3 && cd /tmp/r3",
+  "R=.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade",
+  "python -V",
+  "python -m unittest discover -s tests -p 'test_s4ext_*.py' -v",
+  "python -m unittest discover -s tests -t . -v",
+  "cd \"$R\"",
+  "python verify/tools/check_evidence_locators.py --root . --search-dir . \\\n    verify/ao12/EXTERNAL_CHALLENGE_REPORT.md",
+  "python \"$R/verify/tools/check_evidence_locators.py\" --root . --search-dir . \\\n    \"$R/OWNER_ACTION_REQUEST.md\" \"$R/HARNESS_FREEZE_AND_AO_LOOP_CAP.md\"",
+  "cd /tmp/r3"
+]
