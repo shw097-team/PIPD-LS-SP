@@ -1,0 +1,83 @@
+{
+  "head": "910823a4d5eff79fcd1d74d3e7fdbcb1d1bd8213",
+  "stage": "stage-b",
+  "bases": {
+    "STAGE_A_BASE_SHA": "e71fee6dd3aa73724baec4e8d9cc72127fbe36ed",
+    "STAGE_B_BASE_REF": "fix/s4r3-stage-a-ci-truthfulness-20261013"
+  },
+  "resolved_base": "759b9f0dc880b2f960363b2ceaa68446c770061d",
+  "active_allowlist": {
+    "line": 135,
+    "kind": "ALLOWED",
+    "regex": "(packaging/public-plugin/|tools/freeze_public_plugin_source\\.py$|tools/build_public_plugin\\.py$|tools/build_web_fallback\\.py$|tests/test_public_plugin_packaging\\.py$|tests/test_web_fallback\\.py$|docs/install/|docs/USER_GUIDE\\.md$|docs/adr/|openspec/changes/s4post-triple-upgrade/|\\.github/workflows/public-plugin-verify\\.yml$|README\\.md$)"
+  },
+  "active_denied": {
+    "line": 136,
+    "kind": "DENIED",
+    "regex": "(skills/|src/|schemas/|dist/)"
+  },
+  "declared_exclusion": "^\\.hgk/",
+  "counts": {
+    "changed": 151,
+    "excluded": 143,
+    "unlisted_product": 0,
+    "denied_product": 0
+  },
+  "product_rows": [
+    {
+      "path": ".github/workflows/public-plugin-verify.yml",
+      "verdict": "ALLOWED"
+    },
+    {
+      "path": "README.md",
+      "verdict": "ALLOWED"
+    },
+    {
+      "path": "docs/USER_GUIDE.md",
+      "verdict": "ALLOWED"
+    },
+    {
+      "path": "docs/install/PIPD_WEB_FALLBACK.md",
+      "verdict": "ALLOWED"
+    },
+    {
+      "path": "docs/install/PIPD_WEB_FALLBACK.md.sha256",
+      "verdict": "ALLOWED"
+    },
+    {
+      "path": "docs/install/README.md",
+      "verdict": "ALLOWED"
+    },
+    {
+      "path": "tests/test_public_plugin_packaging.py",
+      "verdict": "ALLOWED"
+    },
+    {
+      "path": "tools/build_public_plugin.py",
+      "verdict": "ALLOWED"
+    }
+  ],
+  "net_allowlist_change": {
+    "frozen subject": {
+      "added": [
+        "docs/USER_GUIDE\\.md$"
+      ],
+      "removed": [
+        "\\.hgk/rounds/S4POST-20261012"
+      ]
+    },
+    "previous head 35a68f0": {
+      "added": [],
+      "removed": [
+        "\\.hgk/rounds/S4POST-20261012",
+        "\\.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/"
+      ]
+    }
+  },
+  "docs_product_paths": [
+    "docs/USER_GUIDE.md",
+    "docs/install/PIPD_WEB_FALLBACK.md",
+    "docs/install/PIPD_WEB_FALLBACK.md.sha256",
+    "docs/install/README.md"
+  ]
+}
