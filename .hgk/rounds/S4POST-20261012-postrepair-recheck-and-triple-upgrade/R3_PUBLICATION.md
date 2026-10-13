@@ -6,17 +6,13 @@
 
 ## 1. 受驗主體（哪兩個分支、哪個 sha）
 
-| 角色 | 分支 | tip | 內容 |
-|---|---|---|---|
-| **產品變更集**（建議的受驗主體） | `feat/s4post-triple-upgrade-20261013-r3` | `5df5a3f0f41a15027f06f8a5d9b9c16755cca566` | 產品面（`packaging/`、`tools/`、`tests/`、`docs/install/`、`README.md`、`.github/`）＋本回合的驗收面向文件 |
-| **驗證載具與其證據** | `chore/s4post-verification-harness` | `9863c5552190c4100837df7c7dcd182229346d47` | 本回合的載具（`stage-b/`）與其 12 輪中間驗收 bundle（`verify/ao*/`、`verify/harness/`、`checkpoint/`） |
-| 前次已發布線 | `feat/s4post-triple-upgrade-20261012-r2` | `9863c555…`（由 `2fc17c0…` **快進**） | 保留原分支名並前移，非強制推送 |
+### 綁定說明（本文件**不**綁定自身所在的 commit）
 
-`main` 仍為 `224591431a164ab72a9423cd180e417e8a762403`（**未動**）；三個發布 tag（`v0.1.0-preview.1/2`、`v0.1.1-preview.3`）**未動**。
-
-**為何切成兩個分支（FAR R2）**：先前的變更集相對 `main` 有 **1,239 個變更檔**，其中 **1,119 檔（90%）是本回合自建的驗證載具與中間 bundle**。
-治理文件對此有逐字禁令——裁決 §0 總裁定：*「不批准把 CI、Agentic Harness 或風險系統全面擴建」*，且藍圖 INV-01 要求 ONE CHANGESET、A42 要求最小寫入足跡。
-切分後**產品變更集為 120 檔**，載具獨立成支。**哪一支是受驗主體屬 owner 裁決**（見 §7 D3）。
+- **受驗 commit（送驗基準）**：`3ec55572594e`（product 支 `feat/s4post-triple-upgrade-20261013-r3`，於 2026-10-13 送驗時讀取）；
+  載具支 `chore/s4post-verification-harness` 同期為 `c7b560022b71`。
+- 本文件本身是**其後的證據／文件提交**。一個記錄 `as_of = HEAD` 的檔案**不可能**等於它所處的 commit
+  （寫入該值就會改動它該命名的那個 commit）——**此為設計，不是缺陷**。
+- 因此：**驗收請綁定你要驗的那個 commit，而非分支 tip**；最新 tip 以 `git log --oneline -1` 取得即可。
 
 ## 2. 本輪改了什麼（R1–R8 與四個治理表面）
 
@@ -35,24 +31,40 @@
 | OPENSPEC | 官方 CLI 驗證：`Change 's4post-triple-upgrade' is valid`；tasks.md 新增 R3 段落（未改動既有狀態） | `surface/OPENSPEC_R3_EVIDENCE.json`、`openspec/changes/s4post-triple-upgrade/tasks.md` |
 | **HGK admission（typed）** | 本回合 7 項義務以 canonical `ProjectLifecycleController.admit_requirement` 准入至專案 `PIPD-LS-SP-20261008`（`EXECUTING`）：`REQ-PIPD-R3-{FAR-001,EVIDENCE-002,CI-003,SURFACES-004,OWNER-005,PUBLISH-006,VERIFY-007}` → 各 `requirement_state=FROZEN`＋`TS-*`＋`WO-TS-*`，`errors=[]`，checkpoint `CK-20261008-3181EC0D` | `admission/hgk_r3_admission.py`、`admission/r3_admission.json` |
 
-## 3. 驗收命令與預期輸出（在**匿名 clone** 內執行）
+## 3. 驗收命令與預期輸出（在**匿名 clone** 內執行；可直接複製）
+
+**前提**：**不可**加 `--depth`（4 個 provenance 測試會讀取 tag 與歷史）。
 
 ```bash
 git clone --branch feat/s4post-triple-upgrade-20261013-r3 \
     https://github.com/shw097-team/PIPD-LS-SP.git /tmp/r3 && cd /tmp/r3
-python -V                                  # 3.11+
+R=.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade
+python -V
 python -m unittest discover -s tests -p 'test_s4ext_*.py' -v
-#   預期：Ran 108 tests ... OK              (exit 0)
+#   實測：Ran 108 tests ... OK                                (exit 0)
 python -m unittest discover -s tests -t . -v
-#   預期：Ran 572 tests in ~210s ... OK (skipped=3)   (exit 0)
+#   實測：Ran 572 tests ... OK (skipped=3 本機 / 4 獨立第三方環境)  (exit 0)
+#   skip 數隨環境而異（第三方多 1 個 skip），非缺陷
+
+cd "$R"
 python verify/tools/check_evidence_locators.py --root . --search-dir . \
     verify/ao12/EXTERNAL_CHALLENGE_REPORT.md
-#   預期：exit 2，verdict FAIL_LOCATORS_NOT_RERUNNABLE（這是 R6 的**負向對照**，FAIL 是正確結果）
-python verify/tools/check_evidence_locators.py --root . --search-dir . \
+#   實測：exit 2 / FAIL_LOCATORS_NOT_RERUNNABLE —— R6 的**負向對照**，FAIL 是正確結果
+python verify/tools/check_evidence_locators.py --root . --search-dir . --search-dir ../.. \
     OWNER_ACTION_REQUEST.md HARNESS_FREEZE_AND_AO_LOOP_CAP.md
-#   預期：exit 0，verdict PASS_LOCATORS_IN_TREE
-npx --no-install openspec validate s4post-triple-upgrade --strict
-#   預期：Change 's4post-triple-upgrade' is valid
+#   實測（於**產品分支內容**，非含載具的工作樹）：exit 0 / PASS_LOCATORS_IN_TREE
+#   兩個 --search-dir 是必要的：這些文件同時引用「回合相對」與「repo 根相對」定位。
+#   逐支結果見 verify/tools/LOCATOR_CHECK_R3_POSITIVE.json 的 per_subject 欄位。
+#   注意：**不要把本文件（R3_PUBLICATION.md）放進這個對照**——它含 shell 指令，
+#   指令中的 URL 與 /tmp 路徑不是檔案定位，檢查器會（正確地）拒絕它們。
+cd /tmp/r3
+```
+
+**OpenSpec（需本機已安裝 CLI）**：匿名 clone 內沒有 `node_modules`，`npx --no-install openspec`
+因此無法解析——本輪的原始驗證輸出已存檔，直接讀取即可：
+
+```bash
+cat "$R/surface/OPENSPEC_R3_EVIDENCE.json"   # 內含 `Change 's4post-triple-upgrade' is valid` 原始輸出
 ```
 
 新發布資產的獨立下載驗算（**不是**只讀 API 的 `digest` 欄位）：
@@ -107,7 +119,9 @@ sha256sum /tmp/a.whl   # 應等於 Release API 的 digest（本輪已匿名驗�
 
 ## 8. 附錄：本輪的原始結果與 PR 嘗試
 
-- 測試原始 log：`verify/r3/raw/focused.log`（sha256 `88d8db81…`）、`verify/r3/raw/full.log`（sha256 `185a6177…`）。
+- 測試原始 log：`verify/r3/raw/focused.log`、`verify/r3/raw/full.log`。**兩種 sha256 皆記錄**（獨立第三方指出差異）：
+  **worktree/EOL 形態**（原記錄，含 CRLF）：`88d8db81…` / `185a6177…`；
+  **版控 blob 形態**（`.gitattributes` `* text=auto eol=lf` 正規化後，可由 clone 重算）：保留於 `evidence/EVIDENCE_RETURN_PACK.json` 的 `log_sha256_committed_blob`。
 - 發布資產下載讀回：`verify/r3/RELEASE_ASSETS_READBACK.json`（5/5 相等）。
 - locator 檢查原始 JSON：`verify/tools/LOCATOR_CHECK_R3_POSITIVE.json`、`verify/ao12/LOCATOR_CHECK_AO12.json`。
 - **GitHub 端結果**：PR **#2**（draft）＋三條分支 `ci` 全綠＋`public-plugin-verify` 紅（scope），
