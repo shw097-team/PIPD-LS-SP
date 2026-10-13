@@ -83,6 +83,30 @@ jobs:
           "$RUNNER_TEMP/wheelvenv/bin/pipd" doctor | tee "$GITHUB_WORKSPACE/wheel-doctor.log"
           "$RUNNER_TEMP/wheelvenv/bin/pipd" --help | tee "$GITHUB_WORKSPACE/wheel-cli-help.log"
 
+      - name: The installed wheel resolves its OWN contract registry (S4R3-F006)
+        # F006 was a P0: `python -m build` produced a wheel with NO `pipd_ls_sp/schemas/` because the
+        # canonical `schemas/` tree lives at the repository root, outside the package directory, and
+        # `package-data` cannot reach there. `pipd doctor` in a clean venv then reported `mode=NONE`
+        # and exited 1. The fix is the `build_py` hook in setup.py; this step is the gate that keeps it
+        # fixed. Asserting merely that the command exited 0 is NOT enough -- a wheel that resolves from
+        # a leftover SOURCE checkout would pass that. The mode must be INSTALLED.
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import pathlib
+          doc = json.loads(pathlib.Path("wheel-doctor.log").read_text(encoding="utf-8"))
+          assert doc.get("verdict") == "PASS", f"doctor did not PASS: {doc.get('findings')}"
+          mode = (doc.get("schema_source") or {}).get("mode")
+          assert mode == "INSTALLED", (
+              "the installed wheel did not resolve its own packaged registry "
+              f"(mode={mode!r}); it must ship schemas/ (S4R3-F006)")
+          families = doc.get("families")
+          assert isinstance(families, dict) and len(families) == 19, (
+              f"expected the 19 declared families from the packaged registry, got {families!r}")
+          print(f"installed-wheel contract registry: mode={mode} families={len(families)}")
+          PY
+
       - name: Provenance gate is green before it is tested
         # S4R3-F001: this step used `... | tail -3`, which hid the gate's own exit code. The log is
         # captured first and only then tailed.
