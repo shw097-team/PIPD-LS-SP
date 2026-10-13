@@ -62,3 +62,11 @@
 - 未主張：`BUILD_PASS`／`LOCAL_HOST_QUALIFIED`／`PORTAL_APPROVED`／`PUBLISHED`／`PRODUCTION_VERIFIED`／`PIPD_S4_FULL_PASS`。
 - 未執行：任何 `main` 推送、force push、tag 異動、merge、已發布資產替換。
 - 已揭露的自身缺陷：見 `HARNESS_DEFECT_LOG.md`（載具分支）。載具支 `chore/s4post-verification-harness` 內 與 `verify/far/FAR_S4POST_DEVIATION_AND_REMEDIES_20261013.md`（含本回合 FAR 對自身載具超建之偏離判定 DEV-01）。
+
+---
+
+## 12. 更新（2026-10-13，maker）— C1 的「已下載」半邊已閉合
+
+- **`C1 REAL_VENDOR_SCHEMA`｜「官方 schema 實際下載」＝已閉合（evidence level）**：匿名 GET `https://agent-plugins.org/schemas/1.0.0/plugin.schema.json` → HTTP 200、**1,805 bytes**、sha256 `0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883`，與樹內 `packaging/public-plugin/vendor-plugin.schema.json` **逐位元相同**。存證：`verify/r3/C1_VENDOR_SCHEMA_PROVENANCE.json`。
+- **仍缺（owner）**：`A2` 把該 digest 釘選進 `plugin.json`（此為釘選動作，非下載）。
+- 連帶：FAR 研究 `verify/far/FAR_OPEN_ITEMS_ADJUDICATION_20261013.md`；TT 登記簿更新 `00_plan/TT_S4POST_REGISTER.tsv`。

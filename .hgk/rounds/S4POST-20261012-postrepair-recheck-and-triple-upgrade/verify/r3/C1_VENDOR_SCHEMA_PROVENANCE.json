@@ -1,0 +1,22 @@
+{
+ "schema": "PIPD-R3-EXTERNAL-EVIDENCE/1",
+ "item": "C1 REAL_VENDOR_SCHEMA",
+ "what_this_closes": "The 'official vendor schema actually downloaded' half of C1. What remains owner-side is only A2 (pinning that digest into plugin.json).",
+ "fetched_url": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+ "fetched_at_utc": "2026-10-13T01:59:29+00:00",
+ "http_status": 200,
+ "bytes": 1805,
+ "sha256": "0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883",
+ "in_tree_path": "packaging/public-plugin/vendor-plugin.schema.json",
+ "in_tree_bytes": 1805,
+ "in_tree_sha256": "0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883",
+ "bytes_equal": true,
+ "sha256_equal": true,
+ "server_headers_subset": {
+  "content-type": null,
+  "etag": null,
+  "last-modified": null
+ },
+ "conclusion": "The vendored schema in the candidate IS byte-identical to the live official vendor document at the pinned $id. The earlier CR-F02-SCHEMA-LOCK finding ('vendor schema bytes not downloaded / not locked') is therefore closed at the EVIDENCE level; only the digest pin into plugin.json (owner input A2) remains.",
+ "method": "anonymous GET with a plain User-Agent; sha256 computed on the received bytes and on the committed blob; no credential used."
+}
