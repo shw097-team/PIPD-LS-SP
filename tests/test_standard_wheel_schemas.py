@@ -245,5 +245,94 @@ class StandardBuildTests(unittest.TestCase):
                                 "without the build hook the packaged surface must not resolve")
 
 
+class InstalledRegistryGateTests(unittest.TestCase):
+    """The S4R3-F006 gate as CI actually runs it: tools/verify_installed_wheel_registry.py.
+
+    These exist because the first version of that gate lived only inside `.github/workflows/ci.yml`
+    and asserted that the doctor's `families` was a dict when `workspace.doctor` reports the family
+    COUNT as an int. Nothing local executed it, so the type error was invisible until the hosted run
+    went red. A gate is only worth its green if a workstation can turn it red on purpose.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        available, reason = _toolchain_available()
+        if not available:
+            raise unittest.SkipTest(f"standard-wheel build not exercised here: {reason}")
+        cls._tmp = tempfile.TemporaryDirectory()
+        root = Path(cls._tmp.name)
+        tree = root / "tree"
+        tree.mkdir()
+        _stage_inputs(tree)
+        completed = _build_wheel(tree, root / "dist")
+        if completed.returncode != 0:
+            cls._tmp.cleanup()
+            raise AssertionError(f"python -m build --wheel failed:\n{completed.stdout}\n{completed.stderr}")
+        wheels = sorted((root / "dist").glob("*.whl"))
+        assert len(wheels) == 1, wheels
+        probe = _probe_installed_surface(wheels[0])
+        cls.doc = {"verdict": "PASS", "schema_source": probe["source"], "families": probe["families"]}
+        cls.tmpdir = root
+
+    @classmethod
+    def tearDownClass(cls):
+        cls._tmp.cleanup()
+
+    def _run_tool(self, doc, *extra: str):
+        with tempfile.TemporaryDirectory() as raw:
+            path = Path(raw) / "doctor.json"
+            path.write_text(json.dumps(doc), encoding="utf-8")
+            return subprocess.run(
+                [sys.executable, str(ROOT / "tools" / "verify_installed_wheel_registry.py"),
+                 str(path), *extra],
+                capture_output=True, text=True)
+
+    def test_the_real_installed_probe_satisfies_the_gate(self):
+        """The unmutated document the wheel really produces must pass, with the checkout denied."""
+        completed = self._run_tool(self.doc, "--expect-families", "19", "--deny-prefix", str(ROOT))
+        self.assertEqual(completed.returncode, 0, f"{completed.stdout}\n{completed.stderr}")
+        self.assertIn("mode=INSTALLED", completed.stdout)
+        self.assertIn("families=19", completed.stdout)
+
+    def test_the_gate_refuses_a_families_mapping(self):
+        """The exact mutation that made the first version of this gate fail for the wrong reason."""
+        doc = dict(self.doc, families={"01": "PrimeItem"})
+        completed = self._run_tool(doc, "--expect-families", "19")
+        self.assertNotEqual(completed.returncode, 0)
+        self.assertIn("DOCTOR_FAMILIES_TYPE", completed.stderr)
+
+    def test_the_gate_refuses_a_boolean_family_count(self):
+        # `True == 1` in Python, so a bool must be rejected by type, not by value.
+        completed = self._run_tool(dict(self.doc, families=True), "--expect-families", "1")
+        self.assertNotEqual(completed.returncode, 0)
+        self.assertIn("DOCTOR_FAMILIES_TYPE", completed.stderr)
+
+    def test_the_gate_refuses_a_wrong_family_count(self):
+        completed = self._run_tool(dict(self.doc, families=18), "--expect-families", "19")
+        self.assertNotEqual(completed.returncode, 0)
+        self.assertIn("DOCTOR_FAMILIES", completed.stderr)
+
+    def test_the_gate_refuses_a_source_mode_resolution(self):
+        doc = dict(self.doc, schema_source=dict(self.doc["schema_source"], mode="SOURCE"))
+        completed = self._run_tool(doc, "--expect-families", "19")
+        self.assertNotEqual(completed.returncode, 0)
+        self.assertIn("DOCTOR_SCHEMA_MODE", completed.stderr)
+
+    def test_the_gate_refuses_a_non_pass_verdict(self):
+        completed = self._run_tool(dict(self.doc, verdict="FAIL"), "--expect-families", "19")
+        self.assertNotEqual(completed.returncode, 0)
+        self.assertIn("DOCTOR_VERDICT", completed.stderr)
+
+    def test_the_gate_refuses_a_resolution_inside_the_checkout(self):
+        """mode=INSTALLED is not proof on its own: say where the schemas actually came from."""
+        doc = dict(self.doc, schema_source=dict(self.doc["schema_source"], path=str(ROOT / "schemas")))
+        completed = self._run_tool(doc, "--expect-families", "19", "--deny-prefix", str(ROOT))
+        self.assertNotEqual(completed.returncode, 0)
+        self.assertIn("DOCTOR_SCHEMA_PATH_IN_CHECKOUT", completed.stderr)
+        # ... and the same document passes when the checkout is not the denied prefix.
+        ok = self._run_tool(doc, "--expect-families", "19", "--deny-prefix", str(self.tmpdir / "nowhere"))
+        self.assertEqual(ok.returncode, 0, ok.stderr)
+
+
 if __name__ == "__main__":  # pragma: no cover
     unittest.main(verbosity=2)

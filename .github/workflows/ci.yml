@@ -90,22 +90,19 @@ jobs:
         # and exited 1. The fix is the `build_py` hook in setup.py; this step is the gate that keeps it
         # fixed. Asserting merely that the command exited 0 is NOT enough -- a wheel that resolves from
         # a leftover SOURCE checkout would pass that. The mode must be INSTALLED.
+        #
+        # The assertions live in tools/verify_installed_wheel_registry.py, not in this file. The first
+        # version of this gate was inline here and asserted that the doctor's `families` was a dict,
+        # when `workspace.doctor` reports the family COUNT as an int: the type error could not be seen
+        # locally because the gate never ran locally, and it made the hosted run red for a reason that
+        # had nothing to do with the product. The tool is exercised by
+        # tests/test_standard_wheel_schemas.py against the real doctor output AND against mutated
+        # copies, so the gate is falsifiable on a workstation.
         run: |
           set -euo pipefail
-          python - <<'PY'
-          import json
-          import pathlib
-          doc = json.loads(pathlib.Path("wheel-doctor.log").read_text(encoding="utf-8"))
-          assert doc.get("verdict") == "PASS", f"doctor did not PASS: {doc.get('findings')}"
-          mode = (doc.get("schema_source") or {}).get("mode")
-          assert mode == "INSTALLED", (
-              "the installed wheel did not resolve its own packaged registry "
-              f"(mode={mode!r}); it must ship schemas/ (S4R3-F006)")
-          families = doc.get("families")
-          assert isinstance(families, dict) and len(families) == 19, (
-              f"expected the 19 declared families from the packaged registry, got {families!r}")
-          print(f"installed-wheel contract registry: mode={mode} families={len(families)}")
-          PY
+          python tools/verify_installed_wheel_registry.py wheel-doctor.log \
+            --expect-families 19 \
+            --deny-prefix "${GITHUB_WORKSPACE}"
 
       - name: Provenance gate is green before it is tested
         # S4R3-F001: this step used `... | tail -3`, which hid the gate's own exit code. The log is
