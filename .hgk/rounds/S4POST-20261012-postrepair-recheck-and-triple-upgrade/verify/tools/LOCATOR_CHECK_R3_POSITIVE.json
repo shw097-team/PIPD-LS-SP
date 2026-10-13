@@ -1,16 +1,31 @@
 {
- "schema": "HGK-EVIDENCE-LOCATOR-CHECK/1",
- "root": "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt",
- "search_dirs": [
-  "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt",
-  "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\\.hgk\\rounds\\S4POST-20261012-postrepair-recheck-and-triple-upgrade"
+ "schema": "PIPD-R3-LOCATOR-CONTROL/2",
+ "tool": "verify/tools/check_evidence_locators.py",
+ "why": "A locator that only resolves inside a reviewer's private tree is not independently re-runnable (FAR R6).",
+ "per_subject": [
+  {
+   "subject": "product branch content (README/product docs; measured via git archive of the product tip, NOT the shared worktree)",
+   "command": "check_evidence_locators.py --root . --search-dir . --search-dir ../.. OWNER_ACTION_REQUEST.md HARNESS_FREEZE_AND_AO_LOOP_CAP.md",
+   "exit": 2,
+   "verdict": "FAIL_LOCATORS_NOT_RERUNNABLE"
+  },
+  {
+   "subject": "AO12 external challenge bundle (negative control)",
+   "command": "check_evidence_locators.py --root . --search-dir . verify/ao12/EXTERNAL_CHALLENGE_REPORT.md",
+   "exit": 2,
+   "verdict": "FAIL_LOCATORS_NOT_RERUNNABLE",
+   "offender_classes": [
+    "external temp root unreadable by the maker",
+    "the canonical challenge-review lane's own contract lives OUTSIDE the tree"
+   ]
+  }
  ],
- "verdict": "PASS_LOCATORS_IN_TREE",
- "counts": {
-  "RESOLVES_IN_TREE": 11,
-  "EXTERNAL_ONLY": 0,
-  "UNRESOLVABLE": 0,
-  "SHORTHAND_BARE_NAME": 13
- },
- "offenders": []
+ "correction_note": "An earlier single-subject control recorded PASS_LOCATORS_IN_TREE=11 measured in the WORKTREE, which carries both branches' content; that tree is not the published subject. Re-measured per subject here, and the freeze document's harness-branch-only locators were relabelled so the product subject no longer cites paths it does not contain. Raised by the independent third-party verification.",
+ "raw_output_tail": [
+  "{\"verdict\": \"FAIL_LOCATORS_NOT_RERUNNABLE\", \"counts\": {\"RESOLVES_IN_TREE\": 4, \"EXTERNAL_ONLY\": 0, \"UNRESOLVABLE\": 4, \"SHORTHAND_BARE_NAME\": 13}}",
+  "  UNRESOLVABLE   packaging/public-plugin/OWNER_INPUT_REQUIRED.json",
+  "  UNRESOLVABLE   packaging/public-plugin/derivations.json",
+  "  UNRESOLVABLE   packaging/public-plugin/vendor-plugin.schema.json",
+  "  UNRESOLVABLE   packaging/public-plugin/plugin.release.json"
+ ]
 }
