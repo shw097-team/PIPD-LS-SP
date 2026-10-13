@@ -1,0 +1,36 @@
+{
+ "schema": "PIPD-R3-BUILD-RECEIPT/1",
+ "recorded_at_utc": "2026-10-13T02:52:49+00:00",
+ "command": "python tools/build_public_plugin.py --source-root <clone> --ledger <frozen ledger> --source-commit 3233c817… --packaging-root packaging/public-plugin --out-dir <outside repo> --generate-icons",
+ "stdout": "BUILT …/pipd-ls-sp-public-skills.zip sha256=83e5ce5b4b3ac85e1be4842e16132c5450d2ae6074406a210debdc8a05bb4d87 members=56 claim_ceiling=LOCAL_PACKAGER_PASS_ONLY official_portal_verification=NOT_EXECUTED",
+ "release_receipt": {
+  "claim_ceiling": "LOCAL_PACKAGER_PASS_ONLY",
+  "determinism": {
+   "compression": "DEFLATED:9",
+   "mode": "0644",
+   "zip_mtime": "1980-01-01T00:00:00Z"
+  },
+  "mapping_sha256": "adbdad43e80b9efe9310715ecac9568548c135d3c79585a647d10e39d6326f83",
+  "member_count": 56,
+  "official_portal_verification": "NOT_EXECUTED",
+  "official_schema_id": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "official_schema_sha256": "0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883",
+  "plugin_id": "pipd-ls-sp-public-skills",
+  "schema": "PIPD-PUBLIC-PLUGIN-RELEASE-RECEIPT/1",
+  "source_commit": "3233c817cc0a8fcd3f80f49219f219544235d25a",
+  "source_ledger_version": "PIPD-PUBLIC-PLUGIN-SOURCE-LEDGER/1",
+  "source_tree": "05ddc2958631d5ea248bb1d87fbfd2fbe059ff2d",
+  "version": "0.1.1"
+ },
+ "zip_sha256": "83e5ce5b4b3ac85e1be4842e16132c5450d2ae6074406a210debdc8a05bb4d87",
+ "suites": {
+  "focused": "Ran 108 tests in 38.845s OK (exit 0)",
+  "full": "Ran 572 tests in 188.389s OK (skipped=4) (exit 0)",
+  "packaging": "Ran 31 tests in 1.978s OK (skipped=1)"
+ },
+ "what_changed_and_what_did_not": [
+  "LIFTED: the typed OWNER_INPUT_REQUIRED refusal that blocked the real candidate build (external-evidence item C3).",
+  "UNCHANGED: the claim ceiling. A local BUILT is not the vendor's validator, not the Portal scan, not a publication.",
+  "NOTE: the A3 publisher identity is DERIVED from the repository owner and the human attribution on the Portal remains owner-only."
+ ]
+}
