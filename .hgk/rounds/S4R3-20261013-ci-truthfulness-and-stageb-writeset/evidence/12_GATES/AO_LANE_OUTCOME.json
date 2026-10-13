@@ -9,14 +9,25 @@
     "cwd": "worktrees/s4r3a-wt (the subject under verification)"
   },
   "outcome": "NO_VERDICT_PRODUCED",
+  "invocations_that_never_reached_the_lane": [
+    {
+      "what": "the driver's first run passed --attempt ao-f006-1",
+      "result": "argparse refused it: 'argument --attempt: invalid int value: \"ao-f006-1\"'",
+      "exit_code": 2,
+      "stdout_bytes": 0,
+      "reading": "A defect in this round's OWN driver, not in the lane: --attempt takes an int. Recorded because it consumed wall-clock in the round and because a reader counting lane failures should not count this one as a lane failure. Fixed in the driver (scripts/run_ao_lane_f006.py) before any lane turn was served."
+    }
+  ],
   "attempts": [
     {
       "attempt": 1,
       "timeout_s": 300,
       "code": "ERR_LANE_ALL_ROUTES_EXHAUSTED",
       "timed_out_arms": ["opencode-go/glm-5.3-flash"],
+      "usage_receipt_ok": false,
       "stdout_bytes": 0,
       "stderr_bytes": 0,
+      "credential_posture_verdict": "PASS (decision CONTINUE; helper_resolution_reset=PASS, helper_non_interactive=PASS, git_terminal_prompt=0) - recorded because it shows the credential path was clean on this attempt, so the failure is not a credential failure",
       "reading": "The arm produced nothing within the lane's default 300 s window. The task as briefed is a full red-before/green-after reproduction plus four refutation attempts, which does not fit in 300 s."
     },
     {
