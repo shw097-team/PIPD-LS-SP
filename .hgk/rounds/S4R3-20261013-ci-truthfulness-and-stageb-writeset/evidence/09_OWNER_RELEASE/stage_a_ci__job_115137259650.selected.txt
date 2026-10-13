@@ -1,0 +1,69 @@
+Building wheels for collected packages: pipd-ls-sp
+  Created wheel for pipd-ls-sp: filename=pipd_ls_sp-0.1.1a3-0.editable-py3-none-any.whl size=7592 sha256=efb398dcd7586d2040da31c4b3d41b426e468cbd801bf0943539b4600fc7992b
+  Stored in directory: /tmp/pip-ephem-wheel-cache-6q0iw76t/wheels/b1/b4/fa/503f7e9f4016eca804e54d53b3015132c20d1f4825c1108196
+##[group]Run set -euo pipefail
+[36;1mset -euo pipefail[0m
+test_b4_wheel_mutation_installed_doctor_fails (tests.test_doctor_schema_truth.DoctorSchemaTruthTests.test_b4_wheel_mutation_installed_doctor_fails) ... ok
+test_describe_schemas_source_reports_override_mode (tests.test_doctor_schema_truth.DoctorSchemaTruthTests.test_describe_schemas_source_reports_override_mode) ... ok
+test_describe_schemas_source_reports_source_mode_from_checkout (tests.test_doctor_schema_truth.DoctorSchemaTruthTests.test_describe_schemas_source_reports_source_mode_from_checkout) ... ok
+test_doctor_fails_when_resolved_surface_missing_member_even_if_workspace_healthy (tests.test_doctor_schema_truth.DoctorSchemaTruthTests.test_doctor_fails_when_resolved_surface_missing_member_even_if_workspace_healthy) ... ok
+test_installed_doctor_diagnoses_installed_schema_surface (tests.test_wheel_distribution.WheelDistributionTests.test_installed_doctor_diagnoses_installed_schema_surface)
+`pipd doctor` run from a scratch cwd must PASS and name the INSTALLED surface. ... ok
+test_installed_package_is_self_sufficient (tests.test_wheel_distribution.WheelDistributionTests.test_installed_package_is_self_sufficient) ... ok
+test_manifest_records_frozen_identity_and_digests (tests.test_wheel_distribution.WheelDistributionTests.test_manifest_records_frozen_identity_and_digests) ... ok
+test_packaged_schema_copy_is_complete_and_self_consistent (tests.test_wheel_distribution.WheelDistributionTests.test_packaged_schema_copy_is_complete_and_self_consistent) ... ok
+test_required_members_present_and_hashes_match_zip (tests.test_wheel_distribution.WheelDistributionTests.test_required_members_present_and_hashes_match_zip) ... ok
+test_two_builds_are_byte_identical (tests.test_wheel_distribution.WheelDistributionTests.test_two_builds_are_byte_identical) ... ok
+Ran 572 tests in 42.764s
+OK (skipped=6)
+   "evidence": "unittest discover: Ran 47 tests, failures 2, errors 1; failing: tests.test_alpha.TestAlpha.test_one, tests.test_s0_contracts.TestS0Contracts.test_two, tests.test_beta.TestBeta.test_three"
+   "evidence": "unittest discover: Ran 47 tests, failures 0, errors 0"
+##[group]Run set -euo pipefail
+[36;1mset -euo pipefail[0m
+Ran 108 tests in 5.433s
+OK
+[36;1mrm -rf "$RUNNER_TEMP/wheels" && mkdir -p "$RUNNER_TEMP/wheels"[0m
+[36;1mpython -m build --wheel --outdir "$RUNNER_TEMP/wheels"[0m
+[36;1mls -l "$RUNNER_TEMP/wheels"[0m
+[36;1mpython -m venv "$RUNNER_TEMP/wheelvenv"[0m
+[36;1m"$RUNNER_TEMP/wheelvenv/bin/python" -m pip install --upgrade pip[0m
+[36;1m"$RUNNER_TEMP/wheelvenv/bin/python" -m pip install "$RUNNER_TEMP"/wheels/*.whl[0m
+[36;1m"$RUNNER_TEMP/wheelvenv/bin/pipd" doctor | tee "$GITHUB_WORKSPACE/wheel-doctor.log"[0m
+[36;1m"$RUNNER_TEMP/wheelvenv/bin/pipd" --help | tee "$GITHUB_WORKSPACE/wheel-cli-help.log"[0m
+* Getting build dependencies for wheel...
+* Building wheel...
+running bdist_wheel
+installing to build/bdist.linux-x86_64/wheel
+creating build/bdist.linux-x86_64/wheel
+creating build/bdist.linux-x86_64/wheel/pipd_ls_sp
+copying build/lib/pipd_ls_sp/requirements.py -> build/bdist.linux-x86_64/wheel/./pipd_ls_sp
+copying build/lib/pipd_ls_sp/cli.py -> build/bdist.linux-x86_64/wheel/./pipd_ls_sp
+copying build/lib/pipd_ls_sp/registry.py -> build/bdist.linux-x86_64/wheel/./pipd_ls_sp
+copying build/lib/pipd_ls_sp/validate.py -> build/bdist.linux-x86_64/wheel/./pipd_ls_sp
+copying build/lib/pipd_ls_sp/workspace.py -> build/bdist.linux-x86_64/wheel/./pipd_ls_sp
+copying build/lib/pipd_ls_sp/pipeline.py -> build/bdist.linux-x86_64/wheel/./pipd_ls_sp
+copying build/lib/pipd_ls_sp/export_bundle.py -> build/bdist.linux-x86_64/wheel/./pipd_ls_sp
+copying build/lib/pipd_ls_sp/projection.py -> build/bdist.linux-x86_64/wheel/./pipd_ls_sp
+copying build/lib/pipd_ls_sp/errors.py -> build/bdist.linux-x86_64/wheel/./pipd_ls_sp
+copying build/lib/pipd_ls_sp/repo_context.py -> build/bdist.linux-x86_64/wheel/./pipd_ls_sp
+copying build/lib/pipd_ls_sp/util.py -> build/bdist.linux-x86_64/wheel/./pipd_ls_sp
+copying build/lib/pipd_ls_sp/__init__.py -> build/bdist.linux-x86_64/wheel/./pipd_ls_sp
+copying build/lib/pipd_ls_sp/profiles.py -> build/bdist.linux-x86_64/wheel/./pipd_ls_sp
+Copying src/pipd_ls_sp.egg-info to build/bdist.linux-x86_64/wheel/./pipd_ls_sp-0.1.1a3-py3.11.egg-info
+creating build/bdist.linux-x86_64/wheel/pipd_ls_sp-0.1.1a3.dist-info/WHEEL
+creating '/home/runner/work/_temp/wheels/.tmp-882tve78/pipd_ls_sp-0.1.1a3-py3-none-any.whl' and adding 'build/bdist.linux-x86_64/wheel' to it
+removing build/bdist.linux-x86_64/wheel
+Requirement already satisfied: pip in /home/runner/work/_temp/wheelvenv/lib/python3.11/site-packages (24.0)
+Processing /home/runner/work/_temp/wheels/pipd_ls_sp-0.1.1a3-py3-none-any.whl
+  "resolved schemas surface (mode=NONE): no schemas dir containing registry.json was found; tried: /home/runner/work/_temp/wheelvenv/lib/python3.11/schemas"
+   "/home/runner/work/_temp/wheelvenv/lib/python3.11/schemas"
+            {init,intake,profile,compile-pi,bind-pd,compile-ecp,compile-tqaep,validate,doctor,project,export,diff,repair}
+  {init,intake,profile,compile-pi,bind-pd,compile-ecp,compile-tqaep,validate,doctor,project,export,diff,repair}
+##[group]Run set -euo pipefail
+[36;1mset -euo pipefail[0m
+Ran 18 tests in 0.030s
+OK
+##[group]Run set -euo pipefail
+[36;1mset -euo pipefail[0m
+wheel-doctor.log
+wheel-cli-help.log

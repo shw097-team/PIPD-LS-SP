@@ -1,0 +1,48 @@
+##[group]Run set -euo pipefail
+[36;1mset -euo pipefail[0m
+[36;1mBASE="${STAGE_B_BASE_SHA}"[0m
+[36;1m  echo "STAGE_B_BASE_UNRESOLVED: ${BASE} is not present in this checkout; refusing to guess" >&2[0m
+[36;1m  echo "STAGE_B_BASE_NOT_ANCESTOR: ${BASE} is not an ancestor of HEAD; the declared base does not belong to this subject" >&2[0m
+[36;1m  echo "STAGE_B_SCOPE_EMPTY: HEAD IS the declared Stage B base; this run therefore verifies"[0m
+[36;1m    echo "UPGRADE_WROTE_FROZEN_PATH: $path" >&2[0m
+[36;1m    echo "UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: $path" >&2[0m
+[36;1m    echo "GATE_SELF_TEST_FAILED: ${planted} would have been ACCEPTED" >&2[0m
+[36;1mecho "GATE_SELF_TEST_OK: planted src/**, schemas/**, skills/** and dist/** are all refused"[0m
+[36;1m    echo "GATE_SELF_TEST_FAILED: ${planted} would have been REFUSED" >&2[0m
+[36;1mecho "GATE_SELF_TEST_OK: planted stage-B artefacts are all allowed"[0m
+[36;1m  echo "WRITE_SET_VIOLATION (Stage B base ${BASE})" >&2[0m
+[36;1mecho "WRITE_SET_CLEAN_AGAINST_${BASE}"[0m
+  STAGE_B_BASE_SHA: 517d7a5d3f00935e1589908f456dfacea8fd8a74
+GATE_SELF_TEST_OK: planted src/**, schemas/**, skills/** and dist/** are all refused
+GATE_SELF_TEST_OK: planted stage-B artefacts are all allowed
+WRITE_SET_CLEAN_AGAINST_517d7a5d3f00935e1589908f456dfacea8fd8a74
+##[group]Run set -euo pipefail
+[36;1mset -euo pipefail[0m
+Ran 47 tests in 0.735s
+OK (skipped=1)
+Building wheels for collected packages: pipd-ls-sp
+  Created wheel for pipd-ls-sp: filename=pipd_ls_sp-0.1.1a3-0.editable-py3-none-any.whl size=7592 sha256=95cb653972b37869fdef6cfb3fef2eb4d19a536ad2f5e300c6c32932df6d6017
+  Stored in directory: /tmp/pip-ephem-wheel-cache-9oiy4uj8/wheels/b1/b4/fa/503f7e9f4016eca804e54d53b3015132c20d1f4825c1108196
+##[group]Run set -euo pipefail
+[36;1mset -euo pipefail[0m
+test_b4_wheel_mutation_installed_doctor_fails (tests.test_doctor_schema_truth.DoctorSchemaTruthTests.test_b4_wheel_mutation_installed_doctor_fails) ... ok
+test_describe_schemas_source_reports_override_mode (tests.test_doctor_schema_truth.DoctorSchemaTruthTests.test_describe_schemas_source_reports_override_mode) ... ok
+test_describe_schemas_source_reports_source_mode_from_checkout (tests.test_doctor_schema_truth.DoctorSchemaTruthTests.test_describe_schemas_source_reports_source_mode_from_checkout) ... ok
+test_doctor_fails_when_resolved_surface_missing_member_even_if_workspace_healthy (tests.test_doctor_schema_truth.DoctorSchemaTruthTests.test_doctor_fails_when_resolved_surface_missing_member_even_if_workspace_healthy) ... ok
+test_installed_doctor_diagnoses_installed_schema_surface (tests.test_wheel_distribution.WheelDistributionTests.test_installed_doctor_diagnoses_installed_schema_surface)
+`pipd doctor` run from a scratch cwd must PASS and name the INSTALLED surface. ... ok
+test_installed_package_is_self_sufficient (tests.test_wheel_distribution.WheelDistributionTests.test_installed_package_is_self_sufficient) ... ok
+test_manifest_records_frozen_identity_and_digests (tests.test_wheel_distribution.WheelDistributionTests.test_manifest_records_frozen_identity_and_digests) ... ok
+test_packaged_schema_copy_is_complete_and_self_consistent (tests.test_wheel_distribution.WheelDistributionTests.test_packaged_schema_copy_is_complete_and_self_consistent) ... ok
+test_required_members_present_and_hashes_match_zip (tests.test_wheel_distribution.WheelDistributionTests.test_required_members_present_and_hashes_match_zip) ... ok
+test_two_builds_are_byte_identical (tests.test_wheel_distribution.WheelDistributionTests.test_two_builds_are_byte_identical) ... ok
+Ran 572 tests in 53.933s
+OK (skipped=6)
+   "evidence": "unittest discover: Ran 47 tests, failures 2, errors 1; failing: tests.test_alpha.TestAlpha.test_one, tests.test_s0_contracts.TestS0Contracts.test_two, tests.test_beta.TestBeta.test_three"
+   "evidence": "unittest discover: Ran 47 tests, failures 0, errors 0"
+##[group]Run set -euo pipefail
+[36;1mset -euo pipefail[0m
+Ran 18 tests in 0.047s
+OK
+##[group]Run set -euo pipefail
+[36;1mset -euo pipefail[0m

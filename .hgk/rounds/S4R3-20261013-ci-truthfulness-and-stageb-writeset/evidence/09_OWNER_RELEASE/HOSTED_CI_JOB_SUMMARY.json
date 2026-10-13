@@ -1,0 +1,329 @@
+{
+  "schema_id": "PIPD-S4-R3-HOSTED-CI-JOB-SUMMARY/1",
+  "runs": {
+    "stage_a_public_plugin_verify": {
+      "run_id": 38349126621,
+      "jobs": [
+        {
+          "job": "verify",
+          "conclusion": "failure",
+          "steps": [
+            {
+              "n": 1,
+              "conclusion": "success",
+              "name": "Set up job"
+            },
+            {
+              "n": 2,
+              "conclusion": "success",
+              "name": "Check out the frozen subject"
+            },
+            {
+              "n": 3,
+              "conclusion": "success",
+              "name": "Set up Python 3.11"
+            },
+            {
+              "n": 4,
+              "conclusion": "failure",
+              "name": "Prove the upgrade wrote only inside its allowed set"
+            },
+            {
+              "n": 5,
+              "conclusion": "skipped",
+              "name": "Compile the three upgrade tools"
+            },
+            {
+              "n": 6,
+              "conclusion": "skipped",
+              "name": "Assert the upgrade is stdlib-only (no third-party import)"
+            },
+            {
+              "n": 7,
+              "conclusion": "skipped",
+              "name": "The two new test modules pass with no third-party dependency installed"
+            },
+            {
+              "n": 8,
+              "conclusion": "skipped",
+              "name": "Install the project's own declared runtime dependency only"
+            },
+            {
+              "n": 9,
+              "conclusion": "skipped",
+              "name": "Full unittest suite (raw log)"
+            },
+            {
+              "n": 10,
+              "conclusion": "skipped",
+              "name": "Negative — a mutated pack document must fail the identity binding"
+            },
+            {
+              "n": 11,
+              "conclusion": "skipped",
+              "name": "Negative — the fallback builder must refuse a pack whose bytes drifted from MANIFEST.sha256"
+            },
+            {
+              "n": 12,
+              "conclusion": "success",
+              "name": "Upload raw logs"
+            },
+            {
+              "n": 23,
+              "conclusion": "skipped",
+              "name": "Post Set up Python 3.11"
+            },
+            {
+              "n": 24,
+              "conclusion": "success",
+              "name": "Post Check out the frozen subject"
+            },
+            {
+              "n": 25,
+              "conclusion": "success",
+              "name": "Complete job"
+            }
+          ]
+        }
+      ]
+    },
+    "stage_a_ci": {
+      "run_id": 38349126601,
+      "jobs": [
+        {
+          "job": "offline-gate",
+          "conclusion": "success",
+          "steps": [
+            {
+              "n": 1,
+              "conclusion": "success",
+              "name": "Set up job"
+            },
+            {
+              "n": 2,
+              "conclusion": "success",
+              "name": "Check out the frozen subject"
+            },
+            {
+              "n": 3,
+              "conclusion": "success",
+              "name": "Set up Python 3.11"
+            },
+            {
+              "n": 4,
+              "conclusion": "success",
+              "name": "Install (declared dependencies only) and record what was resolved"
+            },
+            {
+              "n": 5,
+              "conclusion": "success",
+              "name": "Full unittest suite (raw log)"
+            },
+            {
+              "n": 6,
+              "conclusion": "success",
+              "name": "Focused S4 repair / closure suites (raw log)"
+            },
+            {
+              "n": 7,
+              "conclusion": "success",
+              "name": "Build the wheel and exercise it in a clean venv with no source on PYTHONPATH"
+            },
+            {
+              "n": 8,
+              "conclusion": "success",
+              "name": "Provenance gate is green before it is tested"
+            },
+            {
+              "n": 9,
+              "conclusion": "success",
+              "name": "Negative — a mutated pack document must make the provenance gate fail"
+            },
+            {
+              "n": 10,
+              "conclusion": "success",
+              "name": "Upload raw logs"
+            },
+            {
+              "n": 19,
+              "conclusion": "success",
+              "name": "Post Set up Python 3.11"
+            },
+            {
+              "n": 20,
+              "conclusion": "success",
+              "name": "Post Check out the frozen subject"
+            },
+            {
+              "n": 21,
+              "conclusion": "success",
+              "name": "Complete job"
+            }
+          ]
+        }
+      ]
+    },
+    "stage_b_public_plugin_verify": {
+      "run_id": 38349130092,
+      "jobs": [
+        {
+          "job": "verify",
+          "conclusion": "success",
+          "steps": [
+            {
+              "n": 1,
+              "conclusion": "success",
+              "name": "Set up job"
+            },
+            {
+              "n": 2,
+              "conclusion": "success",
+              "name": "Check out the frozen subject"
+            },
+            {
+              "n": 3,
+              "conclusion": "success",
+              "name": "Set up Python 3.11"
+            },
+            {
+              "n": 4,
+              "conclusion": "success",
+              "name": "Prove the upgrade wrote only inside its allowed set"
+            },
+            {
+              "n": 5,
+              "conclusion": "success",
+              "name": "Compile the three upgrade tools"
+            },
+            {
+              "n": 6,
+              "conclusion": "success",
+              "name": "Assert the upgrade is stdlib-only (no third-party import)"
+            },
+            {
+              "n": 7,
+              "conclusion": "success",
+              "name": "The two new test modules pass with no third-party dependency installed"
+            },
+            {
+              "n": 8,
+              "conclusion": "success",
+              "name": "Install the project's own declared runtime dependency only"
+            },
+            {
+              "n": 9,
+              "conclusion": "success",
+              "name": "Full unittest suite (raw log)"
+            },
+            {
+              "n": 10,
+              "conclusion": "success",
+              "name": "Negative — a mutated pack document must fail the identity binding"
+            },
+            {
+              "n": 11,
+              "conclusion": "success",
+              "name": "Negative — the fallback builder must refuse a pack whose bytes drifted from MANIFEST.sha256"
+            },
+            {
+              "n": 12,
+              "conclusion": "success",
+              "name": "Upload raw logs"
+            },
+            {
+              "n": 23,
+              "conclusion": "success",
+              "name": "Post Set up Python 3.11"
+            },
+            {
+              "n": 24,
+              "conclusion": "success",
+              "name": "Post Check out the frozen subject"
+            },
+            {
+              "n": 25,
+              "conclusion": "success",
+              "name": "Complete job"
+            }
+          ]
+        }
+      ]
+    },
+    "stage_b_ci": {
+      "run_id": 38349130157,
+      "jobs": [
+        {
+          "job": "offline-gate",
+          "conclusion": "success",
+          "steps": [
+            {
+              "n": 1,
+              "conclusion": "success",
+              "name": "Set up job"
+            },
+            {
+              "n": 2,
+              "conclusion": "success",
+              "name": "Check out the frozen subject"
+            },
+            {
+              "n": 3,
+              "conclusion": "success",
+              "name": "Set up Python 3.11"
+            },
+            {
+              "n": 4,
+              "conclusion": "success",
+              "name": "Install (declared dependencies only) and record what was resolved"
+            },
+            {
+              "n": 5,
+              "conclusion": "success",
+              "name": "Full unittest suite (raw log)"
+            },
+            {
+              "n": 6,
+              "conclusion": "success",
+              "name": "Focused S4 repair / closure suites (raw log)"
+            },
+            {
+              "n": 7,
+              "conclusion": "success",
+              "name": "Build the wheel and exercise it in a clean venv with no source on PYTHONPATH"
+            },
+            {
+              "n": 8,
+              "conclusion": "success",
+              "name": "Provenance gate is green before it is tested"
+            },
+            {
+              "n": 9,
+              "conclusion": "success",
+              "name": "Negative — a mutated pack document must make the provenance gate fail"
+            },
+            {
+              "n": 10,
+              "conclusion": "success",
+              "name": "Upload raw logs"
+            },
+            {
+              "n": 19,
+              "conclusion": "success",
+              "name": "Post Set up Python 3.11"
+            },
+            {
+              "n": 20,
+              "conclusion": "success",
+              "name": "Post Check out the frozen subject"
+            },
+            {
+              "n": 21,
+              "conclusion": "success",
+              "name": "Complete job"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

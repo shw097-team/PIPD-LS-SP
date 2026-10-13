@@ -1,0 +1,63 @@
+=== S4R3-F002 local gate reproduction ===
+subject_head 517d7a5d3f00935e1589908f456dfacea8fd8a74
+declared_stage_b_base 517d7a5d3f00935e1589908f456dfacea8fd8a74
+upstream_main 224591431a164ab72a9423cd180e417e8a762403
+
+--- classifier self-test: planted paths that MUST be refused ---
+  refused: src/pipd_ls_sp/validate.py
+  refused: schemas/TraceLink.schema.json
+  refused: skills/pipd-core/SKILL.md
+  refused: dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl
+  refused: tools/verify_evidence_digests.py
+--- classifier self-test: planted paths that MUST be allowed ---
+  allowed: docs/install/PIPD_WEB_FALLBACK.md
+  allowed: docs/USER_GUIDE.md
+  allowed: README.md
+  allowed: packaging/public-plugin/plugin.json
+
+--- upstream inventory: main...HEAD (context only, NOT the Stage B write set) ---
+A	.github/workflows/ci.yml
+A	.github/workflows/public-plugin-verify.yml
+M	.hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json
+M	.hgk/artifacts/tqaep_design_tmp/ecp.json
+M	.hgk/artifacts/tqaep_design_tmp/pi.json
+D	.hgk/rounds/R2-20261009-qualification/execute/candidate
+D	.hgk/rounds/R2-20261009-qualification/product-repair/pristine-candidate
+D	.hgk/rounds/R2-20261009-qualification/product-repair/regression-candidate
+D	.hgk/rounds/R2-20261009-qualification/product-repair/semcheck
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/00_plan/TT_S4POST_REGISTER.tsv
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/01_subject/FROZEN_SUBJECT.json
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/ACCEPTANCE_RECORD_STAGEB.md
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/HARNESS_FREEZE_AND_AO_LOOP_CAP.md
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/OWNER_ACTION_REQUEST.md
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/R3_CI_FIRST_RUN.md
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/R3_PUBLICATION.md
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/ROUND_RESULT.md
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/admission/CANDIDATE_DESIGNATION.json
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/admission/CANDIDATE_DESIGNATION_CANDIDATE.json
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/admission/OWNER_DECISION_D1_D2_D3.json
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/admission/hgk_r3_admission.py
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/admission/r3_admission.json
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/02_TRACE/REQUIREMENT_COVERAGE_MATRIX.tsv
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/02_TRACE/SUBAGENT_FINDINGS.json
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/03_BUILD_TEST/STAGE_A_RECEIPT.json
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/03_BUILD_TEST/deny_list_scan.txt
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/03_BUILD_TEST/history_secret_scan.json
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/08_PLUGIN/BUILD_AFTER_SUPPLIES/RELEASE_RECEIPT.json
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/08_PLUGIN/BUILD_AFTER_SUPPLIES/SOURCE_TO_PLUGIN_MAPPING.json
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/08_PLUGIN/BUILD_AFTER_SUPPLIES/pipd-ls-sp-public-skills.zip
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/08_PLUGIN/BUILD_AFTER_SUPPLIES/pipd-ls-sp-public-skills.zip.sha256
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/08_PLUGIN/FROZEN_SOURCE_LEDGER.json
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/08_PLUGIN/REAL_BUILD_ATTEMPT.txt
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/08_PLUGIN/UPG_GATE_RECEIPT.json
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/08_PLUGIN/WRITESET_GUARD.txt
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/09_RELEASE/PUSH_CREDENTIAL_INCIDENT.md
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/09_RELEASE/PUSH_READBACK.txt
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/09_RELEASE/PUSH_STAGE_B.log
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/09_RELEASE/push_round_branches.sh
+A	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/09_RELEASE/push_stage_b_new_branch.sh
+  (truncated to 40 lines; full range has 222 paths)
+
+--- governed Stage B write set: 517d7a5d3f00935e1589908f456dfacea8fd8a74...HEAD ---
+  STAGE_B_SCOPE_EMPTY (HEAD is the declared base)
+  WRITE_SET_CLEAN_AGAINST_517d7a5d3f00935e1589908f456dfacea8fd8a74

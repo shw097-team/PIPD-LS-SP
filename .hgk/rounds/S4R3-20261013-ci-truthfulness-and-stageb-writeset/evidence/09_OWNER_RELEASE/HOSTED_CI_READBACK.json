@@ -1,0 +1,253 @@
+{
+  "schema_id": "PIPD-S4-R3-HOSTED-CI-READBACK/1",
+  "repo": "shw097-team/PIPD-LS-SP",
+  "branches": {
+    "fix/s4r3-stage-a-ci-truthfulness-20261013": {
+      "http": 200,
+      "expected_sha": "8cbe2582e065d3e220170650cf784955a86eccc1",
+      "workflows": [
+        {
+          "workflow": "public-plugin-verify",
+          "run_id": 38349126621,
+          "run_number": 23,
+          "event": "pull_request",
+          "status": "completed",
+          "conclusion": "failure",
+          "head_sha": "8cbe2582e065d3e220170650cf784955a86eccc1",
+          "url": "https://github.com/shw097-team/PIPD-LS-SP/actions/runs/38349126621",
+          "jobs": [
+            {
+              "job": "verify",
+              "job_id": 115137260046,
+              "status": "completed",
+              "conclusion": "failure",
+              "steps": [
+                "  1 success    Set up job",
+                "  2 success    Check out the frozen subject",
+                "  3 success    Set up Python 3.11",
+                "  4 failure    Prove the upgrade wrote only inside its allowed set",
+                "  5 skipped    Compile the three upgrade tools",
+                "  6 skipped    Assert the upgrade is stdlib-only (no third-party import)",
+                "  7 skipped    The two new test modules pass with no third-party dependency installed",
+                "  8 skipped    Install the project's own declared runtime dependency only",
+                "  9 skipped    Full unittest suite (raw log)",
+                " 10 skipped    Negative \u2014 a mutated pack document must fail the identity binding",
+                " 11 skipped    Negative \u2014 the fallback builder must refuse a pack whose bytes drifted from MANIFEST.sha256",
+                " 12 success    Upload raw logs",
+                " 23 skipped    Post Set up Python 3.11",
+                " 24 success    Post Check out the frozen subject",
+                " 25 success    Complete job"
+              ]
+            }
+          ]
+        },
+        {
+          "workflow": "ci",
+          "run_id": 38349126601,
+          "run_number": 104,
+          "event": "pull_request",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "8cbe2582e065d3e220170650cf784955a86eccc1",
+          "url": "https://github.com/shw097-team/PIPD-LS-SP/actions/runs/38349126601",
+          "jobs": [
+            {
+              "job": "offline-gate",
+              "job_id": 115137259650,
+              "status": "completed",
+              "conclusion": "success",
+              "steps": [
+                "  1 success    Set up job",
+                "  2 success    Check out the frozen subject",
+                "  3 success    Set up Python 3.11",
+                "  4 success    Install (declared dependencies only) and record what was resolved",
+                "  5 success    Full unittest suite (raw log)",
+                "  6 success    Focused S4 repair / closure suites (raw log)",
+                "  7 success    Build the wheel and exercise it in a clean venv with no source on PYTHONPATH",
+                "  8 success    Provenance gate is green before it is tested",
+                "  9 success    Negative \u2014 a mutated pack document must make the provenance gate fail",
+                " 10 success    Upload raw logs",
+                " 19 success    Post Set up Python 3.11",
+                " 20 success    Post Check out the frozen subject",
+                " 21 success    Complete job"
+              ]
+            }
+          ]
+        },
+        {
+          "workflow": "ci",
+          "run_id": 38349123634,
+          "run_number": 103,
+          "event": "push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "8cbe2582e065d3e220170650cf784955a86eccc1",
+          "url": "https://github.com/shw097-team/PIPD-LS-SP/actions/runs/38349123634",
+          "jobs": [
+            {
+              "job": "offline-gate",
+              "job_id": 115137254412,
+              "status": "completed",
+              "conclusion": "success",
+              "steps": [
+                "  1 success    Set up job",
+                "  2 success    Check out the frozen subject",
+                "  3 success    Set up Python 3.11",
+                "  4 success    Install (declared dependencies only) and record what was resolved",
+                "  5 success    Full unittest suite (raw log)",
+                "  6 success    Focused S4 repair / closure suites (raw log)",
+                "  7 success    Build the wheel and exercise it in a clean venv with no source on PYTHONPATH",
+                "  8 success    Provenance gate is green before it is tested",
+                "  9 success    Negative \u2014 a mutated pack document must make the provenance gate fail",
+                " 10 success    Upload raw logs",
+                " 19 success    Post Set up Python 3.11",
+                " 20 success    Post Check out the frozen subject",
+                " 21 success    Complete job"
+              ]
+            }
+          ]
+        },
+        {
+          "workflow": "ci",
+          "run_id": 38349015680,
+          "run_number": 101,
+          "event": "push",
+          "status": "completed",
+          "conclusion": "cancelled",
+          "head_sha": "a5151ff891cfc6c83ad032272a69c71c9dfc31ac",
+          "url": "https://github.com/shw097-team/PIPD-LS-SP/actions/runs/38349015680",
+          "jobs": [
+            {
+              "job": "offline-gate",
+              "job_id": 115136919607,
+              "status": "completed",
+              "conclusion": "cancelled",
+              "steps": [
+                "  1 success    Set up job",
+                "  2 success    Check out the frozen subject",
+                "  3 success    Set up Python 3.11",
+                "  4 success    Install (declared dependencies only) and record what was resolved",
+                "  5 success    Full unittest suite (raw log)",
+                "  6 success    Focused S4 repair / closure suites (raw log)",
+                "  7 success    Build the wheel and exercise it in a clean venv with no source on PYTHONPATH",
+                "  8 success    Provenance gate is green before it is tested",
+                "  9 success    Negative \u2014 a mutated pack document must make the provenance gate fail",
+                " 10 success    Upload raw logs",
+                " 19 success    Post Set up Python 3.11",
+                " 20 success    Post Check out the frozen subject",
+                " 21 success    Complete job"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "feat/s4r3-stage-b-distribution-20261013": {
+      "http": 200,
+      "expected_sha": "8481f29913159ed91ac6dff5ab3d691ea3614355",
+      "workflows": [
+        {
+          "workflow": "public-plugin-verify",
+          "run_id": 38349130092,
+          "run_number": 24,
+          "event": "pull_request",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "8481f29913159ed91ac6dff5ab3d691ea3614355",
+          "url": "https://github.com/shw097-team/PIPD-LS-SP/actions/runs/38349130092",
+          "jobs": [
+            {
+              "job": "verify",
+              "job_id": 115137270735,
+              "status": "completed",
+              "conclusion": "success",
+              "steps": [
+                "  1 success    Set up job",
+                "  2 success    Check out the frozen subject",
+                "  3 success    Set up Python 3.11",
+                "  4 success    Prove the upgrade wrote only inside its allowed set",
+                "  5 success    Compile the three upgrade tools",
+                "  6 success    Assert the upgrade is stdlib-only (no third-party import)",
+                "  7 success    The two new test modules pass with no third-party dependency installed",
+                "  8 success    Install the project's own declared runtime dependency only",
+                "  9 success    Full unittest suite (raw log)",
+                " 10 success    Negative \u2014 a mutated pack document must fail the identity binding",
+                " 11 success    Negative \u2014 the fallback builder must refuse a pack whose bytes drifted from MANIFEST.sha256",
+                " 12 success    Upload raw logs",
+                " 23 success    Post Set up Python 3.11",
+                " 24 success    Post Check out the frozen subject",
+                " 25 success    Complete job"
+              ]
+            }
+          ]
+        },
+        {
+          "workflow": "ci",
+          "run_id": 38349130157,
+          "run_number": 105,
+          "event": "pull_request",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "8481f29913159ed91ac6dff5ab3d691ea3614355",
+          "url": "https://github.com/shw097-team/PIPD-LS-SP/actions/runs/38349130157",
+          "jobs": [
+            {
+              "job": "offline-gate",
+              "job_id": 115137270742,
+              "status": "completed",
+              "conclusion": "success",
+              "steps": [
+                "  1 success    Set up job",
+                "  2 success    Check out the frozen subject",
+                "  3 success    Set up Python 3.11",
+                "  4 success    Install (declared dependencies only) and record what was resolved",
+                "  5 success    Full unittest suite (raw log)",
+                "  6 success    Focused S4 repair / closure suites (raw log)",
+                "  7 success    Build the wheel and exercise it in a clean venv with no source on PYTHONPATH",
+                "  8 success    Provenance gate is green before it is tested",
+                "  9 success    Negative \u2014 a mutated pack document must make the provenance gate fail",
+                " 10 success    Upload raw logs",
+                " 19 success    Post Set up Python 3.11",
+                " 20 success    Post Check out the frozen subject",
+                " 21 success    Complete job"
+              ]
+            }
+          ]
+        },
+        {
+          "workflow": "ci",
+          "run_id": 38349019399,
+          "run_number": 102,
+          "event": "push",
+          "status": "completed",
+          "conclusion": "success",
+          "head_sha": "8481f29913159ed91ac6dff5ab3d691ea3614355",
+          "url": "https://github.com/shw097-team/PIPD-LS-SP/actions/runs/38349019399",
+          "jobs": [
+            {
+              "job": "offline-gate",
+              "job_id": 115136932441,
+              "status": "completed",
+              "conclusion": "success",
+              "steps": [
+                "  1 success    Set up job",
+                "  2 success    Check out the frozen subject",
+                "  3 success    Set up Python 3.11",
+                "  4 success    Install (declared dependencies only) and record what was resolved",
+                "  5 success    Full unittest suite (raw log)",
+                "  6 success    Focused S4 repair / closure suites (raw log)",
+                "  7 success    Build the wheel and exercise it in a clean venv with no source on PYTHONPATH",
+                "  8 success    Provenance gate is green before it is tested",
+                "  9 success    Negative \u2014 a mutated pack document must make the provenance gate fail",
+                " 10 success    Upload raw logs",
+                " 19 success    Post Set up Python 3.11",
+                " 20 success    Post Check out the frozen subject",
+                " 21 success    Complete job"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
