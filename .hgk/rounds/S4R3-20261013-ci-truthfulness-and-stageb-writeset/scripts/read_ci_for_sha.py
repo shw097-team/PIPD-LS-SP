@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import pathlib
+import subprocess
 import sys
 import urllib.error
 import urllib.request
@@ -15,6 +16,8 @@ import urllib.request
 API = "https://api.github.com"
 REPO = "shw097-team/PIPD-LS-SP"
 TOKEN_FILE = pathlib.Path("C:/Projects/Agent_Workspace/API KEY/GITHUB-REPO_SHW097-4.txt")
+# Local worktree used only to resolve an abbreviated sha to its full 40-char id.
+WORKTREE = pathlib.Path("C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3c-wt")
 
 
 def call(path: str) -> tuple[int, dict | list]:
@@ -32,8 +35,31 @@ def call(path: str) -> tuple[int, dict | list]:
         return exc.code, json.loads(exc.read().decode() or "{}")
 
 
+def resolve_sha(sha: str) -> str:
+    """Accept a short sha and resolve it against the local round worktree.
+
+    MEASURED trap: the REST `head_sha` filter matches the FULL 40-char id only. Passing an
+    abbreviated id returns `total_count: 0` with HTTP 200 - a silent false negative that reads as
+    "no CI ran for this commit" when CI in fact ran and passed. Resolving locally first turns that
+    into a real answer.
+    """
+    if len(sha) >= 40:
+        return sha
+    try:
+        out = subprocess.run(
+            ["git", "-C", str(WORKTREE), "rev-parse", sha],
+            capture_output=True, text=True, check=True).stdout.strip()
+        if len(out) >= 40:
+            print(f"[note] resolved short id {sha} -> {out}")
+            return out
+    except (OSError, subprocess.SubprocessError):
+        print(f"[warn] could not resolve {sha} locally; querying the short id anyway "
+              f"(a zero result would then be meaningless)")
+    return sha
+
+
 def main() -> int:
-    sha = sys.argv[1]
+    sha = resolve_sha(sys.argv[1])
     status, runs = call(f"/repos/{REPO}/actions/runs?head_sha={sha}&per_page=30")
     if status != 200:
         print("LIST_FAILED", status, runs)
