@@ -1,0 +1,17 @@
+subject_commit 517d7a5d3f00935e1589908f456dfacea8fd8a74
+host_os "Ubuntu 24.04.3 LTS"
+python Python 3.12.3
+control_old_direct_rc=1   # the suite really was red
+control_old_pipeline_rc=0   # what the shipped step returned: 0 = FALSE GREEN
+control_new_pipeline_rc=1   # what the repaired step returns: non-zero = true red
+new_pipeline_log: Ran 573 tests in 47.759s
+new_pipeline_log: FAILED (failures=2, skipped=10)
+tree_after_control: 19 modified paths
+--- TOOL_MISSING negative (PyYAML blocked on PYTHONPATH) ---
+yaml_absent_test_rc=1
+yaml_absent: AssertionError: 2 != 0 : {'checker': 'skill-pack-check/1', 'state': 'REFUSED', 'refusals': [{'code': 'TOOL_MISSING', 'path': 'yaml', 'reason': 'PyYAML is required to load tests/cases.yaml'}]}
+yaml_absent: Ran 1 test in 0.049s
+yaml_absent: FAILED (failures=1)
+skill_contracts_with_dep_rc=0
+skill_contracts: Ran 6 tests in 2.319s
+skill_contracts: OK
