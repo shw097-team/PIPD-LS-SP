@@ -1,0 +1,1235 @@
+{
+  "schema_id": "PIPD-S4-R3-R2-ATOM-LEDGER/1",
+  "blueprint_path": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md",
+  "blueprint_sha256": "aca367e7d4aad7d44245c56c2ec3c9f164fc07852904078358b3be2ece01c2b4",
+  "generated_by": "S4R3 ledger subagent (PLAN lane)",
+  "families": {
+    "F": 14,
+    "RP-P": 8,
+    "A": 42,
+    "TR": 40,
+    "UPG-G": 10,
+    "UPG-P": 4
+  },
+  "completeness": {
+    "F": {
+      "expected": 14,
+      "found": 14,
+      "missing": []
+    },
+    "RP-P": {
+      "expected": 8,
+      "found": 8,
+      "missing": []
+    },
+    "A": {
+      "expected": 42,
+      "found": 42,
+      "missing": []
+    },
+    "TR": {
+      "expected": 40,
+      "found": 40,
+      "missing": []
+    },
+    "UPG-G": {
+      "expected": 10,
+      "found": 10,
+      "missing": []
+    },
+    "UPG-P": {
+      "expected": 4,
+      "found": 4,
+      "missing": []
+    }
+  },
+  "disposition_tally": {
+    "OPEN_TT": 104,
+    "NOT_APPLICABLE_WITH_REASON": 1,
+    "VERIFIED": 13
+  },
+  "atoms_written": 118,
+  "incomplete_families": [],
+  "atoms": [
+    {
+      "id": "F01",
+      "family": "F",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.1",
+      "requirement_summary": "P0 defect (fake PNG): the R1 exporter checked only the PNG magic number; §7.2 validate_png must use Pillow verify with size/format caps.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.1 lists the synthetic remediation but its own '本輪證據/尚缺' column keeps the external receipt missing (Portal icon scan / vendor schema / skills-ref / ReleaseTuple external check / OS race stress / independent UAT).",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "F02",
+      "family": "F",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.1",
+      "requirement_summary": "P1 defect (custom manifest): arbitrary manifest keys were accepted; §7.2 validate_manifest must bind the frozen official schema SHA and reject unknown keys.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.1 lists the synthetic remediation but its own '本輪證據/尚缺' column keeps the external receipt missing (Portal icon scan / vendor schema / skills-ref / ReleaseTuple external check / OS race stress / independent UAT).",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "F03",
+      "family": "F",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.1",
+      "requirement_summary": "P0 defect (invalid SKILL): an invalid SKILL frontmatter was accepted; §7.2 read_skill + explicit project_skill (gates G04/G06) must reject it.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.1 lists the synthetic remediation but its own '本輪證據/尚缺' column keeps the external receipt missing (Portal icon scan / vendor schema / skills-ref / ReleaseTuple external check / OS race stress / independent UAT).",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "F04",
+      "family": "F",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.1",
+      "requirement_summary": "P0 defect (null commit): a null commit in the source map was accepted; §7.1 freeze git HEAD/tree plus §7.2 40-hex/digest and the release receipt must gate it.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.1 lists the synthetic remediation but its own '本輪證據/尚缺' column keeps the external receipt missing (Portal icon scan / vendor schema / skills-ref / ReleaseTuple external check / OS race stress / independent UAT).",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "F05",
+      "family": "F",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.1",
+      "requirement_summary": "P0 defect (sidecar symlink): a sidecar symlink overwrote the sentinel; §7.2 must use a secure owner-only output dir with O_EXCL and atomic promote.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.1 lists the synthetic remediation but its own '本輪證據/尚缺' column keeps the external receipt missing (Portal icon scan / vendor schema / skills-ref / ReleaseTuple external check / OS race stress / independent UAT).",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "F06",
+      "family": "F",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.1",
+      "requirement_summary": "P1 defect (weak suite): the R1 baseline suite held only 4 tests; §7.3's synthetic 14 tests plus the §9 host/negative matrix must strengthen it.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.1 lists the synthetic remediation but its own '本輪證據/尚缺' column keeps the external receipt missing (Portal icon scan / vendor schema / skills-ref / ReleaseTuple external check / OS race stress / independent UAT).",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "F07",
+      "family": "F",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.1",
+      "requirement_summary": "Defect (host commands absent): §8.2 must supply all four host adapters with real commands, scope, trust and uninstall matrix.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.1 lists the synthetic remediation but its own '本輪證據/尚缺' column keeps the external receipt missing (Portal icon scan / vendor schema / skills-ref / ReleaseTuple external check / OS race stress / independent UAT).",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "F08",
+      "family": "F",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.1",
+      "requirement_summary": "Defect (Free fallback text-only): §7.4 must generate the exact fallback body with inventory and no-truncation tests.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.1 lists the synthetic remediation but its own '本輪證據/尚缺' column keeps the external receipt missing (Portal icon scan / vendor schema / skills-ref / ReleaseTuple external check / OS race stress / independent UAT).",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "F09",
+      "family": "F",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.1",
+      "requirement_summary": "Defect (six named OSS shallow): §4.2 must record six independent technology decisions (name, use, risk, adopt/reject).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.1 lists the synthetic remediation but its own '本輪證據/尚缺' column keeps the external receipt missing (Portal icon scan / vendor schema / skills-ref / ReleaseTuple external check / OS race stress / independent UAT).",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "F10",
+      "family": "F",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.1",
+      "requirement_summary": "Defect (raw scan != semantic): §1's physical 102-file scan plus §12's atom-to-target A01–A42 must bound the trace.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.1 lists the synthetic remediation but its own '本輪證據/尚缺' column keeps the external receipt missing (Portal icon scan / vendor schema / skills-ref / ReleaseTuple external check / OS race stress / independent UAT).",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "F11",
+      "family": "F",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.1",
+      "requirement_summary": "Defect (publisher/Portal absent): §9 G09, §10 CR-HUMAN and §5 event/ownership must cover the publisher/Portal stages.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.1 lists the synthetic remediation but its own '本輪證據/尚缺' column keeps the external receipt missing (Portal icon scan / vendor schema / skills-ref / ReleaseTuple external check / OS race stress / independent UAT).",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "F12",
+      "family": "F",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.1",
+      "requirement_summary": "Defect (same-tag asset replacement): §2 RCA plus §9 must require a new immutable version with readback.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.1 lists the synthetic remediation but its own '本輪證據/尚缺' column keeps the external receipt missing (Portal icon scan / vendor schema / skills-ref / ReleaseTuple external check / OS race stress / independent UAT).",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "F13",
+      "family": "F",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.1",
+      "requirement_summary": "Defect (no independent Checker): §5.3 SoD, the §9 evidence fields and a clean-runner Checker must be provided.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.1 lists the synthetic remediation but its own '本輪證據/尚缺' column keeps the external receipt missing (Portal icon scan / vendor schema / skills-ref / ReleaseTuple external check / OS race stress / independent UAT).",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "F14",
+      "family": "F",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.1",
+      "requirement_summary": "The original S4 full compiler is placed out of scope; the §0/§3 claim ceiling and §9 negative gating keep external S4 FULL PASS NOT_GRANTED.",
+      "disposition": "NOT_APPLICABLE_WITH_REASON",
+      "reason": "blueprint scopes it out: §6.1 F14 row = '原始 S4 full compiler | AUDIT §8 Out-of-scope' and §3.4 = '| PIPD_S4_FULL_PASS | ... | 本次 Upgrade 不簽發 |' - the work is declared out of this change's scope.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "RP-P01",
+      "family": "RP-P",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.2",
+      "requirement_summary": "PKG07 exporter + source guard (§7.1–7.3 reuse plus script/source tuple); acceptance: F01..05, deterministic twice, release bytes.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.2 candidate disposition for this package is a template/local state (e.g. REPAIRED_IN_TEMPLATE, NOT_PRODUCTION / SYNTHETIC_PASS, HOST_PENDING / SCRIPT_TEST_ONLY / NEEDS_RELEASE_OWNER / MACHINE_BLOCKS_GENERATED), not a closed external receipt.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "RP-P02",
+      "family": "RP-P",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.2",
+      "requirement_summary": "Manifest / frontmatter / real PNG (§7.2, §4.1); acceptance: official Plugin schema, skills-ref, verified image, Owner ADR.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.2 candidate disposition for this package is a template/local state (e.g. REPAIRED_IN_TEMPLATE, NOT_PRODUCTION / SYNTHETIC_PASS, HOST_PENDING / SCRIPT_TEST_ONLY / NEEDS_RELEASE_OWNER / MACHINE_BLOCKS_GENERATED), not a closed external receipt.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "RP-P03",
+      "family": "RP-P",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.2",
+      "requirement_summary": "Free single MD + docs (§7.4, §8.1); acceptance: actual MD generated, max size, Plus/Free tests.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.2 candidate disposition for this package is a template/local state (e.g. REPAIRED_IN_TEMPLATE, NOT_PRODUCTION / SYNTHETIC_PASS, HOST_PENDING / SCRIPT_TEST_ONLY / NEEDS_RELEASE_OWNER / MACHINE_BLOCKS_GENERATED), not a closed external receipt.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "RP-P04",
+      "family": "RP-P",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.2",
+      "requirement_summary": "Host matrix (§8.2–8.4); acceptance: Hermes / Codex Desktop / Codex CLI / Claude independent UAT.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.2 candidate disposition for this package is a template/local state (e.g. REPAIRED_IN_TEMPLATE, NOT_PRODUCTION / SYNTHETIC_PASS, HOST_PENDING / SCRIPT_TEST_ONLY / NEEDS_RELEASE_OWNER / MACHINE_BLOCKS_GENERATED), not a closed external receipt.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "RP-P05",
+      "family": "RP-P",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.2",
+      "requirement_summary": "QA / CI / security (§7.5, §9.2–9.4); acceptance: Secret/License/SBOM decision, negative/SoD.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.2 candidate disposition for this package is a template/local state (e.g. REPAIRED_IN_TEMPLATE, NOT_PRODUCTION / SYNTHETIC_PASS, HOST_PENDING / SCRIPT_TEST_ONLY / NEEDS_RELEASE_OWNER / MACHINE_BLOCKS_GENERATED), not a closed external receipt.",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/03_BUILD_TEST/history_secret_scan.json",
+      "negative_case_present": true
+    },
+    {
+      "id": "RP-P06",
+      "family": "RP-P",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.2",
+      "requirement_summary": "ReleaseTuple / rollback (§7.2 receipt, §9.5); acceptance: stale tag, same-tag change, publisher states.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.2 candidate disposition for this package is a template/local state (e.g. REPAIRED_IN_TEMPLATE, NOT_PRODUCTION / SYNTHETIC_PASS, HOST_PENDING / SCRIPT_TEST_ONLY / NEEDS_RELEASE_OWNER / MACHINE_BLOCKS_GENERATED), not a closed external receipt.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "RP-P07",
+      "family": "RP-P",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.2",
+      "requirement_summary": "Named tech ADR (§4.2–4.4); acceptance: OpenSpec, Spec Kit, Matt, GSD, gstack, Superpowers, Vercel all decided.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.2 candidate disposition for this package is a template/local state (e.g. REPAIRED_IN_TEMPLATE, NOT_PRODUCTION / SYNTHETIC_PASS, HOST_PENDING / SCRIPT_TEST_ONLY / NEEDS_RELEASE_OWNER / MACHINE_BLOCKS_GENERATED), not a closed external receipt.",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "RP-P08",
+      "family": "RP-P",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §6.2",
+      "requirement_summary": "OROCHI / machine contracts (§§11/12/Appendix); acceptance: JSON/TSV parse, schema binding, readback.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §6.2 candidate disposition for this package is a template/local state (e.g. REPAIRED_IN_TEMPLATE, NOT_PRODUCTION / SYNTHETIC_PASS, HOST_PENDING / SCRIPT_TEST_ONLY / NEEDS_RELEASE_OWNER / MACHINE_BLOCKS_GENERATED), not a closed external receipt.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "A01",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A01: required substance = one upgrade.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §3.2/§5.1)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A02",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A02: required substance = no new stage.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §0/§3.2)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A03",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A03: required substance = eight exact Skills.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target test_public_plugin_packaging/test_web_fallback synthetic suite (§7.3 14 + §7.4.1 5))",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A04",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A04: required substance = no rewrite core.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §0/§3.3/§9.1)",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "A05",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A05: required substance = one canonical multi-projection.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §3.2/§7.2/§7.4)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A06",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A06: required substance = portable manifest/plugin.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'VENDOR_PENDING'",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A07",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A07: required substance = dynamic 8 skills closure.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §7.1–7.3)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A08",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A08: required substance = relative files closure.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'INDEPENDENT_PENDING'",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "A09",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A09: required substance = Portal stages.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'HUMAN_PENDING'; a four-host/Portal/UAT receipt is NOT_EXECUTED this round, so no VERIFIED disposition is possible.",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A10",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A10: required substance = publisher assets/license.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'HUMAN_PENDING'; a four-host/Portal/UAT receipt is NOT_EXECUTED this round, so no VERIFIED disposition is possible.",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A11",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A11: required substance = Plus Web main.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'HOST_PENDING'; a four-host/Portal/UAT receipt is NOT_EXECUTED this round, so no VERIFIED disposition is possible.",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A12",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A12: required substance = Free when available.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'HOST_PENDING'; a four-host/Portal/UAT receipt is NOT_EXECUTED this round, so no VERIFIED disposition is possible.",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A13",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A13: required substance = Free one-file fallback.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §7.4/§8.1)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A14",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A14: required substance = Hermes Agent.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'HOST_PENDING'; a four-host/Portal/UAT receipt is NOT_EXECUTED this round, so no VERIFIED disposition is possible.",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A15",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A15: required substance = Codex Desktop GUI.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'HOST_PENDING'; a four-host/Portal/UAT receipt is NOT_EXECUTED this round, so no VERIFIED disposition is possible.",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A16",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A16: required substance = Codex CLI.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'HOST_PENDING'; a four-host/Portal/UAT receipt is NOT_EXECUTED this round, so no VERIFIED disposition is possible.",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A17",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A17: required substance = Claude Code.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'HOST_PENDING'; a four-host/Portal/UAT receipt is NOT_EXECUTED this round, so no VERIFIED disposition is possible.",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A18",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A18: required substance = Native vs Vercel skills.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §4.3/§8.2)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A19",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A19: required substance = OpenSpec.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §4.2 row OpenSpec)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A20",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A20: required substance = Spec Kit.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §4.2 row Spec Kit)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A21",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A21: required substance = Matt Skills.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §4.2 row Matt Skills)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A22",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A22: required substance = GSD.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §4.2 row GSD)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A23",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A23: required substance = gstack.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §4.2 row gstack)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A24",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A24: required substance = Superpowers.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §4.2 row Superpowers)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A25",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A25: required substance = MCP OFF.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §0/§4.4)",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "A26",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A26: required substance = preview.3 repaired not current defect.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §2.2/§3.1)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A27",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A27: required substance = deterministic build twice.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §7.3/§9 TR-11)",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "A28",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A28: required substance = independent raw evidence.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'INDEPENDENT_PENDING'",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A29",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A29: required substance = 8 skill POS/NEG/EDGE/SEC.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §9.2 TR-22–26)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A30",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A30: required substance = source no claim.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §0/§3.4)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A31",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A31: required substance = injection/supply chain.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'SCANNER_PENDING'",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/03_BUILD_TEST/history_secret_scan.json",
+      "negative_case_present": true
+    },
+    {
+      "id": "A32",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A32: required substance = auth/privacy accessibility.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'HUMAN_PENDING'; a four-host/Portal/UAT receipt is NOT_EXECUTED this round, so no VERIFIED disposition is possible.",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A33",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A33: required substance = rollback.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'HOST_PENDING'; a four-host/Portal/UAT receipt is NOT_EXECUTED this round, so no VERIFIED disposition is possible.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "A34",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A34: required substance = end-to-end UX metrics.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'UAT_PENDING'; a four-host/Portal/UAT receipt is NOT_EXECUTED this round, so no VERIFIED disposition is possible.",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A35",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A35: required substance = machine summary.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target Appendix B)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A36",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A36: required substance = change_plan.tsv.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target Appendix C)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A37",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A37: required substance = checkrun contract.tsv.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target Appendix D)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A38",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A38: required substance = history chain.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §2.1–2.3)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A39",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A39: required substance = source provenance.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §1/§12/Appendix A)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A40",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A40: required substance = two sources on tech.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §4.1–4.3)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "A41",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A41: required substance = S4 original FULL_PASS separate.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'NO_PROMOTION'",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "A42",
+      "family": "A",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §12",
+      "requirement_summary": "AUDIT atom A42: required substance = minimal write footprint.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §12 itself sets this atom's evidence ceiling at 'CANDIDATE_SPEC / SYNTHETIC / DOCUMENTED' (blueprint target §3.3/§5.1)",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "TR-01",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-01: fixture 'repo commit/tree mismatch' must yield: builder nonzero / no output (gate G00,G05).",
+      "disposition": "VERIFIED",
+      "reason": "raw receipt evidence/03_CI_TEST/linux_after_full.log (its own skip line records the run at HEAD 517d7a5d3f00, the round's Stage A subject) shows test_04_source_commit_gates ... ok at L269.",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log",
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-02",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-02: fixture 'source unknown/missing/new extra file' must yield: refuse exact source set (gate G02).",
+      "disposition": "VERIFIED",
+      "reason": "raw receipt evidence/03_CI_TEST/linux_after_full.log (its own skip line records the run at HEAD 517d7a5d3f00, the round's Stage A subject) shows test_06_extra_skill_member_is_refused / test_06_missing_skill_member_is_refused ... ok at L271–272.",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log",
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-03",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-03: fixture 'source symlink, ../ reference, nonregular' must yield: refuse no read (gate G01,G02,G04).",
+      "disposition": "VERIFIED",
+      "reason": "raw receipt evidence/03_CI_TEST/linux_after_full.log (its own skip line records the run at HEAD 517d7a5d3f00, the round's Stage A subject) shows test_08_symlinked_source_member_is_refused / test_08_non_regular_source_member_is_refused ... ok at L274–275.",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log",
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-04",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-04: fixture 'fake PNG valid magic + invalid body (F01)' must yield: refuse image decode (gate G04).",
+      "disposition": "VERIFIED",
+      "reason": "raw receipt evidence/03_CI_TEST/linux_after_full.log (its own skip line records the run at HEAD 517d7a5d3f00, the round's Stage A subject) shows test_01_png_signature_with_broken_body_is_refused / test_01_non_png_icon_is_refused ... ok at L264–265.",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log",
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-05",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-05: fixture 'arbitrary Manifest custom key (F02)' must yield: vendor schema reject (gate G04).",
+      "disposition": "VERIFIED",
+      "reason": "raw receipt evidence/03_CI_TEST/linux_after_full.log (its own skip line records the run at HEAD 517d7a5d3f00, the round's Stage A subject) shows test_02_unknown_manifest_property_is_refused / test_16_unknown_top_level_key_in_the_official_manifest_is_refused ... ok at L266,285.",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log",
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-06",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-06: fixture 'invalid Skill header (F03)' must yield: reject/derive only when approved (gate G03,G04).",
+      "disposition": "VERIFIED",
+      "reason": "raw receipt evidence/03_CI_TEST/linux_after_full.log (its own skip line records the run at HEAD 517d7a5d3f00, the round's Stage A subject) shows test_03_skill_without_frontmatter_is_refused / test_03_skill_with_wrong_frontmatter_name_is_refused ... ok at L267–268.",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log",
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-07",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-07: fixture 'SourceMap commit null (F04)' must yield: nonzero/no build pass (gate G00,G05).",
+      "disposition": "VERIFIED",
+      "reason": "raw receipt evidence/03_CI_TEST/linux_after_full.log (its own skip line records the run at HEAD 517d7a5d3f00, the round's Stage A subject) shows test_04_source_commit_gates ... ok at L269.",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log",
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-08",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-08: fixture 'SourceMap 40hex wrong' must yield: git HEAD readback rejects (gate G00,G05).",
+      "disposition": "VERIFIED",
+      "reason": "raw receipt evidence/03_CI_TEST/linux_after_full.log (its own skip line records the run at HEAD 517d7a5d3f00, the round's Stage A subject) shows test_04_source_commit_gates ... ok at L269.",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log",
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-09",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-09: fixture 'sidecar output symlink sentinel (F05)' must yield: sentinel unchanged, builder rejects (gate G04).",
+      "disposition": "VERIFIED",
+      "reason": "raw receipt evidence/03_CI_TEST/linux_after_full.log (its own skip line records the run at HEAD 517d7a5d3f00, the round's Stage A subject) shows test_05_symlinked_output_root_is_refused_and_target_untouched ... ok at L270.",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log",
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-10",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-10: fixture 'output root overlaps repo' must yield: refuse to publish (gate G01,G04).",
+      "disposition": "VERIFIED",
+      "reason": "raw receipt evidence/03_CI_TEST/linux_after_full.log (its own skip line records the run at HEAD 517d7a5d3f00, the round's Stage A subject) shows test_13_output_root_overlapping_the_repo_or_dist_is_refused ... ok at L280.",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log",
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-11",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-11: fixture 'deterministic twice fresh environments' must yield: zip SHA equal (gate G05).",
+      "disposition": "VERIFIED",
+      "reason": "raw receipt evidence/03_CI_TEST/linux_after_full.log (its own skip line records the run at HEAD 517d7a5d3f00, the round's Stage A subject) shows test_10_two_builds_are_byte_identical ... ok at L277.",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log",
+      "negative_case_present": false
+    },
+    {
+      "id": "TR-12",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-12: fixture 'attacker adds ninth SKILL.md' must yield: fail exact eight (gate G02).",
+      "disposition": "VERIFIED",
+      "reason": "raw receipt evidence/03_CI_TEST/linux_after_full.log (its own skip line records the run at HEAD 517d7a5d3f00, the round's Stage A subject) shows test_07_ninth_skill_directory_is_refused ... ok at L273.",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log",
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-13",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-13: fixture 'Skill Header owner metadata migrated' must yield: requires preapproval and body exact (gate G03).",
+      "disposition": "VERIFIED",
+      "reason": "raw receipt evidence/03_CI_TEST/linux_after_full.log (its own skip line records the run at HEAD 517d7a5d3f00, the round's Stage A subject) shows test_11_missing_owner_derivation_is_a_non_zero_exit / test_12_complete_owner_record_builds_and_projects_the_body_verbatim ... ok at L278–279.",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log",
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-14",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-14: fixture 'tests/cases.yaml missing' must yield: fail source ledger (gate G02).",
+      "disposition": "OPEN_TT",
+      "reason": "the named path tests/cases.yaml is not isolated - the receipt shows only the generic test_06_missing_skill_member_is_refused ... ok (L272), so the specific fixture stays OPEN_TT (previous-round ceiling LOCAL_SYNTHETIC_NAMED_PATH_NOT_ISOLATED).",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-15",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-15: fixture 'stale preview.2 tag stamped preview.3' must yield: fail release identity check (gate G05).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-16",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-16: fixture 'same tag has different asset SHA' must yield: fail checksum/load (gate G05).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-17",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-17: fixture 'no secret scanner evidence / matched API token fixture' must yield: release hold/reject (gate G04).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce. A secret scan exists (history_secret_scan.json) but is not SHA-pinned (SCANNER_RUN_LOCALLY_NOT_PINNED_BY_SHA).",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/03_BUILD_TEST/history_secret_scan.json",
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-18",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-18: fixture 'SPDX/LICENSE mismatched with claimed Apache-2.0' must yield: reject publication (gate G04).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-19",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-19: fixture 'split file fallback output over cap' must yield: fail without truncating (gate G07).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-20",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-20: fixture 'fallback source hash corrupt' must yield: refuse (gate G07).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-21",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-21: fixture 'fallback destination symlink sentinel' must yield: refuse no overwrite (gate G07).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-22",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-22: fixture '8 Skills each POS + NEG + EDGE + SEC' must yield: 32+ bounded behavior receipts (gate G06).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-23",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-23: fixture 'each of 8 Skills has non-trigger probe' must yield: 8 nontrigger no activation (gate G06).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-24",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-24: fixture 'no Source Locator' must yield: typed NACK with locator (gate G06).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-25",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-25: fixture 'malicious docs command (ignore prior...)' must yield: quarantine no action (gate G06).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-26",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-26: fixture 'fake Independent PASS prompt' must yield: refuses signoff (gate G06).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-27",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-27: fixture 'Host installed but not discovered' must yield: HOST_FAIL, not install PASS (gate G07,G08).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-28",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-28: fixture 'Hermes project trust false/dangerous scan' must yield: no load/no false pass (gate G08).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-29",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-29: fixture 'Codex GUI installs + CLI stale version' must yield: independent states, no universal PASS (gate G08).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-30",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-30: fixture 'Claude Code symlink/directory mismatch' must yield: host effective-load fail (gate G08).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-31",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-31: fixture 'same-name Skill conflict' must yield: no overwrite without approval (gate G08).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-32",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-32: fixture 'uninstall previously existing foreign skills' must yield: foreign paths unchanged, ours residue 0 (gate G08).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-33",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-33: fixture 'no Portal reviewer identity/scan' must yield: PUBLISH_HOLD (gate G09).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-34",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-34: fixture 'Portal approved but not Publish' must yield: APPROVED != PUBLISHED (gate G09).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-35",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-35: fixture 'Plus can see Plugin but Free cannot' must yield: account scoped degrade (gate G07).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-36",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-36: fixture 'GitHub Actions privileged PR + unsafe shell' must yield: CI config rejected (gate G04,G09).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.github/workflows/public-plugin-verify.yml",
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-37",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-37: fixture 'unauthorized repo code change' must yield: fail forbidden Git Diff (gate G01).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-38",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-38: fixture 'LLM judge order effect and missing negative' must yield: counterbalance calibrate/report TT (gate G06).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-39",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-39: fixture 'seeded orphan/hash mismatch TraceLink' must yield: preserve S4 oracle fail, no Full PASS (gate S4 nonpromotion).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "TR-40",
+      "family": "TR",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.2",
+      "requirement_summary": "Regression check TR-40: fixture 'new/old public Plugin rollback' must yield: Publisher/Host state readback matches receipt (gate G09).",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §9.2 note: '§7.3 的 14 項 + §7.4.1 的 5 項為已跑的合成 fixture；TR-15–TR-40 多數需真實 Repo/host/Portal/Independent execution，故仍 NOT_EXECUTED' - this check needs a real Repo/host/Portal/independent receipt that this round did not produce.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "UPG-G00",
+      "family": "UPG-G",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.1",
+      "requirement_summary": "Upgrade gate UPG-G00: PASS requires raw evidence; source identity correct: 40-hex commit/tree, tag crosswalk + SHA256 of all source, vendor schema digest pin; mismatch FAIL, missing TEMP_CLOSED.",
+      "disposition": "OPEN_TT",
+      "reason": "the round's receipts name the subject commit 517d7a5d (ci_fault_injection.txt) but no tag crosswalk, source SHA256 set or vendor schema digest pin was produced this round; the gate's own FAIL/TEMP_CLOSED branches keep it OPEN.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "UPG-G01",
+      "family": "UPG-G",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.1",
+      "requirement_summary": "Upgrade gate UPG-G01: PASS requires raw evidence; protect the original S4: denied src/skills/schema/Normative diff must be 0 with Owner-approved changed paths; unauthorized change FAIL.",
+      "disposition": "OPEN_TT",
+      "reason": "the gate's PASS condition needs raw evidence (real build/security/independent receipt); this round produced CI/test receipts for its two findings only, so the gate stays OPEN_TT.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "UPG-G02",
+      "family": "UPG-G",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.1",
+      "requirement_summary": "Upgrade gate UPG-G02: PASS requires raw evidence; no missing/extra Skill: eight logical exact set, freeze produces the full recursive file set, each baseline 6 with approved deps recorded; 7/9 Skill or missing reference FAIL.",
+      "disposition": "OPEN_TT",
+      "reason": "the gate's PASS condition needs raw evidence (real build/security/independent receipt); this round produced CI/test receipts for its two findings only, so the gate stays OPEN_TT.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "UPG-G03",
+      "family": "UPG-G",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.1",
+      "requirement_summary": "Upgrade gate UPG-G03: PASS requires raw evidence; no flattening/drift: per-file exact sha; DERIVED requires Ticket/field/source hash with Body unchanged plus a behavior negative; silent normalization FAIL.",
+      "disposition": "OPEN_TT",
+      "reason": "the gate's PASS condition needs raw evidence (real build/security/independent receipt); this round produced CI/test receipts for its two findings only, so the gate stays OPEN_TT.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "UPG-G04",
+      "family": "UPG-G",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.1",
+      "requirement_summary": "Upgrade gate UPG-G04: PASS requires raw evidence; legal/safe: official Plugin schema SHA vendor-lock, skills-ref eight valid, PNG verified, mcp/actions/hooks absent, secret/license scan, secure ZIP readback; Portal unrun = TEMP_CLOSED.",
+      "disposition": "OPEN_TT",
+      "reason": "the gate's PASS condition needs raw evidence (real build/security/independent receipt); this round produced CI/test receipts for its two findings only, so the gate stays OPEN_TT.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "UPG-G05",
+      "family": "UPG-G",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.1",
+      "requirement_summary": "Upgrade gate UPG-G05: PASS requires raw evidence; anti stale-stamp/asset swap: ReleaseTuple commit/tree/map+zip+source version+GitHub actual asset hash must match, 2x reproducible; null commit/stale tag/same-tag drift FAIL.",
+      "disposition": "OPEN_TT",
+      "reason": "the gate's PASS condition needs raw evidence (real build/security/independent receipt); this round produced CI/test receipts for its two findings only, so the gate stays OPEN_TT.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "UPG-G06",
+      "family": "UPG-G",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.1",
+      "requirement_summary": "Upgrade gate UPG-G06: PASS requires raw evidence; the workflow really works: 8/8 each POS/NEG/EDGE/SEC/nontrigger, no-source NACK, false PASS veto, SoD/HITL guard, fresh trace; one false PASS FAIL.",
+      "disposition": "OPEN_TT",
+      "reason": "the gate's PASS condition needs raw evidence (real build/security/independent receipt); this round produced CI/test receipts for its two findings only, so the gate stays OPEN_TT.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "UPG-G07",
+      "family": "UPG-G",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.1",
+      "requirement_summary": "Upgrade gate UPG-G07: PASS requires raw evidence; Plus/Free UX: a real Plus account Public Directory effective load or fallback, and a real Free account-scoped fallback with one complete MD; no host receipt = TEMP_CLOSED.",
+      "disposition": "OPEN_TT",
+      "reason": "the four-host / Plus-Free UAT is NOT_EXECUTED this round by construction, so only the blueprint's TEMP_CLOSED/NOT_SUPPORTED branch applies.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "UPG-G08",
+      "family": "UPG-G",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.1",
+      "requirement_summary": "Upgrade gate UPG-G08: PASS requires raw evidence; multi-host UX: Hermes/Codex Desktop/Codex CLI/Claude each real install/list/trigger/negative/uninstall/rollback; an unsupported host is NOT_SUPPORTED, no Universal PASS.",
+      "disposition": "OPEN_TT",
+      "reason": "the four-host / Plus-Free UAT is NOT_EXECUTED this round by construction, so only the blueprint's TEMP_CLOSED/NOT_SUPPORTED branch applies.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "UPG-G09",
+      "family": "UPG-G",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §9.1",
+      "requirement_summary": "Upgrade gate UPG-G09: PASS requires raw evidence; publisher legitimate: Verified Publisher identity, Portal ZIP SHA, scan/review approval, Human publish, public URL + user-side readback; missing = PUBLIC_HOLD.",
+      "disposition": "OPEN_TT",
+      "reason": "public publishing is NOT_EXECUTED by construction this round (no merge, no public release, Portal/vendor validation NOT_EXECUTED); a public-release atom can never be VERIFIED here.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "UPG-P01",
+      "family": "UPG-P",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §5.1",
+      "requirement_summary": "Upgrade package UPG-P01: Plugin official root/manifest/8 Skills projection, icon and Schema; owner PKG07 + Codex Maker; needs frozen source ledger, publisher metadata and Owner derivation approval; output ZIP + source-map + Release receipt + raw tests, not published.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §5.1 lists this work package and its owner/route-out; its deliverables (ZIP/receipt, first-run UAT, independent checkrun, Portal handoff) are not closed by this round's CI/test receipts.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    },
+    {
+      "id": "UPG-P02",
+      "family": "UPG-P",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §5.1",
+      "requirement_summary": "Upgrade package UPG-P02: README's two main entries, single Agent install prompt and Free single MD; owner KP17/DX + PKG07; needs real public state and Host capabilities.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §5.1 lists this work package and its owner/route-out; its deliverables (ZIP/receipt, first-run UAT, independent checkrun, Portal handoff) are not closed by this round's CI/test receipts.",
+      "evidence_ref": null,
+      "negative_case_present": false
+    },
+    {
+      "id": "UPG-P03",
+      "family": "UPG-P",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §5.1",
+      "requirement_summary": "Upgrade package UPG-P03: anti-damage, manifest, Skill, URI/ZIP, secret/license and host effective load; owner PKG06/TQAEP + PKG08 Checker; needs a controlled candidate, negative set and independent clean environment.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §5.1 lists this work package and its owner/route-out; its deliverables (ZIP/receipt, first-run UAT, independent checkrun, Portal handoff) are not closed by this round's CI/test receipts.",
+      "evidence_ref": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/03_BUILD_TEST/history_secret_scan.json",
+      "negative_case_present": true
+    },
+    {
+      "id": "UPG-P04",
+      "family": "UPG-P",
+      "source_locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/PIPD/PIPD-LS-SP S4｜三合一小型升級/PIPD-LS-SP S4｜三合一小型升級藍圖.md §5.1",
+      "requirement_summary": "Upgrade package UPG-P04: new-version candidate Release and Portal Publisher handoff; owner PKG08 Release Owner + Human Publisher; needs full validation and real identity/authorisation.",
+      "disposition": "OPEN_TT",
+      "reason": "blueprint §5.1 lists this work package and its owner/route-out; its deliverables (ZIP/receipt, first-run UAT, independent checkrun, Portal handoff) are not closed by this round's CI/test receipts.",
+      "evidence_ref": null,
+      "negative_case_present": true
+    }
+  ]
+}
