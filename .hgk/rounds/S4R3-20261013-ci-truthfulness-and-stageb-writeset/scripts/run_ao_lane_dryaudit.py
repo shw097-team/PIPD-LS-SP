@@ -33,8 +33,14 @@ SCRATCH = pathlib.Path(
     "/cache/scratch/pipd-s4r3-exec"
 )
 NONCE = "HGK_LANE_NONCE_OK"
-TOTAL_CAP = 60000
-PER_FILE_CAP = 14000
+# MEASURED (attempt 4, WinError 206): the dispatcher takes the prompt as a COMMAND-LINE argument
+# (`codex exec ... args.prompt`, no file-based option), so a prompt larger than the Windows
+# CreateProcess limit (~32k chars) cannot be spawned at all - it dies before any model sees it.
+# The cap below is therefore a hard pre-spawn guard, not a style preference, and the evidence
+# inlining is sized to fit inside it.
+TOTAL_CAP = 20000
+PER_FILE_CAP = 6000
+MAX_PROMPT_CHARS = 29000
 
 
 def head(path: pathlib.Path) -> str:
@@ -49,11 +55,16 @@ def receipts() -> str:
     out, used = [], 0
     for p in picked:
         if used >= TOTAL_CAP:
-            out.append(f"\n[{p.name} omitted: total cap {TOTAL_CAP} reached]\n")
+            out.append(f"\n[{p.name} omitted: total cap {TOTAL_CAP} chars reached]\n")
             continue
         body = p.read_text(encoding="utf-8", errors="replace")
-        if len(body) > PER_FILE_CAP:
-            body = body[:PER_FILE_CAP] + f"\n[... {len(body) - PER_FILE_CAP} chars truncated ...]\n"
+        # Clip to whichever is smaller: the per-file cap, or the room left in the total budget.
+        # (Earlier this only checked the per-file cap, so the LAST file could overshoot the total
+        # by a whole file - the exact overshoot that tripped the pre-spawn length guard.)
+        room = TOTAL_CAP - used
+        keep = min(PER_FILE_CAP, room)
+        if len(body) > keep:
+            body = body[:keep] + f"\n[... {len(body) - keep} chars truncated to fit the budget ...]\n"
         used += len(body)
         out.append(f"\n===== BEGIN FILE: {p.name} =====\n{body}\n===== END FILE: {p.name} =====\n")
     return "".join(out)
@@ -100,6 +111,9 @@ MATERIAL: raw receipts as committed in the round directory (verbatim)
 
 OUTPUT
   Give one line per claim: `C1: CONFIRMED | PARTIALLY_CONFIRMED | REFUTED | INCONCLUSIVE - reason`.
+  Some files below are marked truncated or omitted to fit a hard command-line limit; if a claim
+  depends on material that is missing, say INCONCLUSIVE and name the file you would need. Anything
+  you cannot check from what is supplied counts against the claim, not for it.
   Then list what you could not verify and why, then residual risks.
   End with a final line of exactly:
   VERDICT: CONFIRMED | PARTIALLY_CONFIRMED | REFUTED | INCONCLUSIVE
@@ -111,6 +125,16 @@ def main() -> int:
     attempt = sys.argv[1] if len(sys.argv) > 1 else "4"
     a_head, b_head = head(A_WT), head(B_WT)
     prompt = build_prompt(a_head, b_head)
+    if len(prompt) > MAX_PROMPT_CHARS:
+        print(json.dumps({
+            "refused": "ERR_PROMPT_TOO_LONG_FOR_ARGV",
+            "prompt_chars": len(prompt), "max": MAX_PROMPT_CHARS,
+            "why": ("the dispatcher passes the prompt as a command-line argument and has no file-based "
+                    "option, so a longer prompt cannot be spawned (WinError 206) and would be recorded "
+                    "as a failed attempt that no model ever saw. Refusing before the spawn is the "
+                    "honest outcome; shrink the inlined evidence instead of hiding the failure."),
+        }, indent=2, ensure_ascii=False))
+        return 2
     SCRATCH.mkdir(parents=True, exist_ok=True)
     pf = SCRATCH / f"verify_prompt_s4r3x_dryaudit_a{attempt}.md"
     pf.write_text(prompt, encoding="utf-8", newline="\n")
