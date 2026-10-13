@@ -77,6 +77,13 @@ VENDOR_SCHEMA_FILENAME = "vendor-plugin.schema.json"
 RELEASE_BOOKKEEPING_FILENAME = "plugin.release.json"
 # The vendor-blessed reverse-domain namespace that carries PIPD's own release bookkeeping.
 RELEASE_EXTENSION_KEY = "com.pipd.s4"
+# The extension namespaces REVIEWED for this package (CR-EXT-UNREVIEWED). The locked vendor schema
+# permits arbitrary object-valued reverse-domain namespaces, so without this gate an unreviewed
+# namespace is accepted and preserved in the ZIP at exit 0. Adding a namespace is a review decision
+# recorded against the release, not a build-time input, so the gate refuses anything outside this
+# set. `com.openai` carries the interface block the public listing reads; `com.pipd.s4` carries the
+# bookkeeping that is checked against `plugin.release.json` verbatim.
+REVIEWED_EXTENSION_NAMESPACES = ("com.openai", RELEASE_EXTENSION_KEY)
 PORTABLE_KEYS = ("name", "description", "license", "compatibility", "metadata", "allowed-tools")
 NON_PORTABLE_KEYS = ("version", "owner", "triggers", "schemas", "references", "tests")
 
@@ -696,6 +703,42 @@ def build_plugin(*, source_root: Path, ledger: dict, source_commit: str | None,
         first = violations[0]
         raise Refusal("MANIFEST_SCHEMA_VIOLATION",
                       f"{first['path']}: {first['keyword']} — {first['message']}")
+
+    # (c) CR-IDENTITY-BIND: the official manifest must carry the SAME identity as the release
+    # bookkeeping. The ZIP root directory and the release receipt are both named from the
+    # bookkeeping's `plugin_id`, so an official manifest naming something else ships ONE artefact
+    # carrying TWO contradicting identities, and a reviewer reading either one alone is misled. The
+    # earlier builder validated the manifest's SHAPE only, so a valid-but-different name, or a
+    # version bound to nothing, was accepted at exit 0.
+    plugin_id = release.get("plugin_id")
+    if not isinstance(plugin_id, str) or not plugin_id.strip():
+        raise Refusal("RELEASE_IDENTITY_INVALID",
+                      "the release bookkeeping carries no non-empty `plugin_id`")
+    if manifest.get("name") != plugin_id:
+        raise Refusal("MANIFEST_IDENTITY_MISMATCH",
+                      f"official manifest `name` {manifest.get('name')!r} != release plugin_id "
+                      f"{plugin_id!r}; the ZIP root and the receipt are named from the plugin_id")
+    if manifest.get("version") != release.get("version"):
+        raise Refusal("MANIFEST_VERSION_MISMATCH",
+                      f"official manifest `version` {manifest.get('version')!r} != release version "
+                      f"{release.get('version')!r}")
+    if manifest.get("license") != release.get("license"):
+        raise Refusal("MANIFEST_LICENSE_MISMATCH",
+                      f"official manifest `license` {manifest.get('license')!r} != release license "
+                      f"{release.get('license')!r}")
+
+    # (d) CR-EXT-UNREVIEWED: only REVIEWED extension namespaces may appear. The locked vendor schema
+    # permits arbitrary object-valued namespaces, so without this gate unreviewed content ships.
+    extensions = manifest.get("extensions")
+    if not isinstance(extensions, dict) or not extensions:
+        raise Refusal("MANIFEST_EXTENSIONS_INVALID",
+                      "the official manifest must carry a non-empty `extensions` object")
+    unreviewed = sorted(set(extensions) - set(REVIEWED_EXTENSION_NAMESPACES))
+    if unreviewed:
+        raise Refusal("EXTENSION_NAMESPACE_UNREVIEWED",
+                      f"unreviewed extension namespace(s) {unreviewed}; the reviewed namespaces are "
+                      f"{sorted(REVIEWED_EXTENSION_NAMESPACES)}. Adding one is a review decision, "
+                      f"not a build input.")
 
     # --- PIPD's release bookkeeping + the local subset ------------------------------------
     schema_path = packaging_root / "plugin.schema.json"

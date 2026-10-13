@@ -11,6 +11,25 @@ deterministically.
 Licensed **Apache-2.0**. This repository is an owner-authorised open-source **preview / beta**, not
 a production release — read [Claim ceiling](#claim-ceiling) before building on it.
 
+## Start here — the only navigation you need
+
+This README is an **entry point, not a manual**: it says what this is, what state it is in, and where
+each thing lives. Shell-level installation detail has exactly one home and is not repeated here.
+
+| If you are… | Go to | What it is |
+|---|---|---|
+| New, and you want to know what this is / is not | [What it does, and does not](#what-is-in-this-tree) | Scope and non-goals |
+| Checking whether it is safe to build on | [Claim ceiling](#claim-ceiling) · [Known limitations](#known-limitations) | What is verified, what is not |
+| Installing it, by either route | [`docs/install/README.md`](docs/install/README.md) | **The single install SSOT** — versions, hashes, uninstall |
+| Actually using it, task by task | [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md) | **The single user guide** — the only manual |
+| Driving the CLI/Wheel directly | [CLI advanced](#choose-your-path-cli-or-skills) | 13 verbs, JSON output, typed refusals |
+
+Two routes exist, and only two: **Web** (one document, no shell) and **Agent** (one copy-paste
+prompt). The historical shell transcripts further down are retained as evidence of what was actually
+executed against the published wheel — they are **not** a second installation instruction. When the
+two disagree, [`docs/install/README.md`](docs/install/README.md) and the [user guide](docs/USER_GUIDE.md)
+win.
+
 ## Verification entry point — candidate on `feat/s4post-triple-upgrade-20261013-r3`
 
 The current candidate is **not** on `main`, and `main` is not what the entry document describes.
@@ -38,10 +57,14 @@ Install is one of **two routes**, and [`docs/install/README.md`](docs/install/RE
 single source of truth for both:
 
 - **Web** — no public plugin directory listing exists yet, so the Web route today is the single
-  document `PIPD_WEB_FALLBACK.md` (built by `tools/build_web_fallback.py` from a frozen mount pack).
-  Its ceiling is **`DOC_MOUNT_ONLY`**: no Python CLI, no MCP, no repository write, no S4 acceptance.
-  A directory listing, once one is published and account-visible, is a *conditional* future route
-  and is not available today.
+  document **[`docs/install/PIPD_WEB_FALLBACK.md`](docs/install/PIPD_WEB_FALLBACK.md)** — a real,
+  downloadable file (not a generator you have to be able to run), with its digest recorded in
+  `docs/install/PIPD_WEB_FALLBACK.md.sha256`. Its ceiling is **`DOC_MOUNT_ONLY`**: no Python CLI, no
+  MCP, no repository write, no S4 acceptance. A directory listing, once one is published and
+  account-visible, is a *conditional* future route and is not available today.
+  Signs to check before you trust that file: it must carry the same `release_id`, `release_commit`
+  and `content_sha256` as the `.sha256` file beside it, and the generating command in
+  `docs/install/README.md` must reproduce those bytes.<span></span>
 - **Agent** — one copy-paste prompt,
   [`docs/install/PIPD_AGENT_INSTALL_PROMPT.md`](docs/install/PIPD_AGENT_INSTALL_PROMPT.md), for the
   four supported hosts (Hermes Agent, Codex Desktop (GUI), Codex CLI, Claude Code). Each host must
