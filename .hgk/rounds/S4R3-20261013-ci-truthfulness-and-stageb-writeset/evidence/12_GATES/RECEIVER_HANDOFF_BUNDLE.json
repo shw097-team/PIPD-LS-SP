@@ -1,0 +1,71 @@
+{
+  "schema": "RECEIVER-HANDOFF-BUNDLE/1",
+  "shaped_after": "PIPD-PKG-05 DOC-05 ReceiverHandoffBundle + 05-D00-H2-2 receiver subject identity",
+  "governing_state_machine": "PIPD-PKG-05 0.5: DRAFT -> SOURCE_LOCKED -> VALIDATED_CANDIDATE -> OFFERED -> RECEIVER_ACCEPT_HANDOFF | NACK | HOLD | DENY -> HGK_ADMISSION_ONLY -> EFFECT_ATTEMPT -> WORLD_READBACK -> TQAEP/INDEPENDENT -> HUMAN_GATE",
+  "position_in_state_machine": "OFFERED",
+  "receiver_state": "AWAITING_EXTERNAL",
+  "admission": {
+    "admission_receipt": "",
+    "admission_receipt_state": "AWAITING_EXTERNAL - only the HGK receiver may produce one; a maker-side value would be a FORGED_ADMISSION",
+    "human_token": "",
+    "human_token_state": "AWAITING_EXTERNAL",
+    "note": "this bundle deliberately carries empty admission fields rather than plausible values"
+  },
+  "subject_identity": {
+    "repo": "https://github.com/shw097-team/PIPD-LS-SP.git",
+    "stage_a_branch": "fix/s4r3-stage-a-ci-truthfulness-20261013",
+    "stage_a_head": "759b9f0dc880b2f960363b2ceaa68446c770061d",
+    "stage_b_branch": "feat/s4r3-stageb-successor-20261013",
+    "stage_b_head": "1f94f834897452f52deb74049e8f4efc7dadc4ad",
+    "stacked_invariant": "merge-base(stage_a_head, stage_b_head) == stage_a_head",
+    "frozen_subject_the_round_examined": "e71fee6dd3aa73724baec4e8d9cc72127fbe36ed",
+    "receipt_note": "the receiver must resolve every sha itself; short forms are provided for reading only"
+  },
+  "scope": {
+    "in_scope": [
+      "the write-set gate in .github/workflows/public-plugin-verify.yml on both branch copies",
+      "the round's evidence tree under .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/",
+      "the packaging and CI repairs carried by the two branches"
+    ],
+    "out_of_scope": [
+      "src/ writes on the stage-b branch (denied by that stage's own classifier)",
+      "skills/, schemas/, dist/ (denied for both stages)",
+      ".hgk/** is excluded from the governed PRODUCT write set by declaration, not allowed by pattern"
+    ]
+  },
+  "permissions": {
+    "granted_by_this_bundle": "none",
+    "note": "a handoff is not a permission; the receiver grants admission, this bundle only offers"
+  },
+  "ecp": {
+    "DEV": {"state": "DESIGN_ONLY", "artifact": "the branch commits and their CI runs"},
+    "OPS": {"state": "DESIGN_ONLY", "artifact": "no operational change proposed by this round"},
+    "TQAEP": {
+      "state": "DESIGN_ONLY_BUNDLE_SCOPED",
+      "artifact": "far-study/rem2/verify/VERDICT_REM2_V2_A22.txt",
+      "limitation": "a bundle audit by a lane that cannot read the tree or execute anything; it is not target-scoped checker-observed evidence and must not be presented as qualification"
+    }
+  },
+  "rollback": {
+    "refs": [
+      {"ref": "main", "value": "224591431a164ab72a9423cd180e417e8a762403", "note": "untouched by this session"},
+      {"ref": "v0.1.1-preview.3", "value": "e94cc7f9567acb59de4691ee6166815ac96a9700", "note": "untouched; its wheel carries the disclosed Trace defect"}
+    ],
+    "restore_action": "git reset --hard to either frozen ref; both branch heads are additive and no force-push was used on main or the tag"
+  },
+  "evidence_entry_points": [
+    "HANDOVER_PACK_EXTERNAL_ACCEPTANCE.md - subject resolution, per-artifact falsifying checks, disclosed deviations",
+    "ROUND_RESULT_FAR2_REMEDIATION.md - the F1 remedy, decided by measurement, with what each check falsifies",
+    "CLOSURE_AND_HANDOVER.md - this session's closure disposition and how to verify it",
+    "evidence/12_GATES/CLOSURE_DISPOSITION.json - every pending item, its next legal state and its falsifier",
+    "evidence/12_GATES/SUPERSESSION_LEDGER.json - old/new hashes per superseded revision",
+    "evidence/12_GATES/AFFECTED_ONLY_INVALIDATION.json - what the head advance invalidated, and what it did not",
+    "evidence/12_GATES/EVIDENCE_ENVELOPE.json - per-artifact sha256, subject, observed_at, supersedes_hash",
+    "far-study/LANE_RUNS_FINAL_LEDGER.md - every lane attempt, including the invalid ones"
+  ],
+  "known_limitations_stated_by_the_sender": [
+    "no independent party has read or executed against the tree",
+    "no canonical acceptance row has been run; all lane verdicts are advisory",
+    "the PLAN leg ran on a model other than the one mandated for this round"
+  ]
+}

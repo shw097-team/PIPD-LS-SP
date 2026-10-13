@@ -30,9 +30,22 @@ def load(p: str) -> dict:
 def guard_coverage(spec: dict, bundle: dict) -> dict:
     kept = set(bundle.get("blocks_kept") or [])
     offered = set(bundle.get("blocks_offered") or [])
+    # Class-E9 hardening: a claim whose evidence is a computed value must name the command that
+    # recomputes it, and that command must be carried in the bundle. Carrying only the computed result
+    # is what left three bundles unauditable while every declared-block check passed.
+    recompute_commands = set(bundle.get("recompute_commands") or [])
     out = {"guard": "COVERAGE", "refusals": [], "checks": []}
     for c in spec.get("claims", []):
         required = set(c.get("required_blocks") or [])
+        rc = (c.get("recompute") or "").strip()
+        if not rc:
+            out["refusals"].append({"claim_id": c.get("claim_id"), "code": "ERR_CLAIM_WITHOUT_RECOMPUTE",
+                                    "detail": "a claim whose evidence is a computed value must name the "
+                                              "command that recomputes it"})
+        elif rc not in recompute_commands:
+            out["refusals"].append({"claim_id": c.get("claim_id"), "code": "ERR_RECOMPUTE_NOT_CARRIED",
+                                    "detail": f"the named recompute command is not carried in the "
+                                              f"bundle: {rc!r}"})
         missing = sorted(required - kept)
         out["checks"].append({
             "claim_id": c.get("claim_id"), "required": sorted(required),
@@ -76,15 +89,32 @@ def selftest(tmp: pathlib.Path) -> dict:
     real.write_text("a receipt that exists\n", encoding="utf-8")
     spec = {"claims": [
         {"claim_id": "C-good", "required_blocks": ["family_receipt", "doctor_receipt"],
-         "receipt_paths": ["REAL_RECEIPT.txt"]},
+         "receipt_paths": ["REAL_RECEIPT.txt"], "recompute": "cmd-good"},
     ]}
     good_bundle = {"blocks_offered": ["family_receipt", "doctor_receipt"],
-                   "blocks_kept": ["family_receipt", "doctor_receipt"]}
+                   "blocks_kept": ["family_receipt", "doctor_receipt"],
+                   "recompute_commands": ["cmd-good"]}
     cases = []
     # positive: must pass both guards
     cov, rec = guard_coverage(spec, good_bundle), guard_receipts(spec, tmp)
     cases.append({"case": "positive", "expected": "pass", "coverage_ok": cov["ok"],
                   "receipts_ok": rec["ok"], "as_expected": cov["ok"] and rec["ok"]})
+    # negative 0 (E9 class): a claim that carries a computed value but names no recompute command
+    spec_norc = {"claims": [{"claim_id": "C-norc", "required_blocks": ["family_receipt"],
+                             "receipt_paths": ["REAL_RECEIPT.txt"]}]}
+    cov0 = guard_coverage(spec_norc, good_bundle)
+    cases.append({"case": "negative_no_recompute_named", "expected": "refuse",
+                  "coverage_ok": cov0["ok"], "codes": [r["code"] for r in cov0["refusals"]],
+                  "as_expected": not cov0["ok"]})
+    # negative 0b: the recompute command is named but not carried in the bundle
+    spec_rc_missing = {"claims": [{"claim_id": "C-rc-missing",
+                                   "required_blocks": ["family_receipt"],
+                                   "receipt_paths": ["REAL_RECEIPT.txt"],
+                                   "recompute": "cmd-not-carried"}]}
+    cov0b = guard_coverage(spec_rc_missing, good_bundle)
+    cases.append({"case": "negative_recompute_not_carried", "expected": "refuse",
+                  "coverage_ok": cov0b["ok"], "codes": [r["code"] for r in cov0b["refusals"]],
+                  "as_expected": not cov0b["ok"]})
     # negative 1: the attempt-8 shape - doctor receipt offered but dropped
     dropped = {"blocks_offered": ["family_receipt", "doctor_receipt"],
                "blocks_kept": ["family_receipt"]}

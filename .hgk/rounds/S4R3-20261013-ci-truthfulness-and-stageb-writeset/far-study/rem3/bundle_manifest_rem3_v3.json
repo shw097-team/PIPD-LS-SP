@@ -1,0 +1,33 @@
+{
+ "bundle": "rem3-closure-handover-v3",
+ "blocks_offered": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8"
+ ],
+ "blocks_kept": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8"
+ ],
+ "recompute_commands": [
+  "git rev-list --parents -n 1 <new_sha>   # predecessor of each supersession entry (BLOCK 3)",
+  "git merge-base --is-ancestor <old> <new>; echo $?   # 0 means predecessor_matches (BLOCK 3)",
+  "git rev-parse <old>^{commit}   # presence of the superseded object (BLOCK 3)",
+  "scripts/measure_allowlist_minimum.py <worktree>   # regenerates the counts in BLOCK 7",
+  "scripts/closure_close_out.py <b> <a>   # regenerates blocks 3 and 4",
+  "scripts/run_writeset_gate_locally.py   # regenerates the gate verdict lines in BLOCK 7",
+  "sed 's/#//g' <gate file> | tr '\\n' ' ' | tr -s ' ' | grep -c 'widens NEITHER allowlist'  # 1 before, 0 after (BLOCK 8)"
+ ],
+ "note": "v3 adds BLOCK 8, the patch receipt for the second PATCHED item, which v2's audit named as its only residue"
+}

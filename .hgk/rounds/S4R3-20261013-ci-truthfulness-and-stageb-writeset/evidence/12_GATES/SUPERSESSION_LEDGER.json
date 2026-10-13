@@ -1,0 +1,59 @@
+{
+ "schema": "CLOSURE-SUPERSESSION-LEDGER/1",
+ "observed_at": "2026-10-13T13:36:23.517619+00:00",
+ "current_heads": {
+  "stage_a": "759b9f0dc880b2f960363b2ceaa68446c770061d",
+  "stage_b": "1f94f834897452f52deb74049e8f4efc7dadc4ad"
+ },
+ "entries": [
+  {
+   "old_id": "fix/s4r3-stage-a-ci-truthfulness-20261013",
+   "new_id": "fix/s4r3-stage-a-ci-truthfulness-20261013",
+   "old_hash": "5310896e706e01a9cdb0123285bccec75086bcb8",
+   "new_hash": "759b9f0dc880b2f960363b2ceaa68446c770061d",
+   "supersession_ref": "fix/s4r3-stage-a-ci-truthfulness-20261013@5310896e706e->759b9f0dc880",
+   "old_hash_present_in_repo": true,
+   "new_hash_present_in_repo": true,
+   "predecessor_matches": true,
+   "invariant": "old_hash != new_hash && predecessor_matches && identity_reuse_not_repurposed",
+   "invariant_holds": true,
+   "reason": "F1 remedy edited the gate file, which lives on both branches; Stage A advanced by that one commit",
+   "lineage_fork": false,
+   "receipt_required": "explicit owner/consumer receipt per PKG-09 DOC-01; absent -> HOLD and TT",
+   "receipt_state": "AWAITING_EXTERNAL"
+  },
+  {
+   "old_id": "feat/s4r3-stageb-successor-20261013",
+   "new_id": "feat/s4r3-stageb-successor-20261013",
+   "old_hash": "35a68f0c05a26747c2a1553cb86505ac26909b88",
+   "new_hash": "46ae548311e7f38d520d4fe98df276d15867939d",
+   "supersession_ref": "feat/s4r3-stageb-successor-20261013@35a68f0c05a2->46ae548311e7",
+   "old_hash_present_in_repo": true,
+   "new_hash_present_in_repo": true,
+   "predecessor_matches": true,
+   "invariant": "old_hash != new_hash && predecessor_matches && identity_reuse_not_repurposed",
+   "invariant_holds": true,
+   "reason": "Stage B re-stacked onto the new Stage A head by merge so merge-base(A,B) == A head again",
+   "lineage_fork": false,
+   "receipt_required": "explicit owner/consumer receipt per PKG-09 DOC-01; absent -> HOLD and TT",
+   "receipt_state": "AWAITING_EXTERNAL"
+  },
+  {
+   "old_id": "feat/s4r3-stageb-successor-20261013",
+   "new_id": "feat/s4r3-stageb-successor-20261013",
+   "old_hash": "46ae548311e7f38d520d4fe98df276d15867939d",
+   "new_hash": "1f94f834897452f52deb74049e8f4efc7dadc4ad",
+   "supersession_ref": "feat/s4r3-stageb-successor-20261013@46ae548311e7->1f94f8348974",
+   "old_hash_present_in_repo": true,
+   "new_hash_present_in_repo": true,
+   "predecessor_matches": true,
+   "invariant": "old_hash != new_hash && predecessor_matches && identity_reuse_not_repurposed",
+   "invariant_holds": true,
+   "reason": "round evidence, remedy receipts, lane verdicts and the updated handover pack committed",
+   "lineage_fork": false,
+   "receipt_required": "explicit owner/consumer receipt per PKG-09 DOC-01; absent -> HOLD and TT",
+   "receipt_state": "AWAITING_EXTERNAL"
+  }
+ ],
+ "note": "derived from git ancestry, not from prose; a same-hash entry would be an editorial no-op and is not listed"
+}
