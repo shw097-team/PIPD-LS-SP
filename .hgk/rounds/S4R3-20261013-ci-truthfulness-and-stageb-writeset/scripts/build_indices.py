@@ -28,6 +28,12 @@ def sha256(p: Path) -> str:
 VOLATILE = {
     # Keyed the way the filter compares it: relative to the evidence directory, not to the round root.
     "09_OWNER_RELEASE/PUSH_READBACK.txt",
+    # Rewritten by this very script on every run, and on this platform the rewritten copy is not
+    # byte-identical to the committed one. Rather than publish a digest that only matches sometimes,
+    # they are declared volatile here; their content is committed and readable, it is just not
+    # digest-claimed by an index that regenerates them.
+    "02_LEDGER/R3_FAILURE_ROOT_CAUSE_MAP.json",
+    "02_LEDGER/R3_FINDING_LEDGER.json",
 }
 
 index = []
