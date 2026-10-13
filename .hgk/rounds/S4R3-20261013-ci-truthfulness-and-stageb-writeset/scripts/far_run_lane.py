@@ -24,6 +24,30 @@ PY = "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe"
 NONCE = "HGK_LANE_NONCE_OK"
 
 
+def rank_for_arm(arm: str, lane: str | None = None) -> str:
+    """Resolve the pool rank carrying `arm`, scoped to `lane`.
+
+    Scoping matters: the same arm sits at different ranks in different lanes (glm-5.3-flash is PLAN
+    rank 4 and VERIFY_SECURITY rank 3), so an unscoped search returns the wrong rank and the dispatcher
+    refuses with ERR_LANE_REQUIRED_ARM_ABSENT for an arm that is present.
+
+    Fail-closed on purpose: if the arm is not in the pool this returns a rank that cannot match, so the
+    dispatcher refuses with its own code instead of the run silently falling through to another arm.
+    """
+    pool = HGK / "config/lane-route-slots.candidate.json"
+    try:
+        d = json.loads(pool.read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        return "0"
+    for lane_obj in d.get("lanes", []):
+        if lane and lane_obj.get("lane") != lane:
+            continue
+        for e in lane_obj.get("ordered_pool", []) or []:
+            if f"{e.get('provider')}/{e.get('model')}" == arm:
+                return str(e.get("rank", "0"))
+    return "0"
+
+
 def head(p: pathlib.Path) -> str:
     return subprocess.run(["git", "-C", str(p), "rev-parse", "HEAD"], capture_output=True,
                           text=True, check=True).stdout.strip()
@@ -32,6 +56,11 @@ def head(p: pathlib.Path) -> str:
 def main() -> int:
     lane, prompt_file, cwd, arm, attempt, outdir = sys.argv[1:7]
     timeout = sys.argv[7] if len(sys.argv) > 7 else "1500"
+    # The rank is an INPUT, not a constant. `--require-arm` is matched against the pool AFTER
+    # `--force-rank` filters it, so hard-coding rank 1 for a checker whose arm sits at rank 3 makes the
+    # dispatcher refuse with ERR_LANE_REQUIRED_ARM_ABSENT - which reads like "the arm is gone" and is
+    # not. Derive it from the default pool instead of trusting a literal.
+    rank = sys.argv[8] if len(sys.argv) > 8 else rank_for_arm(arm, lane)
     pf = pathlib.Path(prompt_file)
     prompt = pf.read_text(encoding="utf-8")
     if len(prompt) > 29000:
@@ -40,7 +69,7 @@ def main() -> int:
     out = pathlib.Path(outdir)
     out.mkdir(parents=True, exist_ok=True)
     argv = [PY, str(DISPATCH), "--lane", lane, "--prompt", prompt, "--cwd", cwd,
-            "--force-rank", "1", "--require-arm", arm, "--nonce", NONCE,
+            "--force-rank", rank, "--require-arm", arm, "--nonce", NONCE,
             "--round", "S4R3FAR-20261013-decision-and-handover", "--attempt", attempt,
             "--timeout", timeout, "--attempt-log-dir", str(out / "attempts")]
     proc = subprocess.run(argv, capture_output=True, text=False)
@@ -48,6 +77,7 @@ def main() -> int:
     so.write_bytes(proc.stdout)
     se.write_bytes(proc.stderr)
     inv = {"lane": lane, "required_arm": arm, "attempt": attempt, "cwd": cwd,
+           "force_rank": rank,
            "prompt_file": str(pf), "prompt_chars": len(prompt),
            "prompt_sha256": hashlib.sha256(prompt.encode("utf-8")).hexdigest(),
            "cwd_head": head(pathlib.Path(cwd)), "exit": proc.returncode,
