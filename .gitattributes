@@ -1,9 +1,3 @@
 * text=auto eol=lf
 *.png binary
 *.db binary
-
-# Raw evidence served to external checkers is hashed into evidence/RAW_INDEX.json, where every digest
-# is of the bytes on disk. `-text` disables EOL translation in both directions for those files, so the
-# committed bytes and the recorded digests agree; otherwise a CRLF log is rewritten to LF on commit
-# and every digest in the index stops being reproducible by a checker.
-.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/** -text
