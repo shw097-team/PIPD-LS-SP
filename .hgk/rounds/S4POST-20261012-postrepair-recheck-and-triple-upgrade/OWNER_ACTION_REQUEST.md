@@ -61,4 +61,4 @@
 - 未執行：Portal 任何狀態、真實 Host UAT（4 主機）、SECURITY_SCAN、真實 candidate build（build 在 owner 閘被 typed 拒絕，拒絕原文已留）。
 - 未主張：`BUILD_PASS`／`LOCAL_HOST_QUALIFIED`／`PORTAL_APPROVED`／`PUBLISHED`／`PRODUCTION_VERIFIED`／`PIPD_S4_FULL_PASS`。
 - 未執行：任何 `main` 推送、force push、tag 異動、merge、已發布資產替換。
-- 已揭露的自身缺陷：見 `verify/harness/HARNESS_DEFECT_LOG.md` 與 `verify/far/FAR_S4POST_DEVIATION_AND_REMEDIES_20261013.md`（含本回合 FAR 對自身載具超建之偏離判定 DEV-01）。
+- 已揭露的自身缺陷：見 `HARNESS_DEFECT_LOG.md`（載具分支）。載具支 `chore/s4post-verification-harness` 內 與 `verify/far/FAR_S4POST_DEVIATION_AND_REMEDIES_20261013.md`（含本回合 FAR 對自身載具超建之偏離判定 DEV-01）。
