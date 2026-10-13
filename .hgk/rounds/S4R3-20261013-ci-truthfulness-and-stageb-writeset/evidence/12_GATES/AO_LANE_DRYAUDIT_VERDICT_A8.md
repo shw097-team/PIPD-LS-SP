@@ -80,3 +80,44 @@ HGK_LANE_NONCE_OK
 - attempt stderr: `C:\Projects\Agent_Workspace\HG-KSEOS\var\S4R3X-20261013-f006-and-stageb-successor\VERIFY_SECURITY\attempt-8-20261013T094141Z\attempt-3068-1791884501-3-stderr.txt` bytes=220, sha256=8b8437097557bccfa9064a0fc9f486d2405cfe3db89f879f570c233b828c7d01
 - lane receipt: `ao_lane_dryaudit/stdout_a8.txt`; invocation `ao_lane_dryaudit/invocation_a8.json`
 - prior verdict for comparison: `evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A7.md`
+
+## CORRECTION to this file (appended after the attempt-8 receipt was re-read)
+
+The section above, and the driver's original invocation receipt, claimed that the artefacts the
+checker had asked for were "placed FIRST so the size cap cannot drop them again", and listed a
+`doctor` log among the things this attempt addressed. **That claim was wrong, and the receipt's own
+data contradicts it.**
+
+Re-reading `ao_lane_dryaudit/invocation_a8.json` after the run shows what the bundle actually
+carried:
+
+| block | outcome in attempt 8 |
+|---|---|
+| `tools/verify_installed_wheel_registry.py` | kept |
+| `.github/workflows/public-plugin-verify.yml` | kept |
+| `.github/workflows/ci.yml` | kept |
+| `tests/test_public_plugin_packaging.py` | kept |
+| `sdist_doctor.log` | **offered, DROPPED** (budget exhausted) |
+| `f006_gate_tests.log` | **offered, DROPPED** |
+| `win_stageb_focused2.log` | **offered, DROPPED** |
+
+So three of seven offered blocks were dropped, including the `doctor` log, and the hand-written
+`addressed_from_attempt7` field named an artefact the prompt did not contain. That is a self-report
+contradicted by the record - the exact failure mode this round exists to eliminate - and it also
+explains the substance of the verdict: "no current-labelled doctor receipt is reproduced" is true,
+because none was sent.
+
+The ordering claim was therefore wrong too: the source blocks came first and the harness-requested
+receipts came last, which is why the cap consumed them. Attempts 9, 10 and 11 do not share this
+defect - their `blocks_kept` match what was claimed for them (4/4, 6/6 and 3/3 blocks respectively),
+and attempt 10 is the one that actually carried a `doctor` log (the broken one the checker caught).
+
+Fixes applied:
+
+1. `scripts/run_ao_lane_dryaudit2.py` no longer hand-writes that field. Its receipt is now computed
+   from what was kept: `blocks_offered`, `blocks_kept`, and `blocks_dropped`, so a receipt cannot
+   claim an artefact the prompt did not carry.
+2. This file carries the correction rather than being rewritten; the original wording stays visible.
+3. The attempt-8 bullet in the checkpoint now states the drop explicitly.
+
+Nothing here changes any verdict. It changes what this round may claim about attempt 8's material.

@@ -112,9 +112,11 @@ you raised are addressed structurally here:
     belongs to, earlier material is labelled HISTORICAL, and material measured on the CURRENT branches
     says so. Judge the current subject only from the current-labelled blocks; if you find a
     contradiction, say which two labels conflict rather than concluding a refutation.
-  * YOUR ASKS, FIRST. The gate tool, the workflow step with its allowlists, the C4 test source and a
-    `doctor` log are now at the top of the bundle so the size cap cannot drop them again. The
-    truncated/omitted blocks are still named at the end.
+  * YOUR ASKS. The gate tool, the workflow step with its allowlists and the C4 test source head the
+    bundle, and the blocks the cap dropped are named at the end. (This sentence used to promise that a
+    `doctor` log was at the top so the cap "cannot drop it again". It was not - see the correction in
+    evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A8.md - and a prompt must not tell a checker that
+    material is present when it is not.)
 
 SUBJECT UNDER TEST (current)
   Stage A branch head : {a}
@@ -166,14 +168,20 @@ def main() -> int:
     pf.write_text(prompt, encoding="utf-8", newline="\n")
     outdir = SCRATCH / "ao_lane_dryaudit"
     outdir.mkdir(parents=True, exist_ok=True)
+    # MEASURED DEFECT (this driver, attempt 8): the receipt used to carry a hand-written
+    # `addressed_from_attempt7` list naming artefacts the larger budget never carried - the doctor log
+    # and two logs were offered but DROPPED once the cap was reached, while the receipt still claimed
+    # them. A receipt must not claim what the prompt did not contain, so the fields below are computed
+    # from what was actually kept.
+    offered = [p.name for _label, p, _note in blocks(a, b)]
     receipt = {"lane": "VERIFY_SECURITY", "mode": "text_only_dry_audit_attempt8",
                "stage_a_head": a, "stage_b_head": b, "nonce": NONCE,
-               "prompt_file": str(pf), "prompt_chars": len(prompt), "blocks_kept": kept,
+               "prompt_file": str(pf), "prompt_chars": len(prompt),
+               "blocks_offered": offered, "blocks_kept": kept,
+               "blocks_dropped": [n for n in offered if n not in kept],
                "prompt_sha256": hashlib.sha256(prompt.encode("utf-8")).hexdigest(),
                "attempt": attempt, "timeout_s": 1500,
-               "addressed_from_attempt7": ["head labelling (C4 false-refutation cause)",
-                                           "gate tool", "workflow step + allowlists",
-                                           "C4 test source", "doctor log"]}
+               "addressed_from_attempt7": ["head labelling (C4 false-refutation cause)"]}
     (outdir / f"invocation_a{attempt}.json").write_text(
         json.dumps(receipt, indent=2, ensure_ascii=False), encoding="utf-8")
     print(json.dumps({k: receipt[k] for k in ("prompt_chars", "blocks_kept", "prompt_sha256")},
