@@ -1,0 +1,79 @@
+re-pin evidence, measured now (not asserted):
+  Stage A head                        : 5310896e706e01a9cdb0123285bccec75086bcb8
+  Stage B head                        : ba27309b50d8623ed9d3ad9b33fe7a4ffb8a9ede
+  merge-base(Stage A head, Stage B)   : 5310896e706e01a9cdb0123285bccec75086bcb8
+  => Stage B is stacked on the Stage A head: True
+
+the classifier's declared-base block, verbatim from the Stage A head's workflow:
+
+        # Positive allowlist, not a frozen-path blacklist: a change outside the set fails even if it
+        # is harmless, and dist/ is denied explicitly. Measured as AO-03 of the round's independent
+        # acceptance challenge, which showed the earlier blacklist-only guard let dist/ and arbitrary
+        # non-frozen paths through.
+        #
+        # S4R3-F002 REPAIR, second iteration. The first repair moved the scope base off the pull
+        # request's base branch for the Stage B copy only, so the Stage A branch was still measured as
+        # main...HEAD - the whole triple-upgrade surface - and went red on paths Stage A never wrote,
+        # reporting UPGRADE_WROTE_OUTSIDE_ALLOWED_SET about a range nobody was governing. The write set
+        # that this gate may judge is the write set of the STAGE THE BRANCH IS. The branch therefore
+        # declares its stage, its declared base must be an ancestor of the subject, and the pull
+        # request base is printed as context that is explicitly NOT the governed set.
+        #
+        # The two stages have deliberately different, non-overlapping write sets. Stage A repairs the
+        # pipeline (the CI exit-code truthfulness guard, the packaging build, the first-run examples,
+        # the smoke test) and must be able to write src/ and the workflows; Stage B ships the
+        # distribution surface and must not go near src/, schemas/ or dist/. This change widens
+        # NEITHER allowlist: each stage is enumerated file by file or by its own narrow prefix, the
+        # frozen-path denial for skills/, schemas/ and dist/ applies to both, and the classifier's
+        # self-test below still proves that planted violations are REFUSED.
+        env:
+          # Which stage this branch IS. This single line is the ONLY difference between the Stage A
+          # and Stage B copies of this file; flipping it must never be combined with a new file added
+          # to the allowlist in the same commit, or the pair stops being reviewable.
+          STAGE: stage-a
+          # Stage A's declared base: the frozen R3 subject the external acceptance report examined.
+          STAGE_A_BASE_SHA: e71fee6dd3aa73724baec4e8d9cc72127fbe36ed
+          # Stage B's declared base: the Stage A tip that Stage B is stacked on. Taken by ref so it
+          # does not need editing every time the Stage A tip moves; the sha it resolves to is printed
+          # below and is the value an auditor should cite.
+          STAGE_B_BASE_REF: fix/s4r3-stage-a-ci-truthfulness-20261013
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          case "${STAGE}" in
+            stage-a)
+              BASE="${STAGE_A_BASE_SHA}"
+              ALLOWED='^(pyproject\.toml$|setup\.py$|MANIFEST\.in$|src/pipd_ls_sp/workspace\.py$|examples/first-run/run\.(sh|ps1)$|tests/test_web_fallback\.py$|tests/test_standard_wheel_schemas\.py$|tools/cli_smoke\.py$|tools/verify_installed_wheel_registry\.py$|\.github/workflows/(ci|public-plugin-verify)\.yml$|\.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/)'
+              DENIED='^(skills/|schemas/|dist/)'
+              REFUSED_PLANTS='skills/pipd-core/SKILL.md schemas/TraceLink.schema.json dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl src/pipd_ls_sp/cli.py tools/build_public_plugin.py'
+              ALLOWED_PLANTS='src/pipd_ls_sp/workspace.py pyproject.toml setup.py tests/test_web_fallback.py tools/verify_installed_wheel_registry.py'
+              ;;
+            stage-b)
+              # Resolved by ref, not by a literal: a literal would have to be edited every time the
+              # Stage A tip moves, and editing it is exactly the step that silently stops happening.
+              # The borrowed ref name makes the base follow Stage A, and the resolved sha is printed
+              # below. Verified fact, not an assumption: actions/checkout fetches
+              # `+refs/heads/*:refs/remotes/origin/*`, so `origin/<branch>` is present on every run
+              # (the fetch command is visible in the checkout step of run 38363888153).
+              # Consequence, stated plainly: if Stage A advances, this branch goes red with
+              # BASE_NOT_ANCESTOR until it is re-stacked. That is the invariant, not an accident.
+              BASE="$(git rev-parse --verify --quiet "refs/heads/${STAGE_B_BASE_REF}" \
+                   || git rev-parse --verify --quiet "refs/remotes/origin/${STAGE_B_BASE_REF}" \
+                   || true)"
+              if [ -z "${BASE}" ]; then
+                echo "STAGE_B_BASE_UNRESOLVED: neither refs/heads/${STAGE_B_BASE_REF} nor refs/remotes/origin/${STAGE_B_BASE_REF} is present in this checkout; refusing to guess a write-set base" >&2
+                exit 1
+              fi
+              ALLOWED='^(packaging/public-plugin/|tools/freeze_public_plugin_source\.py$|tools/build_public_plugin\.py$|tools/build_web_fallback\.py$|tests/test_public_plugin_packaging\.py$|tests/test_web_fallback\.py$|docs/install/|docs/USER_GUIDE\.md$|docs/adr/|openspec/changes/s4post-triple-upgrade/|\.github/workflows/public-plugin-verify\.yml$|README\.md$|\.hgk/rounds/S4POST-20261012|\.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/)'
+              DENIED='^(skills/|src/|schemas/|dist/)'
+              REFUSED_PLANTS='skills/pipd-core/SKILL.md schemas/TraceLink.schema.json dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl src/pipd_ls_sp/validate.py'
+              ALLOWED_PLANTS='docs/install/PIPD_WEB_FALLBACK.md docs/USER_GUIDE.md README.md packaging/public-plugin/plugin.json'
+              ;;
+            *)
+              echo "STAGE_UNDECLARED: this workflow must declare STAGE as stage-a or stage-b; it will not guess which write set applies to this subject" >&2
+              exit 1
+              ;;
+          esac
+          echo "=== governed ${STAGE} write set (${BASE}...HEAD) ==="
+          if [ -n "${PR_BASE_SHA}" ] && git cat-file -e "${PR_BASE_SHA}^{commit}" 2>/dev/null; then
+            echo "--- CONTEXT ONLY, not a governed write set: pull request base ${PR_BASE_SHA}...HEAD ---"

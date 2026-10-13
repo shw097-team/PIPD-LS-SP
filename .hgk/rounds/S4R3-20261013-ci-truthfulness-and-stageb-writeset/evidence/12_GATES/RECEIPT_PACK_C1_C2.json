@@ -1,0 +1,421 @@
+{
+  "pack": "C1_C2_receipts",
+  "stage_a_head": "5310896e706e01a9cdb0123285bccec75086bcb8",
+  "note_command_binding": "Every step is an argv list with its working directory and exit code. The verifier's usage text mentions `pipd doctor --json`; this CLI version defines no --json flag - it always emits JSON on stdout - so the JSON above is stdout captured to a file, and that is stated rather than papered over.",
+  "artifacts": {
+    "wheel_route_wheel": {
+      "name": "pipd_ls_sp-0.1.1a3-py3-none-any.whl",
+      "sha256": "02f5be8e3826e99ba7f6070518e2aaf155fa08b3c28c846d74a2be6d40498069"
+    },
+    "sdist": {
+      "name": "pipd_ls_sp-0.1.1a3.tar.gz",
+      "sha256": "8dfdf0a245f0814782d68d1a59fa99a038a8eabe364643b1685f28cfd31d04f6"
+    },
+    "sdist_route_wheel": {
+      "name": "pipd_ls_sp-0.1.1a3-py3-none-any.whl",
+      "sha256": "2c26a9fc1592f22f1c6dcfd45cffca83ff0f0d731acd4a5466c1c73fb1f9af07"
+    },
+    "doctor_wheel_json": {
+      "sha256": "82540f027b7981d2976570175726dfea7cfe188ccf410733cdb855608402c213"
+    },
+    "doctor_sdist_json": {
+      "sha256": "29988dcd9e73d8a9be3428fe2190bdc71b8569bae69ad39eac83a1490a57223a"
+    }
+  },
+  "steps": [
+    {
+      "label": "git archive HEAD -> scratch tree (head-bound build source)",
+      "argv": [
+        "git",
+        "-C",
+        "C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4r3a-wt",
+        "archive",
+        "HEAD"
+      ],
+      "cwd": "C:\\hgkrcpt",
+      "rc": 0,
+      "expected_rc": 0,
+      "rc_as_expected": true,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "stderr_head": "",
+      "stdout_sha256": null,
+      "stdout_path": "C:\\hgkrcpt\\head.tar",
+      "stdout_file_sha256": "7c35ed7bdba97c2fa60143eb369b574070ab0c72596ff9c59bf53f1368e58754",
+      "stdout_head": "pax_global_header\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00000000666\u00000000000\u00000000000\u000000000000064\u000015263361047\u00000014521\u0000g\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000ustar\u000000root\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000root\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00000000000\u00000000000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "extraction": {
+        "members_extracted": 592,
+        "members_skipped_hgk": 1524,
+        "why": "the .hgk/ tree is not part of the distribution; it also carries paths that exceed MAX_PATH once a scratch prefix is prepended"
+      }
+    },
+    {
+      "label": "build wheel from the head-bound tree",
+      "argv": [
+        "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+        "-m",
+        "build",
+        "--wheel",
+        "--outdir",
+        "C:\\hgkrcpt\\whl_wheel"
+      ],
+      "cwd": "C:\\hgkrcpt\\tree_head",
+      "rc": 0,
+      "expected_rc": 0,
+      "rc_as_expected": true,
+      "stdout_bytes": 8103,
+      "stderr_bytes": 365,
+      "stderr_head": "* Creating isolated environment: venv+pip...\r\n* Installing packages in isolated environment:\r\n  - setuptools>=68\r\n* Getting build dependencies for wheel...\r\n* Installed build dependency versions:\r\n  - setuptools==84.0.0\r\n* Building wheel...\r\nwarning: build_py: byte-compiling is disabled, skipping.\r\n\r\nwarning: install_lib: byte-compiling is disabled, skipping.",
+      "stdout_sha256": "3cbe619650699a9bf2546a2ea606e3da08d06eeda5165af9844d8372b848129d",
+      "stdout_head": "running egg_info\r\ncreating src\\pipd_ls_sp.egg-info\r\nwriting src\\pipd_ls_sp.egg-info\\PKG-INFO\r\nwriting dependency_links to src\\pipd_ls_sp.egg-info\\dependency_links.txt\r\nwriting entry points to src\\pipd_ls_sp.egg-info\\entry_points.txt\r\nwriting requirements to src\\pipd_ls_sp.egg-info\\requires.txt\r\nwriting top-level names to src\\pipd_ls_sp.egg-info\\top_level.txt\r\nwriting manifest file 'src\\pipd_ls_sp."
+    },
+    {
+      "label": "create venv (system site-packages so the declared jsonschema dep is real, not skipped)",
+      "argv": [
+        "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+        "-m",
+        "venv",
+        "--system-site-packages",
+        "C:\\hgkrcpt\\venv_wheel"
+      ],
+      "cwd": null,
+      "rc": 0,
+      "expected_rc": 0,
+      "rc_as_expected": true,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "stderr_head": "",
+      "stdout_sha256": null,
+      "stdout_head": ""
+    },
+    {
+      "label": "install the wheel (offline, deps from the host)",
+      "argv": [
+        "C:\\hgkrcpt\\venv_wheel\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "install",
+        "-q",
+        "--no-index",
+        "--no-deps",
+        "C:\\hgkrcpt\\whl_wheel\\pipd_ls_sp-0.1.1a3-py3-none-any.whl"
+      ],
+      "cwd": null,
+      "rc": 0,
+      "expected_rc": 0,
+      "rc_as_expected": true,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "stderr_head": "",
+      "stdout_sha256": null,
+      "stdout_head": ""
+    },
+    {
+      "label": "doctor from a neutral cwd -> its OWN exit status and stdout JSON",
+      "argv": [
+        "C:\\hgkrcpt\\venv_wheel\\Scripts\\python.exe",
+        "-m",
+        "pipd_ls_sp.cli",
+        "doctor"
+      ],
+      "cwd": "C:\\hgkrcpt\\neutral",
+      "rc": 0,
+      "expected_rc": 0,
+      "rc_as_expected": true,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "stderr_head": "",
+      "stdout_sha256": null,
+      "stdout_path": "C:\\hgkrcpt\\doctor_wheel.json",
+      "stdout_file_sha256": "82540f027b7981d2976570175726dfea7cfe188ccf410733cdb855608402c213",
+      "stdout_head": "{\n \"families\": 19,\n \"findings\": [],\n \"schema_source\": {\n  \"mode\": \"INSTALLED\",\n  \"path\": \"C:\\\\hgkrcpt\\\\venv_wheel\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\",\n  \"tried\": [\n   \"C:\\\\hgkrcpt\\\\venv_wheel\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\"\n  ]\n },\n \"skill_drift\": [],\n \"verdict\": \"PASS\"\n}\n"
+    },
+    {
+      "label": "C2 POSITIVE: verifier on the wheel route (deny-prefix = the build tree)",
+      "argv": [
+        "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+        "C:\\hgkrcpt\\tree_head\\tools\\verify_installed_wheel_registry.py",
+        "C:\\hgkrcpt\\doctor_wheel.json",
+        "--expect-families",
+        "19",
+        "--deny-prefix",
+        "C:\\hgkrcpt\\tree_head"
+      ],
+      "cwd": null,
+      "rc": 0,
+      "expected_rc": 0,
+      "rc_as_expected": true,
+      "stdout_bytes": 127,
+      "stderr_bytes": 0,
+      "stderr_head": "",
+      "stdout_sha256": "96bc88a1e4af8f94ccb6f02c6214fc286abaed9b71ebf25fac8ada87f0abcfc4",
+      "stdout_head": "installed-wheel contract registry: mode=INSTALLED families=19 path=C:\\hgkrcpt\\venv_wheel\\Lib\\site-packages\\pipd_ls_sp\\schemas\r\n"
+    },
+    {
+      "label": "C2 NEGATIVE [verdict_not_pass] expect the verifier to refuse with DOCTOR_VERDICT",
+      "argv": [
+        "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+        "C:\\hgkrcpt\\tree_head\\tools\\verify_installed_wheel_registry.py",
+        "C:\\hgkrcpt\\doctor_negative_verdict_not_pass.json",
+        "--expect-families",
+        "19",
+        "--deny-prefix",
+        "C:\\hgkrcpt\\tree_head"
+      ],
+      "cwd": null,
+      "rc": 1,
+      "expected_rc": 1,
+      "rc_as_expected": true,
+      "stdout_bytes": 0,
+      "stderr_bytes": 67,
+      "stderr_head": "DOCTOR_VERDICT: doctor did not PASS (verdict='FAIL', findings=[])",
+      "stdout_sha256": null,
+      "stdout_head": "",
+      "expected_code": "DOCTOR_VERDICT",
+      "code_observed": true
+    },
+    {
+      "label": "C2 NEGATIVE [mode_not_installed] expect the verifier to refuse with DOCTOR_SCHEMA_MODE",
+      "argv": [
+        "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+        "C:\\hgkrcpt\\tree_head\\tools\\verify_installed_wheel_registry.py",
+        "C:\\hgkrcpt\\doctor_negative_mode_not_installed.json",
+        "--expect-families",
+        "19",
+        "--deny-prefix",
+        "C:\\hgkrcpt\\tree_head"
+      ],
+      "cwd": null,
+      "rc": 1,
+      "expected_rc": 1,
+      "rc_as_expected": true,
+      "stdout_bytes": 0,
+      "stderr_bytes": 134,
+      "stderr_head": "DOCTOR_SCHEMA_MODE: the installed wheel did not resolve its own packaged registry (mode='SOURCE'); it must ship schemas/ (S4R3-F006)",
+      "stdout_sha256": null,
+      "stdout_head": "",
+      "expected_code": "DOCTOR_SCHEMA_MODE",
+      "code_observed": true
+    },
+    {
+      "label": "C2 NEGATIVE [family_count_wrong] expect the verifier to refuse with DOCTOR_FAMILIES",
+      "argv": [
+        "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+        "C:\\hgkrcpt\\tree_head\\tools\\verify_installed_wheel_registry.py",
+        "C:\\hgkrcpt\\doctor_negative_family_count_wrong.json",
+        "--expect-families",
+        "19",
+        "--deny-prefix",
+        "C:\\hgkrcpt\\tree_head"
+      ],
+      "cwd": null,
+      "rc": 1,
+      "expected_rc": 1,
+      "rc_as_expected": true,
+      "stdout_bytes": 0,
+      "stderr_bytes": 56,
+      "stderr_head": "DOCTOR_FAMILIES: expected 19 declared families, got 18",
+      "stdout_sha256": null,
+      "stdout_head": "",
+      "expected_code": "DOCTOR_FAMILIES",
+      "code_observed": true
+    },
+    {
+      "label": "C2 NEGATIVE [family_count_not_an_int] expect the verifier to refuse with DOCTOR_FAMILIES_TYPE",
+      "argv": [
+        "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+        "C:\\hgkrcpt\\tree_head\\tools\\verify_installed_wheel_registry.py",
+        "C:\\hgkrcpt\\doctor_negative_family_count_not_an_int.json",
+        "--expect-families",
+        "19",
+        "--deny-prefix",
+        "C:\\hgkrcpt\\tree_head"
+      ],
+      "cwd": null,
+      "rc": 1,
+      "expected_rc": 1,
+      "rc_as_expected": true,
+      "stdout_bytes": 0,
+      "stderr_bytes": 80,
+      "stderr_head": "DOCTOR_FAMILIES_TYPE: expected the family count as an int, got dict ({'a': 1})",
+      "stdout_sha256": null,
+      "stdout_head": "",
+      "expected_code": "DOCTOR_FAMILIES_TYPE",
+      "code_observed": true
+    },
+    {
+      "label": "C2 NEGATIVE [schemas_path_inside_checkout] expect the verifier to refuse with DOCTOR_SCHEMA_PATH_IN_CHECKOUT",
+      "argv": [
+        "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+        "C:\\hgkrcpt\\tree_head\\tools\\verify_installed_wheel_registry.py",
+        "C:\\hgkrcpt\\doctor_negative_schemas_path_inside_checkout.json",
+        "--expect-families",
+        "19",
+        "--deny-prefix",
+        "C:\\hgkrcpt\\tree_head"
+      ],
+      "cwd": null,
+      "rc": 1,
+      "expected_rc": 1,
+      "rc_as_expected": true,
+      "stdout_bytes": 0,
+      "stderr_bytes": 202,
+      "stderr_head": "DOCTOR_SCHEMA_PATH_IN_CHECKOUT: the wheel resolved schemas from the checkout (C:\\hgkrcpt\\tree_head), not from the installed package; mode=INSTALLED alone does not prove the schemas came from the wheel",
+      "stdout_sha256": null,
+      "stdout_head": "",
+      "expected_code": "DOCTOR_SCHEMA_PATH_IN_CHECKOUT",
+      "code_observed": true
+    },
+    {
+      "label": "build sdist from the head-bound tree",
+      "argv": [
+        "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+        "-m",
+        "build",
+        "--sdist",
+        "--outdir",
+        "C:\\hgkrcpt\\sdist"
+      ],
+      "cwd": "C:\\hgkrcpt\\tree_head",
+      "rc": 0,
+      "expected_rc": 0,
+      "rc_as_expected": true,
+      "stdout_bytes": 8136,
+      "stderr_bytes": 242,
+      "stderr_head": "* Creating isolated environment: venv+pip...\r\n* Installing packages in isolated environment:\r\n  - setuptools>=68\r\n* Getting build dependencies for sdist...\r\n* Installed build dependency versions:\r\n  - setuptools==84.0.0\r\n* Building sdist...",
+      "stdout_sha256": "05175078d775668069c460bbd2889635045fea3271e11c1bb98a974e634d1ebb",
+      "stdout_head": "running egg_info\r\nwriting src\\pipd_ls_sp.egg-info\\PKG-INFO\r\nwriting dependency_links to src\\pipd_ls_sp.egg-info\\dependency_links.txt\r\nwriting entry points to src\\pipd_ls_sp.egg-info\\entry_points.txt\r\nwriting requirements to src\\pipd_ls_sp.egg-info\\requires.txt\r\nwriting top-level names to src\\pipd_ls_sp.egg-info\\top_level.txt\r\nreading manifest file 'src\\pipd_ls_sp.egg-info\\SOURCES.txt'\r\nreading man"
+    },
+    {
+      "label": "extract the sdist (tarfile, not the shell tar whose Windows drive parsing broke earlier)",
+      "argv": [
+        "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+        "-c",
+        "import tarfile,pathlib;tarfile.open(r'C:\\hgkrcpt\\sdist\\pipd_ls_sp-0.1.1a3.tar.gz').extractall(r'C:\\hgkrcpt\\sdist_extracted')"
+      ],
+      "cwd": null,
+      "rc": 0,
+      "expected_rc": 0,
+      "rc_as_expected": true,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "stderr_head": "",
+      "stdout_sha256": null,
+      "stdout_head": ""
+    },
+    {
+      "label": "build wheel FROM the extracted sdist",
+      "argv": [
+        "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+        "-m",
+        "build",
+        "--wheel",
+        "--outdir",
+        "C:\\hgkrcpt\\whl_sdist"
+      ],
+      "cwd": "C:\\hgkrcpt\\sdist_extracted\\pipd_ls_sp-0.1.1a3",
+      "rc": 0,
+      "expected_rc": 0,
+      "rc_as_expected": true,
+      "stdout_bytes": 8008,
+      "stderr_bytes": 365,
+      "stderr_head": "* Creating isolated environment: venv+pip...\r\n* Installing packages in isolated environment:\r\n  - setuptools>=68\r\n* Getting build dependencies for wheel...\r\n* Installed build dependency versions:\r\n  - setuptools==84.0.0\r\n* Building wheel...\r\nwarning: build_py: byte-compiling is disabled, skipping.\r\n\r\nwarning: install_lib: byte-compiling is disabled, skipping.",
+      "stdout_sha256": "2e3075a96c34fd2a91848fddc5884043e2e4b011905178ab5ba5eb36ed71feb6",
+      "stdout_head": "running egg_info\r\nwriting src\\pipd_ls_sp.egg-info\\PKG-INFO\r\nwriting dependency_links to src\\pipd_ls_sp.egg-info\\dependency_links.txt\r\nwriting entry points to src\\pipd_ls_sp.egg-info\\entry_points.txt\r\nwriting requirements to src\\pipd_ls_sp.egg-info\\requires.txt\r\nwriting top-level names to src\\pipd_ls_sp.egg-info\\top_level.txt\r\nreading manifest file 'src\\pipd_ls_sp.egg-info\\SOURCES.txt'\r\nreading man"
+    },
+    {
+      "label": "create venv for the sdist route",
+      "argv": [
+        "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+        "-m",
+        "venv",
+        "--system-site-packages",
+        "C:\\hgkrcpt\\venv_sdist"
+      ],
+      "cwd": null,
+      "rc": 0,
+      "expected_rc": 0,
+      "rc_as_expected": true,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "stderr_head": "",
+      "stdout_sha256": null,
+      "stdout_head": ""
+    },
+    {
+      "label": "install the wheel that came from the sdist",
+      "argv": [
+        "C:\\hgkrcpt\\venv_sdist\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "install",
+        "-q",
+        "--no-index",
+        "--no-deps",
+        "C:\\hgkrcpt\\whl_sdist\\pipd_ls_sp-0.1.1a3-py3-none-any.whl"
+      ],
+      "cwd": null,
+      "rc": 0,
+      "expected_rc": 0,
+      "rc_as_expected": true,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "stderr_head": "",
+      "stdout_sha256": null,
+      "stdout_head": ""
+    },
+    {
+      "label": "doctor (sdist route)",
+      "argv": [
+        "C:\\hgkrcpt\\venv_sdist\\Scripts\\python.exe",
+        "-m",
+        "pipd_ls_sp.cli",
+        "doctor"
+      ],
+      "cwd": "C:\\hgkrcpt\\neutral",
+      "rc": 0,
+      "expected_rc": 0,
+      "rc_as_expected": true,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "stderr_head": "",
+      "stdout_sha256": null,
+      "stdout_path": "C:\\hgkrcpt\\doctor_sdist.json",
+      "stdout_file_sha256": "29988dcd9e73d8a9be3428fe2190bdc71b8569bae69ad39eac83a1490a57223a",
+      "stdout_head": "{\n \"families\": 19,\n \"findings\": [],\n \"schema_source\": {\n  \"mode\": \"INSTALLED\",\n  \"path\": \"C:\\\\hgkrcpt\\\\venv_sdist\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\",\n  \"tried\": [\n   \"C:\\\\hgkrcpt\\\\venv_sdist\\\\Lib\\\\site-packages\\\\pipd_ls_sp\\\\schemas\"\n  ]\n },\n \"skill_drift\": [],\n \"verdict\": \"PASS\"\n}\n"
+    },
+    {
+      "label": "C1 POSITIVE: verifier on the sdist route",
+      "argv": [
+        "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+        "C:\\hgkrcpt\\tree_head\\tools\\verify_installed_wheel_registry.py",
+        "C:\\hgkrcpt\\doctor_sdist.json",
+        "--expect-families",
+        "19",
+        "--deny-prefix",
+        "C:\\hgkrcpt\\tree_head"
+      ],
+      "cwd": null,
+      "rc": 0,
+      "expected_rc": 0,
+      "rc_as_expected": true,
+      "stdout_bytes": 127,
+      "stderr_bytes": 0,
+      "stderr_head": "",
+      "stdout_sha256": "0f32f9038dd29eccb4d765fd192dfd1f31d90fc70646cce53d3e8127ea9a1ba5",
+      "stdout_head": "installed-wheel contract registry: mode=INSTALLED families=19 path=C:\\hgkrcpt\\venv_sdist\\Lib\\site-packages\\pipd_ls_sp\\schemas\r\n"
+    }
+  ],
+  "summary": {
+    "steps_total": 18,
+    "steps_unexpected_rc": [],
+    "negatives_attributed": [
+      "C2 NEGATIVE [verdict_not_pass] expect the verifier to refuse with DOCTOR_VERDICT",
+      "C2 NEGATIVE [mode_not_installed] expect the verifier to refuse with DOCTOR_SCHEMA_MODE",
+      "C2 NEGATIVE [family_count_wrong] expect the verifier to refuse with DOCTOR_FAMILIES",
+      "C2 NEGATIVE [family_count_not_an_int] expect the verifier to refuse with DOCTOR_FAMILIES_TYPE",
+      "C2 NEGATIVE [schemas_path_inside_checkout] expect the verifier to refuse with DOCTOR_SCHEMA_PATH_IN_CHECKOUT"
+    ],
+    "negatives_unattributed": []
+  }
+}

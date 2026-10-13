@@ -36,8 +36,8 @@ SCRATCH = pathlib.Path(
     "/cache/scratch/pipd-s4r3-exec"
 )
 NONCE = "HGK_LANE_NONCE_OK"
-TOTAL_CAP = 20000
-PER_FILE_CAP = 13000
+TOTAL_CAP = 21000
+PER_FILE_CAP = 20000
 MAX_PROMPT_CHARS = 29000
 
 
@@ -76,6 +76,40 @@ def registry_listing() -> str:
 
 def blocks(bundle: str, a: str, b: str) -> list[tuple[str, str, str]]:
     """(label, block name, text)."""
+    if bundle == "receipts":
+        return [
+            ("measurement of the Stage A branch (current) - head-bound",
+             "RECEIPT_PACK_C1_C2.json - every command, its cwd, its OWN exit code",
+             (ROUND / "evidence/12_GATES/RECEIPT_PACK_C1_C2.json").read_text(
+                 encoding="utf-8", errors="replace")),
+        ]
+    if bundle == "c3":
+        return [
+            ("Stage A branch (current)",
+             "WRITE_SET_GATE_STEP.yml - the write-set gate step, verbatim from the workflow, with its "
+             "allowlist, its frozen-path and traversal refusals and its planted-violation self-test",
+             (ROUND / "evidence/12_GATES/WRITE_SET_GATE_STEP.yml").read_text(
+                 encoding="utf-8", errors="replace")),
+            ("measurement of the current Stage A branch",
+             "refusals and allowances actually recorded, local run and hosted CI run side by side",
+             (ROUND / "evidence/12_GATES/C3_REFUSAL_RECEIPT_DISTILLED.txt").read_text(
+                 encoding="utf-8", errors="replace")),
+        ]
+    if bundle == "c4":
+        return [
+            ("Stage B branch (current)",
+             "the Stage B refusal tests, verbatim - CR-IDENTITY-BIND and CR-EXT-UNREVIEWED",
+             (ROUND / "evidence/12_GATES/C4_STAGE_B_REFUSAL_TESTS_SOURCE.py").read_text(
+                 encoding="utf-8", errors="replace")),
+            ("measurement of the current Stage B head",
+             "the verbose run of those tests at the current head, with the denominator",
+             (ROUND / "evidence/12_GATES/C4_REFUSAL_TESTS_RUN.log").read_text(
+                 encoding="utf-8", errors="replace")),
+            ("measurement of the current Stage B head",
+             "re-pin and declared-base evidence, measured (merge-base) rather than asserted",
+             (ROUND / "evidence/12_GATES/C4_REPIN_AND_DECLARED_BASE.txt").read_text(
+                 encoding="utf-8", errors="replace")),
+        ]
     if bundle == "family":
         # The targeted follow-up: the receipt three audits asked for, whole, plus the real doctor
         # receipts (attempt 10 supplied a broken doctor log and the checker caught it).
@@ -234,7 +268,12 @@ def run(bundle: str, attempt: str, a: str, b: str) -> int:
 def main() -> int:
     a, b = head(A_WT), head(B_WT)
     which = sys.argv[1] if len(sys.argv) > 1 else "both"
-    plan = [("code", "9"), ("evidence", "10")] if which == "both" else [(which, sys.argv[2] if len(sys.argv) > 2 else "9")]
+    if which == "final3":
+        plan = [("receipts", "12"), ("c3", "13"), ("c4", "14")]
+    elif which == "both":
+        plan = [("code", "9"), ("evidence", "10")]
+    else:
+        plan = [(which, sys.argv[2] if len(sys.argv) > 2 else "9")]
     for bundle, attempt in plan:
         rc = run(bundle, attempt, a, b)
         if rc:
