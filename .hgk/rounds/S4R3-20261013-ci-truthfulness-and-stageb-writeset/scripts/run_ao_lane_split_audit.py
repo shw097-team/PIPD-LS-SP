@@ -37,7 +37,7 @@ SCRATCH = pathlib.Path(
 )
 NONCE = "HGK_LANE_NONCE_OK"
 TOTAL_CAP = 20000
-PER_FILE_CAP = 6500
+PER_FILE_CAP = 13000
 MAX_PROMPT_CHARS = 29000
 
 
@@ -76,6 +76,27 @@ def registry_listing() -> str:
 
 def blocks(bundle: str, a: str, b: str) -> list[tuple[str, str, str]]:
     """(label, block name, text)."""
+    if bundle == "family":
+        # The targeted follow-up: the receipt three audits asked for, whole, plus the real doctor
+        # receipts (attempt 10 supplied a broken doctor log and the checker caught it).
+        ci = ROUND / "evidence/12_GATES/CI_RUNS_AND_STEP_RECEIPTS.txt"
+        doc_lines = []
+        if ci.is_file():
+            for line in ci.read_text(encoding="utf-8", errors="replace").splitlines():
+                if "INSTALLED" in line or "families" in line or "doctor" in line.lower():
+                    doc_lines.append(line.strip()[:300])
+        return [
+            ("measurement of the Stage A branch (current) - head-bound",
+             "FAMILY_IDENTITY_RECEIPT.md (the artefact the lane named)",
+             (ROUND / "evidence/12_GATES/FAMILY_IDENTITY_RECEIPT.md").read_text(
+                 encoding="utf-8", errors="replace")),
+            ("measurement of the Stage A branch (current)",
+             "the REAL doctor receipts (attempt 10 supplied a broken log; the checker caught it)",
+             "\n".join(doc_lines[:40]) or "[no doctor lines found]"),
+            ("Stage A branch (current)", "what the lane still says it cannot see",
+             (ROUND / "evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A9_A10.md").read_text(
+                 encoding="utf-8", errors="replace")[:3000]),
+        ]
     if bundle == "code":
         return [
             ("Stage A branch (current)", "tools/verify_installed_wheel_registry.py",
