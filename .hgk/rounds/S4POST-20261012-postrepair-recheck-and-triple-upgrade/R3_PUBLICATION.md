@@ -72,10 +72,23 @@ sha256sum /tmp/a.whl   # 應等於 Release API 的 digest（本輪已匿名驗�
 
 ## 5. 最小 CI 的首次實跑（R5）
 
-- 事實背景（裁決 §3.1 確認）：受驗 5 分支 + 3 tag **全部 0 個 `.github/`**、Actions runs = 0。
-- 本輪 workflow 已在分支上，且規格吻合裁決要求：`permissions: contents: read`、SHA 釘選 checkout
-  (`11bd71901b…`)、**無** `pull_request_target`、Python 3.11、全量 unittest、fail-closed 負向步驟。
-- Draft PR 的嘗試與其原始結果見 §8（**結果後來才補記**，故此處不預寫結論）。
+事實背景（裁決 §3.1 確認）：受驗 5 分支 + 3 tag 全部 **0 個 `.github/`**、Actions runs = **0**。
+
+**本輪實測（非規劃）**：
+
+1. 首次推播後 `ci` 啟動，但在**第 2 步 "Check out the frozen subject" 就失敗**，步驟 3–9 全部 skip → 逐字 log：
+   `fatal: No url found for submodule path '.hgk/rounds/R2-20261009-qualification/execute/candidate' in .gitmodules` ＋
+   `The process '/usr/bin/git' failed with exit code 128`。
+   即 4 個**無 `.gitmodules` 的 gitlink**（`main` 即有，來源 `829c17e8…`）使 `actions/checkout` abort →
+   **這條 CI 在此之前從未真正驗過任何東西**。
+2. 修補（本輪唯一超出 R1–R8 的動作，已揭露）：移除那 4 個**空目錄** gitlink（磁碟上 0 個項目，不失內容）。
+3. 第二次執行在第 7 步失敗：`dist/` 內有兩顆已版控 wheel（`0.1.0`、`0.1.1a3`）→ `pip install dist/*.whl` 觸發
+   `ResolutionImpossible`。修補：改為只安裝**剛建出的** wheel（更嚴，非放寬）。
+4. **結果：三條分支的 `ci` 全綠（各 13 步、零失敗）**，含全量套件、聚焦套件、wheel 乾淨安裝＋`pipd doctor`、
+   來源閘門、**突變負向校準**。逐字與逐步驟見 `R3_CI_FIRST_RUN.md`。
+5. Draft PR **#2**：`https://github.com/shw097-team/PIPD-LS-SP/pull/2`（`draft=true`，不請求合併）。
+   另一 workflow `public-plugin-verify` 對本 PR 為 **failure**，原因為其審查 base 取 `main` 而本支疊在 Stage-A 上
+   （見 `R3_CI_FIRST_RUN.md` §3 的量化），**未改動該守衛語意**，提請 owner（D3）。
 
 ## 6. 已知缺陷與自曝（含我方造成者）
 
@@ -97,7 +110,8 @@ sha256sum /tmp/a.whl   # 應等於 Release API 的 digest（本輪已匿名驗�
 - 測試原始 log：`verify/r3/raw/focused.log`（sha256 `88d8db81…`）、`verify/r3/raw/full.log`（sha256 `185a6177…`）。
 - 發布資產下載讀回：`verify/r3/RELEASE_ASSETS_READBACK.json`（5/5 相等）。
 - locator 檢查原始 JSON：`verify/tools/LOCATOR_CHECK_R3_POSITIVE.json`、`verify/ao12/LOCATOR_CHECK_AO12.json`。
-- GitHub 端（Actions／PR／release）**結果將記於 `R3_PR_ATTEMPT.md`**（同一分支後續提交），避免本文件綁定自身所處的 commit。
+- **GitHub 端結果**：PR **#2**（draft）＋三條分支 `ci` 全綠＋`public-plugin-verify` 紅（scope），
+  逐字 log 與失敗步驟分析見 **`R3_CI_FIRST_RUN.md`**（同輪文件；本文件不與自身 commit 互相綁定）。
 
 ## 9. HGK 准入（canonical，typed API）
 
@@ -111,3 +125,13 @@ sha256sum /tmp/a.whl   # 應等於 Release API 的 digest（本輪已匿名驗�
 **自曝的順序偏差（deviation）**：`REQ-PIPD-R3-SURFACES-004` 的文字要求「工作產物寫入前先跑准入」，
 但本回合實際上是在多數產物已寫入**之後**才補跑准入（retroactive admission）。此偏差已記錄，未粉飾；
 其後果是准入為事後凍結，而非事前授權。此點需 owner 知悉。
+
+## 10. §3.3 產品面允許集稽核（並行子代理 + maker 自行重測）
+
+- 7 項條目、其中 3 項 HIGH；**每一項 HIGH 都由 maker 自行重測後才採用**。逐條見
+  `verify/far/FAR_S3_3_SURFACE_AUDIT_20261013.md`。
+- 摘要：icon 兩檔確實缺席（owner 輸入 A4）；允許集路徑 `packaging/public-plugin/requirements.lock` 缺席，
+  而 repository 根目錄那份自述「NOT HASH-PINNED … `--require-hashes` will therefore NOT work」；
+  `plugin.schema.json` 內容是**本地撰寫子集**，官方 vendor schema 實體存在於非允許集檔名 `vendor-plugin.schema.json`
+  （即官方 schema **已在樹內**，缺的是檔名對位與 digest 釘選 → owner 輸入 A2）。
+- 另：`plugin.json` 內 `OWNER_INPUT_REQUIRED` 佔位是 builder 的 fail-closed 設計，但同時被提交 → 提請 owner 決定命名。
