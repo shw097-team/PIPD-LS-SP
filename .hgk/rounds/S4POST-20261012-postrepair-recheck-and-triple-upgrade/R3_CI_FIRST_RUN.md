@@ -64,7 +64,7 @@ versions have conflicting dependencies.  →  ERROR: ResolutionImpossible
 | base | 變更檔 | 允許集外 | frozen-path 寫入 |
 |---|---|---|---|
 | `main` `2245914…`（**PR 時的預設**） | 126 | 長清單（含 `docs/`、`tools/`） | **4**：`schemas/PI-PKG.schema.json`、`schemas/TraceLink.schema.json`、`src/pipd_ls_sp/profiles.py`、`src/pipd_ls_sp/validate.py` |
-| `52542c3…`（workflow 自宣告的 **STACKED_BASE_SHA** ＝ Stage-A 疊層底） | 99 | **4**，且正是本輪剛移除的那 4 個 gitlink | **NONE** |
+| `52542c3…`（workflow 自宣告的 **STACKED_BASE_SHA** ＝ Stage-A 疊層底） | 99 | **5**（獨立檢查器實測）：`.github/workflows/ci.yml` ＋ 該 4 個 gitlink | **NONE** |
 
 **結論（雙向都對 owner 有用）**：
 1. **本升級自身**在 `schemas/`、`src/` 的寫入為 **0**——`INV-03 ZERO CORE WRITES` 由本回合自己的守衛取得機器證據，
@@ -79,3 +79,7 @@ versions have conflicting dependencies.  →  ERROR: ResolutionImpossible
 - `public-plugin-verify` 在 PR-to-main 下為紅，其成因是 **scope 選擇**，已上表量化，**未**改動該守衛的語意。
 - 未主張：`BUILD_PASS`、`LOCAL_HOST_QUALIFIED`、`PORTAL_APPROVED`、`PUBLISHED`、`PRODUCTION_VERIFIED`、`PIPD_S4_FULL_PASS`。
 - 本輪對 `main` 無任何寫入；`dist/` 未動；三個 tag 未動。
+
+> **2026-10-13 更正（獨立檢查器 R8 第 2 輪）**：本表早期寫「允許集外 4」，實測為 **5**——
+> 扣除 4 個 gitlink 外，還包含本輪獲裁決 §3.1 明文批准新增的 `.github/workflows/ci.yml`。
+> 且該守衛在 **main 與宣告疊層基底兩個 base 上皆 exit 1**，故紅燈**不是** base 選錯造成（見 `SUBJECT_AND_BASE_DECLARATION.md` §4）。

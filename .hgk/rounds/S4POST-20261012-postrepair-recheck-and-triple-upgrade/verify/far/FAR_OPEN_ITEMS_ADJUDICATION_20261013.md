@@ -55,7 +55,8 @@
 - (d) **`requirements.lock`**：已核准的 CI **完全不用它**（用 `pyproject.toml`），且根目錄那份自述「NOT HASH-PINNED…`--require-hashes` will NOT work」→ §7.7 的步驟**照寫不可能通過**。建議：**改 §7.7 文字**（文件 erratum），或把 `LOCK_REQUIRED` 留作 owner 輸入；兩者選一，不要為此新增 hash-pin 工作流。
 
 ### ADJ-7 `com.ao3.*`（CR-EXT-UNREVIEWED）
-- **基礎（已更正並可重跑）**：產品主體全樹掃描，`com.ao3` 出現於 **3 檔**——`00_plan/TT_S4POST_REGISTER.tsv`、`ACCEPTANCE_RECORD_STAGEB.md`、以及**本 FAR 文件自身**，**全部是本回合自己撰寫的紀錄**；`packaging/`、`tools/`、`tests/`、`docs/install/`、`dist/web/` **0 命中**。（初稿寫「1 檔」是錯的，獨立檢查器 C12 抓到，已更正而非辯解。逐檔清單見 `verify/r3/FAR_MEASUREMENT_RECEIPTS.json` 的 `ADJ7_com_ao3_scan`。）
+- **基礎（不變式，非計數）**：對**產品面**全樹掃描，`com.ao3` 的**產品面命中為 0**（`packaging/`、`tools/`、`tests/`、`docs/install/`、`dist/`）。所有命中皆為**本回合自己撰寫的紀錄**（含檢查器產物）。**不引用檔數**：該數字隨本回合持續記錄而變動（`389d3973` 時為 3、`5351c5fa` 時為 9），把會被自己的撰寫行為改變的計數當成發現是錯的——**能站得住的是不變式**。詳見 `verify/r3/FAR_MEASUREMENT_RECEIPTS.json` 的 `ADJ7_com_ao3_scan`。
+
 - **建議**：**移出產品受驗範圍**，保留為載具／格式 CR。這不是「關掉一個 CR」，而是把它歸到正確的標的。
 
 ### ADJ-8 TT 登記簿陳舊

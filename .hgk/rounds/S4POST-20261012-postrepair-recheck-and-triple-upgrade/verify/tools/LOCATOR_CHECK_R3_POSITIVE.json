@@ -11,8 +11,11 @@
  ],
  "tool": {
   "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/tools/check_evidence_locators.py",
-  "sha256": "3787c377d81a3e515550c5a202a64b721bbfd08907ecfe5c2bafed5fbe2d7365",
-  "fix": "mask \\bhttps?://[^\\s\"'`<>|)]* before extracting path-like tokens; a URL is not an in-tree locator."
+  "fix": "mask \\bhttps?://[^\\s\"'`<>|)]* before extracting path-like tokens; a URL is not an in-tree locator.",
+  "sha256_committed_blob_LF_form_what_a_clone_measures": "05f3fe138b9c93d96824a4ad5363949ce52f2f98e3e59a2f8fcf89d5f6066ad7",
+  "sha256_original_worktree_CRLF_form": "3787c377d81a3e515550c5a202a64b721bbfd08907ecfe5c2bafed5fbe2d7365",
+  "note": "Round 1 recorded only the CRLF worktree form, and the round-2 checker correctly reported it does not match the committed blob. Both forms are now recorded and labelled; the COMMITTED BLOB is the one a clone measures.",
+  "correction_round2": "the earlier single sha256 value was the CRLF worktree form; replaced by the two labelled forms."
  },
  "controls": {
   "negative_ao12": {
