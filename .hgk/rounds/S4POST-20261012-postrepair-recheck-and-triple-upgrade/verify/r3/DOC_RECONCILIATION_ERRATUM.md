@@ -23,7 +23,7 @@
 ## 3. `tools/*` 5 檔在允許集外 → **在範圍內**
 
 - 理由：§3.1 所批准的最小 CI 必須執行 build／freeze 工具（`tools/build_public_plugin.py`、`tools/freeze_public_plugin_source.py` 等）。批准 CI 即批准其執行所必需的最小工具集。
-- **獨立檢查器補正（重要）**：以**宣告基底**重跑守衛**仍然 exit 1**。它產出的拒絕清單（`verify/r3/ao_lane/guard-stacked.txt`）顯示拒絕項包含 `.github/workflows/ci.yml`／`public-plugin-verify.yml` 以及四筆 `.hgk/rounds/R2-20261009-*` 的 gitlink 路徑。
+- **獨立檢查器補正（重要）**：以**宣告基底**重跑守衛**仍然 exit 1**。它產出的拒絕清單（`verify/r3/ao_lane_round2/guard-stacked.log`）顯示拒絕項**恰為 5 項**：`.github/workflows/ci.yml` 以及四筆 `.hgk/rounds/R2-20261009-qualification/**` 的 gitlink 路徑。**不含** `public-plugin-verify.yml`——該檔在守衛的允許集內（第 11 步 `ALLOWED` 正則逐字可見），故紅燈與它無關。
   → 故**不得**把紅燈敘述為「僅因 base 選錯」。正確敘述：frozen-path 寫入＝**NONE**（以宣告基底實測），但該守衛**結構上拒絕**本次獲准新增的 CI 檔與四筆 gitlink 移除，**任何 base 皆紅**。這是守衛允許集與 §3.1 批准之最小 CI 的實質衝突，需在下一版治理文件中解決（本輪不動守衛）。
 
 ## 4. `plugin.schema.json` 槽位內容錯位（ADJ-6c）→ **S4 只做文件映射**

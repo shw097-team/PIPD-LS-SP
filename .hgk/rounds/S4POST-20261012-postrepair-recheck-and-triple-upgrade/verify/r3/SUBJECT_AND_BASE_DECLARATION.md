@@ -34,9 +34,14 @@
 
 該 workflow 的審查 base 是 `main`，因此會把 **Stage-A 的 4 個 frozen-path 寫入**算進本次變更集，報出 `UPGRADE_WROTE_OUTSIDE_ALLOWED_SET` ＋ `UPGRADE_WROTE_FROZEN_PATH`。
 
-**但「這只是 base 選錯造成的」是錯的——獨立檢查器以宣告基底重跑該守衛，仍然 exit 1。** 它產出的拒絕清單（`verify/r3/ao_lane/guard-stacked.txt`）顯示，即使以 `52542c3` 為基底，守衛仍拒絕：
+**但「這只是 base 選錯造成的」是錯的——獨立檢查器以宣告基底重跑該守衛，仍然 exit 1。** 它產出的拒絕清單（`verify/r3/ao_lane_round2/guard-stacked.log`）顯示，即使以 `52542c3` 為基底，守衛仍拒絕：
 
-- `.github/workflows/ci.yml`（與 `public-plugin-verify.yml`）——該守衛的拒絕集合把 Actions 檔視為不允許；
-- 四個 `.hkq/rounds/R2-20261009-*` 的 gitlink 路徑（本次移除的空目錄項目）。
+- `.github/workflows/ci.yml`——**注意**：該守衛的允許集**明文包含** `public-plugin-verify.yml`，所以紅燈與那個檔**無關**；被拒的是**另一個**檔 `ci.yml`，即本輪依裁決 §3.1 獲准新增的最小 CI。
+- 四個 `.hgk/rounds/R2-20261009-qualification/**` 的 gitlink 路徑（本次移除的空目錄項目）。
+- **實測計數**：以上**恰為 5 項**，逐字見 `verify/r3/ao_lane_round2/guard-stacked.log` 尾端 `WRITE_SET_VIOLATION (base 52542c39…)`。
 
 因此正確的敘述是**兩段式**：(a) 就**frozen-path** 而言，以宣告基底重測 = **NONE 寫入**（可重跑，見 §3 對照與 `FAR_MEASUREMENT_RECEIPTS.json` 的 `ADJ1_write_set`）；(b) 但該守衛**同時**拒絕本次獲准新增的 CI 檔與四筆 gitlink 移除，所以它**無論用哪個 base 都會紅**。這是**守衛允許集與裁決 §3.1 明文批准之最小 CI 之間的實質衝突**，不是 base 選錯——處置見 `DOC_RECONCILIATION_ERRATUM.md`（屬 owner 認可的文件對帳項）。
+
+> **2026-10-13 更正（R8 第 2 輪 claim 14）**：本節早期把 `public-plugin-verify.yml` 一併列為被拒項，**錯誤**——
+> 該檔在守衛的允許集內（逐字見第 11 步的 `ALLOWED` 正則），拒絕集實為 **5 項**（`ci.yml` ＋ 4 筆 gitlink）。
+> 結論方向不變（守衛在任何 base 皆紅），但**指名必須精確**。見 `FAR_MEASUREMENT_RECEIPTS.json` 的 `guard_refusal_sets`。

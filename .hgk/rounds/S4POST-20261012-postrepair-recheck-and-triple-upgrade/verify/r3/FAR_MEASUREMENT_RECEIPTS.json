@@ -91,5 +91,24 @@
  "C3_non_mutation": {
   "restated": "No new TRACKED or untracked-non-ignored entries. On a FRESH CLONE the suites DO create the three gitignored __pycache__/ directories (src/, tests/, tools/). The earlier blanket 'zero new entries of either kind' held only in a worktree where those caches already existed - it was environment-dependent and is restated here.",
   "evidence": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/r3/ao_lane/after-status.txt, after-ignored.txt, before-status.txt, before-ignored.txt (the independent lane's own capture)"
+ },
+ "guard_refusal_sets": {
+  "source": "verify/r3/ao_lane_round2/guard-{main,stacked}.log (literal guard output, round-2 lane)",
+  "stacked_base": "52542c395a0f91dc2ba4bd6123acd4cdecd780dc",
+  "stacked_exit": 1,
+  "stacked_refusals": 5,
+  "stacked_refusal_list": [
+   ".github/workflows/ci.yml",
+   ".hgk/rounds/R2-20261009-qualification/execute/candidate",
+   ".hgk/rounds/R2-20261009-qualification/product-repair/pristine-candidate",
+   ".hgk/rounds/R2-20261009-qualification/product-repair/regression-candidate",
+   ".hgk/rounds/R2-20261009-qualification/product-repair/semcheck"
+  ],
+  "stacked_verdict_line": "WRITE_SET_VIOLATION (base 52542c395a0f91dc2ba4bd6123acd4cdecd780dc)",
+  "main_base": "224591431a164ab72a9423cd180e417e8a762403",
+  "main_exit": 1,
+  "main_refusals": 33,
+  "main_verdict_line": "WRITE_SET_VIOLATION (base 224591431a164ab72a9423cd180e417e8a762403)",
+  "correction": "Both round-1 and round-2 briefs listed public-plugin-verify.yml as refused. It is IN the allowlist (ALLOWED regex: \\.github/workflows/public-plugin-verify\\.yml$) and is NOT refused on either base. Fixed in SUBJECT_AND_BASE_DECLARATION.md and DOC_RECONCILIATION_ERRATUM.md; the direction of the conclusion (guard is red on any base) is unchanged."
  }
 }

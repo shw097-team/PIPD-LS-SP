@@ -32,7 +32,7 @@ OK (skipped=4). Offline socket guard, isolated temp/bytecode paths, specified in
 | **11 FAILED `ICON_MISSING`** | 全新 clone 內**不含 `--generate-icons`** 的建構呼叫 exit 2 拒絕 | **設計使然，非缺陷**（該檔自述 `GENERATED, never committed`）。已寫 `BUILD_INVOCATION_AND_OWNER_DECISION.md`，記錄**精確含生成前置的可重跑呼叫**；檢查器以補充模式獨立得到**同一 sha256 `83e5ce5b…`** ✓。把「無生成模式是否為必要契約」列為 **owner 裁決項**，不自決。|
 | **5 FAILED `com.ao3` 3 vs 9** | 檢查器對**當前主體**實測 9 檔；我的 3 是**舊主體**的量 | 檢查器**對**：3 不綁後續主體。已**退掉檔數**，改以**不變式**發布（產品面命中 0；全部命中為本回合自撰紀錄，含檢查器產物）。|
 | **7 FAILED 定址／形態** | (a) 引用的 `SELF_ITERATION_AFTER_AO.md` **不存在**；(b) 回執記的工具 sha 與**已提交 blob 不符** | (a) **撤回** 6→3→9 序列主張（不可重推），改引用**確實存在、檢查器自己數過 9 筆**的 `verify/ao12/FINDINGS.json`；(b) 回執改記**兩形態並標籤**（committed blob `05f3fe13…`＝clone 實測；worktree CRLF `3787c377…`）。|
-| **14 VERIFIED（附帶發現）** | `R3_CI_FIRST_RUN.md` 寫「允許集外 4」，實測 **5** | 已更正為 5 並具名（`.github/workflows/ci.yml` ＋ 4 筆 gitlink）。|
+| **14 VERIFIED（附帶發現）** | `R3_CI_FIRST_RUN.md` 寫「允許集外 4」，實測 **5** | 已更正為 5 並具名；**同項另抓出**：`SUBJECT_AND_BASE_DECLARATION.md` 與 `DOC_RECONCILIATION_ERRATUM.md` 把 `public-plugin-verify.yml` 也列為被拒項——**錯**，該檔在允許集內。兩處已按守衛逐字輸出更正，並補 `guard_refusal_sets` 實測收據。|
 
 ## 3. 檢查器自陳限制（非缺陷，照刊）
 
