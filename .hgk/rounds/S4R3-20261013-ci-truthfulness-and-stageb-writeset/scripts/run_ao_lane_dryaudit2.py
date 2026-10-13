@@ -129,7 +129,9 @@ CLAIMS
   C2  The CI wheel-registry gate is falsifiable: it calls a committed tool that a local run can also
       execute, and a negative case turns it red.
   C3  The write-set gate judges the branch's DECLARED stage and base rather than the pull-request
-      base; the allowlists were NOT widened and the frozen-path refusals still refuse.
+      base; the frozen-path refusals still refuse. MEASURED DEVIATION (corrected wording): the
+      stage-b allowlist gained TWO entries relative to the frozen subject (docs/USER_GUIDE.md and
+      the round's own directory), against the admitted requirement whose wording forbids widening.
   C4  Stage B was re-pinned onto the repaired Stage A head and two Stage B defects are refused with
       typed errors: an official manifest whose name/version disagrees with the release bookkeeping,
       and extension namespaces outside the reviewed list.

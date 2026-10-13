@@ -1,0 +1,40 @@
+{
+  "schema": "HGK-BUNDLE-GUARD/1",
+  "selftest": [
+    {
+      "case": "positive",
+      "expected": "pass",
+      "coverage_ok": true,
+      "receipts_ok": true,
+      "as_expected": true
+    },
+    {
+      "case": "negative_dropped_block",
+      "expected": "refuse",
+      "coverage_ok": false,
+      "codes": [
+        "ERR_CLAIM_BLOCK_NOT_KEPT"
+      ],
+      "as_expected": true
+    },
+    {
+      "case": "negative_no_receipt",
+      "expected": "refuse",
+      "receipts_ok": false,
+      "codes": [
+        "ERR_CLAIM_HAS_NO_RECEIPT"
+      ],
+      "as_expected": true
+    },
+    {
+      "case": "negative_missing_receipt_file",
+      "expected": "refuse",
+      "receipts_ok": false,
+      "codes": [
+        "ERR_CLAIM_RECEIPT_UNRESOLVED"
+      ],
+      "as_expected": true
+    }
+  ],
+  "all_as_expected": true
+}
