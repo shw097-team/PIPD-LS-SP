@@ -73,10 +73,27 @@ jobs:
         # The two stages have deliberately different, non-overlapping write sets. Stage A repairs the
         # pipeline (the CI exit-code truthfulness guard, the packaging build, the first-run examples,
         # the smoke test) and must be able to write src/ and the workflows; Stage B ships the
-        # distribution surface and must not go near src/, schemas/ or dist/. This change widens
-        # NEITHER allowlist: each stage is enumerated file by file or by its own narrow prefix, the
-        # frozen-path denial for skills/, schemas/ and dist/ applies to both, and the classifier's
-        # self-test below still proves that planted violations are REFUSED.
+        # distribution surface and must not go near src/, schemas/ or dist/. Each stage is enumerated
+        # file by file or by its own narrow prefix, and the classifier's self-test below still proves
+        # that planted violations are REFUSED.
+        #
+        # Scope of the DENIED continuity, stated precisely because the earlier wording overstated it:
+        # the frozen-path denial is unchanged for the stage-b set, whose DENIED omits nothing. The
+        # stage-a arm deliberately ALLOWS src/, so "the denials are unchanged" is a statement about
+        # the stage-b set and must not be read as uniform across the two stages.
+        #
+        # Allowlist disclosure, measured rather than asserted (locator:
+        # evidence/12_GATES/ALLOWLIST_MINIMUM_MEASUREMENT.json, at the revision this file carries):
+        # against the frozen subject the stage-b set carries exactly ONE addition, `docs/USER_GUIDE.md`,
+        # and the governed diff is measured to require it - removing it makes that path UNLISTED and
+        # this gate would refuse a path Stage B legitimately ships. This file previously claimed that
+        # the change widened NEITHER allowlist; that claim was false and is withdrawn here.
+        #
+        # The round's own evidence tree is not in either allowlist. `.hgk/**` is excluded from the
+        # governed PRODUCT write set by declaration (EXCLUDED_PREFIXES below), printed and counted in
+        # this step's output. The earlier arrangement instead listed the round directory inside the
+        # allowlist, which had this gate permit writes to the tree holding its own receipts; an
+        # exclusion a reviewer can read beats a permission a reviewer has to notice.
         env:
           # Which stage this branch IS. This single line is the ONLY difference between the Stage A
           # and Stage B copies of this file; flipping it must never be combined with a new file added
@@ -94,7 +111,7 @@ jobs:
           case "${STAGE}" in
             stage-a)
               BASE="${STAGE_A_BASE_SHA}"
-              ALLOWED='^(pyproject\.toml$|setup\.py$|MANIFEST\.in$|src/pipd_ls_sp/workspace\.py$|examples/first-run/run\.(sh|ps1)$|tests/test_web_fallback\.py$|tests/test_standard_wheel_schemas\.py$|tools/cli_smoke\.py$|tools/verify_installed_wheel_registry\.py$|\.github/workflows/(ci|public-plugin-verify)\.yml$|\.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/)'
+              ALLOWED='^(pyproject\.toml$|setup\.py$|MANIFEST\.in$|src/pipd_ls_sp/workspace\.py$|examples/first-run/run\.(sh|ps1)$|tests/test_web_fallback\.py$|tests/test_standard_wheel_schemas\.py$|tools/cli_smoke\.py$|tools/verify_installed_wheel_registry\.py$|\.github/workflows/(ci|public-plugin-verify)\.yml$)'
               DENIED='^(skills/|schemas/|dist/)'
               REFUSED_PLANTS='skills/pipd-core/SKILL.md schemas/TraceLink.schema.json dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl src/pipd_ls_sp/cli.py tools/build_public_plugin.py'
               ALLOWED_PLANTS='src/pipd_ls_sp/workspace.py pyproject.toml setup.py tests/test_web_fallback.py tools/verify_installed_wheel_registry.py'
@@ -115,7 +132,7 @@ jobs:
                 echo "STAGE_B_BASE_UNRESOLVED: neither refs/heads/${STAGE_B_BASE_REF} nor refs/remotes/origin/${STAGE_B_BASE_REF} is present in this checkout; refusing to guess a write-set base" >&2
                 exit 1
               fi
-              ALLOWED='^(packaging/public-plugin/|tools/freeze_public_plugin_source\.py$|tools/build_public_plugin\.py$|tools/build_web_fallback\.py$|tests/test_public_plugin_packaging\.py$|tests/test_web_fallback\.py$|docs/install/|docs/USER_GUIDE\.md$|docs/adr/|openspec/changes/s4post-triple-upgrade/|\.github/workflows/public-plugin-verify\.yml$|README\.md$|\.hgk/rounds/S4POST-20261012|\.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/)'
+              ALLOWED='^(packaging/public-plugin/|tools/freeze_public_plugin_source\.py$|tools/build_public_plugin\.py$|tools/build_web_fallback\.py$|tests/test_public_plugin_packaging\.py$|tests/test_web_fallback\.py$|docs/install/|docs/USER_GUIDE\.md$|docs/adr/|openspec/changes/s4post-triple-upgrade/|\.github/workflows/public-plugin-verify\.yml$|README\.md$)'
               DENIED='^(skills/|src/|schemas/|dist/)'
               REFUSED_PLANTS='skills/pipd-core/SKILL.md schemas/TraceLink.schema.json dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl src/pipd_ls_sp/validate.py'
               ALLOWED_PLANTS='docs/install/PIPD_WEB_FALLBACK.md docs/USER_GUIDE.md README.md packaging/public-plugin/plugin.json'
@@ -125,6 +142,11 @@ jobs:
               exit 1
               ;;
           esac
+          # Declared exclusion, not a permission. `.hgk/` is the governance scaffolding tree: this
+          # round's admission records, receipts, study and re-derivation tools. It is not product, and
+          # it is excluded here so both allowlists enumerate product paths only. Excluded paths are
+          # counted and printed below, and the self-test proves no product path can reach this prefix.
+          EXCLUDED_PREFIXES='^\.hgk/'
           echo "=== governed ${STAGE} write set (${BASE}...HEAD) ==="
           if [ -n "${PR_BASE_SHA}" ] && git cat-file -e "${PR_BASE_SHA}^{commit}" 2>/dev/null; then
             echo "--- CONTEXT ONLY, not a governed write set: pull request base ${PR_BASE_SHA}...HEAD ---"
@@ -148,6 +170,8 @@ jobs:
             printf '%s\n' "${CHANGED}"
           fi
           bad=0
+          excluded=0
+          excluded_list=""
           while IFS= read -r path; do
             [ -n "$path" ] || continue
             # A path segment of `..` is refused before any pattern test. The allowlist is anchored
@@ -162,6 +186,13 @@ jobs:
                 continue
                 ;;
             esac
+            # Exclusion is tested AFTER the traversal refusal so a `/../` path cannot hide inside the
+            # excluded prefix: scaffolding paths are skipped here, never silently accepted downstream.
+            if printf '%s' "$path" | grep -Eq "$EXCLUDED_PREFIXES"; then
+              excluded=$((excluded + 1))
+              excluded_list="${excluded_list}${path}"$'\n'
+              continue
+            fi
             if printf '%s' "$path" | grep -Eq "$DENIED"; then
               echo "UPGRADE_WROTE_FROZEN_PATH: $path" >&2
               bad=1
@@ -170,6 +201,8 @@ jobs:
               bad=1
             fi
           done <<< "${CHANGED}"
+          echo "EXCLUDED_BY_DECLARATION (${EXCLUDED_PREFIXES}) from the governed PRODUCT write set: ${excluded} path(s)"
+          if [ -n "${excluded_list}" ]; then printf '%s' "${excluded_list}" | sed 's/^/  excluded: /'; fi
           # Self-test of the classifier ITSELF (the S4R3-F002 retest requirement: a repaired gate must
           # demonstrably still refuse, otherwise a gate that accepts everything and a gate that refuses
           # everything look identical from the outside).
@@ -192,6 +225,19 @@ jobs:
               exit 1
             fi
           done
+          # The declared exclusion must be unreachable from every product path; otherwise it would be
+          # a blanket escape and the classifier would judge less than it prints.
+          for planted in ${ALLOWED_PLANTS} ${REFUSED_PLANTS}; do
+            if printf '%s' "$planted" | grep -Eq "$EXCLUDED_PREFIXES"; then
+              echo "GATE_SELF_TEST_FAILED: product path ${planted} would have been EXCLUDED" >&2
+              exit 1
+            fi
+          done
+          if ! printf '%s' ".hgk/rounds/example-round/evidence/12_GATES/x.json" | grep -Eq "$EXCLUDED_PREFIXES"; then
+            echo "GATE_SELF_TEST_FAILED: the declared exclusion does not match the scaffolding tree" >&2
+            exit 1
+          fi
+          echo "GATE_SELF_TEST_OK: the declared exclusion matches scaffolding only and no product path"
           echo "GATE_SELF_TEST_OK: planted ${STAGE} artefacts are all allowed"
           if [ "$bad" -ne 0 ]; then
             echo "WRITE_SET_VIOLATION (${STAGE} base ${BASE})" >&2
