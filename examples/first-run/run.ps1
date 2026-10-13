@@ -50,7 +50,17 @@ if ($Pipd) {
     Fail "no installed 'pipd' and no src\pipd_ls_sp\cli.py under $Root"
 }
 
-$Art = Join-Path $env:TEMP ("pipd-first-run-" + [guid]::NewGuid().ToString('N').Substring(0, 8))
+# The scratch workspace lives OUTSIDE the checkout. S4R3-F001: this used `Join-Path $env:TEMP ...`,
+# and $env:TEMP exists only on Windows — on Linux/macOS the environment carries TMPDIR/no TEMP, so
+# Join-Path received $null and the script died with "Cannot bind argument to parameter 'Path'
+# because it is null" before its first real step. GetTempPath() is the portable answer; TEMP/TMPDIR
+# are still honoured first so the script keeps the behaviour Windows users expect.
+$TempRoot = $env:TEMP
+if (-not $TempRoot) { $TempRoot = $env:TMPDIR }
+if (-not $TempRoot) { $TempRoot = $env:TMP }
+if (-not $TempRoot) { $TempRoot = [System.IO.Path]::GetTempPath() }
+if (-not $TempRoot) { Fail 'no usable temporary directory (TEMP/TMPDIR/TMP all unset)' }
+$Art = Join-Path $TempRoot ("pipd-first-run-" + [guid]::NewGuid().ToString('N').Substring(0, 8))
 $Ctx = Join-Path $Art 'ctx'
 New-Item -ItemType Directory -Force -Path $Ctx | Out-Null
 $Source = Join-Path $Root 'examples\first-run\source.txt'

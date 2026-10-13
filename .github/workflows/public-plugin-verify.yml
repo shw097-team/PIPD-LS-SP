@@ -158,6 +158,7 @@ jobs:
         # is installed, so a third-party import in either module fails here rather than being masked
         # by an environment that happens to have the package.
         run: |
+          set -euo pipefail
           python -m unittest tests.test_public_plugin_packaging tests.test_web_fallback -v \
             2>&1 | tee upgrade-tests.log
 
@@ -166,13 +167,21 @@ jobs:
         # the upgrade. It resolves the project's own declared closure from pyproject metadata; no
         # ad-hoc requirements file is pulled, and `requirements.lock` (which records the closure as
         # installed, is NOT hash-pinned, and is therefore not an install recipe) is not used here.
+        # `[test]` adds PyYAML, which the pre-existing skill-contract tests need (S4R3-F001); the
+        # upgrade's own two modules are still proven stdlib-only by the earlier step, which runs
+        # with nothing installed at all.
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e .
+          python -m pip install -e ".[test]"
           python -m pip freeze | tee resolved-deps.txt
 
       - name: Full unittest suite (raw log)
-        run: python -m unittest discover -s tests -t . -v 2>&1 | tee full-unittest.log
+        # S4R3-F001: `... | tee full-unittest.log` returned tee's status, so this step could pass
+        # while its own log read FAILED (failures=11). pipefail makes the step carry the suite's
+        # exit code.
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s tests -t . -v 2>&1 | tee full-unittest.log
 
       - name: Negative — a mutated pack document must fail the identity binding
         # FAIL-CLOSED: the failure MOTIVE must be the identity binding, not merely a non-zero exit.

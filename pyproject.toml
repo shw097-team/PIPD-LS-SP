@@ -7,6 +7,15 @@ dependencies = ["jsonschema>=4.0"]
 license = "Apache-2.0"
 license-files = ["LICENSE", "NOTICE"]
 
+[project.optional-dependencies]
+# TEST-ONLY dependency (S4R3-F001). The suite's skill-contract tests drive
+# tools/skill_pack_check.py, which parses skills/*/tests/cases.yaml with PyYAML. The shipped CLI
+# never imports yaml, so PyYAML is deliberately NOT a runtime dependency; CI installs
+# `pip install -e ".[test]"`. When it is absent the checker still fails closed with a typed
+# TOOL_MISSING refusal — that refusal is the correct behaviour and is asserted by the suite, but a
+# gate must not be red merely because the test extra was never installed.
+test = ["pyyaml>=6.0"]
+
 [project.scripts]
 pipd = "pipd_ls_sp.cli:main"
 

@@ -281,16 +281,53 @@ def repair_candidate(subject: str, *, scope: list[str], maker: str,
         # subject anywhere on the host. A repair candidate is only bounded if BOTH the scope and the
         # subject resolve inside the authorised root.
         raw = subject.replace("\\", "/")
-        absolute = raw.startswith("/") or bool(re.match(r"^[A-Za-z]:", raw))
         if ".." in raw.split("/"):
             raise RepairScopeFail(f"repair subject escapes the authorised root: {subject}")
-        try:
-            # A leading "/" or a drive letter is an ABSOLUTE path: resolve it as given. Re-basing it
-            # onto the root would silently reinterpret "/etc/passwd" as "<root>/etc/passwd" and let an
-            # absolute escape through as if it were root-relative.
-            (Path(raw) if absolute else (root / raw)).resolve().relative_to(root)
-        except Exception:
+
+        def _outside() -> None:
             raise RepairScopeFail(f"repair subject outside the authorised root {root}: {subject}")
+
+        # A leading "/", a drive letter ("C:") or a UNC prefix ("//") is ABSOLUTE — on the host that
+        # produced it, which is not necessarily the host this runs on. Containment is therefore
+        # decided with the subject's OWN path flavour, never by re-basing it onto the root: on POSIX,
+        # Path("C:/Windows/system32/x.dll") is a RELATIVE path, so `resolve()` would place it under
+        # the root (resolved against the cwd) and let a foreign-absolute escape through as if it were
+        # inside. Measured: the hosted-Linux run of tests/test_negative_and_rollback.py failed
+        # exactly on that subject while the Windows run passed.
+        root_posix = root.as_posix()
+        drive = re.match(r"^([A-Za-z]):/", raw)
+        unc = raw.startswith("//")
+        root_drive = re.match(r"^([A-Za-z]):/", root_posix)
+        if drive or unc:
+            # Windows-flavoured absolute subject: compare textually against the root's own form.
+            if not root_drive or (unc and not root_posix.startswith("//")):
+                _outside()
+            root_letter = root_drive.group(1).lower() if root_drive else ""
+            if drive and drive.group(1).lower() != root_letter:
+                _outside()
+            if not (raw.lower() == root_posix.lower()
+                    or raw.lower().startswith(root_posix.rstrip("/").lower() + "/")):
+                _outside()
+            # Same drive and a textual prefix match: this host can represent the path, so keep the
+            # symlink-following check as well.
+            try:
+                Path(raw).resolve().relative_to(root)
+            except Exception:
+                _outside()
+        elif raw.startswith("/"):
+            if not root_posix.startswith("/"):
+                _outside()
+            try:
+                # A leading "/" is absolute: resolve it as given. Re-basing it onto the root would
+                # silently reinterpret "/etc/passwd" as "<root>/etc/passwd".
+                Path(raw).resolve().relative_to(root)
+            except Exception:
+                _outside()
+        else:
+            try:
+                (root / raw).resolve().relative_to(root)
+            except Exception:
+                _outside()
     else:
         raise RepairScopeFail("repair requires authorized_root; an unscoped repair is not bounded")
     return {"schema": "PIPD-REPAIR-CANDIDATE/1", "subject": subject, "scope": scope,

@@ -141,11 +141,22 @@ class WebFallbackTests(unittest.TestCase):
                      out_path=out, size_cap=size_cap)
 
     def assert_refused(self, pack: Path, out: Path, code: str, *,
-                       size_cap: int = WFB.DEFAULT_SIZE_CAP):
+                       size_cap: int = WFB.DEFAULT_SIZE_CAP, pre_existing_destination: bool = False):
         with self.assertRaises(WFB.Refusal) as caught:
             self.build_pack(pack, out, size_cap=size_cap)
         self.assertEqual(caught.exception.code, code, str(caught.exception))
-        self.assertFalse(out.exists(), "a refused build must not leave a destination behind")
+        # A refused build must never CREATE a destination. A destination that was ALREADY there —
+        # in particular an existing symlink the gate refused to follow — is not the tool's artefact:
+        # the tool must leave it exactly as it found it, and deleting a user's symlink would itself
+        # be a mutation. The caller asserts the byte-identity of whatever the link points at.
+        # Measured: on a host that can create symlinks (hosted Linux) `.exists()` follows the link,
+        # so the previous blanket `assertFalse(out.exists())` failed the very test that proves the
+        # gate worked, while the Windows seam path passed.
+        if pre_existing_destination:
+            self.assertTrue(os.path.islink(out) or out.is_file(),
+                            "a refused build must leave a pre-existing destination in place")
+        else:
+            self.assertFalse(out.exists(), "a refused build must not leave a destination behind")
         return caught.exception
 
     # ------------------------------------------------------------- 1. positive
@@ -257,18 +268,22 @@ class WebFallbackTests(unittest.TestCase):
         sentinel.write_bytes(sentinel_bytes)
         dest = self.td / "link.md"
 
-        if _symlinks_supported():
+        real_symlink = _symlinks_supported()
+        if real_symlink:
             os.symlink(sentinel, dest)
             ctx = contextlib.nullcontext()
         else:
             ctx = _seam_symlink(dest)  # the tool's own test seam; the gate code is unchanged
         with ctx:
-            exc = self.assert_refused(pack, dest, "DESTINATION_SYMLINK")
+            exc = self.assert_refused(pack, dest, "DESTINATION_SYMLINK",
+                                      pre_existing_destination=real_symlink)
         self.assertIn("symlink", exc.detail)
         self.assertEqual(sentinel.read_bytes(), sentinel_bytes,
                          "the file behind the symlink must be untouched")
-        if _symlinks_supported():
+        if real_symlink:
             self.assertTrue(os.path.islink(dest))
+            self.assertEqual(os.readlink(dest), str(sentinel),
+                             "the pre-existing symlink must still point at the sentinel")
         else:
             self.assertFalse(dest.exists())
 
