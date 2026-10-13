@@ -16,7 +16,7 @@
 3. 以「再修一版載具」回應新 finding。新 finding 一律轉 CR／TT 登記，不在本回合修。
 
 **凍結範圍**：`.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/harness/**`、
-`stage-b/run_lane.sh`、`stage-b/run_lanes_gated.sh`、`stage-b/run_checker_lane.sh`。
+`run_lane.sh`（載具分支 `stage-b` 內）、`run_lanes_gated.sh`（載具分支 `stage-b` 內）、`run_checker_lane.sh`（載具分支 `stage-b` 內）。
 
 **例外（本回合最後一次載具編輯，明示且可查）**：FAR **R6／R7** 兩項證據管路修正（證據可讀性＋SoD 逐列身分）。
 它們是「讓第三方能重跑現有定位」的必要修正，不是新軸；兩者落地後凍結立即生效。凍結生效的 commit 記於本回合 commit。
