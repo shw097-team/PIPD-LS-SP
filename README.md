@@ -11,6 +11,27 @@ deterministically.
 Licensed **Apache-2.0**. This repository is an owner-authorised open-source **preview / beta**, not
 a production release — read [Claim ceiling](#claim-ceiling) before building on it.
 
+## Verification entry point — candidate on `feat/s4post-triple-upgrade-20261013-r3`
+
+The current candidate is **not** on `main`, and `main` is not what the entry document describes.
+The verification entry document is
+[`R3_PUBLICATION.md`](.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/R3_PUBLICATION.md)
+on branch **`feat/s4post-triple-upgrade-20261013-r3`** (tip `5df5a3f0f41a15027f06f8a5d9b9c16755cca566`),
+with the round's verification harness on `chore/s4post-verification-harness`.
+
+**Gates that are FAILING or not granted, stated up front rather than buried:**
+
+- `PIPD_S4_FULL_PASS` — **NOT GRANTED**. The public release gate is **`FAIL-CLOSED / HOLD`**.
+- Independent acceptance of the S4POST candidate: latest verdict **`FAIL_CHALLENGE`** (9 findings, all
+  inside the round's own verification harness). No round here has produced a `PASS_CHALLENGE`.
+- Four-host UAT, Portal scan/review/publish, security scan and a real candidate build: **`NOT_EXECUTED`**.
+  Four owner supplies and four owner-only acts are outstanding — see the candidate's
+  `OWNER_ACTION_REQUEST.md`.
+- The **published** `v0.1.1-preview.3` wheel still carries the known Trace false-PASS defect
+  (`FAIL_CHALLENGE`, product scope).
+
+Everything below this section describes the **published preview**, not this candidate.
+
 ## Install
 
 Install is one of **two routes**, and [`docs/install/README.md`](docs/install/README.md) is the
