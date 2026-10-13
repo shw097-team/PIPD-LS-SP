@@ -6,12 +6,12 @@
   {
    "subject": "product branch content (materialised with git archive of the product tip, NOT the shared worktree)",
    "command": "python $R/verify/tools/check_evidence_locators.py --root . --search-dir . $R/OWNER_ACTION_REQUEST.md $R/HARNESS_FREEZE_AND_AO_LOOP_CAP.md",
-   "exit": 2,
-   "verdict": "FAIL_LOCATORS_NOT_RERUNNABLE",
+   "exit": 0,
+   "verdict": "PASS_LOCATORS_IN_TREE",
    "raw_tail": [
-    "{\"verdict\": \"FAIL_LOCATORS_NOT_RERUNNABLE\", \"counts\": {\"RESOLVES_IN_TREE\": 7, \"EXTERNAL_ONLY\": 0, \"UNRESOLVABLE\": 1, \"SHORTHAND_BARE_NAME\": 13}}",
-    "  UNRESOLVABLE   verify/harness/HARNESS_DEFECT_LOG.md"
-   ]
+    "{\"verdict\": \"PASS_LOCATORS_IN_TREE\", \"counts\": {\"RESOLVES_IN_TREE\": 7, \"EXTERNAL_ONLY\": 0, \"UNRESOLVABLE\": 0, \"SHORTHAND_BARE_NAME\": 13}}"
+   ],
+   "corrected_after": "A second round of the same independent finding: one further cross-branch citation (a harness-branch log) was relabelled, then the control was re-measured and is reported exactly as measured."
   },
   {
    "subject": "AO12 external challenge bundle (negative control)",
@@ -20,5 +20,5 @@
   }
  ],
  "correction_note": "An earlier single-subject control recorded PASS_LOCATORS_IN_TREE (11 in-tree, 0 offenders) measured in the SHARED WORKTREE, which carries both branches' content and is therefore not the published subject. Raised by independent third-party verification; re-measured per subject, and harness-branch-only citations in the freeze document were relabelled. If the product subject still fails, the failure is reported here verbatim rather than rounded to PASS.",
- "known_residual": "Documents in the product subject that cite companion-branch (harness) content will fail this strict in-tree control by design; the two branches are the FAR R2 split."
+ "known_residual": "Product-subject documents that cite companion-branch (harness) content will fail this strict in-tree control by design; the two branches are the FAR R2 split."
 }
