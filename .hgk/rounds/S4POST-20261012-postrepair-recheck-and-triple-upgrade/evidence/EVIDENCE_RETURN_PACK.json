@@ -233,7 +233,9 @@
     "interpreter": "CPython 3.11.9 (C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe)",
     "jsonschema": "4.26.0 (present in the interpreter; the packaging tests validate against the vendored vendor schema)"
    },
-   "nonmutation_note": "run inside the candidate worktree; `git status --porcelain` was compared before/after and the only entries were this round's own new evidence files"
+   "nonmutation_note": "Measured with a named-entry diff, not a count: full suite + focused suite run in a checkout left `git status --porcelain` (and its --ignored form) with ZERO new entries, exit 0 both. An earlier non-zero count in this round was the orchestrator's own concurrent document writes, and is not reproducible as a test side effect.",
+   "log_sha256_worktree_eol": "88d8db8123e744c2699193bd5c8013fbb62c0fd952d425b779c6f9457488eba7",
+   "log_sha256_committed_blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
   {
    "argv_redacted": "PYTHONPATH=<worktree> \"C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe\" python -m unittest discover -s tests -t . -v",
@@ -251,7 +253,10 @@
     "interpreter": "CPython 3.11.9 (C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe)",
     "jsonschema": "4.26.0 (present in the interpreter; the packaging tests validate against the vendored vendor schema)"
    },
-   "nonmutation_note": "run inside the candidate worktree; `git status --porcelain` was compared before/after and the only entries were this round's own new evidence files"
+   "nonmutation_note": "Measured with a named-entry diff, not a count: full suite + focused suite run in a checkout left `git status --porcelain` (and its --ignored form) with ZERO new entries, exit 0 both. An earlier non-zero count in this round was the orchestrator's own concurrent document writes, and is not reproducible as a test side effect.",
+   "log_sha256_worktree_eol": "185a6177ce2296ca11af42e058f9ee661725c465836a65a19be6e8436bb2bc1a",
+   "log_sha256_committed_blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "skipped_note": "3 in this environment; an independent third party reproduced 4 (one additional environment-dependent skip). Not a defect."
   }
  ],
  "sod": [
@@ -298,5 +303,41 @@
   "pack_preimage_sha256": "2e5a1d19e80ba8759c07c6d1e4b085d3d3ebf67988f1e269965b0266adcfbbe9",
   "pack_edited_at_utc": "20261013T011018Z"
  },
- "commands_note": "two suite runs on the candidate tree: the focused s4ext set and the full discovery. The earlier pack's `orchestrator_measurements` block (44 / 569 tests) is the previous round's snapshot and is kept as history, not overwritten."
+ "commands_note": "two suite runs on the candidate tree: the focused s4ext set and the full discovery. The earlier pack's `orchestrator_measurements` block (44 / 569 tests) is the previous round's snapshot and is kept as history, not overwritten.",
+ "verification": {
+  "independent_third_party": {
+   "who": "separate agent process, fresh anonymous clone, no maker context",
+   "when": "2026-10-13",
+   "tip_verified": "09ce147c6e74b40e302d4444d0c0f3d729dbcf6d",
+   "main_verified": "224591431a164ab72a9423cd180e417e8a762403",
+   "focused": "Ran 108 tests in 16.228s / OK / exit 0",
+   "full": "Ran 572 tests in 151.831s / OK (skipped=4) / exit 0",
+   "locator_negative_control": "exit 2 / FAIL_LOCATORS_NOT_RERUNNABLE",
+   "gitlinks_at_candidate_tip": 0,
+   "ci_steps_executed": {
+    "run_ids": [
+     38332362026,
+     38332365603
+    ],
+    "step5_full_unittest_suite": "completed success",
+    "step8_provenance_gate": "completed success",
+    "step9_mutation_negative": "completed success",
+    "note": "completed success, not skipped/pending - the steps the round claims actually executed"
+   },
+   "defects_it_raised": [
+    "C8 the section 3 acceptance block cd'ed to the clone root while using round-relative paths (fixed: an R= variable plus cd \"$R\"; the documented control was then re-run verbatim)",
+    "C9 the section 3 positive-control expectation did not reproduce on the product branch, because the cited documents contained harness-branch-only locators; the earlier PASS had been measured in the shared worktree that carries BOTH branches (fixed: citations relabelled, control re-measured per subject and published exactly as measured)",
+    "C10 `npx --no-install openspec validate` is not runnable in an anonymous clone (no node_modules); the recorded raw output is pointed at instead",
+    "C12 the recorded log_sha256 values were of the CRLF working copies, not of the committed blobs (fixed: both forms now recorded and labelled)"
+   ],
+   "what_it_could_not_verify": [
+    "the AO12 lane contract/validator itself (it lives out of tree - that is the R6 finding)",
+    "the contents of the uploaded CI raw logs (step conclusions only)",
+    "the release-asset download readback (not re-downloaded)",
+    "HGK admission DB state, GSTACK/OPENSPEC readbacks, kanban evidence",
+    "the cause of the skipped-count delta (3 vs 4)"
+   ]
+  },
+  "quota_note": "REST polling later returned 403 rate limit for the anonymous channel; that is INCONCLUSIVE, not a failure. Final CI state was read from the workflow status badge (quota-free): ci=passing on all three branches, main has no runs."
+ }
 }
