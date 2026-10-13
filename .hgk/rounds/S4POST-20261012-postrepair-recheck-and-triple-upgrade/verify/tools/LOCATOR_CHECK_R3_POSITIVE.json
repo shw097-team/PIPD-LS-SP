@@ -1,31 +1,24 @@
 {
  "schema": "PIPD-R3-LOCATOR-CONTROL/2",
  "tool": "verify/tools/check_evidence_locators.py",
- "why": "A locator that only resolves inside a reviewer's private tree is not independently re-runnable (FAR R6).",
+ "why": "A locator that only resolves inside a reviewer's tree is not independently re-runnable (FAR R6).",
  "per_subject": [
   {
-   "subject": "product branch content (README/product docs; measured via git archive of the product tip, NOT the shared worktree)",
-   "command": "check_evidence_locators.py --root . --search-dir . --search-dir ../.. OWNER_ACTION_REQUEST.md HARNESS_FREEZE_AND_AO_LOOP_CAP.md",
+   "subject": "product branch content (materialised with git archive of the product tip, NOT the shared worktree)",
+   "command": "python $R/verify/tools/check_evidence_locators.py --root . --search-dir . $R/OWNER_ACTION_REQUEST.md $R/HARNESS_FREEZE_AND_AO_LOOP_CAP.md",
    "exit": 2,
-   "verdict": "FAIL_LOCATORS_NOT_RERUNNABLE"
+   "verdict": "FAIL_LOCATORS_NOT_RERUNNABLE",
+   "raw_tail": [
+    "{\"verdict\": \"FAIL_LOCATORS_NOT_RERUNNABLE\", \"counts\": {\"RESOLVES_IN_TREE\": 7, \"EXTERNAL_ONLY\": 0, \"UNRESOLVABLE\": 1, \"SHORTHAND_BARE_NAME\": 13}}",
+    "  UNRESOLVABLE   verify/harness/HARNESS_DEFECT_LOG.md"
+   ]
   },
   {
    "subject": "AO12 external challenge bundle (negative control)",
-   "command": "check_evidence_locators.py --root . --search-dir . verify/ao12/EXTERNAL_CHALLENGE_REPORT.md",
    "exit": 2,
-   "verdict": "FAIL_LOCATORS_NOT_RERUNNABLE",
-   "offender_classes": [
-    "external temp root unreadable by the maker",
-    "the canonical challenge-review lane's own contract lives OUTSIDE the tree"
-   ]
+   "verdict": "FAIL_LOCATORS_NOT_RERUNNABLE"
   }
  ],
- "correction_note": "An earlier single-subject control recorded PASS_LOCATORS_IN_TREE=11 measured in the WORKTREE, which carries both branches' content; that tree is not the published subject. Re-measured per subject here, and the freeze document's harness-branch-only locators were relabelled so the product subject no longer cites paths it does not contain. Raised by the independent third-party verification.",
- "raw_output_tail": [
-  "{\"verdict\": \"FAIL_LOCATORS_NOT_RERUNNABLE\", \"counts\": {\"RESOLVES_IN_TREE\": 4, \"EXTERNAL_ONLY\": 0, \"UNRESOLVABLE\": 4, \"SHORTHAND_BARE_NAME\": 13}}",
-  "  UNRESOLVABLE   packaging/public-plugin/OWNER_INPUT_REQUIRED.json",
-  "  UNRESOLVABLE   packaging/public-plugin/derivations.json",
-  "  UNRESOLVABLE   packaging/public-plugin/vendor-plugin.schema.json",
-  "  UNRESOLVABLE   packaging/public-plugin/plugin.release.json"
- ]
+ "correction_note": "An earlier single-subject control recorded PASS_LOCATORS_IN_TREE (11 in-tree, 0 offenders) measured in the SHARED WORKTREE, which carries both branches' content and is therefore not the published subject. Raised by independent third-party verification; re-measured per subject, and harness-branch-only citations in the freeze document were relabelled. If the product subject still fails, the failure is reported here verbatim rather than rounded to PASS.",
+ "known_residual": "Documents in the product subject that cite companion-branch (harness) content will fail this strict in-tree control by design; the two branches are the FAR R2 split."
 }

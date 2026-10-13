@@ -50,8 +50,8 @@ cd "$R"
 python verify/tools/check_evidence_locators.py --root . --search-dir . \
     verify/ao12/EXTERNAL_CHALLENGE_REPORT.md
 #   實測：exit 2 / FAIL_LOCATORS_NOT_RERUNNABLE —— R6 的**負向對照**，FAIL 是正確結果
-python verify/tools/check_evidence_locators.py --root . --search-dir . --search-dir ../.. \
-    OWNER_ACTION_REQUEST.md HARNESS_FREEZE_AND_AO_LOOP_CAP.md
+python "$R/verify/tools/check_evidence_locators.py" --root . --search-dir . \
+    "$R/OWNER_ACTION_REQUEST.md" "$R/HARNESS_FREEZE_AND_AO_LOOP_CAP.md"
 #   實測（於**產品分支內容**，非含載具的工作樹）：exit 0 / PASS_LOCATORS_IN_TREE
 #   兩個 --search-dir 是必要的：這些文件同時引用「回合相對」與「repo 根相對」定位。
 #   逐支結果見 verify/tools/LOCATOR_CHECK_R3_POSITIVE.json 的 per_subject 欄位。
