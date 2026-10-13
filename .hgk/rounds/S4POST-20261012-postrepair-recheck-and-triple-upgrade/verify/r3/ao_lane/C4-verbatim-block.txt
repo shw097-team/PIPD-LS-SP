@@ -1,0 +1,22 @@
+git clone --branch feat/s4post-triple-upgrade-20261013-r3 \
+    https://github.com/shw097-team/PIPD-LS-SP.git /tmp/r3 && cd /tmp/r3
+R=.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade
+python -V
+python -m unittest discover -s tests -p 'test_s4ext_*.py' -v
+#   實測：Ran 108 tests ... OK                                (exit 0)
+python -m unittest discover -s tests -t . -v
+#   實測：Ran 572 tests ... OK (skipped=3 本機 / 4 獨立第三方環境)  (exit 0)
+#   skip 數隨環境而異（第三方多 1 個 skip），非缺陷
+
+cd "$R"
+python verify/tools/check_evidence_locators.py --root . --search-dir . \
+    verify/ao12/EXTERNAL_CHALLENGE_REPORT.md
+#   實測：exit 2 / FAIL_LOCATORS_NOT_RERUNNABLE —— R6 的**負向對照**，FAIL 是正確結果
+python "$R/verify/tools/check_evidence_locators.py" --root . --search-dir . \
+    "$R/OWNER_ACTION_REQUEST.md" "$R/HARNESS_FREEZE_AND_AO_LOOP_CAP.md"
+#   實測（於**產品分支內容**，非含載具的工作樹）：exit 0 / PASS_LOCATORS_IN_TREE
+#   兩個 --search-dir 是必要的：這些文件同時引用「回合相對」與「repo 根相對」定位。
+#   逐支結果見 verify/tools/LOCATOR_CHECK_R3_POSITIVE.json 的 per_subject 欄位。
+#   注意：**不要把本文件（R3_PUBLICATION.md）放進這個對照**——它含 shell 指令，
+#   指令中的 URL 與 /tmp 路徑不是檔案定位，檢查器會（正確地）拒絕它們。
+cd /tmp/r3

@@ -1,0 +1,94 @@
+{
+ "schema": "PIPD-R3-MEASUREMENT-RECEIPTS/1",
+ "as_of_subject": "389d3973da73e5740f0b4d290bacb92d1e8982f8",
+ "as_of_subject_tree": "488d12c1a4bef899f6d38543ab50874d79996e3a",
+ "recorded_at_utc": "2026-10-13T02:22:40+00:00",
+ "why": "Every claim the FAR study presents as MEASURED gets a locatable artifact here, because an independent checker (C12) correctly found pointers missing.",
+ "locator_tool": {
+  "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/tools/check_evidence_locators.py",
+  "sha256": "3787c377d81a3e515550c5a202a64b721bbfd08907ecfe5c2bafed5fbe2d7365",
+  "change": "v2: mask URLs anywhere in the text. The earlier form anchored SKIP at '^', so a URL inside prose was never skipped and was fragmented into a relative candidate ('s://host/a/b.json') - the checker's C6 caught this against my own doc.",
+  "controls": {
+   "negative_ao12": {
+    "exit": 2,
+    "counts": {
+     "RESOLVES_IN_TREE": 0,
+     "EXTERNAL_ONLY": 7,
+     "UNRESOLVABLE": 36,
+     "SHORTHAND_BARE_NAME": 54
+    }
+   },
+   "positive_doc_pair": {
+    "exit": 0,
+    "counts": {
+     "RESOLVES_IN_TREE": 9,
+     "EXTERNAL_ONLY": 0,
+     "UNRESOLVABLE": 0,
+     "SHORTHAND_BARE_NAME": 15
+    }
+   },
+   "far_study": {
+    "exit": 0,
+    "counts": {
+     "RESOLVES_IN_TREE": 0,
+     "EXTERNAL_ONLY": 0,
+     "UNRESOLVABLE": 0,
+     "SHORTHAND_BARE_NAME": 5
+    }
+   },
+   "publication_doc_excluded": {
+    "exit": 2,
+    "counts": {
+     "RESOLVES_IN_TREE": 18,
+     "EXTERNAL_ONLY": 0,
+     "UNRESOLVABLE": 5,
+     "SHORTHAND_BARE_NAME": 25
+    }
+   }
+  }
+ },
+ "ADJ1_write_set": {
+  "base": "52542c3",
+  "changed_paths_total": 107,
+  "product_side_paths": 22,
+  "schemas_writes": 0,
+  "src_writes": 0,
+  "sample_product_paths": [
+   ".github/workflows/ci.yml",
+   ".github/workflows/public-plugin-verify.yml",
+   "README.md",
+   "docs/adr/ADR-0001-public-plugin-manifest-and-derivation.md",
+   "docs/install/PIPD_AGENT_INSTALL_PROMPT.md",
+   "docs/install/README.md",
+   "openspec/changes/s4post-triple-upgrade/design.md",
+   "openspec/changes/s4post-triple-upgrade/proposal.md",
+   "openspec/changes/s4post-triple-upgrade/specs/pipd-public-plugin-distribution/spec.md",
+   "openspec/changes/s4post-triple-upgrade/tasks.md",
+   "packaging/public-plugin/OWNER_INPUT_REQUIRED.json",
+   "packaging/public-plugin/assets/.gitignore"
+  ]
+ },
+ "ADJ7_com_ao3_scan": {
+  "files_containing_com_ao3": 3,
+  "files": [
+   ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/00_plan/TT_S4POST_REGISTER.tsv",
+   ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/ACCEPTANCE_RECORD_STAGEB.md",
+   ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/far/FAR_OPEN_ITEMS_ADJUDICATION_20261013.md"
+  ],
+  "product_side_hits": 0,
+  "correction": "Earlier drafts of the FAR said ONE file. The true count at this subject is THREE, and all three are ROUND-RECORD files authored by this round's own process (the register, a round record, and the FAR itself). The product-side hit count is still ZERO, which is what the scope decision rests on. The earlier number was wrong and is corrected here rather than argued away."
+ },
+ "ADJ5_findings_series": {
+  "claim": "findings roughly 6 then 3 then 9 across the harness repair rounds",
+  "locatable_authorship": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/SELF_ITERATION_AFTER_AO.md and .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao12/FINDINGS.json",
+  "honest_limit": "The series is a record of THIS round's own harness iterations, not an external measurement; treat it as authorship history, not as an independently verified count."
+ },
+ "ADJ3_route_and_sid": {
+  "locatable": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/EVIDENCE_RETURN_PACK.json (sod block) and .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/MODEL_SUBSTITUTION.md",
+  "honest_limit": "Route/SID observations are the maker's own recordings; the independent lane could NOT re-derive them (it runs as one SID) and said so."
+ },
+ "C3_non_mutation": {
+  "restated": "No new TRACKED or untracked-non-ignored entries. On a FRESH CLONE the suites DO create the three gitignored __pycache__/ directories (src/, tests/, tools/). The earlier blanket 'zero new entries of either kind' held only in a worktree where those caches already existed - it was environment-dependent and is restated here.",
+  "evidence": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/r3/ao_lane/after-status.txt, after-ignored.txt, before-status.txt, before-ignored.txt (the independent lane's own capture)"
+ }
+}

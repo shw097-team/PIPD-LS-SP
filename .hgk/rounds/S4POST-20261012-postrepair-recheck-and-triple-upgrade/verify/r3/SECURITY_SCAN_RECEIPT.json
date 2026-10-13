@@ -1,0 +1,50 @@
+{
+ "schema": "PIPD-R3-EXTERNAL-EVIDENCE/1",
+ "item": "C4 SECURITY_SCAN",
+ "scan_type": "dependency vulnerability audit",
+ "tool": {
+  "name": "pip-audit",
+  "version": "pip-audit 2.10.1"
+ },
+ "subject": "the candidate's DECLARED dependency requirement, resolved at scan time",
+ "declared": "jsonschema>=4.0",
+ "resolved_at_scan_time": [
+  {
+   "name": "jsonschema",
+   "version": "4.26.0",
+   "vulns": 0
+  },
+  {
+   "name": "attrs",
+   "version": "26.1.0",
+   "vulns": 0
+  },
+  {
+   "name": "jsonschema-specifications",
+   "version": "2025.9.1",
+   "vulns": 0
+  },
+  {
+   "name": "referencing",
+   "version": "0.37.0",
+   "vulns": 0
+  },
+  {
+   "name": "rpds-py",
+   "version": "2026.9.1",
+   "vulns": 0
+  },
+  {
+   "name": "typing-extensions",
+   "version": "4.16.0",
+   "vulns": 0
+  }
+ ],
+ "known_vulnerabilities_found": 0,
+ "exit_code": 0,
+ "scanned_at_utc": "2026-10-13T02:09:39+00:00",
+ "honest_limit": "The candidate ships NO hash-pinned lock (the allowlisted path packaging/public-plugin/requirements.lock does not exist in the subject; the repo-root requirements.lock declares itself NOT HASH-PINNED). This audit therefore covers the REQUIREMENT as resolved at scan time, not a frozen artifact set. It is evidence about the dependency, not a seal over the shipped bytes.",
+ "secret_scan": {
+  "performed_at_push_time": "content scan of the published range: NONE (recorded in R3_PUBLICATION.md section 8)"
+ }
+}

@@ -1,24 +1,77 @@
 {
- "schema": "PIPD-R3-LOCATOR-CONTROL/2",
- "tool": "verify/tools/check_evidence_locators.py",
- "why": "A locator that only resolves inside a reviewer's tree is not independently re-runnable (FAR R6).",
- "per_subject": [
-  {
-   "subject": "product branch content (materialised with git archive of the product tip, NOT the shared worktree)",
-   "command": "python $R/verify/tools/check_evidence_locators.py --root . --search-dir . $R/OWNER_ACTION_REQUEST.md $R/HARNESS_FREEZE_AND_AO_LOOP_CAP.md",
-   "exit": 0,
-   "verdict": "PASS_LOCATORS_IN_TREE",
-   "raw_tail": [
-    "{\"verdict\": \"PASS_LOCATORS_IN_TREE\", \"counts\": {\"RESOLVES_IN_TREE\": 7, \"EXTERNAL_ONLY\": 0, \"UNRESOLVABLE\": 0, \"SHORTHAND_BARE_NAME\": 13}}"
-   ],
-   "corrected_after": "A second round of the same independent finding: one further cross-branch citation (a harness-branch log) was relabelled, then the control was re-measured and is reported exactly as measured."
-  },
-  {
-   "subject": "AO12 external challenge bundle (negative control)",
-   "exit": 2,
-   "verdict": "FAIL_LOCATORS_NOT_RERUNNABLE"
-  }
+ "schema": "PIPD-R3-LOCATOR-CONTROL/3",
+ "as_of_subject": "389d3973da73e5740f0b4d290bacb92d1e8982f8",
+ "as_of_subject_tree": "488d12c1a4bef899f6d38543ab50874d79996e3a",
+ "recorded_at_utc": "2026-10-13T02:23:03+00:00",
+ "measured_in": "a materialisation of the subject commit (git archive), NOT in the shared worktree",
+ "history_of_this_receipt": [
+  "v1 measured in the shared worktree, which carries BOTH the product and the harness branches' files - a tree that is not the published subject. An independent checker (C9) refuted the PASS; corrected.",
+  "v2 measured per subject, but the checker's URL handling was wrong (SKIP was anchored at '^', so a URL inside prose was fragmented into a relative candidate such as 's://host/a/b.json').",
+  "v3 (this one) uses the tool at sha256 3787c377d81a3e51... with URLs masked before tokenising, measured on the frozen subject."
  ],
- "correction_note": "An earlier single-subject control recorded PASS_LOCATORS_IN_TREE (11 in-tree, 0 offenders) measured in the SHARED WORKTREE, which carries both branches' content and is therefore not the published subject. Raised by independent third-party verification; re-measured per subject, and harness-branch-only citations in the freeze document were relabelled. If the product subject still fails, the failure is reported here verbatim rather than rounded to PASS.",
- "known_residual": "Product-subject documents that cite companion-branch (harness) content will fail this strict in-tree control by design; the two branches are the FAR R2 split."
+ "tool": {
+  "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/tools/check_evidence_locators.py",
+  "sha256": "3787c377d81a3e515550c5a202a64b721bbfd08907ecfe5c2bafed5fbe2d7365",
+  "fix": "mask \\bhttps?://[^\\s\"'`<>|)]* before extracting path-like tokens; a URL is not an in-tree locator."
+ },
+ "controls": {
+  "negative_ao12": {
+   "exit": 2,
+   "role": "R6 negative control - MUST fail closed",
+   "counts": {
+    "RESOLVES_IN_TREE": 0,
+    "EXTERNAL_ONLY": 7,
+    "UNRESOLVABLE": 36,
+    "SHORTHAND_BARE_NAME": 54
+   },
+   "offenders": [
+    "EXTERNAL_ONLY  C:\\Users\\user\\AppData\\Local\\Temp\\ao12-roo_vkak",
+    "EXTERNAL_ONLY  C:/Users/user/.agents/skills/fabric-external-independent-challenge-reviewer/SKILL.md",
+    "EXTERNAL_ONLY  C:/Projects/Agent_Workspace/PIPD/.git/worktrees/s4post-b-wt",
+    "UNRESOLVABLE   C:/Users/user/AppData/Local/Temp/ao12-roo_vkak/CHILD_OS_UNDECIDED_JUNCTION/worktree",
+    "UNRESOLVABLE   C:\\Users\\user\\AppData\\Local\\Temp\\ao12-roo_vkak\\challenge.py",
+    "EXTERNAL_ONLY  C:\\\\Users\\\\user\\\\.agents\\\\skills\\\\fabric-external-independent-challenge-reviewer\\\\scripts\\\\verify_re"
+   ]
+  },
+  "positive_doc_pair": {
+   "exit": 0,
+   "role": "R6 positive control - must pass",
+   "counts": {
+    "RESOLVES_IN_TREE": 9,
+    "EXTERNAL_ONLY": 0,
+    "UNRESOLVABLE": 0,
+    "SHORTHAND_BARE_NAME": 15
+   },
+   "offenders": []
+  },
+  "far_study": {
+   "exit": 0,
+   "role": "the FAR study itself",
+   "counts": {
+    "RESOLVES_IN_TREE": 0,
+    "EXTERNAL_ONLY": 0,
+    "UNRESOLVABLE": 0,
+    "SHORTHAND_BARE_NAME": 5
+   },
+   "offenders": []
+  },
+  "publication_doc_excluded": {
+   "exit": 2,
+   "role": "DELIBERATELY EXCLUDED: it carries shell commands, whose URLs and /tmp paths are not file locators",
+   "counts": {
+    "RESOLVES_IN_TREE": 18,
+    "EXTERNAL_ONLY": 0,
+    "UNRESOLVABLE": 5,
+    "SHORTHAND_BARE_NAME": 25
+   },
+   "offenders": [
+    "UNRESOLVABLE   R/verify/tools/check_evidence_locators.py",
+    "UNRESOLVABLE   R/OWNER_ACTION_REQUEST.md",
+    "UNRESOLVABLE   R/HARNESS_FREEZE_AND_AO_LOOP_CAP.md",
+    "UNRESOLVABLE   R/surface/OPENSPEC_R3_EVIDENCE.json",
+    "UNRESOLVABLE   tmp/a.whl"
+   ]
+  }
+ },
+ "verdict_rule": "The negative control must EXIT NON-ZERO (its job is to refuse a report whose locators cannot be re-run). The positive control must exit 0 on the frozen subject."
 }

@@ -43,15 +43,21 @@ python -V
 python -m unittest discover -s tests -p 'test_s4ext_*.py' -v
 #   實測：Ran 108 tests ... OK                                (exit 0)
 python -m unittest discover -s tests -t . -v
+#   非變異：tracked 檔案零變更、亦不新增未追蹤(未忽略)檔；**在全新 clone 內**套件會建立三個
+#   被 gitignore 的 __pycache__/ 目錄（src/、tests/、tools/）——那是位元碼快取，不是變異。
 #   實測：Ran 572 tests ... OK (skipped=3 本機 / 4 獨立第三方環境)  (exit 0)
 #   skip 數隨環境而異（第三方多 1 個 skip），非缺陷
 
-cd "$R"
-python verify/tools/check_evidence_locators.py --root . --search-dir . \
-    verify/ao12/EXTERNAL_CHALLENGE_REPORT.md
+# 定位器對照（**一律從 clone 根執行**；`cd "$R"` 之後只能再用回合相對路徑，
+#   否則 "R/verify/tools/..." 會變成重複前綴而無法開啟——獨立檢查器抓到的正是這個）
+python "$R/verify/tools/check_evidence_locators.py" --root . --search-dir . \
+    "$R/verify/ao12/EXTERNAL_CHALLENGE_REPORT.md"
 #   實測：exit 2 / FAIL_LOCATORS_NOT_RERUNNABLE —— R6 的**負向對照**，FAIL 是正確結果
 python "$R/verify/tools/check_evidence_locators.py" --root . --search-dir . \
     "$R/OWNER_ACTION_REQUEST.md" "$R/HARNESS_FREEZE_AND_AO_LOOP_CAP.md"
+#   檢查器 v2 起先把 URL 遮蔽再抽路徑樣式；v1 的 SKIP 以 ^ 錨定，行內 URL 被切成
+#   `s://host/a/b.json` 這種相對候選（獨立檢查器 C6 抓到，已修並重測）。
+#   逐支結果見 verify/tools/LOCATOR_CHECK_R3_POSITIVE.json（v3）。
 #   實測（於**產品分支內容**，非含載具的工作樹）：exit 0 / PASS_LOCATORS_IN_TREE
 #   兩個 --search-dir 是必要的：這些文件同時引用「回合相對」與「repo 根相對」定位。
 #   逐支結果見 verify/tools/LOCATOR_CHECK_R3_POSITIVE.json 的 per_subject 欄位。
@@ -66,6 +72,9 @@ cd /tmp/r3
 ```bash
 cat "$R/surface/OPENSPEC_R3_EVIDENCE.json"   # 內含 `Change 's4post-triple-upgrade' is valid` 原始輸出
 ```
+
+> **需網路的步驟**：本節的 `git clone` 與下方 `curl` 需要網路；
+> 無網路的檢查器無法執行它們（這是**範圍限制**，不是缺陷）。
 
 新發布資產的獨立下載驗算（**不是**只讀 API 的 `digest` 欄位）：
 

@@ -1,0 +1,70 @@
+[
+  {
+    "label": "final-binding",
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD",
+      "HEAD^{tree}",
+      "refs/remotes/origin/main"
+    ],
+    "exit": 0,
+    "output": "389d3973da73e5740f0b4d290bacb92d1e8982f8\n488d12c1a4bef899f6d38543ab50874d79996e3a\n224591431a164ab72a9423cd180e417e8a762403\n"
+  },
+  {
+    "label": "final-status",
+    "argv": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "exit": 0,
+    "output": "?? .ao-r3/\n"
+  },
+  {
+    "label": "final-ignored",
+    "argv": [
+      "git",
+      "status",
+      "--porcelain",
+      "--ignored"
+    ],
+    "exit": 0,
+    "output": "?? .ao-r3/\n!! src/pipd_ls_sp/__pycache__/\n!! tests/__pycache__/\n!! tools/__pycache__/\n"
+  },
+  {
+    "label": "final-tracked-diff",
+    "argv": [
+      "git",
+      "diff",
+      "--exit-code",
+      "HEAD"
+    ],
+    "exit": 0,
+    "output": ""
+  },
+  {
+    "label": "final-index-diff",
+    "argv": [
+      "git",
+      "diff",
+      "--cached",
+      "--exit-code",
+      "HEAD"
+    ],
+    "exit": 0,
+    "output": ""
+  },
+  {
+    "label": "C4-openspec-cat",
+    "argv": [
+      "C:/Program Files/Git/usr/bin/bash.exe",
+      "--noprofile",
+      "--norc",
+      "-c",
+      "R=.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade; cat \"$R/surface/OPENSPEC_R3_EVIDENCE.json\""
+    ],
+    "exit": 0,
+    "output": "{\n \"schema\": \"HGK-OPENSPEC-ROUND-EVIDENCE/1\",\n \"round\": \"S4POST-20261012-postrepair-recheck-and-triple-upgrade\",\n \"remedy_round\": \"R3-FAR-REMEDIES-20261013\",\n \"stamp_utc\": \"20261013T010615Z\",\n \"cli\": {\n  \"invocation\": \"npx --no-install openspec\",\n  \"version\": \"1.8.0\"\n },\n \"validate\": {\n  \"command\": \"npx --no-install openspec validate s4post-triple-upgrade --strict\",\n  \"raw\": \"Change 's4post-triple-upgrade' is valid\"\n },\n \"list_raw\": \"Changes:\\n  s4post-triple-upgrade                         14/16 tasks   14h ago\\n  s2-historical-record-provenance               0/19 tasks    16h ago\\n  r4-low-resistance-hardening                   13/16 tasks   16h ago\\n  pipd-ls-sp-s4r2m-conditional-merge            27/35 tasks   16h ago\\n  pipd-ls-sp-s4-r2-affected-only-repair         ✓ Complete    16h ago\\n  pipd-ls-sp-s4-postrelease-narrow-repair       ✓ Complete    16h ago\\n  pipd-ls-sp-s0-s1                              5/11 tasks    16h ago\\n  pipd-ls-sp-r5r-ce-repair-and-codex-verify     25/28 tasks   16h ago\\n  pipd-ls-sp-r5q-owner-opensource-preview       33/40 tasks   16h ago\\n  pipd-ls-sp-r5p-post-challenge-repair          21/23 tasks   16h ago\\n  pipd-ls-sp-r5-s4-usability-repair             29/31 tasks   16h ago\\n  pipd-ls-sp-r3-audit-repair                    5/21 tasks    16h ago\"\n}"
+  }
+]
