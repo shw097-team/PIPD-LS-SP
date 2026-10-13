@@ -75,3 +75,23 @@ OK
   "doctor_families": 19
 }
 
+A LATER, FAILED RE-ATTEMPT AT THE SAME ROUTE, kept because it consumed round time and because a reader
+who finds the empty `sdisttest/ext` directory should not have to guess why. This attempt drove the
+extraction with the shell's `tar` instead of the Python path the receipt above used:
+
+  command (abridged): tar -xzf "$SCR/sdisttest/sdist/pipd_ls_sp-0.1.1a3.tar.gz"
+  output:
+    tar (child): Cannot connect to C: resolve failed
+    gzip: stdin: unexpected end of file
+    tar: Child returned status 128
+    tar: Error is not recoverable: exiting now
+  consequence: no wheel was built from the sdist in that attempt, so `sdisttest/ext` is empty and the
+  two log paths that attempt referenced were never created.
+
+  reading, stated plainly: MSYS `tar` parses the drive letter in `C:/...` as a REMOTE HOST
+  (`host:path`), so it tried to reach a host named `C`. This is a defect in the shell invocation, not
+  in the artefact and not in the earlier receipt: the receipt above was produced by
+  `verify_sdist_to_wheel.py`, which uses Python's own tarfile/stdlib path handling and needs no
+  path translation. The sdist route therefore REMAINS verified by the receipt above; the failed
+  re-attempt adds no evidence either way and is recorded only so the empty directory is explained.
+

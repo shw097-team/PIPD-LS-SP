@@ -36,8 +36,11 @@
       "code": "ERR_NO_ARM_EMITTED_NONCE",
       "usage_receipt_ok": true,
       "nonce_absent_arms": ["opencode-go/glm-5.3-flash"],
-      "observed_in_attempt_log": "the child was served (usage receipt present, reasoning tokens recorded) but its turn contained a sandbox rejection: CreateProcess ... pwsh.exe -Command 'Get-Content schema.py -TotalCount 300' rejected: blocked by policy",
-      "reading": "The arm answered but did not emit the nonce the lane requires, and one of the commands it chose was refused by the sandbox. The lane therefore fails closed, which is the correct behaviour for it."
+      "stdout_bytes": 2973,
+      "stderr_bytes": 4380,
+      "observed_in_attempt_log": "the child was served (usage receipt present, 74520 input / 1725 output / 251 reasoning tokens) and DID return a partial answer, but its turn contained a sandbox rejection: CreateProcess ... pwsh.exe -Command 'Get-Content schema.py -TotalCount 300' rejected: blocked by policy",
+      "checkers_own_words_tail": "\"...nd the actual doctor behavior with missing schemas were all not evaluated. I recommend rerunning the lane after the command access issue is repaired or providing the required captured logs/build outputs and hashes for dry audit.\"",
+      "reading": "The arm answered, but answered a REFUSAL: it could not execute commands, so it declined to verify rather than guess, and did not emit the nonce the lane requires. The lane fails closed, which is correct. Two things make this useful rather than merely a failure: (a) the refusal is an honest verdict-shaped answer from the checker rather than a silent timeout, and (b) the checker named a workable alternative - a DRY AUDIT from captured logs and hashes, which needs no shell access at all. That alternative has not been tried; it is the concrete next step if the Owner wants an independent opinion without widening the sandbox."
     },
     {
       "attempt": 3,
@@ -56,6 +59,7 @@
   },
   "consequence_for_the_claim_ceiling": "For the two heads in this round there is NO independent acceptance verdict. The strongest supported statements are: (a) the project's own hosted CI passed on both heads, and (b) the local test suites and gate harnesses passed. Neither is an acceptance, and neither may be reported as one.",
   "owner_decision_offered": [
+    "DRY AUDIT (the checker's own suggestion, and the only option below that needs no widening of anything): hand the checker the captured evidence - build logs, the wheel/sdist receipts, the blob digests, the extracted wheel member list - and ask it to reason over those rather than to execute commands. It declared this workable in its own words. RECOMMENDED FIRST.",
     "re-run the lane against the FINAL pushed heads with a larger --timeout, accepting another 25 minutes per attempt",
     "authorise a one-off --allow-sandbox-escalation run for this role only, understanding that it widens what the checker may execute",
     "name a human acceptance officer for this stage instead of relying on the autonomous lane"
