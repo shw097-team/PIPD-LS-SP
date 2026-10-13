@@ -81,3 +81,30 @@ all found by the checker and none by my own guards.
 Lesson recorded rather than narrated: a claim handed to a checker must name its comparison baseline
 explicitly, and any figure the claim depends on must be a carried block, not prose. The v2 bundle is what
 that rule produces; it also survives a stricter reading, which v1 did not.
+
+## FAR round 3 - closure and handover audit (same round, VERIFY_SECURITY lane)
+
+| attempt | arm served | rank | secs | outcome |
+|---|---|---|---|---|
+| 30 | opencode-go/deepseek-v4.1-flash (EXECUTE) | 1 | - | closure study draft returned |
+| 31 | openai-codex/gpt-6.1-sol | 4 | 21.0 | v1: S4 S5 CONFIRMED, S1 S2 S3 INCONCLUSIVE (my bundling: computed flags instead of inputs) |
+| 32 | openai-codex/gpt-6.1-sol | 4 | - | v2: S1 S2 S4 S5 CONFIRMED, S3 INCONCLUSIVE (patch receipt not carried) |
+| 33 | openai-codex/gpt-6.1-sol | 4 | - | v3: S1 S2 S4 S5 CONFIRMED, S3 INCONCLUSIVE - and this one was a REAL finding: the necessity receipt had been produced at a superseded head |
+| 34 | openai-codex/gpt-6.1-sol | 4 | - | v4: S1 S2 S4 S5 CONFIRMED, S3 INCONCLUSIVE - BLOCK 8 had been dropped by ad-hoc prompt surgery |
+| 35 | (mandated arm) | 4 | - | ERR_LANE_ALL_ROUTES_EXHAUSTED, ok=false, nothing served |
+| 36 | opencode-go/glm-5.3-flash | 3 | - | v4 by the DECLARED BACKUP checker: S1 S3 S4 S5 CONFIRMED, S2 INCONCLUSIVE |
+
+Notes that belong with the table, not in a footnote:
+- Attempt 36 is a **backup-checker verdict**, from a different model than the mandated arm; it is recorded as
+  such and not merged with 31-34.
+- The same class of self-inflicted defect (a bundle under-specified relative to the claim it carried)
+  recurred eight times across this round and round 2. It is now a guard rule rather than a lesson:
+  `bundle_guards.py` refuses a claim with no named recompute command
+  (`ERR_CLAIM_WITHOUT_RECOMPUTE`) and a recompute command not carried in the bundle
+  (`ERR_RECOMPUTE_NOT_CARRIED`), proven by two negative self-tests.
+- The bundle assembly itself is now checked: `rem3_build_bundle.py` refuses to emit a bundle unless every
+  block label appears exactly once and the character budget leaves real headroom. On its first run it
+  refused once; the three earlier bundles had been assembled by hand and one of them had lost a block.
+- Residual, open, not rounded up: **S2 was never CONFIRMED**. The artefact now carries the denominator that
+  answers it (208 files seen = 56 citing a head + 152 citing none + 0 skipped; 56 = 42 affected + 14
+  untouched; `reconciles: true`) but that revision has not been re-audited by any checker.
