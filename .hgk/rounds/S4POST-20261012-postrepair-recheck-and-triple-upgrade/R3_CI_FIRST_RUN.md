@@ -71,7 +71,7 @@ versions have conflicting dependencies.  →  ERROR: ResolutionImpossible
    不再只是 maker 的主張。
 2. 那 4 個 frozen-path 寫入屬 **Stage-A 疊層**（`fix/s4post-integration-repair-20261012` 的合法修補），
    只有在「以 `main` 為 base」時才被計入 → **受驗主體（升級 vs 整個疊層）就是 owner 要裁決的 D3**。
-3. 修補 gitlink 後，在宣告 scope 內的**允許集違規歸零**。
+3. 修補 gitlink 後，在宣告 scope 內 **frozen-path 寫入歸零**；**允許集外仍為 5 項**（`ci.yml` ＋ 4 筆 gitlink，見 `verify/r3/ao_lane_round2/guard-stacked.log`）。
 
 ## 5. 未閉合 / 不主張
 

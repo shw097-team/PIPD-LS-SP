@@ -27,7 +27,7 @@
 |---|---|
 | `schemas/**` 寫入 | **0 檔** |
 | `src/**` 寫入 | **0 檔** |
-| 允許集外寫入 | 4 檔 —— 即當時 4 個無 `.gitmodules` URL 的空目錄 gitlink，**已移除**（移除後 `160000` 計數 = 0） |
+| 允許集外寫入 | **5 檔**：4 個無 `.gitmodules` URL 的空目錄 gitlink（**已移除**，移除後 `160000` 計數 = 0）＋ 本輪獲准新增的 `.github/workflows/ci.yml` |
 | 產品面變更總量 | 126 檔（相對未切分工作樹的 1,239 檔縮減約 90%） |
 
 ## 4. `public-plugin-verify` 的紅燈如何被解釋（不隱藏）
@@ -40,8 +40,10 @@
 - 四個 `.hgk/rounds/R2-20261009-qualification/**` 的 gitlink 路徑（本次移除的空目錄項目）。
 - **實測計數**：以上**恰為 5 項**，逐字見 `verify/r3/ao_lane_round2/guard-stacked.log` 尾端 `WRITE_SET_VIOLATION (base 52542c39…)`。
 
-因此正確的敘述是**兩段式**：(a) 就**frozen-path** 而言，以宣告基底重測 = **NONE 寫入**（可重跑，見 §3 對照與 `FAR_MEASUREMENT_RECEIPTS.json` 的 `ADJ1_write_set`）；(b) 但該守衛**同時**拒絕本次獲准新增的 CI 檔與四筆 gitlink 移除，所以它**無論用哪個 base 都會紅**。這是**守衛允許集與裁決 §3.1 明文批准之最小 CI 之間的實質衝突**，不是 base 選錯——處置見 `DOC_RECONCILIATION_ERRATUM.md`（屬 owner 認可的文件對帳項）。
+因此正確的敘述是**兩段式**：(a) 就**frozen-path** 而言，以宣告基底重測 = **NONE 寫入**（可重跑，見 §3 對照與 `FAR_MEASUREMENT_RECEIPTS.json` 的 `ADJ1_write_set`）；(b) 但該守衛**同時**拒絕本次獲准新增的 CI 檔與四筆 gitlink 移除，所以它在**已測的兩個 base（`main`、宣告疊層基底）上皆紅**（其他 base 未測，不作主張）。這是**守衛允許集與裁決 §3.1 明文批准之最小 CI 之間的實質衝突**，不是 base 選錯——處置見 `DOC_RECONCILIATION_ERRATUM.md`（屬 owner 認可的文件對帳項）。
 
 > **2026-10-13 更正（R8 第 2 輪 claim 14）**：本節早期把 `public-plugin-verify.yml` 一併列為被拒項，**錯誤**——
 > 該檔在守衛的允許集內（逐字見第 11 步的 `ALLOWED` 正則），拒絕集實為 **5 項**（`ci.yml` ＋ 4 筆 gitlink）。
 > 結論方向不變（守衛在任何 base 皆紅），但**指名必須精確**。見 `FAR_MEASUREMENT_RECEIPTS.json` 的 `guard_refusal_sets`。
+> **2026-10-13 更正（R8 第 2 輪 claim 14，第 2 批）**：本檔先前寫「允許集外 4」，實測 **5**（含獲准的 `ci.yml`）；
+> 「無論哪個 base 皆紅」已收斂為**已測的兩個 base**——只測過兩個，不得推廣為全部。
