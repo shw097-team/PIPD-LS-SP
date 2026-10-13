@@ -1,0 +1,52 @@
+{
+  "what_this_file_is": "The outcome of this round's attempt to obtain an INDEPENDENT acceptance verdict for the two subjects, using the mandated VERIFY lane (CODEX CLI via HG-KSEOS scripts/hgk-lane-dispatch.py, --lane VERIFY_SECURITY, --require-arm opencode-go/glm-5.3-flash, --force-rank 3).",
+  "mandated_lane": {
+    "script": "HG-KSEOS/scripts/hgk-lane-dispatch.py",
+    "lane": "VERIFY_SECURITY",
+    "required_arm": "opencode-go/glm-5.3-flash",
+    "driver": "scripts/run_ao_lane_f006.py (in this round's scripts/ directory)",
+    "prompt": "the AO brief for the F006 claim; sha256 of the prompt file is recorded in each attempt's invocation.json",
+    "cwd": "worktrees/s4r3a-wt (the subject under verification)"
+  },
+  "outcome": "NO_VERDICT_PRODUCED",
+  "attempts": [
+    {
+      "attempt": 1,
+      "timeout_s": 300,
+      "code": "ERR_LANE_ALL_ROUTES_EXHAUSTED",
+      "timed_out_arms": ["opencode-go/glm-5.3-flash"],
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "reading": "The arm produced nothing within the lane's default 300 s window. The task as briefed is a full red-before/green-after reproduction plus four refutation attempts, which does not fit in 300 s."
+    },
+    {
+      "attempt": 2,
+      "timeout_s": 1500,
+      "code": "ERR_NO_ARM_EMITTED_NONCE",
+      "usage_receipt_ok": true,
+      "nonce_absent_arms": ["opencode-go/glm-5.3-flash"],
+      "observed_in_attempt_log": "the child was served (usage receipt present, reasoning tokens recorded) but its turn contained a sandbox rejection: CreateProcess ... pwsh.exe -Command 'Get-Content schema.py -TotalCount 300' rejected: blocked by policy",
+      "reading": "The arm answered but did not emit the nonce the lane requires, and one of the commands it chose was refused by the sandbox. The lane therefore fails closed, which is the correct behaviour for it."
+    },
+    {
+      "attempt": 3,
+      "timeout_s": 1500,
+      "code": "ERR_NO_ARM_EMITTED_NONCE",
+      "usage_receipt_ok": true,
+      "nonce_absent_arms": ["opencode-go/glm-5.3-flash"],
+      "mitigation_tried": "the AO brief was amended to forbid PowerShell/cmd explicitly, to require continuing past a policy refusal, and to make the VERDICT line mandatory",
+      "reading": "Same code as attempt 2. The mitigation did not change the lane's verdict."
+    }
+  ],
+  "what_was_NOT_done_and_why": {
+    "sandbox_escalation": "The lane offers --allow-sandbox-escalation. It was NOT used. That flag widens what the checker may execute, and using it to convert this failure into an acceptance would be loosening a guard to obtain a green result, which is the class of action this round exists to remove.",
+    "different_arm": "No substitute arm was run. Any verdict from a different arm is a verdict from a DIFFERENT checker and must not be recorded as the mandated one; the round's model plan names glm-5.3-flash for this role.",
+    "run_pause": "The round was not paused for this. Nothing in the delivered work depends on the AO verdict - it is a verification artefact, not a build input - and the honest fallback (record that no independent verdict exists) costs nothing."
+  },
+  "consequence_for_the_claim_ceiling": "For the two heads in this round there is NO independent acceptance verdict. The strongest supported statements are: (a) the project's own hosted CI passed on both heads, and (b) the local test suites and gate harnesses passed. Neither is an acceptance, and neither may be reported as one.",
+  "owner_decision_offered": [
+    "re-run the lane against the FINAL pushed heads with a larger --timeout, accepting another 25 minutes per attempt",
+    "authorise a one-off --allow-sandbox-escalation run for this role only, understanding that it widens what the checker may execute",
+    "name a human acceptance officer for this stage instead of relying on the autonomous lane"
+  ]
+}

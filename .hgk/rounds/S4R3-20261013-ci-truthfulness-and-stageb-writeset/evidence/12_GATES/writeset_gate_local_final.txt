@@ -1,0 +1,59 @@
+===== stage-a in s4r3a-wt (base env: e71fee6dd3aa/fix/s4r3-stage-a-ci-truthfulness-20261013) -> exit 0 =====
+=== governed stage-a write set (e71fee6dd3aa73724baec4e8d9cc72127fbe36ed...HEAD) ===
+.github/workflows/ci.yml
+.github/workflows/public-plugin-verify.yml
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/admission/s4r3_admission.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/01_SUBJECT/subject.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/02_LEDGER/R2_ATOM_LEDGER.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/02_LEDGER/R3_FAILURE_ROOT_CAUSE_MAP.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/02_LEDGER/R3_FINDING_LEDGER.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/ci_fault_injection.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/ctl_new_pipeline.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/ctl_old_pipeline.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_focused.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_cli_smoke_out.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/r3_github_raw_log_digests.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/r3_hosted_ci_failure_extract.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/r3_hosted_plugin_job_extract.txt
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/skill_contracts_with_dep.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/win_after_focused.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/win_after_full.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/yaml_absent_negative.log
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/RAW_INDEX.json
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/hgk_s4r3_admission.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/assemble_stage_a_evidence.sh
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/build_indices.py
+.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/open_stage_prs.py
+MANIFEST.in
+examples/first-run/run.ps1
+examples/first-run/run.sh
+pyproject.toml
+setup.py
+src/pipd_ls_sp/workspace.py
+tests/test_standard_wheel_schemas.py
+tests/test_web_fallback.py
+tools/cli_smoke.py
+tools/verify_installed_wheel_registry.py
+GATE_SELF_TEST_OK: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/../evil.sh is refused as a traversal path
+GATE_SELF_TEST_OK: docs/install/../../src/pipd_ls_sp/validate.py is refused as a traversal path
+GATE_SELF_TEST_OK: planted frozen-path violations and unlisted src/** are all refused
+GATE_SELF_TEST_OK: planted stage-a artefacts are all allowed
+WRITE_SET_CLEAN_AGAINST_e71fee6dd3aa73724baec4e8d9cc72127fbe36ed
+===== stage-b in s4r3c-wt (base env: e71fee6dd3aa/fix/s4r3-stage-a-ci-truthfulness-20261013) -> exit 0 =====
+=== governed stage-b write set (5310896e706e01a9cdb0123285bccec75086bcb8...HEAD) ===
+.github/workflows/public-plugin-verify.yml
+README.md
+docs/USER_GUIDE.md
+docs/install/PIPD_WEB_FALLBACK.md
+docs/install/PIPD_WEB_FALLBACK.md.sha256
+docs/install/README.md
+tests/test_public_plugin_packaging.py
+tools/build_public_plugin.py
+GATE_SELF_TEST_OK: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/../evil.sh is refused as a traversal path
+GATE_SELF_TEST_OK: docs/install/../../src/pipd_ls_sp/validate.py is refused as a traversal path
+GATE_SELF_TEST_OK: planted frozen-path violations and unlisted src/** are all refused
+GATE_SELF_TEST_OK: planted stage-b artefacts are all allowed
+WRITE_SET_CLEAN_AGAINST_5310896e706e01a9cdb0123285bccec75086bcb8
+
+2/2 gate runs clean
