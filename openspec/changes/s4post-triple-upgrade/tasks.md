@@ -98,3 +98,13 @@
       OpenSpec validated by the native CLI (`surface/OPENSPEC_R3_EVIDENCE.json`).
 - [ ] R3.owner The four supplies, the four owner-only acts and the single integrated candidate signature
       remain the owner's; nothing here clears them.
+
+- [x] R3.corrections — two maker claims were found wrong by an independent audit and are corrected here
+      rather than rewritten: (1) `R.1` claims the round sits on board `s4post-20261012` "plus per-ID receipts
+      on disk"; the only in-tree receipt is `kanban/R3_BOARD_EVIDENCE.json` for board `s4post-r3-remedies`,
+      and no per-ID receipt files exist - the SWARM root/worker/verifier/synthesizer ids are real but live
+      only inside that JSON. (2) `R3.R5` pointed the reader at a `R3_PR_ATTEMPT.md` that was never written;
+      the raw PR/CI outcome now lives in `R3_CI_FIRST_RUN.md` and section 5 of `R3_PUBLICATION.md`.
+- [x] R3.surface-audit — the blueprint section 3.3 allowlist was audited by a parallel subagent and every
+      HIGH item was re-measured by the maker before being accepted; 7 entries, 3 HIGH, recorded in
+      `verify/far/FAR_S3_3_SURFACE_AUDIT_20261013.md` and summarised in `R3_PUBLICATION.md` section 10.
