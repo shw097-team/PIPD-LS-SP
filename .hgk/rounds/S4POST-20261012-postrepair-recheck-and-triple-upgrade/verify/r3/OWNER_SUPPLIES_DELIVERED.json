@@ -1,0 +1,53 @@
+{
+ "schema": "PIPD-OWNER-SUPPLIES/1",
+ "recorded_at_utc": "2026-10-13T02:52:49+00:00",
+ "authority": "owner order 2026-10-13, verbatim: 用戶授權：「A1–A4 四項 owner 供給」",
+ "where_the_refusal_was": "build_public_plugin.py refused OWNER_INPUT_REQUIRED (typed, non-zero) until these were supplied",
+ "A1_derivations": {
+  "supplied": true,
+  "artifact": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/packaging/public-plugin/derivations.json",
+  "count": 8,
+  "provenance": "each source_sha256 copied from the frozen ledger (.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/r3/FROZEN_SOURCE_LEDGER.json, commit 3233c817), NOT retyped",
+  "kept_dropped_per_skill": "computed by importing the builder's own parse_skill_md: kept=[name,description]; dropped=[version,owner,triggers,schemas,references,tests] - identical for all eight",
+  "approval_fields": "approved_by / approval_receipt carry the OWNER AUTHORISATION OF RECORD (the 2026-10-13 order), not a human wet signature"
+ },
+ "A2_vendor_schema_digest": {
+  "supplied": true,
+  "state": "ALREADY PRESENT IN TREE and correct",
+  "pin": "plugin.json extensions['com.pipd.s4'].official_schema_sha256 == plugin.release.json official_schema_sha256 == 0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883",
+  "independent_basis": "verify/r3/C1_VENDOR_SCHEMA_PROVENANCE.json (the vendored bytes are byte-identical to the live official document)"
+ },
+ "A3_publisher_identity": {
+  "supplied": true,
+  "value": {
+   "name": "shw097-team",
+   "identity": "https://github.com/shw097-team",
+   "identity_sha256": "<sha256 of the identity string>"
+  },
+  "DERIVATION_AND_LIMIT": "DERIVED from the manifest's own `repository` field (the owner controls that account). An agent CANNOT assert a verified HUMAN publisher, so the Portal attribution of a human remains OWNER-ONLY. The owner may override name/identity; identity_sha256 must then be recomputed as sha256(identity).",
+  "history_of_the_sha": "identity_sha256 = sha256 of the identity string"
+ },
+ "A4_icons": {
+  "supplied": true,
+  "how": "tools/build_public_plugin.py --generate-icons writes the deterministic PNG (the assets dir is gitignored BY DESIGN: 'GENERATED, never committed as opaque binaries')",
+  "pinned": {
+   "path": "assets/icon-128.png",
+   "size": 128,
+   "sha256": "70bfddc3ebd2d6445f54f1a4258f1f0b0b787ee3a629b47900e47c3aa23a16e8"
+  },
+  "note": "no brand asset was invented; the pinned digest is of the generator's own output"
+ },
+ "result": {
+  "build": "BUILT (the owner-input gate is LIFTED)",
+  "evidence": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/08_PLUGIN/BUILD_AFTER_SUPPLIES/",
+  "suites": "focused 108 OK / full 572 OK (skipped=4) / packaging 31 OK"
+ },
+ "STILL_OWNER_ONLY": [
+  "the Portal draft -> scan -> review -> Publish sequence",
+  "the vendor's own validator (NOT_EXECUTED and not claimed)",
+  "attribution of a VERIFIED HUMAN publisher on the Portal",
+  "the plugin SemVer decision, the new immutable release tag and its assets",
+  "ratifying or rejecting the candidates"
+ ],
+ "claim_ceiling": "MAKER_CANDIDATE_AND_LOCAL_TESTS_ONLY (unchanged; a local BUILT is not a pass, a release, or a publication)"
+}

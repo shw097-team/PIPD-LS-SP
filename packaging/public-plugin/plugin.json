@@ -1,17 +1,6 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-  "name": "pipd-ls-sp-public-skills",
-  "version": "0.1.1",
   "description": "PIPD-LS-SP public Skills-only plugin: the eight fail-closed lifecycle skills, packaged deterministically as an Agent Plugins 1.0 candidate. claim_ceiling=LOCAL_PACKAGER_PASS_ONLY; the vendor's own validator and the Agent Plugins Portal scan are NOT_EXECUTED.",
-  "repository": "https://github.com/shw097-team/PIPD-LS-SP",
-  "license": "Apache-2.0",
-  "keywords": [
-    "agent-plugins",
-    "skills",
-    "pipd",
-    "lifecycle",
-    "fail-closed"
-  ],
   "extensions": {
     "com.openai": {
       "interface": {
@@ -19,11 +8,27 @@
       }
     },
     "com.pipd.s4": {
-      "schema": "PIPD-PUBLIC-PLUGIN-MANIFEST/1",
-      "plugin_id": "pipd-ls-sp-public-skills",
       "display_name": "PIPD-LS-SP Public Skills",
-      "version": "0.1.1",
+      "icons": [
+        {
+          "path": "assets/icon-128.png",
+          "sha256": "70bfddc3ebd2d6445f54f1a4258f1f0b0b787ee3a629b47900e47c3aa23a16e8",
+          "size": 128
+        }
+      ],
       "license": "Apache-2.0",
+      "official_schema_sha256": "0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883",
+      "plugin_id": "pipd-ls-sp-public-skills",
+      "publisher": {
+        "identity": "https://github.com/shw097-team",
+        "identity_sha256": "215388efedeec1f67023d3af8e9342cc64fd8430100e3244ae17a74e6be49523",
+        "name": "shw097-team"
+      },
+      "release": {
+        "claim_ceiling": "LOCAL_PACKAGER_PASS_ONLY",
+        "official_portal_verification": "NOT_EXECUTED"
+      },
+      "schema": "PIPD-PUBLIC-PLUGIN-MANIFEST/1",
       "skills": [
         "pipd-assurance-tqaep",
         "pipd-authority-source",
@@ -34,23 +39,18 @@
         "pipd-profile-tailor",
         "pipd-route-intake"
       ],
-      "official_schema_sha256": "0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883",
-      "publisher": {
-        "name": "OWNER_INPUT_REQUIRED",
-        "identity": "OWNER_INPUT_REQUIRED",
-        "identity_sha256": "OWNER_INPUT_REQUIRED"
-      },
-      "icons": [
-        {
-          "path": "assets/icon-128.png",
-          "sha256": "OWNER_INPUT_REQUIRED",
-          "size": 128
-        }
-      ],
-      "release": {
-        "claim_ceiling": "LOCAL_PACKAGER_PASS_ONLY",
-        "official_portal_verification": "NOT_EXECUTED"
-      }
+      "version": "0.1.1"
     }
-  }
+  },
+  "keywords": [
+    "agent-plugins",
+    "skills",
+    "pipd",
+    "lifecycle",
+    "fail-closed"
+  ],
+  "license": "Apache-2.0",
+  "name": "pipd-ls-sp-public-skills",
+  "repository": "https://github.com/shw097-team/PIPD-LS-SP",
+  "version": "0.1.1"
 }
