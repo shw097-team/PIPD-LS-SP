@@ -1,0 +1,117 @@
+- Window "OpenAI Platform - Google Chrome"
+  - Pane "OpenAI Platform - Google Chrome - 駿"
+          - [0] Button "最小化" [id=view_1 actions=[invoke]]
+          - [1] Button "還原" [id=view_3 actions=[invoke]]
+          - [2] Button "關閉" [id=view_4 actions=[invoke]]
+              - [3] Button "返回" [id=view_1001 actions=[invoke]]
+              - Button "往前"
+              - [4] Button "重新載入" [id=view_1003 actions=[invoke]]
+                - [5] Button "查看網站資訊" [id=view_1011 actions=[invoke]]
+                - [6] Edit "網址與搜尋列" [value="platform.openai.com/plugins" id=view_1012 help="問問 Google 或輸入網址" actions=[set_value,text]]
+                  - [7] Button "翻譯" [actions=[invoke]]
+                  - [8] Button "將此分頁加入書籤" [actions=[invoke]]
+                - [9] Button "SubBatch - B站字幕批量下载工具
+需要這個網站的存取權限" [id=view_1009 actions=[expand]]
+                - [10] Button "SaveAI Popup
+有權存取這個網站" [id=view_1009 actions=[expand]]
+                - [11] Button "ChatGPT 匯出工具 - ChatGPT 轉換為 PDF、MD 等
+需要這個網站的存取權限" [id=view_1009 actions=[expand]]
+                - [12] Button "擴充功能" [id=view_1006 actions=[expand]]
+                - [13] Button "下載" [actions=[toggle]]
+              - [14] Button "駿" [id=view_1018 actions=[expand]]
+              - [15] Button "Chrome" [id=view_1007 actions=[expand]]
+            - ToolBar "書籤"
+              - [16] Button "應用程式" [id=view_1028 actions=[invoke]]
+              - ToolBar "已儲存的分頁群組"
+                - [17] Button "分頁群組" [actions=[expand]]
+              - Separator "分隔線"
+              - [18] Button "工具" [id=view_1028 actions=[expand]]
+              - [19] Button "Fun" [id=view_1028 actions=[expand]]
+              - [20] Button "ICT" [id=view_1028 actions=[expand]]
+              - [21] Button "Text Blaze Dashboard" [id=view_1028 actions=[invoke]]
+              - [22] Button "Google 文件" [id=view_1028 actions=[invoke]]
+              - [23] Button "ChatGPT" [id=view_1028 actions=[invoke]]
+              - [24] Button "Gemini" [id=view_1028 actions=[invoke]]
+              - [25] Button "NCC-AFC" [id=view_1028 actions=[expand]]
+              - [26] Button "shw097-team repositories" [id=view_1028 actions=[invoke]]
+              - [27] Button "AI教程" [id=view_1028 actions=[expand]]
+              - [28] Button "opencode" [id=view_1028 actions=[invoke]]
+              - [29] Button "shw097-team/SWOF: SWOF / SWOF GENIE acceptance mirror (ACCEPTANCE_MIRROR_ONLY). Construction runs under HG-KSEOS governance; this repo is transport, never a construction root or semantic/runtime authority." [id=view_1028 actions=[invoke]]
+              - [30] Button "Models | Try NVIDIA NIM APIs" [id=view_1028 actions=[invoke]]
+              - [31] Button "PokéSurvivor – Juego Pokémon free online estilo Survivor.io" [id=view_1028 actions=[invoke]]
+              - [32] Document "OpenAI Platform" [value="https://platform.openai.com/plugins" id=RootWebArea actions=[set_value,text,scroll]]
+                - [33] Group [actions=[invoke]]
+                  - [34] Group [id=root actions=[invoke]]
+                        - [35] Button "Default project" [id=select-trigger-_r_m_ actions=[expand]]
+                        - [36] Button "Collapse sidebar" [actions=[invoke]]
+                        - [37] Hyperlink "Home" [value="https://platform.openai.com/home" actions=[invoke,set_value]]
+                        - [38] Hyperlink "Chat" [value="https://platform.openai.com/chat/edit" actions=[invoke,set_value]]
+                        - [39] Hyperlink "Decisions New" [value="https://platform.openai.com/decisions" actions=[invoke,set_value]]
+                        - [40] Hyperlink "Agents New" [value="https://platform.openai.com/agents" actions=[invoke,set_value]]
+                        - [41] Button "Audio navigation items" [id=radix-_r_1e_ help="Audio" actions=[expand]]
+                          - [42] Text "Audio" [actions=[text]]
+                        - [43] Hyperlink "Images" [value="https://platform.openai.com/playground/images" actions=[invoke,set_value]]
+                        - [44] Hyperlink "Codex" [value="https://platform.openai.com/codex" actions=[invoke,set_value]]
+                        - [45] Hyperlink "API Keys" [value="https://platform.openai.com/api-keys" actions=[invoke,set_value]]
+                        - [46] Hyperlink "Usage" [value="https://platform.openai.com/usage" actions=[invoke,set_value]]
+                        - [47] Hyperlink "Logs" [value="https://platform.openai.com/logs" actions=[invoke,set_value]]
+                        - [48] Hyperlink "Batches" [value="https://platform.openai.com/batches" actions=[invoke,set_value]]
+                        - [49] Hyperlink "Storage" [value="https://platform.openai.com/storage" actions=[invoke,set_value]]
+                        - [50] Hyperlink "Plugins" [value="https://platform.openai.com/plugins" actions=[invoke,set_value]]
+                        - [51] Hyperlink "Settings" [value="https://platform.openai.com/settings/proj_9DBZBK84xB3A5GGybMN21yP0" actions=[invoke,set_value]]
+                        - [52] Button "More navigation items" [id=radix-_r_10_ help="More" actions=[expand]]
+                          - [53] Text "More" [actions=[text]]
+                        - [54] Hyperlink "Add credits Run your next API request by adding credits." [value="https://platform.openai.com/settings/organization/billing/overview" actions=[invoke,set_value]]
+                        - [55] Hyperlink "Go to Billing" [value="https://platform.openai.com/settings/organization/billing/overview" actions=[invoke,set_value]]
+                        - [56] Button [actions=[invoke]]
+                        - [57] Button "S shw097 Organization" [id=radix-_r_16_ actions=[expand]]
+                          - [58] Text "S" [actions=[text]]
+                          - [59] Text "shw097" [actions=[text]]
+                          - [60] Text "Organization" [actions=[text]]
+                        - Text "Plugins"
+                        - [61] Button "Upload plugin" [help="Upload plugin" actions=[expand]]
+                        - [62] Hyperlink "Build a plugin" [value="https://chatgpt.com/codex/open-app?app_brand=chatgpt&mode=work&q=%5B%40Plugin+Creator%5D%28plugin%3A%2F%2Fplugin_connector_1p_e1a10c53223481918a42f1510ec46c1e%29+Help+me+build+a+plugin.+Start+by+asking+what+it+should+do%2C+then+help+me+package+it+as+a+ZIP+for+upload+to+OpenAI+Platform." actions=[invoke,set_value]]
+                        - [63] Hyperlink "Docs" [value="https://developers.openai.com/plugins/deploy/submission" actions=[invoke,set_value]]
+                          - Group "Submit a plugin"
+                            - Text "Submit a plugin"
+                            - [64] Text "Build a plugin with reusable skills and MCP integrations, then publish it to the ChatGPT plugin directory." [actions=[text]]
+                              - ListItem "Create your plugin with CodexUse the Plugin Creator to build a new plugin or adapt an existing one."
+                                - Text "Create your plugin with Codex"
+                                - [65] Text "Use the Plugin Creator to build a new plugin or adapt an existing one." [actions=[text]]
+                              - ListItem "Upload your plugin ZIPReview your package and upload the plugin zip."
+                                - Text "Upload your plugin ZIP"
+                                - [66] Text "Review your package and upload the plugin zip." [actions=[text]]
+                              - ListItem "Complete automated checksReview and resolve findings. Upload a revised ZIP for package changes, or update your MCP server and rescan."
+                                - Text "Complete automated checks"
+                                - [67] Text "Review and resolve findings. Upload a revised ZIP for package changes, or update your MCP server and rescan." [actions=[text]]
+                              - ListItem "Submit for reviewSome submissions may need additional review from our team."
+                                - Text "Submit for review"
+                                - [68] Text "Some submissions may need additional review from our team." [actions=[text]]
+                              - ListItem "Publish your pluginOnce approved, publish when you’re ready."
+                                - Text "Publish your plugin"
+                                - [69] Text "Once approved, publish when you’re ready." [actions=[text]]
+                          - Group "Upload new or existing plugin"
+                            - [70] Button "Upload new or existing plugin" [actions=[invoke]]
+                  - Image "如要為缺少說明的圖片取得說明，請開啟內容選單。"
+                  - Window "Complete identity verification"
+                    - Text "Complete identity verification"
+                    - [71] Text "You need a verified developer identity before you can create or upload a plugin." [actions=[text]]
+                    - [72] Button "Cancel" [actions=[invoke]]
+                    - [73] Button "Continue" [actions=[invoke]]
+                - Group "text-blaze-integration"
+                  - [74] Text "{"extensionEnabled":true,"text":true}" [actions=[text]]
+              - [75] Button "分頁搜尋" [actions=[expand]]
+                - [76] TabItem "ChatGPT - 記憶體用量 - 652 MB" [id=view_20 actions=[select]]
+                  - [77] Button "關閉" [actions=[invoke]]
+                - [78] TabItem "分支 · Acceptance Challenge_SBL升級 - 記憶體用量 - 754 MB" [id=view_20 actions=[select]]
+                  - [79] Button "關閉" [actions=[invoke]]
+                - [80] TabItem "分支 · (主掛-2)SBL｜SpecBuild Loop - 記憶體用量 - 558 MB" [id=view_20 actions=[select]]
+                  - [81] Button "關閉" [actions=[invoke]]
+                - [82] TabItem "Text Blaze Dashboard - 記憶體用量 - 186 MB" [id=view_20 actions=[select]]
+                  - [83] Button "關閉" [actions=[invoke]]
+                - [84] TabItem "YouTube" [id=view_20 actions=[select]]
+                  - [85] Button "關閉" [actions=[invoke]]
+                - [86] TabItem "OpenAI Platform - 記憶體用量 - 136 MB" [id=view_20 actions=[select]]
+                  - [87] Button "關閉" [actions=[invoke]]
+            - [88] Button "新分頁" [actions=[invoke]]
+              - [89] Button "開啟 Chrome 內建 Gemini" [actions=[invoke]]

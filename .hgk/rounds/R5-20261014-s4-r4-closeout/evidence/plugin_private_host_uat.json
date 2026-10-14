@@ -1,0 +1,40 @@
+{
+ "schema": "R5X-PRIVATE-IMPORT-UAT-READINESS/1",
+ "task_id": "PIPD-LS-SP-HERMES-R4-R5-CLOSEOUT-CONTINUATION",
+ "requirement_id": "REQ-PIPD-R5X-UAT-005",
+ "human_gate": true,
+ "routes": {
+  "A_plugin_creator": {
+   "procedure": [
+    "1. Open ChatGPT web with an entitled account (Plugin Creator surface).",
+    "2. Create a Skills-only plugin; connect the existing eight skills from the frozen ZIP/repo.",
+    "3. Confirm the plugin appears under Personal/Installed; run one positive and one negative trigger.",
+    "4. Record host/role/region/ZIP-sha256 and any UI error verbatim."
+   ],
+   "acceptance_criteria": [
+    "8/8 skills discoverable",
+    "positive trigger executes a source-bound intake",
+    "negative trigger typed refusal",
+    "uninstall/rollback visible"
+   ],
+   "status": "NOT_VERIFIED"
+  },
+  "B_workspace_upload": {
+   "procedure": [
+    "1. In an entitled workspace (Admin console), Plugins -> Add -> Upload plugin.",
+    "2. Upload the candidate ZIP (sha256 08025b43aa20306cf33c6528c49ddfdee53bf1a211a1e837d18c4453e01595a8).",
+    "3. If Portal rejects, capture the named error code; do NOT modify the ZIP in place.",
+    "4. On success verify 8/8 discover + POS/NEG + uninstall."
+   ],
+   "acceptance_criteria": [
+    "Upload accepted",
+    "8/8 discovery",
+    "one POS + one NEG",
+    "uninstall leaves no skill residue"
+   ],
+   "status": "NOT_VERIFIED"
+  }
+ },
+ "fallback_DocMountOnly": "docs/install/PIPD_WEB_FALLBACK.md remains the documented fallback; ceiling DOC_MOUNT_ONLY.",
+ "decision": "ACCOUNT_ENTITLEMENT_UNTESTED; owner/user must execute one route for a real receipt."
+}

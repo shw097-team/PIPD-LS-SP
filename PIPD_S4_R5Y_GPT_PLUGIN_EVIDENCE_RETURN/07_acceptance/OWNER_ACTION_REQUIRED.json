@@ -1,0 +1,51 @@
+{
+ "schema": "R5Y-OWNER-ACTION-REQUIRED/1",
+ "persona": "Repo Owner / Human Publisher (shw097)",
+ "items": [
+  {
+   "id": "OA-2",
+   "gate": "TS-06",
+   "action": "Supply owner-approved brand art (logo/composerIcon) or explicitly approve the deterministic generator placeholder for submission.",
+   "why": "The pinned icon is reproducible generator output, not brand art; a placeholder cannot be passed off as approved branding."
+  },
+  {
+   "id": "OA-3",
+   "gate": "TS-05/TS-03",
+   "action": "Re-sign the derivation register and the scope matrix for THIS round (or state the 2026-10-13 order carries forward verbatim).",
+   "why": "Round-scoped owner signature keeps the attribution chain unbroken."
+  },
+  {
+   "id": "OA-4",
+   "gate": "TS-15",
+   "action": "Submit for review yourself after draft review (attestation of policy compliance).",
+   "why": "Submission carries the publisher's policy attestation."
+  },
+  {
+   "id": "OA-5",
+   "gate": "TS-17",
+   "action": "Publish when approved; then have an unrelated ChatGPT user search the directory, install, and invoke @Plugin in a chat.",
+   "why": "C = PUBLIC_CONSUMER_VERIFIED can only be closed by a third party."
+  },
+  {
+   "id": "OA-1",
+   "gate": "TS-13 (public directory only)",
+   "action": "If public listing is still wanted: complete developer identity verification on platform.openai.com yourself, then tell the agent to resume the Portal draft/upload.",
+   "why": "Portal hard-blocks create/upload until verified; identity/KYC is a human act and the agent must not impersonate.",
+   "optional_now": true,
+   "unblocks": [
+    "public TS-14 draft+upload",
+    "public TS-15 submit"
+   ]
+  },
+  {
+   "id": "OA-6",
+   "gate": "private route follow-up",
+   "action": "Decide whether the private plugin stays as-is, gets enabled for more workspaces, or is deleted.",
+   "why": "The private install is live in your ChatGPT account (Plugin_5ba168f715b8819190ccbe33a4a926b0)."
+  }
+ ],
+ "route_status": {
+  "public_directory_route": "BLOCKED at TS-13 — Portal: \"You need a verified developer identity before you can create or upload a plugin.\" (human identity/KYC; agent did not perform it)",
+  "private_route": "COMPLETE — plugin created, installed and invoked on the owner account via ChatGPT (evidence 09_ui_fda/)"
+ }
+}

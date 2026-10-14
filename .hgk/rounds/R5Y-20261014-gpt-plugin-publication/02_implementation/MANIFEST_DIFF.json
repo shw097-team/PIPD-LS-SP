@@ -1,0 +1,14 @@
+{
+ "schema": "R5Y-MANIFEST-DIFF/1",
+ "base": "940a37d00d5c1d12dfc9ae5d2325d8837b08501b",
+ "head": "062d84ae3e951d02b2ba6bb732359b18799d2864",
+ "name_status": [
+  [
+   "M",
+   "packaging/public-plugin/plugin.json"
+  ]
+ ],
+ "files_touched": 1,
+ "diff_unified": "diff --git a/packaging/public-plugin/plugin.json b/packaging/public-plugin/plugin.json\nindex 2e26463..ef4a3d4 100644\n--- a/packaging/public-plugin/plugin.json\n+++ b/packaging/public-plugin/plugin.json\n@@ -4,8 +4,24 @@\n   \"extensions\": {\n     \"com.openai\": {\n       \"interface\": {\n-        \"display_name\": \"PIPD-LS-SP Public Skills\"\n-      }\n+        \"capabilities\": [\n+          \"Source-bound planning\",\n+          \"Acceptance preparation\",\n+          \"Evidence-driven refusal\"\n+        ],\n+        \"category\": \"Developer Tools\",\n+        \"defaultPrompt\": [\n+          \"Help me prepare a source-bound pre-implementation plan.\",\n+          \"Audit missing evidence before a pre-development handoff.\",\n+          \"Plan safe ECP and TQAEP acceptance tests.\"\n+        ],\n+        \"developerName\": \"shw097-team\",\n+        \"displayName\": \"PIPD-LS-SP Public Skills\",\n+        \"display_name\": \"PIPD-LS-SP Public Skills\",\n+        \"longDescription\": \"Eight fail-closed lifecycle skills packaged deterministically as an Agent Plugins 1.0 candidate. claim_ceiling=LOCAL_PACKAGER_PASS_ONLY; the vendor validator and the Portal scan are NOT_EXECUTED.\",\n+        \"shortDescription\": \"Source-bound PIPD lifecycle skills\"\n+      },\n+      \"onboardingSkill\": \"./skills/pipd-route-intake/SKILL.md\"\n     },\n     \"com.pipd.s4\": {\n       \"display_name\": \"PIPD-LS-SP Public Skills\",\n",
+ "assertion": "adds official com.openai listing metadata only (category, capabilities, defaultPrompt x3, onboardingSkill); no skills/src/schemas/dist change"
+}

@@ -1,0 +1,86 @@
+{
+ "schema": "R5Y-FDA-UI-ACTION-LOG/1",
+ "tool": "cua-driver (Cua daemon) — screen control层",
+ "hard_invariants_observed": [
+  "background-first: every action attempted background delivery first (no foreground swap)",
+  "only when Chromium refused (code=background_unavailable) did the run escalate to delivery_mode:foreground for the keystroke",
+  "credential/identity: NOT entered by the agent — HumanGate",
+  "single desktop writer: only this run drove pid 9108"
+ ],
+ "actions": [
+  {
+   "n": 1,
+   "tool": "get_screen_size",
+   "route": "api",
+   "result": "3840x2160 scale 1.75"
+  },
+  {
+   "n": 2,
+   "tool": "get_accessibility_tree",
+   "route": "api",
+   "result": "10 desktop windows enumerated (Chrome pid 9108 window 526108 present)"
+  },
+  {
+   "n": 3,
+   "tool": "click",
+   "target": "Button 新分頁",
+   "route": "synthetic_events",
+   "delivery": "background",
+   "effect": "unverifiable",
+   "observed": "new tab created (TabItem 新分頁)"
+  },
+  {
+   "n": 4,
+   "tool": "set_value",
+   "target": "Edit 網址與搜尋列",
+   "route": "accessibility (UIA ValuePattern)",
+   "delivery": "unknown",
+   "observed": "value = https://platform.openai.com/plugins"
+  },
+  {
+   "n": 5,
+   "tool": "press_key",
+   "key": "Return",
+   "delivery": "background",
+   "result": "REFUSED code=background_unavailable (Chromium drops posted keystrokes) -> escalation recommended:foreground"
+  },
+  {
+   "n": 6,
+   "tool": "press_key",
+   "key": "Return",
+   "delivery": "foreground",
+   "route": "global_input (SendInput)",
+   "observed": "navigation committed: window title -> OpenAI Platform"
+  },
+  {
+   "n": 7,
+   "tool": "click",
+   "target": "Button Upload new or existing plugin (in_web_content)",
+   "route": "synthetic_events",
+   "delivery": "background",
+   "observed": "Portal returned dialog Window \"Complete identity verification\""
+  }
+ ],
+ "portal_finding": {
+  "dialog": "Complete identity verification",
+  "body": "You need a verified developer identity before you can create or upload a plugin.",
+  "controls": [
+   "Button Cancel",
+   "Button Continue"
+  ],
+  "meaning": "TS-13 DEVELOPER_IDENTITY_VERIFIED is a hard precondition for TS-14 draft/upload; it is a human identity/KYC act (HumanGate). Agent did NOT click Continue."
+ },
+ "no_go": [
+  "did not complete identity verification",
+  "did not create draft",
+  "did not upload ZIP",
+  "did not submit for review",
+  "did not publish"
+ ],
+ "session": {
+  "chrome_pid": 9108,
+  "chrome_window_id": 526108,
+  "url": "https://platform.openai.com/plugins",
+  "account_visible": "shw097 / Organization"
+ }
+}

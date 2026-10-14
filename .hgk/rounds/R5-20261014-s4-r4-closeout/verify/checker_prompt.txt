@@ -1,0 +1,17 @@
+ROLE: Independent Acceptance Officer / VERIFY / SECURITY for round R5-20261014-s4-r4-closeout.
+You are the independent checker; the maker was the EXECUTE lane (deepseek-v4.1-flash). VERIFY_ONLY: never modify audited artifacts or branches; do NOT push/merge/tag/publish.
+
+AUDIT (read-only recomputation):
+1. C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R5-20261014-s4-r4-closeout/ — compiler/compiled receipt (PROMPT_COMPILE_PASS), admission/r5x_readback.json (7/7/7), gates/NEGATIVE_CASES.json (PORTAL-01..03), evidence/PLATFORM_DRIFT_PROBE.json (fresh 2026-10-14), evidence/plugin_build/{pipd-plugin-build-a,b}.
+2. PIPD_S4_R4_EVIDENCE_RETURN/{EVIDENCE_RETURN_MANIFEST.json,tasks.tsv}.
+3. Worktree C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3c-wt head e00ab7b68c914c9a531beb9b5cb6e5ebbd794277 branch feat/s4r5x-manifest-fit-20261014; run: git diff --name-status 940a37d00d5c1d12dfc9ae5d2325d8837b08501b HEAD (must be exactly M packaging/public-plugin/plugin.json).
+4. Remote: git ls-remote https://github.com/shw097-team/PIPD-LS-SP.git refs/heads/feat/s4r5x-manifest-fit-20261014 must equal e00ab7b68c914c9a531beb9b5cb6e5ebbd794277 (read-only check only).
+5. Independently unzip evidence/plugin_build/pipd-plugin-build-a/pipd-ls-sp-public-skills.zip (python tempfile) and verify: single root pipd-ls-sp-public-skills; 8 skills/<name>/SKILL.md; total entries 56; unpacked size; no mcp.json/.mcp.json/.app.json/hooks; no traversal; recompute sha256 both a and b == 08025b43aa20306cf33c6528c49ddfdee53bf1a211a1e837d18c4453e01595a8.
+6. Verify packaging/public-plugin/plugin.json diff adds exactly com.openai.interface displayName/shortDescription/longDescription/developerName and no other change; confirm skill bodies byte-identical (git diff shows only packaging file).
+
+NAMED CHECKS A..G:
+A zip structural audit (as in 5). B both shas equal 08025b43... C both builds' RELEASE_RECEIPT.json + SOURCE_TO_PLUGIN_MAPPING.json exist and contain the digests. D diff surface exactly one file. E NEGATIVE_CASES.json covers PORTAL-01/02/03a/b/c plantings. F compiler receipt PROMPT_COMPILE_PASS in compiler/compiled/. G admission readback 7 requirements/7 taskspecs/7 workorders consistent.
+
+OUTPUT (mandatory): write C:/Projects/Agent_Workspace/HG-KSEOS/var/R5-20261014-s4-r4-closeout/VERIFY_SECURITY/checker-verdict.json with schema:
+{"task_id":"PIPD-LS-SP-HERMES-R4-R5-CLOSEOUT-CONTINUATION","maker":"opencode-go/deepseek-v4.1-flash","checker_identity":"openai-codex/gpt-6.1-sol","subject_zip_sha256":"08025b43...","checks":{A..G:{"verdict":"PASS|FAIL","evidence":"<recomputed fact>"}},"verdict":"PASS|PARTIAL|FAIL","open_items":[],"claim_ceiling":"LOCAL_CANDIDATE_EVIDENCE_ONLY"}
+Then print a <=10-line summary. fail-closed: any recomputation mismatch => verdict FAIL with the mismatch.

@@ -1,0 +1,24 @@
+FIRST ACTION: print the exact token HGK_LANE_NONCE_OK on its own line, then continue.
+
+ROLE: Independent Acceptance Officer (TQAEP) for round R5Y-20261014-gpt-plugin-publication, contract PIPD-S4-PUBLIC-PLUGIN-EXECUTION-CONTRACT-R1.
+Maker: the Hermes orchestration lane. You are the independent checker; the maker must not self-accept.
+VERIFY_ONLY: never modify audited artifacts, never push/merge/tag/publish/release.
+
+FROZEN CANDIDATE
+- repo shw097-team/PIPD-LS-SP, branch feat/s4r5y-plugin-publication-20261014, head 062d84ae3e951d02b2ba6bb732359b18799d2864
+- worktree C:/Projects/Agent_Workspace/PIPD/worktrees/r5y-wt ; draft PR #6 -> main (main head 224591431a164ab72a9423cd180e417e8a762403)
+- round artifacts C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R5Y-20261014-gpt-plugin-publication/
+
+NAMED CHECKS (independently recompute; do not trust the round's own JSON):
+A. ZIP identity: recompute sha256 of 04_package/build/build-a/*.zip AND build-b/*.zip; both must equal 2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199. Unzip build-a yourself: 56 members, single root pipd-ls-sp-public-skills, 8 skills/<name>/SKILL.md, no mcp.json/.mcp.json/.app.json/hooks, no traversal, assets/icon-128.png decodes as a real PNG.
+B. Diff surface: in the r5y worktree `git diff --name-status 940a37d00d5c1d12dfc9ae5d2325d8837b08501b HEAD` must be exactly M packaging/public-plugin/plugin.json; the file diff must add only com.openai.interface listing fields + com.openai.onboardingSkill. No skills/** src/** schemas/** dist/** change.
+C. Skill bodies byte-identical to Stage B: for each of the 8 skills/<name>/SKILL.md, `git diff --stat 940a37d HEAD -- <path>` must be empty.
+D. Derivations: recompute 04_package/derivations_and_owner_approvals.json claim (8/8) from 04_package/build/FROZEN_SOURCE_LEDGER.json vs packaging/public-plugin/derivations.json.
+E. Negatives: 08_release/NEGATIVE_CASES.json covers PORTAL-01..03c; PORTAL-01 has no forbidden members; each planted case shows its planted member.
+F. CI truth: anonymous query https://api.github.com/repos/shw097-team/PIPD-LS-SP/actions/runs?head_sha=062d84ae3e951d02b2ba6bb732359b18799d2864 — ci and public-plugin-verify both success, no failed steps.
+G. Remote readback: `git ls-remote https://github.com/shw097-team/PIPD-LS-SP.git refs/heads/feat/s4r5y-plugin-publication-20261014` equals 062d84ae3e951d02b2ba6bb732359b18799d2864 (read-only).
+H. Claim-ceiling honesty: README.md / docs/install/README.md / docs/USER_GUIDE.md must not claim a public directory listing exists; manifest must still carry claim_ceiling=LOCAL_PACKAGER_PASS_ONLY and official_portal_verification=NOT_EXECUTED.
+
+OUTPUT (mandatory): write C:/Projects/Agent_Workspace/HG-KSEOS/var/R5Y-20261014-gpt-plugin-publication/VERIFY_SECURITY/checker-verdict.json with keys:
+task_id, round, maker, checker_identity, subject{branch,commit,zip_sha256}, checks{A..H each {verdict,evidence}}, verdict(PASS|PARTIAL|FAIL), open_items[], claim_ceiling.
+Then print a <=12 line summary. Fail closed: any mismatch => FAIL naming the mismatch.

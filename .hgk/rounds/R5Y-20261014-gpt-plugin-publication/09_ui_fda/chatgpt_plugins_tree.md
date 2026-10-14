@@ -1,0 +1,767 @@
+- Window "外掛程式 | ChatGPT - Google Chrome"
+  - Pane "外掛程式 | ChatGPT - Google Chrome - 駿"
+          - [0] Button "最小化" [id=view_1 actions=[invoke]]
+          - [1] Button "還原" [id=view_3 actions=[invoke]]
+          - [2] Button "關閉" [id=view_4 actions=[invoke]]
+              - [3] Button "返回" [id=view_1001 actions=[invoke]]
+              - Button "往前"
+              - [4] Button "重新載入" [id=view_1003 actions=[invoke]]
+                - [5] Button "查看網站資訊" [id=view_1011 actions=[invoke]]
+                - [6] Edit "網址與搜尋列" [value="chatgpt.com/plugins" id=view_1012 help="問問 Google 或輸入網址" actions=[set_value,text]]
+                  - [7] Button "縮放比例：125%" [actions=[invoke]]
+                  - [8] Button "將此分頁加入書籤" [actions=[invoke]]
+                - [9] Button "SubBatch - B站字幕批量下载工具
+需要這個網站的存取權限" [id=view_1009 actions=[expand]]
+                - [10] Button "SaveAI Popup
+有權存取這個網站" [id=view_1009 actions=[expand]]
+                - [11] Button "ChatGPT 匯出工具 - ChatGPT 轉換為 PDF、MD 等
+有權存取這個網站" [id=view_1009 actions=[expand]]
+                - [12] Button "擴充功能" [id=view_1006 actions=[expand]]
+                - [13] Button "下載" [actions=[toggle]]
+              - [14] Button "駿" [id=view_1018 actions=[expand]]
+              - [15] Button "Chrome" [id=view_1007 actions=[expand]]
+            - ToolBar "書籤"
+              - [16] Button "應用程式" [id=view_1028 actions=[invoke]]
+              - ToolBar "已儲存的分頁群組"
+                - [17] Button "分頁群組" [actions=[expand]]
+              - Separator "分隔線"
+              - [18] Button "工具" [id=view_1028 actions=[expand]]
+              - [19] Button "Fun" [id=view_1028 actions=[expand]]
+              - [20] Button "ICT" [id=view_1028 actions=[expand]]
+              - [21] Button "Text Blaze Dashboard" [id=view_1028 actions=[invoke]]
+              - [22] Button "Google 文件" [id=view_1028 actions=[invoke]]
+              - [23] Button "ChatGPT" [id=view_1028 actions=[invoke]]
+              - [24] Button "Gemini" [id=view_1028 actions=[invoke]]
+              - [25] Button "NCC-AFC" [id=view_1028 actions=[expand]]
+              - [26] Button "shw097-team repositories" [id=view_1028 actions=[invoke]]
+              - [27] Button "AI教程" [id=view_1028 actions=[expand]]
+              - [28] Button "opencode" [id=view_1028 actions=[invoke]]
+              - [29] Button "shw097-team/SWOF: SWOF / SWOF GENIE acceptance mirror (ACCEPTANCE_MIRROR_ONLY). Construction runs under HG-KSEOS governance; this repo is transport, never a construction root or semantic/runtime authority." [id=view_1028 actions=[invoke]]
+              - [30] Button "Models | Try NVIDIA NIM APIs" [id=view_1028 actions=[invoke]]
+              - [31] Button "PokéSurvivor – Juego Pokémon free online estilo Survivor.io" [id=view_1028 actions=[invoke]]
+              - [32] Document "外掛程式 | ChatGPT" [value="https://chatgpt.com/plugins" id=RootWebArea actions=[set_value,text,scroll]]
+                - [33] Group [actions=[invoke]]
+                  - [34] Group [actions=[invoke]]
+                    - [35] Hyperlink "跳至內容" [value="https://chatgpt.com/plugins#_r_ek_" actions=[invoke,set_value]]
+                  - [36] Group [actions=[invoke]]
+                    - [37] Button "切換模式，目前模式：ChatGPT" [id=radix-_r_9q_ actions=[expand]]
+                    - [38] Group [actions=[invoke]]
+                      - [39] Button "搜尋" [actions=[invoke]]
+                    - [40] Group [actions=[invoke]]
+                      - [41] Button "隱藏側邊欄" [actions=[expand]]
+                    - Group "對話紀錄"
+                      - [42] Button "新對話" [actions=[invoke]]
+                      - [43] Button "已排程" [actions=[invoke]]
+                      - [44] Button "檔案庫" [actions=[invoke]]
+                      - [45] Button "外掛程式" [actions=[invoke]]
+                      - [46] Button "探索" [id=radix-_R_16atqdajemktdbntccgud5hl75_ actions=[expand]]
+                      - [47] Button "已釘選" [actions=[expand]]
+                          - ListItem "(主掛-2)SQS+PI-PGK"
+                            - [48] Group "(主掛-2)SQS+PI-PGK" [actions=[invoke]]
+                              - [49] Hyperlink "(主掛-2)SQS+PI-PGK" [value="https://chatgpt.com/g/g-p-6aab88a3a5248191b2d1f0124a72b732/c/6aaba32d-9268-83e8-80b1-47ffce07f65e" actions=[invoke,set_value]]
+                              - [50] Button "對話動作" [id=radix-_r_a4_ actions=[expand]]
+                              - [51] Group [actions=[invoke]]
+                                - [52] Button "取消釘選對話" [actions=[invoke]]
+                          - ListItem "(主掛)PIPD-LS-SP"
+                            - [53] Group "(主掛)PIPD-LS-SP" [actions=[invoke]]
+                              - [54] Hyperlink "(主掛)PIPD-LS-SP" [value="https://chatgpt.com/g/g-p-6ac70dd85d548191af062c6907c86e41/c/6ac70e2a-9e00-83ee-9da0-639b95fea90c" actions=[invoke,set_value]]
+                              - [55] Button "對話動作" [id=radix-_r_ab_ actions=[expand]]
+                              - [56] Group [actions=[invoke]]
+                                - [57] Button "取消釘選對話" [actions=[invoke]]
+                          - ListItem "(驗收-2)PIPD-LS-SP"
+                            - [58] Group "(驗收-2)PIPD-LS-SP" [actions=[invoke]]
+                              - [59] Hyperlink "(驗收-2)PIPD-LS-SP" [value="https://chatgpt.com/g/g-p-6ac70dd85d548191af062c6907c86e41/c/6acc38b1-fcc8-83ee-a02a-dad297015d43" actions=[invoke,set_value]]
+                              - [60] Button "對話動作" [id=radix-_r_ai_ actions=[expand]]
+                              - [61] Group [actions=[invoke]]
+                                - [62] Button "取消釘選對話" [actions=[invoke]]
+                          - ListItem "(指揮-2)PIPD-LS-SP"
+                            - [63] Group "(指揮-2)PIPD-LS-SP" [actions=[invoke]]
+                              - [64] Hyperlink "(指揮-2)PIPD-LS-SP" [value="https://chatgpt.com/g/g-p-6ac70dd85d548191af062c6907c86e41/c/6acc4041-db98-83ee-a0af-228ccb0f36c8" actions=[invoke,set_value]]
+                              - [65] Button "對話動作" [id=radix-_r_ap_ actions=[expand]]
+                              - [66] Group [actions=[invoke]]
+                                - [67] Button "取消釘選對話" [actions=[invoke]]
+                          - ListItem "(主掛-2)SBL｜SpecBuild Loop"
+                            - [68] Group "(主掛-2)SBL｜SpecBuild Loop" [actions=[invoke]]
+                              - [69] Hyperlink "(主掛-2)SBL｜SpecBuild Loop" [value="https://chatgpt.com/g/g-p-6acaeba0c56881919497d31c47756043/c/6acdb8bf-9ac8-83ee-849f-56542af929f6" actions=[invoke,set_value]]
+                              - [70] Button "對話動作" [id=radix-_r_b0_ actions=[expand]]
+                              - [71] Group [actions=[invoke]]
+                                - [72] Button "取消釘選對話" [actions=[invoke]]
+                          - ListItem "SBL專案"
+                            - [73] Button "SBL專案" [actions=[expand]]
+                              - [74] Button "SBL專案 的專案動作" [id=radix-_r_b7_ actions=[expand]]
+                              - [75] Button "在 SBL專案 中開始新對話" [actions=[invoke]]
+                          - ListItem "PIPD-實作指揮官 & 驗收官"
+                            - [76] Button "PIPD-實作指揮官 & 驗收官" [actions=[expand]]
+                              - [77] Button "PIPD-實作指揮官 & 驗收官 的專案動作" [id=radix-_r_bd_ actions=[expand]]
+                              - [78] Button "在 PIPD-實作指揮官 & 驗收官 中開始新對話" [actions=[invoke]]
+                          - ListItem "指揮官"
+                            - [79] Button "指揮官" [actions=[expand]]
+                              - [80] Button "指揮官 的專案動作" [id=radix-_r_bj_ actions=[expand]]
+                              - [81] Button "在 指揮官 中開始新對話" [actions=[invoke]]
+                          - ListItem "SWOF_SQS-THC升級"
+                            - [82] Button "SWOF_SQS-THC升級" [actions=[expand]]
+                              - [83] Button "SWOF_SQS-THC升級 的專案動作" [id=radix-_r_bp_ actions=[expand]]
+                              - [84] Button "在 SWOF_SQS-THC升級 中開始新對話" [actions=[invoke]]
+                          - ListItem "文檔收斂合併工具"
+                            - [85] Button "文檔收斂合併工具" [actions=[expand]]
+                              - [86] Button "文檔收斂合併工具 的專案動作" [id=radix-_r_bv_ actions=[expand]]
+                              - [87] Button "在 文檔收斂合併工具 中開始新對話" [actions=[invoke]]
+                        - [88] Button "專案" [actions=[expand]]
+                        - [89] Button "專案側邊欄選項" [id=radix-_r_c3_ actions=[expand]]
+                        - [90] Button "新增新的專案" [actions=[invoke]]
+                        - [91] Button "最近項目" [actions=[expand]]
+                        - [92] Button "對話側邊欄選項" [id=radix-_r_c8_ actions=[expand]]
+                        - [93] Button "篩選對話與工作" [id=radix-_r_cb_ actions=[expand]]
+                        - [94] Group [actions=[invoke]]
+                          - [95] Button "新對話" [actions=[invoke]]
+                          - ListItem "比較按量付費成本"
+                            - [96] Group "比較按量付費成本" [actions=[invoke]]
+                              - [97] Hyperlink "比較按量付費成本" [value="https://chatgpt.com/c/6ac916a7-e12c-83e8-a440-3c4b7d327a55" actions=[invoke,set_value]]
+                              - [98] Button "對話動作" [id=radix-_r_cj_ actions=[expand]]
+                              - [99] Group [actions=[invoke]]
+                                - [100] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "比較DeepSeek與GPT models"
+                            - [101] Group "比較DeepSeek與GPT models" [actions=[invoke]]
+                              - [102] Hyperlink "比較DeepSeek與GPT models" [value="https://chatgpt.com/c/6ac8e755-209c-83ee-867b-784c3656ed6a" actions=[invoke,set_value]]
+                              - [103] Button "對話動作" [id=radix-_r_cp_ actions=[expand]]
+                              - [104] Group [actions=[invoke]]
+                                - [105] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "Hermes Session 切換分析"
+                            - [106] Group "Hermes Session 切換分析" [actions=[invoke]]
+                              - [107] Hyperlink "Hermes Session 切換分析" [value="https://chatgpt.com/c/6acda5c8-fa84-83ee-a8a3-a5f9c336a3e4" actions=[invoke,set_value]]
+                              - [108] Button "對話動作" [id=radix-_r_cv_ actions=[expand]]
+                              - [109] Group [actions=[invoke]]
+                                - [110] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "分析銷量不佳原因"
+                            - [111] Group "分析銷量不佳原因" [actions=[invoke]]
+                              - [112] Hyperlink "分析銷量不佳原因" [value="https://chatgpt.com/c/6acb0222-d47c-83ee-9b59-445d10116d08" actions=[invoke,set_value]]
+                              - [113] Button "對話動作" [id=radix-_r_d5_ actions=[expand]]
+                              - [114] Group [actions=[invoke]]
+                                - [115] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "TQAEP技能插件包"
+                            - [116] Group "TQAEP技能插件包" [actions=[invoke]]
+                              - [117] Hyperlink "TQAEP技能插件包" [value="https://chatgpt.com/g/g-p-6a870260d51c8191b17c0028e053a8c0/c/6a8d3102-8824-83e8-a1c7-930c332a1b79" actions=[invoke,set_value]]
+                              - [118] Button "對話動作" [id=radix-_r_db_ actions=[expand]]
+                              - [119] Group [actions=[invoke]]
+                                - [120] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "建立ECP技能插件包"
+                            - [121] Group "建立ECP技能插件包" [actions=[invoke]]
+                              - [122] Hyperlink "建立ECP技能插件包" [value="https://chatgpt.com/g/g-p-6a870260d51c8191b17c0028e053a8c0/c/6a8c41ba-91c4-83ee-92eb-d4664a7149e8" actions=[invoke,set_value]]
+                              - [123] Button "對話動作" [id=radix-_r_dh_ actions=[expand]]
+                              - [124] Group [actions=[invoke]]
+                                - [125] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "SDLC_PRW_HLPE Plugin整合"
+                            - [126] Group "SDLC_PRW_HLPE Plugin整合" [actions=[invoke]]
+                              - [127] Hyperlink "SDLC_PRW_HLPE Plugin整合" [value="https://chatgpt.com/g/g-p-6a760d7c58048191bcefd3c857fb30df/c/6a79712b-e78c-83e8-b962-dd496af7ed23" actions=[invoke,set_value]]
+                              - [128] Button "對話動作" [id=radix-_r_dn_ actions=[expand]]
+                              - [129] Group [actions=[invoke]]
+                                - [130] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "指揮實作驗收技能落地"
+                            - [131] Group "指揮實作驗收技能落地" [actions=[invoke]]
+                              - [132] Hyperlink "指揮實作驗收技能落地" [value="https://chatgpt.com/g/g-p-6a760d7c58048191bcefd3c857fb30df/c/6a794d61-de4c-83ee-8a14-8a6945313f9c" actions=[invoke,set_value]]
+                              - [133] Button "對話動作" [id=radix-_r_dt_ actions=[expand]]
+                              - [134] Group [actions=[invoke]]
+                                - [135] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "Hermes Codex 系統規劃分析"
+                            - [136] Group "Hermes Codex 系統規劃分析" [actions=[invoke]]
+                              - [137] Hyperlink "Hermes Codex 系統規劃分析" [value="https://chatgpt.com/c/6a543535-f960-83ee-b027-4e5cd2a996a3" actions=[invoke,set_value]]
+                              - [138] Button "對話動作" [id=radix-_r_e3_ actions=[expand]]
+                              - [139] Group [actions=[invoke]]
+                                - [140] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "Generate synthetic SGB outputs"
+                              - [141] Group "Generate synthetic SGB outputs" [actions=[invoke]]
+                                - [142] Hyperlink "Generate synthetic SGB outputs" [value="https://chatgpt.com/remote/task_e_690cb9f47ca4832093f1e50a7e92fa5d" actions=[invoke,set_value]]
+                                - [143] Button "對話動作" [id=radix-_r_e9_ actions=[expand]]
+                                - [144] Group [actions=[invoke]]
+                                  - [145] Button "釘選對話" [actions=[invoke]]
+                    - [146] Button "開啟個人檔案選單" [id=radix-_R_8mjdajemktdbntccgud5hl75_ actions=[expand]]
+                    - [147] Text "鬼人馬" [actions=[text]]
+                    - [148] Text "Plus" [actions=[text]]
+                    - [149] Separator [actions=[invoke]]
+                        - [150] Group [actions=[invoke]]
+                          - [151] Hyperlink "管理" [value="https://chatgpt.com/settings/plugins-settings" actions=[invoke,set_value]]
+                        - [152] Button "新增" [id=radix-_r_fl_ actions=[expand]]
+                      - Tab "瀏覽外掛程式或技能"
+                        - [153] TabItem "外掛程式" [actions=[select]]
+                        - [154] TabItem "skill" [actions=[select]]
+                    - Text "外掛程式"
+                    - [155] Text "連結外掛程式，讓 ChatGPT 在你的各種工具中執行工作" [actions=[text]]
+                    - [156] Text "搜尋外掛程式" [actions=[text]]
+                    - [157] Edit "搜尋外掛程式" [id=plugins-store-page-search help="搜尋外掛程式" actions=[set_value,text]]
+                    - Text "已安裝"
+                      - [158] Hyperlink "已安裝" [value="https://chatgpt.com/settings/plugins-settings" actions=[invoke,set_value]]
+                    - [159] Hyperlink "Plugin Creator" [value="https://chatgpt.com/plugins/plugin_connector_1p_e1a10c53223481918a42f1510ec46c1e" actions=[invoke,set_value]]
+                    - [160] Hyperlink "Slack" [value="https://chatgpt.com/plugins/plugin_asdk_app_69a1d78e929881919bba0dbda1f6436d" actions=[invoke,set_value]]
+                    - [161] Hyperlink "GitHub" [value="https://chatgpt.com/plugins/plugin_connector_1p_1a69035c238881919c4190932b2df699" actions=[invoke,set_value]]
+                    - Tab "外掛程式目錄"
+                      - [162] TabItem "公開" [actions=[select]]
+                      - [163] TabItem "個人" [actions=[select]]
+                    - Text "熱門"
+                      - [164] Hyperlink "熱門" [value="https://chatgpt.com/plugins?category=featured" actions=[invoke,set_value]]
+                      - [165] Hyperlink "Gmail" [value="https://chatgpt.com/plugins/plugin_connector_1p_95d39881713c8191931482a62d6edff9" actions=[invoke,set_value]]
+                      - Image "Gmail"
+                      - [166] Text "Gmail" [actions=[text]]
+                      - [167] Text "Read and manage Gmail" [actions=[text]]
+                      - [168] Button "安裝 Gmail" [actions=[invoke]]
+                      - [169] Hyperlink "Health" [value="https://chatgpt.com/plugins/plugin_connector_1p_e569f8b8dfd08191903c9bd2cd7da9ac" actions=[invoke,set_value]]
+                      - Image "Health"
+                      - [170] Text "Health" [actions=[text]]
+                      - [171] Text "Explore your health data in ChatGPT" [actions=[text]]
+                      - [172] Button "安裝 Health" [actions=[invoke]]
+                      - [173] Hyperlink "Google Drive" [value="https://chatgpt.com/plugins/plugin_connector_1p_ab21a553bfbc81919ea8fd1858e3ffa7" actions=[invoke,set_value]]
+                      - Image "Google Drive"
+                      - [174] Text "Google Drive" [actions=[text]]
+                      - [175] Text "Drive, Docs, Sheets or Slides" [actions=[text]]
+                      - [176] Button "安裝 Google Drive" [actions=[invoke]]
+                      - [177] Hyperlink "GitHub" [value="https://chatgpt.com/plugins/plugin_connector_1p_1a69035c238881919c4190932b2df699" actions=[invoke,set_value]]
+                      - Image "GitHub"
+                      - [178] Text "GitHub" [actions=[text]]
+                      - [179] Text "Triage PRs, issues, CI, and publish flows" [actions=[text]]
+                      - [180] Button "更多操作" [id=radix-_r_jq_ actions=[expand]]
+                      - [181] Hyperlink "Supabase" [value="https://chatgpt.com/plugins/plugin_asdk_app_69d3e5ee6a708191baa733f7b8931995" actions=[invoke,set_value]]
+                      - Image "Supabase"
+                      - [182] Text "Supabase" [actions=[text]]
+                      - [183] Text "Manage and query databases" [actions=[text]]
+                      - [184] Button "安裝 Supabase" [actions=[invoke]]
+                      - [185] Hyperlink "Outlook Email" [value="https://chatgpt.com/plugins/plugin_connector_1p_6bcb5879c73c819196abc70016166099" actions=[invoke,set_value]]
+                      - Image "Outlook Email"
+                      - [186] Text "Outlook Email" [actions=[text]]
+                      - [187] Text "Triage Outlook inboxes" [actions=[text]]
+                      - [188] Button "安裝 Outlook Email" [actions=[invoke]]
+                    - Text "最新精選"
+                      - [189] Hyperlink "最新精選" [value="https://chatgpt.com/plugins?category=new-and-noteworthy" actions=[invoke,set_value]]
+                      - [190] Hyperlink "Magnific" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a1f227d5a848191ae3317c66947b440" actions=[invoke,set_value]]
+                      - Image "Magnific"
+                      - [191] Text "Magnific" [actions=[text]]
+                      - [192] Text "Create images, video, designs" [actions=[text]]
+                      - [193] Button "安裝 Magnific" [actions=[invoke]]
+                      - [194] Hyperlink "Higgsfield" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a3293e129088191abf0875820e839da" actions=[invoke,set_value]]
+                      - Image "Higgsfield"
+                      - [195] Text "Higgsfield" [actions=[text]]
+                      - [196] Text "Every image and video model" [actions=[text]]
+                      - [197] Button "安裝 Higgsfield" [actions=[invoke]]
+                      - [198] Hyperlink "Adobe" [value="https://chatgpt.com/plugins/plugin_asdk_app_69312da8e4dc81919370cb86fd172b6c" actions=[invoke,set_value]]
+                      - Image "Adobe"
+                      - [199] Text "Adobe" [actions=[text]]
+                      - [200] Text "Design, combine, and edit" [actions=[text]]
+                      - [201] Button "安裝 Adobe" [actions=[invoke]]
+                      - [202] Hyperlink "tldraw" [value="https://chatgpt.com/plugins/plugin_asdk_app_6ab242dbeb5c8191ba5277534ef0c570" actions=[invoke,set_value]]
+                      - Image "tldraw"
+                      - [203] Text "tldraw" [actions=[text]]
+                      - [204] Text "Draw and diagram with agents" [actions=[text]]
+                      - [205] Button "安裝 tldraw" [actions=[invoke]]
+                      - [206] Hyperlink "Canva" [value="https://chatgpt.com/plugins/plugin_connector_68df33b1a2d081918778431a9cfca8ba" actions=[invoke,set_value]]
+                      - Image "Canva"
+                      - [207] Text "Canva" [actions=[text]]
+                      - [208] Text "Create, review, edit designs" [actions=[text]]
+                      - [209] Button "安裝 Canva" [actions=[invoke]]
+                      - [210] Hyperlink "Figma" [value="https://chatgpt.com/plugins/plugin_connector_68df038e0ba48191908c8434991bbac2" actions=[invoke,set_value]]
+                      - Image "Figma"
+                      - [211] Text "Figma" [actions=[text]]
+                      - [212] Text "Create designs, ship to code" [actions=[text]]
+                      - [213] Button "安裝 Figma" [actions=[invoke]]
+                    - Text "小型企業"
+                      - [214] Hyperlink "小型企業" [value="https://chatgpt.com/plugins?category=small-business" actions=[invoke,set_value]]
+                      - [215] Hyperlink "Dropbox" [value="https://chatgpt.com/plugins/plugin_asdk_app_69b31dc2110c8191b8b47dc98fe5a052" actions=[invoke,set_value]]
+                      - Image "Dropbox"
+                      - [216] Text "Dropbox" [actions=[text]]
+                      - [217] Text "Find, create, and take action" [actions=[text]]
+                      - [218] Button "安裝 Dropbox" [actions=[invoke]]
+                      - [219] Hyperlink "HubSpot" [value="https://chatgpt.com/plugins/plugin_asdk_app_697acb8e53d88191bf7a79e62012ae14" actions=[invoke,set_value]]
+                      - Image "HubSpot"
+                      - [220] Text "HubSpot" [actions=[text]]
+                      - [221] Text "Insights to action in HubSpot" [actions=[text]]
+                      - [222] Button "安裝 HubSpot" [actions=[invoke]]
+                      - [223] Hyperlink "Stripe" [value="https://chatgpt.com/plugins/plugin_connector_690ab09fa43c8191bca40280e4563238" actions=[invoke,set_value]]
+                      - Image "Stripe"
+                      - [224] Text "Stripe" [actions=[text]]
+                      - [225] Text "Accept payments. Grow revenue." [actions=[text]]
+                      - [226] Button "安裝 Stripe" [actions=[invoke]]
+                      - [227] Hyperlink "Canva" [value="https://chatgpt.com/plugins/plugin_connector_68df33b1a2d081918778431a9cfca8ba" actions=[invoke,set_value]]
+                      - Image "Canva"
+                      - [228] Text "Canva" [actions=[text]]
+                      - [229] Text "Create, review, edit designs" [actions=[text]]
+                      - [230] Button "安裝 Canva" [actions=[invoke]]
+                      - [231] Hyperlink "Gusto" [value="https://chatgpt.com/plugins/plugin_asdk_app_6941e1d349208191b984b93cb344be5b" actions=[invoke,set_value]]
+                      - Image "Gusto"
+                      - [232] Text "Gusto" [actions=[text]]
+                      - [233] Text "People and payroll, made easy" [actions=[text]]
+                      - [234] Button "安裝 Gusto" [actions=[invoke]]
+                      - [235] Hyperlink "Figma" [value="https://chatgpt.com/plugins/plugin_connector_68df038e0ba48191908c8434991bbac2" actions=[invoke,set_value]]
+                      - Image "Figma"
+                      - [236] Text "Figma" [actions=[text]]
+                      - [237] Text "Create designs, ship to code" [actions=[text]]
+                      - [238] Button "安裝 Figma" [actions=[invoke]]
+                    - Text "生產力"
+                      - [239] Hyperlink "生產力" [value="https://chatgpt.com/plugins?category=productivity" actions=[invoke,set_value]]
+                      - [240] Hyperlink "Notion" [value="https://chatgpt.com/plugins/plugin_asdk_app_69c18c28f1188191bf5b8445c4ab0a2e" actions=[invoke,set_value]]
+                      - Image "Notion"
+                      - [241] Text "Notion" [actions=[text]]
+                      - [242] Text "Create docs, tasks, databases" [actions=[text]]
+                      - [243] Button "安裝 Notion" [actions=[invoke]]
+                      - [244] Hyperlink "Google Calendar" [value="https://chatgpt.com/plugins/plugin_connector_1p_f8509de903288191b14a160c6c5d20b0" actions=[invoke,set_value]]
+                      - Image "Google Calendar"
+                      - [245] Text "Google Calendar" [actions=[text]]
+                      - [246] Text "Manage Google Calendar events" [actions=[text]]
+                      - [247] Button "安裝 Google Calendar" [actions=[invoke]]
+                      - [248] Hyperlink "Dropbox" [value="https://chatgpt.com/plugins/plugin_asdk_app_69b31dc2110c8191b8b47dc98fe5a052" actions=[invoke,set_value]]
+                      - Image "Dropbox"
+                      - [249] Text "Dropbox" [actions=[text]]
+                      - [250] Text "Find, create, and take action" [actions=[text]]
+                      - [251] Button "安裝 Dropbox" [actions=[invoke]]
+                      - [252] Hyperlink "Outlook Calendar" [value="https://chatgpt.com/plugins/plugin_connector_1p_fd0f4f41caa88191a9456514bbffa06d" actions=[invoke,set_value]]
+                      - Image "Outlook Calendar"
+                      - [253] Text "Outlook Calendar" [actions=[text]]
+                      - [254] Text "Manage Outlook schedules" [actions=[text]]
+                      - [255] Button "安裝 Outlook Calendar" [actions=[invoke]]
+                      - [256] Hyperlink "Todoist: To Do List & Calendar" [value="https://chatgpt.com/plugins/plugin_asdk_app_6943b73823548191a9f9216c6790c453" actions=[invoke,set_value]]
+                      - Image "Todoist: To Do List & Calendar"
+                      - [257] Text "Todoist: To Do List & Calendar" [actions=[text]]
+                      - [258] Text "Planner & Reminders" [actions=[text]]
+                      - [259] Button "安裝 Todoist: To Do List & Calendar" [actions=[invoke]]
+                      - [260] Hyperlink "SharePoint" [value="https://chatgpt.com/plugins/plugin_connector_1p_dca009ae2c848191ae14df3a47c5e7fd" actions=[invoke,set_value]]
+                      - Image "SharePoint"
+                      - [261] Text "SharePoint" [actions=[text]]
+                      - [262] Text "Summarize SharePoint content" [actions=[text]]
+                      - [263] Button "安裝 SharePoint" [actions=[invoke]]
+                    - Text "通訊"
+                      - [264] Hyperlink "通訊" [value="https://chatgpt.com/plugins?category=communication" actions=[invoke,set_value]]
+                      - [265] Hyperlink "Slack" [value="https://chatgpt.com/plugins/plugin_asdk_app_69a1d78e929881919bba0dbda1f6436d" actions=[invoke,set_value]]
+                      - Image "Slack"
+                      - [266] Text "Slack" [actions=[text]]
+                      - [267] Text "Read and manage Slack" [actions=[text]]
+                      - [268] Button "更多操作" [id=radix-_r_ki_ actions=[expand]]
+                      - [269] Hyperlink "Teams" [value="https://chatgpt.com/plugins/plugin_connector_1p_eba8b52fe53881918408d4b46b957644" actions=[invoke,set_value]]
+                      - Image "Teams"
+                      - [270] Text "Teams" [actions=[text]]
+                      - [271] Text "Summarize Teams and follow up" [actions=[text]]
+                      - [272] Button "安裝 Teams" [actions=[invoke]]
+                      - [273] Hyperlink "Hostinger Mail" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a323a8a890c819190480c9044395170" actions=[invoke,set_value]]
+                      - Image "Hostinger Mail"
+                      - [274] Text "Hostinger Mail" [actions=[text]]
+                      - [275] Text "Use Hostinger Mail" [actions=[text]]
+                      - [276] Button "安裝 Hostinger Mail" [actions=[invoke]]
+                      - [277] Hyperlink "Zoom" [value="https://chatgpt.com/plugins/plugin_asdk_app_69373a13116c819189d046aea1278836" actions=[invoke,set_value]]
+                      - Image "Zoom"
+                      - [278] Text "Zoom" [actions=[text]]
+                      - [279] Text "Insights from Zoom" [actions=[text]]
+                      - [280] Button "安裝 Zoom" [actions=[invoke]]
+                      - [281] Hyperlink "Mailopoly Inbox" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a2e4ae9228881919b13aeb3f87ca03e" actions=[invoke,set_value]]
+                      - Image "Mailopoly Inbox"
+                      - [282] Text "Mailopoly Inbox" [actions=[text]]
+                      - [283] Text "Search, send emails & messages" [actions=[text]]
+                      - [284] Button "安裝 Mailopoly Inbox" [actions=[invoke]]
+                      - [285] Hyperlink "Superhuman Mail" [value="https://chatgpt.com/plugins/plugin_asdk_app_69a21e4058dc8191a6220fa911310d7b" actions=[invoke,set_value]]
+                      - Image "Superhuman Mail"
+                      - [286] Text "Superhuman Mail" [actions=[text]]
+                      - [287] Text "Best email+calendar assistant" [actions=[text]]
+                      - [288] Button "安裝 Superhuman Mail" [actions=[invoke]]
+                    - Text "創意"
+                      - [289] Hyperlink "創意" [value="https://chatgpt.com/plugins?category=creativity" actions=[invoke,set_value]]
+                      - [290] Hyperlink "Canva" [value="https://chatgpt.com/plugins/plugin_connector_68df33b1a2d081918778431a9cfca8ba" actions=[invoke,set_value]]
+                      - Image "Canva"
+                      - [291] Text "Canva" [actions=[text]]
+                      - [292] Text "Create, review, edit designs" [actions=[text]]
+                      - [293] Button "安裝 Canva" [actions=[invoke]]
+                      - [294] Hyperlink "Product Design" [value="https://chatgpt.com/plugins/Plugin_fa77aec24fc08191bc6e57f377126d76" actions=[invoke,set_value]]
+                      - Image "Product Design"
+                      - [295] Text "Product Design" [actions=[text]]
+                      - [296] Text "Explore and prototype ideas" [actions=[text]]
+                      - [297] Button "安裝 Product Design" [actions=[invoke]]
+                      - [298] Hyperlink "Higgsfield" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a3293e129088191abf0875820e839da" actions=[invoke,set_value]]
+                      - Image "Higgsfield"
+                      - [299] Text "Higgsfield" [actions=[text]]
+                      - [300] Text "Every image and video model" [actions=[text]]
+                      - [301] Button "安裝 Higgsfield" [actions=[invoke]]
+                      - [302] Hyperlink "Figma" [value="https://chatgpt.com/plugins/plugin_connector_68df038e0ba48191908c8434991bbac2" actions=[invoke,set_value]]
+                      - Image "Figma"
+                      - [303] Text "Figma" [actions=[text]]
+                      - [304] Text "Create designs, ship to code" [actions=[text]]
+                      - [305] Button "安裝 Figma" [actions=[invoke]]
+                      - [306] Hyperlink "Runway" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a05e3b201788191be12b590b43e6ce3" actions=[invoke,set_value]]
+                      - Image "Runway"
+                      - [307] Text "Runway" [actions=[text]]
+                      - [308] Text "Generate with every AI model" [actions=[text]]
+                      - [309] Button "安裝 Runway" [actions=[invoke]]
+                      - [310] Hyperlink "Adobe" [value="https://chatgpt.com/plugins/plugin_asdk_app_69312da8e4dc81919370cb86fd172b6c" actions=[invoke,set_value]]
+                      - Image "Adobe"
+                      - [311] Text "Adobe" [actions=[text]]
+                      - [312] Text "Design, combine, and edit" [actions=[text]]
+                      - [313] Button "安裝 Adobe" [actions=[invoke]]
+                    - Text "開發人員工具"
+                      - [314] Hyperlink "開發人員工具" [value="https://chatgpt.com/plugins?category=developer-tools" actions=[invoke,set_value]]
+                      - [315] Hyperlink "Vercel" [value="https://chatgpt.com/plugins/plugin_connector_690a90ec05c881918afb6a55dc9bbaa1" actions=[invoke,set_value]]
+                      - Image "Vercel"
+                      - [316] Text "Vercel" [actions=[text]]
+                      - [317] Text "Build and deploy apps" [actions=[text]]
+                      - [318] Button "安裝 Vercel" [actions=[invoke]]
+                      - [319] Hyperlink "Lovable" [value="https://chatgpt.com/plugins/plugin_asdk_app_693a0a79ffe48191901173077edcf914" actions=[invoke,set_value]]
+                      - Image "Lovable"
+                      - [320] Text "Lovable" [actions=[text]]
+                      - [321] Text "Build full-stack apps by chat" [actions=[text]]
+                      - [322] Button "安裝 Lovable" [actions=[invoke]]
+                      - [323] Hyperlink "Remote Desktop Commander" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a057d268ebc81919918d37eec718425" actions=[invoke,set_value]]
+                      - Image "Remote Desktop Commander"
+                      - [324] Text "Remote Desktop Commander" [actions=[text]]
+                      - [325] Text "Build and automate, anywhere" [actions=[text]]
+                      - [326] Button "安裝 Remote Desktop Commander" [actions=[invoke]]
+                      - [327] Hyperlink "Base44" [value="https://chatgpt.com/plugins/plugin_asdk_app_6952514760dc8191ab148f77c5794d46" actions=[invoke,set_value]]
+                      - Image "Base44"
+                      - [328] Text "Base44" [actions=[text]]
+                      - [329] Text "Build Apps & Websites with AI" [actions=[text]]
+                      - [330] Button "安裝 Base44" [actions=[invoke]]
+                      - [331] Hyperlink "Exa" [value="https://chatgpt.com/plugins/plugin_asdk_app_69ea4ed2cf7c8191b742ef3622479ddd" actions=[invoke,set_value]]
+                      - Image "Exa"
+                      - [332] Text "Exa" [actions=[text]]
+                      - [333] Text "Web search for AI agents" [actions=[text]]
+                      - [334] Button "安裝 Exa" [actions=[invoke]]
+                      - [335] Hyperlink "Replit" [value="https://chatgpt.com/plugins/plugin_asdk_app_6934801c799081918131791660f02890" actions=[invoke,set_value]]
+                      - Image "Replit"
+                      - [336] Text "Replit" [actions=[text]]
+                      - [337] Text "Turn your ideas into real apps" [actions=[text]]
+                      - [338] Button "安裝 Replit" [actions=[invoke]]
+                    - Text "醫療保健"
+                      - [339] Hyperlink "醫療保健" [value="https://chatgpt.com/plugins?category=healthcare" actions=[invoke,set_value]]
+                      - [340] Hyperlink "Fitness AI Connector" [value="https://chatgpt.com/plugins/plugin_asdk_app_69beacb8780c81919104bb111b56346b" actions=[invoke,set_value]]
+                      - Image "Fitness AI Connector"
+                      - [341] Text "Fitness AI Connector" [actions=[text]]
+                      - [342] Text "AI coach for your Garmin data" [actions=[text]]
+                      - [343] Button "安裝 Fitness AI Connector" [actions=[invoke]]
+                      - [344] Hyperlink "COROS" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a0694cbb2608191bbefb74ba810ab68" actions=[invoke,set_value]]
+                      - Image "COROS"
+                      - [345] Text "COROS" [actions=[text]]
+                      - [346] Text "Training and health insights" [actions=[text]]
+                      - [347] Button "安裝 COROS" [actions=[invoke]]
+                      - [348] Hyperlink "Tredict" [value="https://chatgpt.com/plugins/plugin_asdk_app_69aef5b699a0819184512d57743fc1cd" actions=[invoke,set_value]]
+                      - Image "Tredict"
+                      - [349] Text "Tredict" [actions=[text]]
+                      - [350] Text "Analyze workouts, create plans" [actions=[text]]
+                      - [351] Button "安裝 Tredict" [actions=[invoke]]
+                      - [352] Hyperlink "Calorie Tracker" [value="https://chatgpt.com/plugins/plugin_asdk_app_69b5c48a72348191b3ad5abf6ec5dbfb" actions=[invoke,set_value]]
+                      - Image "Calorie Tracker"
+                      - [353] Text "Calorie Tracker" [actions=[text]]
+                      - [354] Text "Track your food and calories" [actions=[text]]
+                      - [355] Button "安裝 Calorie Tracker" [actions=[invoke]]
+                      - [356] Hyperlink "freddy" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a322b52a82c8191b7fb653f9e9f7891" actions=[invoke,set_value]]
+                      - Image "freddy"
+                      - [357] Text "freddy" [actions=[text]]
+                      - [358] Text "Ask about your health data" [actions=[text]]
+                      - [359] Button "安裝 freddy" [actions=[invoke]]
+                      - [360] Hyperlink "Caliber" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a05e8f22d408191b13ba3897157f6df" actions=[invoke,set_value]]
+                      - Image "Caliber"
+                      - [361] Text "Caliber" [actions=[text]]
+                      - [362] Text "Analyze your fitness data" [actions=[text]]
+                      - [363] Button "安裝 Caliber" [actions=[invoke]]
+                    - Text "金融"
+                      - [364] Hyperlink "金融" [value="https://chatgpt.com/plugins?category=finance" actions=[invoke,set_value]]
+                      - [365] Hyperlink "Interactive Brokers (IBKR)" [value="https://chatgpt.com/plugins/plugin_asdk_app_69bc11db874881918718abaca20b68ce" actions=[invoke,set_value]]
+                      - Image "Interactive Brokers (IBKR)"
+                      - [366] Text "Interactive Brokers (IBKR)" [actions=[text]]
+                      - [367] Text "Analyze global markets" [actions=[text]]
+                      - [368] Button "安裝 Interactive Brokers (IBKR)" [actions=[invoke]]
+                      - [369] Hyperlink "Public Equity Investing" [value="https://chatgpt.com/plugins/Plugin_b31b1ece54648191a6760ea4580bba3e" actions=[invoke,set_value]]
+                      - Image "Public Equity Investing"
+                      - [370] Text "Public Equity Investing" [actions=[text]]
+                      - [371] Text "Public equity research" [actions=[text]]
+                      - [372] Button "安裝 Public Equity Investing" [actions=[invoke]]
+                      - [373] Hyperlink "Binance" [value="https://chatgpt.com/plugins/plugin_asdk_app_6965faefe2b081919a998e14aa25f738" actions=[invoke,set_value]]
+                      - Image "Binance"
+                      - [374] Text "Binance" [actions=[text]]
+                      - [375] Text "Explore Binance market data" [actions=[text]]
+                      - [376] Button "安裝 Binance" [actions=[invoke]]
+                      - [377] Hyperlink "Stripe" [value="https://chatgpt.com/plugins/plugin_connector_690ab09fa43c8191bca40280e4563238" actions=[invoke,set_value]]
+                      - Image "Stripe"
+                      - [378] Text "Stripe" [actions=[text]]
+                      - [379] Text "Accept payments. Grow revenue." [actions=[text]]
+                      - [380] Button "安裝 Stripe" [actions=[invoke]]
+                      - [381] Hyperlink "Longbridge" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a2baf2fad748191812393c3e00308ef" actions=[invoke,set_value]]
+                      - Image "Longbridge"
+                      - [382] Text "Longbridge" [actions=[text]]
+                      - [383] Text "Stock quotes, financial data" [actions=[text]]
+                      - [384] Button "安裝 Longbridge" [actions=[invoke]]
+                      - [385] Hyperlink "IOL invertironline" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a207f00eed0819181227b2ea257ff0b" actions=[invoke,set_value]]
+                      - Image "IOL invertironline"
+                      - [386] Text "IOL invertironline" [actions=[text]]
+                      - [387] Text "Trade Argentine investments" [actions=[text]]
+                      - [388] Button "安裝 IOL invertironline" [actions=[invoke]]
+                    - Text "旅遊"
+                      - [389] Hyperlink "旅遊" [value="https://chatgpt.com/plugins?category=travel" actions=[invoke,set_value]]
+                      - [390] Hyperlink "Booking.com" [value="https://chatgpt.com/plugins/plugin_asdk_app_69272cb413a081919685ec3c88d1744e" actions=[invoke,set_value]]
+                      - Image "Booking.com"
+                      - [391] Text "Booking.com" [actions=[text]]
+                      - [392] Text "Find all best stays and more." [actions=[text]]
+                      - [393] Button "安裝 Booking.com" [actions=[invoke]]
+                      - [394] Hyperlink "Skyscanner" [value="https://chatgpt.com/plugins/plugin_asdk_app_694546cd042881919bb746a8dc300f38" actions=[invoke,set_value]]
+                      - Image "Skyscanner"
+                      - [395] Text "Skyscanner" [actions=[text]]
+                      - [396] Text "Find cheap flights" [actions=[text]]
+                      - [397] Button "安裝 Skyscanner" [actions=[invoke]]
+                      - [398] Hyperlink "Trip.com" [value="https://chatgpt.com/plugins/plugin_asdk_app_69c4d4163c8c819183a9bdcf6d2ac262" actions=[invoke,set_value]]
+                      - Image "Trip.com"
+                      - [399] Text "Trip.com" [actions=[text]]
+                      - [400] Text "All-in-one Travel Companion" [actions=[text]]
+                      - [401] Button "安裝 Trip.com" [actions=[invoke]]
+                      - [402] Hyperlink "Wikiloc" [value="https://chatgpt.com/plugins/plugin_asdk_app_69c1784c29208191a35b4ddef3c7e6d5" actions=[invoke,set_value]]
+                      - Image "Wikiloc"
+                      - [403] Text "Wikiloc" [actions=[text]]
+                      - [404] Text "Your perfect trail. Just ask." [actions=[text]]
+                      - [405] Button "安裝 Wikiloc" [actions=[invoke]]
+                      - [406] Hyperlink "Flight Network" [value="https://chatgpt.com/plugins/plugin_asdk_app_69848e517d0c819191695bf9b23f0208" actions=[invoke,set_value]]
+                      - Image "Flight Network"
+                      - [407] Text "Flight Network" [actions=[text]]
+                      - [408] Text "Search and book flights" [actions=[text]]
+                      - [409] Button "安裝 Flight Network" [actions=[invoke]]
+                      - [410] Hyperlink "Tripadvisor" [value="https://chatgpt.com/plugins/plugin_asdk_app_69050bf6de9c8191b3968f2cc08d33d6" actions=[invoke,set_value]]
+                      - Image "Tripadvisor"
+                      - [411] Text "Tripadvisor" [actions=[text]]
+                      - [412] Text "Book top-rated hotels" [actions=[text]]
+                      - [413] Button "安裝 Tripadvisor" [actions=[invoke]]
+                    - Text "娛樂"
+                      - [414] Hyperlink "娛樂" [value="https://chatgpt.com/plugins?category=entertainment" actions=[invoke,set_value]]
+                      - [415] Hyperlink "Spotify" [value="https://chatgpt.com/plugins/plugin_asdk_app_68de829bf7648191acd70a907364c67c" actions=[invoke,set_value]]
+                      - Image "Spotify"
+                      - [416] Text "Spotify" [actions=[text]]
+                      - [417] Text "Music and podcasts for you" [actions=[text]]
+                      - [418] Button "安裝 Spotify" [actions=[invoke]]
+                      - [419] Hyperlink "Apple Music" [value="https://chatgpt.com/plugins/plugin_asdk_app_6938a94a61d881918ef32cb999ff937c" actions=[invoke,set_value]]
+                      - Image "Apple Music"
+                      - [420] Text "Apple Music" [actions=[text]]
+                      - [421] Text "Build playlists and find music" [actions=[text]]
+                      - [422] Button "安裝 Apple Music" [actions=[invoke]]
+                      - [423] Hyperlink "Chessy" [value="https://chatgpt.com/plugins/plugin_asdk_app_69a0e374670c819190761772d2092135" actions=[invoke,set_value]]
+                      - Image "Chessy"
+                      - [424] Text "Chessy" [actions=[text]]
+                      - [425] Text "Play Chess Against ChatGPT" [actions=[text]]
+                      - [426] Button "安裝 Chessy" [actions=[invoke]]
+                      - [427] Hyperlink "Destiny AI Astrology" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a53190aea1481919a9070ad976cc283" actions=[invoke,set_value]]
+                      - Image "Destiny AI Astrology"
+                      - [428] Text "Destiny AI Astrology" [actions=[text]]
+                      - [429] Text "Birth Charts & Horoscopes" [actions=[text]]
+                      - [430] Button "安裝 Destiny AI Astrology" [actions=[invoke]]
+                      - [431] Hyperlink "Smart Chess:Train+Learn to win" [value="https://chatgpt.com/plugins/plugin_asdk_app_69c28d6aedac81919502a88c2179e20c" actions=[invoke,set_value]]
+                      - Image "Smart Chess:Train+Learn to win"
+                      - [432] Text "Smart Chess:Train+Learn to win" [actions=[text]]
+                      - [433] Text "Play+improve: coach+strategy" [actions=[text]]
+                      - [434] Button "安裝 Smart Chess:Train+Learn to win" [actions=[invoke]]
+                      - [435] Hyperlink "SoundBreak" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a68b707c6cc819181fdb2bc0b1fb045" actions=[invoke,set_value]]
+                      - Image "SoundBreak"
+                      - [436] Text "SoundBreak" [actions=[text]]
+                      - [437] Text "Create AI Music with Artists" [actions=[text]]
+                      - [438] Button "安裝 SoundBreak" [actions=[invoke]]
+                    - Text "教育"
+                      - [439] Hyperlink "教育" [value="https://chatgpt.com/plugins?category=education-and-research" actions=[invoke,set_value]]
+                      - [440] Hyperlink "Consensus" [value="https://chatgpt.com/plugins/plugin_asdk_app_6943e6f4a928819195962de16fb9ffe4" actions=[invoke,set_value]]
+                      - Image "Consensus"
+                      - [441] Text "Consensus" [actions=[text]]
+                      - [442] Text "Explore scientific research" [actions=[text]]
+                      - [443] Button "安裝 Consensus" [actions=[invoke]]
+                      - [444] Hyperlink "Zotero" [value="https://chatgpt.com/plugins/Plugin_a572ec6bf27481919ce6fa6e5651eb7b" actions=[invoke,set_value]]
+                      - Image "Zotero"
+                      - [445] Text "Zotero" [actions=[text]]
+                      - [446] Text "Find papers and add citations from Zotero" [actions=[text]]
+                      - [447] Button "安裝 Zotero" [actions=[invoke]]
+                      - [448] Hyperlink "SciSpace" [value="https://chatgpt.com/plugins/plugin_asdk_app_69439d715a7c8191aed9e2f6649e105f" actions=[invoke,set_value]]
+                      - Image "SciSpace"
+                      - [449] Text "SciSpace" [actions=[text]]
+                      - [450] Text "For science and research" [actions=[text]]
+                      - [451] Button "安裝 SciSpace" [actions=[invoke]]
+                      - [452] Hyperlink "Sider Scholar" [value="https://chatgpt.com/plugins/plugin_asdk_app_6948b485f5bc8191adb4df13f369cec7" actions=[invoke,set_value]]
+                      - Image "Sider Scholar"
+                      - [453] Text "Sider Scholar" [actions=[text]]
+                      - [454] Text "Search 350M+ Paper. Save. Chat" [actions=[text]]
+                      - [455] Button "安裝 Sider Scholar" [actions=[invoke]]
+                      - [456] Hyperlink "Acumen by Talarion" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a0bcefe6dbc8191acf88ce22e2eef3a" actions=[invoke,set_value]]
+                      - Image "Acumen by Talarion"
+                      - [457] Text "Acumen by Talarion" [actions=[text]]
+                      - [458] Text "Keep your AI up to date." [actions=[text]]
+                      - [459] Button "安裝 Acumen by Talarion" [actions=[invoke]]
+                      - [460] Hyperlink "Scite" [value="https://chatgpt.com/plugins/plugin_asdk_app_6952b3a3f1e881918951582d59483c78" actions=[invoke,set_value]]
+                      - Image "Scite"
+                      - [461] Text "Scite" [actions=[text]]
+                      - [462] Text "Search scientific literature" [actions=[text]]
+                      - [463] Button "安裝 Scite" [actions=[invoke]]
+                    - Text "商務與營運"
+                      - [464] Hyperlink "商務與營運" [value="https://chatgpt.com/plugins?category=business-and-operations" actions=[invoke,set_value]]
+                      - [465] Hyperlink "Shopify" [value="https://chatgpt.com/plugins/plugin_asdk_app_69e65c430b3081919aa4d962ab5d1698" actions=[invoke,set_value]]
+                      - Image "Shopify"
+                      - [466] Text "Shopify" [actions=[text]]
+                      - [467] Text "Create and manage your store" [actions=[text]]
+                      - [468] Button "安裝 Shopify" [actions=[invoke]]
+                      - [469] Hyperlink "Sales" [value="https://chatgpt.com/plugins/Plugin_af5b4b796b588191b3f2c610aa093799" actions=[invoke,set_value]]
+                      - Image "Sales"
+                      - [470] Text "Sales" [actions=[text]]
+                      - [471] Text "Practical workflows for sales" [actions=[text]]
+                      - [472] Button "安裝 Sales" [actions=[invoke]]
+                      - [473] Hyperlink "vidIQ" [value="https://chatgpt.com/plugins/plugin_asdk_app_69dd11f3e50c8191b1ca48d03cf7e2ad" actions=[invoke,set_value]]
+                      - Image "vidIQ"
+                      - [474] Text "vidIQ" [actions=[text]]
+                      - [475] Text "Grow on YouTube, IG & TikTok" [actions=[text]]
+                      - [476] Button "安裝 vidIQ" [actions=[invoke]]
+                      - [477] Hyperlink "HubSpot" [value="https://chatgpt.com/plugins/plugin_asdk_app_697acb8e53d88191bf7a79e62012ae14" actions=[invoke,set_value]]
+                      - Image "HubSpot"
+                      - [478] Text "HubSpot" [actions=[text]]
+                      - [479] Text "Insights to action in HubSpot" [actions=[text]]
+                      - [480] Button "安裝 HubSpot" [actions=[invoke]]
+                      - [481] Hyperlink "Wix" [value="https://chatgpt.com/plugins/plugin_asdk_app_6947eaa4edd081919561e4ee3a2e5dcc" actions=[invoke,set_value]]
+                      - Image "Wix"
+                      - [482] Text "Wix" [actions=[text]]
+                      - [483] Text "Create your own website" [actions=[text]]
+                      - [484] Button "安裝 Wix" [actions=[invoke]]
+                      - [485] Hyperlink "Apollo.io" [value="https://chatgpt.com/plugins/plugin_asdk_app_69bd664f2a908191a3a0a47eca8559d1" actions=[invoke,set_value]]
+                      - Image "Apollo.io"
+                      - [486] Text "Apollo.io" [actions=[text]]
+                      - [487] Text "Find buyers and close deals" [actions=[text]]
+                      - [488] Button "安裝 Apollo.io" [actions=[invoke]]
+                    - Text "資料與分析"
+                      - [489] Hyperlink "資料與分析" [value="https://chatgpt.com/plugins?category=data-and-analytics" actions=[invoke,set_value]]
+                      - [490] Hyperlink "Data" [value="https://chatgpt.com/plugins/Plugin_fc9843a6fb34819195d6c7802398a8a7" actions=[invoke,set_value]]
+                      - Image "Data"
+                      - [491] Text "Data" [actions=[text]]
+                      - [492] Text "Answer questions with data" [actions=[text]]
+                      - [493] Button "安裝 Data" [actions=[invoke]]
+                      - [494] Hyperlink "PostHog" [value="https://chatgpt.com/plugins/plugin_asdk_app_699caef2d680819188727b0ddbb349dd" actions=[invoke,set_value]]
+                      - Image "PostHog"
+                      - [495] Text "PostHog" [actions=[text]]
+                      - [496] Text "Analyze your product data" [actions=[text]]
+                      - [497] Button "安裝 PostHog" [actions=[invoke]]
+                      - [498] Hyperlink "Blockscout Blockchain Data" [value="https://chatgpt.com/plugins/plugin_asdk_app_69a880b0d024819182db60f36cb48420" actions=[invoke,set_value]]
+                      - Image "Blockscout Blockchain Data"
+                      - [499] Text "Blockscout Blockchain Data" [actions=[text]]
+                      - [500] Text "Find & analyze blockchain data" [actions=[text]]
+                      - [501] Button "安裝 Blockscout Blockchain Data" [actions=[invoke]]
+                      - [502] Hyperlink "Helium 10" [value="https://chatgpt.com/plugins/plugin_asdk_app_69b9f38bfa248191877ad584f5608b92" actions=[invoke,set_value]]
+                      - Image "Helium 10"
+                      - [503] Text "Helium 10" [actions=[text]]
+                      - [504] Text "Access your Helium 10 data" [actions=[text]]
+                      - [505] Button "安裝 Helium 10" [actions=[invoke]]
+                      - [506] Hyperlink "Amplitude" [value="https://chatgpt.com/plugins/plugin_connector_690e2dabf430819196f8b3701ec838ec" actions=[invoke,set_value]]
+                      - Image "Amplitude"
+                      - [507] Text "Amplitude" [actions=[text]]
+                      - [508] Text "Analyze your product data" [actions=[text]]
+                      - [509] Button "安裝 Amplitude" [actions=[invoke]]
+                      - [510] Hyperlink "Mixpanel" [value="https://chatgpt.com/plugins/plugin_asdk_app_69b2e9aed45c8191b254b207dfcc2bb4" actions=[invoke,set_value]]
+                      - Image "Mixpanel"
+                      - [511] Text "Mixpanel" [actions=[text]]
+                      - [512] Text "Query and analyze Mixpanel" [actions=[text]]
+                      - [513] Button "安裝 Mixpanel" [actions=[invoke]]
+                    - Text "科學研究"
+                      - [514] Hyperlink "科學研究" [value="https://chatgpt.com/plugins?category=scientific-research" actions=[invoke,set_value]]
+                      - [515] Hyperlink "Undermind" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a60df60877081919ad4a8109d27535d" actions=[invoke,set_value]]
+                      - Image "Undermind"
+                      - [516] Text "Undermind" [actions=[text]]
+                      - [517] Text "Find and read research papers" [actions=[text]]
+                      - [518] Button "安裝 Undermind" [actions=[invoke]]
+                      - [519] Hyperlink "Life Sciences Literature" [value="https://chatgpt.com/plugins/Plugin_3d180245a1a881918476af7b5061e1e4" actions=[invoke,set_value]]
+                      - Image "Life Sciences Literature"
+                      - [520] Text "Life Sciences Literature" [actions=[text]]
+                      - [521] Text "Find biomedical papers, preprints, and open-access full text" [actions=[text]]
+                      - [522] Button "安裝 Life Sciences Literature" [actions=[invoke]]
+                      - [523] Hyperlink "NGS Analysis Workbench" [value="https://chatgpt.com/plugins/Plugin_32edf73dc4f48191980d50e2cad2b3e4" actions=[invoke,set_value]]
+                      - Image "NGS Analysis Workbench"
+                      - [524] Text "NGS Analysis Workbench" [actions=[text]]
+                      - [525] Text "Analyze sequencing data" [actions=[text]]
+                      - [526] Group [actions=[invoke]]
+                        - [527] Hyperlink "開啟 NGS Analysis Workbench（僅限桌面版）" [value="https://chatgpt.com/plugins/Plugin_32edf73dc4f48191980d50e2cad2b3e4" actions=[invoke,set_value]]
+                      - [528] Hyperlink "Tamarind Bio" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a5fc156fad88191a3977b60131d7391" actions=[invoke,set_value]]
+                      - Image "Tamarind Bio"
+                      - [529] Text "Tamarind Bio" [actions=[text]]
+                      - [530] Text "Protein and molecular design" [actions=[text]]
+                      - [531] Button "安裝 Tamarind Bio" [actions=[invoke]]
+                      - [532] Hyperlink "Boltz" [value="https://chatgpt.com/plugins/Plugin_146eca281b788191ba8a689a3a96f977" actions=[invoke,set_value]]
+                      - Image "Boltz"
+                      - [533] Text "Boltz" [actions=[text]]
+                      - [534] Text "Predict structures, screen molecules and proteins, and design binders" [actions=[text]]
+                      - [535] Button "安裝 Boltz" [actions=[invoke]]
+                      - [536] Hyperlink "Molecular Structure Viewer" [value="https://chatgpt.com/plugins/Plugin_915f0ebef1348191bdb283c643ee98ec" actions=[invoke,set_value]]
+                      - Image "Molecular Structure Viewer"
+                      - [537] Text "Molecular Structure Viewer" [actions=[text]]
+                      - [538] Text "Visualize and interact with molecular structures in Codex." [actions=[text]]
+                      - [539] Group [actions=[invoke]]
+                        - [540] Hyperlink "開啟 Molecular Structure Viewer（僅限桌面版）" [value="https://chatgpt.com/plugins/Plugin_915f0ebef1348191bdb283c643ee98ec" actions=[invoke,set_value]]
+                    - Text "安全性"
+                      - [541] Hyperlink "安全性" [value="https://chatgpt.com/plugins?category=security" actions=[invoke,set_value]]
+                      - [542] Hyperlink "Codex Security" [value="https://chatgpt.com/plugins/Plugin_1e648473be9c8191a91ac3947151af55" actions=[invoke,set_value]]
+                      - Image "Codex Security"
+                      - [543] Text "Codex Security" [actions=[text]]
+                      - [544] Text "Security scanning for your codebase" [actions=[text]]
+                      - [545] Group [actions=[invoke]]
+                        - [546] Hyperlink "開啟 Codex Security（僅限桌面版）" [value="https://chatgpt.com/plugins/Plugin_1e648473be9c8191a91ac3947151af55" actions=[invoke,set_value]]
+                      - [547] Hyperlink "Malwarebytes" [value="https://chatgpt.com/plugins/plugin_asdk_app_6943d1778c8c81918f4c9ddf4849ca41" actions=[invoke,set_value]]
+                      - Image "Malwarebytes"
+                      - [548] Text "Malwarebytes" [actions=[text]]
+                      - [549] Text "Verify links, domains, phones." [actions=[text]]
+                      - [550] Button "安裝 Malwarebytes" [actions=[invoke]]
+                      - [551] Hyperlink "AJAXX Data Scrubber" [value="https://chatgpt.com/plugins/plugin_asdk_app_698d2bdf0eb08191890a55606150ecc2" actions=[invoke,set_value]]
+                      - Image "AJAXX Data Scrubber"
+                      - [552] Text "AJAXX Data Scrubber" [actions=[text]]
+                      - [553] Text "Remove exposed personal data" [actions=[text]]
+                      - [554] Button "安裝 AJAXX Data Scrubber" [actions=[invoke]]
+                      - [555] Hyperlink "PrivacyHawk" [value="https://chatgpt.com/plugins/plugin_asdk_app_69ac8cc11bf48191816e305e37953f06" actions=[invoke,set_value]]
+                      - Image "PrivacyHawk"
+                      - [556] Text "PrivacyHawk" [actions=[text]]
+                      - [557] Text "Protect your personal data" [actions=[text]]
+                      - [558] Button "安裝 PrivacyHawk" [actions=[invoke]]
+                      - [559] Hyperlink "Soluvery" [value="https://chatgpt.com/plugins/plugin_asdk_app_69c6417ce320819192d4b9edf3daf4ce" actions=[invoke,set_value]]
+                      - Image "Soluvery"
+                      - [560] Text "Soluvery" [actions=[text]]
+                      - [561] Text "Audit Google Drive Permissions" [actions=[text]]
+                      - [562] Button "安裝 Soluvery" [actions=[invoke]]
+                      - [563] Hyperlink "ToolCheck by M8ven" [value="https://chatgpt.com/plugins/plugin_asdk_app_6a14919550ec819187b03a34c1e2c8f3" actions=[invoke,set_value]]
+                      - Image "ToolCheck by M8ven"
+                      - [564] Text "ToolCheck by M8ven" [actions=[text]]
+                      - [565] Text "Is this MCP safe to connect?" [actions=[text]]
+                      - [566] Button "安裝 ToolCheck by M8ven" [actions=[invoke]]
+                    - Text "其他"
+                      - [567] Hyperlink "其他" [value="https://chatgpt.com/plugins?category=other" actions=[invoke,set_value]]
+                      - [568] Hyperlink "Tarot" [value="https://chatgpt.com/plugins/plugin_asdk_app_6943a2c078b0819188de39e4fe168d9b" actions=[invoke,set_value]]
+                      - Image "Tarot"
+                      - [569] Text "Tarot" [actions=[text]]
+                      - [570] Text "Tarot Reading & Divination" [actions=[text]]
+                      - [571] Button "安裝 Tarot" [actions=[invoke]]
+                      - [572] Hyperlink "LinkedIn" [value="https://chatgpt.com/plugins/plugin_asdk_app_69949aa62bf48191be5e57a01202beca" actions=[invoke,set_value]]
+                      - Image "LinkedIn"
+                      - [573] Text "LinkedIn" [actions=[text]]
+                      - [574] Text "Find the right professional" [actions=[text]]
+                      - [575] Button "安裝 LinkedIn" [actions=[invoke]]
+                      - [576] Hyperlink "Steer Astro" [value="https://chatgpt.com/plugins/plugin_asdk_app_69655fed917081918a100b069ceb963f" actions=[invoke,set_value]]
+                      - Image "Steer Astro"
+                      - [577] Text "Steer Astro" [actions=[text]]
+                      - [578] Text "Your Personal AI Astrologer" [actions=[text]]
+                      - [579] Button "安裝 Steer Astro" [actions=[invoke]]
+                      - [580] Hyperlink "Etsy" [value="https://chatgpt.com/plugins/plugin_asdk_app_69dfa26ad60081919fb9e3a1a50e3e53" actions=[invoke,set_value]]
+                      - Image "Etsy"
+                      - [581] Text "Etsy" [actions=[text]]
+                      - [582] Text "Shop Home, Style & More" [actions=[text]]
+                      - [583] Button "安裝 Etsy" [actions=[invoke]]
+                      - [584] Hyperlink "Ask Tarot Cards" [value="https://chatgpt.com/plugins/plugin_asdk_app_69fde861d3988191a7157df33544f855" actions=[invoke,set_value]]
+                      - Image "Ask Tarot Cards"
+                      - [585] Text "Ask Tarot Cards" [actions=[text]]
+                      - [586] Text "Tarot card readings" [actions=[text]]
+                      - [587] Button "安裝 Ask Tarot Cards" [actions=[invoke]]
+                      - [588] Hyperlink "Kleinanzeigen" [value="https://chatgpt.com/plugins/plugin_asdk_app_694a63a053f081918b9a3738bd3640c9" actions=[invoke,set_value]]
+                      - Image "Kleinanzeigen"
+                      - [589] Text "Kleinanzeigen" [actions=[text]]
+                      - [590] Text "Echte Deals. Echte Menschen." [actions=[text]]
+                      - [591] Button "安裝 Kleinanzeigen" [actions=[invoke]]
+                  - Image "如要為缺少說明的圖片取得說明，請開啟內容選單。"
+                  - [592] Group [actions=[invoke]]
+                  - [593] Group [actions=[invoke]]
+                - Group "text-blaze-integration"
+                  - [594] Text "{"extensionEnabled":true,"text":true}" [actions=[text]]
+              - [595] Button "分頁搜尋" [actions=[expand]]
+                - [596] TabItem "ChatGPT - 記憶體用量 - 652 MB" [id=view_20 actions=[select]]
+                  - [597] Button "關閉" [actions=[invoke]]
+                - [598] TabItem "分支 · Acceptance Challenge_SBL升級 - 記憶體用量 - 754 MB" [id=view_20 actions=[select]]
+                  - [599] Button "關閉" [actions=[invoke]]
+                - [600] TabItem "分支 · (主掛-2)SBL｜SpecBuild Loop - 記憶體用量 - 558 MB" [id=view_20 actions=[select]]
+                  - [601] Button "關閉" [actions=[invoke]]
+                - [602] TabItem "Text Blaze Dashboard - 記憶體用量 - 186 MB" [id=view_20 actions=[select]]
+                  - [603] Button "關閉" [actions=[invoke]]
+                - [604] TabItem "YouTube" [id=view_20 actions=[select]]
+                  - [605] Button "關閉" [actions=[invoke]]
+                - [606] TabItem "Organization settings - OpenAI API - 記憶體用量 - 116 MB" [id=view_20 actions=[select]]
+                  - [607] Button "關閉" [actions=[invoke]]
+                - [608] TabItem "外掛程式 | ChatGPT - 記憶體用量 - 721 MB" [id=view_20 actions=[select]]
+                  - [609] Button "關閉" [actions=[invoke]]
+            - [610] Button "新分頁" [actions=[invoke]]
+              - [611] Button "開啟 Chrome 內建 Gemini" [actions=[invoke]]

@@ -1,0 +1,174 @@
+{
+ "schema": "R5Y-DOC-LINK-AUDIT/2",
+ "method": "per-line extraction with context; classification is human-adjudicated, not a bare regex boolean",
+ "note": "v1 of this file used a bare /publish/ regex which produced a false positive (the word appears in preview-wheel and \"not published\" contexts). This v2 replaces it; the v1 boolean must NOT be cited.",
+ "docs": {
+  "README.md": {
+   "exists": true,
+   "bytes": 24739,
+   "regex_hits": 27,
+   "classification": "NO_PUBLISH_CLAIM",
+   "claim_ceiling_ok": true,
+   "sample_hits": [
+    {
+     "line": 29,
+     "text": "executed against the published wheel — they are **not** a second installation instruction. When the"
+    },
+    {
+     "line": 46,
+     "text": "- Four-host UAT, Portal scan/review/publish, security scan and a real candidate build: **`NOT_EXECUTED`**."
+    },
+    {
+     "line": 49,
+     "text": "- The **published** `v0.1.1-preview.3` wheel still carries the known Trace false-PASS defect"
+    },
+    {
+     "line": 52,
+     "text": "Everything below this section describes the **published preview**, not this candidate."
+    },
+    {
+     "line": 59,
+     "text": "- **Web** — no public plugin directory listing exists yet, so the Web route today is the single"
+    },
+    {
+     "line": 63,
+     "text": "MCP, no repository write, no S4 acceptance. A directory listing, once one is published and"
+    }
+   ]
+  },
+  "docs/install/README.md": {
+   "exists": true,
+   "bytes": 11489,
+   "regex_hits": 17,
+   "classification": "NO_PUBLISH_CLAIM",
+   "claim_ceiling_ok": true,
+   "sample_hits": [
+    {
+     "line": 17,
+     "text": "There is **no public plugin directory listing yet**: nothing has been published to a plugin"
+    },
+    {
+     "line": 18,
+     "text": "directory, so no user can install PIPD-LS-SP from one. The Web route today is therefore a **single"
+    },
+    {
+     "line": 23,
+     "text": "The conditional directory route is described [further down](#the-directory-route-conditional-not-available-today)."
+    },
+    {
+     "line": 48,
+     "text": "`PIPD_WEB_FALLBACK.md` is one markdown document built from a *frozen mount pack* — a directory that"
+    },
+    {
+     "line": 94,
+     "text": "## The Directory route (conditional, not available today)"
+    },
+    {
+     "line": 96,
+     "text": "A plugin directory listing is a *different* route, and it is **conditional on a published,"
+    }
+   ]
+  },
+  "docs/USER_GUIDE.md": {
+   "exists": true,
+   "bytes": 7136,
+   "regex_hits": 8,
+   "classification": "NO_PUBLISH_CLAIM",
+   "claim_ceiling_ok": true,
+   "sample_hits": [
+    {
+     "line": 11,
+     "text": "- `pipd validate PASS` is **not** a full trace qualification for the **published** `v0.1.1-preview.3`"
+    },
+    {
+     "line": 13,
+     "text": "scope). The source repair exists in the candidate branch; the published wheel does not inherit it."
+    },
+    {
+     "line": 41,
+     "text": "directory, because no such listing exists yet — that route is `NOT_SUPPORTED` today, not `FAILED`."
+    },
+    {
+     "line": 48,
+     "text": "1. **Discover** — the host lists the eight skills by name from its own registry, not from a directory"
+    },
+    {
+     "line": 64,
+     "text": "Install from [`docs/install/README.md`](install/README.md) (the published tag's wheel, hash-checked)."
+    },
+    {
+     "line": 82,
+     "text": "- **A `validate PASS` on the published wheel is not a trace qualification** (see the ceilings above)."
+    }
+   ]
+  },
+  "docs/install/PIPD_WEB_FALLBACK.md": {
+   "exists": true,
+   "bytes": 42014,
+   "regex_hits": 8,
+   "classification": "EXPLICIT_NOT_PUBLISHED",
+   "claim_ceiling_ok": true,
+   "sample_hits": [
+    {
+     "line": 11,
+     "text": "> skill and not a public directory listing (none exists yet). It executes nothing. Verify a"
+    },
+    {
+     "line": 107,
+     "text": "> Pack directory: `pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3/` · Preview-only, candidate content."
+    },
+    {
+     "line": 698,
+     "text": "This pack and the release it binds to support a **candidate-level** claim only. The published capability"
+    },
+    {
+     "line": 699,
+     "text": "is `OWNER_AUTHORIZED_OPEN_SOURCE_PREVIEW_BETA_PUBLISHED`."
+    },
+    {
+     "line": 757,
+     "text": "| content hash | `NOT_PUBLIC` — the normative body is not published in this repository |"
+    },
+    {
+     "line": 774,
+     "text": "| published wheel | `pipd_ls_sp-0.1.1a3-py3-none-any.whl` |"
+    }
+   ]
+  },
+  "docs/RELEASE_TUPLE.json": {
+   "exists": true,
+   "bytes": 4450,
+   "regex_hits": 6,
+   "classification": "NO_PUBLISH_CLAIM",
+   "claim_ceiling_ok": true,
+   "sample_hits": [
+    {
+     "line": 9,
+     "text": "\"published_asset_sha256\": \"sha256 of the asset bytes as served by the GitHub release\""
+    },
+    {
+     "line": 26,
+     "text": "\"published_asset_sha256\": null,"
+    },
+    {
+     "line": 37,
+     "text": "\"published_asset_sha256\": \"1992c54bb3e8e83588e4ef2930d1cc65ce7ada21460deb85930767a4db499daa\","
+    },
+    {
+     "line": 48,
+     "text": "\"published_asset_sha256\": \"af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f\","
+    },
+    {
+     "line": 53,
+     "text": "\"status\": \"PUBLISHED_ASSET_REPLACED_IN_PLACE_AND_LOGGED_CURRENT_ASSET_REPRODUCIBLE_FROM_THIS_TREE\","
+    },
+    {
+     "line": 59,
+     "text": "\"authority_note\": \"This file records identity facts and the current disposition. It grants nothing: it is not a publication approval, a release admission, a tag move or an asset replacement."
+    }
+   ]
+  }
+ },
+ "false_publish_claims": [],
+ "verdict": "PASS"
+}

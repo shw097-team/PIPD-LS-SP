@@ -1,0 +1,74 @@
+- Window "外掛程式 | ChatGPT - Google Chrome"
+  - Pane "外掛程式 | ChatGPT - Google Chrome - 駿"
+          - [0] Button "最小化" [id=view_1 actions=[invoke]]
+          - [1] Button "還原" [id=view_3 actions=[invoke]]
+          - [2] Button "關閉" [id=view_4 actions=[invoke]]
+              - [3] Button "返回" [id=view_1001 actions=[invoke]]
+              - Button "往前"
+              - [4] Button "重新載入" [id=view_1003 actions=[invoke]]
+                - [5] Button "查看網站資訊" [id=view_1011 actions=[invoke]]
+                - [6] Edit "網址與搜尋列" [value="chatgpt.com/plugins" id=view_1012 help="問問 Google 或輸入網址" actions=[set_value,text]]
+                  - [7] Button "縮放比例：125%" [actions=[invoke]]
+                  - [8] Button "將此分頁加入書籤" [actions=[invoke]]
+                - [9] Button "SubBatch - B站字幕批量下载工具
+需要這個網站的存取權限" [id=view_1009 actions=[expand]]
+                - [10] Button "SaveAI Popup
+有權存取這個網站" [id=view_1009 actions=[expand]]
+                - [11] Button "ChatGPT 匯出工具 - ChatGPT 轉換為 PDF、MD 等
+有權存取這個網站" [id=view_1009 actions=[expand]]
+                - [12] Button "擴充功能" [id=view_1006 actions=[expand]]
+                - [13] Button "下載" [actions=[toggle]]
+              - [14] Button "駿" [id=view_1018 actions=[expand]]
+              - [15] Button "Chrome" [id=view_1007 actions=[expand]]
+            - ToolBar "書籤"
+              - [16] Button "應用程式" [id=view_1028 actions=[invoke]]
+              - ToolBar "已儲存的分頁群組"
+                - [17] Button "分頁群組" [actions=[expand]]
+              - Separator "分隔線"
+              - [18] Button "工具" [id=view_1028 actions=[expand]]
+              - [19] Button "Fun" [id=view_1028 actions=[expand]]
+              - [20] Button "ICT" [id=view_1028 actions=[expand]]
+              - [21] Button "Text Blaze Dashboard" [id=view_1028 actions=[invoke]]
+              - [22] Button "Google 文件" [id=view_1028 actions=[invoke]]
+              - [23] Button "ChatGPT" [id=view_1028 actions=[invoke]]
+              - [24] Button "Gemini" [id=view_1028 actions=[invoke]]
+              - [25] Button "NCC-AFC" [id=view_1028 actions=[expand]]
+              - [26] Button "shw097-team repositories" [id=view_1028 actions=[invoke]]
+              - [27] Button "AI教程" [id=view_1028 actions=[expand]]
+              - [28] Button "opencode" [id=view_1028 actions=[invoke]]
+              - [29] Button "shw097-team/SWOF: SWOF / SWOF GENIE acceptance mirror (ACCEPTANCE_MIRROR_ONLY). Construction runs under HG-KSEOS governance; this repo is transport, never a construction root or semantic/runtime authority." [id=view_1028 actions=[invoke]]
+              - [30] Button "Models | Try NVIDIA NIM APIs" [id=view_1028 actions=[invoke]]
+              - [31] Button "PokéSurvivor – Juego Pokémon free online estilo Survivor.io" [id=view_1028 actions=[invoke]]
+              - [32] Document "外掛程式 | ChatGPT" [value="https://chatgpt.com/plugins" id=RootWebArea actions=[set_value,text,scroll]]
+                - [33] Group [actions=[invoke]]
+                  - [34] Group [actions=[invoke]]
+                    - Window "新增外掛程式"
+                      - Text "新增外掛程式"
+                      - [35] Text "pipd-ls-sp-public-skills.zip" [actions=[text]]
+                      - [36] Text "僅支援 .tar.gz、.tgz 和 .zip 格式的壓縮檔" [actions=[text]]
+                      - [37] Text "大小上限：100 MB" [actions=[text]]
+                      - Button "選擇檔案"
+                      - Button "新增自訂 MCP 伺服器"
+                      - Button "取消"
+                      - Button "新增外掛程式"
+                      - Group "text-blaze-integration"
+                        - [38] Text "{"extensionEnabled":true,"text":true}" [actions=[text]]
+                - Group "text-blaze-integration"
+                  - [39] Text "{"extensionEnabled":true,"text":true}" [actions=[text]]
+              - [40] Button "分頁搜尋" [actions=[expand]]
+                - [41] TabItem "ChatGPT - 記憶體用量 - 652 MB" [id=view_20 actions=[select]]
+                  - [42] Button "關閉" [actions=[invoke]]
+                - [43] TabItem "分支 · Acceptance Challenge_SBL升級 - 記憶體用量 - 754 MB" [id=view_20 actions=[select]]
+                  - [44] Button "關閉" [actions=[invoke]]
+                - [45] TabItem "分支 · (主掛-2)SBL｜SpecBuild Loop - 記憶體用量 - 558 MB" [id=view_20 actions=[select]]
+                  - [46] Button "關閉" [actions=[invoke]]
+                - [47] TabItem "Text Blaze Dashboard - 記憶體用量 - 186 MB" [id=view_20 actions=[select]]
+                  - [48] Button "關閉" [actions=[invoke]]
+                - [49] TabItem "YouTube" [id=view_20 actions=[select]]
+                  - [50] Button "關閉" [actions=[invoke]]
+                - [51] TabItem "Organization settings - OpenAI API - 記憶體用量 - 116 MB" [id=view_20 actions=[select]]
+                  - [52] Button "關閉" [actions=[invoke]]
+                - [53] TabItem "外掛程式 | ChatGPT - 記憶體用量 - 528 MB" [id=view_20 actions=[select]]
+                  - [54] Button "關閉" [actions=[invoke]]
+            - [55] Button "新分頁" [actions=[invoke]]
+              - [56] Button "開啟 Chrome 內建 Gemini" [actions=[invoke]]

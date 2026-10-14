@@ -1,0 +1,1498 @@
+{
+ "schema": "CAPC-PROMPT-CONTRACT/1",
+ "task_id": "PIPD-LS-SP-HERMES-R4-R5-CLOSEOUT-CONTINUATION",
+ "source_scan": {
+  "missing": [],
+  "normative_claims": [
+   {
+    "claim_id": "NC-01",
+    "locators": [
+     "R4 prompt §0–§9"
+    ],
+    "source_ids": [
+     "F1_R4_EXEC_PROMPT"
+    ],
+    "text": "R4 指揮薄釘選車道方案（PLAN 在 Hermes 內執行、EXECUTE 轉交 CODEX CLI／DeepSeek V4.1 Flash、CHECKER 轉交 CODEX CLI／GLM-5.3-Flash），且任何寫入、Token 讀取、push、merge、發布前必先取得 HGK admission 與 PROMPT_COMPILE_PASS。"
+   },
+   {
+    "claim_id": "NC-02",
+    "locators": [
+     "R4 report §5.1",
+     "Plugin plan §04.1"
+    ],
+    "source_ids": [
+     "F0_R4_EXT_ACCEPT",
+     "F2_PLUGIN_PLAN"
+    ],
+    "text": "官方當日支援的 ZIP manifest 清單必須 fresh 重取；歷史 ZIP 的 R4 STATIC_PASS 不繼承到已改變的 Portal 格式。"
+   },
+   {
+    "claim_id": "NC-03",
+    "locators": [
+     "R4 report §6.2",
+     "R4 report §10"
+    ],
+    "source_ids": [
+     "F0_R4_EXT_ACCEPT"
+    ],
+    "text": "新 Preview 發行＝自合併後 subject 重建資產的單次不可變 tag；preview.3 資產不得重用。"
+   }
+  ],
+  "required_source_families": [
+   "F0_R4_EXT_ACCEPT",
+   "F1_R4_EXEC_PROMPT",
+   "F2_PLUGIN_PLAN",
+   "F3_TRIPLE_R2",
+   "F4_PKG00",
+   "F5_KB11",
+   "F6_KB12",
+   "F7_KB16",
+   "F8_KB17",
+   "F9_KB18"
+  ],
+  "reviewed": [
+   {
+    "source_id": "F0_R4_EXT_ACCEPT",
+    "source_family": "F0_R4_EXT_ACCEPT",
+    "locator": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP｜S4 R4 驗收報告_20261013-3.md",
+    "role": "NORMATIVE",
+    "sha256": "550421e990d44ce9bc596ea26ee9eaaef64e745b7c0d657a6c93db2ba21a0817",
+    "critical": true
+   },
+   {
+    "source_id": "F1_R4_EXEC_PROMPT",
+    "source_family": "F1_R4_EXEC_PROMPT",
+    "locator": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP S4 R4｜Hermes  HG-KSEOS  Fabric 合規指揮薄 PROMPT_2026-10-13-3.md",
+    "role": "NORMATIVE",
+    "sha256": "6a43d0e44153f1c41a6215aed684c4f2a77c45c38c7d4ed1fa84e49b0bd12f70",
+    "critical": true
+   },
+   {
+    "source_id": "F2_PLUGIN_PLAN",
+    "source_family": "F2_PLUGIN_PLAN",
+    "locator": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP_GPT外掛程式上架方案-3.md",
+    "role": "NORMATIVE",
+    "sha256": "9152668513dda4c96ea8ca977c8f428c2ff148ebb1d2c3b7a11af224c1e70ab7",
+    "critical": true
+   },
+   {
+    "source_id": "F3_TRIPLE_R2",
+    "source_family": "F3_TRIPLE_R2",
+    "locator": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP S4｜三合一小型升級藍圖-6.md",
+    "role": "NORMATIVE",
+    "sha256": "aca367e7d4aad7d44245c56c2ec3c9f164fc07852904078358b3be2ece01c2b4",
+    "critical": true
+   },
+   {
+    "source_id": "F4_PKG00",
+    "source_family": "F4_PKG00",
+    "locator": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\Fabric vNext\\Semantic World OS Fabric\\PIPD\\PIPD-LS-SP_PIPD-PKG\\PIPD-LS-SP_PIPD-PKG-00~PKG-10\\PIPD-LS-SP_PIPD-PKG-00.md",
+    "role": "NORMATIVE",
+    "sha256": "89b60fde8b7bb93522c897a250a3ffbf9f2c4f91556493e74ee2da269710ecfe",
+    "critical": true
+   },
+   {
+    "source_id": "F5_KB11",
+    "source_family": "F5_KB11",
+    "locator": "C:\\Projects\\Agent_Workspace\\知識庫\\工程基座\\GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2\\KnowledgePack\\11_EVIDENCE_REQUIREMENT_MATRIX.md",
+    "role": "NORMATIVE",
+    "sha256": "577e1de7ff15f4d66aefcb8cb8ccfad678ecb68b4eb3592d2536549055be6559",
+    "critical": true
+   },
+   {
+    "source_id": "F6_KB12",
+    "source_family": "F6_KB12",
+    "locator": "C:\\Projects\\Agent_Workspace\\知識庫\\工程基座\\GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2\\KnowledgePack\\12_EVAL_REGRESSION_LLM_JUDGE.md",
+    "role": "NORMATIVE",
+    "sha256": "ef8601f057f6b6a764410910257964607bd3e6baa735481a8b06dbcde7000cca",
+    "critical": true
+   },
+   {
+    "source_id": "F7_KB16",
+    "source_family": "F7_KB16",
+    "locator": "C:\\Projects\\Agent_Workspace\\知識庫\\工程基座\\GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2\\KnowledgePack\\16_RELEASE_PACKAGING_CHECKSUM_READBACK.md",
+    "role": "NORMATIVE",
+    "sha256": "dc4e9bbca29b1053235cc624066b8d42366d66d7d1086717a9d18dda81875e0c",
+    "critical": true
+   },
+   {
+    "source_id": "F8_KB17",
+    "source_family": "F8_KB17",
+    "locator": "C:\\Projects\\Agent_Workspace\\知識庫\\工程基座\\GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2\\KnowledgePack\\17_UX_ONBOARDING_NO_BRAIN_FLOW.md",
+    "role": "NORMATIVE",
+    "sha256": "f02c9507aa642910d18f90076f47a71c2db96329a4ac3303978e0068560d6155",
+    "critical": true
+   },
+   {
+    "source_id": "F9_KB18",
+    "source_family": "F9_KB18",
+    "locator": "C:\\Projects\\Agent_Workspace\\知識庫\\工程基座\\GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2\\KnowledgePack\\18_TT_CR_DRIFT_REGISTER.md",
+    "role": "NORMATIVE",
+    "sha256": "b28b56aaaacb819b87ac66435963f538f99a1b061351c8748e225d6910252d6a",
+    "critical": true
+   }
+  ]
+ },
+ "intent": {
+  "active_requirement_ids": [
+   "REQ-R5X-001",
+   "REQ-R5X-002",
+   "REQ-R5X-003",
+   "REQ-R5X-004",
+   "REQ-R5X-005",
+   "REQ-R5X-006",
+   "REQ-R5X-007"
+  ],
+  "allowed_hitl": [
+   "PUBLICATION_APPROVAL",
+   "PRIVATE_IMPORT_EXECUTION",
+   "RELEASE_TAG_APPROVAL",
+   "SCOPE_EXPANSION",
+   "CREDENTIAL_GATE"
+  ],
+  "authorized_mutations": [
+   "本輪 round 目錄（compiler/admission/gates/evidence）",
+   "受准入分支上的 Stage B packaging 最小投影（plugin manifest 與文件 stub）",
+   "知識庫實作證據下的 R5X 驗收記錄（另開證據寫入範圍）"
+  ],
+  "claim_ceiling": "EXTERNAL_ACCEPTANCE",
+  "expected_autonomy": "HIGH",
+  "explicit_constraints": [
+   "HG-KSEOS 為唯一控制平面；Hermes 為受治理編排面；Fabric 僅提供治理契約。",
+   "改動面最小：Stage B packaging surface only；不重開核心；不新增第九 Skill；MCP/Actions/Hooks OFF。",
+   "R4 報告主決策：不再修核心邏輯；PR#3→PR#5 順序整合由 Repo Owner 執行。",
+   "merge / tag / release / publish / 私人 UI 上傳一律 owner-gated；agent 只產生 evidence-bound 候選。",
+   "凍結主體主導：任何 head 改變僅對 affected 差異重驗。"
+  ],
+  "forbidden_mutations": [
+   "HG-KSEOS／Fabric 封存控制面（未另取 owner WorkOrder 前不得修改）。",
+   "已發布歷史 commit／preview.3 資產（不得改寫、不得重指向）。",
+   "8 個 Skill Body、src／schemas 核心、既有 CI oracle。",
+   "任何含明文憑證的檔案、commit、manifest、日誌或輸出。"
+  ],
+  "goal": "完成 R4 驗收報告 PIPD-S4-EXT-ACCEPT-R4-20261013 提出的剩餘最小合法執行：平台漂移探測、manifest 最小適配、自凍結 Stage B head 建 2x-deterministic ZIP 候選＋正負例、私人匯入 readiness 套件、release tuple 稿與 10 件式證據包；merge／tag／publish／私人 UI 上傳維持 owner gate。",
+  "non_goals": [
+   "重寫 8 Skill／src／schemas 核心。",
+   "實作公開 Plugin Directory 上架與四主機全量資格。",
+   "執行實際 GitHub merge／tag／publish 或私人帳戶 UI 匯入（owner gate）。",
+   "新增第九 Skill、MCP、Actions、Hooks 或 S4.5。",
+   "重開已關閉的 R3/R4 findings 或以舊 seal 重新標籤新 commit。"
+  ],
+  "requested_delivery": [
+   "PLATFORM_DRIFT_PROBE_JSON",
+   "MANIFEST_DIFF_R5X",
+   "R5X_PLUGIN_ZIP_X2",
+   "PORTAL_NEGATIVE_CASES",
+   "PLUGIN_PRIVATE_HOST_UAT",
+   "WHEEL_AND_RELEASE_TUPLE",
+   "EVIDENCE_RETURN_PACK"
+  ],
+  "user_expected_experience": "外部驗收官在 REPO 上可找到：平台漂移證據＋最小 manifest 差異＋兩次等 digest ZIP＋具名反例＋私人匯入 readiness+release tuple 稿＋10 件式證據包；owner gated 項皆有明示 NOT_RUN/NOT_VERIFIED。",
+  "user_expected_outcome": "本輪產出 evidence-bound 候選與證據包；PR#3→PR#5 合併、preview tag、私人匯入與公開上架由有權 owner 依 R4 報告執行；任何宣稱不超過其證據。"
+ },
+ "authority": {
+  "conflicts": [],
+  "missing_sources": [],
+  "native_control_plane_ids": [
+   "HG-KSEOS"
+  ],
+  "current_control_plane_id": "HG-KSEOS",
+  "sources": [
+   {
+    "id": "F0_R4_EXT_ACCEPT",
+    "locator": "PIPD-LS-SP｜S4 R4 驗收報告_20261013-3.md",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP｜S4 R4 驗收報告_20261013-3.md",
+    "sha256": "550421e990d44ce9bc596ea26ee9eaaef64e745b7c0d657a6c93db2ba21a0817"
+   },
+   {
+    "id": "F1_R4_EXEC_PROMPT",
+    "locator": "PIPD-LS-SP S4 R4｜Hermes  HG-KSEOS  Fabric 合規指揮薄 PROMPT_2026-10-13-3.md",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP S4 R4｜Hermes  HG-KSEOS  Fabric 合規指揮薄 PROMPT_2026-10-13-3.md",
+    "sha256": "6a43d0e44153f1c41a6215aed684c4f2a77c45c38c7d4ed1fa84e49b0bd12f70"
+   },
+   {
+    "id": "F2_PLUGIN_PLAN",
+    "locator": "PIPD-LS-SP_GPT外掛程式上架方案-3.md",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP_GPT外掛程式上架方案-3.md",
+    "sha256": "9152668513dda4c96ea8ca977c8f428c2ff148ebb1d2c3b7a11af224c1e70ab7"
+   },
+   {
+    "id": "F3_TRIPLE_R2",
+    "locator": "PIPD-LS-SP S4｜三合一小型升級藍圖-6.md",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP S4｜三合一小型升級藍圖-6.md",
+    "sha256": "aca367e7d4aad7d44245c56c2ec3c9f164fc07852904078358b3be2ece01c2b4"
+   },
+   {
+    "id": "F4_PKG00",
+    "locator": "PIPD-LS-SP_PIPD-PKG-00.md",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "path": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\Fabric vNext\\Semantic World OS Fabric\\PIPD\\PIPD-LS-SP_PIPD-PKG\\PIPD-LS-SP_PIPD-PKG-00~PKG-10\\PIPD-LS-SP_PIPD-PKG-00.md",
+    "sha256": "89b60fde8b7bb93522c897a250a3ffbf9f2c4f91556493e74ee2da269710ecfe"
+   },
+   {
+    "id": "F5_KB11",
+    "locator": "11_EVIDENCE_REQUIREMENT_MATRIX.md",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "path": "C:\\Projects\\Agent_Workspace\\知識庫\\工程基座\\GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2\\KnowledgePack\\11_EVIDENCE_REQUIREMENT_MATRIX.md",
+    "sha256": "577e1de7ff15f4d66aefcb8cb8ccfad678ecb68b4eb3592d2536549055be6559"
+   },
+   {
+    "id": "F6_KB12",
+    "locator": "12_EVAL_REGRESSION_LLM_JUDGE.md",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "path": "C:\\Projects\\Agent_Workspace\\知識庫\\工程基座\\GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2\\KnowledgePack\\12_EVAL_REGRESSION_LLM_JUDGE.md",
+    "sha256": "ef8601f057f6b6a764410910257964607bd3e6baa735481a8b06dbcde7000cca"
+   },
+   {
+    "id": "F7_KB16",
+    "locator": "16_RELEASE_PACKAGING_CHECKSUM_READBACK.md",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "path": "C:\\Projects\\Agent_Workspace\\知識庫\\工程基座\\GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2\\KnowledgePack\\16_RELEASE_PACKAGING_CHECKSUM_READBACK.md",
+    "sha256": "dc4e9bbca29b1053235cc624066b8d42366d66d7d1086717a9d18dda81875e0c"
+   },
+   {
+    "id": "F8_KB17",
+    "locator": "17_UX_ONBOARDING_NO_BRAIN_FLOW.md",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "path": "C:\\Projects\\Agent_Workspace\\知識庫\\工程基座\\GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2\\KnowledgePack\\17_UX_ONBOARDING_NO_BRAIN_FLOW.md",
+    "sha256": "f02c9507aa642910d18f90076f47a71c2db96329a4ac3303978e0068560d6155"
+   },
+   {
+    "id": "F9_KB18",
+    "locator": "18_TT_CR_DRIFT_REGISTER.md",
+    "role": "NORMATIVE",
+    "rank": "R0",
+    "governs": true,
+    "path": "C:\\Projects\\Agent_Workspace\\知識庫\\工程基座\\GPTs_GENIEMAKER_開發實作+驗收指揮官_KP_Builder_ReleasePack_v2026.06.03-r2\\KnowledgePack\\18_TT_CR_DRIFT_REGISTER.md",
+    "sha256": "b28b56aaaacb819b87ac66435963f538f99a1b061351c8748e225d6910252d6a"
+   }
+  ]
+ },
+ "changeset": {
+  "class": "CONTINUATION",
+  "baseline_required": true,
+  "baseline_verified": true,
+  "affected_domains": [
+   "packaging/public-plugin",
+   "docs/install",
+   "README.md",
+   ".hgk/rounds/R5-20261014-s4-r4-closeout"
+  ],
+  "affected_files": [
+   "packaging/public-plugin/plugin.json",
+   "packaging/public-plugin/plugin.schema.json",
+   "docs/install",
+   "README.md",
+   ".hgk/rounds/R5-20261014-s4-r4-closeout"
+  ],
+  "must_not_reopen": [
+   "8 skills bodies",
+   "src core",
+   "schemas core",
+   "existing release assets",
+   "preview.3 tag assets",
+   "HGK and Fabric frozen subjects"
+  ],
+  "product_mutation_allowed": true,
+  "reuse_prior_pass": false,
+  "scope_expansion_requires_hitl": true,
+  "tracked_mutation": true
+ },
+ "execution_scope": [
+  {
+   "action": "DESIGN",
+   "capability": "CAP_R5X_PLATFORM_DRIFT_PROBE",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "current_profile_selected": true,
+   "user_experience_required": false,
+   "source_locators": [
+    "R4 report §5.1",
+    "Plugin plan §04.1"
+   ]
+  },
+  {
+   "action": "DESIGN",
+   "capability": "CAP_R5X_MANIFEST_MINIMAL_FIT",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "current_profile_selected": true,
+   "user_experience_required": false,
+   "source_locators": [
+    "Plugin plan §04.1",
+    "R4 report §5.1"
+   ]
+  },
+  {
+   "action": "DESIGN",
+   "capability": "CAP_R5X_ZIP_BUILD_2X",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "current_profile_selected": true,
+   "user_experience_required": false,
+   "source_locators": [
+    "Plugin plan TS-07",
+    "R4 report §5.2"
+   ]
+  },
+  {
+   "action": "DESIGN",
+   "capability": "CAP_R5X_ZIP_NEGATIVES",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "current_profile_selected": true,
+   "user_experience_required": false,
+   "source_locators": [
+    "Plugin plan §09 PORTAL rows",
+    "R4 report §5.2"
+   ]
+  },
+  {
+   "action": "DESIGN",
+   "capability": "CAP_R5X_PRIVATE_IMPORT_READINESS",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "current_profile_selected": true,
+   "user_experience_required": false,
+   "source_locators": [
+    "Plugin plan TS-10",
+    "R4 report §5.3"
+   ]
+  },
+  {
+   "action": "DESIGN",
+   "capability": "CAP_R5X_RELEASE_TUPLE",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "current_profile_selected": true,
+   "user_experience_required": false,
+   "source_locators": [
+    "R4 report §6.2 §10"
+   ]
+  },
+  {
+   "action": "DESIGN",
+   "capability": "CAP_R5X_EVIDENCE_RETURN",
+   "source_disposition": "ACTIVE_IN_SOURCE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "runtime_required_now": true,
+   "automatic_route_target": true,
+   "canonical_flow_referenced": true,
+   "control_authority": false,
+   "external_method": false,
+   "current_profile_selected": true,
+   "user_experience_required": false,
+   "source_locators": [
+    "R4 prompt §8"
+   ]
+  }
+ ],
+ "runtime_readiness": [
+  {
+   "acceptance_ids": [
+    "ACC-CAP_R5X_PLATFORM_DRIFT_PROBE"
+   ],
+   "capability": "CAP_R5X_PLATFORM_DRIFT_PROBE",
+   "current_verdict": "NOT_READY",
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "required_now": true,
+   "work_required": [
+    "R4 報告 §5.1/外掛方案 §04.1：PLATFORM_DRIFT_PROBE——fresh-fetch 官方 submission-errors 頁並逐字記錄當日支援的 ZIP manifest 清單（含日期／工具版本）；快取頁面不得決定封裝形態。"
+   ]
+  },
+  {
+   "acceptance_ids": [
+    "ACC-CAP_R5X_MANIFEST_MINIMAL_FIT"
+   ],
+   "capability": "CAP_R5X_MANIFEST_MINIMAL_FIT",
+   "current_verdict": "NOT_READY",
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "required_now": true,
+   "work_required": [
+    "R4 報告 §5.2/外掛方案 §04：manifest 最小適配——portable 根 plugin.json 為唯一 SSOT；新增官方 extensions.com.openai.interface 列示欄位；8 個 Skill Body byte-identical；每 ZIP 僅一個 manifest。"
+   ]
+  },
+  {
+   "acceptance_ids": [
+    "ACC-CAP_R5X_ZIP_BUILD_2X"
+   ],
+   "capability": "CAP_R5X_ZIP_BUILD_2X",
+   "current_verdict": "NOT_READY",
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "required_now": true,
+   "work_required": [
+    "R4 報告 §5.2/外掛方案 TS-07：從同一凍結 Stage B head 以 tools/build_public_plugin.py 建 ZIP 兩次，SHA256 相等；56-member 結構、單一根、無第九 Skill。"
+   ]
+  },
+  {
+   "acceptance_ids": [
+    "ACC-CAP_R5X_ZIP_NEGATIVES"
+   ],
+   "capability": "CAP_R5X_ZIP_NEGATIVES",
+   "current_verdict": "NOT_READY",
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "required_now": true,
+   "work_required": [
+    "外掛方案 §09 PORTAL-01..03：於 scratch ZIP 副本植入 mcp.json/hooks/.app.json 並驗證 repo 閘門拒絕；每反例記具名拒絕。"
+   ]
+  },
+  {
+   "acceptance_ids": [
+    "ACC-CAP_R5X_PRIVATE_IMPORT_READINESS"
+   ],
+   "capability": "CAP_R5X_PRIVATE_IMPORT_READINESS",
+   "current_verdict": "NOT_READY",
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "required_now": true,
+   "work_required": [
+    "R4 報告 §5.3/外掛方案 TS-10：私人匯入 readiness——plugin_private_host_uat.json 記 route A (Plugin Creator) / route B (workspace upload) 程序與驗收準則；實際 UI 操作為 HumanGate，未執行一律 NOT_VERIFIED。"
+   ]
+  },
+  {
+   "acceptance_ids": [
+    "ACC-CAP_R5X_RELEASE_TUPLE"
+   ],
+   "capability": "CAP_R5X_RELEASE_TUPLE",
+   "current_verdict": "NOT_READY",
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "required_now": true,
+   "work_required": [
+    "R4 報告 §6.2/§10：release tuple 稿——wheel_and_release_tuple.json 含 Owner SemVer 決策欄＋不可變新 tag 規則；preview.3 資產不得重用；實際 tag/publish 為 owner-gated。"
+   ]
+  },
+  {
+   "acceptance_ids": [
+    "ACC-CAP_R5X_EVIDENCE_RETURN"
+   ],
+   "capability": "CAP_R5X_EVIDENCE_RETURN",
+   "current_verdict": "NOT_READY",
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "required_now": true,
+   "work_required": [
+    "R4 指揮薄 §8：組裝 PIPD_S4_R4_EVIDENCE_RETURN 10 件式證據包；owner-gated 項顯式 NOT_RUN；所有可數主張綁定凍結主體。"
+   ]
+  }
+ ],
+ "journeys": [
+  {
+   "journey_id": "J1_PLATFORM_DRIFT_THEN_BUILD",
+   "user_goal": "在官方當日支援 manifest 形態下從凍結 Stage B head 取得 2x-deterministic ZIP 候選、正負例、私人匯入 readiness、release tuple 稿與 10 件式證據包。",
+   "required_capabilities": [
+    "CAP_R5X_PLATFORM_DRIFT_PROBE",
+    "CAP_R5X_MANIFEST_MINIMAL_FIT",
+    "CAP_R5X_ZIP_BUILD_2X",
+    "CAP_R5X_ZIP_NEGATIVES",
+    "CAP_R5X_PRIVATE_IMPORT_READINESS",
+    "CAP_R5X_RELEASE_TUPLE",
+    "CAP_R5X_EVIDENCE_RETURN"
+   ],
+   "required": true,
+   "source_expectation_ids": [
+    "REQ-R5X-001",
+    "REQ-R5X-002",
+    "REQ-R5X-003",
+    "REQ-R5X-004",
+    "REQ-R5X-005",
+    "REQ-R5X-006",
+    "REQ-R5X-007"
+   ],
+   "source_locators": [
+    "R4 report §5–§6",
+    "Plugin plan §04–§09"
+   ],
+   "expected_visible_result": "PLATFORM_DRIFT_PROBE + minimal manifest diff + 2x equal-sha ZIP + named negatives + UAT scaffold + release tuple stub + 10-pack evidence",
+   "expected_automatic_behavior": [
+    "先 fresh-fetch 官方頁才決定形態",
+    "build 2x 且 digest 相等；skill bodies byte-identical"
+   ],
+   "expected_manual_behavior": [
+    "owner 執行 private import / PR merge / tag / publish"
+   ],
+   "negative_behavior": [
+    "Portal 未證實的格式不宣稱已適配",
+    "不用 cached doc 決策"
+   ],
+   "failure_recovery": [
+    "typed refusal + checkpoint；claim ceiling 不得超過 evidence"
+   ],
+   "allowed_hitl": [
+    "PUBLICATION_APPROVAL",
+    "PRIVATE_IMPORT_EXECUTION",
+    "RELEASE_TAG_APPROVAL",
+    "SCOPE_EXPANSION"
+   ]
+  }
+ ],
+ "acceptance": [
+  {
+   "acceptance_id": "ACC-REQ-R5X-001",
+   "subject_id": "REQ-R5X-001",
+   "subject_type": "REQUIREMENT",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "R4 prompt §8",
+    "HGK AGENTS.md admission"
+   ],
+   "positive_fixture": "positive probe for REQ-R5X-001",
+   "negative_fixture": "negative probe for REQ-R5X-001",
+   "recovery_fixture": "recovery probe for REQ-R5X-001",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-R5X-002",
+   "subject_id": "REQ-R5X-002",
+   "subject_type": "REQUIREMENT",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "R4 prompt §8",
+    "HGK AGENTS.md admission"
+   ],
+   "positive_fixture": "positive probe for REQ-R5X-002",
+   "negative_fixture": "negative probe for REQ-R5X-002",
+   "recovery_fixture": "recovery probe for REQ-R5X-002",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-R5X-003",
+   "subject_id": "REQ-R5X-003",
+   "subject_type": "REQUIREMENT",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "R4 prompt §8",
+    "HGK AGENTS.md admission"
+   ],
+   "positive_fixture": "positive probe for REQ-R5X-003",
+   "negative_fixture": "negative probe for REQ-R5X-003",
+   "recovery_fixture": "recovery probe for REQ-R5X-003",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-R5X-004",
+   "subject_id": "REQ-R5X-004",
+   "subject_type": "REQUIREMENT",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "R4 prompt §8",
+    "HGK AGENTS.md admission"
+   ],
+   "positive_fixture": "positive probe for REQ-R5X-004",
+   "negative_fixture": "negative probe for REQ-R5X-004",
+   "recovery_fixture": "recovery probe for REQ-R5X-004",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-R5X-005",
+   "subject_id": "REQ-R5X-005",
+   "subject_type": "REQUIREMENT",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "R4 prompt §8",
+    "HGK AGENTS.md admission"
+   ],
+   "positive_fixture": "positive probe for REQ-R5X-005",
+   "negative_fixture": "negative probe for REQ-R5X-005",
+   "recovery_fixture": "recovery probe for REQ-R5X-005",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-R5X-006",
+   "subject_id": "REQ-R5X-006",
+   "subject_type": "REQUIREMENT",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "R4 prompt §8",
+    "HGK AGENTS.md admission"
+   ],
+   "positive_fixture": "positive probe for REQ-R5X-006",
+   "negative_fixture": "negative probe for REQ-R5X-006",
+   "recovery_fixture": "recovery probe for REQ-R5X-006",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-R5X-007",
+   "subject_id": "REQ-R5X-007",
+   "subject_type": "REQUIREMENT",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "R4 prompt §8",
+    "HGK AGENTS.md admission"
+   ],
+   "positive_fixture": "positive probe for REQ-R5X-007",
+   "negative_fixture": "negative probe for REQ-R5X-007",
+   "recovery_fixture": "recovery probe for REQ-R5X-007",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-PLATFORM_DRIFT_PROBE_JSON",
+   "subject_id": "PLATFORM_DRIFT_PROBE_JSON",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "evidence/PLATFORM_DRIFT_PROBE.json"
+   ],
+   "positive_fixture": "positive probe for PLATFORM_DRIFT_PROBE_JSON",
+   "negative_fixture": "negative probe for PLATFORM_DRIFT_PROBE_JSON",
+   "recovery_fixture": "recovery probe for PLATFORM_DRIFT_PROBE_JSON",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-MANIFEST_DIFF_R5X",
+   "subject_id": "MANIFEST_DIFF_R5X",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "gates/MANIFEST_DIFF.json"
+   ],
+   "positive_fixture": "positive probe for MANIFEST_DIFF_R5X",
+   "negative_fixture": "negative probe for MANIFEST_DIFF_R5X",
+   "recovery_fixture": "recovery probe for MANIFEST_DIFF_R5X",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-R5X_PLUGIN_ZIP_X2",
+   "subject_id": "R5X_PLUGIN_ZIP_X2",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "evidence/plugin_build/"
+   ],
+   "positive_fixture": "positive probe for R5X_PLUGIN_ZIP_X2",
+   "negative_fixture": "negative probe for R5X_PLUGIN_ZIP_X2",
+   "recovery_fixture": "recovery probe for R5X_PLUGIN_ZIP_X2",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-PORTAL_NEGATIVE_CASES",
+   "subject_id": "PORTAL_NEGATIVE_CASES",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "gates/NEGATIVE_CASES.json"
+   ],
+   "positive_fixture": "positive probe for PORTAL_NEGATIVE_CASES",
+   "negative_fixture": "negative probe for PORTAL_NEGATIVE_CASES",
+   "recovery_fixture": "recovery probe for PORTAL_NEGATIVE_CASES",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-PLUGIN_PRIVATE_HOST_UAT",
+   "subject_id": "PLUGIN_PRIVATE_HOST_UAT",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "evidence/plugin_private_host_uat.json"
+   ],
+   "positive_fixture": "positive probe for PLUGIN_PRIVATE_HOST_UAT",
+   "negative_fixture": "negative probe for PLUGIN_PRIVATE_HOST_UAT",
+   "recovery_fixture": "recovery probe for PLUGIN_PRIVATE_HOST_UAT",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-WHEEL_AND_RELEASE_TUPLE",
+   "subject_id": "WHEEL_AND_RELEASE_TUPLE",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "evidence/wheel_and_release_tuple.json"
+   ],
+   "positive_fixture": "positive probe for WHEEL_AND_RELEASE_TUPLE",
+   "negative_fixture": "negative probe for WHEEL_AND_RELEASE_TUPLE",
+   "recovery_fixture": "recovery probe for WHEEL_AND_RELEASE_TUPLE",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-EVIDENCE_RETURN_PACK",
+   "subject_id": "EVIDENCE_RETURN_PACK",
+   "subject_type": "DELIVERABLE",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "evidence/EVIDENCE_RETURN_PACK.json"
+   ],
+   "positive_fixture": "positive probe for EVIDENCE_RETURN_PACK",
+   "negative_fixture": "negative probe for EVIDENCE_RETURN_PACK",
+   "recovery_fixture": "recovery probe for EVIDENCE_RETURN_PACK",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_R5X_PLATFORM_DRIFT_PROBE",
+   "subject_id": "CAP_R5X_PLATFORM_DRIFT_PROBE",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "R4 report §5.1",
+    "Plugin plan §04.1"
+   ],
+   "positive_fixture": "positive probe for CAP_R5X_PLATFORM_DRIFT_PROBE",
+   "negative_fixture": "negative probe for CAP_R5X_PLATFORM_DRIFT_PROBE",
+   "recovery_fixture": "recovery probe for CAP_R5X_PLATFORM_DRIFT_PROBE",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_R5X_MANIFEST_MINIMAL_FIT",
+   "subject_id": "CAP_R5X_MANIFEST_MINIMAL_FIT",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "Plugin plan §04.1",
+    "R4 report §5.1"
+   ],
+   "positive_fixture": "positive probe for CAP_R5X_MANIFEST_MINIMAL_FIT",
+   "negative_fixture": "negative probe for CAP_R5X_MANIFEST_MINIMAL_FIT",
+   "recovery_fixture": "recovery probe for CAP_R5X_MANIFEST_MINIMAL_FIT",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_R5X_ZIP_BUILD_2X",
+   "subject_id": "CAP_R5X_ZIP_BUILD_2X",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "Plugin plan TS-07",
+    "R4 report §5.2"
+   ],
+   "positive_fixture": "positive probe for CAP_R5X_ZIP_BUILD_2X",
+   "negative_fixture": "negative probe for CAP_R5X_ZIP_BUILD_2X",
+   "recovery_fixture": "recovery probe for CAP_R5X_ZIP_BUILD_2X",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_R5X_ZIP_NEGATIVES",
+   "subject_id": "CAP_R5X_ZIP_NEGATIVES",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "Plugin plan §09 PORTAL rows",
+    "R4 report §5.2"
+   ],
+   "positive_fixture": "positive probe for CAP_R5X_ZIP_NEGATIVES",
+   "negative_fixture": "negative probe for CAP_R5X_ZIP_NEGATIVES",
+   "recovery_fixture": "recovery probe for CAP_R5X_ZIP_NEGATIVES",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_R5X_PRIVATE_IMPORT_READINESS",
+   "subject_id": "CAP_R5X_PRIVATE_IMPORT_READINESS",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "Plugin plan TS-10",
+    "R4 report §5.3"
+   ],
+   "positive_fixture": "positive probe for CAP_R5X_PRIVATE_IMPORT_READINESS",
+   "negative_fixture": "negative probe for CAP_R5X_PRIVATE_IMPORT_READINESS",
+   "recovery_fixture": "recovery probe for CAP_R5X_PRIVATE_IMPORT_READINESS",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_R5X_RELEASE_TUPLE",
+   "subject_id": "CAP_R5X_RELEASE_TUPLE",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "R4 report §6.2 §10"
+   ],
+   "positive_fixture": "positive probe for CAP_R5X_RELEASE_TUPLE",
+   "negative_fixture": "negative probe for CAP_R5X_RELEASE_TUPLE",
+   "recovery_fixture": "recovery probe for CAP_R5X_RELEASE_TUPLE",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CAP_R5X_EVIDENCE_RETURN",
+   "subject_id": "CAP_R5X_EVIDENCE_RETURN",
+   "subject_type": "CAPABILITY",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "R4 prompt §8"
+   ],
+   "positive_fixture": "positive probe for CAP_R5X_EVIDENCE_RETURN",
+   "negative_fixture": "negative probe for CAP_R5X_EVIDENCE_RETURN",
+   "recovery_fixture": "recovery probe for CAP_R5X_EVIDENCE_RETURN",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J1_PLATFORM_DRIFT_THEN_BUILD",
+   "subject_id": "J1_PLATFORM_DRIFT_THEN_BUILD",
+   "subject_type": "JOURNEY",
+   "required_depth": "L2_UNIT_BEHAVIOR",
+   "independent_checker_required": true,
+   "raw_evidence_required": true,
+   "runtime_required": true,
+   "source_locators": [
+    "R4 report §5–6",
+    "Plugin plan §04–09"
+   ],
+   "positive_fixture": "positive probe for J1_PLATFORM_DRIFT_THEN_BUILD",
+   "negative_fixture": "negative probe for J1_PLATFORM_DRIFT_THEN_BUILD",
+   "recovery_fixture": "recovery probe for J1_PLATFORM_DRIFT_THEN_BUILD",
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_HITL",
+    "BLOCKED_EXTERNAL"
+   ]
+  }
+ ],
+ "evidence": [
+  {
+   "gate_id": "G-R5X-PROMPT-COMPILE",
+   "producer": "HGK_EXECUTOR",
+   "independent_checker": "GLM-5.3FLASH_INDEPENDENT_OFFICER (arm opencode-go/glm-5.3-flash)",
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "native compiler receipts present",
+   "command_or_probe": "python scripts/prompt_contract_compiler.py lint|activation|acceptance|compile (then duplication)",
+   "expected": "all steps rc=0 verdict PROMPT_COMPILE_PASS",
+   "raw_receipt_required": true,
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "tracked_subject": true,
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_R4_EXT_ACCEPT",
+     "F1_R4_EXEC_PROMPT",
+     "F2_PLUGIN_PLAN",
+     "F3_TRIPLE_R2",
+     "F4_PKG00",
+     "F5_KB11",
+     "F6_KB12",
+     "F7_KB16",
+     "F8_KB17",
+     "F9_KB18"
+    ]
+   },
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change",
+    "publication projection change"
+   ]
+  },
+  {
+   "gate_id": "G-R5X-PLATFORM-DRIFT",
+   "producer": "HGK_EXECUTOR",
+   "independent_checker": "GLM-5.3FLASH_INDEPENDENT_OFFICER (arm opencode-go/glm-5.3-flash)",
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "evidence/PLATFORM_DRIFT_PROBE.json exists with dated manifest list",
+   "command_or_probe": "fresh HTTP GET of https://developers.openai.com/plugins/deploy/submission-errors",
+   "expected": "supported manifest list recorded verbatim with fetch date and tool version",
+   "raw_receipt_required": true,
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "tracked_subject": true,
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_R4_EXT_ACCEPT",
+     "F1_R4_EXEC_PROMPT",
+     "F2_PLUGIN_PLAN",
+     "F3_TRIPLE_R2",
+     "F4_PKG00",
+     "F5_KB11",
+     "F6_KB12",
+     "F7_KB16",
+     "F8_KB17",
+     "F9_KB18"
+    ]
+   },
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change",
+    "publication projection change"
+   ]
+  },
+  {
+   "gate_id": "G-R5X-MANIFEST-FIT",
+   "producer": "PIPD_EC_LOCAL_BUILD",
+   "independent_checker": "GLM-5.3FLASH_INDEPENDENT_OFFICER (arm opencode-go/glm-5.3-flash)",
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "manifest diff minimal and skill bodies byte-identical",
+   "command_or_probe": "extend packaging/public-plugin/plugin.json with extensions.com.openai.interface fields",
+   "expected": "manifest diff minimal; skill bodies byte-identical",
+   "raw_receipt_required": true,
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "tracked_subject": true,
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_R4_EXT_ACCEPT",
+     "F1_R4_EXEC_PROMPT",
+     "F2_PLUGIN_PLAN",
+     "F3_TRIPLE_R2",
+     "F4_PKG00",
+     "F5_KB11",
+     "F6_KB12",
+     "F7_KB16",
+     "F8_KB17",
+     "F9_KB18"
+    ]
+   },
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change",
+    "publication projection change"
+   ]
+  },
+  {
+   "gate_id": "G-R5X-ZIP-2X",
+   "producer": "PIPD_EC_LOCAL_BUILD",
+   "independent_checker": "GLM-5.3FLASH_INDEPENDENT_OFFICER (arm opencode-go/glm-5.3-flash)",
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "2x deterministic build with equal SHA256 readbacks",
+   "command_or_probe": "tools/build_public_plugin.py run twice from the same frozen Stage B head commit",
+   "expected": "two builds produce equal ZIP SHA256",
+   "raw_receipt_required": true,
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "tracked_subject": true,
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_R4_EXT_ACCEPT",
+     "F1_R4_EXEC_PROMPT",
+     "F2_PLUGIN_PLAN",
+     "F3_TRIPLE_R2",
+     "F4_PKG00",
+     "F5_KB11",
+     "F6_KB12",
+     "F7_KB16",
+     "F8_KB17",
+     "F9_KB18"
+    ]
+   },
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change",
+    "publication projection change"
+   ]
+  },
+  {
+   "gate_id": "G-R5X-ZIP-NEGATIVES",
+   "producer": "TQAEP_LOCAL",
+   "independent_checker": "GLM-5.3FLASH_INDEPENDENT_OFFICER (arm opencode-go/glm-5.3-flash)",
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "each planted negative yields a named refusal",
+   "command_or_probe": "scratch ZIP copies with planted mcp.json/hooks/.app.json fed to the repo gate",
+   "expected": "named refusal recorded for each planted negative",
+   "raw_receipt_required": true,
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "tracked_subject": true,
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_R4_EXT_ACCEPT",
+     "F1_R4_EXEC_PROMPT",
+     "F2_PLUGIN_PLAN",
+     "F3_TRIPLE_R2",
+     "F4_PKG00",
+     "F5_KB11",
+     "F6_KB12",
+     "F7_KB16",
+     "F8_KB17",
+     "F9_KB18"
+    ]
+   },
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change",
+    "publication projection change"
+   ]
+  },
+  {
+   "gate_id": "G-R5X-PRIVATE-IMPORT-SCAFFOLD",
+   "producer": "DOCS_OWNER",
+   "independent_checker": "GLM-5.3FLASH_INDEPENDENT_OFFICER (arm opencode-go/glm-5.3-flash)",
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "scaffold exists with explicit HumanGate boundary",
+   "command_or_probe": "write plugin_private_host_uat.json with route A/B procedures",
+   "expected": "scaffold committed with NOT_VERIFIED state",
+   "raw_receipt_required": true,
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "tracked_subject": true,
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_R4_EXT_ACCEPT",
+     "F1_R4_EXEC_PROMPT",
+     "F2_PLUGIN_PLAN",
+     "F3_TRIPLE_R2",
+     "F4_PKG00",
+     "F5_KB11",
+     "F6_KB12",
+     "F7_KB16",
+     "F8_KB17",
+     "F9_KB18"
+    ]
+   },
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change",
+    "publication projection change"
+   ]
+  },
+  {
+   "gate_id": "G-R5X-RELEASE-TUPLE",
+   "producer": "RELEASE_OWNER_DOC",
+   "independent_checker": "GLM-5.3FLASH_INDEPENDENT_OFFICER (arm opencode-go/glm-5.3-flash)",
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "stub exists with immutable-new-tag rule",
+   "command_or_probe": "write wheel_and_release_tuple.json stub with owner decision fields",
+   "expected": "stub committed; no actual tag/publish claimed",
+   "raw_receipt_required": true,
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "tracked_subject": true,
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_R4_EXT_ACCEPT",
+     "F1_R4_EXEC_PROMPT",
+     "F2_PLUGIN_PLAN",
+     "F3_TRIPLE_R2",
+     "F4_PKG00",
+     "F5_KB11",
+     "F6_KB12",
+     "F7_KB16",
+     "F8_KB17",
+     "F9_KB18"
+    ]
+   },
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change",
+    "publication projection change"
+   ]
+  },
+  {
+   "gate_id": "G-R5X-EVIDENCE-RETURN",
+   "producer": "HGK_EXECUTOR",
+   "independent_checker": "GLM-5.3FLASH_INDEPENDENT_OFFICER (arm opencode-go/glm-5.3-flash)",
+   "claim_level": "EXTERNAL_ACCEPTANCE",
+   "predicate": "10-pack exists with explicit NOT_RUN labels",
+   "command_or_probe": "assemble the 10-piece evidence return pack",
+   "expected": "10 rows present; owner-gated items labelled NOT_RUN",
+   "raw_receipt_required": true,
+   "rerun_rule": "full",
+   "runtime_pass_allowed": false,
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "tracked_subject": true,
+   "candidate_binding": {
+    "head": "SEE_ROUND_CANDIDATE_TUPLE",
+    "package_sha256": "SEE_ROUND_CANDIDATE_TUPLE",
+    "source_hashes": [
+     "F0_R4_EXT_ACCEPT",
+     "F1_R4_EXEC_PROMPT",
+     "F2_PLUGIN_PLAN",
+     "F3_TRIPLE_R2",
+     "F4_PKG00",
+     "F5_KB11",
+     "F6_KB12",
+     "F7_KB16",
+     "F8_KB17",
+     "F9_KB18"
+    ]
+   },
+   "invalidation": [
+    "candidate head change",
+    "evidence manifest change",
+    "policy version change",
+    "publication projection change"
+   ]
+  }
+ ],
+ "termination": {
+  "checkpoint_required": true,
+  "checkpoint_fields": [
+   "task_id",
+   "source_hashes",
+   "current_candidate",
+   "completed_gates",
+   "open_gates",
+   "next_work_order",
+   "rollback_pointer"
+  ],
+  "non_terminal_pause": [
+   "ITERATION_BUDGET_PAUSE",
+   "SESSION_BOUNDARY",
+   "AWAITING_STEER",
+   "SCOPE_EXPANSION_HITL",
+   "BLOCKED_HITL",
+   "BLOCKED_EXTERNAL"
+  ],
+  "retry_budget": 3,
+  "rollback_pointer_required": true,
+  "terminal_states": [
+   "R5X_CLOSEOUT_DELIVERED",
+   "FAIL",
+   "TEMP_CLOSED",
+   "NO_WRITES_TEMP_CLOSED"
+  ]
+ },
+ "render_policy": {
+  "control_corpus_restatement": false,
+  "embedded_control_bodies": [],
+  "max_prompt_chars": 30000,
+  "output_language": "zh-Hant-TW"
+ }
+}

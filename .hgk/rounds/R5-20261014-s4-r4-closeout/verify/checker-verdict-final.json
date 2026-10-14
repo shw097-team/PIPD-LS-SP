@@ -1,0 +1,83 @@
+{
+  "task_id": "PIPD-LS-SP-HERMES-R4-R5-CLOSEOUT-CONTINUATION",
+  "maker": "opencode-go/deepseek-v4.1-flash",
+  "checker_identity": "openai-codex/gpt-6.1-sol",
+  "subject_zip_sha256": "08025b43aa20306cf33c6528c49ddfdee53bf1a211a1e837d18c4453e01595a8",
+  "checks": {
+    "A": {
+      "verdict": "PASS",
+      "evidence": "Both ZIPs independently extracted with Python tempfile: single root pipd-ls-sp-public-skills; 56 entries; 8 skills/*/SKILL.md; 199134 unpacked bytes each; no duplicate names, forbidden mcp.json/.mcp.json/.app.json/hooks, traversal or symlinks; CRC/readback OK."
+    },
+    "B": {
+      "verdict": "PASS",
+      "evidence": "Both archive SHA256 values independently recomputed as 08025b43aa20306cf33c6528c49ddfdee53bf1a211a1e837d18c4453e01595a8, matching expected digest."
+    },
+    "C": {
+      "verdict": "PASS",
+      "evidence": "Both builds contain RELEASE_RECEIPT.json and SOURCE_TO_PLUGIN_MAPPING.json. Receipt mapping_sha256 independently matches cd48933b3c7b45cc7b430a9d0caabf2e0852edc8fab2ccb0a374271b7696332b; all 48 source/destination digest pairs per build match Git blobs and ZIP members. Embedded receipts/mappings byte-identical; source commit/tree bindings match. ZIP SHA256 is external, not recorded inside self-containing receipt."
+    },
+    "D": {
+      "verdict": "PASS",
+      "evidence": "Exact name-status diff from 940a37d00d5c1d12dfc9ae5d2325d8837b08501b: M packaging/public-plugin/plugin.json. Only extensions.com.openai.interface developerName/displayName/longDescription/shortDescription added, existing display_name retained, no other semantic change. All 48 skills files byte-identical to Stage B. Clean worktree; branch feat/s4r5x-manifest-fit-20261014; local HEAD and independently queried remote ref e00ab7b68c914c9a531beb9b5cb6e5ebbd794277."
+    },
+    "E": {
+      "verdict": "PASS",
+      "evidence": "NEGATIVE_CASES.json covers PORTAL-01 digest-bound as-built control, PORTAL-02=.codex-plugin/plugin.json second-manifest planting, PORTAL-03a=mcp.json, PORTAL-03b=hooks/h.sh, PORTAL-03c=.app.json. Four planted cases report 57 entries, correct root and intended detected member. Coverage only, not live Portal execution."
+    },
+    "F": {
+      "verdict": "PASS",
+      "evidence": "compiler/compiled receipt and report both PROMPT_COMPILE_PASS, zero errors. Recomputed contract SHA256 d409185eb0c3348f0f77097e4ff3f097f511d4f507d4b04ebf3d8691d477e97b and thin-prompt SHA256 186e1005e32088f1bf62c7793755d793c1479be123ac279950693f3873f52be5 match receipt."
+    },
+    "G": {
+      "verdict": "PASS",
+      "evidence": "Read-only SQLite transaction independently confirms 7 FROZEN requirements / 14 TaskSpecs / 7 WorkOrders using requirement_id LIKE 'REQ-PIPD-R5X-%', taskspec_id LIKE '%R5X%', and workorder_id LIKE 'WO-R5X-%'. Exactly 7 TS-req-pipd-r5x-* DRAFT binding rows and 7 TS-R5X-* ADMITTED dispatch rows, one of each per requirement; all seven WorkOrders bind the explicit admitted rows. Corrected r5x_readback.json and EVIDENCE_RETURN_MANIFEST.json admission block agree on 7/14/7 and 7+7 partition, with correction notes naming R5X-TT-001. TT_LEDGER.json records R5X-TT-001 as EVIDENCE_COUNT_CORRECTION, found_by independent checker G-check (openai-codex/gpt-6.1-sol), state CLOSED_CORRECTED. Requirement/WorkOrder IDs, states, writer, base_head and bindings independently checked against readback. Prior G contradiction resolved.",
+      "counts": {
+        "requirements": 7,
+        "taskspecs": 14,
+        "taskspecs_auto_draft": 7,
+        "taskspecs_explicit_admitted": 7,
+        "workorders": 7
+      },
+      "correction_id": "R5X-TT-001"
+    }
+  },
+  "verdict": "PASS",
+  "open_items": [
+    "Human/owner gates remain outside this local verdict: private import execution, PR merges, preview tag/release, public directory submission."
+  ],
+  "claim_ceiling": "LOCAL_CANDIDATE_EVIDENCE_ONLY",
+  "recheck": true,
+  "recheck_date": "2026-10-14T01:11:06.947767+08:00",
+  "recheck_scope": {
+    "refreshed_checks": [
+      "G"
+    ],
+    "prior_checks_retained": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+    ],
+    "not_fully_reexecuted": [
+      "A",
+      "C",
+      "E",
+      "F"
+    ],
+    "fresh_spot_checks": {
+      "B": {
+        "verdict": "PASS",
+        "evidence": "Independently recomputed SHA256 of both round evidence/plugin_build/pipd-plugin-build-{a,b}/pipd-ls-sp-public-skills.zip archives. Both equal 08025b43aa20306cf33c6528c49ddfdee53bf1a211a1e837d18c4453e01595a8."
+      },
+      "D": {
+        "verdict": "PASS",
+        "evidence": "Fresh git diff --name-status 940a37d00d5c1d12dfc9ae5d2325d8837b08501b HEAD in C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3c-wt returns exactly M packaging/public-plugin/plugin.json. HEAD independently read as e00ab7b68c914c9a531beb9b5cb6e5ebbd794277, matching manifest candidate_head. No remote query or mutation performed."
+      }
+    }
+  },
+  "resolved_items": [
+    "Prior G count contradiction resolved by independently verified correction R5X-TT-001; corrected claims are 7/14/7. No checker repair performed."
+  ]
+}

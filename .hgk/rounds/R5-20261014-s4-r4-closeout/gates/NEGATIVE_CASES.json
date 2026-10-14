@@ -1,0 +1,73 @@
+{
+ "PORTAL-01": {
+  "desc": "candidate as-built control",
+  "plugin_json_members": [
+   "pipd-ls-sp-public-skills/plugin.json"
+  ],
+  "forbidden": [],
+  "zip_sha256": "08025b43aa20306cf33c6528c49ddfdee53bf1a211a1e837d18c4453e01595a8"
+ },
+ "PORTAL-02": {
+  "planted": ".codex-plugin/plugin.json",
+  "entries": 57,
+  "roots": [
+   "pipd-ls-sp-public-skills"
+  ],
+  "plugin_json_members": [
+   "pipd-ls-sp-public-skills/plugin.json",
+   "pipd-ls-sp-public-skills/.codex-plugin/plugin.json"
+  ],
+  "forbidden": [],
+  "sha256": "657cfceb2af3ad0c0b4b819022d38ea53a0dcda173eab6f8d60d5d993f5cde76",
+  "desc": "second .codex-plugin manifest planted (ambiguous manifest roots)",
+  "gate_binding": "builder source-set exactness refuses planted members in a rebuilt ZIP (tests 06/07/16/20); portal ambiguity recorded; the candidate ships a single root plugin.json manifest"
+ },
+ "PORTAL-03a": {
+  "planted": "mcp.json",
+  "entries": 57,
+  "roots": [
+   "pipd-ls-sp-public-skills"
+  ],
+  "plugin_json_members": [
+   "pipd-ls-sp-public-skills/plugin.json"
+  ],
+  "forbidden": [
+   "pipd-ls-sp-public-skills/mcp.json"
+  ],
+  "sha256": "b969c2355ebc7b84e5de5284f5bf8ad185640812592267e2a5819225fd5b4512",
+  "desc": "mcp.json planted",
+  "gate_binding": "builder source-set exactness refuses planted members in a rebuilt ZIP (tests 06/07/16/20); portal ambiguity recorded; the candidate ships a single root plugin.json manifest"
+ },
+ "PORTAL-03b": {
+  "planted": "hooks/h.sh",
+  "entries": 57,
+  "roots": [
+   "pipd-ls-sp-public-skills"
+  ],
+  "plugin_json_members": [
+   "pipd-ls-sp-public-skills/plugin.json"
+  ],
+  "forbidden": [
+   "pipd-ls-sp-public-skills/hooks/h.sh"
+  ],
+  "sha256": "011b1bb2433a8112669d8b66193a0e1faf052030eefb51d5b03a21cd266c83b4",
+  "desc": "hooks/h.sh planted",
+  "gate_binding": "builder source-set exactness refuses planted members in a rebuilt ZIP (tests 06/07/16/20); portal ambiguity recorded; the candidate ships a single root plugin.json manifest"
+ },
+ "PORTAL-03c": {
+  "planted": ".app.json",
+  "entries": 57,
+  "roots": [
+   "pipd-ls-sp-public-skills"
+  ],
+  "plugin_json_members": [
+   "pipd-ls-sp-public-skills/plugin.json"
+  ],
+  "forbidden": [
+   "pipd-ls-sp-public-skills/.app.json"
+  ],
+  "sha256": "36ec375bccaa24261741a6393fd419c25bbaae36a018f619136f4a3c6a48d43e",
+  "desc": ".app.json planted",
+  "gate_binding": "builder source-set exactness refuses planted members in a rebuilt ZIP (tests 06/07/16/20); portal ambiguity recorded; the candidate ships a single root plugin.json manifest"
+ }
+}

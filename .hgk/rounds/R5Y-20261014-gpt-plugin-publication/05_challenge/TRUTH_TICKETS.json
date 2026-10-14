@@ -1,0 +1,45 @@
+{
+ "schema": "R5Y-TRUTH-TICKETS/1",
+ "tickets": [
+  {
+   "id": "R5Y-TT-001",
+   "opened_by": "independent checker (verify_only_guard), not the maker",
+   "finding": "audited_artifacts_modified=true — C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R5Y-20261014-gpt-plugin-publication/01_subject/SOURCE_SCOPE_MATRIX_BY_SKILL.json changed during the verification window; checker verdict FAIL though named checks A-H all PASS",
+   "root_cause": "maker kept writing round artifacts (TS-03 scope matrix) while the independent verification was in flight — the audited input set was not frozen for the audit window",
+   "class": "PROCESS (frozen-subject-during-verification), not SUBSTANCE",
+   "corrective_action": [
+    "no further writes into the round directory for the duration of the recheck",
+    "bounded recheck of the SAME subject (no artifact changes accepted as fixes)",
+    "record the recheck as a distinct attempt; do not overwrite the first verdict"
+   ],
+   "status": "CLOSED_CORRECTED",
+   "closure": "bounded recheck attempt 2: named checks A-I PASS, verify_only_guard status PASS, audited_artifacts_modified=false, inventory sha256 stable across the window"
+  },
+  {
+   "id": "R5Y-TT-002",
+   "opened_by": "maker (self-declared, before the checker ran)",
+   "finding": "00_authority/DOC_LINK_AUDIT.json v1 used a bare /publish/ regex and reported false_publish_claim=true for three docs",
+   "root_cause": "the word appears in preview-wheel and 'not published' contexts; a bare boolean is not a claim",
+   "corrective_action": [
+    "replaced by a v2 per-line audit with adjudicated classification; false_publish_claims=[]"
+   ],
+   "status": "CLOSED_CORRECTED"
+  }
+ ],
+ "verification_attempts": [
+  {
+   "attempt": 1,
+   "verdict": "FAIL",
+   "cause": "verify_only_guard: audited_artifacts_modified=true (R5Y-TT-001)",
+   "named_checks": "A-H all PASS",
+   "file": "05_challenge/checker-verdict.attempt1.json"
+  },
+  {
+   "attempt": 2,
+   "verdict": "PASS",
+   "cause": "frozen set; no writes during window",
+   "named_checks": "A-I all PASS + guard PASS",
+   "file": "05_challenge/checker-verdict.recheck.json"
+  }
+ ]
+}

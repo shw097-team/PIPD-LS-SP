@@ -1,0 +1,81 @@
+{
+ "schema": "R5Y-SOURCE-SCOPE-MATRIX-BY-SKILL/1",
+ "basis": "each skill's own SKILL.md frontmatter + body scope statements, hash-bound; NOT an owner re-signed matrix",
+ "count": 8,
+ "rows": [
+  {
+   "skill": "pipd-assurance-tqaep",
+   "skill_md_sha256": "703d354c5b04caa96c3deded4cd57c3a6ba91603a6419479117e4b83d568f776",
+   "bytes": 1515,
+   "declared_name": "pipd-assurance-tqaep",
+   "declared_description": "Use when a PI-PKG and ECP must be assured through a TQAEP with an independent checker, per-atom oracles and positive/negative fixtures.",
+   "self_declared_scope_lines": []
+  },
+  {
+   "skill": "pipd-authority-source",
+   "skill_md_sha256": "89d04cf2e753e539f1d661beaa8e0df348f6ca8db9e423f516656106dcf68e91",
+   "bytes": 1400,
+   "declared_name": "pipd-authority-source",
+   "declared_description": "Use when source families must be frozen into a SourceFreezeManifest with AuthorityBinding records before any compiler reads them.",
+   "self_declared_scope_lines": []
+  },
+  {
+   "skill": "pipd-execution-contract",
+   "skill_md_sha256": "903c0af6ce09929b3c9c9f23abe650989c0a952fa4372dbe9414d076e7648478",
+   "bytes": 1573,
+   "declared_name": "pipd-execution-contract",
+   "declared_description": "Use when a bound PD-PKG must become a ConstructionContract plus an ECP that fixes effect, permission, retries, idempotency, readback and rollback.",
+   "self_declared_scope_lines": [
+    "2. Derive writable_scope from the PD late binding; refuse an empty scope and refuse '**' or escaping scopes."
+   ]
+  },
+  {
+   "skill": "pipd-package-project",
+   "skill_md_sha256": "a5f2a57af6f903adec3cad069d2b1e4c15df42f14a14a8e3940830faae129a67",
+   "bytes": 1432,
+   "declared_name": "pipd-package-project",
+   "declared_description": "Use when the artifact bundle must be closed into a ClaimCeiling with EvidenceExpectation records and a TraceClosureReport before handoff.",
+   "self_declared_scope_lines": []
+  },
+  {
+   "skill": "pipd-pd-bind",
+   "skill_md_sha256": "613ab403d1163dd1563dc1430b0a247a245b4330d76c33f4d85e65e8223d2f10",
+   "bytes": 1357,
+   "declared_name": "pipd-pd-bind",
+   "declared_description": "Use when a compiled PI-PKG must be late-bound to a real RepoContext into a PD-PKG before any construction is planned.",
+   "self_declared_scope_lines": [
+    "1. Require the PI-PKG reference and a RepoContext with root, head, tracked_files, currentness and writable_scope.",
+    "3. Refuse an unresolved root, a negative tracked-file count, or an empty writable scope.",
+    "4. Refuse any writable_scope that escapes the repository root or equals '**'.",
+    "6. Emit the PD-PKG with late_bound_construction_binding bound_at PD and binding_scope affected_only."
+   ]
+  },
+  {
+   "skill": "pipd-pi-compile",
+   "skill_md_sha256": "1a8e054f445f4150bdea01e9f302ae471b10896548dd1bbbc5fd13a89db82658",
+   "bytes": 1382,
+   "declared_name": "pipd-pi-compile",
+   "declared_description": "Use when a frozen IntentCard and an effective ProfileBinding must be compiled into a PI-PKG with a stable semantic contract and trace links.",
+   "self_declared_scope_lines": []
+  },
+  {
+   "skill": "pipd-profile-tailor",
+   "skill_md_sha256": "611d367d3062bce4f41e0906ed9236d1569205231e9b17625df6e73f190d84fc",
+   "bytes": 1401,
+   "declared_name": "pipd-profile-tailor",
+   "declared_description": "Use when a requested profile and axis set must be resolved into an effective ProfileBinding through the safety veto before compilation.",
+   "self_declared_scope_lines": []
+  },
+  {
+   "skill": "pipd-route-intake",
+   "skill_md_sha256": "72afada18aa79c33bee2d1190b296af153f37734c967f7bbf4574675786acc88",
+   "bytes": 1447,
+   "declared_name": "pipd-route-intake",
+   "declared_description": "Use when an unbound goal with source locators arrives at the intake gate and must be captured as a typed IntentCard with requirement atoms before any ",
+   "self_declared_scope_lines": [
+    "4. Derive one requirement atom per matched axis (intent, knowledge, verification, release, trust_boundary)."
+   ]
+  }
+ ],
+ "residual": "owner countersignature of the scope matrix for THIS round is a Planning/Allocator act (TS-03 residual) — the agent asserts only what the files say"
+}

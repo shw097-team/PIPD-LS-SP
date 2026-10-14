@@ -1,0 +1,22 @@
+FIRST ACTION: print the exact token HGK_LANE_NONCE_OK on its own line, then continue.
+
+ROLE: Independent Acceptance Officer (TQAEP) — BOUNDED RECHECK of the SAME frozen subject. Round R5Y-20261014-gpt-plugin-publication.
+This is a RECHECK after attempt 1 was marked FAIL by your own verify_only_guard (audited_artifacts_modified=true: 01_subject/SOURCE_SCOPE_MATRIX_BY_SKILL.json changed while the audit ran). No artifact was changed as a corrective action; the maker has stopped writing and the set is frozen. Hold the same line.
+VERIFY_ONLY: modify nothing, push/merge/tag/publish nothing.
+
+FROZEN CANDIDATE
+- repo shw097-team/PIPD-LS-SP, branch feat/s4r5y-plugin-publication-20261014 @ 062d84ae3e951d02b2ba6bb732359b18799d2864 ; worktree C:/Projects/Agent_Workspace/PIPD/worktrees/r5y-wt ; draft PR #6 -> main 224591431a164ab72a9423cd180e417e8a762403
+- round artifacts C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R5Y-20261014-gpt-plugin-publication/ ; attempt-1 verdict at 05_challenge/checker-verdict.attempt1.json
+
+CHECKS (independently recompute)
+A. both build-a/build-b ZIPs sha256 == 2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199 ; 56 members, single root, 8 skills/<name>/SKILL.md, no mcp.json/.mcp.json/.app.json/hooks, icon decodes as PNG
+B. `git diff --name-status 940a37d00d5c1d12dfc9ae5d2325d8837b08501b HEAD` == exactly M packaging/public-plugin/plugin.json
+C. all 8 skills/<name>/SKILL.md byte-identical to 940a37d
+D. recompute 8/8 derivations from FROZEN_SOURCE_LEDGER.json vs packaging/public-plugin/derivations.json
+E. 08_release/NEGATIVE_CASES.json PORTAL-01..03c (independent decompression)
+F. anonymous contributions readback: runs for head 062d84ae... — ci and public-plugin-verify both success, no failed steps
+G. `git ls-remote` readback == 062d84ae3e951d02b2ba6bb732359b18799d2864
+H. docs carry no public-directory claim; manifest keeps claim_ceiling=LOCAL_PACKAGER_PASS_ONLY / official_portal_verification=NOT_EXECUTED
+I. (new) private-route evidence internal consistency: 09_ui_fda/PRIVATE_PLUGIN_INSTALL.json uploaded_artifact_sha256/bytes match the pinned ZIP; the recorded page id and chat id are well-formed; state explicitly that the LIVE ChatGPT state cannot be re-derived from files (it rests on the recorded tree dumps + screenshot, which are maker-produced) — do not upgrade that into verified fact.
+
+OUTPUT (mandatory): write C:/Projects/Agent_Workspace/HG-KSEOS/var/R5Y-20261014-gpt-plugin-publication/VERIFY_SECURITY/checker-verdict-recheck.json with the same key shape as attempt 1 plus "recheck": true and "attempt": 2. Report verify_only_guard status explicitly. Verdict PASS only if A-I hold AND the guard shows no audited artifact change. Then print <=12 lines.

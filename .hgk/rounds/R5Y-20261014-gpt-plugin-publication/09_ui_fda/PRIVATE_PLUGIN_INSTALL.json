@@ -1,0 +1,86 @@
+{
+ "schema": "R5Y-PRIVATE-PLUGIN-INSTALL/1",
+ "route": "A_PRIVATE (ChatGPT 私人／自建外掛程式，非公開目錄)",
+ "steps": [
+  {
+   "n": 1,
+   "ui": "chatgpt.com/plugins → 側邊欄「外掛程式」",
+   "action": "click 外掛程式",
+   "delivery": "background/synthetic_events",
+   "observed": "載入 chatgpt.com/plugins"
+  },
+  {
+   "n": 2,
+   "ui": "chatgpt.com/plugins → 按鈕「新增」",
+   "action": "click + expand (UIA ExpandCollapsePattern)",
+   "delivery": "background/accessibility",
+   "observed": "選單：建立外掛程式 / 上傳外掛程式封存檔 / 新增自訂 MCP 伺服器"
+  },
+  {
+   "n": 3,
+   "ui": "選單項「上傳外掛程式封存檔」",
+   "action": "click",
+   "delivery": "background/synthetic_events",
+   "observed": "開出對話框「新增外掛程式」：拖放區、僅支援 .tar.gz/.tgz/.zip、上限 100 MB"
+  },
+  {
+   "n": 4,
+   "ui": "對話框「點選上傳」",
+   "action": "click",
+   "delivery": "background/synthetic_events",
+   "observed": "原生檔案對話框開啟 (pid 18672, window 2951228, 標題「開啟」)"
+  },
+  {
+   "n": 5,
+   "ui": "原生檔案對話框",
+   "action": "UIA set_value on Edit「檔案名稱(N):」 + invoke Button「開啟(O)」",
+   "delivery": "background/accessibility (零滑鼠、零焦點)",
+   "observed": "對話框關閉，檔名 pipd-ls-sp-public-skills.zip 入列"
+  },
+  {
+   "n": 6,
+   "ui": "對話框「新增外掛程式」",
+   "action": "click",
+   "delivery": "background/synthetic_events",
+   "observed": "窗題轉為『PIPD-LS-SP Public Skills | ChatGPT 外掛程式』，URL chatgpt.com/plugins/Plugin_5ba168f715b8819190ccbe33a4a926b0"
+  },
+  {
+   "n": 7,
+   "ui": "外掛程式詳情頁",
+   "action": "read",
+   "observed": "名稱 PIPD-LS-SP Public Skills、『技能 8』、版本區塊、三個 defaultPrompt 全數呈現（清單中介資料生效）"
+  },
+  {
+   "n": 8,
+   "ui": "按鈕「安裝外掛程式」",
+   "action": "click",
+   "delivery": "background/synthetic_events",
+   "observed": "出現對話框『PIPD-LS-SP Public Skills 已可使用 / 設定…即可開始在 ChatGPT 中使用』"
+  },
+  {
+   "n": 9,
+   "ui": "按鈕「設定 PIPD-LS-SP Public Skills」",
+   "action": "click",
+   "delivery": "background/synthetic_events",
+   "observed": "自動開新對話：『幫我用 @pipd-route-intake 技能設定 @PIPD-LS-SP Public Skills』"
+  }
+ ],
+ "invocation_evidence": {
+  "chat_url": "https://chatgpt.com/c/6acef5b8-56d0-83e8-80bb-38d3f78606d7",
+  "assistant_reply": "回覆：我會先讀取 pipd-route-intake 的設定要求，確認需要哪些目標與來源資料。",
+  "meaning": "@Plugin 調用成功且技能內容被讀取（skill body 生效）",
+  "assistant_reply_full": "已讀取並準備使用 pipd-route-intake。這項技能會將目標與來源整理成 IntentCard（意圖卡）；目前還缺少必要的專案資料。請一次提供：目標（必填）、來源（必填）、限制（選填）、不包含的範圍（選填）。依 SKILL.md 規定：「Refuse a blank goal and refuse an intake with zero source locators.」因此目前尚不能產生意圖卡；外掛連結本身不能代替專案來源文件。",
+  "observed_behavior": "skill body 生效 + fail-closed 拒絕空白目標與零來源定位器（與 tests/ 中 pipd-route-intake 的契約一致）"
+ },
+ "plugin_ref": {
+  "page": "https://chatgpt.com/plugins/Plugin_5ba168f715b8819190ccbe33a4a926b0",
+  "uploaded_artifact_sha256": "2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199",
+  "uploaded_artifact_bytes": 68355
+ },
+ "limits": [
+  "私人路徑＝Owner 自己的 ChatGPT 帳號；不等於目錄公開可被不特定第三方搜尋安裝",
+  "未執行公開目錄 Submit/Publish（身分驗證硬阻斷）",
+  "自動掃描結果頁未逐項截錄（僅目錄 private upload 成功與調用成功為實證）"
+ ],
+ "claim_ceiling": "PRIVATE_PLUGIN_CREATED_INSTALLED_INVOKED (self-account) — NOT PUBLIC_PUBLISHED, NOT PUBLIC_CONSUMER_VERIFIED"
+}

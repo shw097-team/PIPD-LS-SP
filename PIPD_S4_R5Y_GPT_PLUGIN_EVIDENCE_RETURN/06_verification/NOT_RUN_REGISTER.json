@@ -1,0 +1,186 @@
+{
+ "schema": "R5Y-NOT-RUN-REGISTER/1",
+ "rule": "No cell may read PASS without a real command, exit code and raw log. Absent evidence = NOT_RUN / EVIDENCE_GAP.",
+ "rows": [
+  {
+   "id": "TS-00",
+   "title": "authority + source freeze",
+   "status": "RUN",
+   "evidence": [
+    "00_authority/SOURCE_FREEZE.json",
+    "01_subject/frozen_commit_tree.json"
+   ]
+  },
+  {
+   "id": "TS-01",
+   "title": "evidence pack skeleton",
+   "status": "RUN",
+   "evidence": [
+    "evidence pack mirror + README/RETURN_POINTERS"
+   ]
+  },
+  {
+   "id": "TS-02",
+   "title": "subject + test set",
+   "status": "RUN",
+   "evidence": [
+    "03_tests/full_unittest.stdout.log (589 passed,20 skipped)",
+    "03_tests/focused_positive_negative.log",
+    "03_tests/ci_run_ids_jobs_exit_counts.json"
+   ]
+  },
+  {
+   "id": "TS-03",
+   "title": "source scope matrix by skill",
+   "status": "RUN_PARTIAL",
+   "evidence": [
+    "01_subject/SOURCE_SCOPE_MATRIX_BY_SKILL.json"
+   ],
+   "gap": "owner countersignature of the matrix for this round is a Planning act; agent asserts only what the files say"
+  },
+  {
+   "id": "TS-04",
+   "title": "manifest official listing fit",
+   "status": "RUN",
+   "evidence": [
+    "02_implementation/MANIFEST_DIFF.json",
+    "PR #6"
+   ],
+   "note": "only packaging/public-plugin/plugin.json touched; 8 skill bodies byte-identical"
+  },
+  {
+   "id": "TS-05",
+   "title": "derived fields + attribution",
+   "status": "RUN_PARTIAL",
+   "evidence": [
+    "04_package/derivations_and_owner_approvals.json (8/8 bound)"
+   ],
+   "gap": "owner re-signature for THIS round is a Human Owner gate"
+  },
+  {
+   "id": "TS-06",
+   "title": "license / brand / secret hygiene",
+   "status": "RUN_PARTIAL",
+   "evidence": [
+    "04_package/license_brand_secret_scan.json"
+   ],
+   "gap": "brand art is a deterministic generator placeholder; owner must supply or explicitly approve (OWNER_ACTION_REQUIRED)"
+  },
+  {
+   "id": "TS-07",
+   "title": "deterministic build + structural negatives",
+   "status": "RUN",
+   "evidence": [
+    "04_package/plugin_zip_sha256.txt",
+    "04_package/build/build-a|build-b",
+    "04_package/build/neg_PORTAL-*"
+   ]
+  },
+  {
+   "id": "TS-08",
+   "title": "Portal-mirror negatives",
+   "status": "RUN",
+   "evidence": [
+    "08_release/NEGATIVE_CASES.json"
+   ]
+  },
+  {
+   "id": "TS-09",
+   "title": "docs parity / no false CTA",
+   "status": "RUN",
+   "evidence": [
+    "00_authority/DOC_LINK_AUDIT.json (false_publish_claims: [])"
+   ]
+  },
+  {
+   "id": "TS-10",
+   "title": "hosted CI real run",
+   "status": "RUN",
+   "evidence": [
+    "03_tests/ci_run_ids_jobs_exit_counts.json"
+   ],
+   "note": "ci + public-plugin-verify success on both dispatch and pull_request events"
+  },
+  {
+   "id": "TS-11",
+   "title": "security negatives / skill behaviour",
+   "status": "RUN",
+   "evidence": [
+    "03_tests/skill_behavior_matrix.stdout.log",
+    "05_challenge/SKILL_BEHAVIOR_MATRIX.json",
+    "03_tests/security_negative_logs.json"
+   ]
+  },
+  {
+   "id": "TS-12",
+   "title": "independent packaging challenge",
+   "status": "PASS_RECHECK",
+   "evidence": [
+    "05_challenge/checker-verdict.attempt1.json",
+    "05_challenge/checker-verdict.recheck.json",
+    "05_challenge/TRUTH_TICKETS.json"
+   ],
+   "note": "attempt 1 FAIL was a process finding only (guard caught a write during the audit window); bounded recheck PASS with guard PASS, A-I all PASS. maker=hermes-plan, checker=openai-codex/gpt-6.1-sol (different arm)."
+  },
+  {
+   "id": "TS-13",
+   "title": "developer identity verified",
+   "status": "NOT_RUN_BLOCKED_PORTAL_PATH",
+   "evidence": [
+    "09_ui_fda/portal_identity_gate.png",
+    "09_ui_fda/FDA_UI_ACTION_LOG.json"
+   ],
+   "blocker": "Portal itself returns 'Complete identity verification — You need a verified developer identity before you can create or upload a plugin.' HumanGate: identity/KYC cannot be performed by the agent.",
+   "note": "public-directory route only. Captured live: Portal returns the identity-verification dialog. The PRIVATE route does not require it and was completed instead (see V1-V2)."
+  },
+  {
+   "id": "TS-14",
+   "title": "Portal draft + ZIP upload",
+   "status": "DONE_VIA_PRIVATE_ROUTE",
+   "blocker": "hard-blocked by TS-13 at the Portal (same dialog)",
+   "evidence": [
+    "09_ui_fda/PRIVATE_PLUGIN_INSTALL.json",
+    "09_ui_fda/private_plugin_chat_invoke.png"
+   ],
+   "note": "private plugin created + uploaded through ChatGPT (chatgpt.com/plugins, 新增 → 上傳外掛程式封存檔). Public-directory draft upload remains blocked by the identity gate."
+  },
+  {
+   "id": "TS-15",
+   "title": "submit for review",
+   "status": "NOT_RUN_BLOCKED",
+   "blocker": "hard-blocked by TS-13/TS-14; also owner attestation"
+  },
+  {
+   "id": "TS-16",
+   "title": "review approved (OpenAI)",
+   "status": "NOT_RUN_EXTERNAL",
+   "blocker": "external party act"
+  },
+  {
+   "id": "TS-17",
+   "title": "public publish + unrelated-user install/chat invoke",
+   "status": "PARTIAL_PRIVATE_ONLY",
+   "blocker": "owner publish decision + third-party consumer verification",
+   "note": "private install + @Plugin invocation verified on the owner account (V2). Public directory discovery by an unrelated user remains NOT_RUN."
+  },
+  {
+   "id": "V1",
+   "title": "private plugin created (ChatGPT)",
+   "status": "RUN",
+   "evidence": [
+    "09_ui_fda/PRIVATE_PLUGIN_INSTALL.json"
+   ],
+   "note": "Plugin_5ba168f715b8819190ccbe33a4a926b0 — 8 skills, version block, three defaultPrompt entries rendered"
+  },
+  {
+   "id": "V2",
+   "title": "private plugin installed + @Plugin invoked in chat",
+   "status": "RUN",
+   "evidence": [
+    "09_ui_fda/private_plugin_chat_invoke.png",
+    "09_ui_fda/PRIVATE_PLUGIN_INSTALL.json"
+   ],
+   "note": "assistant read the skill body and enforced its fail-closed rule (refuse blank goal / zero source locators)"
+  }
+ ]
+}

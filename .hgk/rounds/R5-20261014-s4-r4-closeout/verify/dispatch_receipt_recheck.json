@@ -1,0 +1,146 @@
+{
+  "schema": "HGK-LANE-RESOLUTION/1",
+  "lane": "VERIFY_SECURITY",
+  "role": "checker",
+  "engine": "codex-cli",
+  "codex_executable": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\2e5e00daee91c61d\\codex.exe",
+  "codex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+  "relay_base": "http://127.0.0.1:10101/v1",
+  "codex_home_is_declared_lane_home": true,
+  "human_home_transport_acknowledged": true,
+  "skipped_arms": [
+    {
+      "rank": 2,
+      "arm": "nvidia/deepseek-ai/deepseek-v4.1-flash",
+      "reason": "UNREACHABLE_MEASURED_20261011"
+    }
+  ],
+  "transport": "opencodex relay via per-invocation -c openai_base_url (no config mutation)",
+  "transport_target": "http://127.0.0.1:10101/v1",
+  "front_door_port": null,
+  "front_door_note": "the lane-scoped pool door (10103 VERIFY_SECURITY / 10105 EXECUTE) carries the hop and ledgers every decision; the sealed single-model 10100 door is unchanged and unused; None here means direct to the relay on 10101",
+  "sandbox": "danger-full-access",
+  "sandbox_by_role_default": "read-only",
+  "sandbox_escalation_authorised": true,
+  "cwd": "C:/Projects/Agent_Workspace/PIPD",
+  "side_effect_note": "danger-full-access has NO sandbox root: any absolute path is writable, so a read-only subject must be a frozen copy checked afterwards by digest",
+  "receipt_binding": "usage rows appended after this attempt started (byte offset bound)",
+  "pool": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\config\\lane-route-slots.candidate.json",
+  "candidates_considered": [
+    4
+  ],
+  "mode": "forced_rank",
+  "unguarded_escalation_acknowledged": false,
+  "inject_429_first": false,
+  "identity_gate": {
+    "state": "enforced",
+    "lane_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+    "relay_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes",
+    "arms": [
+      {
+        "rank": 4,
+        "provider": "openai-codex",
+        "model": "gpt-6.1-sol",
+        "requirement": "relay_pool",
+        "ok": true,
+        "detail": "non-empty refreshable credential present in codex-accounts.json"
+      }
+    ],
+    "degraded": false,
+    "required_arm": "openai-codex/gpt-6.1-sol"
+  },
+  "authorization": {
+    "checked": false
+  },
+  "subject_mutation": {
+    "files_before": 29,
+    "files_after": 29,
+    "added": [],
+    "removed": [],
+    "changed": [],
+    "mutated": false,
+    "mutated_known": true,
+    "inconclusive": false,
+    "verdict": "CLEAN",
+    "rule": "removed/changed => verdict void; added is recorded, not fatal; an empty side => INCONCLUSIVE (never a clean verdict from nothing)",
+    "guard_roots": [
+      "C:/Projects/Agent_Workspace/PIPD/PIPD_S4_R4_EVIDENCE_RETURN",
+      "C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R5-20261014-s4-r4-closeout/evidence/plugin_build",
+      "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3c-wt/packaging/public-plugin",
+      "C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R5-20261014-s4-r4-closeout/admission"
+    ],
+    "subject_digest_sha256_before": "ca53a33dc63b390149c6623830a735af0d07bad7145bc344a59b6fe7c371aec1",
+    "subject_digest_sha256_after": "ca53a33dc63b390149c6623830a735af0d07bad7145bc344a59b6fe7c371aec1"
+  },
+  "attempt_log_dir": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5-20261014-s4-r4-closeout\\VERIFY_SECURITY\\attempt-6-20261013T170808Z",
+  "output_dir_policy": {
+    "mode": "derived",
+    "derived": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5-20261014-s4-r4-closeout\\VERIFY_SECURITY\\attempt-6-20261013T170808Z",
+    "attempt_number": 6,
+    "attempt_marker": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5-20261014-s4-r4-closeout\\VERIFY_SECURITY\\attempt-6-20261013T170808Z\\attempt.marker.json"
+  },
+  "repair_precondition": {
+    "checked": false
+  },
+  "remote_write_precheck": {
+    "mode": "DETECTION_ONLY",
+    "ran": false
+  },
+  "attempts": [
+    {
+      "rank": 4,
+      "provider": "openai-codex",
+      "model": "gpt-6.1-sol",
+      "transport_model": "gpt-6.1-sol",
+      "sandbox": "danger-full-access",
+      "reasoning_effort": "medium",
+      "exit": 0,
+      "seconds": 197.3,
+      "nonce_present": true,
+      "nonce_present_raw_stdout": true,
+      "nonce_source": "item.completed/agent_message",
+      "usage_rows_after_offset": 10,
+      "usage_offset": 19366507,
+      "usage_provider": "openai-p6a1fe3",
+      "usage_model": "gpt-6.1-sol",
+      "usage_status": 200,
+      "usage_receipt_ok": true,
+      "usage_receipt_reason": "",
+      "usage_ledger_rewritten": false,
+      "usage_rows_shape_invalid": 0,
+      "usage_rows_undecodable": 0,
+      "carrier_lines_undecodable": 0,
+      "carrier_lines_surrogate": 0,
+      "credential_posture": {
+        "verdict": "INCONCLUSIVE",
+        "decision": "WARN_CONTINUE",
+        "reason": "helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN",
+        "prompt_capable_helper": null,
+        "origin": null,
+        "git_terminal_prompt": "0"
+      },
+      "attempt_log_dir": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5-20261014-s4-r4-closeout\\VERIFY_SECURITY\\attempt-6-20261013T170808Z",
+      "stdout_byte_exact": true,
+      "stdout_path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5-20261014-s4-r4-closeout\\VERIFY_SECURITY\\attempt-6-20261013T170808Z\\attempt-6660-1791911288-4-stdout.txt",
+      "stdout_bytes": 118723,
+      "stdout_sha256": "bb288d045e49cae780506f326c61803767da8cd24272eb58265a59dac30f8280",
+      "stderr_byte_exact": true,
+      "stderr_path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5-20261014-s4-r4-closeout\\VERIFY_SECURITY\\attempt-6-20261013T170808Z\\attempt-6660-1791911288-4-stderr.txt",
+      "stderr_bytes": 220,
+      "stderr_sha256": "8a509c1219ab1c474aedf98c811e73d49b10d1c5b4ea81dfc1f9ba1cb4ef3f3d",
+      "stdout_tail": "pace/HG-KSEOS/var/R5-20261014-s4-r4-closeout/VERIFY_SECURITY/checker-verdict.json:1`; identities preserved, `recheck=true`, dated October 14, 2026.\\n- Only the verdict changed; local-evidence ceiling and human/owner gates remain.\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":258192,\"cached_input_tokens\":218752,\"cache_write_input_tokens\":0,\"output_tokens\":6270,\"reasoning_output_tokens\":320}}\n",
+      "stderr_tail": "Reading additional input from stdin...\n2026-10-13T17:08:09.204192Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10101/v1/responses\n"
+    }
+  ],
+  "used_rank": 4,
+  "used_transport_model": "gpt-6.1-sol",
+  "used_seconds": 197.3,
+  "generated_utc": "2026-10-13T17:11:26.523854+00:00",
+  "claim_ceiling": "a pass here proves the Codex-CLI lane served this turn through the relay with a matching usage receipt; it is not an acceptance of any subject",
+  "ok": true,
+  "usage_receipt_ok": true,
+  "usage_rows_shape_invalid": 0,
+  "usage_rows_undecodable": 0,
+  "required_arm": "openai-codex/gpt-6.1-sol",
+  "served_arm": "openai-codex/gpt-6.1-sol"
+}
