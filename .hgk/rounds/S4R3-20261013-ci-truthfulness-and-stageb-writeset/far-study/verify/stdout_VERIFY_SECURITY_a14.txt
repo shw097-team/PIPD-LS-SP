@@ -1,0 +1,129 @@
+{
+  "schema": "HGK-LANE-RESOLUTION/1",
+  "lane": "VERIFY_SECURITY",
+  "role": "checker",
+  "engine": "codex-cli",
+  "codex_executable": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\2e5e00daee91c61d\\codex.exe",
+  "codex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+  "relay_base": "http://127.0.0.1:10101/v1",
+  "codex_home_is_declared_lane_home": true,
+  "human_home_transport_acknowledged": false,
+  "skipped_arms": [
+    {
+      "rank": 2,
+      "arm": "nvidia/deepseek-ai/deepseek-v4.1-flash",
+      "reason": "UNREACHABLE_MEASURED_20261011"
+    }
+  ],
+  "transport": "opencodex relay via per-invocation -c openai_base_url (no config mutation)",
+  "transport_target": "http://127.0.0.1:10101/v1",
+  "front_door_port": null,
+  "front_door_note": "the lane-scoped pool door (10103 VERIFY_SECURITY / 10105 EXECUTE) carries the hop and ledgers every decision; the sealed single-model 10100 door is unchanged and unused; None here means direct to the relay on 10101",
+  "sandbox": "read-only",
+  "sandbox_by_role_default": "read-only",
+  "sandbox_escalation_authorised": false,
+  "cwd": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3c-wt",
+  "side_effect_note": "no write access granted by the sandbox mode",
+  "receipt_binding": "usage rows appended after this attempt started (byte offset bound)",
+  "pool": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\config\\lane-route-slots.candidate.json",
+  "candidates_considered": [
+    3
+  ],
+  "mode": "forced_rank",
+  "unguarded_escalation_acknowledged": false,
+  "inject_429_first": false,
+  "identity_gate": {
+    "state": "enforced",
+    "lane_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+    "relay_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes",
+    "arms": [
+      {
+        "rank": 3,
+        "provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "requirement": "none",
+        "ok": true,
+        "detail": "key-auth arm: no human-attended identity"
+      }
+    ],
+    "degraded": false,
+    "required_arm": "opencode-go/glm-5.3-flash"
+  },
+  "authorization": {
+    "checked": false
+  },
+  "subject_mutation": {
+    "state": "not_guarded"
+  },
+  "attempt_log_dir": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\S4R3FAR-20261013-decision-and-handover\\VERIFY_SECURITY\\attempt-14-20261013T120223Z",
+  "output_dir_policy": {
+    "mode": "derived",
+    "derived": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\S4R3FAR-20261013-decision-and-handover\\VERIFY_SECURITY\\attempt-14-20261013T120223Z",
+    "attempt_number": 14,
+    "attempt_marker": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\S4R3FAR-20261013-decision-and-handover\\VERIFY_SECURITY\\attempt-14-20261013T120223Z\\attempt.marker.json"
+  },
+  "repair_precondition": {
+    "checked": false
+  },
+  "remote_write_precheck": {
+    "mode": "DETECTION_ONLY",
+    "ran": false
+  },
+  "attempts": [
+    {
+      "rank": 3,
+      "provider": "opencode-go",
+      "model": "glm-5.3-flash",
+      "transport_model": "opencode-go/glm-5.3-flash",
+      "sandbox": "read-only",
+      "reasoning_effort": null,
+      "exit": 0,
+      "seconds": 98.32,
+      "nonce_present": true,
+      "nonce_present_raw_stdout": true,
+      "nonce_source": "item.completed/agent_message",
+      "usage_rows_after_offset": 1,
+      "usage_offset": 19228203,
+      "usage_provider": "opencode-go",
+      "usage_model": "glm-5.3-flash",
+      "usage_status": 200,
+      "usage_receipt_ok": true,
+      "usage_receipt_reason": "",
+      "usage_ledger_rewritten": false,
+      "usage_rows_shape_invalid": 0,
+      "usage_rows_undecodable": 0,
+      "carrier_lines_undecodable": 0,
+      "carrier_lines_surrogate": 0,
+      "credential_posture": {
+        "verdict": "PASS",
+        "decision": "CONTINUE",
+        "reason": "helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=PASS",
+        "prompt_capable_helper": null,
+        "origin": null,
+        "git_terminal_prompt": "0"
+      },
+      "attempt_log_dir": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\S4R3FAR-20261013-decision-and-handover\\VERIFY_SECURITY\\attempt-14-20261013T120223Z",
+      "stdout_byte_exact": true,
+      "stdout_path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\S4R3FAR-20261013-decision-and-handover\\VERIFY_SECURITY\\attempt-14-20261013T120223Z\\attempt-7204-1791892943-3-stdout.txt",
+      "stdout_bytes": 848,
+      "stdout_sha256": "43f86f055d8407dce1879b25f610246f8ab3788c42358e419e2403d7f41e3b39",
+      "stderr_byte_exact": true,
+      "stderr_path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\S4R3FAR-20261013-decision-and-handover\\VERIFY_SECURITY\\attempt-14-20261013T120223Z\\attempt-7204-1791892943-3-stderr.txt",
+      "stderr_bytes": 220,
+      "stderr_sha256": "92b86a3c5445ebc63e52d16e044b2d926e9346c1bd215da44cbd47d3caef8f08",
+      "stdout_tail": " is under `.hgk/rounds/...`; no product file changed in that range.\\n- C3e-3: yes. The re-extracted `ee5aa3e` Stage B sets reproduce exactly the two additions and retain the same Stage B DENIED set as the diff.\\n\\nHGK_LANE_NONCE_OK\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":14201,\"cached_input_tokens\":7616,\"cache_write_input_tokens\":0,\"output_tokens\":6552,\"reasoning_output_tokens\":6384}}\n",
+      "stderr_tail": "Reading additional input from stdin...\n2026-10-13T12:02:23.995622Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10101/v1/responses\n"
+    }
+  ],
+  "used_rank": 3,
+  "used_transport_model": "opencode-go/glm-5.3-flash",
+  "used_seconds": 98.32,
+  "generated_utc": "2026-10-13T12:04:02.156331+00:00",
+  "claim_ceiling": "a pass here proves the Codex-CLI lane served this turn through the relay with a matching usage receipt; it is not an acceptance of any subject",
+  "ok": true,
+  "usage_receipt_ok": true,
+  "usage_rows_shape_invalid": 0,
+  "usage_rows_undecodable": 0,
+  "required_arm": "opencode-go/glm-5.3-flash",
+  "served_arm": "opencode-go/glm-5.3-flash"
+}

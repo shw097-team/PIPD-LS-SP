@@ -1,0 +1,79 @@
+LOCAL RECEIPTS FOR THE TWO HEADS OF THIS ROUND
+==============================================================================
+
+Every block is the tail of a log file that the named command wrote. No number below was retyped
+from memory; the sha256 of each source file is given so a reader can check the copy.
+
+LINUX, AND WHY THERE IS NO LOCAL LINUX BLOCK HERE:
+  The first local Linux attempt ran the suite from /mnt/c. DrvFs does not preserve the executable
+  bit or full symlink semantics, so two of the suite's own checks (the run.sh permission check and
+  the symlinked-destination check) fail there for filesystem reasons that do not exist on the
+  hosted runner. That run is therefore NOT evidence and is not quoted. Two later attempts to run a
+  native WSL copy did not produce a usable log (the first could not resolve the worktree gitdir,
+  the second failed to clone). The Linux evidence for this round is the HOSTED ubuntu-24.04 run on
+  the exact subject SHAs, quoted in CI_RUNS_AND_STEP_RECEIPTS.txt. Said plainly: local Linux
+  verification was attempted three times and did NOT succeed; the Linux signal comes from CI.
+
+
+------------------------------------------------------------------------------
+Stage A, local Windows, FULL suite (final branch state)
+  source : C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\pipd-s4r3-exec\win_A_final_full.log
+  sha256 : 26dc75a59db488b3c5e73bf96a3383662cdc4d194d87271dda17e27b0fd725af
+  decisive lines:
+    > Ran 585 tests in 185.211s
+    > OK (skipped=4)
+    > EXIT=0
+
+------------------------------------------------------------------------------
+Stage A, local Windows, tests.test_standard_wheel_schemas -v (F006 gate + its mutations)
+  source : C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\pipd-s4r3-exec\f006_gate_tests.log
+  sha256 : c807a717cb90b8d92248e67f797b08378104a64c944d7cd7c77670c54bbf100c
+  decisive lines:
+    > Ran 13 tests in 8.123s
+    > OK
+
+------------------------------------------------------------------------------
+BOTH stages, the write-set gate step executed locally by scripts/run_writeset_gate_locally.py
+  source : C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\pipd-s4r3-exec\writeset_gate_local_final.txt
+  sha256 : b231690093f1ba79179a32e0319900903a9d87068c2c54accbf798fe6e2ab055
+  decisive lines:
+    > WRITE_SET_CLEAN_AGAINST_e71fee6dd3aa73724baec4e8d9cc72127fbe36ed
+    > WRITE_SET_CLEAN_AGAINST_5310896e706e01a9cdb0123285bccec75086bcb8
+    > 2/2 gate runs clean
+
+------------------------------------------------------------------------------
+Stage B, local Windows, focused: packaging + tooling + web fallback + wheel
+  source : C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\pipd-s4r3-exec\win_stageb_focused2.log
+  sha256 : 95ab7d652afca16eb88262b11197cd643a371afa1d18870326235724da0dc8b0
+  decisive lines:
+    > Ran 74 tests in 32.729s
+    > OK (skipped=1)
+    > EXIT=0
+
+------------------------------------------------------------------------------
+HISTORY Stage A full suite at the F006 commit before the gate-falsifiability commit
+  source : C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\pipd-s4r3-exec\win_full2.log
+  sha256 : 17940870c1672f745224e2069854f61a041f59db199802ac89f7d8214f048b8e
+  decisive lines:
+    > Ran 578 tests in 165.747s
+    > OK (skipped=4)
+    > EXIT=0
+
+------------------------------------------------------------------------------
+HISTORY Stage A full suite before the sys.path bootstrap; this run FAILED 1 and found it
+  source : C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\pipd-s4r3-exec\win_full.log
+  sha256 : ebb5337e3e74a546d1dfb0ac8fae8f94a968f9f78ab998e21001b5cd6265eb8e
+  decisive lines:
+    > Ran 578 tests in 192.909s
+    > FAILED (failures=1, skipped=4)
+    > EXIT=1
+
+------------------------------------------------------------------------------
+HISTORY Stage B full suite while on the stale base; its 1 failure is the same bootstrap
+  source : C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\pipd-s4r3-exec\win_stageb_full.log
+  sha256 : e7ec434ff11970c6bd83be86d8ddca023db63e7a560682716ca43953c0e7a50d
+  decisive lines:
+    > Ran 585 tests in 201.420s
+    > FAILED (failures=1, skipped=4)
+    > EXIT=1
+

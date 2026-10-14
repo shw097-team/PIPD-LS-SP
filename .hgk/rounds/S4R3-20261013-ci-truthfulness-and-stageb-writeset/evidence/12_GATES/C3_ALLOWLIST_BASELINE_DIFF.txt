@@ -1,0 +1,69 @@
+# Baseline diff of the write-set gate's ALLOWED/DENIED sets (frozen R3 subject vs current heads)
+
+How this was produced, mechanically and repeatably, with no manual editing:
+
+    git -C <stage A worktree> show e71fee6dd3aa73724baec4e8d9cc72127fbe36ed:.github/workflows/public-plugin-verify.yml   # frozen base
+    git -C <stage A worktree> show HEAD:.github/workflows/public-plugin-verify.yml        # current Stage A head
+    git -C <stage B worktree> show ba27309b50d8623ed9d3ad9b33fe7a4ffb8a9ede:.github/workflows/public-plugin-verify.yml     # current Stage B head
+    # every ALLOWED='...' / DENIED='...' assignment parsed, entries split on '|', then set-diffed
+
+A FIRST ATTEMPT AT THIS ARTEFACT WAS WRONG AND WAS DISCARDED. Its extractor terminated on the wrong
+token and captured 224 lines from the base against 348 from the head, which is not an allowlist; a
+"diff" built from it would have been meaningless. The extraction above parses the assignments
+themselves, so the counts below are entry counts, not line counts.
+
+## What the frozen base carried
+
+ONE allowlist and ONE denial set (the single-stage era, before the STAGE switch existed):
+
+  ALLOWED (12 entries): ['README\\.md$', '\\.github/workflows/public-plugin-verify\\.yml$', '\\.hgk/rounds/S4POST-20261012', 'docs/adr/', 'docs/install/', 'openspec/changes/s4post-triple-upgrade/', 'packaging/public-plugin/', 'tests/test_public_plugin_packaging\\.py$', 'tests/test_web_fallback\\.py$', 'tools/build_public_plugin\\.py$', 'tools/build_web_fallback\\.py$', 'tools/freeze_public_plugin_source\\.py$']
+  DENIED           : ['dist/', 'schemas/', 'skills/', 'src/']
+
+Note `src/` is in the frozen base's DENIED set.
+
+## What the current Stage A head carries
+
+TWO allowlists and TWO denial sets, selected by `STAGE` (the current Stage A head declares
+`STAGE: stage-a`; the Stage B head declares `STAGE: stage-b`).
+
+  stage-a ALLOWED (13 entries): ['MANIFEST\\.in$', '\\.github/workflows/ci', '\\.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/', 'examples/first-run/run\\.sh', 'ps1$', 'public-plugin-verify\\.yml$', 'pyproject\\.toml$', 'setup\\.py$', 'src/pipd_ls_sp/workspace\\.py$', 'tests/test_standard_wheel_schemas\\.py$', 'tests/test_web_fallback\\.py$', 'tools/cli_smoke\\.py$', 'tools/verify_installed_wheel_registry\\.py$']
+  stage-a DENIED           : ['dist/', 'schemas/', 'skills/']
+
+  stage-b ALLOWED (14 entries): ['README\\.md$', '\\.github/workflows/public-plugin-verify\\.yml$', '\\.hgk/rounds/S4POST-20261012', '\\.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/', 'docs/USER_GUIDE\\.md$', 'docs/adr/', 'docs/install/', 'openspec/changes/s4post-triple-upgrade/', 'packaging/public-plugin/', 'tests/test_public_plugin_packaging\\.py$', 'tests/test_web_fallback\\.py$', 'tools/build_public_plugin\\.py$', 'tools/build_web_fallback\\.py$', 'tools/freeze_public_plugin_source\\.py$']
+  stage-b DENIED           : ['dist/', 'schemas/', 'skills/', 'src/']
+
+## The deltas, stated exactly
+
+stage-b vs the frozen base:
+  + 2 added: ['\\.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/', 'docs/USER_GUIDE\\.md$']
+  - 0 removed: []
+
+stage-a vs the frozen base (a stage that did not exist in the frozen era, so every entry is new):
+  entries not present in the base allowlist: 12
+  base entries not present here            : 11
+
+## What this means, without rounding
+
+1. **The claim "the allowlists were NOT widened" is FALSE as written.** The stage-b allowlist gained
+   exactly two entries against the frozen base. This contradicts the inline comment in the workflow
+   itself ("This change widens NEITHER allowlist") and it contradicts the C3 claim this round put to
+   the verification lane in attempts 7-13.
+2. **The stage-b frozen-path denial is UNCHANGED**: skills/, src/, schemas/, dist/ all remain denied,
+   and it is the denial - not the allowlist - that carries the frozen-path guarantee for stage-b.
+3. **stage-a is a new stage whose DENIED set omits `src/`.** For that stage, `src/` files outside the
+   single allowed path are still refused, but by the ALLOWLIST rather than by a category denial. That
+   is a real change in mechanism for that stage, and it is exactly what repairing the pipeline
+   required - it is not presented here as unremarkable.
+4. **The more consequential of the two additions is the round directory itself**:
+   `.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/` is inside the governed write set
+   of the stage-b gate. The gate therefore permits writes to the directory that holds this round's
+   own receipts. Its likely reason is ordinary (the round commits evidence and the gate would
+   otherwise fail on it), but its effect is self-referential and it is recorded as such rather than
+   justified away.
+5. `docs/USER_GUIDE.md` is a doc addition consistent with stage B's distribution surface
+   (`docs/install/` and `docs/adr/` were already allowed); it is still a widening.
+
+## Ceiling
+
+This is a mechanical set-diff of two committed revisions. It says what changed in the governed write
+set; it does not say whether each change was necessary, and it is not an acceptance.

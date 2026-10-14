@@ -1,0 +1,19 @@
+write-set gate refusals and allowances, from the recorded local and CI runs
+(distilled from WRITE_SET_GATE_LOCAL_AND_CI.txt; the full file is in the same directory)
+
+The write-set gate is now declared by stage. It was run LOCALLY before pushing, with a harness
+[local] source: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\pipd-s4r3-exec\writeset_gate_local_final.txt  sha256=b231690093f1ba79179a32e0319900903a9d87068c2c54accbf798fe6e2ab055
+===== stage-a in s4r3a-wt (base env: e71fee6dd3aa/fix/s4r3-stage-a-ci-truthfulness-20261013) -> exit 0 =====
+=== governed stage-a write set (e71fee6dd3aa73724baec4e8d9cc72127fbe36ed...HEAD) ===
+GATE_SELF_TEST_OK: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/../evil.sh is refused as a traversal path
+GATE_SELF_TEST_OK: docs/install/../../src/pipd_ls_sp/validate.py is refused as a traversal path
+GATE_SELF_TEST_OK: planted frozen-path violations and unlisted src/** are all refused
+GATE_SELF_TEST_OK: planted stage-a artefacts are all allowed
+===== stage-b in s4r3c-wt (base env: e71fee6dd3aa/fix/s4r3-stage-a-ci-truthfulness-20261013) -> exit 0 =====
+=== governed stage-b write set (5310896e706e01a9cdb0123285bccec75086bcb8...HEAD) ===
+GATE_SELF_TEST_OK: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/../evil.sh is refused as a traversal path
+GATE_SELF_TEST_OK: docs/install/../../src/pipd_ls_sp/validate.py is refused as a traversal path
+GATE_SELF_TEST_OK: planted frozen-path violations and unlisted src/** are all refused
+GATE_SELF_TEST_OK: planted stage-b artefacts are all allowed
+stage-a: GATE_SELF_TEST_OK planted stage-a artefacts are all allowed
+stage-b: GATE_SELF_TEST_OK planted stage-b artefacts are all allowed

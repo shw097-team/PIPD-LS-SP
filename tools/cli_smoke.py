@@ -68,7 +68,21 @@ def main() -> int:
         ["repair", "--subject", "PI-PKG", "--scope", "src/**", "--maker", "HERMES-MAKER",
          "--authorized-root", str(ROOT)],
     ]
-    receipts = [run(p) for p in plan]
+    receipts = []
+    # Phase 1 = the commands whose OUTPUT the rest of the chain consumes. `intake` returns the
+    # IntentCard, but it has no `--out` verb and the plan used to leave it in the captured payload
+    # while `compile-pi` read the CHECKED-IN .hgk/artifacts/s1/intent_card.json. That committed card
+    # names its source as a developer-machine absolute path ("C:\\Projects\\Agent_Workspace\\PIPD"),
+    # which exists on the author's Windows box and on no other host, so compile-pi passed locally
+    # and failed on hosted Linux with INTAKE_INVALID: cannot read clause source (S4R3-F001). The
+    # smoke now persists the card THIS run produced and every downstream verb reads that.
+    head = plan[:3]
+    receipts += [run(p) for p in head]
+    produced_card = receipts[1]["payload"]
+    if isinstance(produced_card, dict) and produced_card.get("schema_version") == "IntentCard@1":
+        (ART / "intent_card.json").write_text(
+            json.dumps(produced_card, ensure_ascii=False, indent=1), encoding="utf-8", newline="")
+    receipts += [run(p) for p in plan[3:]]
     reds = [r for r in receipts if r["exit"] != 0]
     summary = {"schema": "PIPD-CLI-SMOKE/1", "commands_run": len(receipts),
                "expected": 13, "nonzero_exit": len(reds),

@@ -1,0 +1,27 @@
+set -euo pipefail
+BASE="${PR_BASE_SHA:-${STACKED_BASE_SHA}}"
+if ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then
+  echo "BASE_UNRESOLVED: ${BASE} is not present in this checkout; refusing to guess" >&2
+  exit 1
+fi
+git merge-base --is-ancestor "$BASE" HEAD
+CHANGED="$(git diff --name-only "${BASE}...HEAD")"
+printf '%s\n' "$CHANGED"
+ALLOWED='^(packaging/public-plugin/|tools/freeze_public_plugin_source\.py$|tools/build_public_plugin\.py$|tools/build_web_fallback\.py$|tests/test_public_plugin_packaging\.py$|tests/test_web_fallback\.py$|docs/install/|docs/adr/|openspec/changes/s4post-triple-upgrade/|\.github/workflows/public-plugin-verify\.yml$|README\.md$|\.hgk/rounds/S4POST-20261012)'
+DENIED='^(skills/|src/|schemas/|dist/)'
+bad=0
+while IFS= read -r path; do
+  [ -n "$path" ] || continue
+  if printf '%s' "$path" | grep -Eq "$DENIED"; then
+    echo "UPGRADE_WROTE_FROZEN_PATH: $path" >&2
+    bad=1
+  elif ! printf '%s' "$path" | grep -Eq "$ALLOWED"; then
+    echo "UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: $path" >&2
+    bad=1
+  fi
+done <<< "$CHANGED"
+if [ "$bad" -ne 0 ]; then
+  echo "WRITE_SET_VIOLATION (base ${BASE})" >&2
+  exit 1
+fi
+echo "WRITE_SET_CLEAN_AGAINST_${BASE}"

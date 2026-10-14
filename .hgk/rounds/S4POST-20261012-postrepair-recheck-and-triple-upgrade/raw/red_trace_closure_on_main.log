@@ -1,0 +1,285 @@
+FEFFFEFEFFFFFFE.EEEEEE..FFFEF.F
+======================================================================
+ERROR: test_cli_reports_closure_state_on_a_legal_bundle (tests.test_s4ext_trace_closure.CliBundleClosureRouteTests.test_cli_reports_closure_state_on_a_legal_bundle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 335, in test_cli_reports_closure_state_on_a_legal_bundle
+    self.assertEqual(payload["closure"], "FULL")
+                     ~~~~~~~^^^^^^^^^^^
+KeyError: 'closure'
+
+======================================================================
+ERROR: test_the_untouched_legal_edge_still_closes (tests.test_s4ext_trace_closure.EndpointTypeCoherenceTests.test_the_untouched_legal_edge_still_closes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 394, in test_the_untouched_legal_edge_still_closes
+    self.assertEqual(res["closure"], "FULL", res)
+                     ~~~^^^^^^^^^^^
+KeyError: 'closure'
+
+======================================================================
+ERROR: test_closure_never_consults_the_network (tests.test_s4ext_trace_closure.GraphClosureRefusalTests.test_closure_never_consults_the_network)
+The closure is derived from the bundle in memory (no resolver, no $ref fetch).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 286, in test_closure_never_consults_the_network
+    body = src.split("def closure_findings", 1)[1].split("def validate_bundle", 1)[0]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+ERROR: test_full_chain_validates_and_closes (tests.test_s4ext_trace_closure.LegalTraceStillPassesTests.test_full_chain_validates_and_closes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 99, in test_full_chain_validates_and_closes
+    self.assertEqual(res["closure"], "FULL", "the real chain must reach full graph closure")
+                     ~~~^^^^^^^^^^^
+KeyError: 'closure'
+
+======================================================================
+ERROR: test_real_trace_link_is_legal_beside_its_endpoints (tests.test_s4ext_trace_closure.LegalTraceStillPassesTests.test_real_trace_link_is_legal_beside_its_endpoints)
+A TraceLink bundled WITH the PI it points at resolves on both sides.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 114, in test_real_trace_link_is_legal_beside_its_endpoints
+    self.assertEqual(res["closure"], "FULL")
+                     ~~~^^^^^^^^^^^
+KeyError: 'closure'
+
+======================================================================
+ERROR: test_single_pi_closes_against_its_own_atoms (tests.test_s4ext_trace_closure.LegalTraceStillPassesTests.test_single_pi_closes_against_its_own_atoms)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 106, in test_single_pi_closes_against_its_own_atoms
+    self.assertEqual(res["closure"], "FULL")
+                     ~~~^^^^^^^^^^^
+KeyError: 'closure'
+
+======================================================================
+ERROR: test_empty_bundle_reports_no_closure (tests.test_s4ext_trace_closure.PartialBundleIsLabelledSchemaOnlyTests.test_empty_bundle_reports_no_closure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 146, in test_empty_bundle_reports_no_closure
+    self.assertEqual(res["closure"], "SCHEMA_ONLY")
+                     ~~~^^^^^^^^^^^
+KeyError: 'closure'
+
+======================================================================
+ERROR: test_trace_free_bundle_is_schema_only (tests.test_s4ext_trace_closure.PartialBundleIsLabelledSchemaOnlyTests.test_trace_free_bundle_is_schema_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 141, in test_trace_free_bundle_is_schema_only
+    self.assertEqual(res["closure"], "SCHEMA_ONLY")
+                     ~~~^^^^^^^^^^^
+KeyError: 'closure'
+
+======================================================================
+ERROR: test_endpoint_type_enum_matches_the_registry_families (tests.test_s4ext_trace_closure.SchemaDriftTests.test_endpoint_type_enum_matches_the_registry_families)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 306, in test_endpoint_type_enum_matches_the_registry_families
+    self.assertEqual(sorted(tl["properties"]["from_type"]["enum"]), families)
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+KeyError: 'enum'
+
+======================================================================
+ERROR: test_inlined_pi_trace_items_equal_the_standalone_family (tests.test_s4ext_trace_closure.SchemaDriftTests.test_inlined_pi_trace_items_equal_the_standalone_family)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 298, in test_inlined_pi_trace_items_equal_the_standalone_family
+    self.assertEqual(items["properties"], tl["properties"])
+                     ~~~~~^^^^^^^^^^^^^^
+KeyError: 'properties'
+
+======================================================================
+ERROR: test_object_from_hash_is_schema_first_fail (tests.test_s4ext_trace_closure.TypedEndpointTests.test_object_from_hash_is_schema_first_fail)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 177, in test_object_from_hash_is_schema_first_fail
+    self.assertEqual(f[0]["kind"], "SCHEMA")
+                     ~^^^
+IndexError: list index out of range
+
+======================================================================
+FAIL: test_cli_refuses_a_fabricated_endpoint_hash (tests.test_s4ext_trace_closure.CliBundleClosureRouteTests.test_cli_refuses_a_fabricated_endpoint_hash)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 347, in test_cli_refuses_a_fabricated_endpoint_hash
+    self.assertEqual(payload["verdict"], "FAIL", payload)
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+ : {'checked': 4, 'findings': [], 'schema_source': {'mode': 'WORKSPACE', 'path': 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\schemas', 'tried': ['C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\schemas']}, 'verdict': 'PASS'}
+
+======================================================================
+FAIL: test_a_wrong_type_on_either_side_is_refused (tests.test_s4ext_trace_closure.EndpointTypeCoherenceTests.test_a_wrong_type_on_either_side_is_refused) (side='from_type')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 389, in test_a_wrong_type_on_either_side_is_refused
+    self.assertEqual(res["verdict"], "FAIL", res)
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+ : {'verdict': 'PASS', 'checked': 1, 'findings': []}
+
+======================================================================
+FAIL: test_a_wrong_type_on_either_side_is_refused (tests.test_s4ext_trace_closure.EndpointTypeCoherenceTests.test_a_wrong_type_on_either_side_is_refused) (side='to_type')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 389, in test_a_wrong_type_on_either_side_is_refused
+    self.assertEqual(res["verdict"], "FAIL", res)
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+ : {'verdict': 'PASS', 'checked': 1, 'findings': []}
+
+======================================================================
+FAIL: test_declared_type_contradicting_the_resolved_family_is_refused (tests.test_s4ext_trace_closure.EndpointTypeCoherenceTests.test_declared_type_contradicting_the_resolved_family_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 377, in test_declared_type_contradicting_the_resolved_family_is_refused
+    self.assertEqual(res["verdict"], "FAIL", res)
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+ : {'verdict': 'PASS', 'checked': 1, 'findings': []}
+
+======================================================================
+FAIL: test_closure_findings_are_named_not_aggregated (tests.test_s4ext_trace_closure.GraphClosureRefusalTests.test_closure_findings_are_named_not_aggregated)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 281, in test_closure_findings_are_named_not_aggregated
+    self.assertGreaterEqual(len(details), 2, details)
+AssertionError: 0 not greater than or equal to 2 : []
+
+======================================================================
+FAIL: test_duplicated_edge_with_one_bad_hash_is_refused (tests.test_s4ext_trace_closure.GraphClosureRefusalTests.test_duplicated_edge_with_one_bad_hash_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 269, in test_duplicated_edge_with_one_bad_hash_is_refused
+    self.assertIn("hash mismatch", self._expect_closure_refusal(pi))
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 246, in _expect_closure_refusal
+    self.assertEqual(res["verdict"], "FAIL", "a broken trace graph must not pass")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+ : a broken trace graph must not pass
+
+======================================================================
+FAIL: test_fabricated_endpoint_hash_is_refused (tests.test_s4ext_trace_closure.GraphClosureRefusalTests.test_fabricated_endpoint_hash_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 253, in test_fabricated_endpoint_hash_is_refused
+    detail = self._expect_closure_refusal(self._pi_with(to_hash="d" * 64))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 246, in _expect_closure_refusal
+    self.assertEqual(res["verdict"], "FAIL", "a broken trace graph must not pass")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+ : a broken trace graph must not pass
+
+======================================================================
+FAIL: test_missing_source_endpoint_is_refused (tests.test_s4ext_trace_closure.GraphClosureRefusalTests.test_missing_source_endpoint_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 261, in test_missing_source_endpoint_is_refused
+    detail = self._expect_closure_refusal(self._pi_with(from_id="PI-0000000000000000"))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 246, in _expect_closure_refusal
+    self.assertEqual(res["verdict"], "FAIL", "a broken trace graph must not pass")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+ : a broken trace graph must not pass
+
+======================================================================
+FAIL: test_orphan_endpoint_is_refused (tests.test_s4ext_trace_closure.GraphClosureRefusalTests.test_orphan_endpoint_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 257, in test_orphan_endpoint_is_refused
+    detail = self._expect_closure_refusal(self._pi_with(to_id="ATOM-ffffffffffffffff"))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 246, in _expect_closure_refusal
+    self.assertEqual(res["verdict"], "FAIL", "a broken trace graph must not pass")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+ : a broken trace graph must not pass
+
+======================================================================
+FAIL: test_stale_source_hash_is_refused (tests.test_s4ext_trace_closure.GraphClosureRefusalTests.test_stale_source_hash_is_refused)
+A stale (previous revision's) source hash is a mismatch, not a legal edge.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 275, in test_stale_source_hash_is_refused
+    self.assertIn("hash mismatch", self._expect_closure_refusal(pi))
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 246, in _expect_closure_refusal
+    self.assertEqual(res["verdict"], "FAIL", "a broken trace graph must not pass")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+ : a broken trace graph must not pass
+
+======================================================================
+FAIL: test_a_lone_edge_without_its_endpoints_is_fail_closed (tests.test_s4ext_trace_closure.LegalTraceStillPassesTests.test_a_lone_edge_without_its_endpoints_is_fail_closed)
+A TraceLink alone in a bundle cannot be closed -- and must not be reported as PASS.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 122, in test_a_lone_edge_without_its_endpoints_is_fail_closed
+    self.assertEqual(res["verdict"], "FAIL")
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_integer_from_id_is_schema_first_fail (tests.test_s4ext_trace_closure.TypedEndpointTests.test_integer_from_id_is_schema_first_fail)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 171, in test_integer_from_id_is_schema_first_fail
+    self.assertTrue(f, "an integer endpoint id must be refused")
+AssertionError: [] is not true : an integer endpoint id must be refused
+
+======================================================================
+FAIL: test_nested_pi_trace_endpoint_is_typed_too (tests.test_s4ext_trace_closure.TypedEndpointTests.test_nested_pi_trace_endpoint_is_typed_too)
+The report's probe: nested trace, required keys present, wrong types must be refused.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 205, in test_nested_pi_trace_endpoint_is_typed_too
+    self.assertTrue(f, "the nested trace form must be typed like the standalone family")
+AssertionError: [] is not true : the nested trace form must be typed like the standalone family
+
+======================================================================
+FAIL: test_null_and_blank_endpoint_strings_are_refused (tests.test_s4ext_trace_closure.TypedEndpointTests.test_null_and_blank_endpoint_strings_are_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 185, in test_null_and_blank_endpoint_strings_are_refused
+    self.assertEqual(f[0]["kind"], "SCHEMA", f"{field}={bad!r}")
+AssertionError: 'SEMANTIC' != 'SCHEMA'
+- SEMANTIC
++ SCHEMA
+ : from_type=None
+
+======================================================================
+FAIL: test_short_or_uppercase_hash_is_refused (tests.test_s4ext_trace_closure.TypedEndpointTests.test_short_or_uppercase_hash_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 190, in test_short_or_uppercase_hash_is_refused
+    self.assertTrue(f, f"to_hash={bad!r} must be refused")
+AssertionError: [] is not true : to_hash='abc' must be refused
+
+======================================================================
+FAIL: test_unknown_endpoint_type_is_refused (tests.test_s4ext_trace_closure.TypedEndpointTests.test_unknown_endpoint_type_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_trace_closure.py", line 195, in test_unknown_endpoint_type_is_refused
+    self.assertTrue(f)
+AssertionError: [] is not true
+
+----------------------------------------------------------------------
+Ran 30 tests in 1.966s
+
+FAILED (failures=16, errors=11)

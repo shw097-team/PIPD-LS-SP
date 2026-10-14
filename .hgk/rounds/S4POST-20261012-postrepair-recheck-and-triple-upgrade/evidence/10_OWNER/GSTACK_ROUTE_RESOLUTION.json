@@ -1,0 +1,251 @@
+{
+ "schema": "HGK-GSTACK-ROUTE-RESOLUTION/1",
+ "round": "S4POST-20261012-postrepair-recheck-and-triple-upgrade",
+ "surface": "src/hg_kseos/named_methods.py route(flow) - deterministic registry lookup, never LLM guessing",
+ "active_selected": [
+  "gstack.cso",
+  "gstack.office-hours",
+  "gstack.plan-eng-review",
+  "gstack.qa",
+  "gstack.retro",
+  "gstack.review",
+  "gstack.ship",
+  "openspec"
+ ],
+ "registry_snapshot": {
+  "openspec": {
+   "source_disposition": "ADOPT_FOR_BLUEPRINT / RUNTIME_CERT_PENDING",
+   "current_execution_scope": "USER_AUTHORIZED_ACTIVE_REQUIRED_FOR_BROWNFIELD",
+   "runtime_required_now": true,
+   "role": "BROWNFIELD_ENGINEERING_DEFINITION_ADAPTER",
+   "provider_state": "CERTIFIED_ACTIVE_BROWNFIELD",
+   "fallback": "hgk_native_prw",
+   "final_authority": false,
+   "xor_with": "spec_kit"
+  },
+  "gstack.plan-eng-review": {
+   "source_disposition": "CONDITIONAL_RECOMMENDED / SELECTIVE",
+   "current_execution_scope": "USER_AUTHORIZED_ACTIVE_SELECTED_SLICES",
+   "runtime_required_now": true,
+   "role": "ADVISORY_REVIEW_QA_SECURITY_METHOD_ADAPTER",
+   "provider_state": "CERTIFIED_ACTIVE_SELECTED_SLICES",
+   "fallback": "hgk_native_plan_review",
+   "final_authority": false,
+   "xor_with": null
+  },
+  "gstack.review": {
+   "source_disposition": "CONDITIONAL_RECOMMENDED / SELECTIVE",
+   "current_execution_scope": "USER_AUTHORIZED_ACTIVE_SELECTED_SLICES",
+   "runtime_required_now": true,
+   "role": "ADVISORY_REVIEW_QA_SECURITY_METHOD_ADAPTER",
+   "provider_state": "CERTIFIED_ACTIVE_SELECTED_SLICES",
+   "fallback": "hgk_native_review",
+   "final_authority": false,
+   "xor_with": null
+  },
+  "gstack.qa": {
+   "source_disposition": "CONDITIONAL_RECOMMENDED / SELECTIVE",
+   "current_execution_scope": "USER_AUTHORIZED_ACTIVE_SELECTED_SLICES",
+   "runtime_required_now": true,
+   "role": "ADVISORY_REVIEW_QA_SECURITY_METHOD_ADAPTER",
+   "provider_state": "CERTIFIED_ACTIVE_SELECTED_SLICES",
+   "fallback": "hgk_native_qa",
+   "final_authority": false,
+   "xor_with": null
+  },
+  "gstack.cso": {
+   "source_disposition": "CONDITIONAL_RECOMMENDED / SELECTIVE",
+   "current_execution_scope": "USER_AUTHORIZED_ACTIVE_SELECTED_SLICES",
+   "runtime_required_now": true,
+   "role": "ADVISORY_REVIEW_QA_SECURITY_METHOD_ADAPTER",
+   "provider_state": "CERTIFIED_ACTIVE_SELECTED_SLICES",
+   "fallback": "hgk_native_security",
+   "final_authority": false,
+   "xor_with": null
+  },
+  "gstack.ship": {
+   "source_disposition": "CONDITIONAL_RECOMMENDED / SELECTIVE",
+   "current_execution_scope": "USER_AUTHORIZED_ACTIVE_SELECTED_SLICES",
+   "runtime_required_now": true,
+   "role": "ADVISORY_REVIEW_QA_SECURITY_METHOD_ADAPTER",
+   "provider_state": "CERTIFIED_ACTIVE_SELECTED_SLICES",
+   "fallback": "hgk_native_release_checklist",
+   "final_authority": false,
+   "xor_with": null
+  },
+  "gstack.office-hours": {
+   "source_disposition": "CONDITIONAL_RECOMMENDED / SELECTIVE",
+   "current_execution_scope": "USER_AUTHORIZED_ACTIVE_SELECTED_SLICES",
+   "runtime_required_now": true,
+   "role": "AMBIGUITY_PRODUCT_INTERROGATION_ADVISORY",
+   "provider_state": "CERTIFIED_ACTIVE_SELECTED_SLICES",
+   "fallback": "hgk_native_prw",
+   "final_authority": false,
+   "xor_with": null
+  },
+  "gstack.retro": {
+   "source_disposition": "CONDITIONAL_RECOMMENDED / SELECTIVE",
+   "current_execution_scope": "USER_AUTHORIZED_ACTIVE_SELECTED_SLICES",
+   "runtime_required_now": true,
+   "role": "RETROSPECTIVE_LEARNING_ADVISORY",
+   "provider_state": "CERTIFIED_ACTIVE_SELECTED_SLICES",
+   "fallback": "hgk_native_retro",
+   "final_authority": false,
+   "xor_with": null
+  },
+  "spec_kit": {
+   "source_disposition": "STANDBY / GREENFIELD PROFILE",
+   "current_execution_scope": "STANDBY",
+   "runtime_required_now": false,
+   "role": "GREENFIELD_SPEC_PROJECTION",
+   "provider_state": "STANDBY",
+   "fallback": "hgk_native_prw",
+   "final_authority": false,
+   "xor_with": "openspec"
+  }
+ },
+ "flow_routes": {
+  "brownfield": {
+   "flow": "brownfield",
+   "provider": "openspec",
+   "state": "CERTIFIED_ACTIVE_BROWNFIELD",
+   "fallback": "hgk_native_prw",
+   "final_authority": true,
+   "route": "OPENSPEC"
+  },
+  "greenfield": {
+   "flow": "greenfield",
+   "provider": null,
+   "state": "XOR_GREENFIELD",
+   "fallback": null,
+   "final_authority": true,
+   "route": "NATIVE"
+  },
+  "ambiguity": {
+   "flow": "ambiguity",
+   "provider": "gstack.office-hours",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_prw",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  "plan": {
+   "flow": "plan",
+   "provider": "gstack.plan-eng-review",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_plan_review",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  "review": {
+   "flow": "review",
+   "provider": "gstack.review",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_review",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  "qa": {
+   "flow": "qa",
+   "provider": "gstack.qa",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_qa",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  "security": {
+   "flow": "security",
+   "provider": "gstack.cso",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_security",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  "release": {
+   "flow": "release",
+   "provider": "gstack.ship",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_release_checklist",
+   "final_authority": false,
+   "route": "GSTACK"
+  },
+  "retro": {
+   "flow": "retro",
+   "provider": "gstack.retro",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_retro",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  "repair": {
+   "flow": "repair",
+   "provider": null,
+   "state": null,
+   "fallback": null,
+   "final_authority": true,
+   "route": "NATIVE"
+  },
+  "lane-repair": {
+   "flow": "lane-repair",
+   "provider": null,
+   "state": null,
+   "fallback": null,
+   "final_authority": true,
+   "route": "NATIVE"
+  },
+  "verify": {
+   "flow": "verify",
+   "provider": null,
+   "state": null,
+   "fallback": null,
+   "final_authority": true,
+   "route": "NATIVE"
+  }
+ },
+ "flows_this_round_actually_exercises": [
+  "plan",
+  "verify",
+  "security",
+  "review",
+  "repair"
+ ],
+ "activation_invariants": {
+  "canonical_flow_named_method_without_runtime_or_certified_substitute": 0,
+  "active_named_method_missing_identity": 0,
+  "active_named_method_missing_pin": 0,
+  "active_named_method_missing_install": 0,
+  "active_named_method_missing_binding": 0,
+  "active_named_method_missing_doctor": 0,
+  "active_named_method_missing_pilot": 0,
+  "active_named_method_missing_independent_cert": 0,
+  "active_named_method_silent_fallback": 0,
+  "named_method_fake_invocation": 0,
+  "named_method_silent_fallback": 0,
+  "dual_spec_owner": 0,
+  "second_orchestrator": 0,
+  "release_authority_escape": 0
+ },
+ "invariant_envelope_fields": {
+  "canonical_flow_named_method_without_runtime_or_certified_substitute": 0,
+  "active_named_method_missing_identity": 0,
+  "active_named_method_missing_pin": 0,
+  "active_named_method_missing_install": 0,
+  "active_named_method_missing_binding": 0,
+  "active_named_method_missing_doctor": 0,
+  "active_named_method_missing_pilot": 0,
+  "active_named_method_missing_independent_cert": 0,
+  "active_named_method_silent_fallback": 0,
+  "named_method_fake_invocation": 0,
+  "named_method_silent_fallback": 0,
+  "dual_spec_owner": 0,
+  "second_orchestrator": 0,
+  "release_authority_escape": 0
+ },
+ "invariants_all_zero": true,
+ "note": "invariants_all_zero is the check; a non-zero count means a canonical flow names a named method that is neither runtime-certified nor substituted",
+ "nonclaims": [
+  "not an acceptance",
+  "a route receipt, not a verdict on any subject",
+  "not a release or publication approval"
+ ]
+}

@@ -1,0 +1,2187 @@
+OpenAI Codex v0.162.0-alpha.17.2
+--------
+workdir: C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+model: gpt-6.1-sol
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a13304-1028-7340-b507-d2be77632c11
+--------
+user
+# Independent acceptance brief — S4POST R3 candidate (owner-mandated VERIFY/SECURITY lane)
+
+You are the **Independent Acceptance Officer** on the owner-declared lane (CODEX CLI, checker model
+`gpt-6.1-sol`, OpenAI OAuth, reasoning effort medium). You did **not** write this candidate and you may
+**not** repair it. Work **read-only**: write only under `.ao-r3/` in this clone. No network, no git
+history changes, no commit, no push, no tag, no publish, no edits to any tracked file.
+
+## Subject (bind exactly, do not accept a moving target)
+
+- Primary subject commit: **`389d3973da73e5740f0b4d290bacb92d1e8982f8`** — branch
+  `feat/s4post-triple-upgrade-20261013-r3` (the product changeset, split out of the round's worktree).
+- Companion branches (read-only context, do not merge): `feat/s4post-triple-upgrade-20261012-r2`,
+  `chore/s4post-verification-harness`.
+- `main` must still be **`224591431a164ab72a9423cd180e417e8a762403`** and must be untouched.
+- Round directory: `.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/`
+
+**Do NOT read** any maker summary, this brief's own claims, or a log as *evidence*. Re-derive every
+decisive claim yourself from the tree. If you cannot re-derive something, emit a typed `UNCERTAINTY`
+with the reason. If your measurement disagrees with a stated claim, emit a typed `DISAGREEMENT` giving
+both numbers — do not average them or pick one.
+
+Interpreter: use `C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe` (3.11.9, has
+`jsonschema`). Set `PYTHONPATH` to this clone when running suites.
+
+## Claims to test — each `VERIFIED` / `FAILED` / `INCONCLUSIVE`, each with your own raw output
+
+1. **C1 focused suite** — `python -m unittest discover -s tests -p 'test_s4ext_*.py' -v`. Record the real
+   exit code and the literal `Ran N tests` line. Claim under test: 108 tests, OK. A suite you had to edit
+   to run is FAILED.
+2. **C2 full suite** — `python -m unittest discover -s tests -t .`. Record exit code, `Ran N tests in Xs`
+   and the OK/skip line. Claim under test: 572 tests, OK. Record the SKIP COUNT you observe verbatim;
+   a different skip count from the maker's is not by itself a failure — say what you saw.
+3. **C3 the suites do not mutate the subject** — capture `git status --porcelain` and
+   `git status --porcelain --ignored` BEFORE and AFTER running both suites, and report the set
+   difference (name the entries, do not just count). Claim under test: zero new entries of either kind.
+4. **C4 the documented acceptance commands are executable as written** — open
+   `R3_PUBLICATION.md`, take its §3 acceptance block **verbatim**, and execute it in this clone, step by
+   step, recording each real exit code. For any step that cannot be executed as written, give the exact
+   error. This is the claim the previous independent pass refuted once; test it yourself.
+5. **C5 locator negative control must fail closed** — run
+   `python verify/tools/check_evidence_locators.py --root . --search-dir . verify/ao12/EXTERNAL_CHALLENGE_REPORT.md`
+   with the round directory as cwd. A non-zero exit with `FAIL_LOCATORS_NOT_RERUNNABLE` is the PASS
+   condition here (the control's job is to refuse).
+6. **C6 locator positive control on THIS subject** — run
+   `python verify/tools/check_evidence_locators.py --root . --search-dir . <round>/OWNER_ACTION_REQUEST.md <round>/HARNESS_FREEZE_AND_AO_LOOP_CAP.md`
+   from the clone root. Claim under test: exit 0 / `PASS_LOCATORS_IN_TREE`. If it fails, list every
+   offender. Do not run it from inside a tree that also carries the companion branches' files — the
+   subject is this clone only.
+7. **C7 vendor schema provenance** — compare `packaging/public-plugin/vendor-plugin.schema.json` with
+   the live official document at `https://agent-plugins.org/schemas/1.0.0/plugin.schema.json`
+   (claim: 1805 bytes, sha256 `0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883`,
+   byte-identical). If your sandbox has no network, you must NOT speculate: read
+   `verify/r3/C1_VENDOR_SCHEMA_PROVENANCE.json`, state that you could not re-derive the fetch, and
+   classify the fetch half `INCONCLUSIVE` while still verifying the in-tree bytes yourself.
+8. **C8 the evidence pack's hash forms are honest** — for each `commands[]` entry in
+   `evidence/EVIDENCE_RETURN_PACK.json`, recompute from the repository both
+   `log_sha256_committed_blob` (`git cat-file -p <commit>:<round>/<path>`) and the on-disk form, and
+   show that the two differ as declared rather than one being a copy of the other. A recorded
+   committed-blob hash equal to the empty-string digest is FAILED.
+9. **C9 CI state** — read `.github/workflows/ci.yml` and state whether a "CI is green" claim is
+   verifiable from inside an offline clone. If it is not verifiable here, classify it `INCONCLUSIVE`
+   naming exactly what would be needed; do not accept the claim and do not call it false.
+10. **C10 no unresolved gitlinks at the subject** — `git ls-tree -r HEAD | awk '$1=="160000"'` must be
+    empty at the subject, while `main` still carries the four pre-existing ones. Report both counts.
+11. **C11 the register's states are supported** — read `00_plan/TT_S4POST_REGISTER.tsv` and, for each row
+    whose state asserts a fact you can check locally (e.g. `GREEN_HOSTED_RUNS_VERIFIED`), say whether the
+    tree supports it; mark any state you cannot check from here as `UNSUPPORTED_FROM_CLONE` rather than
+    agreeing with it.
+12. **C12 the FAR study's measured claims are locatable** — in
+    `verify/far/FAR_OPEN_ITEMS_ADJUDICATION_20261013.md`, every claim presented as *measured* must point
+    at an artifact in this subject. List any "measured" claim with no locatable artifact at this commit.
+13. **C13 the round's headline disclosures are accurate** — the round states (a) an earlier CI defect
+    made the workflow never actually run, and (b) `public-plugin-verify` is still failing for a base-scope
+    reason and is disclosed rather than hidden. From the tree alone, say which of these you can confirm,
+    which you cannot, and whether any FAVOURABLE claim is overstated.
+14. **C14 nothing favourable is silently rounded up** — name every place where a claim in
+    `R3_PUBLICATION.md`, `evidence/EVIDENCE_RETURN_PACK.json` or the FAR study reads stronger than the
+    artifacts support. If there are none, say so explicitly.
+
+## Output contract
+
+Write your report to `.ao-r3/EXTERNAL_CHALLENGE_REPORT.md` with these 13 headings in order:
+1 Scope and subject binding · 2 Method and raw evidence · 3 What is verified · 4 What failed ·
+5 UNCERTAINTY items · 6 DISAGREEMENT items · 7 Claim-by-claim table (C1..C14) · 8 Reproduction
+transcript (commands + literal output) · 9 Non-mutation finding · 10 Scope limits (what this verdict
+does NOT cover) · 11 Residual risk · 12 Required owner decisions · 13 Verdict.
+
+Also write `.ao-r3/AO_VERDICT.json`:
+
+```json
+{"verdict":"<one of PASS_CHALLENGE|FAIL_CHALLENGE|PARTIAL_CHALLENGE|TEMP_CLOSED_CHALLENGE>",
+ "subject_commit":"389d3973da73e5740f0b4d290bacb92d1e8982f8","subject_tree":"<read it yourself>",
+ "claims":[{"id":"C1","verdict":"VERIFIED|FAILED|INCONCLUSIVE","evidence":"<literal output excerpt>"}],
+ "not_verified":["..."],"notes":"..."}
+```
+
+`PASS_CHALLENGE` requires every blocking claim (C1, C2, C4, C5, C6, C8, C10) to be VERIFIED; if any is
+FAILED the verdict must be `FAIL_CHALLENGE`, and if you could not test enough of them,
+`PARTIAL_CHALLENGE`. Print the JSON to stdout as your final output. Your verdict is advisory evidence
+to the owner: it grants no release, no pass, and no promotion of any kind.
+
+warning: Model metadata for `gpt-6.1-sol` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.
+codex
+I’ll bind the commit, then collect offline evidence under `.ao-r3/` only.
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command 'Get-Location; git rev-parse HEAD; git rev-parse HEAD''^{tree}; git rev-parse main; git status --porcelain; Get-ChildItem -Path . -Filter AGENTS.md; Get-Command apply_patch -ErrorAction SilentlyContinue' in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+ succeeded in 579ms:
+
+389d3973da73e5740f0b4d290bacb92d1e8982f8
+fatal: ambiguous argument 'dAByAGUAZQA=': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+8c2d6f306cf119668a0c432aff05819ee6eb5969
+-encodedCommand
+dAByAGUAZQA=
+fatal: ambiguous argument 'main': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+main
+Path
+----
+C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+
+Path               : C:\Users\user\.codex\tmp\arg0\codex-arg08GPIOT\apply_patch.bat
+Extension          : .bat
+Definition         : C:\Users\user\.codex\tmp\arg0\codex-arg08GPIOT\apply_patch.bat
+Source             : C:\Users\user\.codex\tmp\arg0\codex-arg08GPIOT\apply_patch.bat
+Version            : 0.0.0.0
+Visibility         : Public
+OutputType         : {System.String}
+Name               : apply_patch.bat
+CommandType        : Application
+ModuleName         : 
+Module             : 
+RemotingCapability : PowerShell
+Parameters         : 
+ParameterSets      : 
+HelpUri            : 
+FileVersionInfo    : File:             C:\Users\user\.codex\tmp\arg0\codex-arg08GPIOT\apply_patch.bat
+                     InternalName:     
+                     OriginalFilename: 
+                     FileVersion:      
+                     FileDescription:  
+                     Product:          
+                     ProductVersion:   
+                     Debug:            False
+                     Patched:          False
+                     PreRelease:       False
+                     PrivateBuild:     False
+                     SpecialBuild:     False
+                     Language:         
+                     
+
+
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "git rev-parse 'HEAD"'^{tree}'"'; git show-ref; rg --files -g AGENTS.md -g R3_PUBLICATION.md -g EVIDENCE_RETURN_PACK.json -g TT_S4POST_REGISTER.tsv -g FAR_OPEN_ITEMS_ADJUDICATION_20261013.md -g C1_VENDOR_SCHEMA_PROVENANCE.json; Get-ChildItem .. -Filter AGENTS.md; Get-ChildItem ../.. -Filter AGENTS.md; Get-ChildItem ../../.. -Filter AGENTS.md" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+ succeeded in 569ms:
+488d12c1a4bef899f6d38543ab50874d79996e3a
+2efc84eac8e1939092c748d5b389b6dd72267aef refs/heads/r5p-post-challenge-repair
+2efc84eac8e1939092c748d5b389b6dd72267aef refs/remotes/origin/HEAD
+0d5844d2889a6918746f6852d5bcaeb5ee95afa5 refs/remotes/origin/chore/s4post-verification-harness
+3c41574d491c842c21fde6b5f99cc053f8b815d5 refs/remotes/origin/feat/s4post-triple-upgrade-20261012
+98317456e00a6db868750a7d778e0fe60a0bb694 refs/remotes/origin/feat/s4post-triple-upgrade-20261012-r2
+389d3973da73e5740f0b4d290bacb92d1e8982f8 refs/remotes/origin/feat/s4post-triple-upgrade-20261013-r3
+eef951acdfe0e2b4d93dde7732d264441d9bd674 refs/remotes/origin/fix/s4-external-challenge-20261012-r1-provenance-trace
+ad33c0c679ac329a38cb9b0c0127a51211e3e09e refs/remotes/origin/fix/s4post-far-adjudication-20261012
+52542c395a0f91dc2ba4bd6123acd4cdecd780dc refs/remotes/origin/fix/s4post-integration-repair-20261012
+224591431a164ab72a9423cd180e417e8a762403 refs/remotes/origin/main
+7c5bc585c7d889cd338da853be4efc4b8f07d3b2 refs/remotes/origin/master
+2ad1f16bf44eb14868eaac6dfa764516490de27c refs/remotes/origin/r5-s4-evidence
+f418153aac2cf7e5a4080d6412f8fe15ffca34b6 refs/remotes/origin/r5-s4-readme
+2efc84eac8e1939092c748d5b389b6dd72267aef refs/remotes/origin/r5p-post-challenge-repair
+9bd33a1025894504192c6d9443e7c1598454e822 refs/remotes/origin/r5q-owner-opensource-preview
+3f6c7dc52b73cfcba03dccbe576ade75bec1890d refs/remotes/origin/s4-r2-affected-only-20261011
+cc9bf574c3b3f0f44ea615b5c67ae40d74efee32 refs/tags/v0.1.0-preview.1
+8faa64e581e8c25f5ec355475e29561847da3ead refs/tags/v0.1.0-preview.2
+e94cc7f9567acb59de4691ee6166815ac96a9700 refs/tags/v0.1.1-preview.3
+
+**Assessing file handling**
+
+I need to find hidden files using the command `rg --hidden`. It seems like I have plenty of time, around 22,000 tokens, but I should double-check how many I have left—27 or maybe 28? I’m thinking about needing scripts to create a collector that runs commands to capture bytes, statuses, and report them. First, I want to inspect the documentation to ensure I understand everything I need to do.
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command '$r='"'.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade'; rg --files --hidden -g AGENTS.md -g '"'!'"\\.git'; Get-Content \""'$r/R3_PUBLICATION.md"; Get-Content "$r/evidence/EVIDENCE_RETURN_PACK.json"; Get-Content "$r/00_plan/TT_S4POST_REGISTER.tsv"; Get-Content "$r/verify/far/FAR_OPEN_ITEMS_ADJUDICATION_20261013.md"' in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+ succeeded in 503ms:
+# R3 PUBLICATION — S4POST 三合一小型升級（FAR 低阻力方案執行輪）
+
+> **這份文件是外部驗收官的入口。** 它說明：要驗什麼、去哪驗、用什麼命令、預期看到什麼、
+> 以及**本輪沒有做、也不主張**的事。
+> 本文件為候選交付說明，**不是**驗收、不是 PASS、不是發布核准。
+
+## 1. 受驗主體（哪兩個分支、哪個 sha）
+
+### 綁定說明（本文件**不**綁定自身所在的 commit）
+
+- **受驗 commit（送驗基準）**：`3ec55572594e`（product 支 `feat/s4post-triple-upgrade-20261013-r3`，於 2026-10-13 送驗時讀取）；
+  載具支 `chore/s4post-verification-harness` 同期為 `c7b560022b71`。
+- 本文件本身是**其後的證據／文件提交**。一個記錄 `as_of = HEAD` 的檔案**不可能**等於它所處的 commit
+  （寫入該值就會改動它該命名的那個 commit）——**此為設計，不是缺陷**。
+- 因此：**驗收請綁定你要驗的那個 commit，而非分支 tip**；最新 tip 以 `git log --oneline -1` 取得即可。
+
+## 2. 本輪改了什麼（R1–R8 與四個治理表面）
+
+| 項 | 產出 | 位置 |
+|---|---|---|
+| FAR 偏離研究 | 對三份治理文件逐條比對，6 項偏離（含對**我自己載具超建**的 DEV-01） | 產品支 `verify/far/FAR_S4POST_DEVIATION_AND_REMEDIES_20261013.md` |
+| **R1/R8** 凍結與輪數上限 | 不再擴充驗證軸、不再派 AO13、殘餘 finding 轉 CR/TT；同 round 外部複驗上限 2 輪 | `HARNESS_FREEZE_AND_AO_LOOP_CAP.md` |
+| **R2** 變更集切分 | 1,239 → 120 檔；載具獨立分支 | 本文件 §1 |
+| **R3** 證據包補齊 | PB-090 缺的 3 欄：`commands`（聚焦 108／全量 572，皆 OK）、`release_assets`、`manifest_sha256` | `evidence/EVIDENCE_RETURN_PACK.json`＋`verify/r3/raw/*` |
+| **R4** owner 行動請求 | 4 項 owner 供給、4 項 owner-only 行為、**12 項外部證據**、3 項設計裁決 | `OWNER_ACTION_REQUEST.md` |
+| **R5** 最小 CI 首次實跑 | 以 Draft PR 觸發（結果見 §5） | `.github/workflows/public-plugin-verify.yml`（未改） |
+| **R6** 證據可重跑＝斷言 | `check_evidence_locators.py`；正向對照 PASS、AO12 bundle **FAIL**（5 個樹外定位，含車道不可讀暫存根與**樹外的正規車道契約**） | `verify/R6_EVIDENCE_RERUNNABILITY.md`、`verify/tools/` |
+| **R7** SoD 逐列身分 | producer `user`（SID `…-1000`）／checker `CodexSandboxOffline`（`…-1004`） | `evidence/EVIDENCE_RETURN_PACK.json → sod` |
+| KANBAN | 盤 `s4post-r3-remedies`＋SWARM 圖（root `t_fc25bc79`、6 workers、verifier `t_e392ea37`、synthesizer `t_33a81182`） | `kanban/R3_BOARD_EVIDENCE.json` |
+| GSTACK | `named_methods.route()` 真實執行；14 項激活不變式**皆為 0** | `surface/GSTACK_R3_ROUTE_READBACK.json` |
+| OPENSPEC | 官方 CLI 驗證：`Change 's4post-triple-upgrade' is valid`；tasks.md 新增 R3 段落（未改動既有狀態） | `surface/OPENSPEC_R3_EVIDENCE.json`、`openspec/changes/s4post-triple-upgrade/tasks.md` |
+| **HGK admission（typed）** | 本回合 7 項義務以 canonical `ProjectLifecycleController.admit_requirement` 准入至專案 `PIPD-LS-SP-20261008`（`EXECUTING`）：`REQ-PIPD-R3-{FAR-001,EVIDENCE-002,CI-003,SURFACES-004,OWNER-005,PUBLISH-006,VERIFY-007}` → 各 `requirement_state=FROZEN`＋`TS-*`＋`WO-TS-*`，`errors=[]`，checkpoint `CK-20261008-3181EC0D` | `admission/hgk_r3_admission.py`、`admission/r3_admission.json` |
+
+## 3. 驗收命令與預期輸出（在**匿名 clone** 內執行；可直接複製）
+
+**前提**：**不可**加 `--depth`（4 個 provenance 測試會讀取 tag 與歷史）。
+
+```bash
+git clone --branch feat/s4post-triple-upgrade-20261013-r3 \
+    https://github.com/shw097-team/PIPD-LS-SP.git /tmp/r3 && cd /tmp/r3
+R=.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade
+python -V
+python -m unittest discover -s tests -p 'test_s4ext_*.py' -v
+#   實測：Ran 108 tests ... OK                                (exit 0)
+python -m unittest discover -s tests -t . -v
+#   實測：Ran 572 tests ... OK (skipped=3 本機 / 4 獨立第三方環境)  (exit 0)
+#   skip 數隨環境而異（第三方多 1 個 skip），非缺陷
+
+cd "$R"
+python verify/tools/check_evidence_locators.py --root . --search-dir . \
+    verify/ao12/EXTERNAL_CHALLENGE_REPORT.md
+#   實測：exit 2 / FAIL_LOCATORS_NOT_RERUNNABLE —— R6 的**負向對照**，FAIL 是正確結果
+python "$R/verify/tools/check_evidence_locators.py" --root . --search-dir . \
+    "$R/OWNER_ACTION_REQUEST.md" "$R/HARNESS_FREEZE_AND_AO_LOOP_CAP.md"
+#   實測（於**產品分支內容**，非含載具的工作樹）：exit 0 / PASS_LOCATORS_IN_TREE
+#   兩個 --search-dir 是必要的：這些文件同時引用「回合相對」與「repo 根相對」定位。
+#   逐支結果見 verify/tools/LOCATOR_CHECK_R3_POSITIVE.json 的 per_subject 欄位。
+#   注意：**不要把本文件（R3_PUBLICATION.md）放進這個對照**——它含 shell 指令，
+#   指令中的 URL 與 /tmp 路徑不是檔案定位，檢查器會（正確地）拒絕它們。
+cd /tmp/r3
+```
+
+**OpenSpec（需本機已安裝 CLI）**：匿名 clone 內沒有 `node_modules`，`npx --no-install openspec`
+因此無法解析——本輪的原始驗證輸出已存檔，直接讀取即可：
+
+```bash
+cat "$R/surface/OPENSPEC_R3_EVIDENCE.json"   # 內含 `Change 's4post-triple-upgrade' is valid` 原始輸出
+```
+
+新發布資產的獨立下載驗算（**不是**只讀 API 的 `digest` 欄位）：
+
+```bash
+curl -sL -o /tmp/a.whl https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-preview.3/pipd_ls_sp-0.1.1a3-py3-none-any.whl
+sha256sum /tmp/a.whl   # 應等於 Release API 的 digest（本輪已匿名驗過 5/5 相等）
+```
+
+## 4. 本輪**沒有**做、也**不主張**
+
+- 未執行：Portal 任何狀態（draft/scan/review/publish）、四主機真實 UAT、`SECURITY_SCAN`、真實 candidate build。
+- 未主張：`BUILD_PASS`、`LOCAL_HOST_QUALIFIED`、`PORTAL_APPROVED`、`PUBLISHED`、`PRODUCTION_VERIFIED`、`PIPD_S4_FULL_PASS`。
+- 未執行：任何 `main` 推送、force push、tag 異動、merge、已發布資產替換。
+- **獨立驗收的最近一次裁決仍是 `FAIL_CHALLENGE`**（AO12，9 項 finding，全部位於本回合自建的驗證載具內），已如實記入證據包 `independent_checker`。
+- **Tag → Source → Build → Asset 的可重建性仍為 OPEN**：本輪證明的只是「已發布資產的**下載位元組**等於 API 回報 digest」，不是「可由該 tag 重建出同一資產」。
+
+## 5. 最小 CI 的首次實跑（R5）
+
+事實背景（裁決 §3.1 確認）：受驗 5 分支 + 3 tag 全部 **0 個 `.github/`**、Actions runs = **0**。
+
+**本輪實測（非規劃）**：
+
+1. 首次推播後 `ci` 啟動，但在**第 2 步 "Check out the frozen subject" 就失敗**，步驟 3–9 全部 skip → 逐字 log：
+   `fatal: No url found for submodule path '.hgk/rounds/R2-20261009-qualification/execute/candidate' in .gitmodules` ＋
+   `The process '/usr/bin/git' failed with exit code 128`。
+   即 4 個**無 `.gitmodules` 的 gitlink**（`main` 即有，來源 `829c17e8…`）使 `actions/checkout` abort →
+   **這條 CI 在此之前從未真正驗過任何東西**。
+2. 修補（本輪唯一超出 R1–R8 的動作，已揭露）：移除那 4 個**空目錄** gitlink（磁碟上 0 個項目，不失內容）。
+3. 第二次執行在第 7 步失敗：`dist/` 內有兩顆已版控 wheel（`0.1.0`、`0.1.1a3`）→ `pip install dist/*.whl` 觸發
+   `ResolutionImpossible`。修補：改為只安裝**剛建出的** wheel（更嚴，非放寬）。
+4. **結果：三條分支的 `ci` 全綠（各 13 步、零失敗）**，含全量套件、聚焦套件、wheel 乾淨安裝＋`pipd doctor`、
+   來源閘門、**突變負向校準**。逐字與逐步驟見 `R3_CI_FIRST_RUN.md`。
+5. Draft PR **#2**：`https://github.com/shw097-team/PIPD-LS-SP/pull/2`（`draft=true`，不請求合併）。
+   另一 workflow `public-plugin-verify` 對本 PR 為 **failure**，原因為其審查 base 取 `main` 而本支疊在 Stage-A 上
+   （見 `R3_CI_FIRST_RUN.md` §3 的量化），**未改動該守衛語意**，提請 owner（D3）。
+
+## 6. 已知缺陷與自曝（含我方造成者）
+
+1. **DEV-01（我方）**：本回合變更集 90% 是未經批准的驗證載具擴建——已由 R2 切分修正，並在 FAR 中記為偏離。
+2. **車道證據 ACL（我方）**：AO10/11/12 的證據放在車道自己的 temp root，maker 身分**不可讀**；已在 R6 以斷言化工具抓出，尚未修（屬車道 wrapper 設計）。
+3. **正規車道契約在樹外**：`~/.agents/skills/fabric-external-independent-challenge-reviewer/**` 未進版控，與裁決抱怨的「參照腳本與模板未掛載」同源（R6 發現 2）。
+4. **探針缺陷（我方，兩次）**：以不在 PATH 的 `python` 誤判「缺 jsonschema」；初版 locator 檢查器把散文簡寫當定位造成假紅——兩者都已更正並記錄。
+5. **既有 gitlink（非本變更）**：``.hgk/rounds/R2-20261009-qualification/**` 有 4 個 `160000` gitlink（來源 commit `829c17e8…`），在 `main` 即存在；依「凍結樹內缺陷揭露不修」原則**不動**。
+
+## 7. 需 owner 裁決（本文件不代答）
+
+- **D1** 宣告 EXECUTE 模型的補跑 vs 接受為 owner-approved 偏差（`FAR-S4POST-MODEL-DEVIATION-20261012-001` 仍 `not_applied`）。
+- **D2** 本輪**單一整合候選**由誰簽（同時解 `FCR-007`／`TT-S4POST-EVIDENCE-06`）。
+- **D3** 受驗主體為 §1 的**產品支**或**載具支**（或兩者並驗）。
+- **D4** 四項 owner 供給與四項 owner-only 行為（`OWNER_ACTION_REQUEST.md` A/B 節）。
+
+## 8. 附錄：本輪的原始結果與 PR 嘗試
+
+- 測試原始 log：`verify/r3/raw/focused.log`、`verify/r3/raw/full.log`。**兩種 sha256 皆記錄**（獨立第三方指出差異）：
+  **worktree/EOL 形態**（原記錄，含 CRLF）：`88d8db81…` / `185a6177…`；
+  **版控 blob 形態**（`.gitattributes` `* text=auto eol=lf` 正規化後，可由 clone 重算）：保留於 `evidence/EVIDENCE_RETURN_PACK.json` 的 `log_sha256_committed_blob`。
+- 發布資產下載讀回：`verify/r3/RELEASE_ASSETS_READBACK.json`（5/5 相等）。
+- locator 檢查原始 JSON：`verify/tools/LOCATOR_CHECK_R3_POSITIVE.json`、`verify/ao12/LOCATOR_CHECK_AO12.json`。
+- **GitHub 端結果**：PR **#2**（draft）＋三條分支 `ci` 全綠＋`public-plugin-verify` 紅（scope），
+  逐字 log 與失敗步驟分析見 **`R3_CI_FIRST_RUN.md`**（同輪文件；本文件不與自身 commit 互相綁定）。
+
+## 9. HGK 准入（canonical，typed API）
+
+- 專案：`PIPD-LS-SP-20261008`，lifecycle state `EXECUTING`（可准入），run `RUN-DC744863`。
+- 以 `SharedSpine(hgk_root/var/shared-spine/hg-kseos.db, hgk_root/src/hg_kseos/schema.sql)` ＋
+  `ProjectLifecycleController.admit_requirement(...)` 准入 **7 項**義務（見上表），每項由 spine 生成
+  requirement（`FROZEN`）＋ taskspec ＋ workorder；`errors` 為 **空**；checkpoint 已建立。
+- 收據：`admission/r3_admission.json`；腳本：`admission/hgk_r3_admission.py`（照 R9–R11 既有形狀，
+  新 id 不動任何既有列）。
+
+**自曝的順序偏差（deviation）**：`REQ-PIPD-R3-SURFACES-004` 的文字要求「工作產物寫入前先跑准入」，
+但本回合實際上是在多數產物已寫入**之後**才補跑准入（retroactive admission）。此偏差已記錄，未粉飾；
+其後果是准入為事後凍結，而非事前授權。此點需 owner 知悉。
+
+## 10. §3.3 產品面允許集稽核（並行子代理 + maker 自行重測）
+
+- 7 項條目、其中 3 項 HIGH；**每一項 HIGH 都由 maker 自行重測後才採用**。逐條見
+  `verify/far/FAR_S3_3_SURFACE_AUDIT_20261013.md`。
+- 摘要：icon 兩檔確實缺席（owner 輸入 A4）；允許集路徑 `packaging/public-plugin/requirements.lock` 缺席，
+  而 repository 根目錄那份自述「NOT HASH-PINNED … `--require-hashes` will therefore NOT work」；
+  `plugin.schema.json` 內容是**本地撰寫子集**，官方 vendor schema 實體存在於非允許集檔名 `vendor-plugin.schema.json`
+  （即官方 schema **已在樹內**，缺的是檔名對位與 digest 釘選 → owner 輸入 A2）。
+- 另：`plugin.json` 內 `OWNER_INPUT_REQUIRED` 佔位是 builder 的 fail-closed 設計，但同時被提交 → 提請 owner 決定命名。
+{
+ "schema": "PIPD-S4POST-EXTERNAL-EVIDENCE/1",
+ "round_id": "S4POST-20261012-postrepair-recheck-and-triple-upgrade",
+ "produced_by": "Hermes governed orchestrator (PLAN lane), with four bounded Codex CLI writer lanes",
+ "frozen_subject": {
+  "repo": "shw097-team/PIPD-LS-SP",
+  "stage_a_branch": "fix/s4post-integration-repair-20261012",
+  "stage_a_base": "224591431a164ab72a9423cd180e417e8a762403",
+  "stage_b_branch": "feat/s4post-triple-upgrade-20261012",
+  "stage_b_commit": "32962532b7b7176eafbd3d353ced63a3056027fb",
+  "stage_b_tree": "40b9507a97eea29cdc20f55e69cedb34ee8e2302",
+  "release_tag_target": "NOT_RELEASED"
+ },
+ "lanes": {
+  "plan": {
+   "actor": "Hermes orchestrator",
+   "model": "deepseek-v4.1-flash (this session)",
+   "notes": "planning, dispatch, verification of lane output, evidence authoring"
+  },
+  "execute_attempt_2": {
+   "model_declared": "opencode-go/deepseek-v4.1-flash",
+   "transport": "codex exec, relay 127.0.0.1:10102",
+   "outcome": "all three lanes aborted on one error class: upstream HTTP 400 'The reasoning_content in the thinking mode must be passed back to the API'",
+   "occurrences": 3,
+   "artifacts_written": 0
+  },
+  "execute_attempt_3": {
+   "model_used": "opencode-go/deepseek-v4-flash (declared backup, D-03)",
+   "transport": "codex exec",
+   "lanes": {
+    "B1": "exit 0",
+    "B2": "exit 0",
+    "B3": "exit 0",
+    "B4": "exit 0"
+   },
+   "disclosure": "the declared EXECUTE model could not carry the work; the substitution is declared in MODEL_DECLARED_*.txt and in this pack"
+  },
+  "verify": {
+   "actor": "not yet run this round",
+   "status": "PENDING",
+   "note": "an independent acceptance lane on gpt-6.1-sol/medium was probed healthy (probe log kept) but was not dispatched within this round's budget"
+  }
+ },
+ "orchestrator_measurements": [
+  {
+   "command": "python -m unittest tests.test_public_plugin_packaging tests.test_web_fallback",
+   "exit_code": 0,
+   "tests": 44,
+   "result": "OK",
+   "raw_log": "raw/orch_focused_public_plugin.log"
+  },
+  {
+   "command": "python -m unittest discover -s tests -t .",
+   "exit_code": 0,
+   "tests": 569,
+   "skipped": 6,
+   "result": "OK",
+   "raw_log": "raw/orch_full_suite_stageB.log"
+  },
+  {
+   "command": "python tools/freeze_public_plugin_source.py --repo-root <worktree> --out <ledger>",
+   "exit_code": 0,
+   "result": "ledger written; 8 skills / 48 files",
+   "raw_log": "evidence/08_PLUGIN/FROZEN_SOURCE_LEDGER.json"
+  },
+  {
+   "command": "python tools/build_public_plugin.py --source-root <worktree> --ledger <ledger> --source-commit <HEAD> --out-dir <secure> --generate-icons",
+   "exit_code": 2,
+   "result": "REFUSED OWNER_INPUT_MISSING (first owner gate); no archive written",
+   "raw_log": "evidence/08_PLUGIN/REAL_BUILD_ATTEMPT.txt"
+  },
+  {
+   "command": "git diff --name-only <stacked base> HEAD | write-set guard",
+   "exit_code": 0,
+   "result": "0 paths outside the allowed set; 0 core writes; 0 dist writes",
+   "raw_log": "evidence/08_PLUGIN/WRITESET_GUARD.txt"
+  },
+  {
+   "command": "GSTACK named-method route check",
+   "exit_code": 0,
+   "result": "invariants_all_zero true; 12 flows resolved",
+   "raw_log": "evidence/10_OWNER/GSTACK_ROUTE_RESOLUTION.json"
+  },
+  {
+   "command": "openspec validate s4post-triple-upgrade --strict ; openspec status",
+   "exit_code": 0,
+   "result": "Change is valid; 4/4 artifacts complete; doctor ok",
+   "raw_log": "evidence/10_OWNER/OPENSPEC_VALIDATE.txt"
+  }
+ ],
+ "host_uat": [
+  {
+   "host": "Hermes Agent",
+   "os": "Windows 11",
+   "host_version": "Hermes CLI from the desktop runtime",
+   "effective_load": "PARTIAL",
+   "scenarios": {
+    "POS_discovery": "PASS - a one-shot session listed all eight pipd-* skills",
+    "NON_TRIGGER": "PASS - a non-PIPD question triggered no workflow",
+    "REFUSAL": "NOT_RUN",
+    "ADVERSARIAL": "NOT_RUN"
+   },
+   "transcript": "verify/uat/hermes/UAT_RUN.ndjson",
+   "non_promotion_note": "the session reported the skills as visible in its directory listing, not as loaded content; no host is claimed universally verified"
+  },
+  {
+   "host": "Codex CLI",
+   "status": "executed in Stage A",
+   "evidence": "Stage A branch receipts (evidence/07_HOSTS equivalent under .hgk/rounds/S4POST-.../verify/uat/)"
+  },
+  {
+   "host": "Codex Desktop (GUI)",
+   "status": "NOT_RUN"
+  },
+  {
+   "host": "Web (Plus / Free)",
+   "status": "NOT_RUN - no directory listing exists and no account UAT was attempted"
+  }
+ ],
+ "portal": {
+  "publisher_verified": false,
+  "draft_id": null,
+  "scan": "NOT_EXECUTED",
+  "review": "NOT_EXECUTED",
+  "publish": "NOT_EXECUTED"
+ },
+ "nonmutation": {
+  "main": "224591431a164ab72a9423cd180e417e8a762403 (untouched)",
+  "tags": "v0.1.1-preview.3 (untouched)",
+  "published_assets": "untouched",
+  "method": "git ls-remote before and after; no force, no tag write, no asset write"
+ },
+ "open_tt": [
+  "TT-S4POST-EVIDENCE-06 (partially addressed: this pack is the single candidate-bound pointer; the historical FAIL/PASS receipts are left untouched)",
+  "TT-UPG-P01 owner inputs (4)",
+  "TT-UPG-P04 release owner/new immutable release",
+  "CR-F01-PNG-PORTAL",
+  "CR-F02 vendor validator/Portal scan",
+  "TR-16/TR-17/TR-18/TR-29..TR-35/TR-38..TR-40 NOT_EXECUTED"
+ ],
+ "independent_checker": {
+  "identity": "CodexSandboxOffline (S-1-5-21-...-1004)",
+  "scope": "PIPD-LS-SP S4POST Stage-B candidate, declared scope per EXTERNAL_CHALLENGE_INTAKE.json",
+  "verdict": "FAIL_CHALLENGE",
+  "evidence": "verify/ao12/EXTERNAL_CHALLENGE_REPORT.md (+ FINDINGS.json, REVIEW_EVIDENCE_MANIFEST.json)",
+  "previous_stale_value": {
+   "identity": null,
+   "scope": null,
+   "verdict": "NOT_RUN",
+   "note": "maker self-tests are not acceptance; a fresh read-only acceptance lane is the next legal act"
+  },
+  "note": "the previous value (NOT_RUN) was STALE: twelve acceptance rounds have since run (AO6..AO12). The latest independent verdict is FAIL_CHALLENGE with 9 findings, all inside the round's own verification harness."
+ },
+ "owner_ratification": {
+  "scope": "Stage A candidate and Stage B candidate",
+  "receipt": "PENDING"
+ },
+ "claim_ceiling": "MAKER_CANDIDATE_AND_LOCAL_TESTS_ONLY",
+ "manifest_sha256": {
+  "what_it_hashes": "the candidate's own manifests/schema in this tree (NOT a release-tuple manifest; no release exists for this candidate)",
+  "files": {
+   "packaging/public-plugin/plugin.release.json": {
+    "sha256": "9a719308a34b1675b6524734f86c28fe5d3d46a44a3c8e843c6f48c224ecc957",
+    "bytes": 900
+   },
+   "packaging/public-plugin/plugin.json": {
+    "sha256": "e40192a136563ae41c9529a5eba972523cbb1f0b624886815303863fd855582e",
+    "bytes": 1789
+   },
+   "packaging/public-plugin/vendor-plugin.schema.json": {
+    "sha256": "0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883",
+    "bytes": 1805
+   }
+  }
+ },
+ "release_assets": {
+  "scope": "the PUBLISHED v0.1.1-preview.3 assets, re-read anonymously in this round",
+  "method": "anonymous HTTPS GET of each browser_download_url; SHA-256 computed on the downloaded bytes and compared to the API-reported digest",
+  "ceiling": "this verifies ASSET INTEGRITY vs API metadata ONLY. It does NOT verify that the assets were built from the tagged source (tag -> source -> build -> asset reproducibility stays OPEN, per verdict section 2.1).",
+  "assets": [
+   {
+    "name": "pipd-ls-sp-v0.1.1-preview.3-source.zip",
+    "size": 15706360,
+    "api_reported_sha256": "sha256:ee6ee342223fd31361a4fe47f3c4bdc5cd56f0391b7d1f6575bbd34ed1e8e1e1",
+    "downloaded_sha256": "ee6ee342223fd31361a4fe47f3c4bdc5cd56f0391b7d1f6575bbd34ed1e8e1e1",
+    "equal": true
+   },
+   {
+    "name": "PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip",
+    "size": 20488,
+    "api_reported_sha256": "sha256:af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f",
+    "downloaded_sha256": "af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f",
+    "equal": true
+   },
+   {
+    "name": "pipd_ls_sp-0.1.1a3-py3-none-any.whl",
+    "size": 269299,
+    "api_reported_sha256": "sha256:e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec",
+    "downloaded_sha256": "e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec",
+    "equal": true
+   },
+   {
+    "name": "PREVIEW_NOTES_v0.1.1-preview.3.md",
+    "size": 4678,
+    "api_reported_sha256": "sha256:cebde58af56ad77be8fe168d49de15377d310e66097b285a2dc1a8c2195c7fa9",
+    "downloaded_sha256": "cebde58af56ad77be8fe168d49de15377d310e66097b285a2dc1a8c2195c7fa9",
+    "equal": true
+   },
+   {
+    "name": "SHA256SUMS",
+    "size": 418,
+    "api_reported_sha256": "sha256:c4230f985c160e83f5799d14d4090d44360f395b4799e1c01534d3654051ba9d",
+    "downloaded_sha256": "c4230f985c160e83f5799d14d4090d44360f395b4799e1c01534d3654051ba9d",
+    "equal": true
+   }
+  ],
+  "candidate_assets": "NOT_APPLICABLE_UNRELEASED"
+ },
+ "commands": [
+  {
+   "argv_redacted": "PYTHONPATH=<worktree> \"C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe\" python -m unittest discover -s tests -p 'test_s4ext_*.py' -v",
+   "cwd": "<worktree>",
+   "exit_code": 0,
+   "tests": 108,
+   "skipped": null,
+   "failed": 0,
+   "errors": 0,
+   "result": "OK",
+   "raw_log": "verify/r3/raw/focused.log",
+   "log_sha256": "88d8db8123e744c2699193bd5c8013fbb62c0fd952d425b779c6f9457488eba7",
+   "env": {
+    "PYTHONPATH": "<worktree> (so `tests` and the package resolve from the candidate tree, not from an installed copy)",
+    "interpreter": "CPython 3.11.9 (C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe)",
+    "jsonschema": "4.26.0 (present in the interpreter; the packaging tests validate against the vendored vendor schema)"
+   },
+   "nonmutation_note": "Measured with a named-entry diff, not a count: full suite + focused suite run in a checkout left `git status --porcelain` (and its --ignored form) with ZERO new entries, exit 0 both. An earlier non-zero count in this round was the orchestrator's own concurrent document writes, and is not reproducible as a test side effect.",
+   "log_sha256_worktree_eol": "88d8db8123e744c2699193bd5c8013fbb62c0fd952d425b779c6f9457488eba7",
+   "log_sha256_committed_blob": "3666bce6fc04a84e6e7868715349b34048eaa69ce3e677aadc96e3297cbb41d3"
+  },
+  {
+   "argv_redacted": "PYTHONPATH=<worktree> \"C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe\" python -m unittest discover -s tests -t . -v",
+   "cwd": "<worktree>",
+   "exit_code": 0,
+   "tests": 572,
+   "skipped": 3,
+   "failed": 0,
+   "errors": 0,
+   "result": "OK",
+   "raw_log": "verify/r3/raw/full.log",
+   "log_sha256": "185a6177ce2296ca11af42e058f9ee661725c465836a65a19be6e8436bb2bc1a",
+   "env": {
+    "PYTHONPATH": "<worktree> (so `tests` and the package resolve from the candidate tree, not from an installed copy)",
+    "interpreter": "CPython 3.11.9 (C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe)",
+    "jsonschema": "4.26.0 (present in the interpreter; the packaging tests validate against the vendored vendor schema)"
+   },
+   "nonmutation_note": "Measured with a named-entry diff, not a count: full suite + focused suite run in a checkout left `git status --porcelain` (and its --ignored form) with ZERO new entries, exit 0 both. An earlier non-zero count in this round was the orchestrator's own concurrent document writes, and is not reproducible as a test side effect.",
+   "log_sha256_worktree_eol": "185a6177ce2296ca11af42e058f9ee661725c465836a65a19be6e8436bb2bc1a",
+   "log_sha256_committed_blob": "46ff948ae879709b87e17d05c4cdbb4dc3400372b9e2ad8d3128d061353aa7a6",
+   "skipped_note": "3 in this environment; an independent third party reproduced 4 (one additional environment-dependent skip). Not a defect."
+  }
+ ],
+ "sod": [
+  {
+   "producer_identity": {
+    "account": "user",
+    "sid": "S-1-5-21-2687334950-3868438633-1592137926-1000",
+    "role": "repo owner worktree / orchestrator writes"
+   },
+   "checker_identity": {
+    "account": "CodexSandboxOffline",
+    "sid": "S-1-5-21-2687334950-3868438633-1592137926-1004",
+    "role": "sealed acceptance lane (AO6..AO12)"
+   },
+   "distinct_sids": true,
+   "mechanism": "the acceptance lane ran under a DIFFERENT local account from the maker; this is a process+identity separation, not a model separation",
+   "residual": "same model family across maker and checker is absent here (checker=gpt-6.1-sol, maker=deepseek-v4.1-flash), but both ran on the same HOST and the same relay class; correlated-blind-spot risk is NOT eliminated"
+  }
+ ],
+ "binding_correction": {
+  "stale_field": "frozen_subject.stage_b_commit",
+  "stale_value": "32962532b7b7176eafbd3d353ced63a3056027fb",
+  "issue": "FCR-007 / TT-S4POST-EVIDENCE-06: the accepted scope is not bound to the integrated frozen subject",
+  "action_taken": "NONE - re-binding the accepted scope is the owner's act (see OWNER_ACTION_REQUEST.md D2)",
+  "status": "PENDING_OWNER_RATIFICATION"
+ },
+ "r3_remedies": {
+  "stamp_utc": "20261013T011018Z",
+  "authorized_by": "owner order 2026-10-13",
+  "artifacts": {
+   "R1_R8": "HARNESS_FREEZE_AND_AO_LOOP_CAP.md",
+   "R2": "branch split: product-only branch vs chore/s4post-verification-harness (see ROUND_RESULT/R3_PUBLICATION.md)",
+   "R3": "this update (commands + release_assets + manifest_sha256)",
+   "R4": "OWNER_ACTION_REQUEST.md",
+   "R5": "public-plugin-verify.yml run via Draft PR (see R3_PUBLICATION.md for the outcome)",
+   "R6": "verify/R6_EVIDENCE_RERUNNABILITY.md + verify/tools/check_evidence_locators.py",
+   "R7": "sod block above",
+   "surfaces": {
+    "kanban": "kanban/R3_BOARD_EVIDENCE.json",
+    "gstack": "surface/GSTACK_R3_ROUTE_READBACK.json",
+    "openspec": "surface/OPENSPEC_R3_EVIDENCE.json"
+   }
+  },
+  "pack_preimage_sha256": "2e5a1d19e80ba8759c07c6d1e4b085d3d3ebf67988f1e269965b0266adcfbbe9",
+  "pack_edited_at_utc": "20261013T011018Z"
+ },
+ "commands_note": "two suite runs on the candidate tree: the focused s4ext set and the full discovery. The earlier pack's `orchestrator_measurements` block (44 / 569 tests) is the previous round's snapshot and is kept as history, not overwritten.",
+ "verification": {
+  "independent_third_party": {
+   "who": "separate agent process, fresh anonymous clone, no maker context",
+   "when": "2026-10-13",
+   "tip_verified": "09ce147c6e74b40e302d4444d0c0f3d729dbcf6d",
+   "main_verified": "224591431a164ab72a9423cd180e417e8a762403",
+   "focused": "Ran 108 tests in 16.228s / OK / exit 0",
+   "full": "Ran 572 tests in 151.831s / OK (skipped=4) / exit 0",
+   "locator_negative_control": "exit 2 / FAIL_LOCATORS_NOT_RERUNNABLE",
+   "gitlinks_at_candidate_tip": 0,
+   "ci_steps_executed": {
+    "run_ids": [
+     38332362026,
+     38332365603
+    ],
+    "step5_full_unittest_suite": "completed success",
+    "step8_provenance_gate": "completed success",
+    "step9_mutation_negative": "completed success",
+    "note": "completed success, not skipped/pending - the steps the round claims actually executed"
+   },
+   "defects_it_raised": [
+    "C8 the section 3 acceptance block cd'ed to the clone root while using round-relative paths (fixed: an R= variable plus cd \"$R\"; the documented control was then re-run verbatim)",
+    "C9 the section 3 positive-control expectation did not reproduce on the product branch, because the cited documents contained harness-branch-only locators; the earlier PASS had been measured in the shared worktree that carries BOTH branches (fixed: citations relabelled, control re-measured per subject and published exactly as measured)",
+    "C10 `npx --no-install openspec validate` is not runnable in an anonymous clone (no node_modules); the recorded raw output is pointed at instead",
+    "C12 the recorded log_sha256 values were of the CRLF working copies, not of the committed blobs (fixed: both forms now recorded and labelled)"
+   ],
+   "what_it_could_not_verify": [
+    "the AO12 lane contract/validator itself (it lives out of tree - that is the R6 finding)",
+    "the contents of the uploaded CI raw logs (step conclusions only)",
+    "the release-asset download readback (not re-downloaded)",
+    "HGK admission DB state, GSTACK/OPENSPEC readbacks, kanban evidence",
+    "the cause of the skipped-count delta (3 vs 4)"
+   ]
+  },
+  "quota_note": "REST polling later returned 403 rate limit for the anonymous channel; that is INCONCLUSIVE, not a failure. Final CI state was read from the workflow status badge (quota-free): ci=passing on all three branches, main has no runs.",
+  "hash_form_correction": "An earlier revision of this receipt recorded the committed-blob hash of an EMPTY blob (e3b0c442...), because the path was resolved without its round-directory prefix. Corrected here; the values above are recomputed from the pushed commits with the full path, and are asserted non-empty at write time."
+ }
+}
+id	stage	item	source	owner	priority	scope	state	blocking_condition	evidence_path
+TT-S4POST-CONSOLIDATE-01	A	reconcile main's web-mount release correction with the repair branch's release tuple/erratum	recheck report §5 F001 / prompt §6.A.1	Repo/Release Owner	P0	reconcile only; do NOT overwrite main's corrected bytes and do NOT rewrite history	OPEN	owner must pick the single integrated candidate	evidence/09_RELEASE/
+TT-S4POST-TRACE-02	A	reproduce the published-wheel Trace false PASS, then port strict TraceLink fields, endpoint-family match and validate_bundle graph closure	recheck §5 F002 / prompt §6.A.2	Schema/Compiler Owner	P0	port from the repair branch; no second trace engine; no 20th schema family	RED_REPRODUCED	none	evidence/02_TRACE/
+TT-S4POST-RELEASE-03	A	new immutable release tuple for a corrected build; do NOT replace the published preview.3 asset	recheck §5 G006 / prompt §6.A.3	Release Owner	P1	candidate + handoff only; publishing is a human gate	OPEN	no new build until TRACE-02 lands	evidence/09_RELEASE/
+TT-S4POST-CI-04	A	one minimal read-only PR/push CI (3.11, locked deps, full unittest, trace negatives, wheel install doctor)	recheck §3.1 / prompt §6.A.4	Dev Experience	P1	one workflow; contents:read; no pull_request_target; no secrets; no auto tag	GREEN_HOSTED_RUNS_VERIFIED	none (was OPEN: no workflow existed; the gitlink defect then blocked checkout - fixed; three branches now report ci=passing)	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/R3_CI_FIRST_RUN.md
+TT-S4POST-AGENT-UAT-05	A	four-scenario host UAT per supported host (POS / non-trigger / no-source NACK / adversarial)	recheck §4.3 / prompt §6.A.5	Host/Skills + TQAEP	P1	evidence only; unsupported hosts are NOT_SUPPORTED, not fabricated	PARTIAL	Web GPT-6 / Codex UI not reachable from this host	evidence/07_HOSTS/
+TT-S4POST-EVIDENCE-06	A	one canonical receipt pointer per frozen subject; the earlier FAIL and the scoped PASS must not be conflated	recheck §5 G004 / prompt §6.A.6	Independent Checker / Evidence Owner	P1	pointer + claim ceiling only; never overwrite a historical receipt	OPEN	none	evidence/06_TQAEP/
+TT-S4POST-ONBOARD-07	A	first-run self-locating scripts with preconditions and typed failure; no new CLI	recheck §5 O007 / prompt §6.A.7	Docs/UX Owner	P2	port examples/first-run from the repair branch and smoke it	OPEN	none	evidence/03_BUILD_TEST/
+TT-S4POST-FAR-021-01	A/B	basis-aware digest classification so the manifest alarm means exactly one thing	prior round FAR adjudication F-020-A-BASIS	Checker/Tooling Owner	P1	report-only classifier; fail --strict only on UNEXPLAINED_DRIFT; no re-seal	OPEN	none	evidence/06_TQAEP/
+TT-S4POST-FAR-024-02	A/B	keep generation-identity ancestry report-only; relabel the cross-line class; keep the one enforced assertion	prior round FAR F-024-A	Checker/Tooling Owner	P2	labels/prose only	OPEN	none	evidence/06_TQAEP/
+TT-S4POST-FAR-023-03	A/B	EXECUTE lane must probe tool-call eligibility live and record declared-vs-actual	prior round FAR F-023-A	Lane/Platform Owner	P1	lane config + receipt field; adapter defect escalated externally	OPEN	adapter owner not reachable from this round	evidence/10_OWNER/
+TT-UPG-P01	B	deterministic public skills-only plugin projection from the eight existing skills	blueprint §7.1-7.3	PKG07 + bounded writer	P1	packaging/**, tools/**, tests/** only; skills/** and src/** are read-only	OPEN	needs owner-approved plugin SemVer + real publisher identity for a real build	evidence/08_PLUGIN/
+TT-UPG-P02	B	two-route install docs + one single-document web fallback	blueprint §7.4, §8	KP17/DX	P1	docs/install/**, tools/build_web_fallback.py, README two entry points	OPEN	none	evidence/08_PLUGIN/
+TT-UPG-P03	B	security/schema/provenance/negative + host effective-load gates	blueprint §9	PKG06/TQAEP + PKG08	P1	tests + read-only workflow; no secrets	OPEN	depends on P01	evidence/08_PLUGIN/
+TT-UPG-P04	B	release tuple, rollback and portal handoff	blueprint §9.5	PKG08 + Human Publisher	P1	preparation only; publish is a human gate	OPEN	human publisher identity	evidence/09_RELEASE/
+TT-S4POST-R3-VERIFY-07	R3	run the mandated independent acceptance lane (CODEX CLI / GPT 6.1 SOL-MEDIUM) once against the frozen tip; publish its verdict as returned, including FAIL	owner order 2026-10-13 / prompt section 7	Independent checker (owner-named model)	P0	one scoped recheck; R8 cap = 2 same-round external rechecks; a FAIL converts to CR/TT, it does NOT re-open the harness	OPEN	lane not yet invoked; needs the owner's go-ahead because it spends the mandated checker model	evidence/06_TQAEP/
+TT-S4POST-R3-SUBJECT-08	R3	declare the acceptance subject and its base: product branch vs the declared stacked base 52542c3, and record the stack as TWO changes (Stage-A repair + S4POST upgrade)	FAR open-items study ADJ-1 / verify/ao*/EXTERNAL_CHALLENGE_REPORT.md FCR-003	Repo/Release Owner	P0	declaration + PR-body text only; do NOT edit the guard and do NOT rebase onto main	OPEN	owner must name the subject	verify/far/FAR_OPEN_ITEMS_ADJUDICATION_20261013.md
+TT-S4POST-R3-CANDIDATE-09	R3	sign the single integrated candidate (commit + tree + still-open supplies) using the existing OWNER_INPUT_REQUIRED/plugin.release mechanism	FAR ADJ-2 / recheck section 10 next legal action	Repo/Release Owner	P0	one small JSON record; no new CLI, no new format	OPEN	owner signature	evidence/10_OWNER/
+TT-S4POST-R3-MODELDEV-10	R3	record the PLAN/EXECUTE model deviation as an owner-approved deviation for this round instead of repairing the provider config	FAR ADJ-3 / FAR-S4POST-MODEL-DEVIATION	Owner + provider-config owner	P2	record-only; adding a reason-content-preservation model to the provider config is NOT authorised for S4	OPEN	owner accept-or-reject	verify/far/
+TT-S4POST-R3-SCOPE-11	R3	scope the unreviewed extension namespace (com.ao3.*) OUT of the product subject: it appears in exactly one round record and in no product file	FAR ADJ-7 / CR-EXT-UNREVIEWED	CR owner	P2	scope decision + CR text; no code change	OPEN	CR owner confirmation	verify/far/FAR_OPEN_ITEMS_ADJUDICATION_20261013.md
+TT-S4POST-R3-DOCRECON-12	R3	reconcile the governing document with what was actually approved: (a) ci.yml is approved by recheck section 3.1 and supersedes the 3.3 deny-set 'Actions' line; (b) section 7.7's '--require-hashes -r packaging/public-plugin/requirements.lock' step is unimplementable - the shipped CI installs from pyproject.toml and the repo-root lock is explicitly NOT hash-pinned	FAR ADJ-6(c,d) / blueprint 3.3, 7.7	Blueprint/Release Owner	P1	document erratum only; no second CI, no schema relocation in S4	OPEN	owner ratifies the erratum	verify/far/FAR_OPEN_ITEMS_ADJUDICATION_20261013.md
+TT-S4POST-R3-C1-13	R3	C1 REAL_VENDOR_SCHEMA: the download half is CLOSED by maker evidence; only the plugin.json digest pin (A2) remains	FAR section 2 / recheck G004	Vendor/Build Owner	P1	evidence only	PARTIALLY_CLOSED_EVIDENCE_LEVEL	digest pin requires owner input A2	verify/r3/C1_VENDOR_SCHEMA_PROVENANCE.json
+# FAR — 未閉合與待裁決項目：裁決建議與執行方案
+
+- **研究編號**：`FAR-OPEN-ITEMS-ADJUDICATION-20261013-001`
+- **性質**：決策研究（candidate 文件）— **非驗收、非 PASS、非批准**
+- **範圍**：只涵蓋「需要裁決」或「仍未閉合」的項目；已完成者不重述
+- **方法**：每一條建議都先有**今日實測**的事實基礎（探測輸出見各條「基礎」欄），再給建議、阻力、必要性
+- **判準**（依裁決 §0／§8 逐字）：低阻力、高度工程必要性、**不過度工程化**
+
+---
+
+## 1. 結論摘要（一句一項）
+
+| ID | 待決事項 | 建議裁決 | 誰 | 阻力 | 必要性 |
+|---|---|---|---|---|---|
+| ADJ-1 | 受驗主體與其 base（＝FCR-007 同源） | 主體＝**產品支 vs 宣告疊層基底 `52542c3`**；疊層記為**兩個變更**；**不動守衛**，只把 base 寫進 PR／記錄 | Owner 一行 | 極低 | **高** |
+| ADJ-2 | 單一整合候選由誰簽 | Owner 以**既有機制**簽一筆 10 行 JSON（commit＋tree＋仍缺供給） | Owner | 極低 | **高** |
+| ADJ-3 | 宣告模型 vs 實際路線之偏差 | **記錄，不修**（逐車道路線已記、SoD 身分層已成立） | Owner 認可 | 零 | 中 |
+| ADJ-4 | `R3.VERIFY-007` 指定車道未跑 | **跑一次**、scoped、**裁決照刊（含 FAIL）** | Agent 執行 | 低 | **高** |
+| ADJ-5 | 載具缺陷 FCR-003/004/005/006/009/010 | **凍結維持**；轉 CR/TT；**把自建載具移出「驗收依據」**，改用 CI＋指定車道 | Agent＋Owner 認可 | 零 | **最高** |
+| ADJ-6 | §3.3 允許集／deny-set 四項張力 | (a)(d) **明文 supersession 記錄**；(b) 在範圍內；(c) **S4 只做文件映射**，改名留待下輪 | Owner 認可 | 極低 | 中高 |
+| ADJ-7 | `com.ao3.*` 未審查命名空間 | **移出產品受驗範圍**（產品面 0 命中） | CR owner | 零 | 中 |
+| ADJ-8 | TT 登記簿陳舊（CI-04 仍 OPEN） | **更正狀態**（同欄位，不改 schema）— 已於本輪執行 | Agent | 零 | 低 |
+
+---
+
+## 2. 逐項建議與基礎
+
+### ADJ-1 受驗主體與其 base（連帶解 FCR-007）
+- **基礎（今日實測）**：以宣告疊層基底 `52542c3` 比對本升級，`schemas/`＋`src/` 寫入 = **0 檔**、允許集外僅 4 檔（即當時那 4 個無 `.gitmodules` 的 gitlink，**已移除**）；以 `main` 為 base 比對才會計入 Stage-A 的 4 個 frozen-path 寫入。`public-plugin-verify` 紅即源於此 base 選擇。
+- **建議**：受驗主體＝產品支 `feat/s4post-triple-upgrade-20261013-r3`，**base 宣告為 `52542c3`**；並把本疊層明文化為**兩個變更**（Stage-A 修補＝已交付；S4POST 升級＝本次）。守衛語意**不改**（改守衛＝鬆綁風險），紅燈保留並在 PR／記錄中說明。
+- **不做**：rebase onto `main`（高阻力，且仍會把 Stage-A 的 schema/src 修補納入同一變更集）、改 `public-plugin-verify` 的 base 邏輯。
+
+### ADJ-2 單一整合候選簽署
+- **基礎**：`OWNER_INPUT_REQUIRED.json`＋`plugin.release.json` 已提供 owner 供給的機制與模板；缺的不是格式而是**簽署動作**。裁決 §10 明文「最早 Owner = Repo/Release Owner，先簽定單一整合候選」。
+- **建議**：owner 簽一筆最小記錄：`{commit, tree, signed_at, supplies_still_missing:[A1..A4], note}`，放在既有 `evidence/10_OWNER/`。**不新增 CLI、不新增格式**。
+
+### ADJ-3 模型偏差（D1）
+- **基礎**：每一條車道都記錄了 route；SoD 以**不同 SID** 成立（producer `…-1000`／checker `…-1004`）。偏差屬**申報欄位**性質。
+- **建議**：**記錄為 owner-approved deviation**，寫入證據包 `sod`／裁決區塊。
+- **不做**：把 `deepseek-v4.1-flash` 加入 `opencode-go.preserveReasoningContentModels`＋on-wire replay——未授權，且 S4 不需要（屬 S5+ 或供應方層級）。
+
+### ADJ-4 指定車道（R3.VERIFY-007）
+- **基礎**：owner 逐字指定「Independent Acceptance Officer／VERIFY／SECURITY，轉交 CODEX CLI，checker model：GPT 6.1 SOL-MEDIUM」；該車道尚未執行，是本輪**唯一未閉合**義務。
+- **建議**：對已凍結主體**跑一次**、範圍明確、**裁決照刊（可能是 `FAIL_CHALLENGE`）**；依 R8「同回合外部複驗至多 2 次」。若 FAIL，finding 一律轉 CR/TT，**不重開載具**。
+
+### ADJ-5 載具缺陷（最重要的「不過度工程化」建議）
+- **基礎**：findings 序列 **6 → 3 → 9**（不收斂），且**每一輪的新缺陷都落在我自己前一輪的修補裡**；同時，真正的外部產出（CI 首次實跑、資產下載讀回、C1 schema 比對）都不是靠載具修出來的。裁決 §0 逐字：「**不批准把 CI、Agentic Harness 或風險系統全面擴建**」。
+- **建議**：①凍結維持（不再擴軸、不派 AO13）；②FCR-003/004/005/006/009/010 轉 CR/TT；③**把自建載具移出「驗收依據」的角色**——驗收改以**產品 CI（現已 hosted 全綠）**＋**指定車道**為閘門。
+- **理由**：載具缺陷的修補邊際價值趨近於零（修好的是量測工具，不是產品），而每輪修補都會製造新缺陷。把閘門換成「產品 CI＋外部車道」既提升證據強度，也終止迴圈。
+
+### ADJ-6 §3.3 允許集／deny-set 四項張力
+- (a) **第二個 workflow `ci.yml`**：裁決 §3.1 **明文批准**一個最小 Actions workflow，其位置在 §3.3 之後 → **後者為準（supersession）**，記錄即可，不刪 workflow。
+- (b) **`tools/*` 5 檔在允許集外**：該 CI 執行所需（build/freeze），屬**在範圍內**。
+- (c) **`plugin.schema.json` 槽位內容錯位**：官方 vendor schema 實體**存在**於 `vendor-plugin.schema.json` 且**與線上官方文件 byte 相同**（見 §3 C1）→ 那是**檔名對位**問題。S4 建議：**只做文件映射＋TT**；改名留待下一次變更（改名需同步 builder 常數，屬 code churn）。
+- (d) **`requirements.lock`**：已核准的 CI **完全不用它**（用 `pyproject.toml`），且根目錄那份自述「NOT HASH-PINNED…`--require-hashes` will NOT work」→ §7.7 的步驟**照寫不可能通過**。建議：**改 §7.7 文字**（文件 erratum），或把 `LOCK_REQUIRED` 留作 owner 輸入；兩者選一，不要為此新增 hash-pin 工作流。
+
+### ADJ-7 `com.ao3.*`（CR-EXT-UNREVIEWED）
+- **基礎**：產品支全樹掃描，`com.ao3` 僅出現於**本回合一份紀錄文件**，`packaging/`、`tools/`、`tests/`、`docs/install/`、`dist/web/` **0 命中**。
+- **建議**：**移出產品受驗範圍**，保留為載具／格式 CR。這不是「關掉一個 CR」，而是把它歸到正確的標的。
+
+### ADJ-8 TT 登記簿陳舊
+- **基礎**：`00_plan/TT_S4POST_REGISTER.tsv` 的 `TT-S4POST-CI-04` 仍 `OPEN`，但 CI 已 hosted 全綠；登記簿缺本輪新增事項。
+- **建議**：同欄位更新狀態＋追加 7 列（本輪已執行）。
+
+---
+
+## 3. 12 項外部證據的重新分類（今日新事實）
+
+| 類 | 項目 | 依據 |
+|---|---|---|
+| **已可收斂（agent，本輪已做）** | `C1 REAL_VENDOR_SCHEMA` | 官方 URL 200、1,805 B、sha256 `0a4aad95…` **＝樹內 `vendor-plugin.schema.json`**（逐位元相同）。**只剩 A2 的 digest 釘選**屬 owner |
+| **agent 可嘗試（有界）** | `C4 SECURITY_SCAN`（工具可用性待探）、`C7 HERMES_UAT`、`C9 CODEX_CLI_UAT`（已 PARTIAL）、`C10 CLAUDE_CODE_UAT`（若已安裝）、`C11 INDEPENDENT_CHECK`（＝ADJ-4） | 主機／工具在本機可得性不同，逐項需先探測；**能做則做，不能則記 NOT_SUPPORTED** |
+| **owner 嚴格必要** | `C3 REAL_CANDIDATE_BUILD`（需 A1–A4）、`C5/C6 PLUS/FREE_UAT`（帳號）、`C8 CODEX_DESKTOP_UAT`、`C12 HUMAN_PORTAL_PUBLISH` | 需要 owner 的帳號／身分／簽核 |
+| **明確不建議做** | 全模型×全 provider×全 OS 矩陣、第二套 CI、12 軸風險裁定器、為對齊而簽第二個 tag、S5–S8 提前 | 逐字對齊裁決 §8「立即不批准」 |
+
+---
+
+## 4. 執行方案（依阻力排序）
+
+| 序 | 動作 | 成本 | 可逆 | 誰 |
+|---|---|---|---|---|
+| **R-1** | `C1` 存證落盤、TT 登記簿更正與擴充、本報告落盤並推送 | 已完成（本輪） | 完全可逆 | agent |
+| **R-2** | ADJ-4：跑指定車道**一次**，裁決照刊 | 一個車道回合 | 可逆（純讀） | agent（需你一句 go） |
+| **R-3** | ADJ-1/2/3：你各一行即可解鎖（base 宣告、簽候選、接受模型偏差記錄） | 3 行 | 可逆 | owner |
+| **R-4** | ADJ-6(a)(d)：supersession 與 §7.7 文字 erratum | 2 段文字 | 可逆 | owner 認可 |
+| **R-5** | （下一變更）schema 槽位改名、lock hash-pin、載具 CR 的正式處置 | 下一輪 | — | 下一輪 |
+
+**建議執行序**：R-1（已完成）→ R-2 → R-3 → R-4 → R-5。
+
+---
+
+## 5. 宣稱天花板（未變）
+
+`BUILD_PASS`／`LOCAL_HOST_QUALIFIED`／`PORTAL_APPROVED`／`PUBLISHED`／`PRODUCTION_VERIFIED`／`PIPD_S4_FULL_PASS`
+**全部 NOT GRANTED**；發行閘門 **`FAIL-CLOSED / HOLD`**；獨立驗收最近裁決仍 **`FAIL_CHALLENGE`**（AO12）。
+本報告為 maker 研究，**不構成**任何驗收、批准或發布。
+
+codex
+HEAD matches. Local `main` is absent; `origin/main` matches the required SHA.
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "New-Item -ItemType Directory -Force .ao-r3 | Out-Null; @'
+*** Begin Patch
+*** Add File: .ao-r3/collect.py
++import subprocess
++import os
++import json
++import hashlib
++from pathlib import Path
++
++ROOT = Path.cwd()
++OUT = ROOT / '.ao-r3'
++ROUND = '.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade'
++PYTHON = 'C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe'
++env = os.environ.copy()
++env['PYTHONPATH'] = str(ROOT)
++records = []
++
++def run(label, argv, cwd=ROOT):
++    result = subprocess.run(argv, cwd=cwd, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
++    (OUT / (label + '.txt')).write_bytes(result.stdout)
++    record = {'label': label, 'argv': argv, 'cwd': str(cwd), 'exit': result.returncode, 'output': result.stdout.decode('utf-8', errors='replace')}
++    records.append(record)
++    (OUT / 'transcript.json').write_text(json.dumps(records, indent=2, ensure_ascii=False), encoding='utf-8')
++    print(label, 'exit', result.returncode, flush=True)
++    return record
++
++run('binding', ['git', 'rev-parse', 'HEAD', 'HEAD"'^{tree}'"', 'refs/remotes/origin/main'])
++run('python', [PYTHON, '-V'])
++run('before-status', ['git', 'status', '--porcelain'])
++run('before-ignored', ['git', 'status', '--porcelain', '--ignored'])
++run('C1', [PYTHON, '-m', 'unittest', 'discover', '-s', 'tests', '-p', 'test_s4ext_*.py', '-v'])
++run('C2', [PYTHON, '-m', 'unittest', 'discover', '-s', 'tests', '-t', '.'])
++run('after-status', ['git', 'status', '--porcelain'])
++run('after-ignored', ['git', 'status', '--porcelain', '--ignored'])
++run('C5', [PYTHON, 'verify/tools/check_evidence_locators.py', '--root', '.', '--search-dir', '.', 'verify/ao12/EXTERNAL_CHALLENGE_REPORT.md'], ROOT / ROUND)
++run('C6', [PYTHON, ROUND + '/verify/tools/check_evidence_locators.py', '--root', '.', '--search-dir', '.', ROUND + '/OWNER_ACTION_REQUEST.md', ROUND + '/HARNESS_FREEZE_AND_AO_LOOP_CAP.md'])
++run('C10-head', ['git', 'ls-tree', '-r', 'HEAD'])
++run('C10-main', ['git', 'ls-tree', '-r', 'refs/remotes/origin/main'])
+*** End Patch
+'@ | apply_patch
+& 'C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe' .ao-r3/collect.py" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+ exited 1 in 492ms:
+Error: --codex-run-as-apply-patch requires a UTF-8 PATCH argument.
+C:\Users\user\AppData\Local\Programs\Python\Python311\python.exe: can't open file 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-r3-verify-decl\\.ao-r3\\collect.py': [Errno 2] No such file or directory
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command '$patch = @'"'
+*** Begin Patch
+*** Add File: .ao-r3/collect.py
++import subprocess
++import os
++import json
++from pathlib import Path
++
++ROOT = Path.cwd()
++OUT = ROOT / '.ao-r3'
++ROUND = '.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade'
++PYTHON = 'C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe'
++env = os.environ.copy()
++env['PYTHONPATH'] = str(ROOT)
++records = []
++
++def run(label, argv, cwd=ROOT):
++    result = subprocess.run(argv, cwd=cwd, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
++    (OUT / (label + '.txt')).write_bytes(result.stdout)
++    record = {'label': label, 'argv': argv, 'cwd': str(cwd), 'exit': result.returncode, 'output': result.stdout.decode('utf-8', errors='replace')}
++    records.append(record)
++    (OUT / 'transcript.json').write_text(json.dumps(records, indent=2, ensure_ascii=False), encoding='utf-8')
++    print(label, 'exit', result.returncode, flush=True)
++    return record
++
++run('binding', ['git', 'rev-parse', 'HEAD', 'HEAD"'^{tree}'"', 'refs/remotes/origin/main'])
++run('python', [PYTHON, '-V'])
++run('before-status', ['git', 'status', '--porcelain'])
++run('before-ignored', ['git', 'status', '--porcelain', '--ignored'])
++run('C1', [PYTHON, '-m', 'unittest', 'discover', '-s', 'tests', '-p', 'test_s4ext_*.py', '-v'])
++run('C2', [PYTHON, '-m', 'unittest', 'discover', '-s', 'tests', '-t', '.'])
++run('after-status', ['git', 'status', '--porcelain'])
++run('after-ignored', ['git', 'status', '--porcelain', '--ignored'])
++run('C5', [PYTHON, 'verify/tools/check_evidence_locators.py', '--root', '.', '--search-dir', '.', 'verify/ao12/EXTERNAL_CHALLENGE_REPORT.md'], ROOT / ROUND)
++run('C6', [PYTHON, ROUND + '/verify/tools/check_evidence_locators.py', '--root', '.', '--search-dir', '.', ROUND + '/OWNER_ACTION_REQUEST.md', ROUND + '/HARNESS_FREEZE_AND_AO_LOOP_CAP.md'])
++run('C10-head', ['git', 'ls-tree', '-r', 'HEAD'])
++run('C10-main', ['git', 'ls-tree', '-r', 'refs/remotes/origin/main'])
+*** End Patch
+'@
+apply_patch "'$patch
+& '"'C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe' .ao-r3/collect.py" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+ exited 1 in 473ms:
+Invalid patch: The last line of the patch must be '*** End Patch'
+C:\Users\user\AppData\Local\Programs\Python\Python311\python.exe: can't open file 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-r3-verify-decl\\.ao-r3\\collect.py': [Errno 2] No such file or directory
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command 'Get-Content (Get-Command apply_patch).Source; $r='"'.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade'; Get-Content \""'$r/R3_PUBLICATION.md" -Encoding UTF8 | Select-Object -Skip 38 -First 110; Get-Content "$r/00_plan/TT_S4POST_REGISTER.tsv" -Encoding UTF8; Get-Content .github/workflows/ci.yml -Encoding UTF8; Get-Content "$r/verify/r3/C1_VENDOR_SCHEMA_PROVENANCE.json" -Encoding UTF8' in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+ succeeded in 567ms:
+@echo off
+"%~dp0..\..\..\..\AppData\Local\OpenAI\Codex\bin\2e5e00daee91c61d\codex.exe" --codex-run-as-apply-patch %*
+git clone --branch feat/s4post-triple-upgrade-20261013-r3 \
+    https://github.com/shw097-team/PIPD-LS-SP.git /tmp/r3 && cd /tmp/r3
+R=.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade
+python -V
+python -m unittest discover -s tests -p 'test_s4ext_*.py' -v
+#   實測：Ran 108 tests ... OK                                (exit 0)
+python -m unittest discover -s tests -t . -v
+#   實測：Ran 572 tests ... OK (skipped=3 本機 / 4 獨立第三方環境)  (exit 0)
+#   skip 數隨環境而異（第三方多 1 個 skip），非缺陷
+
+cd "$R"
+python verify/tools/check_evidence_locators.py --root . --search-dir . \
+    verify/ao12/EXTERNAL_CHALLENGE_REPORT.md
+#   實測：exit 2 / FAIL_LOCATORS_NOT_RERUNNABLE —— R6 的**負向對照**，FAIL 是正確結果
+python "$R/verify/tools/check_evidence_locators.py" --root . --search-dir . \
+    "$R/OWNER_ACTION_REQUEST.md" "$R/HARNESS_FREEZE_AND_AO_LOOP_CAP.md"
+#   實測（於**產品分支內容**，非含載具的工作樹）：exit 0 / PASS_LOCATORS_IN_TREE
+#   兩個 --search-dir 是必要的：這些文件同時引用「回合相對」與「repo 根相對」定位。
+#   逐支結果見 verify/tools/LOCATOR_CHECK_R3_POSITIVE.json 的 per_subject 欄位。
+#   注意：**不要把本文件（R3_PUBLICATION.md）放進這個對照**——它含 shell 指令，
+#   指令中的 URL 與 /tmp 路徑不是檔案定位，檢查器會（正確地）拒絕它們。
+cd /tmp/r3
+```
+
+**OpenSpec（需本機已安裝 CLI）**：匿名 clone 內沒有 `node_modules`，`npx --no-install openspec`
+因此無法解析——本輪的原始驗證輸出已存檔，直接讀取即可：
+
+```bash
+cat "$R/surface/OPENSPEC_R3_EVIDENCE.json"   # 內含 `Change 's4post-triple-upgrade' is valid` 原始輸出
+```
+
+新發布資產的獨立下載驗算（**不是**只讀 API 的 `digest` 欄位）：
+
+```bash
+curl -sL -o /tmp/a.whl https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-preview.3/pipd_ls_sp-0.1.1a3-py3-none-any.whl
+sha256sum /tmp/a.whl   # 應等於 Release API 的 digest（本輪已匿名驗過 5/5 相等）
+```
+
+## 4. 本輪**沒有**做、也**不主張**
+
+- 未執行：Portal 任何狀態（draft/scan/review/publish）、四主機真實 UAT、`SECURITY_SCAN`、真實 candidate build。
+- 未主張：`BUILD_PASS`、`LOCAL_HOST_QUALIFIED`、`PORTAL_APPROVED`、`PUBLISHED`、`PRODUCTION_VERIFIED`、`PIPD_S4_FULL_PASS`。
+- 未執行：任何 `main` 推送、force push、tag 異動、merge、已發布資產替換。
+- **獨立驗收的最近一次裁決仍是 `FAIL_CHALLENGE`**（AO12，9 項 finding，全部位於本回合自建的驗證載具內），已如實記入證據包 `independent_checker`。
+- **Tag → Source → Build → Asset 的可重建性仍為 OPEN**：本輪證明的只是「已發布資產的**下載位元組**等於 API 回報 digest」，不是「可由該 tag 重建出同一資產」。
+
+## 5. 最小 CI 的首次實跑（R5）
+
+事實背景（裁決 §3.1 確認）：受驗 5 分支 + 3 tag 全部 **0 個 `.github/`**、Actions runs = **0**。
+
+**本輪實測（非規劃）**：
+
+1. 首次推播後 `ci` 啟動，但在**第 2 步 "Check out the frozen subject" 就失敗**，步驟 3–9 全部 skip → 逐字 log：
+   `fatal: No url found for submodule path '.hgk/rounds/R2-20261009-qualification/execute/candidate' in .gitmodules` ＋
+   `The process '/usr/bin/git' failed with exit code 128`。
+   即 4 個**無 `.gitmodules` 的 gitlink**（`main` 即有，來源 `829c17e8…`）使 `actions/checkout` abort →
+   **這條 CI 在此之前從未真正驗過任何東西**。
+2. 修補（本輪唯一超出 R1–R8 的動作，已揭露）：移除那 4 個**空目錄** gitlink（磁碟上 0 個項目，不失內容）。
+3. 第二次執行在第 7 步失敗：`dist/` 內有兩顆已版控 wheel（`0.1.0`、`0.1.1a3`）→ `pip install dist/*.whl` 觸發
+   `ResolutionImpossible`。修補：改為只安裝**剛建出的** wheel（更嚴，非放寬）。
+4. **結果：三條分支的 `ci` 全綠（各 13 步、零失敗）**，含全量套件、聚焦套件、wheel 乾淨安裝＋`pipd doctor`、
+   來源閘門、**突變負向校準**。逐字與逐步驟見 `R3_CI_FIRST_RUN.md`。
+5. Draft PR **#2**：`https://github.com/shw097-team/PIPD-LS-SP/pull/2`（`draft=true`，不請求合併）。
+   另一 workflow `public-plugin-verify` 對本 PR 為 **failure**，原因為其審查 base 取 `main` 而本支疊在 Stage-A 上
+   （見 `R3_CI_FIRST_RUN.md` §3 的量化），**未改動該守衛語意**，提請 owner（D3）。
+
+## 6. 已知缺陷與自曝（含我方造成者）
+
+1. **DEV-01（我方）**：本回合變更集 90% 是未經批准的驗證載具擴建——已由 R2 切分修正，並在 FAR 中記為偏離。
+2. **車道證據 ACL（我方）**：AO10/11/12 的證據放在車道自己的 temp root，maker 身分**不可讀**；已在 R6 以斷言化工具抓出，尚未修（屬車道 wrapper 設計）。
+3. **正規車道契約在樹外**：`~/.agents/skills/fabric-external-independent-challenge-reviewer/**` 未進版控，與裁決抱怨的「參照腳本與模板未掛載」同源（R6 發現 2）。
+4. **探針缺陷（我方，兩次）**：以不在 PATH 的 `python` 誤判「缺 jsonschema」；初版 locator 檢查器把散文簡寫當定位造成假紅——兩者都已更正並記錄。
+5. **既有 gitlink（非本變更）**：``.hgk/rounds/R2-20261009-qualification/**` 有 4 個 `160000` gitlink（來源 commit `829c17e8…`），在 `main` 即存在；依「凍結樹內缺陷揭露不修」原則**不動**。
+
+## 7. 需 owner 裁決（本文件不代答）
+
+- **D1** 宣告 EXECUTE 模型的補跑 vs 接受為 owner-approved 偏差（`FAR-S4POST-MODEL-DEVIATION-20261012-001` 仍 `not_applied`）。
+- **D2** 本輪**單一整合候選**由誰簽（同時解 `FCR-007`／`TT-S4POST-EVIDENCE-06`）。
+- **D3** 受驗主體為 §1 的**產品支**或**載具支**（或兩者並驗）。
+- **D4** 四項 owner 供給與四項 owner-only 行為（`OWNER_ACTION_REQUEST.md` A/B 節）。
+
+## 8. 附錄：本輪的原始結果與 PR 嘗試
+
+- 測試原始 log：`verify/r3/raw/focused.log`、`verify/r3/raw/full.log`。**兩種 sha256 皆記錄**（獨立第三方指出差異）：
+  **worktree/EOL 形態**（原記錄，含 CRLF）：`88d8db81…` / `185a6177…`；
+  **版控 blob 形態**（`.gitattributes` `* text=auto eol=lf` 正規化後，可由 clone 重算）：保留於 `evidence/EVIDENCE_RETURN_PACK.json` 的 `log_sha256_committed_blob`。
+- 發布資產下載讀回：`verify/r3/RELEASE_ASSETS_READBACK.json`（5/5 相等）。
+- locator 檢查原始 JSON：`verify/tools/LOCATOR_CHECK_R3_POSITIVE.json`、`verify/ao12/LOCATOR_CHECK_AO12.json`。
+- **GitHub 端結果**：PR **#2**（draft）＋三條分支 `ci` 全綠＋`public-plugin-verify` 紅（scope），
+  逐字 log 與失敗步驟分析見 **`R3_CI_FIRST_RUN.md`**（同輪文件；本文件不與自身 commit 互相綁定）。
+
+## 9. HGK 准入（canonical，typed API）
+
+- 專案：`PIPD-LS-SP-20261008`，lifecycle state `EXECUTING`（可准入），run `RUN-DC744863`。
+- 以 `SharedSpine(hgk_root/var/shared-spine/hg-kseos.db, hgk_root/src/hg_kseos/schema.sql)` ＋
+  `ProjectLifecycleController.admit_requirement(...)` 准入 **7 項**義務（見上表），每項由 spine 生成
+  requirement（`FROZEN`）＋ taskspec ＋ workorder；`errors` 為 **空**；checkpoint 已建立。
+- 收據：`admission/r3_admission.json`；腳本：`admission/hgk_r3_admission.py`（照 R9–R11 既有形狀，
+  新 id 不動任何既有列）。
+
+**自曝的順序偏差（deviation）**：`REQ-PIPD-R3-SURFACES-004` 的文字要求「工作產物寫入前先跑准入」，
+但本回合實際上是在多數產物已寫入**之後**才補跑准入（retroactive admission）。此偏差已記錄，未粉飾；
+其後果是准入為事後凍結，而非事前授權。此點需 owner 知悉。
+
+## 10. §3.3 產品面允許集稽核（並行子代理 + maker 自行重測）
+
+- 7 項條目、其中 3 項 HIGH；**每一項 HIGH 都由 maker 自行重測後才採用**。逐條見
+  `verify/far/FAR_S3_3_SURFACE_AUDIT_20261013.md`。
+- 摘要：icon 兩檔確實缺席（owner 輸入 A4）；允許集路徑 `packaging/public-plugin/requirements.lock` 缺席，
+  而 repository 根目錄那份自述「NOT HASH-PINNED … `--require-hashes` will therefore NOT work」；
+id	stage	item	source	owner	priority	scope	state	blocking_condition	evidence_path
+TT-S4POST-CONSOLIDATE-01	A	reconcile main's web-mount release correction with the repair branch's release tuple/erratum	recheck report §5 F001 / prompt §6.A.1	Repo/Release Owner	P0	reconcile only; do NOT overwrite main's corrected bytes and do NOT rewrite history	OPEN	owner must pick the single integrated candidate	evidence/09_RELEASE/
+TT-S4POST-TRACE-02	A	reproduce the published-wheel Trace false PASS, then port strict TraceLink fields, endpoint-family match and validate_bundle graph closure	recheck §5 F002 / prompt §6.A.2	Schema/Compiler Owner	P0	port from the repair branch; no second trace engine; no 20th schema family	RED_REPRODUCED	none	evidence/02_TRACE/
+TT-S4POST-RELEASE-03	A	new immutable release tuple for a corrected build; do NOT replace the published preview.3 asset	recheck §5 G006 / prompt §6.A.3	Release Owner	P1	candidate + handoff only; publishing is a human gate	OPEN	no new build until TRACE-02 lands	evidence/09_RELEASE/
+TT-S4POST-CI-04	A	one minimal read-only PR/push CI (3.11, locked deps, full unittest, trace negatives, wheel install doctor)	recheck §3.1 / prompt §6.A.4	Dev Experience	P1	one workflow; contents:read; no pull_request_target; no secrets; no auto tag	GREEN_HOSTED_RUNS_VERIFIED	none (was OPEN: no workflow existed; the gitlink defect then blocked checkout - fixed; three branches now report ci=passing)	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/R3_CI_FIRST_RUN.md
+TT-S4POST-AGENT-UAT-05	A	four-scenario host UAT per supported host (POS / non-trigger / no-source NACK / adversarial)	recheck §4.3 / prompt §6.A.5	Host/Skills + TQAEP	P1	evidence only; unsupported hosts are NOT_SUPPORTED, not fabricated	PARTIAL	Web GPT-6 / Codex UI not reachable from this host	evidence/07_HOSTS/
+TT-S4POST-EVIDENCE-06	A	one canonical receipt pointer per frozen subject; the earlier FAIL and the scoped PASS must not be conflated	recheck §5 G004 / prompt §6.A.6	Independent Checker / Evidence Owner	P1	pointer + claim ceiling only; never overwrite a historical receipt	OPEN	none	evidence/06_TQAEP/
+TT-S4POST-ONBOARD-07	A	first-run self-locating scripts with preconditions and typed failure; no new CLI	recheck §5 O007 / prompt §6.A.7	Docs/UX Owner	P2	port examples/first-run from the repair branch and smoke it	OPEN	none	evidence/03_BUILD_TEST/
+TT-S4POST-FAR-021-01	A/B	basis-aware digest classification so the manifest alarm means exactly one thing	prior round FAR adjudication F-020-A-BASIS	Checker/Tooling Owner	P1	report-only classifier; fail --strict only on UNEXPLAINED_DRIFT; no re-seal	OPEN	none	evidence/06_TQAEP/
+TT-S4POST-FAR-024-02	A/B	keep generation-identity ancestry report-only; relabel the cross-line class; keep the one enforced assertion	prior round FAR F-024-A	Checker/Tooling Owner	P2	labels/prose only	OPEN	none	evidence/06_TQAEP/
+TT-S4POST-FAR-023-03	A/B	EXECUTE lane must probe tool-call eligibility live and record declared-vs-actual	prior round FAR F-023-A	Lane/Platform Owner	P1	lane config + receipt field; adapter defect escalated externally	OPEN	adapter owner not reachable from this round	evidence/10_OWNER/
+TT-UPG-P01	B	deterministic public skills-only plugin projection from the eight existing skills	blueprint §7.1-7.3	PKG07 + bounded writer	P1	packaging/**, tools/**, tests/** only; skills/** and src/** are read-only	OPEN	needs owner-approved plugin SemVer + real publisher identity for a real build	evidence/08_PLUGIN/
+TT-UPG-P02	B	two-route install docs + one single-document web fallback	blueprint §7.4, §8	KP17/DX	P1	docs/install/**, tools/build_web_fallback.py, README two entry points	OPEN	none	evidence/08_PLUGIN/
+TT-UPG-P03	B	security/schema/provenance/negative + host effective-load gates	blueprint §9	PKG06/TQAEP + PKG08	P1	tests + read-only workflow; no secrets	OPEN	depends on P01	evidence/08_PLUGIN/
+TT-UPG-P04	B	release tuple, rollback and portal handoff	blueprint §9.5	PKG08 + Human Publisher	P1	preparation only; publish is a human gate	OPEN	human publisher identity	evidence/09_RELEASE/
+TT-S4POST-R3-VERIFY-07	R3	run the mandated independent acceptance lane (CODEX CLI / GPT 6.1 SOL-MEDIUM) once against the frozen tip; publish its verdict as returned, including FAIL	owner order 2026-10-13 / prompt section 7	Independent checker (owner-named model)	P0	one scoped recheck; R8 cap = 2 same-round external rechecks; a FAIL converts to CR/TT, it does NOT re-open the harness	OPEN	lane not yet invoked; needs the owner's go-ahead because it spends the mandated checker model	evidence/06_TQAEP/
+TT-S4POST-R3-SUBJECT-08	R3	declare the acceptance subject and its base: product branch vs the declared stacked base 52542c3, and record the stack as TWO changes (Stage-A repair + S4POST upgrade)	FAR open-items study ADJ-1 / verify/ao*/EXTERNAL_CHALLENGE_REPORT.md FCR-003	Repo/Release Owner	P0	declaration + PR-body text only; do NOT edit the guard and do NOT rebase onto main	OPEN	owner must name the subject	verify/far/FAR_OPEN_ITEMS_ADJUDICATION_20261013.md
+TT-S4POST-R3-CANDIDATE-09	R3	sign the single integrated candidate (commit + tree + still-open supplies) using the existing OWNER_INPUT_REQUIRED/plugin.release mechanism	FAR ADJ-2 / recheck section 10 next legal action	Repo/Release Owner	P0	one small JSON record; no new CLI, no new format	OPEN	owner signature	evidence/10_OWNER/
+TT-S4POST-R3-MODELDEV-10	R3	record the PLAN/EXECUTE model deviation as an owner-approved deviation for this round instead of repairing the provider config	FAR ADJ-3 / FAR-S4POST-MODEL-DEVIATION	Owner + provider-config owner	P2	record-only; adding a reason-content-preservation model to the provider config is NOT authorised for S4	OPEN	owner accept-or-reject	verify/far/
+TT-S4POST-R3-SCOPE-11	R3	scope the unreviewed extension namespace (com.ao3.*) OUT of the product subject: it appears in exactly one round record and in no product file	FAR ADJ-7 / CR-EXT-UNREVIEWED	CR owner	P2	scope decision + CR text; no code change	OPEN	CR owner confirmation	verify/far/FAR_OPEN_ITEMS_ADJUDICATION_20261013.md
+TT-S4POST-R3-DOCRECON-12	R3	reconcile the governing document with what was actually approved: (a) ci.yml is approved by recheck section 3.1 and supersedes the 3.3 deny-set 'Actions' line; (b) section 7.7's '--require-hashes -r packaging/public-plugin/requirements.lock' step is unimplementable - the shipped CI installs from pyproject.toml and the repo-root lock is explicitly NOT hash-pinned	FAR ADJ-6(c,d) / blueprint 3.3, 7.7	Blueprint/Release Owner	P1	document erratum only; no second CI, no schema relocation in S4	OPEN	owner ratifies the erratum	verify/far/FAR_OPEN_ITEMS_ADJUDICATION_20261013.md
+TT-S4POST-R3-C1-13	R3	C1 REAL_VENDOR_SCHEMA: the download half is CLOSED by maker evidence; only the plugin.json digest pin (A2) remains	FAR section 2 / recheck G004	Vendor/Build Owner	P1	evidence only	PARTIALLY_CLOSED_EVIDENCE_LEVEL	digest pin requires owner input A2	verify/r3/C1_VENDOR_SCHEMA_PROVENANCE.json
+name: ci
+
+# Read-only verification gate. It grants nothing: a green run is not a release, a merge or an
+# external acceptance. Triggers are push and pull_request only — no pull_request_target, no
+# secrets, no tag creation, no publish step.
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  offline-gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the frozen subject
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: "3.11"
+
+      - name: Install (declared dependencies only) and record what was resolved
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip freeze | tee resolved-deps.txt
+
+      - name: Full unittest suite (raw log)
+        run: python -m unittest discover -s tests -t . -v 2>&1 | tee full-unittest.log
+
+      - name: Focused S4 repair / closure suites (raw log)
+        run: python -m unittest discover -s tests -p 'test_s4ext_*.py' -v 2>&1 | tee focused-s4ext.log
+
+      - name: Build the wheel and exercise it in a clean venv with no source on PYTHONPATH
+        # Builds into a private directory and installs exactly that wheel. `dist/` already carries two
+        # committed wheels from earlier rounds (0.1.0 and 0.1.1a3), so a `dist/*.whl` glob made pip
+        # resolve both and abort with ResolutionImpossible (observed on run 38331455392, job
+        # offline-gate, step 7). Installing only the wheel just built is both the correct subject of
+        # this step and the stricter check; dist/ is left untouched.
+        run: |
+          python -m pip install build
+          rm -rf "$RUNNER_TEMP/wheels" && mkdir -p "$RUNNER_TEMP/wheels"
+          python -m build --wheel --outdir "$RUNNER_TEMP/wheels"
+          ls -l "$RUNNER_TEMP/wheels"
+          python -m venv "$RUNNER_TEMP/wheelvenv"
+          "$RUNNER_TEMP/wheelvenv/bin/python" -m pip install --upgrade pip
+          "$RUNNER_TEMP/wheelvenv/bin/python" -m pip install "$RUNNER_TEMP"/wheels/*.whl
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/wheelvenv/bin/pipd" doctor | tee "$GITHUB_WORKSPACE/wheel-doctor.log"
+          "$RUNNER_TEMP/wheelvenv/bin/pipd" --help | tee "$GITHUB_WORKSPACE/wheel-cli-help.log"
+
+      - name: Provenance gate is green before it is tested
+        run: python -m unittest tests.test_s4ext_release_provenance 2>&1 | tail -3
+
+      - name: Negative — a mutated pack document must make the provenance gate fail
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          doc = Path("dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3/README_MOUNT.md")
+          text = doc.read_text(encoding="utf-8")
+          mutated = text.replace("cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a", "0" * 40)
+          assert mutated != text, "the mutation fixture no longer matches the checked-in document"
+          doc.write_text(mutated, encoding="utf-8")
+          PY
+          set +e
+          python -m unittest tests.test_s4ext_release_provenance > mutation-run.log 2>&1
+          status=$?
+          set -e
+          git checkout -- dist/mount
+          # Fail closed on every way this step could pass without exercising the gate:
+          if [ "$status" -eq 0 ]; then
+            echo "MUTATION_ACCEPTED: the provenance gate passed a tampered identity stamp" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          if ! grep -q "^FAIL:" mutation-run.log; then
+            echo "GATE_NOT_EXERCISED: the run failed without a single test failure (module deleted, import error or collection error)" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          if ! grep -qE "release_tag_target|does not carry|reproduce the served asset|byte-identical" mutation-run.log; then
+            echo "MUTATION_REFUSAL_MOTIVE_UNEXPECTED: the failure is not the identity/byte binding" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          echo "MUTATION_REFUSED_AS_EXPECTED"
+
+      - name: Upload raw logs
+        if: always()
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b  # v4.5.0
+        with:
+          name: ci-raw-logs
+          path: |
+            resolved-deps.txt
+            full-unittest.log
+            focused-s4ext.log
+            wheel-doctor.log
+            wheel-cli-help.log
+            mutation-run.log
+          if-no-files-found: warn
+{
+ "schema": "PIPD-R3-EXTERNAL-EVIDENCE/1",
+ "item": "C1 REAL_VENDOR_SCHEMA",
+ "what_this_closes": "The 'official vendor schema actually downloaded' half of C1. What remains owner-side is only A2 (pinning that digest into plugin.json).",
+ "fetched_url": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+ "fetched_at_utc": "2026-10-13T01:59:29+00:00",
+ "http_status": 200,
+ "bytes": 1805,
+ "sha256": "0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883",
+ "in_tree_path": "packaging/public-plugin/vendor-plugin.schema.json",
+ "in_tree_bytes": 1805,
+ "in_tree_sha256": "0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883",
+ "bytes_equal": true,
+ "sha256_equal": true,
+ "server_headers_subset": {
+  "content-type": null,
+  "etag": null,
+  "last-modified": null
+ },
+ "conclusion": "The vendored schema in the candidate IS byte-identical to the live official vendor document at the pinned $id. The earlier CR-F02-SCHEMA-LOCK finding ('vendor schema bytes not downloaded / not locked') is therefore closed at the EVIDENCE level; only the digest pin into plugin.json (owner input A2) remains.",
+ "method": "anonymous GET with a plain User-Agent; sha256 computed on the received bytes and on the committed blob; no credential used."
+}
+
+mcp: node_repl/js started
+mcp: node_repl/js (completed)
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "& 'C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe' .ao-r3/collect.py" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command '$r='"'.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade'; Get-Content \""'$r/00_plan/TT_S4POST_REGISTER.tsv" -Encoding UTF8; Get-Content "$r/verify/far/FAR_OPEN_ITEMS_ADJUDICATION_20261013.md" -Encoding UTF8 | Select-Object -First 90; $p=Get-Content "$r/evidence/EVIDENCE_RETURN_PACK.json" -Raw -Encoding UTF8 | ConvertFrom-Json; $p.commands | ConvertTo-Json -Depth 10; Get-Command bash -ErrorAction SilentlyContinue; git config --get core.autocrlf' in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+ succeeded in 523ms:
+id	stage	item	source	owner	priority	scope	state	blocking_condition	evidence_path
+TT-S4POST-CONSOLIDATE-01	A	reconcile main's web-mount release correction with the repair branch's release tuple/erratum	recheck report §5 F001 / prompt §6.A.1	Repo/Release Owner	P0	reconcile only; do NOT overwrite main's corrected bytes and do NOT rewrite history	OPEN	owner must pick the single integrated candidate	evidence/09_RELEASE/
+TT-S4POST-TRACE-02	A	reproduce the published-wheel Trace false PASS, then port strict TraceLink fields, endpoint-family match and validate_bundle graph closure	recheck §5 F002 / prompt §6.A.2	Schema/Compiler Owner	P0	port from the repair branch; no second trace engine; no 20th schema family	RED_REPRODUCED	none	evidence/02_TRACE/
+TT-S4POST-RELEASE-03	A	new immutable release tuple for a corrected build; do NOT replace the published preview.3 asset	recheck §5 G006 / prompt §6.A.3	Release Owner	P1	candidate + handoff only; publishing is a human gate	OPEN	no new build until TRACE-02 lands	evidence/09_RELEASE/
+TT-S4POST-CI-04	A	one minimal read-only PR/push CI (3.11, locked deps, full unittest, trace negatives, wheel install doctor)	recheck §3.1 / prompt §6.A.4	Dev Experience	P1	one workflow; contents:read; no pull_request_target; no secrets; no auto tag	GREEN_HOSTED_RUNS_VERIFIED	none (was OPEN: no workflow existed; the gitlink defect then blocked checkout - fixed; three branches now report ci=passing)	.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/R3_CI_FIRST_RUN.md
+TT-S4POST-AGENT-UAT-05	A	four-scenario host UAT per supported host (POS / non-trigger / no-source NACK / adversarial)	recheck §4.3 / prompt §6.A.5	Host/Skills + TQAEP	P1	evidence only; unsupported hosts are NOT_SUPPORTED, not fabricated	PARTIAL	Web GPT-6 / Codex UI not reachable from this host	evidence/07_HOSTS/
+TT-S4POST-EVIDENCE-06	A	one canonical receipt pointer per frozen subject; the earlier FAIL and the scoped PASS must not be conflated	recheck §5 G004 / prompt §6.A.6	Independent Checker / Evidence Owner	P1	pointer + claim ceiling only; never overwrite a historical receipt	OPEN	none	evidence/06_TQAEP/
+TT-S4POST-ONBOARD-07	A	first-run self-locating scripts with preconditions and typed failure; no new CLI	recheck §5 O007 / prompt §6.A.7	Docs/UX Owner	P2	port examples/first-run from the repair branch and smoke it	OPEN	none	evidence/03_BUILD_TEST/
+TT-S4POST-FAR-021-01	A/B	basis-aware digest classification so the manifest alarm means exactly one thing	prior round FAR adjudication F-020-A-BASIS	Checker/Tooling Owner	P1	report-only classifier; fail --strict only on UNEXPLAINED_DRIFT; no re-seal	OPEN	none	evidence/06_TQAEP/
+TT-S4POST-FAR-024-02	A/B	keep generation-identity ancestry report-only; relabel the cross-line class; keep the one enforced assertion	prior round FAR F-024-A	Checker/Tooling Owner	P2	labels/prose only	OPEN	none	evidence/06_TQAEP/
+TT-S4POST-FAR-023-03	A/B	EXECUTE lane must probe tool-call eligibility live and record declared-vs-actual	prior round FAR F-023-A	Lane/Platform Owner	P1	lane config + receipt field; adapter defect escalated externally	OPEN	adapter owner not reachable from this round	evidence/10_OWNER/
+TT-UPG-P01	B	deterministic public skills-only plugin projection from the eight existing skills	blueprint §7.1-7.3	PKG07 + bounded writer	P1	packaging/**, tools/**, tests/** only; skills/** and src/** are read-only	OPEN	needs owner-approved plugin SemVer + real publisher identity for a real build	evidence/08_PLUGIN/
+TT-UPG-P02	B	two-route install docs + one single-document web fallback	blueprint §7.4, §8	KP17/DX	P1	docs/install/**, tools/build_web_fallback.py, README two entry points	OPEN	none	evidence/08_PLUGIN/
+TT-UPG-P03	B	security/schema/provenance/negative + host effective-load gates	blueprint §9	PKG06/TQAEP + PKG08	P1	tests + read-only workflow; no secrets	OPEN	depends on P01	evidence/08_PLUGIN/
+TT-UPG-P04	B	release tuple, rollback and portal handoff	blueprint §9.5	PKG08 + Human Publisher	P1	preparation only; publish is a human gate	OPEN	human publisher identity	evidence/09_RELEASE/
+TT-S4POST-R3-VERIFY-07	R3	run the mandated independent acceptance lane (CODEX CLI / GPT 6.1 SOL-MEDIUM) once against the frozen tip; publish its verdict as returned, including FAIL	owner order 2026-10-13 / prompt section 7	Independent checker (owner-named model)	P0	one scoped recheck; R8 cap = 2 same-round external rechecks; a FAIL converts to CR/TT, it does NOT re-open the harness	OPEN	lane not yet invoked; needs the owner's go-ahead because it spends the mandated checker model	evidence/06_TQAEP/
+TT-S4POST-R3-SUBJECT-08	R3	declare the acceptance subject and its base: product branch vs the declared stacked base 52542c3, and record the stack as TWO changes (Stage-A repair + S4POST upgrade)	FAR open-items study ADJ-1 / verify/ao*/EXTERNAL_CHALLENGE_REPORT.md FCR-003	Repo/Release Owner	P0	declaration + PR-body text only; do NOT edit the guard and do NOT rebase onto main	OPEN	owner must name the subject	verify/far/FAR_OPEN_ITEMS_ADJUDICATION_20261013.md
+TT-S4POST-R3-CANDIDATE-09	R3	sign the single integrated candidate (commit + tree + still-open supplies) using the existing OWNER_INPUT_REQUIRED/plugin.release mechanism	FAR ADJ-2 / recheck section 10 next legal action	Repo/Release Owner	P0	one small JSON record; no new CLI, no new format	OPEN	owner signature	evidence/10_OWNER/
+TT-S4POST-R3-MODELDEV-10	R3	record the PLAN/EXECUTE model deviation as an owner-approved deviation for this round instead of repairing the provider config	FAR ADJ-3 / FAR-S4POST-MODEL-DEVIATION	Owner + provider-config owner	P2	record-only; adding a reason-content-preservation model to the provider config is NOT authorised for S4	OPEN	owner accept-or-reject	verify/far/
+TT-S4POST-R3-SCOPE-11	R3	scope the unreviewed extension namespace (com.ao3.*) OUT of the product subject: it appears in exactly one round record and in no product file	FAR ADJ-7 / CR-EXT-UNREVIEWED	CR owner	P2	scope decision + CR text; no code change	OPEN	CR owner confirmation	verify/far/FAR_OPEN_ITEMS_ADJUDICATION_20261013.md
+TT-S4POST-R3-DOCRECON-12	R3	reconcile the governing document with what was actually approved: (a) ci.yml is approved by recheck section 3.1 and supersedes the 3.3 deny-set 'Actions' line; (b) section 7.7's '--require-hashes -r packaging/public-plugin/requirements.lock' step is unimplementable - the shipped CI installs from pyproject.toml and the repo-root lock is explicitly NOT hash-pinned	FAR ADJ-6(c,d) / blueprint 3.3, 7.7	Blueprint/Release Owner	P1	document erratum only; no second CI, no schema relocation in S4	OPEN	owner ratifies the erratum	verify/far/FAR_OPEN_ITEMS_ADJUDICATION_20261013.md
+TT-S4POST-R3-C1-13	R3	C1 REAL_VENDOR_SCHEMA: the download half is CLOSED by maker evidence; only the plugin.json digest pin (A2) remains	FAR section 2 / recheck G004	Vendor/Build Owner	P1	evidence only	PARTIALLY_CLOSED_EVIDENCE_LEVEL	digest pin requires owner input A2	verify/r3/C1_VENDOR_SCHEMA_PROVENANCE.json
+# FAR — 未閉合與待裁決項目：裁決建議與執行方案
+
+- **研究編號**：`FAR-OPEN-ITEMS-ADJUDICATION-20261013-001`
+- **性質**：決策研究（candidate 文件）— **非驗收、非 PASS、非批准**
+- **範圍**：只涵蓋「需要裁決」或「仍未閉合」的項目；已完成者不重述
+- **方法**：每一條建議都先有**今日實測**的事實基礎（探測輸出見各條「基礎」欄），再給建議、阻力、必要性
+- **判準**（依裁決 §0／§8 逐字）：低阻力、高度工程必要性、**不過度工程化**
+
+---
+
+## 1. 結論摘要（一句一項）
+
+| ID | 待決事項 | 建議裁決 | 誰 | 阻力 | 必要性 |
+|---|---|---|---|---|---|
+| ADJ-1 | 受驗主體與其 base（＝FCR-007 同源） | 主體＝**產品支 vs 宣告疊層基底 `52542c3`**；疊層記為**兩個變更**；**不動守衛**，只把 base 寫進 PR／記錄 | Owner 一行 | 極低 | **高** |
+| ADJ-2 | 單一整合候選由誰簽 | Owner 以**既有機制**簽一筆 10 行 JSON（commit＋tree＋仍缺供給） | Owner | 極低 | **高** |
+| ADJ-3 | 宣告模型 vs 實際路線之偏差 | **記錄，不修**（逐車道路線已記、SoD 身分層已成立） | Owner 認可 | 零 | 中 |
+| ADJ-4 | `R3.VERIFY-007` 指定車道未跑 | **跑一次**、scoped、**裁決照刊（含 FAIL）** | Agent 執行 | 低 | **高** |
+| ADJ-5 | 載具缺陷 FCR-003/004/005/006/009/010 | **凍結維持**；轉 CR/TT；**把自建載具移出「驗收依據」**，改用 CI＋指定車道 | Agent＋Owner 認可 | 零 | **最高** |
+| ADJ-6 | §3.3 允許集／deny-set 四項張力 | (a)(d) **明文 supersession 記錄**；(b) 在範圍內；(c) **S4 只做文件映射**，改名留待下輪 | Owner 認可 | 極低 | 中高 |
+| ADJ-7 | `com.ao3.*` 未審查命名空間 | **移出產品受驗範圍**（產品面 0 命中） | CR owner | 零 | 中 |
+| ADJ-8 | TT 登記簿陳舊（CI-04 仍 OPEN） | **更正狀態**（同欄位，不改 schema）— 已於本輪執行 | Agent | 零 | 低 |
+
+---
+
+## 2. 逐項建議與基礎
+
+### ADJ-1 受驗主體與其 base（連帶解 FCR-007）
+- **基礎（今日實測）**：以宣告疊層基底 `52542c3` 比對本升級，`schemas/`＋`src/` 寫入 = **0 檔**、允許集外僅 4 檔（即當時那 4 個無 `.gitmodules` 的 gitlink，**已移除**）；以 `main` 為 base 比對才會計入 Stage-A 的 4 個 frozen-path 寫入。`public-plugin-verify` 紅即源於此 base 選擇。
+- **建議**：受驗主體＝產品支 `feat/s4post-triple-upgrade-20261013-r3`，**base 宣告為 `52542c3`**；並把本疊層明文化為**兩個變更**（Stage-A 修補＝已交付；S4POST 升級＝本次）。守衛語意**不改**（改守衛＝鬆綁風險），紅燈保留並在 PR／記錄中說明。
+- **不做**：rebase onto `main`（高阻力，且仍會把 Stage-A 的 schema/src 修補納入同一變更集）、改 `public-plugin-verify` 的 base 邏輯。
+
+### ADJ-2 單一整合候選簽署
+- **基礎**：`OWNER_INPUT_REQUIRED.json`＋`plugin.release.json` 已提供 owner 供給的機制與模板；缺的不是格式而是**簽署動作**。裁決 §10 明文「最早 Owner = Repo/Release Owner，先簽定單一整合候選」。
+- **建議**：owner 簽一筆最小記錄：`{commit, tree, signed_at, supplies_still_missing:[A1..A4], note}`，放在既有 `evidence/10_OWNER/`。**不新增 CLI、不新增格式**。
+
+### ADJ-3 模型偏差（D1）
+- **基礎**：每一條車道都記錄了 route；SoD 以**不同 SID** 成立（producer `…-1000`／checker `…-1004`）。偏差屬**申報欄位**性質。
+- **建議**：**記錄為 owner-approved deviation**，寫入證據包 `sod`／裁決區塊。
+- **不做**：把 `deepseek-v4.1-flash` 加入 `opencode-go.preserveReasoningContentModels`＋on-wire replay——未授權，且 S4 不需要（屬 S5+ 或供應方層級）。
+
+### ADJ-4 指定車道（R3.VERIFY-007）
+- **基礎**：owner 逐字指定「Independent Acceptance Officer／VERIFY／SECURITY，轉交 CODEX CLI，checker model：GPT 6.1 SOL-MEDIUM」；該車道尚未執行，是本輪**唯一未閉合**義務。
+- **建議**：對已凍結主體**跑一次**、範圍明確、**裁決照刊（可能是 `FAIL_CHALLENGE`）**；依 R8「同回合外部複驗至多 2 次」。若 FAIL，finding 一律轉 CR/TT，**不重開載具**。
+
+### ADJ-5 載具缺陷（最重要的「不過度工程化」建議）
+- **基礎**：findings 序列 **6 → 3 → 9**（不收斂），且**每一輪的新缺陷都落在我自己前一輪的修補裡**；同時，真正的外部產出（CI 首次實跑、資產下載讀回、C1 schema 比對）都不是靠載具修出來的。裁決 §0 逐字：「**不批准把 CI、Agentic Harness 或風險系統全面擴建**」。
+- **建議**：①凍結維持（不再擴軸、不派 AO13）；②FCR-003/004/005/006/009/010 轉 CR/TT；③**把自建載具移出「驗收依據」的角色**——驗收改以**產品 CI（現已 hosted 全綠）**＋**指定車道**為閘門。
+- **理由**：載具缺陷的修補邊際價值趨近於零（修好的是量測工具，不是產品），而每輪修補都會製造新缺陷。把閘門換成「產品 CI＋外部車道」既提升證據強度，也終止迴圈。
+
+### ADJ-6 §3.3 允許集／deny-set 四項張力
+- (a) **第二個 workflow `ci.yml`**：裁決 §3.1 **明文批准**一個最小 Actions workflow，其位置在 §3.3 之後 → **後者為準（supersession）**，記錄即可，不刪 workflow。
+- (b) **`tools/*` 5 檔在允許集外**：該 CI 執行所需（build/freeze），屬**在範圍內**。
+- (c) **`plugin.schema.json` 槽位內容錯位**：官方 vendor schema 實體**存在**於 `vendor-plugin.schema.json` 且**與線上官方文件 byte 相同**（見 §3 C1）→ 那是**檔名對位**問題。S4 建議：**只做文件映射＋TT**；改名留待下一次變更（改名需同步 builder 常數，屬 code churn）。
+- (d) **`requirements.lock`**：已核准的 CI **完全不用它**（用 `pyproject.toml`），且根目錄那份自述「NOT HASH-PINNED…`--require-hashes` will NOT work」→ §7.7 的步驟**照寫不可能通過**。建議：**改 §7.7 文字**（文件 erratum），或把 `LOCK_REQUIRED` 留作 owner 輸入；兩者選一，不要為此新增 hash-pin 工作流。
+
+### ADJ-7 `com.ao3.*`（CR-EXT-UNREVIEWED）
+- **基礎**：產品支全樹掃描，`com.ao3` 僅出現於**本回合一份紀錄文件**，`packaging/`、`tools/`、`tests/`、`docs/install/`、`dist/web/` **0 命中**。
+- **建議**：**移出產品受驗範圍**，保留為載具／格式 CR。這不是「關掉一個 CR」，而是把它歸到正確的標的。
+
+### ADJ-8 TT 登記簿陳舊
+- **基礎**：`00_plan/TT_S4POST_REGISTER.tsv` 的 `TT-S4POST-CI-04` 仍 `OPEN`，但 CI 已 hosted 全綠；登記簿缺本輪新增事項。
+- **建議**：同欄位更新狀態＋追加 7 列（本輪已執行）。
+
+---
+
+## 3. 12 項外部證據的重新分類（今日新事實）
+
+| 類 | 項目 | 依據 |
+|---|---|---|
+| **已可收斂（agent，本輪已做）** | `C1 REAL_VENDOR_SCHEMA` | 官方 URL 200、1,805 B、sha256 `0a4aad95…` **＝樹內 `vendor-plugin.schema.json`**（逐位元相同）。**只剩 A2 的 digest 釘選**屬 owner |
+| **agent 可嘗試（有界）** | `C4 SECURITY_SCAN`（工具可用性待探）、`C7 HERMES_UAT`、`C9 CODEX_CLI_UAT`（已 PARTIAL）、`C10 CLAUDE_CODE_UAT`（若已安裝）、`C11 INDEPENDENT_CHECK`（＝ADJ-4） | 主機／工具在本機可得性不同，逐項需先探測；**能做則做，不能則記 NOT_SUPPORTED** |
+| **owner 嚴格必要** | `C3 REAL_CANDIDATE_BUILD`（需 A1–A4）、`C5/C6 PLUS/FREE_UAT`（帳號）、`C8 CODEX_DESKTOP_UAT`、`C12 HUMAN_PORTAL_PUBLISH` | 需要 owner 的帳號／身分／簽核 |
+| **明確不建議做** | 全模型×全 provider×全 OS 矩陣、第二套 CI、12 軸風險裁定器、為對齊而簽第二個 tag、S5–S8 提前 | 逐字對齊裁決 §8「立即不批准」 |
+
+---
+
+## 4. 執行方案（依阻力排序）
+
+| 序 | 動作 | 成本 | 可逆 | 誰 |
+|---|---|---|---|---|
+| **R-1** | `C1` 存證落盤、TT 登記簿更正與擴充、本報告落盤並推送 | 已完成（本輪） | 完全可逆 | agent |
+| **R-2** | ADJ-4：跑指定車道**一次**，裁決照刊 | 一個車道回合 | 可逆（純讀） | agent（需你一句 go） |
+| **R-3** | ADJ-1/2/3：你各一行即可解鎖（base 宣告、簽候選、接受模型偏差記錄） | 3 行 | 可逆 | owner |
+| **R-4** | ADJ-6(a)(d)：supersession 與 §7.7 文字 erratum | 2 段文字 | 可逆 | owner 認可 |
+| **R-5** | （下一變更）schema 槽位改名、lock hash-pin、載具 CR 的正式處置 | 下一輪 | — | 下一輪 |
+
+**建議執行序**：R-1（已完成）→ R-2 → R-3 → R-4 → R-5。
+
+---
+[
+  {
+    "argv_redacted": "PYTHONPATH=<worktree> \"C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe\" python -m unittest discover -s tests -p 'test_s4ext_*.py' -v",
+    "cwd": "<worktree>",
+    "exit_code": 0,
+    "tests": 108,
+    "skipped": null,
+    "failed": 0,
+    "errors": 0,
+    "result": "OK",
+    "raw_log": "verify/r3/raw/focused.log",
+    "log_sha256": "88d8db8123e744c2699193bd5c8013fbb62c0fd952d425b779c6f9457488eba7",
+    "env": {
+      "PYTHONPATH": "<worktree> (so `tests` and the package resolve from the candidate tree, not from an installed copy)",
+      "interpreter": "CPython 3.11.9 (C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe)",
+      "jsonschema": "4.26.0 (present in the interpreter; the packaging tests validate against the vendored vendor schema)"
+    },
+    "nonmutation_note": "Measured with a named-entry diff, not a count: full suite + focused suite run in a checkout left `git status --porcelain` (and its --ignored form) with ZERO new entries, exit 0 both. An earlier non-zero count in this round was the orchestrator's own concurrent document writes, and is not reproducible as a test side effect.",
+    "log_sha256_worktree_eol": "88d8db8123e744c2699193bd5c8013fbb62c0fd952d425b779c6f9457488eba7",
+    "log_sha256_committed_blob": "3666bce6fc04a84e6e7868715349b34048eaa69ce3e677aadc96e3297cbb41d3"
+  },
+  {
+    "argv_redacted": "PYTHONPATH=<worktree> \"C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe\" python -m unittest discover -s tests -t . -v",
+    "cwd": "<worktree>",
+    "exit_code": 0,
+    "tests": 572,
+    "skipped": 3,
+    "failed": 0,
+    "errors": 0,
+    "result": "OK",
+    "raw_log": "verify/r3/raw/full.log",
+    "log_sha256": "185a6177ce2296ca11af42e058f9ee661725c465836a65a19be6e8436bb2bc1a",
+    "env": {
+      "PYTHONPATH": "<worktree> (so `tests` and the package resolve from the candidate tree, not from an installed copy)",
+      "interpreter": "CPython 3.11.9 (C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe)",
+      "jsonschema": "4.26.0 (present in the interpreter; the packaging tests validate against the vendored vendor schema)"
+    },
+    "nonmutation_note": "Measured with a named-entry diff, not a count: full suite + focused suite run in a checkout left `git status --porcelain` (and its --ignored form) with ZERO new entries, exit 0 both. An earlier non-zero count in this round was the orchestrator's own concurrent document writes, and is not reproducible as a test side effect.",
+    "log_sha256_worktree_eol": "185a6177ce2296ca11af42e058f9ee661725c465836a65a19be6e8436bb2bc1a",
+    "log_sha256_committed_blob": "46ff948ae879709b87e17d05c4cdbb4dc3400372b9e2ad8d3128d061353aa7a6",
+    "skipped_note": "3 in this environment; an independent third party reproduced 4 (one additional environment-dependent skip). Not a defect."
+  }
+]
+
+CommandType     Name                                               Version    Source
+-----------     ----                                               -------    ------
+Application     bash.exe                                           0.0.0.0    C:\Program Files\Git\usr\bin\bash.exe
+true
+
+
+mcp: node_repl/js started
+mcp: node_repl/js (completed)
+mcp: node_repl/js started
+mcp: node_repl/js (completed)
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command 'Get-Content .ao-r3/C1.txt -Tail 5; if(Test-Path .ao-r3/C2.txt){Get-Content .ao-r3/C2.txt -Tail 6}; $r='"'.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade'; Get-Content \""'$r/verify/tools/check_evidence_locators.py" -Encoding UTF8 | Select-Object -First 220; Get-Content .github/workflows/public-plugin-verify.yml -Encoding UTF8 | Select-Object -Skip 73 -First 48; git diff --name-status 52542c395a0f91dc2ba4bd6123acd4cdecd780dc HEAD -- schemas src; git diff --name-status refs/remotes/origin/main HEAD -- schemas src; git ls-tree HEAD .gitmodules; git ls-tree refs/remotes/origin/main .gitmodules' in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+ succeeded in 570ms:
+
+----------------------------------------------------------------------
+Ran 108 tests in 32.381s
+
+OK
+#!/usr/bin/env python3
+"""check_evidence_locators.py - FAR R6: can a third party re-run this bundle's locators?
+
+A finding whose locator resolves only inside the REVIEWER's private temp root, or only inside an
+out-of-tree skill/contract copy, is NOT independently re-runnable even when the report itself is
+readable (measured: AO10/AO11/AO12 staged evidence under %LOCALAPPDATA%\\Temp\\<lane>-* roots the maker
+identity cannot list, and the canonical challenge-review lane lives in ~/.agents/skills/**, outside the repo).
+
+Classification (per locator):
+  RESOLVES_IN_TREE  - a real path under --root (or under a --search-dir)
+  EXTERNAL_ONLY     - an existing path OUTSIDE --root   [OFFENDER]
+  UNRESOLVABLE      - a path-shaped locator with no file behind it anywhere searched [OFFENDER]
+  SHORTHAND_BARE_NAME - a bare `name.ext` with no path separator; not a locator, counted only
+
+Usage: check_evidence_locators.py --root <tree> [--search-dir D]... [--json-out F] <file-or-dir>...
+Exit: 0 = no offenders; 2 = offenders; 1 = usage error.
+"""
+import argparse, json, os, re, sys
+
+# path-shaped: MUST contain a separator (so a bare `plugin.json` is a shorthand, not a locator)
+ABS = re.compile(r'([A-Za-z]:[\\/][^\s"\'`<>|)*\]]*)')
+REL = re.compile(r'([\w.\-]+(?:[\\/][\w.\-]+)+\.(?:py|ipynb|md|json|jsonl|sh|ps1|txt|log|yml|yaml|js|html|css|whl|png|toml|cfg|ini))')
+BARE = re.compile(r'([\w.\-]+\.(?:py|md|json|sh|txt|log|yml|yaml))')
+SKIP = re.compile(r'^(https?://|mailto:|git@)', re.I)
+
+def iter_text(p):
+    if os.path.isdir(p):
+        for r, _d, fs in os.walk(p):
+            for f in fs:
+                if f.endswith(('.md','.json','.txt','.log','.yml','.yaml')):
+                    yield os.path.join(r, f)
+    else:
+        yield p
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--root', required=True)
+    ap.add_argument('--search-dir', action='append', default=[])
+    ap.add_argument('--json-out')
+    ap.add_argument('inputs', nargs='+')
+    a = ap.parse_args()
+    root = os.path.realpath(a.root)
+    searches = [root] + [os.path.realpath(d) for d in a.search_dir]
+    counts = {k:0 for k in ('RESOLVES_IN_TREE','EXTERNAL_ONLY','UNRESOLVABLE','SHORTHAND_BARE_NAME')}
+    rows = []
+    for src in a.inputs:
+        for f in iter_text(src):
+            try: txt = open(f, encoding='utf-8', errors='replace').read()
+            except OSError: continue
+            seen = set()
+            toks = [(m.group(1).strip().rstrip('.,;:'), 'path') for m in ABS.finditer(txt)]
+            toks += [(m.group(1).strip().rstrip('.,;:'), 'rel') for m in REL.finditer(txt)]
+            bare = {m.group(1).strip().rstrip('.,;:') for m in BARE.finditer(txt)}
+            for tok, kind in toks:
+                if not tok or tok in seen or SKIP.match(tok) or len(tok) < 5: continue
+                seen.add(tok)
+                if os.path.isabs(tok):
+                    rp = os.path.realpath(tok)
+                    cls = ('RESOLVES_IN_TREE' if rp.startswith(root)
+                           else ('EXTERNAL_ONLY' if os.path.exists(rp) else 'UNRESOLVABLE'))
+                else:
+                    cands = [os.path.join(os.path.dirname(f), tok)] + [os.path.join(s, tok) for s in searches]
+                    cls = 'RESOLVES_IN_TREE' if any(os.path.exists(c) for c in cands) else 'UNRESOLVABLE'
+                counts[cls] += 1
+                if cls in ('EXTERNAL_ONLY','UNRESOLVABLE'):
+                    rows.append({'file': os.path.relpath(f, root), 'locator': tok, 'class': cls})
+            for b in bare:
+                if b not in seen and '/' not in b and '\\' not in b:
+                    counts['SHORTHAND_BARE_NAME'] += 1
+    bad = counts['EXTERNAL_ONLY'] + counts['UNRESOLVABLE']
+    verdict = 'PASS_LOCATORS_IN_TREE' if bad == 0 else 'FAIL_LOCATORS_NOT_RERUNNABLE'
+    out = {'schema':'HGK-EVIDENCE-LOCATOR-CHECK/1','root':root,'search_dirs':searches,
+           'verdict':verdict,'counts':counts,'offenders':rows}
+    if a.json_out: open(a.json_out,'w',encoding='utf-8').write(json.dumps(out, ensure_ascii=False, indent=1))
+    print(json.dumps({'verdict':verdict,'counts':counts}, ensure_ascii=False))
+    for r in rows[:14]: print(f"  {r['class']:14} {r['locator'][:100]}")
+    return 2 if bad else 0
+
+if __name__ == '__main__': sys.exit(main())
+          fi
+          git merge-base --is-ancestor "$BASE" HEAD
+          CHANGED="$(git diff --name-only "${BASE}...HEAD")"
+          printf '%s\n' "$CHANGED"
+          ALLOWED='^(packaging/public-plugin/|tools/freeze_public_plugin_source\.py$|tools/build_public_plugin\.py$|tools/build_web_fallback\.py$|tests/test_public_plugin_packaging\.py$|tests/test_web_fallback\.py$|docs/install/|docs/adr/|openspec/changes/s4post-triple-upgrade/|\.github/workflows/public-plugin-verify\.yml$|README\.md$|\.hgk/rounds/S4POST-20261012)'
+          DENIED='^(skills/|src/|schemas/|dist/)'
+          bad=0
+          while IFS= read -r path; do
+            [ -n "$path" ] || continue
+            if printf '%s' "$path" | grep -Eq "$DENIED"; then
+              echo "UPGRADE_WROTE_FROZEN_PATH: $path" >&2
+              bad=1
+            elif ! printf '%s' "$path" | grep -Eq "$ALLOWED"; then
+              echo "UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: $path" >&2
+              bad=1
+            fi
+          done <<< "$CHANGED"
+          if [ "$bad" -ne 0 ]; then
+            echo "WRITE_SET_VIOLATION (base ${BASE})" >&2
+            exit 1
+          fi
+          echo "WRITE_SET_CLEAN_AGAINST_${BASE}"
+
+      - name: Compile the three upgrade tools
+        # Nothing is installed for this step: the three tools import the standard library only.
+        run: |
+          python -m py_compile \
+            tools/freeze_public_plugin_source.py \
+            tools/build_public_plugin.py \
+            tools/build_web_fallback.py
+          echo "PY_COMPILE_OK"
+
+      - name: Assert the upgrade is stdlib-only (no third-party import)
+        # WHY THERE IS NO `pip install -r <file>` FOR THE UPGRADE IN THIS WORKFLOW: the three tools
+        # and the two new test modules import the standard library only, so there is no requirements
+        # file for them to pull — none exists. This step enforces that claim fail-closed, so a later
+        # third-party import fails the gate instead of silently needing a dependency.
+        run: |
+          python - <<'PY'
+          import ast
+          import sys
+          from pathlib import Path
+
+          TARGETS = (
+              "tools/freeze_public_plugin_source.py",
+              "tools/build_public_plugin.py",
+              "tools/build_web_fallback.py",
+              "tests/test_public_plugin_packaging.py",
+M	schemas/PI-PKG.schema.json
+M	schemas/TraceLink.schema.json
+M	src/pipd_ls_sp/profiles.py
+M	src/pipd_ls_sp/validate.py
+
+mcp: node_repl/js started
+mcp: node_repl/js (completed)
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "& 'C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe' .ao-r3/inspect.py" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+codex
+Focused tests pass: 108. I’m checking documented commands and hash forms next.
+
+ succeeded in 31088ms:
+{
+  "C8": [
+    {
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/r3/raw/focused.log",
+      "blob_bytes": 18678,
+      "disk_bytes": 18678,
+      "blob_sha256": "3666bce6fc04a84e6e7868715349b34048eaa69ce3e677aadc96e3297cbb41d3",
+      "disk_sha256": "3666bce6fc04a84e6e7868715349b34048eaa69ce3e677aadc96e3297cbb41d3",
+      "declared_blob": "3666bce6fc04a84e6e7868715349b34048eaa69ce3e677aadc96e3297cbb41d3",
+      "declared_disk": "88d8db8123e744c2699193bd5c8013fbb62c0fd952d425b779c6f9457488eba7",
+      "same_bytes": true
+    },
+    {
+      "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/r3/raw/full.log",
+      "blob_bytes": 95335,
+      "disk_bytes": 95335,
+      "blob_sha256": "46ff948ae879709b87e17d05c4cdbb4dc3400372b9e2ad8d3128d061353aa7a6",
+      "disk_sha256": "46ff948ae879709b87e17d05c4cdbb4dc3400372b9e2ad8d3128d061353aa7a6",
+      "declared_blob": "46ff948ae879709b87e17d05c4cdbb4dc3400372b9e2ad8d3128d061353aa7a6",
+      "declared_disk": "185a6177ce2296ca11af42e058f9ee661725c465836a65a19be6e8436bb2bc1a",
+      "same_bytes": true
+    }
+  ],
+  "C7": {
+    "disk_bytes": 1805,
+    "disk_sha256": "0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883",
+    "blob_bytes": 1805,
+    "blob_sha256": "0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883"
+  },
+  "C10": {
+    "HEAD": [],
+    "refs/remotes/origin/main": [
+      "160000 commit 829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e\t.hgk/rounds/R2-20261009-qualification/execute/candidate",
+      "160000 commit 829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e\t.hgk/rounds/R2-20261009-qualification/product-repair/pristine-candidate",
+      "160000 commit 829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e\t.hgk/rounds/R2-20261009-qualification/product-repair/regression-candidate",
+      "160000 commit 829c17e87855cd7a1c88bfad1f51f1fdd1fafa5e\t.hgk/rounds/R2-20261009-qualification/product-repair/semcheck"
+    ]
+  },
+  "52542c395a0f91dc2ba4bd6123acd4cdecd780dc": {
+    "changed_count": 107,
+    "frozen_paths": [],
+    "outside_allowlist": [
+      ".github/workflows/ci.yml",
+      ".hgk/rounds/R2-20261009-qualification/execute/candidate",
+      ".hgk/rounds/R2-20261009-qualification/product-repair/pristine-candidate",
+      ".hgk/rounds/R2-20261009-qualification/product-repair/regression-candidate",
+      ".hgk/rounds/R2-20261009-qualification/product-repair/semcheck"
+    ]
+  },
+  "refs/remotes/origin/main": {
+    "changed_count": 132,
+    "frozen_paths": [
+      "schemas/PI-PKG.schema.json",
+      "schemas/TraceLink.schema.json",
+      "src/pipd_ls_sp/profiles.py",
+      "src/pipd_ls_sp/validate.py"
+    ],
+    "outside_allowlist": [
+      ".github/workflows/ci.yml",
+      ".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json",
+      ".hgk/artifacts/tqaep_design_tmp/ecp.json",
+      ".hgk/artifacts/tqaep_design_tmp/pi.json",
+      ".hgk/rounds/R2-20261009-qualification/execute/candidate",
+      ".hgk/rounds/R2-20261009-qualification/product-repair/pristine-candidate",
+      ".hgk/rounds/R2-20261009-qualification/product-repair/regression-candidate",
+      ".hgk/rounds/R2-20261009-qualification/product-repair/semcheck",
+      "docs/ERRATUM_2026-10-12_preview3_release_provenance.md",
+      "docs/RELEASE_TUPLE.json",
+      "docs/S4_SPEC_DEL_ADJUDICATION.json",
+      "examples/first-run/run.ps1",
+      "examples/first-run/run.sh",
+      "tests/test_publication_projection.py",
+      "tests/test_s4ext_artifact_reproducibility.py",
+      "tests/test_s4ext_first_run_portable.py",
+      "tests/test_s4ext_profile_boundaries.py",
+      "tests/test_s4ext_release_provenance.py",
+      "tests/test_s4ext_spec_del_adjudication.py",
+      "tests/test_s4ext_trace_closure.py",
+      "tests/test_technology_admission.py",
+      "tests/test_tqaep_design_positive.py",
+      "tools/admit_technologies.py",
+      "tools/build_mount_pack.py",
+      "tools/build_s4_spec_del_adjudication.py",
+      "tools/history_secret_scan.py",
+      "tools/verify_evidence_digests.py"
+    ]
+  },
+  "com.ao3_files": [
+    ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/00_plan/TT_S4POST_REGISTER.tsv",
+    ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/ACCEPTANCE_RECORD_STAGEB.md",
+    ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/far/FAR_OPEN_ITEMS_ADJUDICATION_20261013.md"
+  ]
+}
+
+mcp: node_repl/js started
+mcp: node_repl/js (completed)
+**Considering task efficiency**
+
+I need to ensure that my process is efficient, avoiding concurrent C4 suites which might lead to inaccurate status updates. It seems that I could wait for other tasks to complete before diving in. I’m contemplating inspecting and packaging all top claims through a node, and I’m thinking about writing it in JSON format without utilizing long static methods. It's a bit complex, but I believe it will streamline things.
+mcp: node_repl/js started
+mcp: node_repl/js (completed)
+**Clarifying report requirements**
+
+I need to report every favorable claim that hasn't been verified and categorize those as unsupported rather than assuming they're false. I should make an exact list of publications, admissions, and other relevant information. While I can't validate runtime, I can check the files for schema status and receipts since they’re not proof. C14 likely failed due to a mismatch with C4 and C6 FAR com count allowances. I need to measure the raw data from inspection while I await further information.
+ succeeded in 204004ms:
+binding exit 0
+python exit 0
+before-status exit 0
+before-ignored exit 0
+C1 exit 0
+C2 exit 0
+after-status exit 0
+after-ignored exit 0
+C5 exit 2
+C6 exit 2
+C10-head exit 0
+C10-main exit 0
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "Get-Content .ao-r3/C2.txt -Tail 8; Get-Content .ao-r3/before-status.txt; Get-Content .ao-r3/after-status.txt; Get-Content .ao-r3/before-ignored.txt; Get-Content .ao-r3/after-ignored.txt; Get-Content .ao-r3/C5.txt; Get-Content .ao-r3/C6.txt; & 'C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe' .ao-r3/acceptance_block.py" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+ exited 1 in 473ms:
+check failed: 1 violation(s)
+.VIOLATION: PIPD-SP-SPEC-001: EVIDENCED oracle file missing: tests/ORACLE_DOES_NOT_EXIST.py
+check failed: 1 violation(s)
+...............................................................................
+----------------------------------------------------------------------
+Ran 572 tests in 170.073s
+
+OK (skipped=4)
+?? .ao-r3/
+?? .ao-r3/
+?? .ao-r3/
+?? .ao-r3/
+!! src/pipd_ls_sp/__pycache__/
+!! tests/__pycache__/
+!! tools/__pycache__/
+{"verdict": "FAIL_LOCATORS_NOT_RERUNNABLE", "counts": {"RESOLVES_IN_TREE": 4, "EXTERNAL_ONLY": 7, "UNRESOLVABLE": 32, "SHORTHAND_BARE_NAME": 54}}
+  EXTERNAL_ONLY  C:\Users\user\AppData\Local\Temp\ao12-roo_vkak
+  EXTERNAL_ONLY  C:/Users/user/.agents/skills/fabric-external-independent-challenge-reviewer/SKILL.md
+  EXTERNAL_ONLY  C:/Projects/Agent_Workspace/PIPD/.git/worktrees/s4post-b-wt
+  UNRESOLVABLE   C:/Users/user/AppData/Local/Temp/ao12-roo_vkak/CHILD_OS_UNDECIDED_JUNCTION/worktree
+  UNRESOLVABLE   C:\Users\user\AppData\Local\Temp\ao12-roo_vkak\challenge.py
+  EXTERNAL_ONLY  C:\\Users\\user\\.agents\\skills\\fabric-external-independent-challenge-reviewer\\scripts\\verify_re
+  EXTERNAL_ONLY  C:\\Users\\user\\.agents\\skills\\fabric-external-independent-challenge-reviewer\\tests
+  EXTERNAL_ONLY  C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\\.hgk\\rounds\\S4POST-20261012-postrepai
+  EXTERNAL_ONLY  C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\\.hgk\\rounds\\S4POST-20261012-postrepai
+  UNRESOLVABLE   Users/user/.agents/skills/fabric-external-independent-challenge-reviewer/SKILL.md
+  UNRESOLVABLE   stage-b/ROUND_ASSIGNMENT.json
+  UNRESOLVABLE   stage-b/OWNER_DECISION_MODEL_DEVIATION.md
+  UNRESOLVABLE   tests.sh.stdout.txt/.stderr.txt
+  UNRESOLVABLE   verify/ao11/AO11_LANE_FAILURE.md
+{"verdict": "FAIL_LOCATORS_NOT_RERUNNABLE", "counts": {"RESOLVES_IN_TREE": 9, "EXTERNAL_ONLY": 0, "UNRESOLVABLE": 2, "SHORTHAND_BARE_NAME": 16}}
+  UNRESOLVABLE   s://agent-plugins.org/schemas/1.0.0/plugin.schema.json
+  UNRESOLVABLE   agent-plugins.org/schemas/1.0.0/plugin.schema.json
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl\.ao-r3\acceptance_block.py", line 11
+    (OUT / 'C4-verbatim-block.txt').write_text(block+'
+                                                     ^
+SyntaxError: unterminated string literal (detected at line 11)
+
+**Fixing patch issues**
+
+I'm trying to address a problem where node template escaped line splits are being treated literally in the script patch. I think I need to consider whether to apply an update that deletes or adds the entire file or if I should specifically target the corrupted file. It might be a waste if I need to reread the generated content without instructions. It feels like I need to recreate everything by separating the updates and replacing the corrupted file from the filesystem.
+mcp: node_repl/js started
+mcp: node_repl/js (completed)
+**Evaluating string transformations**
+
+I'm checking if the fixed `replaceAll` transforms properly handle double slashes. I want to ensure that the actual Python string `'\n'` is still represented correctly. Using `String.raw`, it shows as `\\n`, which has two slashes. The goal is to replace those two slashes with a single `\n`, and confirm that the string comes out correctly formatted. So far, it looks good!
+codex
+Full tests pass: 572, four skips. New ignored caches and locator failures are confirmed.
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "& 'C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe' .ao-r3/acceptance_block.py" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+ exited 1 in 290ms:
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl\.ao-r3\acceptance_block.py", line 11
+    (OUT / 'C4-verbatim-block.txt').write_text(block+'
+                                                     ^
+SyntaxError: unterminated string literal (detected at line 11)
+
+**Exploring string handling in code**
+
+I'm thinking about why String.raw replaces newline characters. It seems the JSON code parser uses `\n` in raw templates, but I wonder about tool code treating it as a fixed string. The simplest way could be using an array to join lines in JavaScript or employing `chr(10)` in Python, which doesn't require any backslash escapes. When printing with echo in a script, I notice there's no need for escapes like with printf.
+mcp: node_repl/js started
+mcp: node_repl/js (completed)
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "& 'C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe' .ao-r3/acceptance_block.py" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command '$r='"'.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade'; git ls-tree -r --name-only HEAD -- \""'$r/verify" | Select-String '"'ao[0-9]|C1_VENDOR|LOCATOR'; git ls-tree -r --name-only HEAD -- '*OWNER_INPUT_REQUIRED.json' '*plugin.release.json'; Get-Content .gitattributes -Encoding UTF8; Get-Content packaging/public-plugin/plugin.json -Encoding UTF8 | Select-Object -First 40; Get-Content requirements.lock -Encoding UTF8 | Select-Object -First 25; git status --porcelain; git diff --exit-code HEAD; git diff --cached --exit-code HEAD" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+ succeeded in 844ms:
+
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao12/EXTERNAL_CHALLENGE_INTAKE.json
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao12/EXTERNAL_CHALLENGE_REPORT.md
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao12/EXTERNAL_EVIDENCE_PRESERVATION.md
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao12/FINDINGS.json
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao12/FREEZE.json
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao12/FROZEN_TRACKED_SHA256.json
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao12/INTAKE_AT_DISPATCH.json
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao12/LOCATOR_CHECK_AO12.json
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao12/REPORT_READBACK.json
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao12/REVIEW_EVIDENCE_MANIFEST.json
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao12/TEMP_WORKSPACE.txt
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/r3/C1_VENDOR_SCHEMA_PROVENANCE.json
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/tools/LOCATOR_CHECK_R3_POSITIVE.json
+.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/tools/check_evidence_locators.py
+* text=auto eol=lf
+*.png binary
+*.db binary
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "pipd-ls-sp-public-skills",
+  "version": "0.1.1",
+  "description": "PIPD-LS-SP public Skills-only plugin: the eight fail-closed lifecycle skills, packaged deterministically as an Agent Plugins 1.0 candidate. claim_ceiling=LOCAL_PACKAGER_PASS_ONLY; the vendor's own validator and the Agent Plugins Portal scan are NOT_EXECUTED.",
+  "repository": "https://github.com/shw097-team/PIPD-LS-SP",
+  "license": "Apache-2.0",
+  "keywords": [
+    "agent-plugins",
+    "skills",
+    "pipd",
+    "lifecycle",
+    "fail-closed"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "display_name": "PIPD-LS-SP Public Skills"
+      }
+    },
+    "com.pipd.s4": {
+      "schema": "PIPD-PUBLIC-PLUGIN-MANIFEST/1",
+      "plugin_id": "pipd-ls-sp-public-skills",
+      "display_name": "PIPD-LS-SP Public Skills",
+      "version": "0.1.1",
+      "license": "Apache-2.0",
+      "skills": [
+        "pipd-assurance-tqaep",
+        "pipd-authority-source",
+        "pipd-execution-contract",
+        "pipd-package-project",
+        "pipd-pd-bind",
+        "pipd-pi-compile",
+        "pipd-profile-tailor",
+        "pipd-route-intake"
+      ],
+      "official_schema_sha256": "0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883",
+      "publisher": {
+        "name": "OWNER_INPUT_REQUIRED",
+        "identity": "OWNER_INPUT_REQUIRED",
+# requirements.lock - the RESOLVED runtime closure of pipd-ls-sp, pinned exactly.
+#
+# WHY THIS FILE EXISTS: `pyproject.toml` declares the runtime requirement as the open range
+# `jsonschema>=4.0`, which permits any future 4.x or 5.x. That is a declaration, not a reproduction
+# recipe: two installs months apart can resolve to different bytes. This file records the closure that
+# was actually present and exercised when the published wheel was verified, so an install can be
+# reproduced rather than merely re-resolved.
+#
+# WHAT IT PINS: exact versions of the transitive closure of `jsonschema`, enumerated by walking the
+# declared requirements of each installed distribution (markers with an `extra` are excluded, since no
+# extras are requested). Verified on Windows CPython 3.11.9.
+#
+# HONEST LIMITS - read these before treating this as a supply-chain control:
+#   1. NOT HASH-PINNED. Artifact hashes (sha256 of each wheel/sdist) are NOT recorded, because the
+#      build environment for this release was network-off and the artifacts could not be fetched to
+#      hash them. `pip install --require-hashes` will therefore NOT work against this file. Version
+#      pinning narrows the window; it does not close it.
+#   2. This is the closure as INSTALLED and TESTED, not a resolution performed by a resolver. It
+#      states what was exercised, not what is optimal.
+#   3. `rpds-py` and `typing-extensions` arrive through `referencing`; they are listed because they are
+#      in the closure, not because this project imports them directly.
+#
+# Regenerate with: tools/build_requirements_lock.py  (writes this file; see that script for the walk)
+
+attrs==25.4.0
+?? .ao-r3/
+
+
+mcp: node_repl/js started
+mcp: node_repl/js (completed)
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "& 'C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe' .ao-r3/supplement.py; Get-Content .ao-r3/guard-stacked.txt -Tail 9; Get-Content .ao-r3/guard-main.txt -Tail 34; git status --porcelain --ignored" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+ succeeded in 20431ms:
+guard-stacked 1
+guard-main 1
+final-refs 0
+C6-detail 2
+[
+  {
+    "path": "verify/r3/raw/focused.log",
+    "synthetic_CRLF_sha256": "88d8db8123e744c2699193bd5c8013fbb62c0fd952d425b779c6f9457488eba7",
+    "declared_worktree": "88d8db8123e744c2699193bd5c8013fbb62c0fd952d425b779c6f9457488eba7"
+  },
+  {
+    "path": "verify/r3/raw/full.log",
+    "synthetic_CRLF_sha256": "185a6177ce2296ca11af42e058f9ee661725c465836a65a19be6e8436bb2bc1a",
+    "declared_worktree": "185a6177ce2296ca11af42e058f9ee661725c465836a65a19be6e8436bb2bc1a"
+  }
+]
+tools/build_public_plugin.py
+tools/build_web_fallback.py
+tools/freeze_public_plugin_source.py
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: .github/workflows/ci.yml
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: .hgk/rounds/R2-20261009-qualification/execute/candidate
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: .hgk/rounds/R2-20261009-qualification/product-repair/pristine-candidate
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: .hgk/rounds/R2-20261009-qualification/product-repair/regression-candidate
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: .hgk/rounds/R2-20261009-qualification/product-repair/semcheck
+WRITE_SET_VIOLATION (base 52542c395a0f91dc2ba4bd6123acd4cdecd780dc)
+tools/history_secret_scan.py
+tools/verify_evidence_digests.py
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: .github/workflows/ci.yml
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: .hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: .hgk/artifacts/tqaep_design_tmp/ecp.json
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: .hgk/artifacts/tqaep_design_tmp/pi.json
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: .hgk/rounds/R2-20261009-qualification/execute/candidate
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: .hgk/rounds/R2-20261009-qualification/product-repair/pristine-candidate
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: .hgk/rounds/R2-20261009-qualification/product-repair/regression-candidate
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: .hgk/rounds/R2-20261009-qualification/product-repair/semcheck
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: docs/ERRATUM_2026-10-12_preview3_release_provenance.md
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: docs/RELEASE_TUPLE.json
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: docs/S4_SPEC_DEL_ADJUDICATION.json
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: examples/first-run/run.ps1
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: examples/first-run/run.sh
+UPGRADE_WROTE_FROZEN_PATH: schemas/PI-PKG.schema.json
+UPGRADE_WROTE_FROZEN_PATH: schemas/TraceLink.schema.json
+UPGRADE_WROTE_FROZEN_PATH: src/pipd_ls_sp/profiles.py
+UPGRADE_WROTE_FROZEN_PATH: src/pipd_ls_sp/validate.py
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tests/test_publication_projection.py
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tests/test_s4ext_artifact_reproducibility.py
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tests/test_s4ext_first_run_portable.py
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tests/test_s4ext_profile_boundaries.py
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tests/test_s4ext_release_provenance.py
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tests/test_s4ext_spec_del_adjudication.py
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tests/test_s4ext_trace_closure.py
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tests/test_technology_admission.py
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tests/test_tqaep_design_positive.py
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tools/admit_technologies.py
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tools/build_mount_pack.py
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tools/build_s4_spec_del_adjudication.py
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tools/history_secret_scan.py
+UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tools/verify_evidence_digests.py
+WRITE_SET_VIOLATION (base 224591431a164ab72a9423cd180e417e8a762403)
+?? .ao-r3/
+!! src/pipd_ls_sp/__pycache__/
+!! tests/__pycache__/
+!! tools/__pycache__/
+
+mcp: node_repl/js started
+mcp: node_repl/js (completed)
+**Clarifying publication contradictions**
+
+I’m noticing a contradiction in publication regarding §6.5 and the removal count for C14. It seems like I might compute hashes quickly using a node in the filesystem, but I haven’t written any raw files yet. I think I need to generate a report that considers existing measurements and maybe enhance the manifest with additional data. I need to gather evidence for the pack manifest to confirm if the old pin hash matches current measurements.
+mcp: node_repl/js started
+mcp: node_repl/js (completed)
+**Clarifying model verification**
+
+I need to ensure that my real checker model is reliable, but there's uncertainty regarding the runtime and its identity. I can't pretend to know things that aren't verifiable. Using the `whoami` command might help verify identity, yet I have to wonder about reporting and requirements. Can I trust the assertion if there's no accessible metadata about the model? This suggests that I can't verify the configuration of the runtime without additional skills.
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "whoami; whoami /user; git rev-parse HEAD 'HEAD"'^{tree}'"' refs/remotes/origin/main; "'$r='"'.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade'; Get-Content \""'$r/verify/tools/LOCATOR_CHECK_R3_POSITIVE.json" -Encoding UTF8 | Select-Object -First 45; git ls-tree -r --name-only HEAD -- packaging/public-plugin | Select-String '"'OWNER|release|assets|lock'" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+ succeeded in 545ms:
+user
+/usr/bin/whoami: extra operand ‘/user’
+Try '/usr/bin/whoami --help' for more information.
+389d3973da73e5740f0b4d290bacb92d1e8982f8
+488d12c1a4bef899f6d38543ab50874d79996e3a
+224591431a164ab72a9423cd180e417e8a762403
+{
+ "schema": "PIPD-R3-LOCATOR-CONTROL/2",
+ "tool": "verify/tools/check_evidence_locators.py",
+ "why": "A locator that only resolves inside a reviewer's tree is not independently re-runnable (FAR R6).",
+ "per_subject": [
+  {
+   "subject": "product branch content (materialised with git archive of the product tip, NOT the shared worktree)",
+   "command": "python $R/verify/tools/check_evidence_locators.py --root . --search-dir . $R/OWNER_ACTION_REQUEST.md $R/HARNESS_FREEZE_AND_AO_LOOP_CAP.md",
+   "exit": 0,
+   "verdict": "PASS_LOCATORS_IN_TREE",
+   "raw_tail": [
+    "{\"verdict\": \"PASS_LOCATORS_IN_TREE\", \"counts\": {\"RESOLVES_IN_TREE\": 7, \"EXTERNAL_ONLY\": 0, \"UNRESOLVABLE\": 0, \"SHORTHAND_BARE_NAME\": 13}}"
+   ],
+   "corrected_after": "A second round of the same independent finding: one further cross-branch citation (a harness-branch log) was relabelled, then the control was re-measured and is reported exactly as measured."
+  },
+  {
+   "subject": "AO12 external challenge bundle (negative control)",
+   "exit": 2,
+   "verdict": "FAIL_LOCATORS_NOT_RERUNNABLE"
+  }
+ ],
+ "correction_note": "An earlier single-subject control recorded PASS_LOCATORS_IN_TREE (11 in-tree, 0 offenders) measured in the SHARED WORKTREE, which carries both branches' content and is therefore not the published subject. Raised by independent third-party verification; re-measured per subject, and harness-branch-only citations in the freeze document were relabelled. If the product subject still fails, the failure is reported here verbatim rather than rounded to PASS.",
+ "known_residual": "Product-subject documents that cite companion-branch (harness) content will fail this strict in-tree control by design; the two branches are the FAR R2 split."
+}
+
+packaging/public-plugin/OWNER_INPUT_REQUIRED.json
+packaging/public-plugin/assets/.gitignore
+packaging/public-plugin/plugin.release.json
+
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command '& "$env:SystemRoot/System32/whoami.exe" /user | Tee-Object -FilePath .ao-r3/runtime-identity.txt; git diff --name-status 52542c395a0f91dc2ba4bd6123acd4cdecd780dc HEAD -- .github/workflows/ci.yml '"'.hgk/rounds/R2-20261009-qualification' | Tee-Object -FilePath .ao-r3/gitlink-removals.txt" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+ succeeded in 501ms:
+
+USER INFORMATION
+----------------
+
+User Name            SID                                           
+==================== ==============================================
+desktop-57eo414\user S-1-5-21-2687334950-3868438633-1592137926-1000
+M	.github/workflows/ci.yml
+D	.hgk/rounds/R2-20261009-qualification/execute/candidate
+D	.hgk/rounds/R2-20261009-qualification/product-repair/pristine-candidate
+D	.hgk/rounds/R2-20261009-qualification/product-repair/regression-candidate
+D	.hgk/rounds/R2-20261009-qualification/product-repair/semcheck
+
+ succeeded in 191981ms:
+(tests.test_tt_summary.TtSummaryProjection.test_real_register_row_histogram_is_unchanged) ... ok
+test_round_trip_preserves_rows_ids_and_statuses (tests.test_tt_summary.TtSummaryProjection.test_round_trip_preserves_rows_ids_and_statuses) ... ok
+test_row_addition_fails_assert_on_total (tests.test_tt_summary.TtSummaryProjection.test_row_addition_fails_assert_on_total) ... ok
+test_row_removal_fails_assert_on_total (tests.test_tt_summary.TtSummaryProjection.test_row_removal_fails_assert_on_total) ... ok
+test_status_mutation_fails_assert (tests.test_tt_summary.TtSummaryProjection.test_status_mutation_fails_assert) ... ok
+test_stored_summary_equals_recomputation_after_write (tests.test_tt_summary.TtSummaryProjection.test_stored_summary_equals_recomputation_after_write) ... ok
+test_cli_builds_when_the_pack_is_clean (tests.test_web_fallback.WebFallbackTests.test_cli_builds_when_the_pack_is_clean) ... ok
+test_cli_refusal_is_nonzero_and_above_cap_is_refused_not_trimmed (tests.test_web_fallback.WebFallbackTests.test_cli_refusal_is_nonzero_and_above_cap_is_refused_not_trimmed) ... ok
+test_cli_refusal_is_nonzero_for_a_stale_stamp (tests.test_web_fallback.WebFallbackTests.test_cli_refusal_is_nonzero_for_a_stale_stamp) ... ok
+test_exact_projection_verbatim_inventory_and_ceiling_stamp (tests.test_web_fallback.WebFallbackTests.test_exact_projection_verbatim_inventory_and_ceiling_stamp) ... ok
+test_existing_destination_refused_and_bytes_unchanged (tests.test_web_fallback.WebFallbackTests.test_existing_destination_refused_and_bytes_unchanged) ... ok
+test_manifest_entry_without_file_refused (tests.test_web_fallback.WebFallbackTests.test_manifest_entry_without_file_refused) ... ok
+test_member_digest_mismatch_refused (tests.test_web_fallback.WebFallbackTests.test_member_digest_mismatch_refused) ... ok
+test_member_path_escaping_root_refused (tests.test_web_fallback.WebFallbackTests.test_member_path_escaping_root_refused) ... ok
+test_non_utf8_member_refused (tests.test_web_fallback.WebFallbackTests.test_non_utf8_member_refused) ... ok
+test_over_cap_refused_with_no_destination_and_no_truncation (tests.test_web_fallback.WebFallbackTests.test_over_cap_refused_with_no_destination_and_no_truncation) ... ok
+test_stale_stamp_pinned_commit_without_release_refused (tests.test_web_fallback.WebFallbackTests.test_stale_stamp_pinned_commit_without_release_refused) ... ok
+test_stale_stamp_release_without_pinned_commit_refused (tests.test_web_fallback.WebFallbackTests.test_stale_stamp_release_without_pinned_commit_refused) ... ok
+test_symlinked_destination_refused_and_target_byte_identical (tests.test_web_fallback.WebFallbackTests.test_symlinked_destination_refused_and_target_byte_identical) ... ok
+test_symlinked_manifest_refused (tests.test_web_fallback.WebFallbackTests.test_symlinked_manifest_refused) ... ok
+test_symlinked_member_refused (tests.test_web_fallback.WebFallbackTests.test_symlinked_member_refused) ... ok
+test_unexpected_extra_file_refused (tests.test_web_fallback.WebFallbackTests.test_unexpected_extra_file_refused) ... ok
+test_cli_strict_refuses_wrongset (tests.test_web_pack.WebProjectionTests.test_cli_strict_refuses_wrongset)
+The rewritten gate in --strict mode refuses MUT-WEB-WRONGSET as delivered. ... ok
+test_content_derived_from_canonical_objects_not_free_text (tests.test_web_pack.WebProjectionTests.test_content_derived_from_canonical_objects_not_free_text)
+Cross-check derivation with independent parsing, not via the projector. ... ok
+test_docs_carry_source_objects_schema_version_hash_loss_nack (tests.test_web_pack.WebProjectionTests.test_docs_carry_source_objects_schema_version_hash_loss_nack) ... ok
+test_exact_semantic_documents_not_site_ui (tests.test_web_pack.WebProjectionTests.test_exact_semantic_documents_not_site_ui) ... ok
+test_mut_denominator_leak_refused (tests.test_web_pack.WebProjectionTests.test_mut_denominator_leak_refused) ... ok
+test_mut_empty_payload_refused (tests.test_web_pack.WebProjectionTests.test_mut_empty_payload_refused) ... ok
+test_mut_free_text_content_refused (tests.test_web_pack.WebProjectionTests.test_mut_free_text_content_refused)
+Keep the meta block, replace the derived body: content must not be free text. ... ok
+test_mut_missing_field_refused (tests.test_web_pack.WebProjectionTests.test_mut_missing_field_refused) ... ok
+test_mut_scope_widening_refused (tests.test_web_pack.WebProjectionTests.test_mut_scope_widening_refused) ... ok
+test_mut_web_wrongset_extra_file_is_projection_leak (tests.test_web_pack.WebProjectionTests.test_mut_web_wrongset_extra_file_is_projection_leak) ... ok
+test_mut_web_wrongset_missing_document_refused (tests.test_web_pack.WebProjectionTests.test_mut_web_wrongset_missing_document_refused) ... ok
+test_mut_web_wrongset_ui_files_cannot_pass (tests.test_web_pack.WebProjectionTests.test_mut_web_wrongset_ui_files_cannot_pass)
+MUT-WEB-WRONGSET: the site UI five files can never be the Web pack (R-AUD-003). ... ok
+test_optional_site_ui_excluded_from_web_denominator (tests.test_web_pack.WebProjectionTests.test_optional_site_ui_excluded_from_web_denominator) ... ok
+test_projection_ir_traceable_to_object_schema_version_hash (tests.test_web_pack.WebProjectionTests.test_projection_ir_traceable_to_object_schema_version_hash) ... ok
+test_regeneration_is_byte_deterministic (tests.test_web_pack.WebProjectionTests.test_regeneration_is_byte_deterministic) ... ok
+test_stale_source_is_regenerated (tests.test_web_pack.WebProjectionTests.test_stale_source_is_regenerated) ... ok
+test_installed_doctor_diagnoses_installed_schema_surface (tests.test_wheel_distribution.WheelDistributionTests.test_installed_doctor_diagnoses_installed_schema_surface)
+`pipd doctor` run from a scratch cwd must PASS and name the INSTALLED surface. ... ok
+test_installed_package_is_self_sufficient (tests.test_wheel_distribution.WheelDistributionTests.test_installed_package_is_self_sufficient) ... ok
+test_manifest_records_frozen_identity_and_digests (tests.test_wheel_distribution.WheelDistributionTests.test_manifest_records_frozen_identity_and_digests) ... ok
+test_packaged_schema_copy_is_complete_and_self_consistent (tests.test_wheel_distribution.WheelDistributionTests.test_packaged_schema_copy_is_complete_and_self_consistent) ... ok
+test_required_members_present_and_hashes_match_zip (tests.test_wheel_distribution.WheelDistributionTests.test_required_members_present_and_hashes_match_zip) ... ok
+test_two_builds_are_byte_identical (tests.test_wheel_distribution.WheelDistributionTests.test_two_builds_are_byte_identical) ... ok
+
+----------------------------------------------------------------------
+Ran 572 tests in 168.006s
+
+OK (skipped=4)
+C4_STEP_4 EXIT=0
+C4_CWD=/c/Projects/Agent_Workspace/PIPD/worktrees/s4post-r3-verify-decl
+C4_STEP_5 EXIT=0
+C4_CWD=/c/Projects/Agent_Workspace/PIPD/worktrees/s4post-r3-verify-decl/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade
+{"verdict": "FAIL_LOCATORS_NOT_RERUNNABLE", "counts": {"RESOLVES_IN_TREE": 4, "EXTERNAL_ONLY": 7, "UNRESOLVABLE": 32, "SHORTHAND_BARE_NAME": 54}}
+  EXTERNAL_ONLY  C:\Users\user\AppData\Local\Temp\ao12-roo_vkak
+  EXTERNAL_ONLY  C:/Users/user/.agents/skills/fabric-external-independent-challenge-reviewer/SKILL.md
+  EXTERNAL_ONLY  C:/Projects/Agent_Workspace/PIPD/.git/worktrees/s4post-b-wt
+  UNRESOLVABLE   C:/Users/user/AppData/Local/Temp/ao12-roo_vkak/CHILD_OS_UNDECIDED_JUNCTION/worktree
+  UNRESOLVABLE   C:\Users\user\AppData\Local\Temp\ao12-roo_vkak\challenge.py
+  EXTERNAL_ONLY  C:\\Users\\user\\.agents\\skills\\fabric-external-independent-challenge-reviewer\\scripts\\verify_re
+  EXTERNAL_ONLY  C:\\Users\\user\\.agents\\skills\\fabric-external-independent-challenge-reviewer\\tests
+  EXTERNAL_ONLY  C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\\.hgk\\rounds\\S4POST-20261012-postrepai
+  EXTERNAL_ONLY  C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-b-wt\\.hgk\\rounds\\S4POST-20261012-postrepai
+  UNRESOLVABLE   Users/user/.agents/skills/fabric-external-independent-challenge-reviewer/SKILL.md
+  UNRESOLVABLE   stage-b/ROUND_ASSIGNMENT.json
+  UNRESOLVABLE   stage-b/OWNER_DECISION_MODEL_DEVIATION.md
+  UNRESOLVABLE   tests.sh.stdout.txt/.stderr.txt
+  UNRESOLVABLE   verify/ao11/AO11_LANE_FAILURE.md
+C4_STEP_6 EXIT=2
+C4_CWD=/c/Projects/Agent_Workspace/PIPD/worktrees/s4post-r3-verify-decl/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade
+C:\Users\user\AppData\Local\Programs\Python\Python311\python.exe: can't open file 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-r3-verify-decl\\.hgk\\rounds\\S4POST-20261012-postrepair-recheck-and-triple-upgrade\\.hgk\\rounds\\S4POST-20261012-postrepair-recheck-and-triple-upgrade\\verify\\tools\\check_evidence_locators.py': [Errno 2] No such file or directory
+C4_STEP_7 EXIT=2
+C4_CWD=/c/Projects/Agent_Workspace/PIPD/worktrees/s4post-r3-verify-decl/.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade
+C4_STEP_8 EXIT=0
+C4_CWD=/tmp/r3
+
+
+codex
+The scope guard fails against both bases, not just `main`.
+
+mcp: node_repl/js started
+mcp: node_repl/js (completed)
+**Preparing final audit script**
+
+I need to gather all the transcripts and test statuses without modifying the overall outputs. I'll write the raw audit script and execute it through Node to ensure everything gets properly recorded. It's important to keep everything organized and accurate to have a solid reference when needed. I want to make sure I get this right since accurate documentation is crucial for audits!
+mcp: node_repl/js started
+mcp: node_repl/js (completed)
+mcp: node_repl/js started
+mcp: node_repl/js (completed)
+codex
+The documented positive control has a doubled path; I’m writing the advisory failure report.
+
+mcp: node_repl/js started
+mcp: node_repl/js (completed)
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command "Select-String -Path .ao-r3/C1.txt -Pattern 'published|trace|false'; Get-Content tests/test_s4ext_trace_closure.py -Encoding UTF8 | Select-Object -First 100" in C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-r3-verify-decl
+ succeeded in 500ms:
+
+.ao-r3\C1.txt:13:Precondition failure is fail-closed and typed, not a traceback. ... ok
+.ao-r3\C1.txt:50:test_current_published_asset_matches_its_sidecar (test_s4ext_release_provenance.DistributionArtifactTe
+sts.test_current_published_asset_matches_its_sidecar) ... ok
+.ao-r3\C1.txt:53:test_published_zips_are_byte_identical_to_the_recorded_digest (test_s4ext_release_provenance.Distribut
+ionArtifactTests.test_published_zips_are_byte_identical_to_the_recorded_digest) ... ok
+.ao-r3\C1.txt:77:ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.ao-r3\C1.txt:95:test_cli_refuses_a_fabricated_endpoint_hash (test_s4ext_trace_closure.CliBundleClosureRouteTests.test_
+cli_refuses_a_fabricated_endpoint_hash) ... ok
+.ao-r3\C1.txt:96:test_cli_reports_closure_state_on_a_legal_bundle (test_s4ext_trace_closure.CliBundleClosureRouteTests.
+test_cli_reports_closure_state_on_a_legal_bundle) ... ok
+.ao-r3\C1.txt:97:test_a_wrong_type_on_either_side_is_refused (test_s4ext_trace_closure.EndpointTypeCoherenceTests.test_
+a_wrong_type_on_either_side_is_refused) ... ok
+.ao-r3\C1.txt:98:test_declared_type_contradicting_the_resolved_family_is_refused (test_s4ext_trace_closure.EndpointType
+CoherenceTests.test_declared_type_contradicting_the_resolved_family_is_refused) ... ok
+.ao-r3\C1.txt:99:test_the_untouched_legal_edge_still_closes (test_s4ext_trace_closure.EndpointTypeCoherenceTests.test_t
+he_untouched_legal_edge_still_closes) ... ok
+.ao-r3\C1.txt:100:test_closure_findings_are_named_not_aggregated (test_s4ext_trace_closure.GraphClosureRefusalTests.tes
+t_closure_findings_are_named_not_aggregated) ... ok
+.ao-r3\C1.txt:101:test_closure_never_consults_the_network (test_s4ext_trace_closure.GraphClosureRefusalTests.test_closu
+re_never_consults_the_network)
+.ao-r3\C1.txt:103:test_duplicated_edge_with_one_bad_hash_is_refused (test_s4ext_trace_closure.GraphClosureRefusalTests.
+test_duplicated_edge_with_one_bad_hash_is_refused) ... ok
+.ao-r3\C1.txt:104:test_fabricated_endpoint_hash_is_refused (test_s4ext_trace_closure.GraphClosureRefusalTests.test_fabr
+icated_endpoint_hash_is_refused) ... ok
+.ao-r3\C1.txt:105:test_missing_source_endpoint_is_refused (test_s4ext_trace_closure.GraphClosureRefusalTests.test_missi
+ng_source_endpoint_is_refused) ... ok
+.ao-r3\C1.txt:106:test_orphan_endpoint_is_refused (test_s4ext_trace_closure.GraphClosureRefusalTests.test_orphan_endpoi
+nt_is_refused) ... ok
+.ao-r3\C1.txt:107:test_stale_source_hash_is_refused (test_s4ext_trace_closure.GraphClosureRefusalTests.test_stale_sourc
+e_hash_is_refused)
+.ao-r3\C1.txt:109:test_a_lone_edge_without_its_endpoints_is_fail_closed (test_s4ext_trace_closure.LegalTraceStillPasses
+Tests.test_a_lone_edge_without_its_endpoints_is_fail_closed)
+.ao-r3\C1.txt:110:A TraceLink alone in a bundle cannot be closed -- and must not be reported as PASS. ... ok
+.ao-r3\C1.txt:111:test_full_chain_validates_and_closes (test_s4ext_trace_closure.LegalTraceStillPassesTests.test_full_c
+hain_validates_and_closes) ... ok
+.ao-r3\C1.txt:112:test_legacy_version_and_nested_trace_survive_a_round_trip (test_s4ext_trace_closure.LegalTraceStillPa
+ssesTests.test_legacy_version_and_nested_trace_survive_a_round_trip) ... ok
+.ao-r3\C1.txt:113:test_real_trace_link_is_legal_beside_its_endpoints (test_s4ext_trace_closure.LegalTraceStillPassesTes
+ts.test_real_trace_link_is_legal_beside_its_endpoints)
+.ao-r3\C1.txt:114:A TraceLink bundled WITH the PI it points at resolves on both sides. ... ok
+.ao-r3\C1.txt:115:test_single_pi_closes_against_its_own_atoms (test_s4ext_trace_closure.LegalTraceStillPassesTests.test
+_single_pi_closes_against_its_own_atoms) ... ok
+.ao-r3\C1.txt:116:test_empty_bundle_reports_no_closure (test_s4ext_trace_closure.PartialBundleIsLabelledSchemaOnlyTests
+.test_empty_bundle_reports_no_closure) ... ok
+.ao-r3\C1.txt:117:test_trace_free_bundle_is_schema_only (test_s4ext_trace_closure.PartialBundleIsLabelledSchemaOnlyTest
+s.test_trace_free_bundle_is_schema_only) ... ok
+.ao-r3\C1.txt:118:test_endpoint_type_enum_matches_the_registry_families (test_s4ext_trace_closure.SchemaDriftTests.test
+_endpoint_type_enum_matches_the_registry_families) ... ok
+.ao-r3\C1.txt:119:test_inlined_pi_trace_items_equal_the_standalone_family (test_s4ext_trace_closure.SchemaDriftTests.te
+st_inlined_pi_trace_items_equal_the_standalone_family) ... ok
+.ao-r3\C1.txt:120:test_no_remote_ref_anywhere_in_the_two_schemas (test_s4ext_trace_closure.SchemaDriftTests.test_no_rem
+ote_ref_anywhere_in_the_two_schemas) ... ok
+.ao-r3\C1.txt:121:test_extra_key_in_an_endpoint_is_refused (test_s4ext_trace_closure.TypedEndpointTests.test_extra_key_
+in_an_endpoint_is_refused) ... ok
+.ao-r3\C1.txt:122:test_integer_from_id_is_schema_first_fail (test_s4ext_trace_closure.TypedEndpointTests.test_integer_f
+rom_id_is_schema_first_fail) ... ok
+.ao-r3\C1.txt:123:test_nested_pi_trace_endpoint_is_typed_too (test_s4ext_trace_closure.TypedEndpointTests.test_nested_p
+i_trace_endpoint_is_typed_too)
+.ao-r3\C1.txt:124:The report's probe: nested trace, required keys present, wrong types must be refused. ... ok
+.ao-r3\C1.txt:125:test_null_and_blank_endpoint_strings_are_refused (test_s4ext_trace_closure.TypedEndpointTests.test_nu
+ll_and_blank_endpoint_strings_are_refused) ... ok
+.ao-r3\C1.txt:126:test_object_from_hash_is_schema_first_fail (test_s4ext_trace_closure.TypedEndpointTests.test_object_f
+rom_hash_is_schema_first_fail) ... ok
+.ao-r3\C1.txt:127:test_short_or_uppercase_hash_is_refused (test_s4ext_trace_closure.TypedEndpointTests.test_short_or_up
+percase_hash_is_refused) ... ok
+.ao-r3\C1.txt:128:test_trace_hash_edit_does_not_move_the_pi_content_hash (test_s4ext_trace_closure.TypedEndpointTests.t
+est_trace_hash_edit_does_not_move_the_pi_content_hash)
+.ao-r3\C1.txt:130:test_unknown_endpoint_type_is_refused (test_s4ext_trace_closure.TypedEndpointTests.test_unknown_endpo
+int_type_is_refused) ... ok
+"""S4EXT-R1 (TT-S4EXT-002 / F002): typed trace endpoints + bundle graph closure.
+
+F002 of the external challenge was a CONFIRMED_DEFECT at schema level:
+
+* ``schemas/TraceLink.schema.json`` declared the seven endpoint/relation fields as the empty
+  schema ``{}``, so ``from_id: 12345``, ``from_hash: {"a": 1}``, ``to_type: null`` and ``""`` were
+  all schema-valid;
+* ``schemas/PI-PKG.schema.json`` inlined only the ``required`` list for nested ``trace`` items, so
+  the nested form was weaker than the standalone family it claims equivalence to;
+* ``validate.validate_bundle`` never consulted ``pipeline.trace_closure``, so ``pipd validate
+  --bundle`` could return PASS while an endpoint hash was fabricated or an endpoint did not exist
+  at all -- the closure capability existed but was not on the CLI's acceptance path;
+* ``validate._body_hash`` deliberately excludes ``trace`` (to avoid a parent-hash cycle), so a
+  tampered trace does NOT change the PI's ``content_hash``: the body hash cannot catch this class.
+
+This module pins the repair in BOTH directions and keeps the legal cases legal:
+
+* positive -- the real compiler chain (PI/PD/ECP/TQAEP) validates, its closure reaches ``FULL``,
+  a single PI-PKG closes against its own atoms, legacy ``version="1"`` records still pass;
+* positive -- a bundle with no trace edge is labelled ``SCHEMA_ONLY`` (never passed off as closed);
+* negative -- wrong-type endpoints are the SCHEMA first-fail, and orphan / hash-mismatch edges are
+  CLOSURE failures that make the bundle verdict FAIL;
+* drift -- the inlined PI constraint set and the standalone TraceLink family cannot diverge, and
+  the ``from_type``/``to_type`` enum cannot drift from ``schemas/registry.json``.
+
+Deterministic only; no LLM, no network. Runnable standalone.
+"""
+from __future__ import annotations
+
+import json
+import os
+import subprocess
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT / "src") not in sys.path:
+    sys.path.insert(0, str(ROOT / "src"))
+
+from pipd_ls_sp import pipeline, registry, validate  # noqa: E402
+
+GOAL = "以 HG-KSEOS 治理控制平面實作 PIPD-LS-SP 規格包編譯系統，完成測試驗收與公開交付。"
+MAKER, CHECKER = "HERMES-MAKER", "GPT-6.1-SOL-AO-LANE"
+RECEIPT = "deleg_s4ext/lane-trace-closure"
+SCHEMAS_DIR = ROOT / "schemas"
+
+
+# --------------------------------------------------------------------------- helpers
+def _init_git_repo(path: Path) -> None:
+    env = {**os.environ, "GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@example.invalid",
+           "GIT_COMMITTER_NAME": "t", "GIT_COMMITTER_EMAIL": "t@example.invalid"}
+
+    def g(*a: str) -> None:
+        subprocess.run(["git", "-C", str(path).replace("\\", "/"), *a],
+                       check=True, capture_output=True, text=True, env=env)
+
+    path.mkdir(parents=True, exist_ok=True)
+    g("init", "-q")
+    (path / "README.md").write_text("seed\n", encoding="utf-8")
+    g("add", ".")
+    g("commit", "-q", "-m", "seed")
+
+
+def _bundle(repo: Path) -> dict:
+    card = pipeline.intake(GOAL, sources=[str(repo)], constraints=["c1"], non_goals=["n1"])
+    pi = pipeline.compile_pi(card, "LITE")
+    pd = pipeline.bind_pd(pi, {"root": str(repo), "writable_scope": "src/**"})
+    ecp = pipeline.compile_ecp(pd, pi)
+    tqaep = pipeline.compile_tqaep(pi, ecp, maker=MAKER, checker=CHECKER,
+                                   checker_execution_receipt=RECEIPT)
+    return {"PI-PKG": pi, "PD-PKG": pd, "ECP": ecp, "TQAEP": tqaep}
+
+
+def _findings(contract: str, record: dict) -> list[dict]:
+    return validate.validate_bundle({contract: record}, SCHEMAS_DIR)["findings"]
+
+
+class LegalTraceStillPassesTests(unittest.TestCase):
+    """The repair must not narrow a legal chain (the report's 'no over-narrowing' rule)."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls._tmp = tempfile.TemporaryDirectory()
+        cls.repo = Path(cls._tmp.name) / "repo"
+        _init_git_repo(cls.repo)
+        cls.bundle = _bundle(cls.repo)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls._tmp.cleanup()
+
+    def test_full_chain_validates_and_closes(self) -> None:
+        res = validate.validate_bundle(self.bundle, SCHEMAS_DIR)
+        self.assertEqual(res["findings"], [], str(res["findings"])[:600])
+        self.assertEqual(res["verdict"], "PASS")
+        self.assertEqual(res["checked"], 4)
+        self.assertEqual(res["closure"], "FULL", "the real chain must reach full graph closure")
+        self.assertEqual(len(self.bundle["PI-PKG"]["trace"]),
+
+
+mcp: node_repl/js started
+mcp: node_repl/js (completed)
+mcp: node_repl/js started
+mcp: node_repl/js (failed)

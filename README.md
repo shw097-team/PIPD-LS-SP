@@ -11,6 +11,92 @@ deterministically.
 Licensed **Apache-2.0**. This repository is an owner-authorised open-source **preview / beta**, not
 a production release — read [Claim ceiling](#claim-ceiling) before building on it.
 
+## Start here — the only navigation you need
+
+This README is an **entry point, not a manual**: it says what this is, what state it is in, and where
+each thing lives. Shell-level installation detail has exactly one home and is not repeated here.
+
+| If you are… | Go to | What it is |
+|---|---|---|
+| New, and you want to know what this is / is not | [What it does, and does not](#what-is-in-this-tree) | Scope and non-goals |
+| Checking whether it is safe to build on | [Claim ceiling](#claim-ceiling) · [Known limitations](#known-limitations) | What is verified, what is not |
+| Installing it, by either route | [`docs/install/README.md`](docs/install/README.md) | **The single install SSOT** — versions, hashes, uninstall |
+| Want a private ChatGPT plugin (no directory listing) | [Private plugin route](#install) | ZIP download + four UI steps, verified 2026-10-14 |
+| Actually using it, task by task | [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md) | **The single user guide** — the only manual |
+| Driving the CLI/Wheel directly | [CLI advanced](#choose-your-path-cli-or-skills) | 13 verbs, JSON output, typed refusals |
+
+Two routes exist, and only two: **Web** (one document, no shell) and **Agent** (one copy-paste
+prompt). The historical shell transcripts further down are retained as evidence of what was actually
+executed against the published wheel — they are **not** a second installation instruction. When the
+two disagree, [`docs/install/README.md`](docs/install/README.md) and the [user guide](docs/USER_GUIDE.md)
+win.
+
+## Verification entry point — candidate on `feat/s4post-triple-upgrade-20261013-r3`
+
+**Current for this round (2026-10-14):** the plugin candidate is
+`feat/s4r5y-plugin-publication-20261014` @ `062d84ae3e951d02b2ba6bb732359b18799d2864` (draft PR #6 →
+`main`): a Skills-only ZIP whose manifest carries the official listing fields, with the private-install
+evidence beside it. The conformance answer to the R4 command prompt and to the 2026-10-13 acceptance
+report is in `PIPD_S4_R5Z_SESSION_CONFORMANCE_RETURN/`, and the R4 closeout receipts are in
+`PIPD_S4_R4_EVIDENCE_RETURN/`. The R3/S4POST text below is kept as history.
+
+The current candidate is **not** on `main`, and `main` is not what the entry document describes.
+The verification entry document is
+[`R3_PUBLICATION.md`](.hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/R3_PUBLICATION.md)
+on branch **`feat/s4post-triple-upgrade-20261013-r3`** (tip `5df5a3f0f41a15027f06f8a5d9b9c16755cca566`),
+with the round's verification harness on `chore/s4post-verification-harness`.
+
+**Gates that are FAILING or not granted, stated up front rather than buried:**
+
+- `PIPD_S4_FULL_PASS` — **NOT GRANTED**. The public release gate is **`FAIL-CLOSED / HOLD`**.
+- Independent acceptance of the S4POST candidate: latest verdict **`FAIL_CHALLENGE`** (9 findings, all
+  inside the round's own verification harness). No round here has produced a `PASS_CHALLENGE`.
+- Four-host UAT, Portal scan/review/publish, security scan and a real candidate build: **`NOT_EXECUTED`**.
+  Four owner supplies and four owner-only acts are outstanding — see the candidate's
+  `OWNER_ACTION_REQUEST.md`.
+- The **published** `v0.1.1-preview.3` wheel still carries the known Trace false-PASS defect
+  (`FAIL_CHALLENGE`, product scope).
+
+Everything below this section describes the **published preview**, not this candidate.
+
+## Install
+
+Install is one of **two routes**, and [`docs/install/README.md`](docs/install/README.md) is the
+single source of truth for both:
+
+- **Web** — no public plugin directory listing exists yet, so the Web route today is the single
+  document **[`docs/install/PIPD_WEB_FALLBACK.md`](docs/install/PIPD_WEB_FALLBACK.md)** — a real,
+  downloadable file (not a generator you have to be able to run), with its digest recorded in
+  `docs/install/PIPD_WEB_FALLBACK.md.sha256`. Its ceiling is **`DOC_MOUNT_ONLY`**: no Python CLI, no
+  MCP, no repository write, no S4 acceptance. A directory listing, once one is published and
+  account-visible, is a *conditional* future route and is not available today.
+  Signs to check before you trust that file: it must carry the same `release_id`, `release_commit`
+  and `content_sha256` as the `.sha256` file beside it, and the generating command in
+  `docs/install/README.md` must reproduce those bytes.<span></span>
+- **Web — a private ChatGPT plugin (added 2026-10-14, verified on one account).** The public Plugin
+  Directory route is still closed: on 2026-10-14 `platform.openai.com/plugins` itself answered
+  *“You need a verified developer identity before you can create or upload a plugin.”* — an owner
+  identity/KYC step. A **private** plugin does not need it. Download the candidate ZIP
+  `.hgk/rounds/R5Y-20261014-gpt-plugin-publication/04_package/build/build-a/pipd-ls-sp-public-skills.zip`
+  (**68,355 bytes**, sha256 `2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199`, single root `pipd-ls-sp-public-skills/`, 8 ×
+  `skills/<name>/SKILL.md`, no MCP/Actions/Hooks) and in ChatGPT do: `chatgpt.com/plugins` →
+  **Plugins** → **Add** → **Upload plugin archive** → pick the ZIP → **Add plugin** →
+  **Install plugin** → **Set up**. It then appears under *Settings → Plugins → Installed plugins* and
+  its skills are callable as `@skill-name` in a chat. **Verified:** creation, installation and one
+  `@pipd-route-intake` invocation whose fail-closed rule fired — per-action log, tree dumps and
+  screenshots in `PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/09_ui_fda/`. **Not verified:** that your
+  account shows the same upload entry (that is an account entitlement, not a package property) and any
+  directory listing. If the entry is missing or the ZIP is refused, fall back to the single document
+  route above.
+- **Agent** — one copy-paste prompt,
+  [`docs/install/PIPD_AGENT_INSTALL_PROMPT.md`](docs/install/PIPD_AGENT_INSTALL_PROMPT.md), for the
+  four supported hosts (Hermes Agent, Codex Desktop (GUI), Codex CLI, Claude Code). Each host must
+  prove **real discovery** and an **8/8 effective load** of the eight skills; file presence is not
+  evidence, and a host that only copied files reports `NOT_VERIFIED`.
+
+Version pin, hashes, uninstall/rollback and how to report a failure live in
+[`docs/install/README.md`](docs/install/README.md).
+
 ## Start here
 
 | | |
@@ -132,6 +218,19 @@ Beyond that the pipeline is `intake` -> `compile-pi` -> `bind-pd` -> `compile-ec
 `compile-tqaep` -> `validate`, and **the middle steps take real inputs, not free text** — verified
 against the CLI rather than assumed.
 
+### Run it: one command, no shell expertise needed
+
+Two self-locating scripts perform the whole chain and print a single success token:
+
+```bash
+bash examples/first-run/run.sh                 # Linux / macOS / git-bash
+powershell -File examples/first-run/run.ps1    # Windows PowerShell
+```
+
+They check their preconditions first and fail typed with a non-zero exit when one is missing, and
+they print `FIRST_RUN_OK` only after `validate` has passed. The copy-paste chain below is the same
+work spelled out step by step, for when you want to watch each stage.
+
 ### Run it: the whole compiler chain, copy-paste
 
 These are the exact commands that produced the checked-in [`examples/first-run/`](examples/first-run/)
@@ -139,14 +238,14 @@ fixture, run from this checkout root. For `init`, `intake`, `profile`, `compile-
 `compile-ecp`, `compile-tqaep`, `validate` and `doctor`, `--root` is a global option and must
 precede the subcommand; `project` and `export` **additionally** accept `--root` after the
 subcommand. `--root <dir>` points at a workspace (use a directory outside the tree so scratch files
-never pollute the checkout), and the fixture paths are the real files in this repository. Both
-absolute paths below (`PY`, `PYTHONPATH`) are pinned for this environment — adjust them to your
-interpreter and checkout; any Python >= 3.11 with `jsonschema` works:
+never pollute the checkout), and the fixture paths are the real files in this repository. Nothing
+below is pinned to a developer machine: `PY` is your own interpreter and `PYTHONPATH` is this
+checkout's `src/` (any Python >= 3.11 with `jsonschema` works):
 
 ```bash
-PY=/c/Users/user/AppData/Local/Programs/Python/Python311/python.exe   # any Python >= 3.11 + jsonschema
-export PYTHONPATH="C:/Projects/Agent_Workspace/PIPD-postrelease-wt/src"   # this checkout's src/
-ART="C:/Users/user/AppData/Local/Temp/pipd-first-run"    # a scratch dir OUTSIDE the checkout
+PY=python3                                              # any Python >= 3.11 + jsonschema
+export PYTHONPATH="$PWD/src"                            # this checkout's src/
+ART="$(mktemp -d)/pipd-first-run"                       # a scratch dir OUTSIDE the checkout
 rm -rf "$ART" && mkdir -p "$ART"
 CTX="$ART/ctx"; mkdir -p "$CTX"          # the read-only dir bind-pd probes (empty -> stable)
 
@@ -247,6 +346,9 @@ Status words are kept separate on purpose, and none of them is upgraded by this 
 | `PUBLICATION_APPROVED` | **GRANTED for the limited preview only** — owner licence decision `Apache-2.0`. **`G-RELEASE_FULL_PASS` is NOT granted.** |
 | `RELEASED` | limited to `OWNER_AUTHORIZED_OPEN_SOURCE_PREVIEW_BETA_PUBLISHED`, at the preview tags |
 | `PRODUCTION_VERIFIED` | **NOT claimed** |
+| `PRIVATE_PLUGIN_CREATED_INSTALLED_INVOKED` | **verified 2026-10-14** on the owner's own ChatGPT account — evidence `PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/09_ui_fda/` |
+| `PUBLIC_DIRECTORY_PUBLISHED` | **NOT claimed** — the Portal blocks at developer identity verification; no submit/review/publish was performed |
+| `PUBLIC_CONSUMER_VERIFIED` | **NOT claimed** — no unrelated third party has installed it from a directory |
 
 **Stage coverage.** S0 and S1 were reached; the S2–S4 work followed. **S5 (HGK live), S6 (GENIE),
 S7 (JIT), S8 (SWOF/SGM), PRE-W3 and the 22 inactive external technologies are deferred.**

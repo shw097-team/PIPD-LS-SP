@@ -1,0 +1,621 @@
+...........................................................EEEEEEEEEEEEEEEEEE.......F.FEEEEEEEEEEEEEE.......
+======================================================================
+ERROR: test_erratum_candidate_is_not_the_published_asset (tests.test_s4ext_release_provenance.DistributionArtifactTests.test_erratum_candidate_is_not_the_published_asset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 270, in test_erratum_candidate_is_not_the_published_asset
+    entry = next(r for r in load_tuple()["releases"] if r["release_id"] == "v0.1.1-preview.3")
+                            ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_erratum_candidate_zip_verifies_and_matches_its_sidecar (tests.test_s4ext_release_provenance.DistributionArtifactTests.test_erratum_candidate_zip_verifies_and_matches_its_sidecar)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 261, in test_erratum_candidate_zip_verifies_and_matches_its_sidecar
+    entry = next(r for r in load_tuple()["releases"] if r["release_id"] == "v0.1.1-preview.3")
+                            ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_published_zip_retains_its_historical_crlf_members (tests.test_s4ext_release_provenance.DistributionArtifactTests.test_published_zip_retains_its_historical_crlf_members)
+Evidence of the old build behaviour, kept so the finding is auditable, not erased.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 305, in test_published_zip_retains_its_historical_crlf_members
+    entry = next(r for r in load_tuple()["releases"] if r["release_id"] == "v0.1.1-preview.3")
+                            ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_published_zips_are_byte_identical_to_the_recorded_digest (tests.test_s4ext_release_provenance.DistributionArtifactTests.test_published_zips_are_byte_identical_to_the_recorded_digest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 251, in test_published_zips_are_byte_identical_to_the_recorded_digest
+    for entry in load_tuple()["releases"]:
+                 ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_rebuild_from_the_tree_is_byte_deterministic (tests.test_s4ext_release_provenance.DistributionArtifactTests.test_rebuild_from_the_tree_is_byte_deterministic)
+The published ZIP could NOT be reproduced from the LF tree (it captured CRLF members).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 281, in test_rebuild_from_the_tree_is_byte_deterministic
+    entry = next(r for r in load_tuple()["releases"] if r["release_id"] == "v0.1.1-preview.3")
+                            ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_rebuild_members_are_lf_normalised (tests.test_s4ext_release_provenance.DistributionArtifactTests.test_rebuild_members_are_lf_normalised)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 297, in test_rebuild_members_are_lf_normalised
+    entry = next(r for r in load_tuple()["releases"] if r["release_id"] == "v0.1.1-preview.3")
+                            ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_every_pack_directory_is_identity_clean (tests.test_s4ext_release_provenance.PackDocumentsAgreeWithTupleTests.test_every_pack_directory_is_identity_clean)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 166, in test_every_pack_directory_is_identity_clean
+    for entry in load_tuple()["releases"]:
+                 ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_preview3_every_document_states_both_commit_fields (tests.test_s4ext_release_provenance.PackDocumentsAgreeWithTupleTests.test_preview3_every_document_states_both_commit_fields)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 181, in test_preview3_every_document_states_both_commit_fields
+    entry = next(r for r in load_tuple()["releases"] if r["release_id"] == "v0.1.1-preview.3")
+                            ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_preview3_pack_has_all_eight_documents (tests.test_s4ext_release_provenance.PackDocumentsAgreeWithTupleTests.test_preview3_pack_has_all_eight_documents)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 174, in test_preview3_pack_has_all_eight_documents
+    entry = next(r for r in load_tuple()["releases"] if r["release_id"] == "v0.1.1-preview.3")
+                            ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_reinjecting_the_stale_value_is_refused (tests.test_s4ext_release_provenance.StaleIdentityIsRefusedTests.test_reinjecting_the_stale_value_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 204, in test_reinjecting_the_stale_value_is_refused
+    entry, pack = self._preview3()
+                  ^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 193, in _preview3
+    entry = next(r for r in load_tuple()["releases"] if r["release_id"] == "v0.1.1-preview.3")
+                            ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_replacing_only_the_version_string_is_refused (tests.test_s4ext_release_provenance.StaleIdentityIsRefusedTests.test_replacing_only_the_version_string_is_refused)
+The pre-repair failure mode exactly: bump the version, keep the old commit.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 223, in test_replacing_only_the_version_string_is_refused
+    entry, pack = self._preview3()
+                  ^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 193, in _preview3
+    entry = next(r for r in load_tuple()["releases"] if r["release_id"] == "v0.1.1-preview.3")
+                            ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_stale_value_no_longer_asserted_anywhere (tests.test_s4ext_release_provenance.StaleIdentityIsRefusedTests.test_stale_value_no_longer_asserted_anywhere)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 197, in test_stale_value_no_longer_asserted_anywhere
+    entry, pack = self._preview3()
+                  ^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 193, in _preview3
+    entry = next(r for r in load_tuple()["releases"] if r["release_id"] == "v0.1.1-preview.3")
+                            ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_the_old_preview2_only_checker_would_have_passed (tests.test_s4ext_release_provenance.StaleIdentityIsRefusedTests.test_the_old_preview2_only_checker_would_have_passed)
+Why F003 mattered: preview.2's own pack was clean, so an old-value-only pin saw nothing.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 240, in test_the_old_preview2_only_checker_would_have_passed
+    p2 = next(r for r in load_tuple()["releases"] if r["release_id"] == "v0.1.0-preview.2")
+                         ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_annotated_tag_object_recorded_verbatim (tests.test_s4ext_release_provenance.TupleIsDerivedFromGitTests.test_annotated_tag_object_recorded_verbatim)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 129, in setUp
+    self.releases = load_tuple()["releases"]
+                    ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_build_source_and_tag_target_are_separate_fields (tests.test_s4ext_release_provenance.TupleIsDerivedFromGitTests.test_build_source_and_tag_target_are_separate_fields)
+Collapsing them into one string IS the F001 defect; both must exist per release.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 129, in setUp
+    self.releases = load_tuple()["releases"]
+                    ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_every_recorded_tree_is_the_targets_tree (tests.test_s4ext_release_provenance.TupleIsDerivedFromGitTests.test_every_recorded_tree_is_the_targets_tree)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 129, in setUp
+    self.releases = load_tuple()["releases"]
+                    ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_every_tag_dereferences_to_the_recorded_target (tests.test_s4ext_release_provenance.TupleIsDerivedFromGitTests.test_every_tag_dereferences_to_the_recorded_target)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 129, in setUp
+    self.releases = load_tuple()["releases"]
+                    ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_preview3_stale_value_is_the_preview2_target (tests.test_s4ext_release_provenance.TupleIsDerivedFromGitTests.test_preview3_stale_value_is_the_preview2_target)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 129, in setUp
+    self.releases = load_tuple()["releases"]
+                    ^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_release_provenance.py", line 69, in load_tuple
+    return json.loads(TUPLE_PATH.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\RELEASE_TUPLE.json'
+
+======================================================================
+ERROR: test_checked_in_document_is_identical_to_the_regenerated_one (tests.test_s4ext_spec_del_adjudication.AdjudicationDocumentTests.test_checked_in_document_is_identical_to_the_regenerated_one)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 58, in setUp
+    self.doc = _json(DOC)
+               ^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 53, in _json
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\S4_SPEC_DEL_ADJUDICATION.json'
+
+======================================================================
+ERROR: test_claim_ceiling_is_kept (tests.test_s4ext_spec_del_adjudication.AdjudicationDocumentTests.test_claim_ceiling_is_kept)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 58, in setUp
+    self.doc = _json(DOC)
+               ^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 53, in _json
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\S4_SPEC_DEL_ADJUDICATION.json'
+
+======================================================================
+ERROR: test_del_008_is_not_uniformly_s4_blocking (tests.test_s4ext_spec_del_adjudication.AdjudicationDocumentTests.test_del_008_is_not_uniformly_s4_blocking)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 58, in setUp
+    self.doc = _json(DOC)
+               ^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 53, in _json
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\S4_SPEC_DEL_ADJUDICATION.json'
+
+======================================================================
+ERROR: test_design_only_is_never_disposed_as_implemented (tests.test_s4ext_spec_del_adjudication.AdjudicationDocumentTests.test_design_only_is_never_disposed_as_implemented)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 58, in setUp
+    self.doc = _json(DOC)
+               ^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 53, in _json
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\S4_SPEC_DEL_ADJUDICATION.json'
+
+======================================================================
+ERROR: test_design_only_rows_are_answered (tests.test_s4ext_spec_del_adjudication.AdjudicationDocumentTests.test_design_only_rows_are_answered)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 58, in setUp
+    self.doc = _json(DOC)
+               ^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 53, in _json
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\S4_SPEC_DEL_ADJUDICATION.json'
+
+======================================================================
+ERROR: test_every_non_evidenced_row_states_oracle_negative_and_rationale (tests.test_s4ext_spec_del_adjudication.AdjudicationDocumentTests.test_every_non_evidenced_row_states_oracle_negative_and_rationale)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 58, in setUp
+    self.doc = _json(DOC)
+               ^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 53, in _json
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\S4_SPEC_DEL_ADJUDICATION.json'
+
+======================================================================
+ERROR: test_evidence_never_becomes_pass (tests.test_s4ext_spec_del_adjudication.AdjudicationDocumentTests.test_evidence_never_becomes_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 58, in setUp
+    self.doc = _json(DOC)
+               ^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 53, in _json
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\S4_SPEC_DEL_ADJUDICATION.json'
+
+======================================================================
+ERROR: test_gap_set_is_exactly_the_crosswalk_evidence_gap_rows (tests.test_s4ext_spec_del_adjudication.AdjudicationDocumentTests.test_gap_set_is_exactly_the_crosswalk_evidence_gap_rows)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 58, in setUp
+    self.doc = _json(DOC)
+               ^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 53, in _json
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\S4_SPEC_DEL_ADJUDICATION.json'
+
+======================================================================
+ERROR: test_local_oracle_dispositions_name_a_test_file_that_exists_and_runs (tests.test_s4ext_spec_del_adjudication.AdjudicationDocumentTests.test_local_oracle_dispositions_name_a_test_file_that_exists_and_runs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 58, in setUp
+    self.doc = _json(DOC)
+               ^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 53, in _json
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\S4_SPEC_DEL_ADJUDICATION.json'
+
+======================================================================
+ERROR: test_no_row_rewrites_the_crosswalk_status (tests.test_s4ext_spec_del_adjudication.AdjudicationDocumentTests.test_no_row_rewrites_the_crosswalk_status)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 58, in setUp
+    self.doc = _json(DOC)
+               ^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 53, in _json
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\S4_SPEC_DEL_ADJUDICATION.json'
+
+======================================================================
+ERROR: test_row_set_is_exactly_the_crosswalk_57 (tests.test_s4ext_spec_del_adjudication.AdjudicationDocumentTests.test_row_set_is_exactly_the_crosswalk_57)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 58, in setUp
+    self.doc = _json(DOC)
+               ^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 53, in _json
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\S4_SPEC_DEL_ADJUDICATION.json'
+
+======================================================================
+ERROR: test_s4_blocking_rows_are_only_the_release_provenance_line (tests.test_s4ext_spec_del_adjudication.AdjudicationDocumentTests.test_s4_blocking_rows_are_only_the_release_provenance_line)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 58, in setUp
+    self.doc = _json(DOC)
+               ^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 53, in _json
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\S4_SPEC_DEL_ADJUDICATION.json'
+
+======================================================================
+ERROR: test_summary_counts_match_the_rows (tests.test_s4ext_spec_del_adjudication.AdjudicationDocumentTests.test_summary_counts_match_the_rows)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 58, in setUp
+    self.doc = _json(DOC)
+               ^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 53, in _json
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\S4_SPEC_DEL_ADJUDICATION.json'
+
+======================================================================
+ERROR: test_the_generator_is_idempotent (tests.test_s4ext_spec_del_adjudication.AdjudicationDocumentTests.test_the_generator_is_idempotent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 58, in setUp
+    self.doc = _json(DOC)
+               ^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_spec_del_adjudication.py", line 53, in _json
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.17-windows-x86_64-none\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Projects\\Agent_Workspace\\PIPD\\worktrees\\s4post-a-wt\\docs\\S4_SPEC_DEL_ADJUDICATION.json'
+
+======================================================================
+FAIL: test_readme_has_no_absolute_developer_paths (tests.test_s4ext_first_run_portable.ReadmeIsPortableTests.test_readme_has_no_absolute_developer_paths)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_first_run_portable.py", line 200, in test_readme_has_no_absolute_developer_paths
+    self.assertEqual(offenders, [], f"README still pins developer paths: {offenders[:3]}")
+AssertionError: Lists differ: ['export PYTHONPATH="C:/Projects/Agent_Wor[151 chars]out'] != []
+
+First list contains 2 additional elements.
+First extra element 0:
+'export PYTHONPATH="C:/Projects/Agent_Workspace/PIPD-postrelease-wt/src"   # this checkout\'s src/'
+
++ []
+- ['export PYTHONPATH="C:/Projects/Agent_Workspace/PIPD-postrelease-wt/src"   # '
+-  "this checkout's src/",
+-  'ART="C:/Users/user/AppData/Local/Temp/pipd-first-run"    # a scratch dir '
+-  'OUTSIDE the checkout'] : README still pins developer paths: ['export PYTHONPATH="C:/Projects/Agent_Workspace/PIPD-postrelease-wt/src"   # this checkout\'s src/', 'ART="C:/Users/user/AppData/Local/Temp/pipd-first-run"    # a scratch dir OUTSIDE the checkout']
+
+======================================================================
+FAIL: test_readme_points_at_the_portable_scripts (tests.test_s4ext_first_run_portable.ReadmeIsPortableTests.test_readme_points_at_the_portable_scripts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\s4post-a-wt\tests\test_s4ext_first_run_portable.py", line 204, in test_readme_points_at_the_portable_scripts
+    self.assertIn(name, self.readme, f"README must reference {name}")
+AssertionError: 'examples/first-run/run.sh' not found in '# PIPD-LS-SP — Pre-Implementation / Pre-Dev Lifecycle Skills Plugin\n\nA governed, contract-first toolkit for the **pre-implementation** stage of a project: it turns a\nstated intent into a validated chain of machine-readable artefacts — PI → PD →\nConstructionContract → ECP / TQAEP — each bound to one of **19 canonical JSON Schema families**,\nand it refuses to hand you something it cannot check. It ships **8 skills** and a **13-command\nCLI** (`init` `intake` `profile` `compile-pi` `bind-pd` `compile-ecp` `compile-tqaep` `validate`\n`doctor` `project` `export` `diff` `repair`) that produce and verify those artefacts\ndeterministically.\n\nLicensed **Apache-2.0**. This repository is an owner-authorised open-source **preview / beta**, not\na production release — read [Claim ceiling](#claim-ceiling) before building on it.\n\n## Start here\n\n| | |\n|---|---|\n| **Installable preview** | tag **`v0.1.1-preview.3`** — Apache-2.0 |\n| **Release page** | https://github.com/shw097-team/PIPD-LS-SP/releases/tag/v0.1.1-preview.3 |\n| **Download the tag, not the branch** | `main` now carries the repaired code, but a branch tip is a moving target. The **immutable** bytes are the tag\'s. |\n| **Superseded** | `v0.1.0-preview.1` and `v0.1.0-preview.2` — both still downloadable. `.1` ships the two defects described below; `.2` predates the S4-R2 repairs. Use `.3`. |\n| **What is not claimed** | [Claim ceiling](#claim-ceiling) and the release notes |\n\n## Choose your path: CLI or Skills\n\nThe published wheel and a chat-host skill pack are **two different artefacts with two different\nboundaries**. Pick the one your job needs — installing the wheel does not make the eight logical\nskills appear in a web chat host, and mounting the pack does not put `pipd` on your machine.\n\n**CLI / headless harness** — download the immutable wheel published under the **`v0.1.1-preview.3`**\ntag (`pipd_ls_sp-0.1.1a3-py3-none-any.whl`; published digest\n`e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec`, verified against the tag\'s\n`SHA256SUMS`). Install with **Python >= 3.11** into a **virtual environment**, then run `pipd doctor`.\nThe wheel carries the Python **13-command CLI** and the **19 installed schemas**; it does **not**\ninstall or auto-load the eight logical skills into a web host.\n\n**Skills / document consumption** — the versioned mount pack\n`dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip` (with its `.sha256` sidecar and the\n`MANIFEST.sha256` inside the unpacked directory). From `v0.1.1-preview.3` onward the pack is published\nas a release asset of the same tag, alongside the wheel. Two sub-options:\n\n- **(a) native skill uploader** — a host that has a real native skill uploader could register the\n  pack; this path is **not yet demonstrated here**.\n- **(b) manual document / Knowledge attachment** — attach `SKILL.md` plus the short starter prompt\n  (`PIPD_LS_SP_QUICKSTART_PROMPT.md`) to a conversation or Project Knowledge. This document path\n  does **not** execute `pipd` on the reader\'s machine.\n\n## Quickstart\n\nCopy-paste, from a shell. Requires **Python >= 3.11** and `curl`. The installable identity is the\n**immutable** tag `v0.1.1-preview.3`; `main` is rolling, so pin the tag rather than the branch.\n\n### bash / POSIX\n\n```bash\nset -e                             # stop at the first failing step; no step fails silently\n# 1. Fetch the published wheel and the checksum list, from the immutable tag.\nBASE=https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-preview.3\ncurl -fsSLO "$BASE/pipd_ls_sp-0.1.1a3-py3-none-any.whl"\ncurl -fsSLO "$BASE/SHA256SUMS"\n\n# 2. Verify the bytes. Check exactly what step 1 downloaded: SHA256SUMS lists three assets, but\n#    only the wheel is present here, so select its line. This is the ONLY integrity check offered:\n#    there is no install-time or startup cryptographic readback, and no release signature.\n#    Published wheel digest: e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec\ngrep \'  pipd_ls_sp-0.1.1a3-py3-none-any.whl$\' SHA256SUMS | sha256sum -c -\n#    expect: pipd_ls_sp-0.1.1a3-py3-none-any.whl: OK\n#    Alternative, only after fetching EVERY asset SHA256SUMS lists, the whole file checks clean:\n#      curl -fsSLO "$BASE/pipd-ls-sp-v0.1.1-preview.3-source.zip"\n#      curl -fsSLO "$BASE/PREVIEW_NOTES_v0.1.1-preview.3.md"\n#      sha256sum -c SHA256SUMS       # expect three ": OK" lines (wheel, source zip, notes)\n\n# 3. Install into a virtual environment.\npython -m venv .venv\n. .venv/bin/activate 2>/dev/null || . .venv/Scripts/activate   # POSIX: .venv/bin/ ; Windows: .venv/Scripts/\npython -m pip install ./pipd_ls_sp-0.1.1a3-py3-none-any.whl\n\n# 4. Check the install, then use it.\npipd doctor                        # expect: {"verdict": "PASS", ...}\npipd --help                        # 13 commands\n\n# 5. Start a project. Both of these lines were executed against the published wheel.\npipd --root ./myproject init      # -> exit 0; creates docs/ schemas/ src/ tests/ dist/\npipd doctor                       # -> {"verdict": "PASS", ...}, and it names the schema source it resolved\n```\n\n### Windows (PowerShell)\n\n```powershell\n$ErrorActionPreference = \'Stop\'   # stop at the first failing step; no step fails silently\n# 1. Fetch the same wheel and checksum list, from the immutable tag.\n$Base = "https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-preview.3"\nInvoke-WebRequest -Uri "$Base/pipd_ls_sp-0.1.1a3-py3-none-any.whl" -OutFile "pipd_ls_sp-0.1.1a3-py3-none-any.whl"\nInvoke-WebRequest -Uri "$Base/SHA256SUMS" -OutFile "SHA256SUMS"\n\n# 2. Verify the wheel against its published digest. SHA256SUMS lists three assets but only the wheel\n#    was fetched, so compare the wheel\'s own hash to the published literal.\n$expected = "e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec"\n$actual = (Get-FileHash -Algorithm SHA256 -Path "pipd_ls_sp-0.1.1a3-py3-none-any.whl").Hash.ToLower()\nif ($actual -ne $expected) { throw "wheel SHA-256 mismatch: $actual" }\n"pipd_ls_sp-0.1.1a3-py3-none-any.whl: OK"   # expect this line\n\n# 3. Install into a virtual environment.\npython -m venv .venv\nif ($LASTEXITCODE -ne 0) { throw "python -m venv failed (exit $LASTEXITCODE)" }\n.\\.venv\\Scripts\\Activate.ps1\npython -m pip install .\\pipd_ls_sp-0.1.1a3-py3-none-any.whl\nif ($LASTEXITCODE -ne 0) { throw "pip install failed (exit $LASTEXITCODE)" }\n\n# 4. Check the install, then use it.\npipd doctor                        # expect: {"verdict": "PASS", ...}\nif ($LASTEXITCODE -ne 0) { throw "pipd doctor failed (exit $LASTEXITCODE)" }\npipd --help                        # 13 commands\nif ($LASTEXITCODE -ne 0) { throw "pipd --help failed (exit $LASTEXITCODE)" }\npipd --root .\\myproject init       # --root before the subcommand (the global form)\nif ($LASTEXITCODE -ne 0) { throw "pipd init failed (exit $LASTEXITCODE)" }\n```\n\n### Unverified one-line install (no hash check)\n\nIf you do not need to check the bytes against the published digest, pip can fetch and install the\nwheel in one line:\n\n```bash\npython -m pip install "https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-preview.3/pipd_ls_sp-0.1.1a3-py3-none-any.whl"\n```\n\nThis performs **no hash verification** - pip installs whatever the URL serves when you run it. Use\nthe verified path above when the bytes matter.\n\nBeyond that the pipeline is `intake` -> `compile-pi` -> `bind-pd` -> `compile-ecp` /\n`compile-tqaep` -> `validate`, and **the middle steps take real inputs, not free text** — verified\nagainst the CLI rather than assumed.\n\n### Run it: the whole compiler chain, copy-paste\n\nThese are the exact commands that produced the checked-in [`examples/first-run/`](examples/first-run/)\nfixture, run from this checkout root. For `init`, `intake`, `profile`, `compile-pi`, `bind-pd`,\n`compile-ecp`, `compile-tqaep`, `validate` and `doctor`, `--root` is a global option and must\nprecede the subcommand; `project` and `export` **additionally** accept `--root` after the\nsubcommand. `--root <dir>` points at a workspace (use a directory outside the tree so scratch files\nnever pollute the checkout), and the fixture paths are the real files in this repository. Both\nabsolute paths below (`PY`, `PYTHONPATH`) are pinned for this environment — adjust them to your\ninterpreter and checkout; any Python >= 3.11 with `jsonschema` works:\n\n```bash\nPY=/c/Users/user/AppData/Local/Programs/Python/Python311/python.exe   # any Python >= 3.11 + jsonschema\nexport PYTHONPATH="C:/Projects/Agent_Workspace/PIPD-postrelease-wt/src"   # this checkout\'s src/\nART="C:/Users/user/AppData/Local/Temp/pipd-first-run"    # a scratch dir OUTSIDE the checkout\nrm -rf "$ART" && mkdir -p "$ART"\nCTX="$ART/ctx"; mkdir -p "$CTX"          # the read-only dir bind-pd probes (empty -> stable)\n\n"$PY" -m pipd_ls_sp.cli --root "$ART" init                 # exit 0; creates docs/ schemas/ src/ tests/ dist/\n\n# intake: compile source clauses into an IntentCard (typed refusal if the source does not exist)\n"$PY" -m pipd_ls_sp.cli --root "$ART" intake \\\n  --goal "Compile this example clause source into a validated PI to PD to ECP to TQAEP chain." \\\n  --source examples/first-run/source.txt \\\n  --constraint "candidate-only, no release" \\\n  --non-goal "no upstream document bodies copied" \\\n  > "$ART/intent.card.json"            # -> INTENT-9f8e9a1b6dc344fc\n\n"$PY" -m pipd_ls_sp.cli --root "$ART" compile-pi \\\n  --intent "$ART/intent.card.json" --profile LITE \\\n  > "$ART/pi.json"                     # -> PI-50952b3a3822b28c\n\n# bind-pd derives a READ-ONLY RepoContext from --repo-root (here an empty dir, so it is stable);\n# the same intent + the same RepoContext.root reproduce every digest byte for byte.\n"$PY" -m pipd_ls_sp.cli --root "$ART" bind-pd \\\n  --pi "$ART/pi.json" --repo-root "$CTX" \\\n  > "$ART/pd.json"                     # -> PD-336c387a7aa71c9d\n\n"$PY" -m pipd_ls_sp.cli --root "$ART" compile-ecp \\\n  --pd "$ART/pd.json" --pi "$ART/pi.json" \\\n  > "$ART/ecp.json"                    # -> ECP-73cf63e34806711a\n\n"$PY" -m pipd_ls_sp.cli --root "$ART" compile-tqaep \\\n  --pi "$ART/pi.json" --ecp "$ART/ecp.json" \\\n  --maker HERMES-MAKER --checker GLM-5.3-FLASH-AO-LANE --checker-receipt deleg_example/lane-C \\\n  > "$ART/tqaep.json"                  # -> TQAEP-2bf7b7e31b820fb7 (claim ceiling TQAEP_DESIGNED)\n\n# The 13-command CLI has no "assemble" verb, so bundle the four records with the checked-in helper.\n"$PY" examples/first-run/assemble_bundle.py \\\n  "$ART/pi.json" "$ART/pd.json" "$ART/ecp.json" "$ART/tqaep.json" > "$ART/bundle.json"\n\n# validate: schema + semantic invariants over two schema records each\n"$PY" -m pipd_ls_sp.cli --root "$ART" validate --bundle "$ART/bundle.json"\n# -> exit 0; {"verdict": "PASS", "checked": 4, "findings": []}\n```\n\nEvery `sha256` is stable across runs: the same fixture driven twice into two fresh workspaces against\nthe same `CTX` produced identical `intent.card.json`, `pi.json`, `pd.json`, `ecp.json` and `tqaep.json`\n(`PI`/`TQAEP` depend only on the fixture; `PD`/`ECP` also bind `CTX` — so keep `CTX` fixed to reproduce\nthem). Full digests are in [`examples/first-run/README.md`](examples/first-run/README.md). A source\nlocator that does not exist (`--source examples/first-run/missing.txt`) is refused\n`{"code": "AUTHORITY_UNKNOWN"}`, exit `2`, with no artefact written — the CLI is deliberately strict\nrather than guessing on your behalf.\n\nKnown limitation: there is **no CLI verb that assembles a bundle**, which is why the block calls\n`examples/first-run/assemble_bundle.py` (it only re-serialises the four records). Run\n`pipd <command> --help` for each command\'s real flags. `pipd doctor` is the self-check; it reports\nwhich schema source it resolved and refuses to be silent about it.\n\nThe three `--root` forms the parser really accepts, each run from a scratch directory and observed\nexiting `0`:\n\n```bash\npipd --root ./demo init                  # exit 0 — global --root before the subcommand\npipd project --root ./demo --dry-run     # exit 0 — subcommand-local --root (project only)\npipd export --root ./demo --dry-run      # exit 0 — subcommand-local --root (export only)\n```\n\n`pipd init --root ./demo` is refused (exit `2`): `init` does not accept a subcommand-local `--root`,\nwhich is the boundary the paragraph above describes.\n\n## What is in this tree\n\n| path | what it is |\n|---|---|\n| `schemas/` | the **19 canonical machine-contract families** + `registry.json` (Draft 2020-12, `additionalProperties: false`), written by the Codex bounded writer |\n| `src/pipd_ls_sp/` | the plugin runtime (12 modules): intake, profile binding, the PI→PD→ConstructionContract→ECP/TQAEP pipeline, deterministic validators, the 13-command CLI |\n| `skills/` | the **8 published skills** — `pipd-route-intake`, `pipd-profile-tailor`, `pipd-pi-compile`, `pipd-pd-bind`, `pipd-execution-contract`, `pipd-assurance-tqaep`, `pipd-authority-source`, `pipd-package-project` — each with `SKILL.md`, `references/`, `schemas/` and `tests/cases.yaml` |\n| `tests/` | deterministic tests: the S0 contract set, the LITE vertical slice, negative and adversarial cases, rollback, secret patterns, tooling guards, quarantine disposition (POS/NEG/EDGE), oracle-disagreement, evidence-MD hard-gate refusal |\n| `tools/` | governed-round tooling: knowledge probe, HGK admission driver, kanban receipts, CLI smoke, publication manifest and attestation, destructive-destination guards |\n| `docs/` | `S0_CONTRACT_SPEC.md` (the frozen spec that drives `schemas/`), the round disclosure records, and [`FRONT_PAGE_HISTORY.md`](docs/FRONT_PAGE_HISTORY.md) |\n| `fixtures/` | typed negative and golden fixtures used by the tests |\n| `examples/` | runnable fixtures: [`examples/first-run/`](examples/first-run/) is the real input the compiler walk-through above uses, and `examples/self-bootstrap/` is the self-bootstrap transcript |\n| `openspec/` | the change proposals these rounds implemented |\n| `dist/` | **the published build** — wheel `pipd_ls_sp-0.1.1a3-py3-none-any.whl` (SHA-256 `e8ca509d…`), its `.sha256`, `WHEEL_MANIFEST.json` and `web/` packs |\n| `.hgk/` | the rounds\' governance record: admission, kanban, knowledge index, preflight, round receipts and surfaces |\n| `pyproject.toml` | packaging metadata (`pipd-ls-sp` 0.1.1a3, `requires-python >= 3.11`, `license = "Apache-2.0"`) |\n| `LICENSE`, `NOTICE`, `OWNER_LICENSE_DECISION.yaml`, `SBOM.cdx.json` | the Apache-2.0 grant, its attribution, the owner\'s operative decision record (`decision: Apache-2.0`) and the machine-readable component inventory |\n| `PROVENANCE.md`, `ACCEPTANCE.md` | how the artefacts were produced, and what was accepted |\n| `.agents`, `.hermes`, `.gitattributes`, `.gitignore` | agent and repository plumbing |\n\n## Claim ceiling\n\nStatus words are kept separate on purpose, and none of them is upgraded by this page.\n\n| claim | state |\n|---|---|\n| `PROMPT_COMPILE_PASS` | claimed locally, evidence in `.hgk/preflight/` |\n| `HGK_ADMITTED` | claimed locally — the HGK lifecycle reached `EXECUTING` |\n| `LOCAL_QUALIFIED` | claimed locally (deterministic tests + CLI smoke) |\n| `RUNTIME_READY` | **NOT claimed** |\n| `INDEPENDENT_PASS` | **NOT claimed as a full pass.** Verifiers working only from published bytes returned scoped receipts — `9/9` on the preview, `6/6` on a defect repair, and a further `PASS` on `v0.1.0-preview.2` — but the S0–S4 challenge as a whole is **`PARTIAL_CHALLENGE`**, not a full pass |\n| `PUBLICATION_APPROVED` | **GRANTED for the limited preview only** — owner licence decision `Apache-2.0`. **`G-RELEASE_FULL_PASS` is NOT granted.** |\n| `RELEASED` | limited to `OWNER_AUTHORIZED_OPEN_SOURCE_PREVIEW_BETA_PUBLISHED`, at the preview tags |\n| `PRODUCTION_VERIFIED` | **NOT claimed** |\n\n**Stage coverage.** S0 and S1 were reached; the S2–S4 work followed. **S5 (HGK live), S6 (GENIE),\nS7 (JIT), S8 (SWOF/SGM), PRE-W3 and the 22 inactive external technologies are deferred.**\n\n## Known limitations\n\nStated here rather than left only on the release page, because they matter when you decide what to\nbuild on this:\n\n1. **No vulnerability or supply-chain scan of this project\'s own source.** A dependency audit of the\n   declared closure found no known advisories, but `pipd-ls-sp` is not on PyPI and was itself\n   **skipped** by that audit — the dependency closure was scanned, the source was not. There is also\n   **no lock file**, so the audited set is not necessarily the set you will install.\n2. **No release signature and no build attestation.** Only a published SHA-256, for manual\n   download-consistency checking. That is not provenance, and it does not bind the artefact to a\n   builder identity.\n3. **The SPEC/DEL denominator stays `28 evidenced / 10 active gaps / 19 deferred` of 57 rows.**\n   `EVIDENCED != PASS`; not every applicable row has been individually audited.\n4. **`RELEASE_MANIFEST@1` (`DEL-018`)** — was `FAIL` / `EVIDENCE_GAP` on the release line and was\n   **closed** for the published subject by regenerating the projection; that closure ships in\n   `v0.1.0-preview.2`. **On this branch it is `PASS`.** After the repaired lineage was merged here the\n   tree briefly had `253` product paths with one — `docs/FRONT_PAGE_HISTORY.md` — carrying no\n   release-evidence disposition, because the **evidence manifest\'s seal was stale by four rounds**\n   (bound to the R5R execute commit `9667783`) and had never enumerated a file that only ever existed\n   on this branch\'s line. Re-sealing the evidence manifest from the current tree and rebuilding the\n   projection resolved both: `--verify` exits `0`, the manifest carries `1085` entries, and\n   `--check --current` now exits `0` with `253/253` covered and `0` violations, the file correctly\n   disposed `NOT_PUBLISHED`. No tag moved, no release asset changed, no validator edited.\n5. **Native Windows symlink / junction / reparse behaviour is not certified** beyond the tested\n   scope (`TT-R5P-01`, `TT-R5P-06`).\n6. **`v0.1.0-preview.1` carries two defects**, both reproduced against its published bytes:\n   `validate` did not resolve wheel-installed schemas the way `doctor` does (it exited `2` with\n   `INPUT_SHAPE_INVALID`, looking for `<cwd>/schemas/PI-PKG.schema.json`), and a bundle assembled\n   from the compilers\' unmodified stdout was rejected because `compile-pi` emitted a top-level\n   `_profile_meta` that `PI-PKG` forbids. **Both are fixed in `v0.1.0-preview.2`.** A published tag\n   is never rewritten, which is why the fix arrived as a successor release rather than an edit.\n\n## Licence\n\n**Apache-2.0** (`LICENSE`, `NOTICE`). The owner granted it in round R5Q\n(`FAR-PIPD-R5Q-LICENSE-001`); `OWNER_LICENSE_DECISION.yaml` records `decision: Apache-2.0`. The\ngrant is effective wherever this tree is checked out, including `main`.\n\n## History and evidence\n\nThis page is a rewrite, and it has now been rewritten twice — which is itself recorded rather than\nhidden.\n\n- **R6** replaced an append-only log (an R3 body, an R4 section, an R5Q banner, a dangling `## 8.`\n  fragment) whose sections contradicted each other. The section that held the R3 audit-repair\n  snapshot, and the trailing fragment, are preserved **verbatim** in\n  [`docs/FRONT_PAGE_HISTORY.md`](docs/FRONT_PAGE_HISTORY.md).\n- **R8** merged the repaired lineage into `main` and **re-derived every claim on this page** against\n  the merged tree rather than carrying the previous wording over. The pre-merge text asserted five\n  things that the merge made false — that this branch\'s wheel was an old R3 build, that the\n  Apache-2.0 grant did not apply here, that `main` was not the distribution entry point, that\n  installing from here was "the wrong thing to do", and that the defects were fixed only off-branch.\n  A front page that keeps saying those things after the merge is worse than one that says nothing.\n\nThe round-by-round record stays in the tree: `docs/ROUND_DISCLOSURE.md`,\n`docs/ROUND3_DISCLOSURE.md`, `docs/S0_CONTRACT_SPEC.md`, and the per-round receipts and registers\nunder `.hgk/`. **Nothing was deleted to make this page read better — the history is moved, not\nremoved.**\n' : README must reference examples/first-run/run.sh
+
+----------------------------------------------------------------------
+Ran 108 tests in 24.710s
+
+FAILED (failures=2, errors=32)

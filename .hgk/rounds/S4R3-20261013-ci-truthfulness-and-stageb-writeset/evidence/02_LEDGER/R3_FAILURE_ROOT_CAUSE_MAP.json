@@ -1,0 +1,88 @@
+{
+  "schema_id": "PIPD-S4-R3-FAILURE-ROOT-CAUSE-MAP/1",
+  "frozen_subject": "e71fee6dd3aa73724baec4e8d9cc72127fbe36ed",
+  "hosted_evidence": "evidence/03_CI_TEST/r3_hosted_ci_failure_extract.txt",
+  "counts": {
+    "full_suite_declared": 572,
+    "full_suite_failed": 11,
+    "full_suite_skipped": 6,
+    "focused_declared": 108,
+    "focused_failed": 2
+  },
+  "mapping": [
+    {
+      "root_cause": "RC1_CI_PIPELINE_LOST_EXIT_CODE",
+      "file": ".github/workflows/ci.yml",
+      "failure_ids": [
+        "(the false green itself: 11+2 real failures reported as a successful job)"
+      ],
+      "repair": "every real test step runs under 'set -euo pipefail'; the provenance step captures its log before tail; the mutation step keeps its explicit status capture.",
+      "paired_control": "evidence/03_CI_TEST/ci_fault_injection.txt"
+    },
+    {
+      "root_cause": "RC2_REPAIR_SUBJECT_FOREIGN_ABSOLUTE",
+      "file": "src/pipd_ls_sp/workspace.py",
+      "failure_ids": [
+        "tests.test_negative_and_rollback.TestRollback.test_repair_subject_must_also_be_inside_the_authorised_root"
+      ],
+      "repair": "containment is decided with the subject's own path flavour; a Windows-flavoured absolute path is no longer re-based under the root on POSIX.",
+      "paired_control": "the same test now passes on Linux (evidence/03_CI_TEST/linux_after_full.log)"
+    },
+    {
+      "root_cause": "RC3_UNDECLARED_TEST_DEPENDENCY",
+      "file": "pyproject.toml + both workflows",
+      "failure_ids": [
+        "tests.test_skill_contracts.SkillContracts.test_duplicate_skill_name_is_refused",
+        "tests.test_skill_contracts.SkillContracts.test_exact_eight_discover_load_route",
+        "tests.test_skill_contracts.SkillContracts.test_marker_only_pack_is_refused",
+        "tests.test_skill_contracts.SkillContracts.test_missing_input_schema_is_refused",
+        "tests.test_skill_contracts.SkillContracts.test_missing_output_schema_is_refused",
+        "tests.test_skill_contracts.SkillContracts.test_ninth_entry_is_refused"
+      ],
+      "repair": "PyYAML declared as the [test] extra and installed by both workflows; the typed TOOL_MISSING refusal is unchanged.",
+      "paired_control": "evidence/03_CI_TEST/yaml_absent_negative.log + skill_contracts_with_dep.log"
+    },
+    {
+      "root_cause": "RC4_RUNNER_NOT_EXECUTABLE_IN_INDEX",
+      "file": "examples/first-run/run.sh",
+      "failure_ids": [
+        "tests.test_s4ext_first_run_portable.PortableFirstRunScriptTests.test_permission_bits_are_set_on_run_sh"
+      ],
+      "repair": "git index mode set to 100755.",
+      "paired_control": "evidence/03_CI_TEST/linux_after_focused.log"
+    },
+    {
+      "root_cause": "RC5_POWERSHELL_RUNNER_WINDOWS_ONLY_ENV",
+      "file": "examples/first-run/run.ps1",
+      "failure_ids": [
+        "tests.test_s4ext_first_run_portable.PortableFirstRunScriptTests.test_run_ps1_completes_the_chain_from_a_foreign_cwd"
+      ],
+      "repair": "the scratch workspace falls back to [System.IO.Path]::GetTempPath() when the Windows-only $env:TEMP is absent.",
+      "paired_control": "evidence/03_CI_TEST/linux_after_focused.log"
+    },
+    {
+      "root_cause": "RC6_SMOKE_DEPENDED_ON_A_COMMITTED_DEVELOPER_PATH",
+      "file": "tools/cli_smoke.py",
+      "failure_ids": [
+        "tests.test_tooling_executes.TestToolingExecutes.test_cli_smoke_runs"
+      ],
+      "repair": "the smoke persists the IntentCard its own 'intake' produced instead of reading the checked-in .hgk/artifacts/s1/intent_card.json, whose source is the author's absolute Windows path.",
+      "paired_control": "evidence/03_CI_TEST/linux_cli_smoke_out.txt (13/13, nonzero_exit 0)"
+    },
+    {
+      "root_cause": "RC7_REFUSAL_ASSERTION_MISSTATED_WHAT_REFUSAL_MEANS",
+      "file": "tests/test_web_fallback.py",
+      "failure_ids": [
+        "tests.test_web_fallback.WebFallbackTests.test_symlinked_destination_refused_and_target_byte_identical"
+      ],
+      "repair": "the assertion distinguishes 'created nothing' from 'left a pre-existing destination untouched'; refusing a symlinked destination must leave it in place. The sentinel-bytes and is_symlink assertions are kept.",
+      "paired_control": "evidence/03_CI_TEST/linux_after_full.log"
+    }
+  ],
+  "ledger_integrity": {
+    "declared_failures": 13,
+    "accounted_for": 13,
+    "unexplained": 0,
+    "note": "11 full-suite + 2 focused-suite failures at the frozen subject, every one traced to a named root cause with a repair and a paired control. No test was skipped, no denominator narrowed and no acceptance oracle edited."
+  }
+}

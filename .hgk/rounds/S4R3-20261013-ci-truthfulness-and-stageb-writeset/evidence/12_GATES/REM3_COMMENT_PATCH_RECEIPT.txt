@@ -1,0 +1,20 @@
+# Patch receipt - the withdrawn sentence in the write-set gate file
+
+The sentence was wrapped across two shell-comment lines, so a naive literal grep returns 0 on BOTH
+revisions and would have produced a false receipt. The search method is part of the receipt:
+
+    sed 's/#//g' <gate file> | tr '
+' ' ' | tr -s ' ' | grep -c 'widens NEITHER allowlist'
+
+Recomputed by generating this file:
+  stage-b copy: prev head 35a68f0 -> 1 occurrence(s) [PRESENT]; current head 1f94f83 -> 0 occurrence(s) [REMOVED]
+  stage-a copy: prev head 5310896 -> 1 occurrence(s) [PRESENT]; current head 759b9f0 -> 0 occurrence(s) [REMOVED]
+
+What replaced it, verbatim from the current stage-b copy:
+  | # this gate would refuse a path Stage B legitimately ships. This file previously claimed that
+  | # the change widened NEITHER allowlist; that claim was false and is withdrawn here.
+
+Rollback: the file is a normal tracked path, so `git revert` of the remedy commit restores the
+prior text, and the refs a revert would build on (main, v0.1.1-preview.3) are both untouched.
+
+This receipt is what substantiates the PATCHED state of FALSE-COMMENT-IN-CANDIDATE.

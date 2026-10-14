@@ -40,6 +40,29 @@ def _sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def _member_bytes(path: Path) -> bytes:
+    """The CANONICAL bytes of a pack member (EOL-normalised for text).
+
+    S4EXT-R1 (F-S4EXT-008, found while repairing F001): the ZIP published as
+    ``v0.1.1-preview.3`` captured CRLF member bytes -- it was built from a CRLF checkout, before
+    ``.gitattributes`` pinned ``* text=auto eol=lf`` -- so its 8 members (and the manifest it
+    embeds) do not match the same members in the LF-normalised tree, and the published bytes were
+    NOT reproducible from the repository. Canonicalising text members to LF here means the
+    manifest and the archive members are derived from ONE byte sequence, so a rebuild of the same
+    source is byte-identical on any platform. Binary members (NUL byte / non-UTF-8) are never
+    rewritten. ``verify_pack`` is deliberately NOT changed: it must keep re-deriving a member's
+    digest from the bytes actually inside the ZIP.
+    """
+    data = path.read_bytes()
+    if b"\x00" in data:
+        return data
+    try:
+        data.decode("utf-8")
+    except UnicodeDecodeError:
+        return data
+    return data.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+
+
 def _content_files(pack_root: Path) -> list[Path]:
     """Every real file under the pack root except the manifest itself, sorted by rela. POSIX path."""
     files = [
@@ -51,7 +74,7 @@ def _content_files(pack_root: Path) -> list[Path]:
 
 def _manifest_text(pack_root: Path, files: list[Path]) -> str:
     lines = [
-        f"{_sha256_bytes(f.read_bytes())}  {f.relative_to(pack_root).as_posix()}"
+        f"{_sha256_bytes(_member_bytes(f))}  {f.relative_to(pack_root).as_posix()}"
         for f in files
     ]
     return ("\n".join(lines) + "\n") if lines else ""
@@ -82,7 +105,7 @@ def build_pack(pack_root: Path, out_zip: Path) -> dict:
     with zipfile.ZipFile(out_zip, "w", zipfile.ZIP_DEFLATED, compresslevel=COMPRESS_LEVEL) as zf:
         for f in files:
             rel = f.relative_to(pack_root).as_posix()
-            _write_member(zf, f"{root_name}/{rel}", f.read_bytes())
+            _write_member(zf, f"{root_name}/{rel}", _member_bytes(f))
         # MANIFEST.sha256 is the LAST archive entry (its first content line is written last).
         _write_member(zf, f"{root_name}/{MANIFEST_NAME}", manifest_bytes)
 

@@ -1,0 +1,183 @@
+{
+  "schema": "CLOSURE-DISPOSITION/1",
+  "subject": {
+    "repo": "https://github.com/shw097-team/PIPD-LS-SP.git",
+    "stage_a_branch": "fix/s4r3-stage-a-ci-truthfulness-20261013",
+    "stage_b_branch": "feat/s4r3-stageb-successor-20261013",
+    "stage_a_head": "759b9f0dc880b2f960363b2ceaa68446c770061d",
+    "stage_b_head": "1f94f834897452f52deb74049e8f4efc7dadc4ad",
+    "frozen_refs_untouched": {
+      "main": "224591431a164ab72a9423cd180e417e8a762403",
+      "v0.1.1-preview.3": "e94cc7f9567acb59de4691ee6166815ac96a9700"
+    }
+  },
+  "alignment_premise": {
+    "governing_corpus": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/PIPD/PIPD-LS-SP_PIPD-PKG",
+    "highest_premise": true,
+    "rules_this_disposition_obeys": [
+      {"rule": "TT/finding route is OPEN->ASSIGNED->PATCHED->CHECK_PENDING->CLOSED and no further; CLOSED needs owner AND checker evidence", "source": "PIPD-PKG-06 DOC-05 06-D05-H2-2", "first_failure": "TT_CLOSURE_WITHOUT_CHECKER"},
+      {"rule": "external gates need actual target-scoped checker-observed evidence, not expected-evidence placeholders; design gates use author-side receipts", "source": "PIPD-PKG-01 3.2 evidence rule", "first_failure": "FRESH_EVIDENCE"},
+      {"rule": "a supersession needs old_id/new_id/old_hash/new_hash/supersession_ref and old_hash != new_hash with a matching predecessor", "source": "PIPD-PKG-09 DOC-01", "first_failure": "SEMANTIC_IDENTITY_DRIFT"},
+      {"rule": "invalidation is affected-only (reverse closure), untouched artefacts are NOT invalidated, and where no output delta is provable the conservative branch is taken", "source": "PIPD-PKG-09 DOC-03", "first_failure": "AFFECTED_ONLY_CLOSURE_INCORRECT"},
+      {"rule": "P0-P2 can never be promoted to P3-P5 by text; self-promotion or split-brain BLOCKS; the stage gate answers by source hash and version", "source": "PIPD-PKG-10 0.6", "first_failure": "SELF_PROMOTION_OR_SPLIT_BRAIN"},
+      {"rule": "candidate != ACK != admitted WorkOrder; only the HGK receiver controls admission; default DENY/HOLD; author-side self-assessment is not a promotion source", "source": "PIPD-PKG-05 0.5 + PIPD-PKG-00 0.1", "first_failure": "ILLEGAL_AUTHORITY_PROMOTION"}
+    ]
+  },
+  "claim_ceiling_declared": {
+    "lattice": "PI_READY != PREDEV_READY != EXECUTION_ADMITTED != OPERATIONAL_ACCEPTED != PRODUCTION_PASS",
+    "this_session_state": "VALIDATED_CANDIDATE / OFFERED at stage S4; receiver step NOT reached",
+    "never_claimed": ["EXECUTION_ADMITTED", "OPERATIONAL_ACCEPTED", "PRODUCTION_PASS", "any acceptance"],
+    "flags": {"NO_MERGE": true, "NO_PUBLIC_RELEASE": true, "S4_FULL_PASS": "NOT_GRANTED"}
+  },
+  "items": [
+    {
+      "id": "F1-ALLOWLIST-WIDENING",
+      "title": "stage-b allowlist carried two entries beyond the frozen subject while an admitted requirement forbade widening",
+      "current_state": "PATCHED",
+      "next_legal_state": "CHECK_PENDING",
+      "required_artifacts": ["ALLOWLIST_MINIMUM_MEASUREMENT.json", "REM2_NECESSITY_DERIVATION.txt", "REM2_GATE_RUN_BOTH_STAGES.log", "REM2_PRODUCT_CHANGE_DIFF.txt"],
+      "owner_evidence": "present (gate 2/2 clean at the current heads; correction applied to both branch copies)",
+      "checker_evidence": "present as a lane bundle audit: VERDICT_REM2_V2_A22.txt, six claims CONFIRMED",
+      "decision_owner": "owner (accept the remedy) / external acceptance officer",
+      "first_failure_if_skipped": "TT_CLOSURE_WITHOUT_CHECKER",
+      "falsifier": "re-run scripts/measure_allowlist_minimum.py at the head; if any product path is UNLISTED, or a round-directory entry is still in either ALLOWED set, this disposition is wrong",
+      "evidence_ref": "ROUND_RESULT_FAR2_REMEDIATION.md"
+    },
+    {
+      "id": "FALSE-COMMENT-IN-CANDIDATE",
+      "title": "the gate file claimed the change widened neither allowlist",
+      "current_state": "PATCHED",
+      "next_legal_state": "CHECK_PENDING",
+      "required_artifacts": ["REM2_PRODUCT_CHANGE_DIFF.txt", "REM2_PAIR_DIFF_FULL.txt"],
+      "owner_evidence": "present (sentence withdrawn; scope and the single addition stated)",
+      "checker_evidence": "present (R6 CONFIRMED at v2)",
+      "decision_owner": "owner / external acceptance officer",
+      "first_failure_if_skipped": "TT_CLOSURE_WITHOUT_CHECKER",
+      "falsifier": "grep the gate file for the withdrawn sentence; if it is still present, this disposition is wrong",
+      "evidence_ref": "REM2_PRODUCT_CHANGE_DIFF.txt"
+    },
+    {
+      "id": "PRIOR-LANE-VERDICTS-AT-SUPERSEDED-HEADS",
+      "title": "C1/C3 and earlier verdicts were rendered against revisions that are now superseded",
+      "current_state": "INVALIDATED_AFFECTED_ONLY",
+      "next_legal_state": "re-establish at the current head (not inherit)",
+      "required_artifacts": ["AFFECTED_ONLY_INVALIDATION.json", "SUPERSESSION_LEDGER.json"],
+      "owner_evidence": "present (35 affected artefacts listed with the citations that affect them; 3 untouched; nothing deleted)",
+      "checker_evidence": "present (R1-R6 bundle audit at v2 covers the re-established remedy claims)",
+      "decision_owner": "external acceptance officer",
+      "first_failure_if_skipped": "AFFECTED_ONLY_CLOSURE_INCORRECT",
+      "falsifier": "for any artefact listed as untouched, show that it cites a superseded revision; or for any listed as affected, show that its citation is the current head",
+      "evidence_ref": "AFFECTED_ONLY_INVALIDATION.json"
+    },
+    {
+      "id": "PLAN-LEG-MODEL-DIVERGENCE",
+      "title": "the mandated PLAN model is GPT 6.1 SOL-MEDIUM via OpenAI OAuth; the session that produced this round ran deepseek-v4.1-flash via opencode-go",
+      "current_state": "OPEN",
+      "next_legal_state": "owner ruling: apply the declared routing change, or accept the divergence as declared",
+      "required_artifacts": ["PLAN_LEG_DIVERGENCE.md", "the lane resolution record naming the serving model"],
+      "owner_evidence": "measured, not inferred (session record + lane resolution)",
+      "checker_evidence": "not applicable (a routing fact, not a claim to audit)",
+      "decision_owner": "owner only - changing global routing is not a maker action",
+      "first_failure_if_skipped": "ILLEGAL_AUTHORITY_PROMOTION",
+      "falsifier": "re-measure the serving model for a new session; if it reports the mandated arm, the divergence is closed",
+      "evidence_ref": "far-study/PLAN_LEG_DIVERGENCE.md"
+    },
+    {
+      "id": "NO-TREE-LEVEL-INDEPENDENT-VERIFICATION",
+      "title": "every lane verdict is a bundle audit; no independent party has read or executed against the tree",
+      "current_state": "HOLD",
+      "next_legal_state": "external acceptance officer reads the tree, or the owner opens a read/exec-capable checker lane",
+      "required_artifacts": ["VERIFICATION_LANE_CAPABILITY_BOUNDARY.md", "verify/CAPABILITY_PROBE_A6.md"],
+      "owner_evidence": "present (three refused actions, each quoted from the lane's own output)",
+      "checker_evidence": "absent by construction - this is the gap",
+      "decision_owner": "owner / external acceptance officer",
+      "first_failure_if_skipped": "FOREIGN_OR_STALE_EVIDENCE",
+      "falsifier": "hand the tree to a checker with read access and see whether its verdicts change; if they never do, the bundle audits were sufficient",
+      "evidence_ref": "far-study/VERIFICATION_LANE_CAPABILITY_BOUNDARY.md"
+    },
+    {
+      "id": "F003-OWNER-GATE-INPUTS",
+      "title": "real publisher identity, brand assets, official vendor validator, portal scan/review/publish",
+      "current_state": "BLOCKED_EXTERNAL",
+      "next_legal_state": "owner supplies the inputs; then the F003 gate can run",
+      "required_artifacts": ["the vendor validator output", "the publisher identity binding"],
+      "owner_evidence": "absent",
+      "checker_evidence": "absent",
+      "decision_owner": "owner / publisher",
+      "first_failure_if_skipped": "BLOCKED_EXTERNAL",
+      "falsifier": "run the F003 gate with the supplied inputs; a red gate means the inputs are not yet sufficient",
+      "evidence_ref": "round CHECKPOINT + F003 records"
+    },
+    {
+      "id": "FOUR-HOST-UAT",
+      "title": "Hermes native skill, Codex Desktop, Codex CLI native skill and Claude Code UAT never executed",
+      "current_state": "NOT_EXECUTED",
+      "next_legal_state": "run on owner-provided hosts",
+      "required_artifacts": ["per-host UAT transcript with the host build identified"],
+      "owner_evidence": "absent",
+      "checker_evidence": "absent",
+      "decision_owner": "owner",
+      "first_failure_if_skipped": "BLOCKED_EXTERNAL",
+      "falsifier": "run one host; if the skill loads and its contract holds, the disposition updates for that host only",
+      "evidence_ref": "round CHECKPOINT"
+    },
+    {
+      "id": "CANONICAL-ACCEPTANCE-ROWS",
+      "title": "every canonical acceptance row is NOT_RUN with zero evidence refs, and cannot be self-filled",
+      "current_state": "AWAITING_EXTERNAL",
+      "next_legal_state": "an external QUALIFICATION_ISSUER signs the qualification receipt",
+      "required_artifacts": ["signed issuer receipt bound to the subject hash"],
+      "owner_evidence": "present (the rows are read back as NOT_RUN, which is the honest value)",
+      "checker_evidence": "not possible without the issuer",
+      "decision_owner": "external qualification issuer / owner",
+      "first_failure_if_skipped": "QUALIFICATION_WITHOUT_AUTHORITY",
+      "falsifier": "read the spine rows; a maker-side write would be visible as an actor that is not an issuer",
+      "evidence_ref": "spine readback in the round admission records"
+    },
+    {
+      "id": "PREVIEW3-WHEEL-TRACE-FALSE-PASS",
+      "title": "the published v0.1.1-preview.3 wheel carries a Trace false-PASS that was never rebuilt after the source repair",
+      "current_state": "OPEN",
+      "next_legal_state": "owner decides: rebuild and republish, or leave the published artefact with this disclosure attached",
+      "required_artifacts": ["a rebuild receipt at the repaired source, or an owner-signed retention note"],
+      "owner_evidence": "present (the defect and its provenance are recorded)",
+      "checker_evidence": "partial (hosted CI receipt for the repaired source)",
+      "decision_owner": "owner (publication is an external effect)",
+      "first_failure_if_skipped": "SOURCE_FREEZE_ANCHOR_STALE",
+      "falsifier": "install the published wheel and run the Trace check; a pass under the repaired source would mean the wheel was in fact rebuilt",
+      "evidence_ref": "round evidence 12_GATES"
+    },
+    {
+      "id": "HGK-ARCHIVE-POLICY",
+      "title": ".hgk/ has grown to roughly 62 MB with no owner ruling on archive policy",
+      "current_state": "OPEN",
+      "next_legal_state": "owner sets a retention/archive rule",
+      "required_artifacts": ["the archive policy decision"],
+      "owner_evidence": "present (size measured)",
+      "checker_evidence": "not applicable",
+      "decision_owner": "owner",
+      "first_failure_if_skipped": "no-silent-loss risk only if deletion were attempted, which it is not",
+      "falsifier": "measure the tree size after any archive action and confirm no receipt lost its subject",
+      "evidence_ref": "round CHECKPOINT"
+    },
+    {
+      "id": "PR-DISPOSITIONS",
+      "title": "PR #2 and #3 (base main), #4 (superseded, old B head), #5 (stacked successor) are all open and draft",
+      "current_state": "OPEN",
+      "next_legal_state": "owner marks the superseded ones and keeps #5 as the reviewable subject",
+      "required_artifacts": ["PR state readback"],
+      "owner_evidence": "present (each PR read back: open, draft, merged=false)",
+      "checker_evidence": "not applicable",
+      "decision_owner": "owner (close/merge are external effects)",
+      "first_failure_if_skipped": "ILLEGAL_AUTHORITY_PROMOTION if a maker merged",
+      "falsifier": "read the PRs back; merged=true by a non-owner actor would falsify this disposition's premise",
+      "evidence_ref": "PR API readbacks in this session"
+    }
+  ],
+  "what_this_disposition_does_not_do": [
+    "it does not close any finding at CLOSED - that needs a checker whose evidence is target-scoped, and the lane's evidence is bundle-scoped",
+    "it does not assert an admission receipt, a human token, a qualification or a PASS",
+    "it does not delete anything: superseded artefacts are marked, not removed",
+    "it does not merge, tag, release or archive"
+  ]
+}

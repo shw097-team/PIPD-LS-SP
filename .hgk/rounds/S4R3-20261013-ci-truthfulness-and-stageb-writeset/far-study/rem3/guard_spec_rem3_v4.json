@@ -1,0 +1,67 @@
+{
+ "claims": [
+  {
+   "claim_id": "S1",
+   "required_blocks": [
+    "3"
+   ],
+   "recompute": "git merge-base --is-ancestor <old> <new>; echo $?   # 0 means predecessor_matches (BLOCK 3)",
+   "receipt_paths": [
+    "evidence/12_GATES/SUPERSESSION_LEDGER.json"
+   ]
+  },
+  {
+   "claim_id": "S2",
+   "required_blocks": [
+    "4"
+   ],
+   "recompute": "scripts/closure_close_out.py <b> <a>   # regenerates blocks 3 and 4",
+   "receipt_paths": [
+    "evidence/12_GATES/AFFECTED_ONLY_INVALIDATION.json"
+   ]
+  },
+  {
+   "claim_id": "S3",
+   "required_blocks": [
+    "2",
+    "7",
+    "8"
+   ],
+   "recompute": "python scripts/rem3_remedy_receipt_at_head.py <b_worktree> <a_worktree>  # BLOCK 7, scope-anchored",
+   "receipt_paths": [
+    "evidence/12_GATES/REM2_GATE_RUN_BOTH_STAGES.log"
+   ]
+  },
+  {
+   "claim_id": "S4",
+   "required_blocks": [
+    "5"
+   ],
+   "recompute": "scripts/closure_close_out.py <b> <a>   # regenerates blocks 3 and 4",
+   "receipt_paths": [
+    "evidence/12_GATES/RECEIVER_HANDOFF_BUNDLE.json"
+   ]
+  },
+  {
+   "claim_id": "S5",
+   "required_blocks": [
+    "6",
+    "2"
+   ],
+   "recompute": "scripts/closure_close_out.py <b> <a>   # regenerates blocks 3 and 4",
+   "receipt_paths": [
+    "evidence/12_GATES/CLOSURE_DISPOSITION.json"
+   ]
+  },
+  {
+   "claim_id": "S6",
+   "required_blocks": [
+    "8"
+   ],
+   "recompute": "sed 's/#//g' <gate file> | tr '\\n' ' ' | tr -s ' ' | grep -c 'widens NEITHER allowlist'  # 1 before, 0 after (BLOCK 8)",
+   "receipt_paths": [
+    "evidence/12_GATES/REM2_PRODUCT_CHANGE_DIFF.txt"
+   ]
+  }
+ ]
+}

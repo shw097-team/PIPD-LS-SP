@@ -1,0 +1,365 @@
+[
+  {
+    "finding_id": "FCR-003",
+    "title": "Complete catalog route escapes owner authorization",
+    "classification": "CONFIRMED_DEFECT",
+    "severity": "HIGH",
+    "gate_ids": [
+      "S4-STAGE-B-HANDOVER-CLOSURE",
+      "S4-MODEL-ROUTING-CONFORMANCE"
+    ],
+    "acceptance_ids": [
+      "stage-b/ROUND_ASSIGNMENT.json:roles.EXECUTE.route",
+      "stage-b/OWNER_DECISION_MODEL_DEVIATION.md:3-7"
+    ],
+    "subject_identity": "2fc17c0a3250ff0b86021f908c5b6ec8bd64886e",
+    "source_locators": [
+      "stage-b/ROUND_ASSIGNMENT.json:roles.EXECUTE.route",
+      "stage-b/OWNER_DECISION_MODEL_DEVIATION.md:3-7",
+      "stage-b/run_lane.sh:194-209"
+    ],
+    "evidence_ids": [
+      "CHILD_UNRULED_ENDPOINT/result.json"
+    ],
+    "observed": "Assigned EXECUTE tuple plus catalog style reaches stub with an unruled base URL and catalog file; exit 0. Style alone is compared; parameters come from environment.",
+    "expected": "Complete governed route follows assignment or exact owner ruling.",
+    "contradiction": "Assigned EXECUTE tuple plus catalog style reaches stub with an unruled base URL and catalog file; exit 0. Style alone is compared; parameters come from environment. Expected: Complete governed route follows assignment or exact owner ruling.",
+    "reproducibility": "REPRODUCED",
+    "claim_impact": "Blocks full routing conformance; no actual network call or model identity is claimed.",
+    "earliest_owner": "Child route construction",
+    "smallest_repair_scope": "Validate catalog/base_url and preserve separately authorized checker backup route.",
+    "retest_required": [
+      "CHILD_UNRULED_ENDPOINT/result.json"
+    ],
+    "regression_required": [
+      "three frozen harness suites; affected positive/adversarial controls; fresh independent recheck"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  },
+  {
+    "finding_id": "FCR-004",
+    "title": "In-tree directory created before containment refusal",
+    "classification": "CONFIRMED_DEFECT",
+    "severity": "MEDIUM",
+    "gate_ids": [
+      "S4-STAGE-B-HANDOVER-CLOSURE",
+      "S4-MODEL-ROUTING-CONFORMANCE"
+    ],
+    "acceptance_ids": [
+      "user boundary: logs/fixtures outside candidate",
+      "stage-b/run_lanes_gated.sh:34-59"
+    ],
+    "subject_identity": "2fc17c0a3250ff0b86021f908c5b6ec8bd64886e",
+    "source_locators": [
+      "user boundary: logs/fixtures outside candidate",
+      "stage-b/run_lanes_gated.sh:34-59",
+      "stage-b/run_lane.sh:88-109"
+    ],
+    "evidence_ids": [
+      "CHILD_JUNCTION/result.json",
+      "GATE_OS_JUNCTION/result.json",
+      "CHILD_OS_JUNCTION/result.json",
+      "GATE_OS_UNDECIDED_JUNCTION/result.json",
+      "CHILD_OS_UNDECIDED_JUNCTION/result.json"
+    ],
+    "observed": "Actual native junctions confirmed by alias-log writes. All current tests refuse containment, exit 3, zero worker calls and lane logs. Child mkdir already creates in-tree hgk-lanes; gate does too with explicitly injected lexical pwd behavior.",
+    "expected": "Containment admission precedes directory creation; unknown physical containment refuses before writes.",
+    "contradiction": "Actual native junctions confirmed by alias-log writes. All current tests refuse containment, exit 3, zero worker calls and lane logs. Child mkdir already creates in-tree hgk-lanes; gate does too with explicitly injected lexical pwd behavior. Expected: Containment admission precedes directory creation; unknown physical containment refuses before writes.",
+    "reproducibility": "REPRODUCED",
+    "claim_impact": "Old successful log-write bypass is not reproduced; bounded side effect remains.",
+    "earliest_owner": "Gate and child preflight",
+    "smallest_repair_scope": "Check proposed physical destination before mkdir, then verify created destination; cover both entrypoints.",
+    "retest_required": [
+      "CHILD_JUNCTION/result.json",
+      "GATE_OS_JUNCTION/result.json",
+      "CHILD_OS_JUNCTION/result.json",
+      "GATE_OS_UNDECIDED_JUNCTION/result.json",
+      "CHILD_OS_UNDECIDED_JUNCTION/result.json"
+    ],
+    "regression_required": [
+      "three frozen harness suites; affected positive/adversarial controls; fresh independent recheck"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  },
+  {
+    "finding_id": "FCR-005",
+    "title": "Quoted error prefix and tail text cause unauthorized failover",
+    "classification": "CONFIRMED_DEFECT",
+    "severity": "HIGH",
+    "gate_ids": [
+      "S4-STAGE-B-HANDOVER-CLOSURE",
+      "S4-MODEL-ROUTING-CONFORMANCE"
+    ],
+    "acceptance_ids": [
+      "stage-b/ROUND_ASSIGNMENT.json:checker_failover.does_not_trigger_on",
+      "stage-b/OWNER_DECISION_MODEL_DEVIATION.md:29-34"
+    ],
+    "subject_identity": "2fc17c0a3250ff0b86021f908c5b6ec8bd64886e",
+    "source_locators": [
+      "stage-b/ROUND_ASSIGNMENT.json:checker_failover.does_not_trigger_on",
+      "stage-b/OWNER_DECISION_MODEL_DEVIATION.md:29-34",
+      "stage-b/run_checker_lane.sh:85-125"
+    ],
+    "evidence_ids": [
+      "QUOTED_ERROR_REAL_HARD/result.json",
+      "TAIL_QUOTE_CONTROLFAIL/result.json",
+      "QUOTED_ERROR_BLOCKS_QUOTA/result.json"
+    ],
+    "observed": "Quoted tool-output ERROR line selected while terminal Provider error line omitted: backup invoked and exit 0. Tail fallback uses quoted quota after child control-flow exit 7: backup invoked and exit 0. Quoted hard ERROR also suppresses terminal quota.",
+    "expected": "Only terminal primary-provider exhaustion can switch checker; hard/control-flow failure cannot be turned green.",
+    "contradiction": "Quoted tool-output ERROR line selected while terminal Provider error line omitted: backup invoked and exit 0. Tail fallback uses quoted quota after child control-flow exit 7: backup invoked and exit 0. Quoted hard ERROR also suppresses terminal quota. Expected: Only terminal primary-provider exhaustion can switch checker; hard/control-flow failure cannot be turned green.",
+    "reproducibility": "REPRODUCED",
+    "claim_impact": "Reopens FCR-005 despite A4/A6 passing.",
+    "earliest_owner": "Checker terminal classification",
+    "smallest_repair_scope": "Use trusted terminal provider event/channel with provenance; no whole-tail authorization; separate transport recovery.",
+    "retest_required": [
+      "QUOTED_ERROR_REAL_HARD/result.json",
+      "TAIL_QUOTE_CONTROLFAIL/result.json",
+      "QUOTED_ERROR_BLOCKS_QUOTA/result.json"
+    ],
+    "regression_required": [
+      "three frozen harness suites; affected positive/adversarial controls; fresh independent recheck"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  },
+  {
+    "finding_id": "FCR-006",
+    "title": "Failed wrapper status query is treated as clean",
+    "classification": "CONFIRMED_DEFECT",
+    "severity": "HIGH",
+    "gate_ids": [
+      "S4-STAGE-B-HANDOVER-CLOSURE",
+      "S4-MODEL-ROUTING-CONFORMANCE"
+    ],
+    "acceptance_ids": [
+      "ACCEPTANCE_RECORD_STAGEB.md:127-141",
+      "stage-b/run_lane.sh:16-17"
+    ],
+    "subject_identity": "2fc17c0a3250ff0b86021f908c5b6ec8bd64886e",
+    "source_locators": [
+      "ACCEPTANCE_RECORD_STAGEB.md:127-141",
+      "stage-b/run_lane.sh:16-17",
+      "stage-b/run_checker_lane.sh:46-57"
+    ],
+    "evidence_ids": [
+      "WRAPPER_STATUS_FAILURE/result.json",
+      "REPRODUCER_READBACK.json"
+    ],
+    "observed": "External hook writes dirt on wrapper record commit; injected git -C status returns 128/empty. Wrapper says record committed and backup OK, exit 0. Independent native status exits 0 and shows AO12_RECORD_DIRT.txt. Fresh-temp replay reproduces it.",
+    "expected": "Failed final cleanliness query is unverifiable, never clean.",
+    "contradiction": "External hook writes dirt on wrapper record commit; injected git -C status returns 128/empty. Wrapper says record committed and backup OK, exit 0. Independent native status exits 0 and shows AO12_RECORD_DIRT.txt. Fresh-temp replay reproduces it. Expected: Failed final cleanliness query is unverifiable, never clean.",
+    "reproducibility": "REPRODUCED",
+    "claim_impact": "Reopens FCR-006; record tracked but cleanliness falsely accepted.",
+    "earliest_owner": "Checker commit_record",
+    "smallest_repair_scope": "Check add/commit/status exit codes and staged scope; port child postflight invariants to wrapper.",
+    "retest_required": [
+      "WRAPPER_STATUS_FAILURE/result.json",
+      "REPRODUCER_READBACK.json"
+    ],
+    "regression_required": [
+      "three frozen harness suites; affected positive/adversarial controls; fresh independent recheck"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  },
+  {
+    "finding_id": "FCR-007",
+    "title": "Current Stage-B binding is stale",
+    "classification": "EVIDENCE_GAP",
+    "severity": "HIGH",
+    "gate_ids": [
+      "S4-STAGE-B-HANDOVER-CLOSURE",
+      "S4-MODEL-ROUTING-CONFORMANCE"
+    ],
+    "acceptance_ids": [
+      "skill exact-subject-binding invariant",
+      "evidence/EVIDENCE_RETURN_PACK.json:5-12,18,48-50"
+    ],
+    "subject_identity": "2fc17c0a3250ff0b86021f908c5b6ec8bd64886e",
+    "source_locators": [
+      "skill exact-subject-binding invariant",
+      "evidence/EVIDENCE_RETURN_PACK.json:5-12,18,48-50"
+    ],
+    "evidence_ids": [
+      "FREEZE.json",
+      "SOURCE_INVENTORY.json"
+    ],
+    "observed": "Manifest commit 32962532b7b7176eafbd3d353ced63a3056027fb / tree 40b9507a97eea29cdc20f55e69cedb34ee8e2302 differ from freeze; verifier remains pending/NOT_RUN. Current distribution association unproven.",
+    "expected": "Current aggregate acceptance requires manifest and independent receipt bound to exact subject.",
+    "contradiction": "Manifest commit 32962532b7b7176eafbd3d353ced63a3056027fb / tree 40b9507a97eea29cdc20f55e69cedb34ee8e2302 differ from freeze; verifier remains pending/NOT_RUN. Current distribution association unproven. Expected: Current aggregate acceptance requires manifest and independent receipt bound to exact subject.",
+    "reproducibility": "EVIDENCE_ONLY",
+    "claim_impact": "Known open; alone caps review at PARTIAL_CHALLENGE.",
+    "earliest_owner": "Evidence binding / acceptance owner",
+    "smallest_repair_scope": "Separately govern current manifest/receipt without overwriting historical evidence.",
+    "retest_required": [
+      "FREEZE.json",
+      "SOURCE_INVENTORY.json"
+    ],
+    "regression_required": [
+      "three frozen harness suites; affected positive/adversarial controls; fresh independent recheck"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  },
+  {
+    "finding_id": "FCR-008",
+    "title": "Dispatch counts and intake disagree with artifacts",
+    "classification": "NON_BLOCKING_OBSERVATION",
+    "severity": "LOW",
+    "gate_ids": [
+      "S4-STAGE-B-HANDOVER-CLOSURE",
+      "S4-MODEL-ROUTING-CONFORMANCE"
+    ],
+    "acceptance_ids": [
+      "user dispatch: report artifact disagreement",
+      "verify/harness/LAUNCHER_TEST_RESULTS.txt:final RESULT"
+    ],
+    "subject_identity": "2fc17c0a3250ff0b86021f908c5b6ec8bd64886e",
+    "source_locators": [
+      "user dispatch: report artifact disagreement",
+      "verify/harness/LAUNCHER_TEST_RESULTS.txt:final RESULT",
+      "verify/ao12/INTAKE_AT_DISPATCH.json:candidate,freeze_method"
+    ],
+    "evidence_ids": [
+      "INTAKE_AT_DISPATCH.json",
+      "run_harness_negative_tests.sh.result.json"
+    ],
+    "observed": "Dispatch 39/0 and empty digests conflict with frozen artifact 38/0 and populated AO11 identity. Fresh replay returns 39/0; NT6 containment assertion absent from frozen result explains difference.",
+    "expected": "Preserve original metadata and independently bind current subject/counts.",
+    "contradiction": "Dispatch 39/0 and empty digests conflict with frozen artifact 38/0 and populated AO11 identity. Fresh replay returns 39/0; NT6 containment assertion absent from frozen result explains difference. Expected: Preserve original metadata and independently bind current subject/counts.",
+    "reproducibility": "EVIDENCE_ONLY",
+    "claim_impact": "Non-blocking discrepancy; current intake rebound independently.",
+    "earliest_owner": "Dispatch / evidence packaging",
+    "smallest_repair_scope": "Refresh metadata/results in a maker change; retain originals.",
+    "retest_required": [
+      "INTAKE_AT_DISPATCH.json",
+      "run_harness_negative_tests.sh.result.json"
+    ],
+    "regression_required": [
+      "three frozen harness suites; affected positive/adversarial controls; fresh independent recheck"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  },
+  {
+    "finding_id": "FCR-009",
+    "title": "Hard-4xx regex vetoes authorized HTTP429 exhaustion",
+    "classification": "CONFIRMED_DEFECT",
+    "severity": "MEDIUM",
+    "gate_ids": [
+      "S4-STAGE-B-HANDOVER-CLOSURE",
+      "S4-MODEL-ROUTING-CONFORMANCE"
+    ],
+    "acceptance_ids": [
+      "stage-b/ROUND_ASSIGNMENT.json:checker_failover.trigger",
+      "stage-b/OWNER_DECISION_MODEL_DEVIATION.md:29-34"
+    ],
+    "subject_identity": "2fc17c0a3250ff0b86021f908c5b6ec8bd64886e",
+    "source_locators": [
+      "stage-b/ROUND_ASSIGNMENT.json:checker_failover.trigger",
+      "stage-b/OWNER_DECISION_MODEL_DEVIATION.md:29-34",
+      "stage-b/run_checker_lane.sh:35-39,103-118"
+    ],
+    "evidence_ids": [
+      "HTTP429_EXHAUSTION/result.json",
+      "RECOVERED_HTTP426_QUOTA/result.json"
+    ],
+    "observed": "Explicit terminal HTTP429/rate-limit matches both patterns; hard veto wins, exit 1, one worker call. Tested recovered HTTP426 spelling followed by terminal capacity is also vetoed.",
+    "expected": "429 exhaustion triggers owner backup; recovered transport notice must not override terminal cause.",
+    "contradiction": "Explicit terminal HTTP429/rate-limit matches both patterns; hard veto wins, exit 1, one worker call. Tested recovered HTTP426 spelling followed by terminal capacity is also vetoed. Expected: 429 exhaustion triggers owner backup; recovered transport notice must not override terminal cause.",
+    "reproducibility": "REPRODUCED",
+    "claim_impact": "Bounded availability and positive-calibration failure.",
+    "earliest_owner": "Checker hard-failure classification",
+    "smallest_repair_scope": "Separate terminal hard protocol failure, exhaustion and recovered transport; retain 400 negative controls.",
+    "retest_required": [
+      "HTTP429_EXHAUSTION/result.json",
+      "RECOVERED_HTTP426_QUOTA/result.json"
+    ],
+    "regression_required": [
+      "three frozen harness suites; affected positive/adversarial controls; fresh independent recheck"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  },
+  {
+    "finding_id": "FCR-010",
+    "title": "Default catalog invocation has openai receipt",
+    "classification": "CONFIRMED_DEFECT",
+    "severity": "MEDIUM",
+    "gate_ids": [
+      "S4-STAGE-B-HANDOVER-CLOSURE",
+      "S4-MODEL-ROUTING-CONFORMANCE"
+    ],
+    "acceptance_ids": [
+      "stage-b/ROUND_ASSIGNMENT.json:roles.EXECUTE.route",
+      "stage-b/run_lane.sh:138-150,204-209,255-256"
+    ],
+    "subject_identity": "2fc17c0a3250ff0b86021f908c5b6ec8bd64886e",
+    "source_locators": [
+      "stage-b/ROUND_ASSIGNMENT.json:roles.EXECUTE.route",
+      "stage-b/run_lane.sh:138-150,204-209,255-256"
+    ],
+    "evidence_ids": [
+      "CHILD_DEFAULT_EXECUTE/result.json",
+      "DEFAULT_ROUTE_READBACK.json"
+    ],
+    "observed": "Unset ROUTE_STYLE derives catalog invocation, but committed receipt says route=openai from original environment default. Child exits 0.",
+    "expected": "Receipt describes actual derived route.",
+    "contradiction": "Unset ROUTE_STYLE derives catalog invocation, but committed receipt says route=openai from original environment default. Child exits 0. Expected: Receipt describes actual derived route.",
+    "reproducibility": "REPRODUCED",
+    "claim_impact": "Bounded direct-child evidence inconsistency; gated explicit-style callers avoid it.",
+    "earliest_owner": "Child receipt formatting",
+    "smallest_repair_scope": "Write derived STYLE; compare default argv, manifest and receipt.",
+    "retest_required": [
+      "CHILD_DEFAULT_EXECUTE/result.json",
+      "DEFAULT_ROUTE_READBACK.json"
+    ],
+    "regression_required": [
+      "three frozen harness suites; affected positive/adversarial controls; fresh independent recheck"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  },
+  {
+    "finding_id": "AO12-RECORD-SCOPE",
+    "title": "Every-outcome wrapper-record claim needs scope",
+    "classification": "NON_BLOCKING_OBSERVATION",
+    "severity": "INFO",
+    "gate_ids": [
+      "S4-STAGE-B-HANDOVER-CLOSURE",
+      "S4-MODEL-ROUTING-CONFORMANCE"
+    ],
+    "acceptance_ids": [
+      "user maker claim 4",
+      "stage-b/run_checker_lane.sh:41-42,80-83,120-123"
+    ],
+    "subject_identity": "2fc17c0a3250ff0b86021f908c5b6ec8bd64886e",
+    "source_locators": [
+      "user maker claim 4",
+      "stage-b/run_checker_lane.sh:41-42,80-83,120-123"
+    ],
+    "evidence_ids": [
+      "PRIMARY_SUCCESS_RECORD/result.json",
+      "CONTROLFAIL_RECORD/result.json"
+    ],
+    "observed": "Primary success exit 0 and ordinary control-flow failure exit 7 leave no CHECKER_* wrapper decision record; both commit child log/manifest/receipt.",
+    "expected": "State record guarantee precisely; child evidence exists, wrapper classification record is branch-dependent.",
+    "contradiction": "Primary success exit 0 and ordinary control-flow failure exit 7 leave no CHECKER_* wrapper decision record; both commit child log/manifest/receipt. Expected: State record guarantee precisely; child evidence exists, wrapper classification record is branch-dependent.",
+    "reproducibility": "REPRODUCED",
+    "claim_impact": "Not a missing-all-evidence claim; non-blocking scope observation.",
+    "earliest_owner": "Checker record contract",
+    "smallest_repair_scope": "Clarify claim or consistently commit wrapper outcome records.",
+    "retest_required": [
+      "PRIMARY_SUCCESS_RECORD/result.json",
+      "CONTROLFAIL_RECORD/result.json"
+    ],
+    "regression_required": [
+      "three frozen harness suites; affected positive/adversarial controls; fresh independent recheck"
+    ],
+    "oracle_disposition": "NOT_APPLICABLE",
+    "status": "OPEN"
+  }
+]

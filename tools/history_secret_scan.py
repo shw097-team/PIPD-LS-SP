@@ -8,9 +8,14 @@ names and per-file/per-object counts but no secret material.
 Runs as its own process on purpose: an in-kernel import cache had once recorded pattern names from a
 superseded revision of workspace.py, so the artifact disagreed with the source it claimed to
 describe. Recorded facts must come from the revision being described.
+
+The default output path (``.hgk/artifacts/history_secret_scan.json``) lies INSIDE the tracked tree,
+so running this tool rewrites a committed artefact. A verifier that must leave the worktree
+untouched should pass ``--out`` and write the scan elsewhere.
 """
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import subprocess
@@ -81,7 +86,16 @@ def printable_summary(out: dict) -> dict:
     }
 
 
-def main() -> int:
+DEFAULT_OUT = ROOT / ".hgk" / "artifacts" / "history_secret_scan.json"
+
+
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description="Scan worktree + history for token-like strings.")
+    ap.add_argument("--out", metavar="PATH", default=None,
+                    help="write the scan artefact to this path instead of the tracked default; a "
+                         "verifier that must leave the worktree untouched should pass this")
+    args = ap.parse_args(argv)
+
     rev = _git("rev-parse", "HEAD").strip()
     src = (ROOT / "src" / "pipd_ls_sp" / "workspace.py").read_bytes()
 
@@ -119,7 +133,7 @@ def main() -> int:
         "note": "pattern names and the source hash are read from the revision named above, in a "
                 "fresh process; only counts and status codes are printed",
     }
-    p = ROOT / ".hgk" / "artifacts" / "history_secret_scan.json"
+    p = Path(args.out) if args.out else DEFAULT_OUT
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8", newline="")
 

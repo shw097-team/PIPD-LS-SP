@@ -1,0 +1,162 @@
+name: ci
+
+# Read-only verification gate. It grants nothing: a green run is not a release, a merge or an
+# external acceptance. Triggers are push and pull_request only — no pull_request_target, no
+# secrets, no tag creation, no publish step.
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  offline-gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the frozen subject
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: "3.11"
+
+      - name: Install (declared dependencies only) and record what was resolved
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          # The suite's skill-contract tests load skills/*/tests/cases.yaml through tools/
+          # skill_pack_check.py, which imports PyYAML. PyYAML is a TEST dependency (the shipped CLI
+          # never imports it), so it is declared in the optional `test` extra rather than as a
+          # runtime dependency, and it is installed HERE. Without it the checker fails closed with a
+          # typed TOOL_MISSING refusal, which is correct behaviour and was previously reported as a
+          # gate failure on a runner that simply had not installed the test extra (S4R3-F001).
+          python -m pip install -e ".[test]"
+          python -m pip freeze | tee resolved-deps.txt
+
+      - name: Full unittest suite (raw log)
+        # FALSE-GREEN REPAIR (S4R3-F001): this step previously ran
+        # `python -m unittest ... 2>&1 | tee full-unittest.log`. A pipeline's exit status is the LAST
+        # command's, so `tee` succeeded and the step passed while the log itself read
+        # "FAILED (failures=11, skipped=6)". `set -o pipefail` makes the step carry the suite's own
+        # exit code, so a red suite is a red job. Do NOT remove it, and do not "fix" a red suite by
+        # narrowing the denominator or skipping files.
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s tests -t . -v 2>&1 | tee full-unittest.log
+
+      - name: Focused S4 repair / closure suites (raw log)
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s tests -p 'test_s4ext_*.py' -v 2>&1 | tee focused-s4ext.log
+
+      - name: Build the wheel and exercise it in a clean venv with no source on PYTHONPATH
+        # Builds into a private directory and installs exactly that wheel. `dist/` already carries two
+        # committed wheels from earlier rounds (0.1.0 and 0.1.1a3), so a `dist/*.whl` glob made pip
+        # resolve both and abort with ResolutionImpossible (observed on run 38331455392, job
+        # offline-gate, step 7). Installing only the wheel just built is both the correct subject of
+        # this step and the stricter check; dist/ is left untouched.
+        run: |
+          # The last two lines pipe an installed-wheel command through `tee`, so without this the
+          # step's exit status would be tee's and a failing `pipd doctor` on a freshly built wheel
+          # would be masked exactly like the unittest pipelines were (S4R3-F001). Independent
+          # verification found this residual after the unittest steps had already been repaired.
+          set -euo pipefail
+          python -m pip install build
+          rm -rf "$RUNNER_TEMP/wheels" && mkdir -p "$RUNNER_TEMP/wheels"
+          python -m build --wheel --outdir "$RUNNER_TEMP/wheels"
+          ls -l "$RUNNER_TEMP/wheels"
+          python -m venv "$RUNNER_TEMP/wheelvenv"
+          "$RUNNER_TEMP/wheelvenv/bin/python" -m pip install --upgrade pip
+          "$RUNNER_TEMP/wheelvenv/bin/python" -m pip install "$RUNNER_TEMP"/wheels/*.whl
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/wheelvenv/bin/pipd" doctor | tee "$GITHUB_WORKSPACE/wheel-doctor.log"
+          "$RUNNER_TEMP/wheelvenv/bin/pipd" --help | tee "$GITHUB_WORKSPACE/wheel-cli-help.log"
+
+      - name: The installed wheel resolves its OWN contract registry (S4R3-F006)
+        # F006 was a P0: `python -m build` produced a wheel with NO `pipd_ls_sp/schemas/` because the
+        # canonical `schemas/` tree lives at the repository root, outside the package directory, and
+        # `package-data` cannot reach there. `pipd doctor` in a clean venv then reported `mode=NONE`
+        # and exited 1. The fix is the `build_py` hook in setup.py; this step is the gate that keeps it
+        # fixed. Asserting merely that the command exited 0 is NOT enough -- a wheel that resolves from
+        # a leftover SOURCE checkout would pass that. The mode must be INSTALLED.
+        #
+        # The assertions live in tools/verify_installed_wheel_registry.py, not in this file. The first
+        # version of this gate was inline here and asserted that the doctor's `families` was a dict,
+        # when `workspace.doctor` reports the family COUNT as an int: the type error could not be seen
+        # locally because the gate never ran locally, and it made the hosted run red for a reason that
+        # had nothing to do with the product. The tool is exercised by
+        # tests/test_standard_wheel_schemas.py against the real doctor output AND against mutated
+        # copies, so the gate is falsifiable on a workstation.
+        run: |
+          set -euo pipefail
+          python tools/verify_installed_wheel_registry.py wheel-doctor.log \
+            --expect-families 19 \
+            --deny-prefix "${GITHUB_WORKSPACE}"
+
+      - name: Provenance gate is green before it is tested
+        # S4R3-F001: this step used `... | tail -3`, which hid the gate's own exit code. The log is
+        # captured first and only then tailed.
+        run: |
+          set -euo pipefail
+          python -m unittest tests.test_s4ext_release_provenance > provenance-green.log 2>&1
+          tail -3 provenance-green.log
+
+      - name: Negative — a mutated pack document must make the provenance gate fail
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          doc = Path("dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3/README_MOUNT.md")
+          text = doc.read_text(encoding="utf-8")
+          mutated = text.replace("cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a", "0" * 40)
+          assert mutated != text, "the mutation fixture no longer matches the checked-in document"
+          doc.write_text(mutated, encoding="utf-8")
+          PY
+          set +e
+          python -m unittest tests.test_s4ext_release_provenance > mutation-run.log 2>&1
+          status=$?
+          set -e
+          git checkout -- dist/mount
+          # Fail closed on every way this step could pass without exercising the gate:
+          if [ "$status" -eq 0 ]; then
+            echo "MUTATION_ACCEPTED: the provenance gate passed a tampered identity stamp" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          if ! grep -q "^FAIL:" mutation-run.log; then
+            echo "GATE_NOT_EXERCISED: the run failed without a single test failure (module deleted, import error or collection error)" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          if ! grep -qE "release_tag_target|does not carry|reproduce the served asset|byte-identical" mutation-run.log; then
+            echo "MUTATION_REFUSAL_MOTIVE_UNEXPECTED: the failure is not the identity/byte binding" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          echo "MUTATION_REFUSED_AS_EXPECTED"
+
+      - name: Upload raw logs
+        if: always()
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b  # v4.5.0
+        with:
+          name: ci-raw-logs
+          path: |
+            resolved-deps.txt
+            full-unittest.log
+            focused-s4ext.log
+            provenance-green.log
+            wheel-doctor.log
+            wheel-cli-help.log
+            mutation-run.log
+          if-no-files-found: warn

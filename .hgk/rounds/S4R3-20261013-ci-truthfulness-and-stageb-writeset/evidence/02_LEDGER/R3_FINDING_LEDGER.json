@@ -1,0 +1,91 @@
+{
+  "schema_id": "PIPD-S4-R3-FINDING-LEDGER/1",
+  "source_report": "PIPD-S4-EXT-ACCEPT-R3-20261013",
+  "round": "S4R3-20261013-ci-truthfulness-and-stageb-writeset",
+  "dispositions": {
+    "CLOSED_BY_THIS_ROUND_IN_SCOPE_SOURCE_ONLY": 2,
+    "CLOSED_AS_TRUTHFULNESS_DEFECT_SOURCE_ONLY": 1,
+    "EXPOSED_BY_THIS_ROUND_OPEN_TT_OWNER": 1,
+    "OPEN_TT_OWNER": 1,
+    "PARTIAL": 1
+  },
+  "findings": [
+    {
+      "id": "S4R3-F001",
+      "priority": "P0",
+      "class": "CONFIRMED_DEFECT",
+      "disposition": "CLOSED_AS_TRUTHFULNESS_DEFECT_SOURCE_ONLY",
+      "closed_scope": "The false green is repaired and the 11+2 failures have root causes with paired controls on Linux and Windows locally. The repair is PROVEN by its own effect: removing the last residual mask turned the wheel step red and exposed S4R3-F006, a defect the green badge had been hiding.",
+      "claim_ceiling": "The claim is limited to the recorded LOCAL executions under evidence/03_CI_TEST plus the hosted runs of the pushed branches. It is not an S4 acceptance, does not cover macOS, and does NOT imply the pipeline is green: the Stage A hosted ci is red at the wheel step because of F006.",
+      "evidence": [
+        "evidence/03_CI_TEST/r3_hosted_ci_failure_extract.txt",
+        "evidence/03_CI_TEST/ci_fault_injection.txt",
+        "evidence/03_CI_TEST/linux_after_full.log",
+        "evidence/03_CI_TEST/linux_after_focused.log",
+        "evidence/03_CI_TEST/win_after_full.log",
+        "evidence/03_CI_TEST/win_after_focused.log",
+        "evidence/03_CI_TEST/frozen_subject_linux_local_full_baseline.log",
+        "evidence/03_CI_TEST/frozen_subject_win_local_full_baseline.log",
+        "evidence/03_CI_TEST/linux_cli_smoke_out.txt",
+        "evidence/02_LEDGER/R3_FAILURE_ROOT_CAUSE_MAP.json"
+      ]
+    },
+    {
+      "id": "S4R3-F002",
+      "priority": "P0",
+      "class": "CONFIRMED_DEFECT",
+      "disposition": "CLOSED_BY_THIS_ROUND_IN_SCOPE_SOURCE_ONLY",
+      "closed_scope": "The Stage B gate now measures its declared base, the two ranges are reported separately, and the classifier self-tests on planted forbidden and allowed paths.",
+      "claim_ceiling": "Verified: the hosted public-plugin-verify run on the pushed Stage B branch is green with every step executed, including the five that the pre-repair gate had skipped, and its classifier self-test refuses the planted forbidden paths. What it does NOT cover: the wheel, because the Stage B branch is stacked on a candidate whose ci.yml predates the wheel-step guard.",
+      "evidence": [
+        ".hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/writeset_gate_repro.sh",
+        "evidence/03_CI_TEST/r3_hosted_plugin_job_extract.txt"
+      ]
+    },
+    {
+      "id": "S4R3-F003",
+      "priority": "P1",
+      "class": "EVIDENCE_GAP",
+      "disposition": "OPEN_TT_OWNER",
+      "reason": "Human publisher identity, owner-approved brand assets, the official vendor validator and portal scan/review/publish are owner-only acts. This round did not perform them and must not imply otherwise.",
+      "owner": "PKG07 build owner + human publisher",
+      "next_action": "Supply the owner-approved icons and identity; run the pinned official validator with positive and negative cases; then a new immutable release."
+    },
+    {
+      "id": "S4R3-F004",
+      "priority": "P1",
+      "class": "EVIDENCE_GAP",
+      "disposition": "CLOSED_BY_THIS_ROUND_IN_SCOPE_SOURCE_ONLY",
+      "closed_scope": "The Web route now has a committed, digest-stamped single document; the README has one navigation block and no longer competes with the install SSOT; docs/USER_GUIDE.md is the single user guide; 41 local links and anchors check clean.",
+      "claim_ceiling": "Link integrity and artefact presence are locally verified. First-run copy-paste by an external newcomer on each host is NOT_EXECUTED.",
+      "evidence": [
+        "docs/install/PIPD_WEB_FALLBACK.md",
+        "docs/install/PIPD_WEB_FALLBACK.md.sha256",
+        "docs/USER_GUIDE.md",
+        "README.md"
+      ]
+    },
+    {
+      "id": "S4R3-F005",
+      "priority": "P1",
+      "class": "NON_BLOCKING_OBSERVATION",
+      "disposition": "PARTIAL",
+      "closed_scope": "This round added no new large binary, kept its own evidence to text logs under .hgk/rounds/S4R3-.../, and did not delete or rewrite any historical raw receipt, tag or asset.",
+      "reason": "The .hgk/ evidence mass is a pre-existing 62 MB condition; shrinking it requires an owner-approved archival policy, not an executor decision.",
+      "owner": "repo owner"
+    },
+    {
+      "id": "S4R3-F006",
+      "priority": "P0",
+      "class": "DISTRIBUTION_DEFECT_EXPOSED_BY_THIS_ROUND",
+      "disposition": "EXPOSED_BY_THIS_ROUND_OPEN_TT_OWNER",
+      "reason": "The wheel built by the pipeline carries no schemas payload (pipd_ls_sp/*.py plus metadata only), so `pipd doctor` from a scratch cwd against a clean install of that wheel returns verdict=FAIL with `resolved schemas surface (mode=NONE)` and exits 1. The same command passes in the source tree, where the repository's own schemas/ directory is found - the defect is in the distribution, not the workspace. It was invisible while the wheel step's exit code was tee's, i.e. it is a direct consequence of the F001 masking.",
+      "claim_ceiling": "NOT repaired in this round and deliberately not worked around: no oracle was relaxed and no test was narrowed. Until it is repaired, the wheel this pipeline produces is not installable-and-diagnosable, so no green build receipt from this pipeline may be read as 'the package works'.",
+      "owner": "packaging owner (pyproject/package-data) + PKG07 build owner",
+      "next_action": "Decide how the schemas surface is delivered with the distribution (package data inside the installed package, or an explicit resolution path), repair it, and re-run the wheel-and-clean-venv step unmasked until it is green.",
+      "evidence": [
+        "evidence/03_CI_TEST/stageA_wheel_step_now_unmasked_FAIL.txt"
+      ]
+    }
+  ]
+}

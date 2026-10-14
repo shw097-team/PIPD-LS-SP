@@ -1,0 +1,92 @@
+{
+  "frozen_reference": {
+    "acceptance_report_subject": "e71fee6dd3aa73724baec4e8d9cc72127fbe36ed",
+    "note": "the commit the external acceptance report examined (red hosted CI) = Stage A's declared base"
+  },
+  "stage_a": {
+    "branch": "fix/s4r3-stage-a-ci-truthfulness-20261013",
+    "head": "5310896e706e01a9cdb0123285bccec75086bcb8",
+    "commits_this_round": [
+      "5310896e706e01a9cdb0123285bccec75086bcb8 S4R3: make the two gates that were only ever exercised in CI falsifiable on a workstation",
+      "9772bfa9f949d77a41583b0f2b20a37570a930c2 S4R3-F006: the standard build now ships the contract registry with the package",
+      "4647d14b44762790d7aaa1e388f835c04caba346 S4R3: the finding ledger now carries F006, and F001's disposition says what it really is"
+    ],
+    "declared_base": "e71fee6dd3aa73724baec4e8d9cc72127fbe36ed",
+    "write_set": [
+      "M\t.github/workflows/ci.yml",
+      "M\t.github/workflows/public-plugin-verify.yml",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/admission/s4r3_admission.json",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/01_SUBJECT/subject.json",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/02_LEDGER/R2_ATOM_LEDGER.json",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/02_LEDGER/R3_FAILURE_ROOT_CAUSE_MAP.json",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/02_LEDGER/R3_FINDING_LEDGER.json",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/ci_fault_injection.txt",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/ctl_new_pipeline.log",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/ctl_old_pipeline.log",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_focused.log",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_after_full.log",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/linux_cli_smoke_out.txt",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/r3_github_raw_log_digests.txt",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/r3_hosted_ci_failure_extract.txt",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/r3_hosted_plugin_job_extract.txt",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/skill_contracts_with_dep.log",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/win_after_focused.log",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/win_after_full.log",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/03_CI_TEST/yaml_absent_negative.log",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/RAW_INDEX.json",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/hgk_s4r3_admission.py",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/assemble_stage_a_evidence.sh",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/build_indices.py",
+      "A\t.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/open_stage_prs.py",
+      "A\tMANIFEST.in",
+      "M\texamples/first-run/run.ps1",
+      "M\texamples/first-run/run.sh",
+      "M\tpyproject.toml",
+      "A\tsetup.py",
+      "M\tsrc/pipd_ls_sp/workspace.py",
+      "A\ttests/test_standard_wheel_schemas.py",
+      "M\ttests/test_web_fallback.py",
+      "M\ttools/cli_smoke.py",
+      "A\ttools/verify_installed_wheel_registry.py"
+    ],
+    "pr": "https://github.com/shw097-team/PIPD-LS-SP/pull/3"
+  },
+  "stage_b_successor": {
+    "branch": "feat/s4r3-stageb-successor-20261013",
+    "head": "60273fe3dee54d88250e1588892da72aecd222ac",
+    "declared_base_ref": "fix/s4r3-stage-a-ci-truthfulness-20261013",
+    "declared_base_resolved": "5310896e706e01a9cdb0123285bccec75086bcb8",
+    "write_set": [
+      "M\t.github/workflows/public-plugin-verify.yml",
+      "M\tREADME.md",
+      "A\tdocs/USER_GUIDE.md",
+      "A\tdocs/install/PIPD_WEB_FALLBACK.md",
+      "A\tdocs/install/PIPD_WEB_FALLBACK.md.sha256",
+      "M\tdocs/install/README.md",
+      "M\ttests/test_public_plugin_packaging.py",
+      "M\ttools/build_public_plugin.py"
+    ],
+    "pr": "https://github.com/shw097-team/PIPD-LS-SP/pull/5",
+    "supersedes": {
+      "branch": "feat/s4r3-stage-b-distribution-20261013",
+      "head": "c52c219e9e17349e45fac924a4ea6149573e8627",
+      "pr": "https://github.com/shw097-team/PIPD-LS-SP/pull/4",
+      "why": "sibling of the Stage A repairs, not a descendant; did not contain the gates that validate it"
+    },
+    "rewrite_disclosure": {
+      "first_published_head": "2363bf6940f61c196d34ce9f05662467a30b9f96",
+      "rewritten_to": "60273fe3dee54d88250e1588892da72aecd222ac",
+      "method": "--force-with-lease (never a bare --force)",
+      "when": "same round; draft branch; never reviewed, never accepted"
+    }
+  },
+  "frozen_refs_untouched": {
+    "main": "224591431a164ab72a9423cd180e417e8a762403",
+    "v0.1.1-preview.3": "e94cc7f9567acb59de4691ee6166815ac96a9700"
+  },
+  "flags": [
+    "NO_MERGE",
+    "NO_PUBLIC_RELEASE",
+    "S4_FULL_PASS NOT_GRANTED"
+  ]
+}

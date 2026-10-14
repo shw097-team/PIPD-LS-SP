@@ -1,0 +1,86 @@
+C3 REVISION BINDING RECEIPT - ties the allowlist diff to the same revision as the refusal receipts
+generated_utc: 2026-10-13T12:01:47Z
+
+The a12/a13 checker noted the diff compares Stage B at ba27309 while the receipts come from a later
+head. This receipt measures whether that mismatch can change the result, rather than asserting it.
+
+=== blob identity of .github/workflows/public-plugin-verify.yml across the revisions ===
+  e71fee6    blob=7f64a4fddb0f263cb7cedc5f4923d3c31b4ceeb3
+  ba27309    blob=30a7b1a917fb0851fa48ee1b0ba1e6e4cb3ab474
+  9d3845a    blob=30a7b1a917fb0851fa48ee1b0ba1e6e4cb3ab474
+  ee5aa3e    blob=30a7b1a917fb0851fa48ee1b0ba1e6e4cb3ab474
+
+  frozen subject e71fee6 is the baseline; the others are Stage B revisions
+
+=== has .github/workflows/public-plugin-verify.yml changed since the diff was cut? ===
+  git diff --stat ba27309 ee5aa3e -- .github/workflows/public-plugin-verify.yml
+    (empty output above means the file is byte-identical across those two commits)
+
+=== all changes between the diff's revision and the current head ===
+  git diff --name-only ba27309 ee5aa3e
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/HANDOVER_PACK_EXTERNAL_ACCEPTANCE.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A12_A13_A14.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C3_ALLOWLIST_BASELINE_DIFF.txt
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C3_REFUSAL_RECEIPT_DISTILLED.txt
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C4_REFUSAL_TESTS_RUN.log
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C4_REPIN_AND_DECLARED_BASE.txt
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C4_STAGE_B_REFUSAL_TESTS_SOURCE.py
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/FINDING_ALLOWLIST_WIDENED_VS_CLAIM.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C1_C3.json
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C1_C3.json
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_SELFTEST_RECEIPT.json
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/RECEIPT_PACK_C1_C2.json
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/WRITE_SET_GATE_STEP.yml
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/guards/REAL_RECEIPT.txt
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/CITED_PATH_RESOLUTION.json
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/E8_DISPATCH_PARAM_ERROR.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/EXECUTE_STUDY_DRAFT.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/PLAN_LEG_DIVERGENCE.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/RETRIEVAL_CHANNEL_FINDING.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/ROUND_RESULT_FAR_DECISION_STUDY.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/VERIFICATION_LANE_CAPABILITY_BOUNDARY.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest.json
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec.json
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c1_colocated.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_recut.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/draft_sha256.txt
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/far_admission.json
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/invocation_EXECUTE_a2.json
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/packet_execute.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt_capability.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt_execute.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt_verify.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/retrieval_ledger.json
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/stderr_EXECUTE_a2.txt
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/stdout_EXECUTE_a2.txt
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/CAPABILITY_PROBE_A6.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_VERIFY_A5.md
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a3.json
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a4.json
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a5.json
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a6.json
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a3.txt
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a4.txt
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a5.txt
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a6.txt
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a3.txt
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a4.txt
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a5.txt
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a6.txt
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/bundle_guards.py
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/far_admission.py
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/far_run_lane.py
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/make_receipt_pack.py
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/read_ci_for_sha.py
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_dryaudit2.py
+    .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_split_audit.py
+
+=== the allowlist sets re-extracted AT THE CURRENT HEAD, so the diff and the receipts share one revision ===
+  --- e71fee6 ---
+    78:          ALLOWED='^(packaging/public-plugin/|tools/freeze_public_plugin_source\.py$|tools/build_public_plugin\.py$|tools/build_web_fallback\.py$|tests/test_public_plugin_packaging\.py$|tests/test_web_fallback\.py$|docs/install/|docs/adr/|openspec/changes/s4post-triple-upgrade/|\.github/workflows/public-plugin-verify\.yml$|README\.md$|\.hgk/rounds/S4POST-20261012)'
+    79:          DENIED='^(skills/|src/|schemas/|dist/)'
+  --- ee5aa3e ---
+    97:              ALLOWED='^(pyproject\.toml$|setup\.py$|MANIFEST\.in$|src/pipd_ls_sp/workspace\.py$|examples/first-run/run\.(sh|ps1)$|tests/test_web_fallback\.py$|tests/test_standard_wheel_schemas\.py$|tools/cli_smoke\.py$|tools/verify_installed_wheel_registry\.py$|\.github/workflows/(ci|public-plugin-verify)\.yml$|\.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/)'
+    98:              DENIED='^(skills/|schemas/|dist/)'
+    118:              ALLOWED='^(packaging/public-plugin/|tools/freeze_public_plugin_source\.py$|tools/build_public_plugin\.py$|tools/build_web_fallback\.py$|tests/test_public_plugin_packaging\.py$|tests/test_web_fallback\.py$|docs/install/|docs/USER_GUIDE\.md$|docs/adr/|openspec/changes/s4post-triple-upgrade/|\.github/workflows/public-plugin-verify\.yml$|README\.md$|\.hgk/rounds/S4POST-20261012|\.hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/)'
+    119:              DENIED='^(skills/|src/|schemas/|dist/)'

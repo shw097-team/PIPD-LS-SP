@@ -1,0 +1,114 @@
+{
+ "schema": "PIPD-R3-MEASUREMENT-RECEIPTS/1",
+ "as_of_subject": "389d3973da73e5740f0b4d290bacb92d1e8982f8",
+ "as_of_subject_tree": "488d12c1a4bef899f6d38543ab50874d79996e3a",
+ "recorded_at_utc": "2026-10-13T02:22:40+00:00",
+ "why": "Every claim the FAR study presents as MEASURED gets a locatable artifact here, because an independent checker (C12) correctly found pointers missing.",
+ "locator_tool": {
+  "path": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/tools/check_evidence_locators.py",
+  "change": "v2: mask URLs anywhere in the text. The earlier form anchored SKIP at '^', so a URL inside prose was never skipped and was fragmented into a relative candidate ('s://host/a/b.json') - the checker's C6 caught this against my own doc.",
+  "controls": {
+   "negative_ao12": {
+    "exit": 2,
+    "counts": {
+     "RESOLVES_IN_TREE": 0,
+     "EXTERNAL_ONLY": 7,
+     "UNRESOLVABLE": 36,
+     "SHORTHAND_BARE_NAME": 54
+    }
+   },
+   "positive_doc_pair": {
+    "exit": 0,
+    "counts": {
+     "RESOLVES_IN_TREE": 9,
+     "EXTERNAL_ONLY": 0,
+     "UNRESOLVABLE": 0,
+     "SHORTHAND_BARE_NAME": 15
+    }
+   },
+   "far_study": {
+    "exit": 0,
+    "counts": {
+     "RESOLVES_IN_TREE": 0,
+     "EXTERNAL_ONLY": 0,
+     "UNRESOLVABLE": 0,
+     "SHORTHAND_BARE_NAME": 5
+    }
+   },
+   "publication_doc_excluded": {
+    "exit": 2,
+    "counts": {
+     "RESOLVES_IN_TREE": 18,
+     "EXTERNAL_ONLY": 0,
+     "UNRESOLVABLE": 5,
+     "SHORTHAND_BARE_NAME": 25
+    }
+   }
+  },
+  "sha256_committed_blob_LF_form_what_a_clone_measures": "05f3fe138b9c93d96824a4ad5363949ce52f2f98e3e59a2f8fcf89d5f6066ad7",
+  "sha256_original_worktree_CRLF_form": "3787c377d81a3e515550c5a202a64b721bbfd08907ecfe5c2bafed5fbe2d7365",
+  "note": "Round 1 recorded only the CRLF worktree form, and the round-2 checker correctly reported it does not match the committed blob. Both forms are now recorded and labelled; the COMMITTED BLOB is the one a clone measures."
+ },
+ "ADJ1_write_set": {
+  "base": "52542c3",
+  "changed_paths_total": 107,
+  "product_side_paths": 22,
+  "schemas_writes": 0,
+  "src_writes": 0,
+  "sample_product_paths": [
+   ".github/workflows/ci.yml",
+   ".github/workflows/public-plugin-verify.yml",
+   "README.md",
+   "docs/adr/ADR-0001-public-plugin-manifest-and-derivation.md",
+   "docs/install/PIPD_AGENT_INSTALL_PROMPT.md",
+   "docs/install/README.md",
+   "openspec/changes/s4post-triple-upgrade/design.md",
+   "openspec/changes/s4post-triple-upgrade/proposal.md",
+   "openspec/changes/s4post-triple-upgrade/specs/pipd-public-plugin-distribution/spec.md",
+   "openspec/changes/s4post-triple-upgrade/tasks.md",
+   "packaging/public-plugin/OWNER_INPUT_REQUIRED.json",
+   "packaging/public-plugin/assets/.gitignore"
+  ]
+ },
+ "ADJ7_com_ao3_scan": {
+  "invariant_statement": "ZERO product-side files contain the unreviewed extension namespace. Every hit is a record authored inside this round's own directory (including the verifier's own artifacts).",
+  "why_the_count_is_not_quoted": "The file count is not a stable claim: it was 3 at subject 389d3973 and 9 at subject 5351c5fa, because this round keeps documenting the decision. A count that the act of documenting changes must never be presented as a finding; the INVARIANT (zero product-side hits) is the claim, and the round-2 checker independently confirmed both halves.",
+  "history": "Round-1 brief-repair said 1 (wrong). Corrected to 3 at 389d3973 (right for that subject). The round-2 checker measured 9 at 5351c5fa and was right that 3 does not bind a later subject. The number is now retired in favour of the invariant."
+ },
+ "ADJ5_findings_series": {
+  "claim": "WITHDRAWN as a measured series. The round previously cited a 6 -> 3 -> 9 progression; its cited file SELF_ITERATION_AFTER_AO.md is ABSENT from the tree, so the series is NOT re-derivable and is withdrawn (the round-2 checker raised exactly this).",
+  "what_is_locatable_instead": {
+   "artifact": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/ao12/FINDINGS.json",
+   "entries": 9,
+   "verified_by": "the round-2 checker counted 9 entries in this file itself",
+   "statement_that_survives": "At AO12 the harness carried 9 OPEN findings (FCR-003..FCR-008 plus further entries), and those are the items ADJ-5 converts to CR/TT. No progression claim is made."
+  }
+ },
+ "ADJ3_route_and_sid": {
+  "locatable": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/evidence/EVIDENCE_RETURN_PACK.json (sod block) and .hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/MODEL_SUBSTITUTION.md",
+  "honest_limit": "Route/SID observations are the maker's own recordings; the independent lane could NOT re-derive them (it runs as one SID) and said so."
+ },
+ "C3_non_mutation": {
+  "restated": "No new TRACKED or untracked-non-ignored entries. On a FRESH CLONE the suites DO create the three gitignored __pycache__/ directories (src/, tests/, tools/). The earlier blanket 'zero new entries of either kind' held only in a worktree where those caches already existed - it was environment-dependent and is restated here.",
+  "evidence": ".hgk/rounds/S4POST-20261012-postrepair-recheck-and-triple-upgrade/verify/r3/ao_lane/after-status.txt, after-ignored.txt, before-status.txt, before-ignored.txt (the independent lane's own capture)"
+ },
+ "guard_refusal_sets": {
+  "source": "verify/r3/ao_lane_round2/guard-{main,stacked}.log (literal guard output, round-2 lane)",
+  "stacked_base": "52542c395a0f91dc2ba4bd6123acd4cdecd780dc",
+  "stacked_exit": 1,
+  "stacked_refusals": 5,
+  "stacked_refusal_list": [
+   ".github/workflows/ci.yml",
+   ".hgk/rounds/R2-20261009-qualification/execute/candidate",
+   ".hgk/rounds/R2-20261009-qualification/product-repair/pristine-candidate",
+   ".hgk/rounds/R2-20261009-qualification/product-repair/regression-candidate",
+   ".hgk/rounds/R2-20261009-qualification/product-repair/semcheck"
+  ],
+  "stacked_verdict_line": "WRITE_SET_VIOLATION (base 52542c395a0f91dc2ba4bd6123acd4cdecd780dc)",
+  "main_base": "224591431a164ab72a9423cd180e417e8a762403",
+  "main_exit": 1,
+  "main_refusals": 33,
+  "main_verdict_line": "WRITE_SET_VIOLATION (base 224591431a164ab72a9423cd180e417e8a762403)",
+  "correction": "Both round-1 and round-2 briefs listed public-plugin-verify.yml as refused. It is IN the allowlist (ALLOWED regex: \\.github/workflows/public-plugin-verify\\.yml$) and is NOT refused on either base. Fixed in SUBJECT_AND_BASE_DECLARATION.md and DOC_RECONCILIATION_ERRATUM.md; the direction of the conclusion (guard is red on any base) is unchanged."
+ }
+}

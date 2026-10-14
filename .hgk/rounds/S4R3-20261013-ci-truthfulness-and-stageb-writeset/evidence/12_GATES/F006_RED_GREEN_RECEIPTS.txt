@@ -1,0 +1,97 @@
+S4R3-F006: the standard build did not ship the contract registry.
+Every block below is the tail of a file that the named command wrote; nothing was retyped.
+
+[red-before] source: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\pipd-s4r3-exec\red_build.log  sha256=cfc118c90d5304199a8c923d647483043c14778c1f9b7699553042dc463c534d
+  produced by: git archive <frozen parent> -> `python -m build --wheel --no-isolation`
+               -> wheel member listing -> clean-venv `pipd doctor`
+copying build\lib\pipd_ls_sp\cli.py -> build\bdist.win-amd64\wheel\.\pipd_ls_sp
+copying build\lib\pipd_ls_sp\errors.py -> build\bdist.win-amd64\wheel\.\pipd_ls_sp
+copying build\lib\pipd_ls_sp\export_bundle.py -> build\bdist.win-amd64\wheel\.\pipd_ls_sp
+copying build\lib\pipd_ls_sp\pipeline.py -> build\bdist.win-amd64\wheel\.\pipd_ls_sp
+copying build\lib\pipd_ls_sp\profiles.py -> build\bdist.win-amd64\wheel\.\pipd_ls_sp
+copying build\lib\pipd_ls_sp\projection.py -> build\bdist.win-amd64\wheel\.\pipd_ls_sp
+copying build\lib\pipd_ls_sp\registry.py -> build\bdist.win-amd64\wheel\.\pipd_ls_sp
+copying build\lib\pipd_ls_sp\repo_context.py -> build\bdist.win-amd64\wheel\.\pipd_ls_sp
+copying build\lib\pipd_ls_sp\requirements.py -> build\bdist.win-amd64\wheel\.\pipd_ls_sp
+copying build\lib\pipd_ls_sp\util.py -> build\bdist.win-amd64\wheel\.\pipd_ls_sp
+copying build\lib\pipd_ls_sp\validate.py -> build\bdist.win-amd64\wheel\.\pipd_ls_sp
+copying build\lib\pipd_ls_sp\workspace.py -> build\bdist.win-amd64\wheel\.\pipd_ls_sp
+copying build\lib\pipd_ls_sp\__init__.py -> build\bdist.win-amd64\wheel\.\pipd_ls_sp
+running install_egg_info
+Copying src\pipd_ls_sp.egg-info to build\bdist.win-amd64\wheel\.\pipd_ls_sp-0.1.1a3-py3.11.egg-info
+running install_scripts
+creating build\bdist.win-amd64\wheel\pipd_ls_sp-0.1.1a3.dist-info\WHEEL
+creating 'C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\pipd-s4r3-exec\\redout\\.tmp-5xi7y16g\\pipd_ls_sp-0.1.1a3-py3-none-any.whl' and adding 'build\\bdist.win-amd64\\wheel' to it
+adding 'pipd_ls_sp/__init__.py'
+adding 'pipd_ls_sp/cli.py'
+adding 'pipd_ls_sp/errors.py'
+adding 'pipd_ls_sp/export_bundle.py'
+adding 'pipd_ls_sp/pipeline.py'
+adding 'pipd_ls_sp/profiles.py'
+adding 'pipd_ls_sp/projection.py'
+adding 'pipd_ls_sp/registry.py'
+adding 'pipd_ls_sp/repo_context.py'
+adding 'pipd_ls_sp/requirements.py'
+adding 'pipd_ls_sp/util.py'
+adding 'pipd_ls_sp/validate.py'
+adding 'pipd_ls_sp/workspace.py'
+adding 'pipd_ls_sp-0.1.1a3.dist-info/licenses/LICENSE'
+adding 'pipd_ls_sp-0.1.1a3.dist-info/licenses/NOTICE'
+adding 'pipd_ls_sp-0.1.1a3.dist-info/METADATA'
+adding 'pipd_ls_sp-0.1.1a3.dist-info/WHEEL'
+adding 'pipd_ls_sp-0.1.1a3.dist-info/entry_points.txt'
+adding 'pipd_ls_sp-0.1.1a3.dist-info/top_level.txt'
+adding 'pipd_ls_sp-0.1.1a3.dist-info/RECORD'
+removing build\bdist.win-amd64\wheel
+Successfully built pipd_ls_sp-0.1.1a3-py3-none-any.whl
+
+[green-after] source: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\pipd-s4r3-exec\f006_gate_tests.log  sha256=c807a717cb90b8d92248e67f797b08378104a64c944d7cd7c77670c54bbf100c
+  produced by: `python -m unittest tests.test_standard_wheel_schemas -v`
+test_mirror_refuses_a_missing_registry (tests.test_standard_wheel_schemas.MirrorHelperTests.test_mirror_refuses_a_missing_registry) ... ok
+test_mirror_refuses_a_registry_naming_an_absent_schema (tests.test_standard_wheel_schemas.MirrorHelperTests.test_mirror_refuses_a_registry_naming_an_absent_schema) ... ok
+test_mirror_refuses_an_undeclared_schema_file (tests.test_standard_wheel_schemas.MirrorHelperTests.test_mirror_refuses_an_undeclared_schema_file) ... ok
+test_mirror_reproduces_the_registry_byte_for_byte (tests.test_standard_wheel_schemas.MirrorHelperTests.test_mirror_reproduces_the_registry_byte_for_byte) ... ok
+test_negative_control_without_the_hook_the_wheel_cannot_resolve_its_registry (tests.test_standard_wheel_schemas.StandardBuildTests.test_negative_control_without_the_hook_the_wheel_cannot_resolve_its_registry)
+If the hook is dropped the surface must degrade -- otherwise this module proves nothing. ... ok
+test_wheel_ships_the_registry_and_resolves_it_when_installed (tests.test_standard_wheel_schemas.StandardBuildTests.test_wheel_ships_the_registry_and_resolves_it_when_installed) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 8.123s
+
+OK
+
+[sdist route] source: C:\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\pipd-s4r3-exec\sdist_to_wheel.json  sha256=12b56318a7bad4d5f75a281a32ee1a28374230b4368d80b3d5a73b6d476c5f07
+{
+  "sdist_build_rc": 0,
+  "sdist": "pipd_ls_sp-0.1.1a3.tar.gz",
+  "sdist_schema_members": 20,
+  "extracted_root": "pipd_ls_sp-0.1.1a3",
+  "wheel_from_sdist_rc": 0,
+  "wheel_from_sdist": "pipd_ls_sp-0.1.1a3-py3-none-any.whl",
+  "install_rc": 0,
+  "doctor_exit_code": 0,
+  "doctor_verdict": "PASS",
+  "doctor_mode": "INSTALLED",
+  "doctor_families": 19
+}
+
+A LATER, FAILED RE-ATTEMPT AT THE SAME ROUTE, kept because it consumed round time and because a reader
+who finds the empty `sdisttest/ext` directory should not have to guess why. This attempt drove the
+extraction with the shell's `tar` instead of the Python path the receipt above used:
+
+  command (abridged): tar -xzf "$SCR/sdisttest/sdist/pipd_ls_sp-0.1.1a3.tar.gz"
+  output:
+    tar (child): Cannot connect to C: resolve failed
+    gzip: stdin: unexpected end of file
+    tar: Child returned status 128
+    tar: Error is not recoverable: exiting now
+  consequence: no wheel was built from the sdist in that attempt, so `sdisttest/ext` is empty and the
+  two log paths that attempt referenced were never created.
+
+  reading, stated plainly: MSYS `tar` parses the drive letter in `C:/...` as a REMOTE HOST
+  (`host:path`), so it tried to reach a host named `C`. This is a defect in the shell invocation, not
+  in the artefact and not in the earlier receipt: the receipt above was produced by
+  `verify_sdist_to_wheel.py`, which uses Python's own tarfile/stdlib path handling and needs no
+  path translation. The sdist route therefore REMAINS verified by the receipt above; the failed
+  re-attempt adds no evidence either way and is recorded only so the empty directory is explained.
+

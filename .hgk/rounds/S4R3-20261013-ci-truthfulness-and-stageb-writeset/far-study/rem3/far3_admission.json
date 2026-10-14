@@ -1,0 +1,106 @@
+{
+  "step": "s4r3_far3_closure_admission",
+  "base_head_at_admission": "1f94f834897452f52deb74049e8f4efc7dadc4ad",
+  "admitted": [
+    {
+      "requirement_id": "REQ-S4R3FAR3-CLOSURE-HANDOVER-001",
+      "taskspec": "TS-req-s4r3far3-closure-handover-001",
+      "workorder": "WO-TS-req-s4r3far3-closure-handover-001",
+      "writer": "codex",
+      "base_head": "1f94f834897452f52deb74049e8f4efc7dadc4ad"
+    },
+    {
+      "requirement_id": "REQ-S4R3FAR3-CLOSURE-VERIFY-002",
+      "taskspec": "TS-req-s4r3far3-closure-verify-002",
+      "workorder": "WO-TS-req-s4r3far3-closure-verify-002",
+      "writer": "codex-cli-verify-lane",
+      "base_head": "1f94f834897452f52deb74049e8f4efc7dadc4ad"
+    }
+  ],
+  "errors": [],
+  "readback": {
+    "requirements": [
+      {
+        "id": "REQ-S4R3FAR3-CLOSURE-HANDOVER-001",
+        "state": "FROZEN"
+      },
+      {
+        "id": "REQ-S4R3FAR3-CLOSURE-VERIFY-002",
+        "state": "FROZEN"
+      }
+    ],
+    "taskspecs": [
+      {
+        "id": "TS-req-s4r3far3-closure-handover-001",
+        "state": "ADMITTED",
+        "owner": "FAR3-CLOSURE-EXECUTE"
+      },
+      {
+        "id": "TS-req-s4r3far3-closure-verify-002",
+        "state": "ADMITTED",
+        "owner": "EXTERNAL-VERIFY-LANE"
+      }
+    ],
+    "workorders": [
+      {
+        "id": "WO-TS-req-s4r3far3-closure-handover-001",
+        "state": "CREATED",
+        "writer": "codex",
+        "base_head": "1f94f834897452f52deb74049e8f4efc7dadc4ad"
+      },
+      {
+        "id": "WO-TS-req-s4r3far3-closure-verify-002",
+        "state": "CREATED",
+        "writer": "codex-cli-verify-lane",
+        "base_head": "1f94f834897452f52deb74049e8f4efc7dadc4ad"
+      }
+    ],
+    "total_workorders": 414
+  },
+  "readback_ok": true,
+  "status_after": {
+    "project_id": "PIPD-LS-SP-20261008",
+    "run_id": "RUN-DC744863",
+    "state": "EXECUTING",
+    "goal_hash": "850bb719debcab486c6c948b2ab537cf0fd189d795b68380b632e80a943008b0",
+    "source_count": 48,
+    "current_workorder": null,
+    "last_checkpoint": "CK-20261008-7209263C",
+    "attempt_budget": 3,
+    "attempts_used": 0,
+    "repair_count": 0,
+    "updated_at": "2026-10-13T09:29:17.610997Z",
+    "recent_transitions": [
+      {
+        "from": "WORKORDERS_ADMITTED",
+        "to": "EXECUTING",
+        "trigger": "GOVERNED_ADMISSION",
+        "at": "2026-10-08T14:07:30.640231Z"
+      },
+      {
+        "from": "PLAN_READY",
+        "to": "WORKORDERS_ADMITTED",
+        "trigger": "WORKORDER_AUTO_ADMISSION",
+        "at": "2026-10-08T14:07:14.825967Z"
+      },
+      {
+        "from": "REQUIREMENTS_READY",
+        "to": "DESIGN_READY",
+        "trigger": "GOVERNED_ADMISSION",
+        "at": "2026-10-08T14:07:08.479541Z"
+      },
+      {
+        "from": "INTENT_BOUND",
+        "to": "REQUIREMENTS_READY",
+        "trigger": "GOVERNED_ADMISSION",
+        "at": "2026-10-08T14:07:08.289500Z"
+      },
+      {
+        "from": "SOURCE_ADMISSION",
+        "to": "INTENT_BOUND",
+        "trigger": "GOVERNED_ADMISSION",
+        "at": "2026-10-08T14:07:08.086429Z"
+      }
+    ]
+  }
+}

@@ -1,0 +1,461 @@
+name: public-plugin-verify
+
+# Read-only verification of the S4POST Stage B upgrade (the public-plugin projection, the web
+# fallback and the install routes). It grants nothing: a green run here is NOT a portal approval,
+# NOT a publication, NOT a host qualification and NOT an S4 acceptance — see
+# docs/install/README.md, "States that are NOT the same".
+#
+# Triggers are pull_request and workflow_dispatch only. There is deliberately no privileged
+# pull-request trigger (the token for `pull_request` from a fork is read-only, which is the point),
+# no configured secret is read, no repository write, no tag and no publish step. The name of the
+# forbidden privileged trigger is intentionally not written anywhere in this file, so a plain grep
+# for it returns nothing.
+# The PR path filter also lists pre-existing paths this job happens to touch (docs/RELEASE_TUPLE.json,
+# dist/mount/**); that filter decides WHEN the job runs, it is NOT the write-set allowlist - the
+# allowlist is enforced by the "wrote only inside its allowed set" step below.
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/public-plugin-verify.yml"
+      - "README.md"
+      - "docs/install/**"
+      - "docs/USER_GUIDE.md"
+      - "docs/RELEASE_TUPLE.json"
+      - "packaging/public-plugin/**"
+      - "tools/freeze_public_plugin_source.py"
+      - "tools/build_public_plugin.py"
+      - "tools/build_web_fallback.py"
+      - "tests/test_public_plugin_packaging.py"
+      - "tests/test_web_fallback.py"
+      - "dist/mount/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-plugin-verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the frozen subject
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          persist-credentials: false
+          # full history + tags: the release-identity gate re-derives the release tags with
+          # `git rev-parse <tag>^{commit}`, and the "wrote no frozen path" step needs the base sha.
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: "3.11"
+
+      - name: Prove the upgrade wrote only inside its allowed set
+        # Positive allowlist, not a frozen-path blacklist: a change outside the set fails even if it
+        # is harmless, and dist/ is denied explicitly. Measured as AO-03 of the round's independent
+        # acceptance challenge, which showed the earlier blacklist-only guard let dist/ and arbitrary
+        # non-frozen paths through.
+        #
+        # S4R3-F002 REPAIR, second iteration. The first repair moved the scope base off the pull
+        # request's base branch for the Stage B copy only, so the Stage A branch was still measured as
+        # main...HEAD - the whole triple-upgrade surface - and went red on paths Stage A never wrote,
+        # reporting UPGRADE_WROTE_OUTSIDE_ALLOWED_SET about a range nobody was governing. The write set
+        # that this gate may judge is the write set of the STAGE THE BRANCH IS. The branch therefore
+        # declares its stage, its declared base must be an ancestor of the subject, and the pull
+        # request base is printed as context that is explicitly NOT the governed set.
+        #
+        # The two stages have deliberately different, non-overlapping write sets. Stage A repairs the
+        # pipeline (the CI exit-code truthfulness guard, the packaging build, the first-run examples,
+        # the smoke test) and must be able to write src/ and the workflows; Stage B ships the
+        # distribution surface and must not go near src/, schemas/ or dist/. Each stage is enumerated
+        # file by file or by its own narrow prefix, and the classifier's self-test below still proves
+        # that planted violations are REFUSED.
+        #
+        # Scope of the DENIED continuity, stated precisely because the earlier wording overstated it:
+        # the frozen-path denial is unchanged for the stage-b set, whose DENIED omits nothing. The
+        # stage-a arm deliberately ALLOWS src/, so "the denials are unchanged" is a statement about
+        # the stage-b set and must not be read as uniform across the two stages.
+        #
+        # Allowlist disclosure, measured rather than asserted (locator:
+        # evidence/12_GATES/ALLOWLIST_MINIMUM_MEASUREMENT.json, at the revision this file carries):
+        # against the frozen subject the stage-b set carries exactly ONE addition, `docs/USER_GUIDE.md`,
+        # and the governed diff is measured to require it - removing it makes that path UNLISTED and
+        # this gate would refuse a path Stage B legitimately ships. This file previously claimed that
+        # the change widened NEITHER allowlist; that claim was false and is withdrawn here.
+        #
+        # The round's own evidence tree is not in either allowlist. `.hgk/**` is excluded from the
+        # governed PRODUCT write set by declaration (EXCLUDED_PREFIXES below), printed and counted in
+        # this step's output. The earlier arrangement instead listed the round directory inside the
+        # allowlist, which had this gate permit writes to the tree holding its own receipts; an
+        # exclusion a reviewer can read beats a permission a reviewer has to notice.
+        env:
+          # Which stage this branch IS. This single line is the ONLY difference between the Stage A
+          # and Stage B copies of this file; flipping it must never be combined with a new file added
+          # to the allowlist in the same commit, or the pair stops being reviewable.
+          STAGE: stage-b
+          # Stage A's declared base: the frozen R3 subject the external acceptance report examined.
+          STAGE_A_BASE_SHA: e71fee6dd3aa73724baec4e8d9cc72127fbe36ed
+          # Stage B's declared base: the Stage A tip that Stage B is stacked on. Taken by ref so it
+          # does not need editing every time the Stage A tip moves; the sha it resolves to is printed
+          # below and is the value an auditor should cite.
+          STAGE_B_BASE_REF: fix/s4r3-stage-a-ci-truthfulness-20261013
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          case "${STAGE}" in
+            stage-a)
+              BASE="${STAGE_A_BASE_SHA}"
+              ALLOWED='^(pyproject\.toml$|setup\.py$|MANIFEST\.in$|src/pipd_ls_sp/workspace\.py$|examples/first-run/run\.(sh|ps1)$|tests/test_web_fallback\.py$|tests/test_standard_wheel_schemas\.py$|tools/cli_smoke\.py$|tools/verify_installed_wheel_registry\.py$|\.github/workflows/(ci|public-plugin-verify)\.yml$)'
+              DENIED='^(skills/|schemas/|dist/)'
+              REFUSED_PLANTS='skills/pipd-core/SKILL.md schemas/TraceLink.schema.json dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl src/pipd_ls_sp/cli.py tools/build_public_plugin.py'
+              ALLOWED_PLANTS='src/pipd_ls_sp/workspace.py pyproject.toml setup.py tests/test_web_fallback.py tools/verify_installed_wheel_registry.py'
+              ;;
+            stage-b)
+              # Resolved by ref, not by a literal: a literal would have to be edited every time the
+              # Stage A tip moves, and editing it is exactly the step that silently stops happening.
+              # The borrowed ref name makes the base follow Stage A, and the resolved sha is printed
+              # below. Verified fact, not an assumption: actions/checkout fetches
+              # `+refs/heads/*:refs/remotes/origin/*`, so `origin/<branch>` is present on every run
+              # (the fetch command is visible in the checkout step of run 38363888153).
+              # Consequence, stated plainly: if Stage A advances, this branch goes red with
+              # BASE_NOT_ANCESTOR until it is re-stacked. That is the invariant, not an accident.
+              BASE="$(git rev-parse --verify --quiet "refs/heads/${STAGE_B_BASE_REF}" \
+                   || git rev-parse --verify --quiet "refs/remotes/origin/${STAGE_B_BASE_REF}" \
+                   || true)"
+              if [ -z "${BASE}" ]; then
+                echo "STAGE_B_BASE_UNRESOLVED: neither refs/heads/${STAGE_B_BASE_REF} nor refs/remotes/origin/${STAGE_B_BASE_REF} is present in this checkout; refusing to guess a write-set base" >&2
+                exit 1
+              fi
+              ALLOWED='^(packaging/public-plugin/|tools/freeze_public_plugin_source\.py$|tools/build_public_plugin\.py$|tools/build_web_fallback\.py$|tests/test_public_plugin_packaging\.py$|tests/test_web_fallback\.py$|docs/install/|docs/USER_GUIDE\.md$|docs/adr/|openspec/changes/s4post-triple-upgrade/|\.github/workflows/public-plugin-verify\.yml$|README\.md$)'
+              DENIED='^(skills/|src/|schemas/|dist/)'
+              REFUSED_PLANTS='skills/pipd-core/SKILL.md schemas/TraceLink.schema.json dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl src/pipd_ls_sp/validate.py'
+              ALLOWED_PLANTS='docs/install/PIPD_WEB_FALLBACK.md docs/USER_GUIDE.md README.md packaging/public-plugin/plugin.json'
+              ;;
+            *)
+              echo "STAGE_UNDECLARED: this workflow must declare STAGE as stage-a or stage-b; it will not guess which write set applies to this subject" >&2
+              exit 1
+              ;;
+          esac
+          # Declared exclusion, not a permission. `.hgk/` is the governance scaffolding tree: this
+          # round's admission records, receipts, study and re-derivation tools. It is not product, and
+          # it is excluded here so both allowlists enumerate product paths only. Excluded paths are
+          # counted and printed below, and the self-test proves no product path can reach this prefix.
+          EXCLUDED_PREFIXES='^\.hgk/'
+          echo "=== governed ${STAGE} write set (${BASE}...HEAD) ==="
+          if [ -n "${PR_BASE_SHA}" ] && git cat-file -e "${PR_BASE_SHA}^{commit}" 2>/dev/null; then
+            echo "--- CONTEXT ONLY, not a governed write set: pull request base ${PR_BASE_SHA}...HEAD ---"
+            git diff --name-only "${PR_BASE_SHA}...HEAD" || true
+            echo "--- end context inventory ---"
+          fi
+          if ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then
+            echo "BASE_UNRESOLVED: ${BASE} is not present in this checkout; refusing to guess" >&2
+            exit 1
+          fi
+          if ! git merge-base --is-ancestor "${BASE}" HEAD; then
+            echo "BASE_NOT_ANCESTOR: ${BASE} is not an ancestor of HEAD; the declared ${STAGE} base does not belong to this subject" >&2
+            exit 1
+          fi
+          CHANGED="$(git diff --name-only "${BASE}...HEAD")"
+          if [ -z "${CHANGED}" ]; then
+            echo "SCOPE_EMPTY: HEAD IS the declared ${STAGE} base, so there is no ${STAGE} write set to judge."
+            echo "This run says nothing about a ${STAGE} write set; only the tree-level steps below say"
+            echo "anything about this subject, and they must not be cited as a ${STAGE} write-set verdict."
+          else
+            printf '%s\n' "${CHANGED}"
+          fi
+          bad=0
+          excluded=0
+          excluded_list=""
+          while IFS= read -r path; do
+            [ -n "$path" ] || continue
+            # A path segment of `..` is refused before any pattern test. The allowlist is anchored
+            # regexes, so `<round>/../evil.sh` would classify as inside the round's evidence directory
+            # while resolving outside it. `git diff --name-only` never emits `..` for git-tracked
+            # paths, so this is defence in depth rather than a live hole - asserted by the plant below
+            # so it cannot silently rot.
+            case "/$path/" in
+              */../*)
+                echo "UPGRADE_WROTE_PATH_TRAVERSAL: $path" >&2
+                bad=1
+                continue
+                ;;
+            esac
+            # Exclusion is tested AFTER the traversal refusal so a `/../` path cannot hide inside the
+            # excluded prefix: scaffolding paths are skipped here, never silently accepted downstream.
+            if printf '%s' "$path" | grep -Eq "$EXCLUDED_PREFIXES"; then
+              excluded=$((excluded + 1))
+              excluded_list="${excluded_list}${path}"$'\n'
+              continue
+            fi
+            if printf '%s' "$path" | grep -Eq "$DENIED"; then
+              echo "UPGRADE_WROTE_FROZEN_PATH: $path" >&2
+              bad=1
+            elif ! printf '%s' "$path" | grep -Eq "$ALLOWED"; then
+              echo "UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: $path" >&2
+              bad=1
+            fi
+          done <<< "${CHANGED}"
+          echo "EXCLUDED_BY_DECLARATION (${EXCLUDED_PREFIXES}) from the governed PRODUCT write set: ${excluded} path(s)"
+          if [ -n "${excluded_list}" ]; then printf '%s' "${excluded_list}" | sed 's/^/  excluded: /'; fi
+          # Self-test of the classifier ITSELF (the S4R3-F002 retest requirement: a repaired gate must
+          # demonstrably still refuse, otherwise a gate that accepts everything and a gate that refuses
+          # everything look identical from the outside).
+          for planted in ${REFUSED_PLANTS}; do
+            if printf '%s' "$planted" | grep -Eq "$ALLOWED" && ! printf '%s' "$planted" | grep -Eq "$DENIED"; then
+              echo "GATE_SELF_TEST_FAILED: ${planted} would have been ACCEPTED" >&2
+              exit 1
+            fi
+          done
+          for planted in ".hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/../evil.sh" "docs/install/../../src/pipd_ls_sp/validate.py"; do
+            case "/$planted/" in
+              */../*) echo "GATE_SELF_TEST_OK: ${planted} is refused as a traversal path" ;;
+              *) echo "GATE_SELF_TEST_FAILED: ${planted} would have been accepted" >&2; exit 1 ;;
+            esac
+          done
+          echo "GATE_SELF_TEST_OK: planted frozen-path violations and unlisted src/** are all refused"
+          for planted in ${ALLOWED_PLANTS}; do
+            if printf '%s' "$planted" | grep -Eq "$DENIED" || ! printf '%s' "$planted" | grep -Eq "$ALLOWED"; then
+              echo "GATE_SELF_TEST_FAILED: ${planted} would have been REFUSED" >&2
+              exit 1
+            fi
+          done
+          # The declared exclusion must be unreachable from every product path; otherwise it would be
+          # a blanket escape and the classifier would judge less than it prints.
+          for planted in ${ALLOWED_PLANTS} ${REFUSED_PLANTS}; do
+            if printf '%s' "$planted" | grep -Eq "$EXCLUDED_PREFIXES"; then
+              echo "GATE_SELF_TEST_FAILED: product path ${planted} would have been EXCLUDED" >&2
+              exit 1
+            fi
+          done
+          if ! printf '%s' ".hgk/rounds/example-round/evidence/12_GATES/x.json" | grep -Eq "$EXCLUDED_PREFIXES"; then
+            echo "GATE_SELF_TEST_FAILED: the declared exclusion does not match the scaffolding tree" >&2
+            exit 1
+          fi
+          echo "GATE_SELF_TEST_OK: the declared exclusion matches scaffolding only and no product path"
+          echo "GATE_SELF_TEST_OK: planted ${STAGE} artefacts are all allowed"
+          if [ "$bad" -ne 0 ]; then
+            echo "WRITE_SET_VIOLATION (${STAGE} base ${BASE})" >&2
+            exit 1
+          fi
+          echo "WRITE_SET_CLEAN_AGAINST_${BASE}"
+
+      - name: Compile the three upgrade tools
+        # Nothing is installed for this step: the three tools import the standard library only.
+        run: |
+          python -m py_compile \
+            tools/freeze_public_plugin_source.py \
+            tools/build_public_plugin.py \
+            tools/build_web_fallback.py
+          echo "PY_COMPILE_OK"
+
+      - name: Assert the upgrade is stdlib-only (no third-party import)
+        # WHY THERE IS NO `pip install -r <file>` FOR THE UPGRADE IN THIS WORKFLOW: the three tools
+        # and the two new test modules import the standard library only, so there is no requirements
+        # file for them to pull — none exists. This step enforces that claim fail-closed, so a later
+        # third-party import fails the gate instead of silently needing a dependency.
+        run: |
+          python - <<'PY'
+          import ast
+          import sys
+          from pathlib import Path
+
+          TARGETS = (
+              "tools/freeze_public_plugin_source.py",
+              "tools/build_public_plugin.py",
+              "tools/build_web_fallback.py",
+              "tests/test_public_plugin_packaging.py",
+              "tests/test_web_fallback.py",
+          )
+          # The repository's own modules plus its package/test roots are not third-party.
+          OWN = {
+              "tools", "tests",
+              "freeze_public_plugin_source", "build_public_plugin", "build_web_fallback",
+              "pipd_ls_sp",
+          }
+          stdlib = set(sys.stdlib_module_names)
+          offenders = []
+          for rel in TARGETS:
+              path = Path(rel)
+              if not path.is_file():
+                  offenders.append(f"{rel}: MISSING (the upgrade is incomplete)")
+                  continue
+              tree = ast.parse(path.read_text(encoding="utf-8"), filename=rel)
+              for node in ast.walk(tree):
+                  if isinstance(node, ast.Import):
+                      roots = [alias.name.split(".")[0] for alias in node.names]
+                  elif isinstance(node, ast.ImportFrom) and node.level == 0 and node.module:
+                      roots = [node.module.split(".")[0]]
+                  else:
+                      continue
+                  for root in roots:
+                      if root not in stdlib and root not in OWN:
+                          offenders.append(f"{rel}: {root}")
+          if offenders:
+              print("NON_STDLIB_IMPORT:")
+              for entry in offenders:
+                  print(f"  {entry}")
+              raise SystemExit(1)
+          print("STDLIB_ONLY_OK")
+          PY
+
+      - name: The two new test modules pass with no third-party dependency installed
+        # Almost the strictest form of "the upgrade pulls no requirement": this runs BEFORE anything
+        # is installed, so a third-party import in either module fails here rather than being masked
+        # by an environment that happens to have the package.
+        run: |
+          set -euo pipefail
+          python -m unittest tests.test_public_plugin_packaging tests.test_web_fallback -v \
+            2>&1 | tee upgrade-tests.log
+
+      - name: Install the project's own declared runtime dependency only
+        # The ONLY installation in this workflow, and it exists for the pre-existing suite, not for
+        # the upgrade. It resolves the project's own declared closure from pyproject metadata; no
+        # ad-hoc requirements file is pulled, and `requirements.lock` (which records the closure as
+        # installed, is NOT hash-pinned, and is therefore not an install recipe) is not used here.
+        # `[test]` adds PyYAML, which the pre-existing skill-contract tests need (S4R3-F001); the
+        # upgrade's own two modules are still proven stdlib-only by the earlier step, which runs
+        # with nothing installed at all.
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[test]"
+          python -m pip freeze | tee resolved-deps.txt
+
+      - name: Full unittest suite (raw log)
+        # S4R3-F001: `... | tee full-unittest.log` returned tee's status, so this step could pass
+        # while its own log read FAILED (failures=11). pipefail makes the step carry the suite's
+        # exit code.
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s tests -t . -v 2>&1 | tee full-unittest.log
+
+      - name: Negative — a mutated pack document must fail the identity binding
+        # FAIL-CLOSED: the failure MOTIVE must be the identity binding, not merely a non-zero exit.
+        # (a) the gate is green first, (b) a pack document is mutated, (c) the re-run must contain a
+        # real `FAIL:` line whose motive names the release-identity fields. A deleted module, an
+        # import error or a collection error exits non-zero too, and must NOT satisfy this step.
+        env:
+          PACK: dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3
+        run: |
+          set -euo pipefail
+
+          # (a) green first — a gate that is already red must not be read as "the mutation was caught".
+          python -m unittest tests.test_s4ext_release_provenance 2>&1 | tee pre-mutation.log
+          grep -qE "^OK" pre-mutation.log
+
+          # (b) mutate the pack DOCUMENT: replace the release identity it stamps with a wrong one.
+          python - <<'PY'
+          from pathlib import Path
+          doc = Path("dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3/README_MOUNT.md")
+          text = doc.read_text(encoding="utf-8")
+          mutated = text.replace("cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a", "0" * 40)
+          assert mutated != text, "the mutation fixture no longer matches the checked-in document"
+          doc.write_text(mutated, encoding="utf-8")
+          PY
+
+          set +e
+          python -m unittest tests.test_s4ext_release_provenance > mutation-run.log 2>&1
+          status=$?
+          set -e
+          git checkout -- "$PACK"
+          if [ -n "$(git status --porcelain "$PACK")" ]; then
+            echo "RESTORE_FAILED: the mutated pack document was not restored" >&2
+            exit 1
+          fi
+
+          # (c) fail closed on every way this step could "pass" without exercising the binding.
+          if [ "$status" -eq 0 ]; then
+            echo "MUTATION_ACCEPTED: the identity binding passed a tampered pack document" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          if ! grep -qE "^FAIL:" mutation-run.log; then
+            echo "GATE_NOT_EXERCISED: no real test failure (deleted module, import error or collection error)" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          if grep -qE "ModuleNotFoundError|ImportError|No module named" mutation-run.log; then
+            echo "GATE_NOT_EXERCISED: the run failed on an import/collection error, not on the binding" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          if ! grep -qE "does not carry|foreign release object" mutation-run.log; then
+            echo "MUTATION_REFUSAL_MOTIVE_UNEXPECTED: the failure is not the identity binding" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          if ! grep -qE "release_tag_target|build_source_commit" mutation-run.log; then
+            echo "MUTATION_REFUSAL_MOTIVE_UNEXPECTED: the failure does not name the identity fields" >&2
+            tail -30 mutation-run.log >&2
+            exit 1
+          fi
+          echo "MUTATION_REFUSED_ON_IDENTITY_BINDING"
+
+      - name: Negative — the fallback builder must refuse a pack whose bytes drifted from MANIFEST.sha256
+        # Second half of the same binding, exercised through the upgrade's OWN tool: the byte
+        # binding (a member's bytes against MANIFEST.sha256) and the identity stamp it embeds.
+        env:
+          RELEASE_ID: v0.1.1-preview.3
+          RELEASE_COMMIT: cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a
+          PACK: dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3
+        run: |
+          set -euo pipefail
+          # A RELATIVE work dir under the workspace, so the shell and the tool resolve the SAME
+          # directory on any runner (no dependence on /tmp being shared).
+          WORK=".public-plugin-verify-work"
+          rm -rf "$WORK"
+          mkdir -p "$WORK"
+          trap 'rm -rf "$WORK"' EXIT
+
+          # green first: the untouched frozen pack must project into ONE DOC_MOUNT_ONLY document.
+          python tools/build_web_fallback.py \
+            --mount-pack "$PACK" \
+            --release-id "$RELEASE_ID" \
+            --release-commit "$RELEASE_COMMIT" \
+            --out "$WORK/fallback.md" 2>&1 | tee fallback-green.log
+          grep -q "DOC_MOUNT_ONLY" fallback-green.log
+
+          # mutate a COPY's member bytes so they no longer match the pack's own MANIFEST.sha256.
+          mkdir -p "$WORK/evil"
+          cp -r "$PACK/." "$WORK/evil/"
+          printf '\n<!-- tampered: these bytes no longer match MANIFEST.sha256 -->\n' >> "$WORK/evil/SKILL.md"
+
+          set +e
+          python tools/build_web_fallback.py \
+            --mount-pack "$WORK/evil" \
+            --release-id "$RELEASE_ID" \
+            --release-commit "$RELEASE_COMMIT" \
+            --out "$WORK/evil-fallback.md" > fallback-refusal.log 2>&1
+          status=$?
+          set -e
+          cat fallback-refusal.log
+
+          if [ "$status" -eq 0 ]; then
+            echo "MUTATION_ACCEPTED: the fallback builder accepted a pack whose bytes drifted" >&2
+            exit 1
+          fi
+          if ! grep -q "REFUSED MANIFEST_DIGEST_MISMATCH" fallback-refusal.log; then
+            echo "MUTATION_REFUSAL_MOTIVE_UNEXPECTED: the refusal is not the byte binding (MANIFEST.sha256)" >&2
+            exit 1
+          fi
+          echo "BYTE_DRIFT_REFUSED_ON_MANIFEST_BINDING"
+
+      - name: Upload raw logs
+        if: always()
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b  # v4.5.0
+        with:
+          name: public-plugin-verify-raw-logs
+          path: |
+            resolved-deps.txt
+            upgrade-tests.log
+            full-unittest.log
+            pre-mutation.log
+            mutation-run.log
+            fallback-green.log
+            fallback-refusal.log
+          if-no-files-found: warn

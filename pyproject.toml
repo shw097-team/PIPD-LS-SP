@@ -7,6 +7,20 @@ dependencies = ["jsonschema>=4.0"]
 license = "Apache-2.0"
 license-files = ["LICENSE", "NOTICE"]
 
+[project.optional-dependencies]
+# TEST-ONLY dependency (S4R3-F001). The suite's skill-contract tests drive
+# tools/skill_pack_check.py, which parses skills/*/tests/cases.yaml with PyYAML. The shipped CLI
+# never imports yaml, so PyYAML is deliberately NOT a runtime dependency; CI installs
+# `pip install -e ".[test]"`. When it is absent the checker still fails closed with a typed
+# TOOL_MISSING refusal — that refusal is the correct behaviour and is asserted by the suite, but a
+# gate must not be red merely because the test extra was never installed.
+# `build`/`setuptools`/`wheel` are TEST-ONLY as well (S4R3-F006). tests/test_standard_wheel_schemas.py
+# performs a real backend-driven `python -m build --wheel --no-isolation` and then installs that wheel
+# into a throwaway directory to prove the installed package resolves its OWN contract registry. The
+# shipped CLI needs none of this; the smoke path does. When they are absent the test SKIPS with an
+# explicit reason instead of silently passing, and CI installs this extra so it actually runs.
+test = ["pyyaml>=6.0", "build>=1.2", "setuptools>=68", "wheel"]
+
 [project.scripts]
 pipd = "pipd_ls_sp.cli:main"
 
@@ -14,10 +28,17 @@ pipd = "pipd_ls_sp.cli:main"
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
-# NOTE (honesty): the shipped wheel is HAND-BUILT by tools/build_dist.py (PEP 427) because this
-# environment is network-off with no build backend available at build time. The declarations below
-# are not used by that offline build; they exist so any future backend-driven build produces the
-# same install-safe layout — the `schemas/` tree mapped into the package as package data.
+# NOTE (honesty, S4R3-F006): the shipped wheel is HAND-BUILT by tools/build_dist.py (PEP 427) because
+# this environment is network-off with no build backend available at build time. That hand-built
+# wheel maps `schemas/` into the package explicitly and is self-sufficient.
+# The declarations below describe the same intent for a BACKEND-DRIVEN build, but they are NOT by
+# themselves sufficient: `package-data` can only reach data already inside a package directory, and
+# the canonical `schemas/` tree sits at the repository root, outside `src/pipd_ls_sp/`. A previous
+# revision of this comment claimed these declarations were enough; they were not, and `python -m
+# build` shipped a wheel with an empty `pipd_ls_sp/schemas/` (F006). The mapping is therefore
+# performed and ASSERTED by the `build_py` hook in `setup.py` via `tools/schema_package_mirror.py`;
+# `MANIFEST.in` keeps the same tree in the sdist so an sdist->wheel build behaves identically.
+# Do not delete setup.py while this tree layout is in use.
 # R5Q: the wheel's own METADATA is emitted by tools/build_dist.py, which now reads the SPDX
 # identifier from OWNER_LICENSE_DECISION.yaml (single source of truth) and packs LICENSE + NOTICE
 # into <dist-info>/licenses/ per PEP 639, so the granted licence travels with the binary rather
