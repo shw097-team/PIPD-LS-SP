@@ -21,6 +21,7 @@ each thing lives. Shell-level installation detail has exactly one home and is no
 | New, and you want to know what this is / is not | [What it does, and does not](#what-is-in-this-tree) | Scope and non-goals |
 | Checking whether it is safe to build on | [Claim ceiling](#claim-ceiling) · [Known limitations](#known-limitations) | What is verified, what is not |
 | Installing it, by either route | [`docs/install/README.md`](docs/install/README.md) | **The single install SSOT** — versions, hashes, uninstall |
+| Want a private ChatGPT plugin (no directory listing) | [Private plugin route](#install) | ZIP download + four UI steps, verified 2026-10-14 |
 | Actually using it, task by task | [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md) | **The single user guide** — the only manual |
 | Driving the CLI/Wheel directly | [CLI advanced](#choose-your-path-cli-or-skills) | 13 verbs, JSON output, typed refusals |
 
@@ -31,6 +32,13 @@ two disagree, [`docs/install/README.md`](docs/install/README.md) and the [user g
 win.
 
 ## Verification entry point — candidate on `feat/s4post-triple-upgrade-20261013-r3`
+
+**Current for this round (2026-10-14):** the plugin candidate is
+`feat/s4r5y-plugin-publication-20261014` @ `062d84ae3e951d02b2ba6bb732359b18799d2864` (draft PR #6 →
+`main`): a Skills-only ZIP whose manifest carries the official listing fields, with the private-install
+evidence beside it. The conformance answer to the R4 command prompt and to the 2026-10-13 acceptance
+report is in `PIPD_S4_R5Z_SESSION_CONFORMANCE_RETURN/`, and the R4 closeout receipts are in
+`PIPD_S4_R4_EVIDENCE_RETURN/`. The R3/S4POST text below is kept as history.
 
 The current candidate is **not** on `main`, and `main` is not what the entry document describes.
 The verification entry document is
@@ -65,6 +73,21 @@ single source of truth for both:
   Signs to check before you trust that file: it must carry the same `release_id`, `release_commit`
   and `content_sha256` as the `.sha256` file beside it, and the generating command in
   `docs/install/README.md` must reproduce those bytes.<span></span>
+- **Web — a private ChatGPT plugin (added 2026-10-14, verified on one account).** The public Plugin
+  Directory route is still closed: on 2026-10-14 `platform.openai.com/plugins` itself answered
+  *“You need a verified developer identity before you can create or upload a plugin.”* — an owner
+  identity/KYC step. A **private** plugin does not need it. Download the candidate ZIP
+  `.hgk/rounds/R5Y-20261014-gpt-plugin-publication/04_package/build/build-a/pipd-ls-sp-public-skills.zip`
+  (**68,355 bytes**, sha256 `2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199`, single root `pipd-ls-sp-public-skills/`, 8 ×
+  `skills/<name>/SKILL.md`, no MCP/Actions/Hooks) and in ChatGPT do: `chatgpt.com/plugins` →
+  **Plugins** → **Add** → **Upload plugin archive** → pick the ZIP → **Add plugin** →
+  **Install plugin** → **Set up**. It then appears under *Settings → Plugins → Installed plugins* and
+  its skills are callable as `@skill-name` in a chat. **Verified:** creation, installation and one
+  `@pipd-route-intake` invocation whose fail-closed rule fired — per-action log, tree dumps and
+  screenshots in `PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/09_ui_fda/`. **Not verified:** that your
+  account shows the same upload entry (that is an account entitlement, not a package property) and any
+  directory listing. If the entry is missing or the ZIP is refused, fall back to the single document
+  route above.
 - **Agent** — one copy-paste prompt,
   [`docs/install/PIPD_AGENT_INSTALL_PROMPT.md`](docs/install/PIPD_AGENT_INSTALL_PROMPT.md), for the
   four supported hosts (Hermes Agent, Codex Desktop (GUI), Codex CLI, Claude Code). Each host must
@@ -323,6 +346,9 @@ Status words are kept separate on purpose, and none of them is upgraded by this 
 | `PUBLICATION_APPROVED` | **GRANTED for the limited preview only** — owner licence decision `Apache-2.0`. **`G-RELEASE_FULL_PASS` is NOT granted.** |
 | `RELEASED` | limited to `OWNER_AUTHORIZED_OPEN_SOURCE_PREVIEW_BETA_PUBLISHED`, at the preview tags |
 | `PRODUCTION_VERIFIED` | **NOT claimed** |
+| `PRIVATE_PLUGIN_CREATED_INSTALLED_INVOKED` | **verified 2026-10-14** on the owner's own ChatGPT account — evidence `PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/09_ui_fda/` |
+| `PUBLIC_DIRECTORY_PUBLISHED` | **NOT claimed** — the Portal blocks at developer identity verification; no submit/review/publish was performed |
+| `PUBLIC_CONSUMER_VERIFIED` | **NOT claimed** — no unrelated third party has installed it from a directory |
 
 **Stage coverage.** S0 and S1 were reached; the S2–S4 work followed. **S5 (HGK live), S6 (GENIE),
 S7 (JIT), S8 (SWOF/SGM), PRE-W3 and the 22 inactive external technologies are deferred.**
