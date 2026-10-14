@@ -21,7 +21,7 @@
 - **R5Z-TT-003 (CLOSED_THIS_ROUND)** — A branch carrying both the README change and the evidence went red at the Stage-B positive write-set gate. Closed by separating branches; the allowlist was NOT widened.
 - Note: the ZIP digest is **commit-bound**; any cross-commit digest comparison is void by construction (recorded so it is not re-raised as a defect).
 
-- **R5Z-TT-004 (REMEDIATED + RECHECK-VERIFIED)** — the first independent verdict returned `overall=FAIL`
+- **R5Z-TT-004 (CLOSED)** — the first independent verdict returned `overall=FAIL`
   on check A: three cited locators did not resolve as written (`01_subject/pkg_alignment.json`,
   `PIPD_S4_R4_EVIDENCE_RETURN/05_AXES.md`, a relative `API KEY/...` path) plus two wrong identifiers (README
   commit `2553e1e` instead of the branch's `367203f`; evidence-branch head `51bd8e5` instead of `3f2f095`).
@@ -35,7 +35,7 @@ While this round ran, other actors wrote admission rows to the same spine for th
 `hermes-plan-glm5.3-flash` (17 events), `lifecycle-controller` (8), `hermes-main-GPT61-SOL-medium-orchestrator` (7).
 Consequence: this round's admission is duplicated; the duplication is recorded rather than silently merged or deleted.
 
-- **R5Z-TT-005 (OPEN, receipt-confirmed)** — lane arm binding is non-compliant on both dispatched legs:
+- **R5Z-TT-005 (CLOSED on arm5)** — lane arm binding is non-compliant on both dispatched legs:
   EXECUTE receipt `ok=false / ERR_REQUIRED_ARM_NOT_SERVED` (required `opencode-go/deepseek-v4.1-flash`, served
   `openai-codex/gpt-6-luna` rank 3); VERIFY_SECURITY recheck receipt `ok=false / ERR_REQUIRED_ARM_NOT_SERVED`
   (required `opencode-go/glm-5.3-flash`, served `opencode-go/deepseek-v4.1-flash` rank 1, 636 s, nonce present).
@@ -51,3 +51,9 @@ Consequence: this round's admission is duplicated; the duplication is recorded r
   remain valid and reproduce the maker's own recomputation.
 - **Ceiling note**: the only receipt-backed facts are the dispatcher receipts themselves and the maker's/checker's direct
   measurements (PKG hashes, ZIP digests, locator resolution). No receipt-backed *independent checker* pass exists yet.
+
+## Receipt-backed verification, final state
+A `GLM-5.3-Flash` (opencode-go, forced rank 3) verdict now exists that satisfies every binding condition in the same
+turn: `ok=true`, `served_arm == required_arm`, CLEAN subject window, content-bearing `overall=PASS` against the frozen
+subject sha `a431ac09…`. See `VERDICT_ARM5_PASS.json`, `LANE_RECEIPT_VERIFY_arm5.json`, `ARM5_AND_CLOSURE.md`.
+Nothing else in this round claims OpenAI review, publication, host qualification or third-party verification.

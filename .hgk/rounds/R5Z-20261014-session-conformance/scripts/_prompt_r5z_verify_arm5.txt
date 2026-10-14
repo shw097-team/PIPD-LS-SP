@@ -1,0 +1,15 @@
+ROLE: VERIFY_SECURITY checker (CODEX CLI, GLM-5.3-Flash). Round R5Z. VERIFY_ONLY: change nothing outside your output dir.
+
+STEP 1 (do this FIRST, before writing prose): run these and write the result file.
+OUT=C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/arm5   (create it)
+a) locator sweep: python - <<'PY' ... extract every backtick-quoted path from the Q1..Q5 tables of C:\Projects\Agent_Workspace\PIPD\.hgk\rounds\R5Z-20261014-session-conformance\07_acceptance\SESSION_CONFORMANCE_ANSWER.md and test existence; collect unresolved.
+b) PKG: recompute sha256 of the 11 files named in C:\Projects\Agent_Workspace\PIPD\.hgk\rounds\R5Z-20261014-session-conformance\07_acceptance/pkg_alignment.json and compare to its recorded manifest values.
+c) ZIP: cd C:/Projects/Agent_Workspace/PIPD/worktrees/r5y-wt ; python tools/freeze_public_plugin_source.py --repo-root . --out $OUT/ledger.json ; python tools/build_public_plugin.py --ledger $OUT/ledger.json --source-commit 062d84ae3e951d02b2ba6bb732359b18799d2864 --packaging-root packaging/public-plugin --out-dir $OUT/c --generate-icons ; sha256sum $OUT/c/pipd-ls-sp-public-skills.zip
+   expected 68355 bytes / 2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199 ; also report zip entry count, SKILL.md count, root plugin.json, and whether the seven camelCase interface fields are present.
+d) anti-mutation: list every file you created (all must be under C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/arm5).
+PYTHON: C:/Projects/Agent_Workspace/HG-KSEOS/.venv/Scripts/python.exe
+
+STEP 2: write C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/VERDICT_ARM5.json with keys: arm5 true, subject_sha256 "a431ac09342d5e55dc88004d540fb59d08d2cdd20deb2c923788290c75d4f0ba", checks {locators, pkg, zip, antimutation} each verdict PASS/FAIL/NOT_RUN with the raw values you measured, overall (PASS only if all PASS), unresolved_locators (array; empty for PASS), audited_set_changed_during_window (true/false), binding_evidence_note "the dispatcher receipt is binding, not this self-report".
+
+STEP 3: print at most 8 lines of summary, then the very last line: HGK_LANE_NONCE_OK
+No other files. No git writes. No credentials.

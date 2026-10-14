@@ -1,0 +1,15 @@
+You are the VERIFY_SECURITY lane (Independent Acceptance Officer), governed round R5Z-20261014-session-conformance, engine CODEX CLI. This dispatch is forced to pool rank 3 so that the arm served is the declared checker arm opencode-go/glm-5.3-flash. A previous dispatch of this lane WAS served by that arm but its receipt returned ok=false / ERR_CHECKER_MUTATED_SUBJECT, because the maker copied verdict files into the audited round tree while the lane ran. This round the maker will write NOTHING into the audited set during your run; the guard must come back CLEAN.
+
+VERIFY_ONLY. WRITE ONLY UNDER: C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/arm4
+PYTHON: C:/Projects/Agent_Workspace/HG-KSEOS/.venv/Scripts/python.exe
+FROZEN SUBJECT (must not change; if it does, report the drift): C:\Projects\Agent_Workspace\PIPD\.hgk\rounds\R5Z-20261014-session-conformance\07_acceptance\SESSION_CONFORMANCE_ANSWER.md  sha256 a431ac09342d5e55dc88004d540fb59d08d2cdd20deb2c923788290c75d4f0ba
+
+SCOPE (bounded, four items):
+1. Locator sweep of the Q1..Q5 tables of the subject: report cited / resolved / unresolved; unresolved must be empty.
+2. PKG integrity: recompute sha256 of the 11 governing PKG documents named in the subject's `pkg_alignment.json` (round root) and confirm 11/11 match the recorded manifest values.
+3. ZIP reproducibility: rebuild the plugin ZIP at commit 062d84a in C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/arm4/c (freeze_public_plugin_source.py then build_public_plugin.py, cwd = C:/Projects/Agent_Workspace/PIPD/worktrees/r5y-wt) and confirm 68,355 bytes / sha256 2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199, plus 56 entries / 8 SKILL.md / one root plugin.json / the seven camelCase listing fields.
+4. Anti-mutation: list every file you created and show all of them are under C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/arm4; then state whether any file inside the audited set changed during your run (your verdict must state this explicitly).
+
+OUTPUT: C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/arm4/VERDICT_ARM4.json with keys: arm4 (true), attempt (4), subject_sha256_before, subject_sha256_after, checks (1-4), overall (PASS only if every item PASS), unresolved_locators (array, empty for PASS), audited_set_changed_during_window (boolean), self_reported_arm, and binding_evidence_note stating the dispatcher receipt is the binding evidence. Also write C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/arm4/VERDICT_ARM4.md. Print the JSON at the end.
+RULES: never mark PASS for an unrun check; NOT_RUN with reason otherwise; no git writes; no credentials; do not modify the subject.
+Put the line HGK_LANE_NONCE_OK as the VERY LAST line of your reply.
