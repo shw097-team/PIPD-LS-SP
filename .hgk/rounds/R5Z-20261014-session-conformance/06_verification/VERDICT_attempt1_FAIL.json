@@ -1,0 +1,84 @@
+{
+  "round": "R5Z-20261014-session-conformance",
+  "lane": "VERIFY_SECURITY",
+  "engine": "CODEX CLI",
+  "model": "GLM-5.3-Flash (declared lane arm opencode-go/glm-5.3-flash; not self-verifiable from inside the lane)",
+  "prompt_sha256_of_this_prompt": "5fde4feda9b2796408a7631d90b73c6eb6f9534f95f02e00c8462238d80ae28c",
+  "subject_answer_sha256": "32e44fffa22c4f4224c9cf223c107060b966ef53ee71859bca10e575f0d6e9aa",
+  "checks": {
+    "A": {
+      "verdict": "FAIL",
+      "method": "Extracted every backtick-quoted file locator from the Q1..Q5 tables of SESSION_CONFORMANCE_ANSWER.md and resolved each against the round tree, PIPD root, r5z-wt, r5y-wt, and the R5Y round tree ().",
+      "raw_output": "cited=17 resolved=14 unresolved=3 :: UNRESOLVED -> '01_subject/pkg_alignment.json' (real file is pkg_alignment.json at the round ROOT, not under 01_subject) ; 'PIPD_S4_R4_EVIDENCE_RETURN/05_AXES.md' (does not exist anywhere on disk; that pack contains only EVIDENCE_RETURN_MANIFEST.json, R5X_FINAL_RESULT.md, tasks.tsv) ; 'API KEY/GITHUB-REPO_SHW097-4.txt' (exists only at C:/Projects/Agent_Workspace/API KEY/GITHUB-REPO_SHW097-4.txt, not under PIPD). RESOLVED examples: 01_subject/GOVERNING_SUBJECT_FREEZE.json; PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/09_ui_*/PRIVATE_PLUGIN_INSTALL.json -> 09_ui_fda/PRIVATE_PLUGIN_INSTALL.json; R5Y_FINAL_RESULT.md; PIPD_S4_R5Z_SESSION_CONFORMANCE_RETURN/README.md; docs/adr/ADR-0007-plugin-distribution-private-first.md; source-freeze/sources_manifest.json -> .hgk/rounds/R5-20261014-s4-r4-closeout/source-freeze/sources_manifest.json; hg-kseos.db -> HG-KSEOS/var/shared-spine/hg-kseos.db; checker-verdict.json; checker-verdict-recheck.json; ADDENDUM.json; PRIVATE_PLUGIN_INSTALL.json; SOURCE_TO_PLUGIN_MAPPING.json; plugin.json; SKILL.md.",
+      "notes": "3 cited locators do not resolve as written. The most material is '01_subject/pkg_alignment.json', cited as the raw source in Q4 and also handed to this lane; the actual file is at the round root. '05_AXES.md' is a dangling reference. 'API KEY/GITHUB-REPO_SHW097-4.txt' is a filename relative to C:/Projects/Agent_Workspace, not the audited trees."
+    },
+    "B": {
+      "verdict": "PASS",
+      "method": "Recomputed sha256 of all 11 governing PKG documents from pkg_alignment.json (governing_set dir + per_file names) and compared to (a) each row's recorded manifest_sha256, (b) each row's recorded measured_sha256, and (c) the sha256 carried inside the source manifest .hgk/rounds/R5-20261014-s4-r4-closeout/source-freeze/sources_manifest.json.",
+      "raw_output": "MATCHED 11/11 (each: exists=True, bytes match manifest, manifest_sha256==measured_sha256==recomputed). PKG-00 594228 89b60fde...; PKG-01 984996 4c468e38...; PKG-02 676216 decf4210...; PKG-03 735475 a8d61dc4...; PKG-04 840568 967c0a49...; PKG-05 295627 b01b1705...; PKG-06 307177 07359209...; PKG-07 736406 213b49c5...; PKG-08 712350 e93fe813...; PKG-09 733299 b2952652...; PKG-10 1099995 e089fa09...",
+      "notes": "sources_manifest.json count=81 and independently carries the same 11 hashes, so the binding is confirmed against the manifest itself, not just the answer's own recorded values."
+    },
+    "C": {
+      "verdict": "PASS",
+      "method": "Read-only git rev-parse in r5y-wt; then in that worktree rebuilt via tools/freeze_public_plugin_source.py --repo-root . --out <OUT>/c/ledger.json, then tools/build_public_plugin.py --ledger <OUT>/c/ledger.json --source-commit <HEAD> --packaging-root packaging/public-plugin --out-dir <OUT>/c --generate-icons.",
+      "raw_output": "git -C r5y-wt rev-parse HEAD -> 062d84ae3e951d02b2ba6bb732359b18799d2864 (status --porcelain empty). freeze_exit=0 ledger.commit=062d84ae3e951d02b2ba6bb732359b18799d2864 tree=f642e2b7900b0369f6925948d3a43aba0575016c files=48. build_exit=0 -> 'BUILT ...\\\\c\\\\pipd-ls-sp-public-skills.zip sha256=2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199 members=56'. Measured SIZE=68355 SHA256=2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199.",
+      "notes": "Produced ZIP is exactly 68,355 bytes and sha256 2f9ae010...d199. Matches the pinned claim exactly."
+    },
+    "D": {
+      "verdict": "PASS",
+      "method": "Opened the ZIP I built in C with python zipfile and read entries plus pipd-ls-sp-public-skills/plugin.json extensions.com.openai.interface.",
+      "raw_output": "SIZE 68355; ENTRIES 56; */SKILL.md count 8 (pipd-assurance-tqaep, pipd-authority-source, pipd-execution-contract, pipd-package-project, pipd-pd-bind, pipd-pi-compile, pipd-profile-tailor, pipd-route-intake); single root manifest pipd-ls-sp-public-skills/plugin.json. interface keys read: ['capabilities','category','defaultPrompt','developerName','displayName','display_name','longDescription','shortDescription']. Required camelCase fields all present: displayName='PIPD-LS-SP Public Skills'; shortDescription='Source-bound PIPD lifecycle skills'; longDescription (present); category='Developer Tools'; capabilities=['Source-bound planning','Acceptance preparation','Evidence-driven refusal']; defaultPrompt (3 entries); developerName='shw097-team'.",
+      "notes": "Entry count 56 and 8 SKILL.md match expectations; exactly one plugin root manifest; all seven required camelCase listing fields are present (a legacy snake_case display_name is also present)."
+    },
+    "E": {
+      "verdict": "PASS",
+      "method": "Independently rebuilt the ZIP at commit 9643495 in r5z-wt (freeze_public_plugin_source.py + build_public_plugin.py into <OUT>/e, exit 0) and independently read the interface keys from both the EXECUTE lane ZIPs and my own 9643495 build.",
+      "raw_output": "MY build @9643495: size=68357 sha256=d9607ff16058f3790c4ce9e0799c8da8ad4a976d7b6caa2180969d09796c47da (identical to EXECUTE build-a/build-b). MY build @062d84a: size=68355 sha256=2f9ae010...d199. EXECUTE interface keys (its own ZIPs, build-a/build-b): ['capabilities','category','defaultPrompt','developerName','displayName','display_name','longDescription','shortDescription'] -> all required camelCase fields present. EXECUTE lane's check script computed listing_fields_present=all(k in ext for k in ('display_name','short_description','long_description','developer_instructions')) per its logged receipt stdout, and its first-attempt probe used root_manifests=[n for n in names if n in ('plugin.json','.codex-plugin/plugin.json')] which found none because the manifest lives at pipd-ls-sp-public-skills/plugin.json.",
+      "notes": "See adjudication_divergences."
+    },
+    "F": {
+      "verdict": "PASS",
+      "method": "Regex scan of the four published evidence trees + README.md for ghp_[A-Za-z0-9]{20,}, github_pat_, sk-[A-Za-z0-9]{20,}, AKIA[0-9A-Z]{12,}, 'BEGIN PRIVATE KEY', 'AUTHORIZATION: basic' (case-insensitive).",
+      "raw_output": "files_scanned=208, raw_regex_hits=2. Hits: PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/04_package/license_brand_secret_scan.json and .hgk/rounds/R5Y-20261014-gpt-plugin-publication/04_package/license_brand_secret_scan.json. Context for both: the literal string \"github_pat_\" appears inside the scan report's own patterns[] array (\"patterns\": [\"ghp_\",\"github_pat_\",\"sk-\",\"AKIA\",\"-----BEGIN\",\"password=\",\"token=\"]). No matching credential value; findings: [].",
+      "notes": "Effectively zero real secrets. The two github_pat_ hits are the pattern token in a scan-report file, not a credential."
+    },
+    "G": {
+      "verdict": "PASS",
+      "method": "Anonymous GET (no credential; User-Agent only) against https://api.github.com/repos/shw097-team/PIPD-LS-SP.",
+      "raw_output": "(a) git/ref/heads/main -> object.sha=224591431a164ab72a9423cd180e417e8a762403 (match). (b) git/ref/heads/feat/s4r5z-readme-plugin-route-20261014 -> 96434958171ff31ebb982733f898b9c9e9c75c0b (match). (c) git/ref/heads/r5z-evidence-return-20261014 -> exists, object.sha=3f2f0956583449b4698af3b8a21c493cae80ce3c; contents API serves PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/README.md (blob sha 2362ab73..., size 2857) and .hgk/rounds/R5Y-20261014-gpt-plugin-publication/09_ui_fda/PRIVATE_PLUGIN_INSTALL.json (blob sha 9a1dfe1d..., size 4030). (d) pulls/8 -> number=8 state=open draft=true merged=false head.ref=feat/s4r5z-readme-plugin-route-20261014 head.sha=96434958171ff31ebb982733f898b9c9e9c75c0b (match). (e) pulls/7 -> number=7 state=closed draft=true merged=false (match). (f) tags -> v0.1.1-preview.3 (cbf69756), v0.1.0-preview.2 (8faa64e5), v0.1.0-preview.1 (cc9bf574), all published 2026-10-10/11; releases -> same three prereleases, none created in this round.",
+      "notes": "All six remote assertions hold. Note: the evidence branch head is 3f2f095..., NOT the 51bd8e5... printed in the answer's Q5 table (51bd8e5 is the earlier, superseded head). The answer's readback sizes (README 2,857 B; PRIVATE_PLUGIN_INSTALL.json 4,030 B) are exactly reproduced."
+    },
+    "H": {
+      "verdict": "PASS",
+      "method": "Enumerated the claims asserted in SESSION_CONFORMANCE_ANSWER.md and the repo README.md and checked each against artifacts I recomputed/verified.",
+      "raw_output": "Supported: single portable root manifest; 8 SKILL.md; camelCase listing fields; ZIP 68,355 B sha 2f9ae010...d199 reproducible at 062d84a; 2x byte-identical builds; main/target branch/PR/tag states (see G); evidence-branch serves named files; PRIVATE_PLUGIN_INSTALL.json records uploaded sha 2f9ae010...d199 / 68,355 B and self-account creation/install/@pipd-route-intake fail-closed invocation; README states PUBLIC_DIRECTORY_PUBLISHED / PUBLIC_CONSUMER_VERIFIED = NOT claimed; no merge/tag/release/publish performed. Flagged minor: README commit cited as 2553e1e (that hash is NOT an ancestor of feat/s4r5z-readme-plugin-route-20261014; the README change commit on that branch is 367203f. Content blob is identical: 332837917cd3484bd57bd7f2c9e53e7bf3e3378f). Evidence-branch head cited as 51bd8e5 but is 3f2f095... No ceiling overstatement found; NOT_RUN items are honestly listed.",
+      "notes": "Ceiling is honest. Two stale/incorrect identifiers recorded as unsupported_claims entries; neither changes a ceiling claim."
+    },
+    "I": {
+      "verdict": "PASS",
+      "method": "Listed all files I created and confirmed each path is inside the VERIFY_SECURITY output root; re-ran git status --porcelain in r5z-wt and r5y-wt (read-only).",
+      "raw_output": "Files created by this lane (all under C:/Projects/Agent_Workspace/HG-KSEOS/var/R5Z-20261014-session-conformance/VERIFY_SECURITY/): root: _find.py, _locators.py, _resolve.py, _resolve2.py, _secret_scan.py, _write_verdict.py, VERDICT.json, VERDICT.md; attempt-1-20261014T042157Z/attempt.marker.json; c/: ledger.json, pipd-ls-sp-public-skills.zip (68355 B), pipd-ls-sp-public-skills.zip.sha256, RELEASE_RECEIPT.json, SOURCE_TO_PLUGIN_MAPPING.json, README_evidence_branch.md; e/: ledger.json, pipd-ls-sp-public-skills.zip (68357 B), pipd-ls-sp-public-skills.zip.sha256, RELEASE_RECEIPT.json, SOURCE_TO_PLUGIN_MAPPING.json. Audited-set check: git -C r5z-wt status --porcelain = empty; git -C r5y-wt status --porcelain = empty; HEADs unchanged (r5z-wt 96434958171ff31ebb982733f898b9c9e9c75c0b; r5y-wt 062d84ae3e951d02b2ba6bb732359b18799d2864).",
+      "notes": "No audited artifact was modified. All writes are inside the lane output root. Audited trees and worktrees byte-unchanged (empty porcelain)."
+    }
+  },
+  "overall": "FAIL",
+  "unsupported_claims": [
+    "README commit cited as 2553e1e for branch feat/s4r5z-readme-plugin-route-20261014: that commit is NOT an ancestor of the branch (git merge-base --is-ancestor 2553e1e feat/... exit=1). The README change commit on that branch is 367203f. README content blob is identical (332837917cd3484bd57bd7f2c9e53e7bf3e3378f) on both lineages, so the change is real but the cited hash is wrong for the branch.",
+    "Evidence-branch head cited in the Q5 table as 51bd8e5...: the actual head of r5z-evidence-return-20261014 is 3f2f0956583449b4698af3b8a21c493cae80ce3c (local ref, origin ref, and anonymous API all agree); 51bd8e5 is the earlier superseded head (that head is the one whose public-plugin-verify went red).",
+    "Locator '01_subject/pkg_alignment.json' (cited as the raw source in Q4): no such file exists; the file is pkg_alignment.json at the round root.",
+    "Locator 'PIPD_S4_R4_EVIDENCE_RETURN/05_AXES.md' (cited as Q1 evidence): does not exist anywhere on disk.",
+    "Locator 'API KEY/GITHUB-REPO_SHW097-4.txt' (Q5): not present under the audited trees; the file exists at C:/Projects/Agent_Workspace/API KEY/GITHUB-REPO_SHW097-4.txt."
+  ],
+  "adjudication_divergences": {
+    "claim_match_boolean_false": {
+      "maker_adjudication": "CORRECT (comparison-basis mismatch: lane built at 9643495, claim pinned to 062d84a; cross-commit digest comparison void by construction)",
+      "independent_measurement": "I rebuilt at 9643495 -> 68357 bytes / sha256 d9607ff16058f3790c4ce9e0799c8da8ad4a976d7b6caa2180969d09796c47da (matches EXECUTE); I rebuilt at 062d84a -> 68355 bytes / sha256 2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199 (matches claim).",
+      "note": "The lane's claim_match_boolean=false is a real measurement, correctly explained by the maker. Not a defect."
+    },
+    "listing_fields_present_false": {
+      "maker_adjudication": "CORRECT (false negative by the lane)",
+      "independent_measurement": "Reading pipd-ls-sp-public-skills/plugin.json from the lane's own ZIP shows interface keys + all seven required camelCase fields (displayName, shortDescription, longDescription, category, capabilities, defaultPrompt, developerName). The lane's script instead tested the snake_case key set (display_name, short_description, long_description, developer_instructions) and, on its first probe, looked for 'plugin.json' at the archive root rather than under pipd-ls-sp-public-skills/.",
+      "note": "listing_fields_present=false is a false negative caused by a wrong key set / wrong manifest path, not a missing field."
+    }
+  }
+}

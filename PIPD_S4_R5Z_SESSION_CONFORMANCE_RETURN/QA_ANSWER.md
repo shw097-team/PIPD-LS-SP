@@ -22,7 +22,7 @@
 
 | 目標 | 本 SESSION 狀態 | 原始證據 |
 |---|---|---|
-| （A）維持 Stage A/B Scoped PASS，並依 **PR #3 → PR #5** 取得 Owner 決策 | **NOT_RUN（Owner Gate）**。`merge_executed: false` 未變；本 agent 不得自行 merge | `PIPD_S4_R4_EVIDENCE_RETURN/05_AXES.md`；remote readback：`main` 仍 `2245914…`，PR #3 `759b9f0…`／PR #5 `940a37d…` 仍 open |
+| （A）維持 Stage A/B Scoped PASS，並依 **PR #3 → PR #5** 取得 Owner 決策 | **NOT_RUN（Owner Gate）**。`merge_executed: false` 未變；本 agent 不得自行 merge | `PIPD_S4_R4_EVIDENCE_RETURN/R5X_FINAL_RESULT.md`（§6 五軸判定）；remote readback：`main` 仍 `2245914…`，PR #3 `759b9f0…`／PR #5 `940a37d…` 仍 open |
 | （B）由整合後 exact Commit 建 immutable Preview（Wheel／source／fallback／Plugin ZIP） | **PARTIAL（候選級）**。ZIP 候選已於釘住 commit 重建可重現；**未** tag／未 release（Owner Gate） | 本輪重建：`2f9ae010…d199`／68,355 B（rc=0）；R5X `08025b43…15a8`／68,159 B |
 | （C）符合 ChatGPT Web 私人路徑的可用 ZIP＋有權帳號完成私用安裝／有效載入／正負觸發 | **PASS（自帳號）**。建立→安裝→`@pipd-route-intake` 讀取且 fail-closed 正確 | `PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/09_ui_*/PRIVATE_PLUGIN_INSTALL.json`（`Plugin_5ba168…26b0`） |
 | （D）留下 OPS/DEV ECP、TQAEP、rollback、差異與獨立驗收收據 | **PASS（候選級）**。R5X 7 需求／14 TaskSpec／7 WorkOrder 入 Spine；R5Y 13 筆 RESULT_RECORDED；checker 裁決 2 份 | Spine `hg-kseos.db`；`checker-verdict.json`／`checker-verdict-recheck.json` |
@@ -66,7 +66,7 @@
 | §3.2 `S4R3-F001` CI 假綠 | 阻斷解除 | **維持 PASS** | 新 CI raw：`ci`＋`public-plugin-verify` 皆 real success（本輪 head `9643495`） |
 | §3.2 `S4R3-F002` write-set 首關 | 阻斷解除 | **維持 PASS**（且本輪再度被此 gate 真實攔下一次，見 Q5） | gate 為正面允許清單，未被放寬 |
 | §3.2 `S4R3-F003` Plugin／Host 真實發布與載入不足 | 取得私人上傳／載入收據 | **已取得（自帳號）**；宿主資格仍 `NOT_VERIFIED` | `PRIVATE_PLUGIN_INSTALL.json`；未做卸載負例 |
-| §3.2 `S4R3-F004` Web fallback／README 文件缺口 | 基本交付 PASS；殘留屬 P2 文案同步 | **P2 文案同步於本輪完成** | README 改寫（commit `2553e1e`，branch `feat/s4r5z-readme-plugin-route-20261014`）＋`docs/adr/ADR-0007` |
+| §3.2 `S4R3-F004` Web fallback／README 文件缺口 | 基本交付 PASS；殘留屬 P2 文案同步 | **P2 文案同步於本輪完成** | README 改寫（branch `feat/s4r5z-readme-plugin-route-20261014` 上的 commit `367203f`；其 README blob `332837917c…` 與另一分支上的等價 commit `2553e1e` 相同，實質同一變更）＋`docs/adr/ADR-0007` |
 | §3.2 `S4R3-F005` Repo 衛生 | 維持歸檔＋敏感資料最低檢查；**不要**大掃除 | **遵行** | 本輪入庫前秘密掃描（`ghp_`／`github_pat_`／`sk-`／PRIVATE KEY 等）零命中；未移除 `.hgk/` 歷史 |
 | §4.1 `P01` 來源凍結／8 Skills／派生 | scoped PASS | **維持 PASS** | 本輪重建即再驗（8 `SKILL.md`、56 entries、單一根） |
 | §4.1 `P02` Skills-only ZIP 封裝 | local/structural PASS；≠ installed | **PASS（候選）＋已 installed（自帳號）** | 同源重建 byte-identical；私人外掛頁 8 技能全列 |
@@ -107,7 +107,7 @@
 
 1. **報告**：`PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/R5Y_FINAL_RESULT.md` 已載明公開路徑受阻、私人路徑為替代交付，並列四軸判定（A PASS／B PASS／公開 HOLD／他人驗證 NOT_RUN）。
 2. **證據**：`09_ui_*/` 逐動 UI log（含原生檔案對話框以 UIA 純消息填值，零滑鼠零焦點）、`PRIVATE_PLUGIN_INSTALL.json`、`ADDENDUM.json`。
-3. **REPO 首頁 README（本輪新增）**：新增「Web — private ChatGPT plugin（2026-10-14 驗證）」路線，四步驟（`chatgpt.com/plugins` → Plugins → Add → Upload plugin archive → Add plugin → Install → Set up），並釘住 ZIP SHA-256；同時在宣稱上限表加入 `PRIVATE_PLUGIN_CREATED_INSTALLED_INVOKED`（已驗，自帳號）與 `PUBLIC_DIRECTORY_PUBLISHED`／`PUBLIC_CONSUMER_VERIFIED`（**NOT claimed**）。commit `2553e1e`，branch `feat/s4r5z-readme-plugin-route-20261014`，PR #8（draft）。
+3. **REPO 首頁 README（本輪新增）**：新增「Web — private ChatGPT plugin（2026-10-14 驗證）」路線，四步驟（`chatgpt.com/plugins` → Plugins → Add → Upload plugin archive → Add plugin → Install → Set up），並釘住 ZIP SHA-256；同時在宣稱上限表加入 `PRIVATE_PLUGIN_CREATED_INSTALLED_INVOKED`（已驗，自帳號）與 `PUBLIC_DIRECTORY_PUBLISHED`／`PUBLIC_CONSUMER_VERIFIED`（**NOT claimed**）。commit `367203f`（branch `feat/s4r5z-readme-plugin-route-20261014`；後續 ADR commit 為 `9643495`），PR #8（draft）。
 4. **ADR**：`docs/adr/ADR-0007-plugin-distribution-private-first.md`（裁定、後果、為何證據另開分支）。
 5. 明確告知 GPT 使用者：**可下載候選 ZIP 自行建立私人可安裝外掛**（README 已寫，且註明無上傳入口時改用單檔 fallback）。
 
@@ -129,11 +129,11 @@
 | 是否越界改寫 PKG | **否**（正確）：PKG 為治理文件，agent 不得改寫；本輪只讀取與比對 |
 | 未對齊項（誠實） | PKG 內容層（各 PKG 章節的 S5+ 條文）**不在本 SESSION 執行範圍**；R5Y／R5Z 兩輪的工件以方案＋packaging SSOT 為直接引用，未逐條再引 PKG 條號 ⇒ 覆蓋屬「來源級對齊（source-level alignment）」，非「條文級閉合（clause-level closure）」 |
 
-原始檔：`01_subject/pkg_alignment.json`（逐檔 expected／measured sha256）。
+原始檔：`pkg_alignment.json`（**round 根目錄**，非 `01_subject/`；逐檔 expected／measured sha256）——此引註於首輪獨立複核被判為失效，已更正。
 
 ---
 
-## Q5 是否用 `API KEY/GITHUB-REPO_SHW097-4.txt`（fine-grained PAT）把本 SESSION 的實作與證據推到 REPO，供外部驗收官驗收？
+## Q5 是否用 `C:/Projects/Agent_Workspace/API KEY/GITHUB-REPO_SHW097-4.txt`（fine-grained PAT）把本 SESSION 的實作與證據推到 REPO，供外部驗收官驗收？
 
 **結論：實作已推（遠端讀回一致）；而「證據」在本輪之前**確實未上遠端（真實缺口）**，本輪已補上。PAT 僅以記憶體認證通道使用，未落地、未輸出。**
 
@@ -142,7 +142,7 @@
 | `feat/s4r5x-manifest-fit-20261014` | `e00ab7b6…` | R5X manifest fit（A 段） | hosted `ci` run success |
 | `feat/s4r5y-plugin-publication-20261014` | `062d84ae…` | 外掛候選（listing 欄位）；**PR #6 draft** | `ci`＋`public-plugin-verify` success |
 | `feat/s4r5z-readme-plugin-route-20261014` | `9643495…` | README 私人路線＋ADR-0007；**PR #8 draft** | `ci` success；`public-plugin-verify` success（PR 事件與 dispatch 各一次） |
-| `r5z-evidence-return-20261014` | `51bd8e5…` | **證據包**：`PIPD_S4_R4_EVIDENCE_RETURN/`、`PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/`（78 檔，含 UI log 與截圖）、`.hgk/rounds/` 兩輪 | 無 PR（gate 只判 PR）；遠端檔案讀回已驗（`contents` API 取得 README 2,857 B、`PRIVATE_PLUGIN_INSTALL.json` 4,030 B） |
+| `r5z-evidence-return-20261014` | `51bd8e5…`（首推，僅 R4/R5Y 證據）→ **`3f2f095…`（加入本輪 R5Z pack 後的現行 head）** | **證據包**：`PIPD_S4_R4_EVIDENCE_RETURN/`、`PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/`（78 檔，含 UI log 與截圖）、`.hgk/rounds/` 兩輪 | 無 PR（gate 只判 PR）；遠端檔案讀回已驗（`contents` API 取得 README 2,857 B、`PRIVATE_PLUGIN_INSTALL.json` 4,030 B） |
 
 **過程揭露（不隱藏紅燈）**：
 - 首次把「README＋證據」放在同一分支（head `51bd8e5`）→ `public-plugin-verify` 的 `Prove the upgrade wrote only inside its allowed set` **真實紅燈**（證據路徑不在 Stage-B 正面允許清單內）。
@@ -162,3 +162,35 @@
 | 同一 commit 內 2× 建置 | `identical_boolean=true` | **成立** | 車道 build-a 與 build-b digest 相同 |
 
 ⇒ 兩項分歧已用原始檔解決；VERIFY_SECURITY 車道（GLM-5.3-Flash）另作獨立複核並保留其獨立裁決（見 `06_verification/`）。
+
+
+---
+
+## 獨立複核（VERIFY_SECURITY 車道，CODEX CLI，`opencode-go/glm-5.3-flash`）
+
+**首輪裁決：`overall = FAIL`（A FAIL；B–I 全 PASS）。裁決檔：`06_verification/VERDICT.json`（14,081 B）。**
+車道事實：engine `codex-cli`、model `glm-5.3-flash`、受審答案 sha256 `32e44fffa22c…e9aa`、prompt sha256 `5fde4feda9b2…e28c`。
+
+| 檢查 | 裁決 | 內容 |
+|---|---|---|
+| A 引註解析 | **FAIL** | 引用 17 個 locator，14 解析成功、**3 失效**（詳下） |
+| B PKG 雜湊 | PASS | 由 `sources_manifest.json`（81 來源）獨立重算，11/11 與清冊一致 |
+| C 可重現性 | PASS | 於釘住 commit 自建 ZIP＝**68,355 B／`2f9ae010…d199`**，與宣稱完全一致 |
+| D ZIP 內部 | PASS | 56 entries、8 `SKILL.md`、單一根 manifest、七個 camelCase listing 欄位齊備 |
+| E 分歧判定 | PASS | 我的兩項判定**均經其獨立量測確認為正確** |
+| F 秘密掃描 | PASS | 實質零憑證命中（2 筆 `github_pat_` 是掃描報告中的樣式字串本身） |
+| G 遠端真值 | PASS | 六項遠端斷言全成立；並指出 Q5 表的 head 需更新為 `3f2f095` |
+| H 宣稱上限 | PASS | 上限誠實；另列 4 筆識別碼／引註瑕疵（不影響上限） |
+| I 反汙染 | PASS | 受稽核工件零變更；其寫入全在車道輸出根內 |
+
+**A 項失效引註與處置（本人責任，已更正）**
+
+| # | 失效引註 | 實況 | 處置 |
+|---|---|---|---|
+| 1 | `01_subject/pkg_alignment.json` | 實檔在 round **根目錄** | 引註已更正為 `pkg_alignment.json` |
+| 2 | `PIPD_S4_R4_EVIDENCE_RETURN/05_AXES.md` | 該 pack 僅有 `EVIDENCE_RETURN_MANIFEST.json`／`R5X_FINAL_RESULT.md`／`tasks.tsv` | 引註已更正為 `R5X_FINAL_RESULT.md`（§6 五軸） |
+| 3 | `API KEY/GITHUB-REPO_SHW097-4.txt` | 該檔位於 `C:/Projects/Agent_Workspace/`，不在受稽核樹內 | 引註已改為絕對路徑 |
+| 4 | README 變更 commit `2553e1e` | 該 commit 不在 PR 分支血統上；**分支上的等價 commit 為 `367203f`**（README blob `332837917c…` 兩分支相同） | 引註已改為 `367203f` 並註明等價關係 |
+| 5 | 證據分支 head `51bd8e5` | 現行 head 為 **`3f2f0956583449b4698af3b8a21c493cae80ce3c`**（`51bd8e5` 為被取代的首推 head） | Q5 表已改為兩者並列 |
+
+⇒ 開立 **`R5Z-TT-004`**：首輪獨立複核因引註瑕疵判 FAIL；更正後須以**同一車道**做 bounded recheck（attempt 2），且**首輪 FAIL 保留於紀錄**，不得抹除或以 recheck 取代。

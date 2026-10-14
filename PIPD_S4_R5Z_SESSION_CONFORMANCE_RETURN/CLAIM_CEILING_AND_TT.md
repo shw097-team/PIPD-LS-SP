@@ -20,3 +20,17 @@
 - **R5Z-TT-002 (CLOSED_THIS_ROUND)** — Evidence packages were not on the remote for external acceptance. Closed by publishing `r5z-evidence-return-20261014` with remote readback.
 - **R5Z-TT-003 (CLOSED_THIS_ROUND)** — A branch carrying both the README change and the evidence went red at the Stage-B positive write-set gate. Closed by separating branches; the allowlist was NOT widened.
 - Note: the ZIP digest is **commit-bound**; any cross-commit digest comparison is void by construction (recorded so it is not re-raised as a defect).
+
+- **R5Z-TT-004 (REMEDIATED, awaiting bounded recheck)** — the first independent verdict returned `overall=FAIL`
+  on check A: three cited locators did not resolve as written (`01_subject/pkg_alignment.json`,
+  `PIPD_S4_R4_EVIDENCE_RETURN/05_AXES.md`, a relative `API KEY/...` path) plus two wrong identifiers (README
+  commit `2553e1e` instead of the branch's `367203f`; evidence-branch head `51bd8e5` instead of `3f2f095`).
+  All five are corrected in the answer document; the FAIL verdict is retained, not overwritten.
+
+## Concurrency observed on the Shared Spine (disclosed, not resolved)
+While this round ran, other actors wrote admission rows to the same spine for the same round name:
+`REQ-R5Z-SESSION-CONFORMANCE-001` with `TS-R5Z-07..09` (writers `hermes-plan-glm-5.3-flash` /
+`codex-cli-glm-5.3-flash`, created 2026-10-14T03:53:03Z) alongside this round's own
+`REQ-PIPD-R5Z-CONFORMANCE-001` (04:12:55Z). Spine actors active on 2026-10-14 include
+`hermes-plan-glm5.3-flash` (17 events), `lifecycle-controller` (8), `hermes-main-GPT61-SOL-medium-orchestrator` (7).
+Consequence: this round's admission is duplicated; the duplication is recorded rather than silently merged or deleted.
