@@ -111,7 +111,7 @@ with the round's verification harness on `chore/s4post-verification-harness`.
 - Four-host UAT, Portal scan/review/publish, security scan and a real candidate build: **`NOT_EXECUTED`**.
   Four owner supplies and four owner-only acts are outstanding — see the candidate's
   `OWNER_ACTION_REQUEST.md`.
-- The **`v0.1.1-preview.4`** wheel carries the known Trace false-PASS defect (`FAIL_CHALLENGE`,
+- The **`v0.1.1-preview.3`** wheel carries the known Trace false-PASS defect (`FAIL_CHALLENGE`,
   product scope). **`v0.1.1-preview.4`** supersedes it: it is built from the merged `main` that
   repairs the D1 negation-polarity/scope and D2 clause-boundary defects and adds the ClaimCeiling
   claim-shape guard, and it re-publishes the **same eight** skills (no ninth skill, no MCP, no Apps,
@@ -164,7 +164,7 @@ Version pin, hashes, uninstall/rollback and how to report a failure live in
 | **Installable preview** | tag **`v0.1.1-preview.4`** — Apache-2.0 |
 | **Release page** | https://github.com/shw097-team/PIPD-LS-SP/releases/tag/v0.1.1-preview.4 |
 | **Download the tag, not the branch** | `main` now carries the repaired code, but a branch tip is a moving target. The **immutable** bytes are the tag's. |
-| **Superseded** | `v0.1.0-preview.1`, `v0.1.0-preview.2` and `v0.1.1-preview.4` — all still downloadable. `.1` ships the two defects described below, `.2` predates the S4-R2 repairs and `.3` predates the D1/D2 semantic repair. Use `.4`. |
+| **Superseded** | `v0.1.0-preview.1`, `v0.1.0-preview.2` and `v0.1.1-preview.3` — all still downloadable. `.1` ships the two defects described below, `.2` predates the S4-R2 repairs and `.3` predates the D1/D2 semantic repair. Use `.4`. |
 | **What is not claimed** | [Claim ceiling](#claim-ceiling) and the release notes |
 
 ## Choose your path: CLI or Skills

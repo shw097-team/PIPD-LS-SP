@@ -29,6 +29,15 @@ on:
       - "tests/test_public_plugin_packaging.py"
       - "tests/test_web_fallback.py"
       - "dist/mount/**"
+      # Source-repair rounds: without these, a PR that only repairs the compiler or the schemas would
+      # not run this gate at all, so the write-set declaration would be unenforced exactly where it
+      # matters most.
+      - "src/**"
+      - "schemas/**"
+      - "tests/**"
+      - "fixtures/**"
+      - "pyproject.toml"
+      - "tools/build_dist.py"
   workflow_dispatch:
 
 permissions:
@@ -158,6 +167,12 @@ jobs:
               # release staging it must produce. DENIED keeps the eight frozen skills and the
               # packaging sources out of this round's reach - this round repairs the compiler and ships
               # artefacts, it does not re-version the skill bodies or redesign the packager.
+              #
+              # KNOWN LIMIT, stated so a reader does not mistake this arm for a boundary it cannot be:
+              # an arm that must allow `src/` cannot also refuse it, and any branch may set STAGE
+              # itself. So this arm's real control is the review of its own diff - the ALLOWED set must
+              # not be widened to cover a path the round's WorkOrder does not grant. An independent
+              # challenge of this amendment recorded exactly that, and it is carried as an open item.
               BASE="${STAGE_C_BASE_SHA}"
               ALLOWED='^(src/pipd_ls_sp/|schemas/|tests/|fixtures/|pyproject\.toml$|tools/build_dist\.py$|dist/|README\.md$|docs/install/|PREVIEW_NOTES_v0\.1\.1-preview\.4\.md$|\.github/workflows/public-plugin-verify\.yml$)'
               DENIED='^(skills/|packaging/public-plugin/)'

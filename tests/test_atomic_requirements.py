@@ -38,6 +38,14 @@ def compile_fixture(*names):
         "goal", [str(FIXTURES / n / "source.txt") for n in names])
 
 
+def _expand_text(text: str):
+    """Compile one inline source text into atoms through a real (temporary) file source."""
+    with tempfile.TemporaryDirectory() as td:
+        path = Path(td) / "inline.txt"
+        path.write_text(text, encoding="utf-8")
+        return requirements.compile_requirements("goal", [str(path)])
+
+
 class AtomicRequirements(unittest.TestCase):
     def test_no_keyword_requirement_is_preserved(self):
         card = pipeline.intake('每頁保留三列。', sources=[str(ROOT)])
@@ -448,6 +456,52 @@ class FocusRepairPolarityAndBoundary(unittest.TestCase):
             span = clause["span"]
             self.assertEqual(source[span[0]:span[1]], clause["text"])
             self.assertTrue(clause["clause_id"].startswith("clause-"))
+
+    def test_same_polarity_segments_are_not_merged_into_one_atom(self):
+        """A run of prohibitions stays per-obligation: one atom per boundary segment, never one atom.
+
+        An earlier revision of this repair merged same-polarity segments back into a single atom.
+        That is the same collapse the module exists to refuse: validate_atoms cannot see an obligation
+        that was folded into another atom's text, so the obligation silently disappears from checks.
+        """
+        for text, expected in [
+            ("系統不得交付遙測資料，不得上傳日誌。", 2),
+            ("系統不得外洩個資，不得延遲交付。", 2),
+            ("系統不得外洩個資以及不得延遲。", 2),
+            ("The system must not log data, must not leak data.", 2),
+        ]:
+            with self.subTest(text=text):
+                atoms = _expand_text(text)
+                self.assertEqual(len(atoms), expected)
+                self.assertTrue(all(a["risk_guard"]["polarity"] == "MUST NOT" for a in atoms))
+
+    def test_a_negation_governs_a_following_uncued_segment(self):
+        """The scope defect D1 fixed, pinned in the direction the old compiler got wrong.
+
+        `不得外洩個資，延遲交付` used to compile the second, cue-less segment as MUST. It is inside the
+        prohibition's scope, so it is MUST NOT - while a segment carrying its own positive modality
+        keeps MUST.
+        """
+        atoms = _expand_text("系統不得外洩個資，延遲交付。")
+        self.assertEqual([a["risk_guard"]["polarity"] for a in atoms], ["MUST NOT", "MUST NOT"])
+        atoms = _expand_text("系統不得外洩個資，必須上傳日誌。")
+        self.assertEqual([a["risk_guard"]["polarity"] for a in atoms], ["MUST NOT", "MUST"])
+
+    def test_a_prohibition_whose_object_contains_a_modal_word_is_not_refused(self):
+        """Fail-closed must not become fail-always: `必須的` is an adjective here, not an obligation."""
+        atoms = _expand_text("系統不得使用必須的憑證。")
+        self.assertEqual(len(atoms), 1)
+        self.assertEqual(atoms[0]["risk_guard"]["polarity"], "MUST NOT")
+
+    def test_period_between_two_letters_still_ends_a_clause(self):
+        """A no-space sentence end (`A.Task`) is a boundary; a token (`api.example.com`) is not."""
+        atoms = _expand_text("Do task A.Task B must run.")
+        self.assertEqual([a["source_clause"]["text"] for a in atoms], ["Do task A", "Task B must run"])
+        atoms = _expand_text("Rate is 5.Use 3.")
+        self.assertEqual([a["source_clause"]["text"] for a in atoms], ["Rate is 5", "Use 3"])
+        # ...while the token cases stay one atom each, which is the D2 repair itself.
+        atoms = _expand_text("系統不得上傳至 api.example.com。")
+        self.assertEqual(len(atoms), 1)
 
     def test_distributive_and_baseline_negation_regressions_hold(self):
         # The pre-existing negation fixture is the regression oracle for D1: its four atoms,

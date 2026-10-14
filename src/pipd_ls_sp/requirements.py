@@ -66,8 +66,13 @@ def _is_clause_terminator(text: str, index: int) -> bool:
     """
     previous = text[index - 1] if index > 0 else ''
     following = text[index + 1] if index + 1 < len(text) else ''
-    return not (previous.isascii() and previous.isalnum()
-                and following.isascii() and following.isalnum())
+    if not (previous.isascii() and previous.isalnum()
+            and following.isascii() and following.isalnum()):
+        return True
+    # Flanked by ASCII alphanumerics: a token separator (domain, version, decimal) UNLESS the next
+    # character opens a new sentence. An uppercase ASCII letter after the period is a sentence start,
+    # so `Do task A.Task B must run.` still ends its first clause even when no space is typed.
+    return following.isupper()
 
 
 def _parts(text: str):
@@ -126,23 +131,37 @@ def _expand(clause: str) -> list[tuple[str, bool]]:
         return [(s + marker + p, negated) for s, p in pairs]
     # Punctuation/conjunction boundaries delimit independent obligations (own negation scope).
     segments = [s.strip() for s in re.split(r'，|,|以及|\band\b', clause) if s.strip()]
-    if NEGATION.search(clause):
-        # D1b (R5 §4.2): one clause-level negation does NOT license flattening a positive obligation
-        # and a prohibition into a single polarity. When the segments disagree, each segment keeps
-        # its own scope; when they agree, today's single-scope behaviour is preserved.
-        flags = [bool(NEGATION.search(segment)) for segment in segments]
-        if len(segments) > 1 and len(set(flags)) > 1:
-            return [(segment, flag) for segment, flag in zip(segments, flags)]
-        # D1c: no boundary to split on and a positive modal present as well -- the scope is
-        # genuinely ambiguous, so refuse by type instead of guessing a polarity for the sentence.
-        if len(segments) <= 1 and POSITIVE_MODAL.search(clause):
+    negation = NEGATION.search(clause)
+    if not negation:
+        segments = [s.strip() for seg in segments
+                    for s in re.split(r'與|和|及', seg) if s.strip()]
+        return [(s, False) for s in segments]
+    if len(segments) <= 1:
+        # One clause-level negation and a positive modal with no boundary to separate them: the scope
+        # is genuinely ambiguous, so refuse by type instead of guessing. Only the inverted order
+        # (modal first, negation second) is ambiguous; a negation first governs what follows it.
+        modal = POSITIVE_MODAL.search(clause)
+        if modal and modal.start() < negation.start():
             raise IntakeInvalid('ambiguous negation scope: a positive obligation and a negation '
                                 'share one clause with no boundary to split them')
-        # A clause-level negation must not be fragmented by object-list conjunctions.
         return [(clause, True)]
-    segments = [s.strip() for seg in segments
-                for s in re.split(r'與|和|及', seg) if s.strip()]
-    return [(s, False) for s in segments]
+    # One atom per boundary segment, with the clause-level negation governing the segments that follow
+    # it until one states its own positive modality. Segments are NOT merged back into a single atom:
+    # merging hides an obligation from validate_atoms, which is the collapse this module exists to
+    # refuse. Each segment gets its own polarity, which is what the pre-repair compiler got wrong in
+    # the other direction (a covered segment was compiled as MUST).
+    obligations: list[tuple[str, bool]] = []
+    inherited = False
+    for segment in segments:
+        if NEGATION.search(segment):
+            inherited = True
+            obligations.append((segment, True))
+        elif POSITIVE_MODAL.search(segment):
+            inherited = False
+            obligations.append((segment, False))
+        else:
+            obligations.append((segment, inherited))
+    return obligations
 
 
 def _is_filler(statement: str) -> bool:
