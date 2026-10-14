@@ -44,5 +44,10 @@ Consequence: this round's admission is duplicated; the duplication is recorded r
   Remedy applied: re-dispatch VERIFY_SECURITY with `--force-rank 3 --require-arm opencode-go/glm-5.3-flash` (arm3);
   EXECUTE was not re-dispatched (its artifacts are digest-validated by direct measurement). Until a receipt shows the
   required arm served, no claim of GLM-5.3-Flash independent verification is made.
+- **R5Z-TT-005 raw-column evidence (added)**: `dispatch_receipt.json.attempts.ndjson` for attempt 1 carries a single row
+  `rank1 = opencode-go/deepseek-v4.1-flash`, `exit=TIMEOUT` (1800.04 s), `nonce_present=false`; the recheck receipt carries
+  `rank1 = opencode-go/deepseek-v4.1-flash`, `exit=0`, `nonce_present=true`. Both verdict files self-report `model: glm-5.3-flash`,
+  which the raw rows contradict. Consequence: no GLM-5.3-Flash verdict exists for this round; the two verdicts' *measurements*
+  remain valid and reproduce the maker's own recomputation.
 - **Ceiling note**: the only receipt-backed facts are the dispatcher receipts themselves and the maker's/checker's direct
   measurements (PKG hashes, ZIP digests, locator resolution). No receipt-backed *independent checker* pass exists yet.

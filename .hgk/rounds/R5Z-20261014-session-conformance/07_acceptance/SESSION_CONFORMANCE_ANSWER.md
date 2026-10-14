@@ -203,3 +203,10 @@
 **但該裁決的臂綁定不合格（收據為證）**：`dispatch_receipt_recheck.json` 記 `ok=false`、`code=ERR_REQUIRED_ARM_NOT_SERVED`、`required_arm=opencode-go/glm-5.3-flash`、**`served_arm=opencode-go/deepseek-v4.1-flash`（rank 1，636 s，nonce 有）**。該車道自報 model `glm-5.3-flash` 與收據**矛盾** ⇒ 本裁決應標記為 **`LANE_VERDICT_NOT_ARM-COMPLIANT`**：其**量測**（17/17 引註、PKG 11/11、ZIP digest、七欄位）仍屬有效原始證據，但**不構成你指定之 GLM-5.3-Flash 獨立複核**（maker 腿同為 deepseek-v4.1-flash 家族）。
 **根因與矯正**：VERIFY_SECURITY 池 `ordered_pool` rank1＝`opencode-go/deepseek-v4.1-flash`、**rank3＝`opencode-go/glm-5.3-flash`**；先前派工未強制 rank，故池首位被服務。已以 `--force-rank 3 --require-arm opencode-go/glm-5.3-flash` 重派 **arm3**（bounded：僅驗五項更正＋引註清掃＋PKG/ZIP 回歸＋反汙染，並要求收據須顯示必要臂被服務）；裁決待落。
 另註：attempt-1 車道程序仍在跑（其後續回合仍在寫檔），已確認 `VERDICT.json` 現行 sha 與本輪收錄副本一致（無漂移），仍持續監看。
+
+
+#### attempt-1 車道臂綁定（原始列證，非自報）
+
+`dispatch_receipt.json.attempts.ndjson` 僅一列：`rank 1 = opencode-go/deepseek-v4.1-flash`、`exit = TIMEOUT`（**1800.04 s**）、`nonce_present = false`；因此（a）該車道回合實際由 **deepseek-v4.1-flash** 執行，非 `glm-5.3-flash`；（b）未輸出 nonce ⇒ 派工器未產生 `dispatch_receipt.json`，我的 runner 於自家 2100 s 上限被中止（`exit 1`）。
+⇒ **合併 recheck 收據後的事實：本輪兩份「獨立」裁決（attempt-1 FAIL、recheck PASS）皆由 `opencode-go/deepseek-v4.1-flash` 產出**，與 maker 腿同族；車道 JSON 自報 `model: glm-5.3-flash` **兩次皆與列證不符**。故本輪**不存在**由你指定之 `GLM-5.3-Flash` 產出的獨立裁決（arm3 矯正派工中）。
+仍然成立的是：兩份裁決的**量測**（引註解析、PKG 11/11、ZIP digest、ZIP 內部結構）與我本人的重算一致，屬可重跑的原始證據；被否定的是「模型級 SoD 已成立」這一**程序主張**。
