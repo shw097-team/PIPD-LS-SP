@@ -208,16 +208,20 @@ BASE=https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-preview.
 curl -fsSLO "$BASE/pipd_ls_sp-0.1.1a4-py3-none-any.whl"
 curl -fsSLO "$BASE/SHA256SUMS"
 
-# 2. Verify the bytes. Check exactly what step 1 downloaded: SHA256SUMS lists three assets, but
-#    only the wheel is present here, so select its line. This is the ONLY integrity check offered:
-#    there is no install-time or startup cryptographic readback, and no release signature.
+# 2. Verify the bytes. Check exactly what step 1 downloaded: SHA256SUMS lists every published asset
+#    of this release, but only the wheel is present here, so select its line. This is the ONLY
+#    integrity check offered: there is no install-time or startup cryptographic readback, and no
+#    release signature.
 #    Published wheel digest: 3b59a985dc9fc1cd4c1c5ca9a7b779122459ab7cadc8f439e17063d6c934cc0c
 grep '  pipd_ls_sp-0.1.1a4-py3-none-any.whl$' SHA256SUMS | sha256sum -c -
 #    expect: pipd_ls_sp-0.1.1a4-py3-none-any.whl: OK
 #    Alternative, only after fetching EVERY asset SHA256SUMS lists, the whole file checks clean:
 #      curl -fsSLO "$BASE/pipd-ls-sp-v0.1.1-preview.4-source.zip"
 #      curl -fsSLO "$BASE/PREVIEW_NOTES_v0.1.1-preview.4.md"
-#      sha256sum -c SHA256SUMS       # expect three ": OK" lines (wheel, source zip, notes)
+#      curl -fsSLO "$BASE/pipd-ls-sp-public-skills.zip"
+#      curl -fsSLO "$BASE/PIPD_WEB_FALLBACK.md"
+#      curl -fsSLO "$BASE/PIPD_WEB_FALLBACK.md.sha256"
+#      sha256sum -c SHA256SUMS       # expect one ": OK" line per listed asset (six here)
 
 # 3. Install into a virtual environment.
 python -m venv .venv
@@ -242,8 +246,8 @@ $Base = "https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-prev
 Invoke-WebRequest -Uri "$Base/pipd_ls_sp-0.1.1a4-py3-none-any.whl" -OutFile "pipd_ls_sp-0.1.1a4-py3-none-any.whl"
 Invoke-WebRequest -Uri "$Base/SHA256SUMS" -OutFile "SHA256SUMS"
 
-# 2. Verify the wheel against its published digest. SHA256SUMS lists three assets but only the wheel
-#    was fetched, so compare the wheel's own hash to the published literal.
+# 2. Verify the wheel against its published digest. SHA256SUMS lists every published asset of this
+#    release but only the wheel was fetched, so compare the wheel's own hash to the published literal.
 $expected = "3b59a985dc9fc1cd4c1c5ca9a7b779122459ab7cadc8f439e17063d6c934cc0c"
 $actual = (Get-FileHash -Algorithm SHA256 -Path "pipd_ls_sp-0.1.1a4-py3-none-any.whl").Hash.ToLower()
 if ($actual -ne $expected) { throw "wheel SHA-256 mismatch: $actual" }
