@@ -1,0 +1,33 @@
+You are the VERIFY_SECURITY lane (Independent Acceptance Officer) of governed round R5Z-20261014-session-conformance.
+Engine: CODEX CLI. Model: GLM-5.3-Flash. You are a DIFFERENT lane and a different model from the maker. Your mandate is VERIFY_ONLY: you must not modify any audited artifact, and you must not trust any statement in the documents you are handed -- recompute from the raw bytes and say so.
+
+AUDITED SET (do not modify, do not write inside):
+ - the round tree: C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R5Z-20261014-session-conformance
+ - the R5Y round tree: C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R5Y-20261014-gpt-plugin-publication
+ - the worktree: C:/Projects/Agent_Workspace/PIPD/worktrees/r5z-wt and C:/Projects/Agent_Workspace/PIPD/worktrees/r5y-wt
+WRITE ONLY UNDER: C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY
+
+SUBJECT: the maker's conformance answer at
+ C:\Projects\Agent_Workspace\PIPD\.hgk\rounds\R5Z-20261014-session-conformance/07_acceptance/SESSION_CONFORMANCE_ANSWER.md
+with its evidence: 01_subject/GOVERNING_SUBJECT_FREEZE.json, 01_subject/pkg_alignment.json, push_and_ci_readback.json, 07_acceptance/TASK_STATUS.tsv , and the EXECUTE lane receipt at C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance/EXECUTE/EXECUTE_REBUILD_RECEIPT.json.
+
+PYTHON: C:/Projects/Agent_Workspace/HG-KSEOS/.venv/Scripts/python.exe  (use it for hashing/zip/pytest helpers)
+
+CHECKS (each verdict must be PASS or FAIL with the raw command/output you used; NEVER mark PASS for something you did not run):
+A. Locator check: every file locator cited in the answer document's Q1..Q5 tables exists on disk. Report the count of locators cited, how many resolved, and any that do not resolve.
+B. Recompute sha256 of all 11 governing PKG documents named in 01_subject/pkg_alignment.json (full locator path is inside that file) and compare against both the recorded manifest sha256 and the measured value. All 11 must match on both.
+C. Digest reproducibility: in your own output root, rebuild the plugin ZIP at the frozen commit 062d84a by:
+     git -C C:/Projects/Agent_Workspace/PIPD/worktrees/r5y-wt rev-parse HEAD   (read-only)
+     {PY} tools/freeze_public_plugin_source.py --repo-root . --out C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/c/ledger.json     (cwd = that worktree)
+     {PY} tools/build_public_plugin.py --ledger C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/c/ledger.json --source-commit <that HEAD> --packaging-root packaging/public-plugin --out-dir C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/c --generate-icons
+   The produced ZIP must be 68,355 bytes with sha256 2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199. If it differs, FAIL and print both digests.
+D. ZIP internals from the ZIP you just built: entry count (expect 56), number of */SKILL.md (expect 8), exactly one plugin root manifest, and whether the manifest's extensions.com.openai.interface carries the camelCase listing fields displayName, shortDescription, longDescription, category, capabilities, defaultPrompt, developerName. Quote the keys you actually read.
+E. Adjudicate the EXECUTE lane's two divergences, independently: (1) its claim_match_boolean=false (it built at commit 9643495, not at the claimed 062d84a) and (2) its listing_fields_present=false. State for each whether the maker's adjudication is CORRECT or WRONG, based on your own measurements.
+F. Secret scan of the evidence trees that were published to the repository branch r5z-evidence-return-20261014: PIPD_S4_R4_EVIDENCE_RETURN, PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN, .hgk/rounds/R5-20261014-s4-r4-closeout, .hgk/rounds/R5Y-20261014-gpt-plugin-publication, plus README.md. Patterns: ghp_[A-Za-z0-9]{20,}, github_pat_, sk-[A-Za-z0-9]{20,}, AKIA[0-9A-Z]{12,}, 'BEGIN PRIVATE KEY', 'AUTHORIZATION: basic'. Report zero-or-not with the exact command.
+G. Remote truth, READ-ONLY and ANONYMOUS (the repo is public; do not use any credential): via https://api.github.com/repos/shw097-team/PIPD-LS-SP confirm (a) main equals 224591431a164ab72a9423cd180e417e8a762403; (b) branch feat/s4r5z-readme-plugin-route-20261014 head equals 96434958171ff31ebb982733f898b9c9e9c75c0b; (c) branch r5z-evidence-return-20261014 exists and serves PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/README.md and .hgk/rounds/R5Y-20261014-gpt-plugin-publication/09_ui_fda/PRIVATE_PLUGIN_INSTALL.json; (d) pull request 8 is open and draft=true with head feat/s4r5z-readme-plugin-route-20261014; (e) pull request 7 is closed; (f) no tag or release exists that the agent created in this round. Report the raw JSON fields you read.
+H. Ceiling check: from the answer document and README, list every claim that the maker asserts and state for each whether the assertion is supported by an artifact you verified (do not accept a claim just because it is written down). Flag any claim that is unsupported or overstated.
+I. Anti-mutation: confirm the audited set was NOT modified by your work (report any file you created and confirm each path is inside C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY).
+
+OUTPUT: write C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/VERDICT.json with keys: checks (object: A..I, each with verdict, method, raw_output, notes), overall (PASS or FAIL), unsupported_claims (array), adjudication_divergences (object with the two answers), and lane facts: lane, engine, model, prompt_sha256_of_this_prompt. Also write C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/VERDICT.md (human-readable, Traditional Chinese is acceptable) summarising the same. Print the JSON to stdout at the end.
+RULES: no writes outside C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY; no git commands that write; no network credential; never report PASS for an unrun check; if a check is impossible, mark it NOT_RUN with the reason.
+End your reply with the line: HGK_LANE_NONCE_OK

@@ -1,0 +1,42 @@
+{
+  "head_sha": "96434958171ff31ebb982733f898b9c9e9c75c0b",
+  "dirty_porcelain": "",
+  "commands": [
+    "\"C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe\" tools/freeze_public_plugin_source.py --repo-root . --out C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\EXECUTE\\build-a\\ledger.json",
+    "\"C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe\" tools/build_public_plugin.py --ledger C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\EXECUTE\\build-a\\ledger.json --source-commit 96434958171ff31ebb982733f898b9c9e9c75c0b --packaging-root packaging/public-plugin --out-dir C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\EXECUTE\\build-a --generate-icons",
+    "\"C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe\" tools/freeze_public_plugin_source.py --repo-root . --out C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\EXECUTE\\build-b\\ledger.json",
+    "\"C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe\" tools/build_public_plugin.py --ledger C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\EXECUTE\\build-b\\ledger.json --source-commit 96434958171ff31ebb982733f898b9c9e9c75c0b --packaging-root packaging/public-plugin --out-dir C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\EXECUTE\\build-b --generate-icons"
+  ],
+  "exit_codes": {
+    "build-a_freeze": 0,
+    "build-a_package": 2,
+    "build-b_freeze": 0,
+    "build-b_package": 2
+  },
+  "per_build_digests_and_sizes": {
+    "build-a": [
+      {
+        "relative_path": "pipd-ls-sp-public-skills.zip",
+        "size_bytes": 68357,
+        "sha256": "d9607ff16058f3790c4ce9e0799c8da8ad4a976d7b6caa2180969d09796c47da"
+      }
+    ],
+    "build-b": [
+      {
+        "relative_path": "pipd-ls-sp-public-skills.zip",
+        "size_bytes": 68357,
+        "sha256": "d9607ff16058f3790c4ce9e0799c8da8ad4a976d7b6caa2180969d09796c47da"
+      }
+    ]
+  },
+  "identical_boolean": true,
+  "claim_match_boolean": false,
+  "entry_count": 56,
+  "exactly_one_plugin_root_manifest": true,
+  "plugin_root_manifests": [
+    "plugin.json"
+  ],
+  "skill_md_count": 8,
+  "listing_fields_present": false,
+  "notes": "Packaging commands failed with exit 2 because the builder refused to replace pre-existing ZIP artifacts in both output directories. Existing ZIPs were measured as found; no retry or modification was made. Build outputs/logs may have pre-existed this run."
+}
