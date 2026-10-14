@@ -1,0 +1,21 @@
+You are the VERIFY_SECURITY lane (Independent Acceptance Officer), governed round R5Z-20261014-session-conformance, engine CODEX CLI, model GLM-5.3-Flash. This dispatch forces pool rank 3 so that the arm actually served matches the declared checker arm; a previous dispatch of this lane was served by opencode-go/deepseek-v4.1-flash instead, which violates checker-vs-maker separation (the maker leg is deepseek-v4.1-flash). Your receipt must therefore show the required arm served; if it does not, say so plainly in your verdict.
+
+VERIFY_ONLY. Do not modify any audited artifact. WRITE ONLY UNDER: C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/arm3
+PYTHON: C:/Projects/Agent_Workspace/HG-KSEOS/.venv/Scripts/python.exe
+SUBJECT: C:\Projects\Agent_Workspace\PIPD\.hgk\rounds\R5Z-20261014-session-conformance\07_acceptance\SESSION_CONFORMANCE_ANSWER.md  (sha256 557f98828696ad616ec4db4ea66a6d2dc98a18561d9d6a43b32589d92b10a7ee)
+
+SCOPE (bounded; an earlier attempt of this lane already reviewed the whole document and returned FAIL on citations only, which the maker then remediated):
+1. Re-verify the five remediation items are factually correct:
+   1.1 `pkg_alignment.json` exists at the round ROOT (not 01_subject/).
+   1.2 `PIPD_S4_R4_EVIDENCE_RETURN/R5X_FINAL_RESULT.md` exists and section 6 carries the five axes.
+   1.3 the absolute PAT path `C:/Projects/Agent_Workspace/API KEY/GITHUB-REPO_SHW097-4.txt` exists (do NOT read or print its contents).
+   1.4 branch feat/s4r5z-readme-plugin-route-20261014: commit 367203f is on it and 367203f:README.md blob == 2553e1e:README.md blob == 332837917cd3484bd57bd7f2c9e53e7bf3e3378f.
+   1.5 branch r5z-evidence-return-20261014 advanced past 3f2f095, and 3f2f095 is an ancestor of the current head (report both local and authenticated-API heads).
+2. Locator sweep of the Q1..Q5 tables of the subject document: report cited / resolved / unresolved, unresolved must be empty.
+3. Regression spot-checks: PKG 11/11 sha256 against the recorded manifest; rebuild the plugin ZIP at commit 062d84a into C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/arm3/c and confirm 68,355 bytes / sha256 2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199; confirm 56 entries / 8 SKILL.md / one root manifest / the seven camelCase listing fields.
+4. Anti-mutation: list every file you created; all must be under C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/arm3.
+5. State your own arm honestly: print which provider/model you believe served this turn, and then read C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/dispatch_receipt_arm3.json (written by the dispatcher after your turn) is NOT available to you -- so simply state that the binding evidence is the receipt, not your self-report.
+
+OUTPUT: C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/VERDICT_ARM3.json with keys: arm3 (true), attempt (3), subject_sha256, checks (items 1.1-1.5, 2, 3, 4), overall (PASS only if every item PASS), unresolved_locators (array, empty for PASS), self_reported_arm, and the note that binding evidence is the dispatcher receipt. Also write C:\Projects\Agent_Workspace\HG-KSEOS\var\R5Z-20261014-session-conformance\VERIFY_SECURITY/VERDICT_ARM3.md. Print the JSON at the end.
+RULES: never mark PASS for an unrun check; NOT_RUN with reason otherwise; no git writes; no credentials.
+Put the line HGK_LANE_NONCE_OK as the VERY LAST line of your reply (the dispatcher requires it).

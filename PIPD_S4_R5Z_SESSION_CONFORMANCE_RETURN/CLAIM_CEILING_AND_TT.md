@@ -35,8 +35,14 @@ While this round ran, other actors wrote admission rows to the same spine for th
 `hermes-plan-glm5.3-flash` (17 events), `lifecycle-controller` (8), `hermes-main-GPT61-SOL-medium-orchestrator` (7).
 Consequence: this round's admission is duplicated; the duplication is recorded rather than silently merged or deleted.
 
-- **R5Z-TT-005 (OPEN)** — lane arm-binding receipts: the EXECUTE lane receipt is `ok=false / ERR_REQUIRED_ARM_NOT_SERVED`
-  (served arm `openai-codex/gpt-6-luna`, rank 3), and the VERIFY_SECURITY lane's receipts had not been emitted when this
-  document was frozen. The lane verdicts therefore rest on the *lane's own model field* plus the maker's and checker's
-  independent measurements, not on a served-arm receipt. Remedy: re-dispatch both lanes with a nonce the dispatcher
-  recognises, or accept externally-measured artifacts as the binding evidence and say so.
+- **R5Z-TT-005 (OPEN, receipt-confirmed)** — lane arm binding is non-compliant on both dispatched legs:
+  EXECUTE receipt `ok=false / ERR_REQUIRED_ARM_NOT_SERVED` (required `opencode-go/deepseek-v4.1-flash`, served
+  `openai-codex/gpt-6-luna` rank 3); VERIFY_SECURITY recheck receipt `ok=false / ERR_REQUIRED_ARM_NOT_SERVED`
+  (required `opencode-go/glm-5.3-flash`, served `opencode-go/deepseek-v4.1-flash` rank 1, 636 s, nonce present).
+  Root cause: the pool (`config/lane-route-slots.candidate.json`) orders `opencode-go/deepseek-v4.1-flash` first for both
+  lanes, so an unforced dispatch serves it and the receipt then flags the required-arm mismatch.
+  Remedy applied: re-dispatch VERIFY_SECURITY with `--force-rank 3 --require-arm opencode-go/glm-5.3-flash` (arm3);
+  EXECUTE was not re-dispatched (its artifacts are digest-validated by direct measurement). Until a receipt shows the
+  required arm served, no claim of GLM-5.3-Flash independent verification is made.
+- **Ceiling note**: the only receipt-backed facts are the dispatcher receipts themselves and the maker's/checker's direct
+  measurements (PKG hashes, ZIP digests, locator resolution). No receipt-backed *independent checker* pass exists yet.

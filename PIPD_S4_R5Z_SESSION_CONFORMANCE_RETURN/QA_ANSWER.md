@@ -200,4 +200,6 @@
 **`overall = PASS`**（受審答案 sha256 `62f8e5390b772903…`；`unresolved_locators = []`）。逐項：五項更正全數 `PASS / CORRECT`；A2 引註 **17 引用／17 解析／0 失效**；B2 PKG **11/11** 一致；C2 於 `062d84a` 重建 ZIP＝68,355 B／`2f9ae010…d199`；D2 56 entries／8 `SKILL.md`／單一根／七個 camelCase 欄位；I2 受稽核集零變更。
 裁決檔：`06_verification/VERDICT_RECHECK_PASS.json`（sha256 `f8019bd9903b40b9…`）。
 **未抹除首輪 FAIL**（`VERDICT_attempt1_FAIL.json` 並存）；`R5Z-TT-004` 狀態更新為 **REMEDIATED + recheck-verified**。
-惟該車道之派工收據（`dispatch_receipt_recheck.json`）於本文件凍結時尚未生成 ⇒ **其模型臂綁定仍未經收據證明**（該車道自報 model `glm-5.3-flash`；此點與 EXECUTE 車道同類風險已一併揭露，待收據落地後補記，不得以自報代替收據）。
+**但該裁決的臂綁定不合格（收據為證）**：`dispatch_receipt_recheck.json` 記 `ok=false`、`code=ERR_REQUIRED_ARM_NOT_SERVED`、`required_arm=opencode-go/glm-5.3-flash`、**`served_arm=opencode-go/deepseek-v4.1-flash`（rank 1，636 s，nonce 有）**。該車道自報 model `glm-5.3-flash` 與收據**矛盾** ⇒ 本裁決應標記為 **`LANE_VERDICT_NOT_ARM-COMPLIANT`**：其**量測**（17/17 引註、PKG 11/11、ZIP digest、七欄位）仍屬有效原始證據，但**不構成你指定之 GLM-5.3-Flash 獨立複核**（maker 腿同為 deepseek-v4.1-flash 家族）。
+**根因與矯正**：VERIFY_SECURITY 池 `ordered_pool` rank1＝`opencode-go/deepseek-v4.1-flash`、**rank3＝`opencode-go/glm-5.3-flash`**；先前派工未強制 rank，故池首位被服務。已以 `--force-rank 3 --require-arm opencode-go/glm-5.3-flash` 重派 **arm3**（bounded：僅驗五項更正＋引註清掃＋PKG/ZIP 回歸＋反汙染，並要求收據須顯示必要臂被服務）；裁決待落。
+另註：attempt-1 車道程序仍在跑（其後續回合仍在寫檔），已確認 `VERDICT.json` 現行 sha 與本輪收錄副本一致（無漂移），仍持續監看。
