@@ -142,7 +142,7 @@
 | `feat/s4r5x-manifest-fit-20261014` | `e00ab7b6…` | R5X manifest fit（A 段） | hosted `ci` run success |
 | `feat/s4r5y-plugin-publication-20261014` | `062d84ae…` | 外掛候選（listing 欄位）；**PR #6 draft** | `ci`＋`public-plugin-verify` success |
 | `feat/s4r5z-readme-plugin-route-20261014` | `9643495…` | README 私人路線＋ADR-0007；**PR #8 draft** | `ci` success；`public-plugin-verify` success（PR 事件與 dispatch 各一次） |
-| `r5z-evidence-return-20261014` | `51bd8e5…`（首推，僅 R4/R5Y 證據）→ **`3f2f095…`（加入本輪 R5Z pack 後的現行 head）** | **證據包**：`PIPD_S4_R4_EVIDENCE_RETURN/`、`PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/`（78 檔，含 UI log 與截圖）、`.hgk/rounds/` 兩輪 | 無 PR（gate 只判 PR）；遠端檔案讀回已驗（`contents` API 取得 README 2,857 B、`PRIVATE_PLUGIN_INSTALL.json` 4,030 B） |
+| `r5z-evidence-return-20261014` | `51bd8e5…`（首推，僅 R4/R5Y 證據）→ `3f2f095…`（加入本輪 R5Z 首版 pack）→ 之後每次 pack 更正再遞增（判準：`3f2f095` 必為該分支 head 之祖先；確切 head 以 `06_verification/` 與遠端讀回為準，不以本表為準） | **證據包**：`PIPD_S4_R4_EVIDENCE_RETURN/`、`PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/`（78 檔，含 UI log 與截圖）、`.hgk/rounds/` 兩輪 | 無 PR（gate 只判 PR）；遠端檔案讀回已驗（`contents` API 取得 README 2,857 B、`PRIVATE_PLUGIN_INSTALL.json` 4,030 B） |
 
 **過程揭露（不隱藏紅燈）**：
 - 首次把「README＋證據」放在同一分支（head `51bd8e5`）→ `public-plugin-verify` 的 `Prove the upgrade wrote only inside its allowed set` **真實紅燈**（證據路徑不在 Stage-B 正面允許清單內）。
@@ -194,3 +194,10 @@
 | 5 | 證據分支 head `51bd8e5` | 現行 head 為 **`3f2f0956583449b4698af3b8a21c493cae80ce3c`**（`51bd8e5` 為被取代的首推 head） | Q5 表已改為兩者並列 |
 
 ⇒ 開立 **`R5Z-TT-004`**：首輪獨立複核因引註瑕疵判 FAIL；更正後須以**同一車道**做 bounded recheck（attempt 2），且**首輪 FAIL 保留於紀錄**，不得抹除或以 recheck 取代。
+
+### bounded recheck 結果（attempt 2，同車道 VERIFY_SECURITY）
+
+**`overall = PASS`**（受審答案 sha256 `62f8e5390b772903…`；`unresolved_locators = []`）。逐項：五項更正全數 `PASS / CORRECT`；A2 引註 **17 引用／17 解析／0 失效**；B2 PKG **11/11** 一致；C2 於 `062d84a` 重建 ZIP＝68,355 B／`2f9ae010…d199`；D2 56 entries／8 `SKILL.md`／單一根／七個 camelCase 欄位；I2 受稽核集零變更。
+裁決檔：`06_verification/VERDICT_RECHECK_PASS.json`（sha256 `f8019bd9903b40b9…`）。
+**未抹除首輪 FAIL**（`VERDICT_attempt1_FAIL.json` 並存）；`R5Z-TT-004` 狀態更新為 **REMEDIATED + recheck-verified**。
+惟該車道之派工收據（`dispatch_receipt_recheck.json`）於本文件凍結時尚未生成 ⇒ **其模型臂綁定仍未經收據證明**（該車道自報 model `glm-5.3-flash`；此點與 EXECUTE 車道同類風險已一併揭露，待收據落地後補記，不得以自報代替收據）。

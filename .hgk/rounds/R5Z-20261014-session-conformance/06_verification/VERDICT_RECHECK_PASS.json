@@ -1,0 +1,82 @@
+{
+  "recheck": true,
+  "attempt": 2,
+  "round": "R5Z-20261014-session-conformance",
+  "subject": "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R5Z-20261014-session-conformance\\07_acceptance\\SESSION_CONFORMANCE_ANSWER.md",
+  "subject_sha256": "62f8e5390b7729036dc6a2484276cf07fa2ad2adaea2a9dd769384cbb9b08f09",
+  "checks": {
+    "remediation_1_q4_pkg_alignment_root": {
+      "verdict": "PASS",
+      "claim_verdict": "CORRECT",
+      "method": "Resolved Q4 raw-source locator literally against the R5Z round root and checked file existence.",
+      "raw_output": "exists=True :: C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R5Z-20261014-session-conformance\\pkg_alignment.json ; bytes=4740 ; round-root listing shows pkg_alignment.json at root, not under 01_subject/.",
+      "notes": "The remediated document now cites `pkg_alignment.json` and expressly says round root, not 01_subject/."
+    },
+    "remediation_2_q1_r5x_final_result": {
+      "verdict": "PASS",
+      "claim_verdict": "CORRECT",
+      "method": "Resolved `PIPD_S4_R4_EVIDENCE_RETURN/R5X_FINAL_RESULT.md` against PIPD root; read the file and searched for the five named axes.",
+      "raw_output": "resolved=C:\\Projects\\Agent_Workspace\\PIPD\\PIPD_S4_R4_EVIDENCE_RETURN\\R5X_FINAL_RESULT.md ; bytes=4140 ; section 6 contains: MERGE: NOT_RUN; PREVIEW: NOT_RUN; PRIVATE_PLUGIN: READY_NOT_VERIFIED; PUBLIC_DIRECTORY: HOLD; FULL_S4: PARTIAL.",
+      "notes": "The prior dangling `PIPD_S4_R4_EVIDENCE_RETURN/05_AXES.md` locator is gone from the Q1 table."
+    },
+    "remediation_3_pat_absolute_path": {
+      "verdict": "PASS",
+      "claim_verdict": "CORRECT",
+      "method": "Checked existence of the literal absolute path `C:/Projects/Agent_Workspace/API KEY/GITHUB-REPO_SHW097-4.txt` without reading or printing contents.",
+      "raw_output": "Test-Path => True ; no contents read or printed.",
+      "notes": "Credential material was not opened, hashed, copied, or echoed."
+    },
+    "remediation_4_readme_commit_and_blob": {
+      "verdict": "PASS",
+      "claim_verdict": "CORRECT",
+      "method": "git merge-base ancestry check for argv commit against branch; git rev-parse for README blob ids at 367203f and 2553e1e; git diff --quiet blob comparison.",
+      "raw_output": "367203f:README.md -> 332837917cd3484bd57bd7f2c9e53e7bf3e3378f ; 2553e1e:README.md -> 332837917cd3484bd57bd7f2c9e53e7bf3e3378f ; diff --quiet exit=0 ; merge-base --is-ancestor 367203f feat/s4r5z-readme-plugin-route-20261014 exit=0 ; merge-base --is-ancestor 2553e1e feat/... exit=1.",
+      "notes": "The two README blobs are identical and both are Git blob object id 332837917cd3484bd57bd7f2c9e53e7bf3e3378f. That 40-hex value is the Git blob object id; the sha256 of the README content measured here is 2215c77f662fbcaa561a4977ccb76b7a240855c4f8e5426f74373963f880562b. The substantive claim that the README change on the target branch is 367203f and its README blob equals 2553e1e's is CORRECT."
+    },
+    "remediation_5_evidence_branch_head": {
+      "verdict": "PASS",
+      "claim_verdict": "CORRECT",
+      "method": "Resolved r5z-evidence-return-20261014 from local refs and from anonymous GitHub API; checked ancestry 51bd8e5 -> 3f2f095 -> current head.",
+      "raw_output": "local refs/heads/r5z-evidence-return-20261014 = d6bfd1a92b6c2932d10ae1fbb9425e43deab8bb9 ; local refs/remotes/origin/r5z-evidence-return-20261014 = d6bfd1a92b6c2932d10ae1fbb9425e43deab8bb9 ; anonymous GitHub API ref/heads/r5z-evidence-return-20261014 object.sha = d6bfd1a92b6c2932d10ae1fbb9425e43deab8bb9 ; merge-base --is-ancestor 51bd8e5 3f2f095 exit=0 ; merge-base --is-ancestor 3f2f095 d6bfd1a exit=0.",
+      "notes": "The later head is d6bfd1a, not raw 3f2f095. The required chain 51bd8e5 -> 3f2f095 -> later head holds."
+    },
+    "A2": {
+      "verdict": "PASS",
+      "method": "Extracted every backtick-quoted file-like locator from the Q1..Q5 table region of the remediated document and resolved each against R5Z round root, r5z-wt, PIPD root, r5y-wt, R5Y round tree, then fallback filename search under PIPD/HG-KSEOS var/PIPD .hgk where needed.",
+      "raw_output": "cited_count=17 ; resolved_count=17 ; unresolved_count=0 ; unresolved=[] ; cited names: 01_subject/GOVERNING_SUBJECT_FREEZE.json; ADDENDUM.json; C:/Projects/Agent_Workspace/API KEY/GITHUB-REPO_SHW097-4.txt; PIPD_S4_R4_EVIDENCE_RETURN/R5X_FINAL_RESULT.md; PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/09_ui_*/PRIVATE_PLUGIN_INSTALL.json; PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/R5Y_FINAL_RESULT.md; PIPD_S4_R5Z_SESSION_CONFORMANCE_RETURN/README.md; PRIVATE_PLUGIN_INSTALL.json; SKILL.md; SOURCE_TO_PLUGIN_MAPPING.json; checker-verdict-recheck.json; checker-verdict.json; docs/adr/ADR-0007-plugin-distribution-private-first.md; hg-kseos.db; pkg_alignment.json; plugin.json; source-freeze/sources_manifest.json.",
+      "notes": "Regression guard is clean for the required Q1..Q5 region. The document's later supplemental 'Independent review' paragraph cites 06_verification/VERDICT.json, but that paragraph lies outside Q1..Q5; the round tree currently contains VERDICT_attempt1_FAIL.json instead. This is out of scope for A2 and does not alter these 17 Q1..Q5 locators."
+    },
+    "B2": {
+      "verdict": "PASS",
+      "method": "Read pkg_alignment.json, recomputed sha256 of all 11 PKG files from the governing_set directory, and compared each recomputation against the row's recorded manifest_sha256 and against the source manifest rows.",
+      "raw_output": "matched=11/11 ; rows each exists=True and recomputed==recorded==manifest_row_sha256. PKG-00 89b60fde...; PKG-01 4c468e38...; PKG-02 decf4210...; PKG-03 a8d61dc4...; PKG-04 967c0a49...; PKG-05 b01b1705...; PKG-06 07359209...; PKG-07 213b49c5...; PKG-08 e93fe813...; PKG-09 b2952652...; PKG-10 e089fa09...",
+      "notes": "sources_manifest.json contains 81 hash rows; each of the 11 PKG rows was found in the manifest."
+    },
+    "C2": {
+      "verdict": "PASS",
+      "method": "In r5y-wt at 062d84ae3e951d02b2ba6bb732359b18799d2864, ran tools/freeze_public_plugin_source.py --repo-root . --out recheck/c/ledger.json, then tools/build_public_plugin.py --ledger recheck/c/ledger.json --source-commit 062d84a... --packaging-root packaging/public-plugin --out-dir recheck/c --generate-icons. Measured output with sha256 and byte size.",
+      "raw_output": "git status --porcelain=[] ; freeze_exit=0 ; ledger.commit=062d84ae3e951d02b2ba6bb732359b18799d2864 ; ledger.tree=f642e2b7900b0369f6925948d3a43aba0575016c ; build_exit=0 ; zip=C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\recheck\\c\\pipd-ls-sp-public-skills.zip ; size=68355 ; sha256=2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199.",
+      "notes": "Exact claimed size and digest reproduced."
+    },
+    "D2": {
+      "verdict": "PASS",
+      "method": "Opened the rebuilt ZIP with python zipfile and inspected entries plus pipd-ls-sp-public-skills/plugin.json extensions.com.openai.interface.",
+      "raw_output": "entries=56 ; */SKILL.md count=8 ; plugin root manifest entries=['pipd-ls-sp-public-skills/plugin.json'] ; interface keys=['capabilities','category','defaultPrompt','developerName','displayName','display_name','longDescription','shortDescription'] ; required camelCase present=True for displayName, shortDescription, longDescription, category, capabilities, defaultPrompt, developerName.",
+      "notes": "Legacy snake_case display_name is also present; the seven required camelCase fields are all present."
+    },
+    "I2": {
+      "verdict": "PASS",
+      "method": "Listed files created under the lane output root; ran git status --porcelain in audited worktrees; re-checked subject sha256 after writing.",
+      "raw_output": "Files created under VERIFY_SECURITY/recheck: A2_locators.json; locators_a2.py; locators_recheck.py; pkg_recheck.py; pkg_recheck.out.json; zip_inspect.py; zip_inspect.out.json; write_verdict_recheck.py; VERDICT_RECHECK.json; VERDICT_RECHECK.md; c/build.log; c/freeze.log; c/ledger.json; c/RELEASE_RECEIPT.json; c/SOURCE_TO_PLUGIN_MAPPING.json; c/pipd-ls-sp-public-skills.zip; c/pipd-ls-sp-public-skills.zip.sha256. Required verdict outputs are also placed at the explicitly requested lane-level paths VERIFY_SECURITY/VERDICT_RECHECK.json and VERIFY_SECURITY/VERDICT_RECHECK.md. Audited status: r5z-wt porcelain=[] at 9643495; r5y-wt porcelain=[] at 062d84a; r5z-ev-wt porcelain=[] at d6bfd1a; subject sha256 unchanged=62f8e5390b7729036dc6a2484276cf07fa2ad2adaea2a9dd769384cbb9b08f09.",
+      "notes": "No audited artifact was modified. All scratch and rebuild outputs are under VERIFY_SECURITY/recheck; the two lane-level verdict files are the outputs explicitly requested by the prompt."
+    }
+  },
+  "overall": "PASS",
+  "unresolved_locators": [],
+  "notes": "Bounded recheck attempt 2. All five remediation items independently verified as CORRECT and checks A2/B2/C2/D2/I2 all PASS. The audited subject hash matched the required value before and after the recheck.",
+  "lane": {
+    "lane": "VERIFY_SECURITY",
+    "engine": "codex-cli",
+    "model": "glm-5.3-flash"
+  }
+}

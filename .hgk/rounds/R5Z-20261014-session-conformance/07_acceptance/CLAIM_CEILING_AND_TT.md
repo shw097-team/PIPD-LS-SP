@@ -21,7 +21,7 @@
 - **R5Z-TT-003 (CLOSED_THIS_ROUND)** — A branch carrying both the README change and the evidence went red at the Stage-B positive write-set gate. Closed by separating branches; the allowlist was NOT widened.
 - Note: the ZIP digest is **commit-bound**; any cross-commit digest comparison is void by construction (recorded so it is not re-raised as a defect).
 
-- **R5Z-TT-004 (REMEDIATED, awaiting bounded recheck)** — the first independent verdict returned `overall=FAIL`
+- **R5Z-TT-004 (REMEDIATED + RECHECK-VERIFIED)** — the first independent verdict returned `overall=FAIL`
   on check A: three cited locators did not resolve as written (`01_subject/pkg_alignment.json`,
   `PIPD_S4_R4_EVIDENCE_RETURN/05_AXES.md`, a relative `API KEY/...` path) plus two wrong identifiers (README
   commit `2553e1e` instead of the branch's `367203f`; evidence-branch head `51bd8e5` instead of `3f2f095`).
@@ -34,3 +34,9 @@ While this round ran, other actors wrote admission rows to the same spine for th
 `REQ-PIPD-R5Z-CONFORMANCE-001` (04:12:55Z). Spine actors active on 2026-10-14 include
 `hermes-plan-glm5.3-flash` (17 events), `lifecycle-controller` (8), `hermes-main-GPT61-SOL-medium-orchestrator` (7).
 Consequence: this round's admission is duplicated; the duplication is recorded rather than silently merged or deleted.
+
+- **R5Z-TT-005 (OPEN)** — lane arm-binding receipts: the EXECUTE lane receipt is `ok=false / ERR_REQUIRED_ARM_NOT_SERVED`
+  (served arm `openai-codex/gpt-6-luna`, rank 3), and the VERIFY_SECURITY lane's receipts had not been emitted when this
+  document was frozen. The lane verdicts therefore rest on the *lane's own model field* plus the maker's and checker's
+  independent measurements, not on a served-arm receipt. Remedy: re-dispatch both lanes with a nonce the dispatcher
+  recognises, or accept externally-measured artifacts as the binding evidence and say so.
