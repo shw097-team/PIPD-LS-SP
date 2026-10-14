@@ -1,0 +1,52 @@
+{
+  "record": "private ChatGPT Web plugin smoke attempt, round R5R-20261014-s4-preview4-focused-close",
+  "status": "BLOCKED_AWAITING_UI_CONSENT",
+  "host": {
+    "os": "Windows 11",
+    "browser": "Chrome, one open tab already signed in to ChatGPT",
+    "observed_before_the_block": "the tab inventory was captured and the ChatGPT tab was identified; no page content was read and no account detail is recorded here"
+  },
+  "sequence": [
+    {
+      "step": 1,
+      "action": "list_windows (read-only)",
+      "result": "Chrome window found with a ChatGPT tab present",
+      "side_effect": "none"
+    },
+    {
+      "step": 2,
+      "action": "capture mode=ax (read-only)",
+      "result": "element tree captured; tab bounds resolved",
+      "side_effect": "none"
+    },
+    {
+      "step": 3,
+      "action": "click, background delivery, to switch to the ChatGPT tab",
+      "result": "REFUSED: 'Action timed out without user response. The user has NOT consented to this action.'",
+      "retried": false,
+      "rule_applied": "silence is not consent; do not retry, do not rephrase, do not reach the same outcome another way"
+    }
+  ],
+  "not_done": [
+    "opening the plugin upload surface",
+    "selecting pipd-ls-sp-public-skills.zip",
+    "observing the eight skills after install",
+    "the source-positive invocation and the no-source typed refusal",
+    "uninstall / rollback on the account"
+  ],
+  "authorization_state": {
+    "owner_text_authorizing_desktop_use": "present in the session and recorded by the pre-call mint hook",
+    "session_token": "minted for this session and valid at attempt time",
+    "tool_level_consent": "not granted (prompt timed out)"
+  },
+  "ceiling": {
+    "private_plugin_installed": "NOT CLAIMED for this round",
+    "not_supported_for_account": "NOT CLAIMED (the account was never shown to lack the option)",
+    "previously_observed_on_a_real_account": "one account recorded upload -> install -> eight skills -> one source-positive invocation and one no-source refusal, in the r5z evidence return; not replayed here",
+    "what_the_release_does_support": "the asset is published, downloadable and digest-verified, so the smoke can be run by the owner or in a session that grants desktop consent without any new build"
+  },
+  "closing_actions_available_to_the_owner": [
+    "grant the desktop-input approval once when prompted and the same nine-step log can be produced",
+    "or perform the upload manually: download pipd-ls-sp-public-skills.zip from the release, check it against SHA256SUMS, import it through the account's plugin upload flow, and record what the install page reports"
+  ]
+}

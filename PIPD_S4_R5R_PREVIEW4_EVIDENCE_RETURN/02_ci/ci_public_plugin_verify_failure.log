@@ -1,0 +1,929 @@
+﻿2026-10-14T10:30:03.0223615Z Current runner version: '2.337.0'
+2026-10-14T10:30:03.0252153Z ##[group]Runner Image Provisioner
+2026-10-14T10:30:03.0253182Z Hosted Compute Agent
+2026-10-14T10:30:03.0253770Z Version: 20261002.596
+2026-10-14T10:30:03.0254713Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+2026-10-14T10:30:03.0255509Z Build Date: 2026-10-02T22:28:27Z
+2026-10-14T10:30:03.0256210Z Worker ID: {4ad0c619-5b1e-4be6-a7f7-d77f54df9b59}
+2026-10-14T10:30:03.0257026Z Region: westus
+2026-10-14T10:30:03.0257586Z Cloud: Azure
+2026-10-14T10:30:03.0258161Z ##[endgroup]
+2026-10-14T10:30:03.0259774Z ##[group]Operating System
+2026-10-14T10:30:03.0260442Z Ubuntu
+2026-10-14T10:30:03.0261058Z 24.04.5
+2026-10-14T10:30:03.0261570Z LTS
+2026-10-14T10:30:03.0262116Z ##[endgroup]
+2026-10-14T10:30:03.0262745Z ##[group]Runner Image
+2026-10-14T10:30:03.0263353Z Image: ubuntu-24.04
+2026-10-14T10:30:03.0263965Z Version: 20261004.327.1
+2026-10-14T10:30:03.0265462Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-14T10:30:03.0267159Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+2026-10-14T10:30:03.0268139Z ##[endgroup]
+2026-10-14T10:30:03.0269314Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T10:30:03.0271313Z Contents: read
+2026-10-14T10:30:03.0272038Z Metadata: read
+2026-10-14T10:30:03.0272595Z ##[endgroup]
+2026-10-14T10:30:03.0275267Z Secret source: Actions
+2026-10-14T10:30:03.0276230Z Cache mode: write
+2026-10-14T10:30:03.0276952Z Prepare workflow directory
+2026-10-14T10:30:03.0692830Z Prepare all required actions
+2026-10-14T10:30:03.0745662Z Getting action download info
+2026-10-14T10:30:03.4415986Z Download action repository 'actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683' (SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
+2026-10-14T10:30:03.5655238Z Download action repository 'actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b' (SHA:0b93645e9fea7318ecaed2b359559ac225c90a2b)
+2026-10-14T10:30:03.8455126Z Download action repository 'actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b' (SHA:6f51ac03b9356f520e9adb1b1b7802705f340c2b)
+2026-10-14T10:30:04.2253770Z Complete job name: verify
+2026-10-14T10:30:04.3288492Z ##[group]Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+2026-10-14T10:30:04.3290303Z with:
+2026-10-14T10:30:04.3290836Z   persist-credentials: false
+2026-10-14T10:30:04.3291409Z   fetch-depth: 0
+2026-10-14T10:30:04.3291927Z   repository: shw097-team/PIPD-LS-SP
+2026-10-14T10:30:04.3296571Z   token: ***
+2026-10-14T10:30:04.3297087Z   ssh-strict: true
+2026-10-14T10:30:04.3297568Z   ssh-user: git
+2026-10-14T10:30:04.3298032Z   clean: true
+2026-10-14T10:30:04.3298520Z   sparse-checkout-cone-mode: true
+2026-10-14T10:30:04.3299090Z   fetch-tags: false
+2026-10-14T10:30:04.3299570Z   show-progress: true
+2026-10-14T10:30:04.3300053Z   lfs: false
+2026-10-14T10:30:04.3300514Z   submodules: false
+2026-10-14T10:30:04.3301014Z   set-safe-directory: true
+2026-10-14T10:30:04.3301860Z ##[endgroup]
+2026-10-14T10:30:04.4436206Z Syncing repository: shw097-team/PIPD-LS-SP
+2026-10-14T10:30:04.4438528Z ##[group]Getting Git version info
+2026-10-14T10:30:04.4439526Z Working directory is '/home/runner/work/PIPD-LS-SP/PIPD-LS-SP'
+2026-10-14T10:30:04.4440724Z [command]/usr/bin/git version
+2026-10-14T10:30:04.4528859Z git version 2.55.0
+2026-10-14T10:30:04.4558490Z ##[endgroup]
+2026-10-14T10:30:04.4577382Z Temporarily overriding HOME='/home/runner/work/_temp/bbdf3bb5-cfc7-4858-a714-01d4cbee08cb' before making global git config changes
+2026-10-14T10:30:04.4579998Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T10:30:04.4584124Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/PIPD-LS-SP/PIPD-LS-SP
+2026-10-14T10:30:04.4641096Z Deleting the contents of '/home/runner/work/PIPD-LS-SP/PIPD-LS-SP'
+2026-10-14T10:30:04.4648069Z ##[group]Initializing the repository
+2026-10-14T10:30:04.4653936Z [command]/usr/bin/git init /home/runner/work/PIPD-LS-SP/PIPD-LS-SP
+2026-10-14T10:30:04.4774641Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-14T10:30:04.4777458Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-14T10:30:04.4782974Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-14T10:30:04.4785990Z hint: call:
+2026-10-14T10:30:04.4787424Z hint:
+2026-10-14T10:30:04.4789260Z hint: 	git config --global init.defaultBranch <name>
+2026-10-14T10:30:04.4790823Z hint:
+2026-10-14T10:30:04.4792272Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-14T10:30:04.4794959Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-14T10:30:04.4797058Z hint:
+2026-10-14T10:30:04.4798140Z hint: 	git branch -m <name>
+2026-10-14T10:30:04.4799465Z hint:
+2026-10-14T10:30:04.4800711Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-14T10:30:04.4805550Z Initialized empty Git repository in /home/runner/work/PIPD-LS-SP/PIPD-LS-SP/.git/
+2026-10-14T10:30:04.4809068Z [command]/usr/bin/git remote add origin https://github.com/shw097-team/PIPD-LS-SP
+2026-10-14T10:30:04.4851586Z ##[endgroup]
+2026-10-14T10:30:04.4853089Z ##[group]Disabling automatic garbage collection
+2026-10-14T10:30:04.4857644Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T10:30:04.4893465Z ##[endgroup]
+2026-10-14T10:30:04.4895834Z ##[group]Setting up auth
+2026-10-14T10:30:04.4903136Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T10:30:04.4949143Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-14T10:30:04.5337271Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T10:30:04.5391399Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-14T10:30:04.5644013Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-14T10:30:04.5687957Z ##[endgroup]
+2026-10-14T10:30:04.5688925Z ##[group]Fetching the repository
+2026-10-14T10:30:04.5699345Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +3cf382b76eeae7716136d04abb864540985c303f:refs/remotes/pull/11/merge
+2026-10-14T10:30:08.2382328Z From https://github.com/shw097-team/PIPD-LS-SP
+2026-10-14T10:30:08.2384226Z  * [new branch]      chore/s4post-verification-harness        -> origin/chore/s4post-verification-harness
+2026-10-14T10:30:08.2385938Z  * [new branch]      feat/s4post-triple-upgrade-20261012      -> origin/feat/s4post-triple-upgrade-20261012
+2026-10-14T10:30:08.2387496Z  * [new branch]      feat/s4post-triple-upgrade-20261012-r2   -> origin/feat/s4post-triple-upgrade-20261012-r2
+2026-10-14T10:30:08.2388820Z  * [new branch]      feat/s4post-triple-upgrade-20261013-r3   -> origin/feat/s4post-triple-upgrade-20261013-r3
+2026-10-14T10:30:08.2389710Z  * [new branch]      feat/s4r3-stage-b-distribution-20261013  -> origin/feat/s4r3-stage-b-distribution-20261013
+2026-10-14T10:30:08.2390773Z  * [new branch]      feat/s4r3-stageb-successor-20261013      -> origin/feat/s4r3-stageb-successor-20261013
+2026-10-14T10:30:08.2392010Z  * [new branch]      feat/s4r5x-manifest-fit-20261014         -> origin/feat/s4r5x-manifest-fit-20261014
+2026-10-14T10:30:08.2393278Z  * [new branch]      feat/s4r5y-plugin-publication-20261014   -> origin/feat/s4r5y-plugin-publication-20261014
+2026-10-14T10:30:08.2394240Z  * [new branch]      feat/s4r5z-evidence-readme-20261014      -> origin/feat/s4r5z-evidence-readme-20261014
+2026-10-14T10:30:08.2395399Z  * [new branch]      feat/s4r5z-readme-plugin-route-20261014  -> origin/feat/s4r5z-readme-plugin-route-20261014
+2026-10-14T10:30:08.2396829Z  * [new branch]      feat/s4r7-main-upgrade-and-repo-state-20261014 -> origin/feat/s4r7-main-upgrade-and-repo-state-20261014
+2026-10-14T10:30:08.2397919Z  * [new branch]      fix/s4-external-challenge-20261012-r1-provenance-trace -> origin/fix/s4-external-challenge-20261012-r1-provenance-trace
+2026-10-14T10:30:08.2398925Z  * [new branch]      fix/s4post-far-adjudication-20261012     -> origin/fix/s4post-far-adjudication-20261012
+2026-10-14T10:30:08.2400457Z  * [new branch]      fix/s4post-integration-repair-20261012   -> origin/fix/s4post-integration-repair-20261012
+2026-10-14T10:30:08.2401584Z  * [new branch]      fix/s4r3-stage-a-ci-truthfulness-20261013 -> origin/fix/s4r3-stage-a-ci-truthfulness-20261013
+2026-10-14T10:30:08.2402502Z  * [new branch]      fix/s4r5r-d1d2-claimceiling-preview4-20261014 -> origin/fix/s4r5r-d1d2-claimceiling-preview4-20261014
+2026-10-14T10:30:08.2403441Z  * [new branch]      fix/s4r7-readme-main-sha-truthfulness-20261014 -> origin/fix/s4r7-readme-main-sha-truthfulness-20261014
+2026-10-14T10:30:08.2404168Z  * [new branch]      main                                     -> origin/main
+2026-10-14T10:30:08.2404999Z  * [new branch]      r5-s4-evidence                           -> origin/r5-s4-evidence
+2026-10-14T10:30:08.2405576Z  * [new branch]      r5-s4-readme                             -> origin/r5-s4-readme
+2026-10-14T10:30:08.2406229Z  * [new branch]      r5z-evidence-return-20261014             -> origin/r5z-evidence-return-20261014
+2026-10-14T10:30:08.2406944Z  * [new branch]      s4-r2-affected-only-20261011             -> origin/s4-r2-affected-only-20261011
+2026-10-14T10:30:08.2407556Z  * [new tag]         v0.1.0-preview.1                         -> v0.1.0-preview.1
+2026-10-14T10:30:08.2408101Z  * [new tag]         v0.1.0-preview.2                         -> v0.1.0-preview.2
+2026-10-14T10:30:08.2408715Z  * [new tag]         v0.1.1-preview.3                         -> v0.1.1-preview.3
+2026-10-14T10:30:08.2409312Z  * [new ref]         3cf382b76eeae7716136d04abb864540985c303f -> pull/11/merge
+2026-10-14T10:30:08.2411027Z ##[endgroup]
+2026-10-14T10:30:08.2411509Z ##[group]Determining the checkout info
+2026-10-14T10:30:08.2412239Z ##[endgroup]
+2026-10-14T10:30:08.2412649Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T10:30:08.2460944Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T10:30:08.2494718Z ##[group]Checking out the ref
+2026-10-14T10:30:08.2507282Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/11/merge
+2026-10-14T10:30:08.5323647Z Note: switching to 'refs/remotes/pull/11/merge'.
+2026-10-14T10:30:08.5324754Z 
+2026-10-14T10:30:08.5325292Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-14T10:30:08.5326374Z changes and commit them, and you can discard any commits you make in this
+2026-10-14T10:30:08.5327322Z state without impacting any branches by switching back to a branch.
+2026-10-14T10:30:08.5327870Z 
+2026-10-14T10:30:08.5328320Z If you want to create a new branch to retain commits you create, you may
+2026-10-14T10:30:08.5329129Z do so (now or later) by using -c with the switch command. Example:
+2026-10-14T10:30:08.5329624Z 
+2026-10-14T10:30:08.5329865Z   git switch -c <new-branch-name>
+2026-10-14T10:30:08.5330227Z 
+2026-10-14T10:30:08.5330447Z Or undo this operation with:
+2026-10-14T10:30:08.5330781Z 
+2026-10-14T10:30:08.5330971Z   git switch -
+2026-10-14T10:30:08.5331232Z 
+2026-10-14T10:30:08.5331665Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-14T10:30:08.5332279Z 
+2026-10-14T10:30:08.5332990Z HEAD is now at 3cf382b Merge 48332ac45115ce0b9bc3f7276c0a18484f4c48b7 into f4021aeff9c016cfb14f17e68a0c570ed4e825c5
+2026-10-14T10:30:08.5362786Z ##[endgroup]
+2026-10-14T10:30:08.5420572Z [command]/usr/bin/git log -1 --format=%H
+2026-10-14T10:30:08.5456235Z 3cf382b76eeae7716136d04abb864540985c303f
+2026-10-14T10:30:08.5469399Z ##[group]Removing auth
+2026-10-14T10:30:08.5475229Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T10:30:08.5521452Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-14T10:30:08.5805024Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T10:30:08.5840193Z http.https://github.com/.extraheader
+2026-10-14T10:30:08.5849701Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-14T10:30:08.5891261Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-14T10:30:08.6156791Z ##[endgroup]
+2026-10-14T10:30:08.6433613Z ##[group]Run actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
+2026-10-14T10:30:08.6434078Z with:
+2026-10-14T10:30:08.6434289Z   python-version: 3.11
+2026-10-14T10:30:08.6434948Z   check-latest: false
+2026-10-14T10:30:08.6437527Z   token: ***
+2026-10-14T10:30:08.6437749Z   update-environment: true
+2026-10-14T10:30:08.6438004Z   allow-prereleases: false
+2026-10-14T10:30:08.6438239Z ##[endgroup]
+2026-10-14T10:30:08.7818066Z ##[group]Installed versions
+2026-10-14T10:30:08.8401932Z (node:2321) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-14T10:30:08.8403285Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-14T10:30:08.8404113Z Successfully set up CPython (3.11.17)
+2026-10-14T10:30:08.8405626Z ##[endgroup]
+2026-10-14T10:30:08.8618277Z ##[group]Run set -euo pipefail
+2026-10-14T10:30:08.8619101Z [36;1mset -euo pipefail[0m
+2026-10-14T10:30:08.8619369Z [36;1mcase "${STAGE}" in[0m
+2026-10-14T10:30:08.8619628Z [36;1m  stage-a)[0m
+2026-10-14T10:30:08.8619864Z [36;1m    BASE="${STAGE_A_BASE_SHA}"[0m
+2026-10-14T10:30:08.8621075Z [36;1m    ALLOWED='^(pyproject\.toml$|setup\.py$|MANIFEST\.in$|src/pipd_ls_sp/workspace\.py$|examples/first-run/run\.(sh|ps1)$|tests/test_web_fallback\.py$|tests/test_standard_wheel_schemas\.py$|tools/cli_smoke\.py$|tools/verify_installed_wheel_registry\.py$|\.github/workflows/(ci|public-plugin-verify)\.yml$)'[0m
+2026-10-14T10:30:08.8622271Z [36;1m    DENIED='^(skills/|schemas/|dist/)'[0m
+2026-10-14T10:30:08.8623033Z [36;1m    REFUSED_PLANTS='skills/pipd-core/SKILL.md schemas/TraceLink.schema.json dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl src/pipd_ls_sp/cli.py tools/build_public_plugin.py'[0m
+2026-10-14T10:30:08.8624156Z [36;1m    ALLOWED_PLANTS='src/pipd_ls_sp/workspace.py pyproject.toml setup.py tests/test_web_fallback.py tools/verify_installed_wheel_registry.py'[0m
+2026-10-14T10:30:08.8625187Z [36;1m    ;;[0m
+2026-10-14T10:30:08.8625405Z [36;1m  stage-b)[0m
+2026-10-14T10:30:08.8625808Z [36;1m    # Resolved by ref, not by a literal: a literal would have to be edited every time the[0m
+2026-10-14T10:30:08.8626441Z [36;1m    # Stage A tip moves, and editing it is exactly the step that silently stops happening.[0m
+2026-10-14T10:30:08.8627042Z [36;1m    # The borrowed ref name makes the base follow Stage A, and the resolved sha is printed[0m
+2026-10-14T10:30:08.8627608Z [36;1m    # below. Verified fact, not an assumption: actions/checkout fetches[0m
+2026-10-14T10:30:08.8628154Z [36;1m    # `+refs/heads/*:refs/remotes/origin/*`, so `origin/<branch>` is present on every run[0m
+2026-10-14T10:30:08.8628711Z [36;1m    # (the fetch command is visible in the checkout step of run 38363888153).[0m
+2026-10-14T10:30:08.8629262Z [36;1m    # Consequence, stated plainly: if Stage A advances, this branch goes red with[0m
+2026-10-14T10:30:08.8629862Z [36;1m    # BASE_NOT_ANCESTOR until it is re-stacked. That is the invariant, not an accident.[0m
+2026-10-14T10:30:08.8630431Z [36;1m    BASE="$(git rev-parse --verify --quiet "refs/heads/${STAGE_B_BASE_REF}" \[0m
+2026-10-14T10:30:08.8631194Z [36;1m         || git rev-parse --verify --quiet "refs/remotes/origin/${STAGE_B_BASE_REF}" \[0m
+2026-10-14T10:30:08.8631627Z [36;1m         || true)"[0m
+2026-10-14T10:30:08.8631884Z [36;1m    if [ -z "${BASE}" ]; then[0m
+2026-10-14T10:30:08.8632644Z [36;1m      echo "STAGE_B_BASE_UNRESOLVED: neither refs/heads/${STAGE_B_BASE_REF} nor refs/remotes/origin/${STAGE_B_BASE_REF} is present in this checkout; refusing to guess a write-set base" >&2[0m
+2026-10-14T10:30:08.8633385Z [36;1m      exit 1[0m
+2026-10-14T10:30:08.8633591Z [36;1m    fi[0m
+2026-10-14T10:30:08.8635495Z [36;1m    ALLOWED='^(packaging/public-plugin/|tools/freeze_public_plugin_source\.py$|tools/build_public_plugin\.py$|tools/build_web_fallback\.py$|tests/test_public_plugin_packaging\.py$|tests/test_web_fallback\.py$|docs/install/|docs/USER_GUIDE\.md$|docs/adr/|openspec/changes/s4post-triple-upgrade/|\.github/workflows/public-plugin-verify\.yml$|README\.md$)'[0m
+2026-10-14T10:30:08.8636920Z [36;1m    DENIED='^(skills/|src/|schemas/|dist/)'[0m
+2026-10-14T10:30:08.8637614Z [36;1m    REFUSED_PLANTS='skills/pipd-core/SKILL.md schemas/TraceLink.schema.json dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl src/pipd_ls_sp/validate.py'[0m
+2026-10-14T10:30:08.8638543Z [36;1m    ALLOWED_PLANTS='docs/install/PIPD_WEB_FALLBACK.md docs/USER_GUIDE.md README.md packaging/public-plugin/plugin.json'[0m
+2026-10-14T10:30:08.8639087Z [36;1m    ;;[0m
+2026-10-14T10:30:08.8639284Z [36;1m  *)[0m
+2026-10-14T10:30:08.8639838Z [36;1m    echo "STAGE_UNDECLARED: this workflow must declare STAGE as stage-a or stage-b; it will not guess which write set applies to this subject" >&2[0m
+2026-10-14T10:30:08.8640452Z [36;1m    exit 1[0m
+2026-10-14T10:30:08.8640903Z [36;1m    ;;[0m
+2026-10-14T10:30:08.8641107Z [36;1mesac[0m
+2026-10-14T10:30:08.8641499Z [36;1m# Declared exclusion, not a permission. `.hgk/` is the governance scaffolding tree: this[0m
+2026-10-14T10:30:08.8642145Z [36;1m# round's admission records, receipts, study and re-derivation tools. It is not product, and[0m
+2026-10-14T10:30:08.8642786Z [36;1m# it is excluded here so both allowlists enumerate product paths only. Excluded paths are[0m
+2026-10-14T10:30:08.8643422Z [36;1m# counted and printed below, and the self-test proves no product path can reach this prefix.[0m
+2026-10-14T10:30:08.8643887Z [36;1mEXCLUDED_PREFIXES='^\.hgk/'[0m
+2026-10-14T10:30:08.8644226Z [36;1mecho "=== governed ${STAGE} write set (${BASE}...HEAD) ==="[0m
+2026-10-14T10:30:08.8645066Z [36;1mif [ -n "${PR_BASE_SHA}" ] && git cat-file -e "${PR_BASE_SHA}^{commit}" 2>/dev/null; then[0m
+2026-10-14T10:30:08.8645701Z [36;1m  echo "--- CONTEXT ONLY, not a governed write set: pull request base ${PR_BASE_SHA}...HEAD ---"[0m
+2026-10-14T10:30:08.8646232Z [36;1m  git diff --name-only "${PR_BASE_SHA}...HEAD" || true[0m
+2026-10-14T10:30:08.8646604Z [36;1m  echo "--- end context inventory ---"[0m
+2026-10-14T10:30:08.8646893Z [36;1mfi[0m
+2026-10-14T10:30:08.8647168Z [36;1mif ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then[0m
+2026-10-14T10:30:08.8647666Z [36;1m  echo "BASE_UNRESOLVED: ${BASE} is not present in this checkout; refusing to guess" >&2[0m
+2026-10-14T10:30:08.8648099Z [36;1m  exit 1[0m
+2026-10-14T10:30:08.8648299Z [36;1mfi[0m
+2026-10-14T10:30:08.8648559Z [36;1mif ! git merge-base --is-ancestor "${BASE}" HEAD; then[0m
+2026-10-14T10:30:08.8649169Z [36;1m  echo "BASE_NOT_ANCESTOR: ${BASE} is not an ancestor of HEAD; the declared ${STAGE} base does not belong to this subject" >&2[0m
+2026-10-14T10:30:08.8649803Z [36;1m  exit 1[0m
+2026-10-14T10:30:08.8650133Z [36;1mfi[0m
+2026-10-14T10:30:08.8650420Z [36;1mCHANGED="$(git diff --name-only "${BASE}...HEAD")"[0m
+2026-10-14T10:30:08.8650761Z [36;1mif [ -z "${CHANGED}" ]; then[0m
+2026-10-14T10:30:08.8651225Z [36;1m  echo "SCOPE_EMPTY: HEAD IS the declared ${STAGE} base, so there is no ${STAGE} write set to judge."[0m
+2026-10-14T10:30:08.8651876Z [36;1m  echo "This run says nothing about a ${STAGE} write set; only the tree-level steps below say"[0m
+2026-10-14T10:30:08.8652715Z [36;1m  echo "anything about this subject, and they must not be cited as a ${STAGE} write-set verdict."[0m
+2026-10-14T10:30:08.8653205Z [36;1melse[0m
+2026-10-14T10:30:08.8653468Z [36;1m  printf '%s\n' "${CHANGED}"[0m
+2026-10-14T10:30:08.8653723Z [36;1mfi[0m
+2026-10-14T10:30:08.8653909Z [36;1mbad=0[0m
+2026-10-14T10:30:08.8654110Z [36;1mexcluded=0[0m
+2026-10-14T10:30:08.8654489Z [36;1mexcluded_list=""[0m
+2026-10-14T10:30:08.8654905Z [36;1mwhile IFS= read -r path; do[0m
+2026-10-14T10:30:08.8655183Z [36;1m  [ -n "$path" ] || continue[0m
+2026-10-14T10:30:08.8655613Z [36;1m  # A path segment of `..` is refused before any pattern test. The allowlist is anchored[0m
+2026-10-14T10:30:08.8656226Z [36;1m  # regexes, so `<round>/../evil.sh` would classify as inside the round's evidence directory[0m
+2026-10-14T10:30:08.8656830Z [36;1m  # while resolving outside it. `git diff --name-only` never emits `..` for git-tracked[0m
+2026-10-14T10:30:08.8657432Z [36;1m  # paths, so this is defence in depth rather than a live hole - asserted by the plant below[0m
+2026-10-14T10:30:08.8657896Z [36;1m  # so it cannot silently rot.[0m
+2026-10-14T10:30:08.8658177Z [36;1m  case "/$path/" in[0m
+2026-10-14T10:30:08.8658410Z [36;1m    */../*)[0m
+2026-10-14T10:30:08.8658690Z [36;1m      echo "UPGRADE_WROTE_PATH_TRAVERSAL: $path" >&2[0m
+2026-10-14T10:30:08.8659007Z [36;1m      bad=1[0m
+2026-10-14T10:30:08.8659226Z [36;1m      continue[0m
+2026-10-14T10:30:08.8659445Z [36;1m      ;;[0m
+2026-10-14T10:30:08.8659644Z [36;1m  esac[0m
+2026-10-14T10:30:08.8660021Z [36;1m  # Exclusion is tested AFTER the traversal refusal so a `/../` path cannot hide inside the[0m
+2026-10-14T10:30:08.8660905Z [36;1m  # excluded prefix: scaffolding paths are skipped here, never silently accepted downstream.[0m
+2026-10-14T10:30:08.8661489Z [36;1m  if printf '%s' "$path" | grep -Eq "$EXCLUDED_PREFIXES"; then[0m
+2026-10-14T10:30:08.8661861Z [36;1m    excluded=$((excluded + 1))[0m
+2026-10-14T10:30:08.8662184Z [36;1m    excluded_list="${excluded_list}${path}"$'\n'[0m
+2026-10-14T10:30:08.8662510Z [36;1m    continue[0m
+2026-10-14T10:30:08.8662721Z [36;1m  fi[0m
+2026-10-14T10:30:08.8662971Z [36;1m  if printf '%s' "$path" | grep -Eq "$DENIED"; then[0m
+2026-10-14T10:30:08.8663335Z [36;1m    echo "UPGRADE_WROTE_FROZEN_PATH: $path" >&2[0m
+2026-10-14T10:30:08.8663636Z [36;1m    bad=1[0m
+2026-10-14T10:30:08.8663912Z [36;1m  elif ! printf '%s' "$path" | grep -Eq "$ALLOWED"; then[0m
+2026-10-14T10:30:08.8664495Z [36;1m    echo "UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: $path" >&2[0m
+2026-10-14T10:30:08.8664834Z [36;1m    bad=1[0m
+2026-10-14T10:30:08.8665036Z [36;1m  fi[0m
+2026-10-14T10:30:08.8665255Z [36;1mdone <<< "${CHANGED}"[0m
+2026-10-14T10:30:08.8665755Z [36;1mecho "EXCLUDED_BY_DECLARATION (${EXCLUDED_PREFIXES}) from the governed PRODUCT write set: ${excluded} path(s)"[0m
+2026-10-14T10:30:08.8671655Z [36;1mif [ -n "${excluded_list}" ]; then printf '%s' "${excluded_list}" | sed 's/^/  excluded: /'; fi[0m
+2026-10-14T10:30:08.8672813Z [36;1m# Self-test of the classifier ITSELF (the S4R3-F002 retest requirement: a repaired gate must[0m
+2026-10-14T10:30:08.8673587Z [36;1m# demonstrably still refuse, otherwise a gate that accepts everything and a gate that refuses[0m
+2026-10-14T10:30:08.8674478Z [36;1m# everything look identical from the outside).[0m
+2026-10-14T10:30:08.8674955Z [36;1mfor planted in ${REFUSED_PLANTS}; do[0m
+2026-10-14T10:30:08.8675826Z [36;1m  if printf '%s' "$planted" | grep -Eq "$ALLOWED" && ! printf '%s' "$planted" | grep -Eq "$DENIED"; then[0m
+2026-10-14T10:30:08.8676425Z [36;1m    echo "GATE_SELF_TEST_FAILED: ${planted} would have been ACCEPTED" >&2[0m
+2026-10-14T10:30:08.8676974Z [36;1m    exit 1[0m
+2026-10-14T10:30:08.8677325Z [36;1m  fi[0m
+2026-10-14T10:30:08.8677623Z [36;1mdone[0m
+2026-10-14T10:30:08.8678537Z [36;1mfor planted in ".hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/../evil.sh" "docs/install/../../src/pipd_ls_sp/validate.py"; do[0m
+2026-10-14T10:30:08.8679610Z [36;1m  case "/$planted/" in[0m
+2026-10-14T10:30:08.8680004Z [36;1m    */../*) echo "GATE_SELF_TEST_OK: ${planted} is refused as a traversal path" ;;[0m
+2026-10-14T10:30:08.8680559Z [36;1m    *) echo "GATE_SELF_TEST_FAILED: ${planted} would have been accepted" >&2; exit 1 ;;[0m
+2026-10-14T10:30:08.8680974Z [36;1m  esac[0m
+2026-10-14T10:30:08.8681174Z [36;1mdone[0m
+2026-10-14T10:30:08.8681568Z [36;1mecho "GATE_SELF_TEST_OK: planted frozen-path violations and unlisted src/** are all refused"[0m
+2026-10-14T10:30:08.8682051Z [36;1mfor planted in ${ALLOWED_PLANTS}; do[0m
+2026-10-14T10:30:08.8682542Z [36;1m  if printf '%s' "$planted" | grep -Eq "$DENIED" || ! printf '%s' "$planted" | grep -Eq "$ALLOWED"; then[0m
+2026-10-14T10:30:08.8683123Z [36;1m    echo "GATE_SELF_TEST_FAILED: ${planted} would have been REFUSED" >&2[0m
+2026-10-14T10:30:08.8683501Z [36;1m    exit 1[0m
+2026-10-14T10:30:08.8683704Z [36;1m  fi[0m
+2026-10-14T10:30:08.8683889Z [36;1mdone[0m
+2026-10-14T10:30:08.8684277Z [36;1m# The declared exclusion must be unreachable from every product path; otherwise it would be[0m
+2026-10-14T10:30:08.8685121Z [36;1m# a blanket escape and the classifier would judge less than it prints.[0m
+2026-10-14T10:30:08.8685594Z [36;1mfor planted in ${ALLOWED_PLANTS} ${REFUSED_PLANTS}; do[0m
+2026-10-14T10:30:08.8686026Z [36;1m  if printf '%s' "$planted" | grep -Eq "$EXCLUDED_PREFIXES"; then[0m
+2026-10-14T10:30:08.8686555Z [36;1m    echo "GATE_SELF_TEST_FAILED: product path ${planted} would have been EXCLUDED" >&2[0m
+2026-10-14T10:30:08.8686996Z [36;1m    exit 1[0m
+2026-10-14T10:30:08.8687200Z [36;1m  fi[0m
+2026-10-14T10:30:08.8687390Z [36;1mdone[0m
+2026-10-14T10:30:08.8687982Z [36;1mif ! printf '%s' ".hgk/rounds/example-round/evidence/12_GATES/x.json" | grep -Eq "$EXCLUDED_PREFIXES"; then[0m
+2026-10-14T10:30:08.8688698Z [36;1m  echo "GATE_SELF_TEST_FAILED: the declared exclusion does not match the scaffolding tree" >&2[0m
+2026-10-14T10:30:08.8689157Z [36;1m  exit 1[0m
+2026-10-14T10:30:08.8689358Z [36;1mfi[0m
+2026-10-14T10:30:08.8689869Z [36;1mecho "GATE_SELF_TEST_OK: the declared exclusion matches scaffolding only and no product path"[0m
+2026-10-14T10:30:08.8691219Z [36;1mecho "GATE_SELF_TEST_OK: planted ${STAGE} artefacts are all allowed"[0m
+2026-10-14T10:30:08.8692097Z [36;1mif [ "$bad" -ne 0 ]; then[0m
+2026-10-14T10:30:08.8692850Z [36;1m  echo "WRITE_SET_VIOLATION (${STAGE} base ${BASE})" >&2[0m
+2026-10-14T10:30:08.8693595Z [36;1m  exit 1[0m
+2026-10-14T10:30:08.8693992Z [36;1mfi[0m
+2026-10-14T10:30:08.8694662Z [36;1mecho "WRITE_SET_CLEAN_AGAINST_${BASE}"[0m
+2026-10-14T10:30:08.9116838Z shell: /usr/bin/bash -e {0}
+2026-10-14T10:30:08.9117304Z env:
+2026-10-14T10:30:08.9117724Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-14T10:30:08.9118412Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-14T10:30:08.9119054Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-14T10:30:08.9119642Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-14T10:30:08.9120213Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-14T10:30:08.9120785Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-14T10:30:08.9121265Z   STAGE: stage-b
+2026-10-14T10:30:08.9121661Z   STAGE_A_BASE_SHA: e71fee6dd3aa73724baec4e8d9cc72127fbe36ed
+2026-10-14T10:30:08.9122252Z   STAGE_B_BASE_REF: fix/s4r3-stage-a-ci-truthfulness-20261013
+2026-10-14T10:30:08.9122809Z   PR_BASE_SHA: f4021aeff9c016cfb14f17e68a0c570ed4e825c5
+2026-10-14T10:30:08.9123257Z ##[endgroup]
+2026-10-14T10:30:08.9291754Z === governed stage-b write set (759b9f0dc880b2f960363b2ceaa68446c770061d...HEAD) ===
+2026-10-14T10:30:08.9312563Z --- CONTEXT ONLY, not a governed write set: pull request base f4021aeff9c016cfb14f17e68a0c570ed4e825c5...HEAD ---
+2026-10-14T10:30:08.9331039Z PREVIEW_NOTES_v0.1.1-preview.4.md
+2026-10-14T10:30:08.9331701Z README.md
+2026-10-14T10:30:08.9332167Z dist/WHEEL_MANIFEST.json
+2026-10-14T10:30:08.9332998Z dist/pipd_ls_sp-0.1.1a4-py3-none-any.whl
+2026-10-14T10:30:08.9333620Z dist/pipd_ls_sp-0.1.1a4-py3-none-any.whl.sha256
+2026-10-14T10:30:08.9334592Z docs/install/README.md
+2026-10-14T10:30:08.9335195Z fixtures/REQ-D2-SENTENCES/source.txt
+2026-10-14T10:30:08.9335690Z fixtures/REQ-D2-TOKENS/source.txt
+2026-10-14T10:30:08.9336095Z fixtures/REQ-MIXED-SCOPE/source.txt
+2026-10-14T10:30:08.9336498Z fixtures/REQ-NEG-PHRASES/source.txt
+2026-10-14T10:30:08.9336883Z pyproject.toml
+2026-10-14T10:30:08.9337207Z schemas/ClaimCeiling.schema.json
+2026-10-14T10:30:08.9337586Z src/pipd_ls_sp/__init__.py
+2026-10-14T10:30:08.9337945Z src/pipd_ls_sp/requirements.py
+2026-10-14T10:30:08.9338324Z src/pipd_ls_sp/validate.py
+2026-10-14T10:30:08.9338683Z tests/test_atomic_requirements.py
+2026-10-14T10:30:08.9339069Z tests/test_claim_ceiling_shape.py
+2026-10-14T10:30:08.9339580Z tests/test_doctor_schema_truth.py
+2026-10-14T10:30:08.9340201Z tests/test_postrelease_quickstart.py
+2026-10-14T10:30:08.9340728Z tests/test_s4r2m_docs_route.py
+2026-10-14T10:30:08.9341094Z tools/build_dist.py
+2026-10-14T10:30:08.9341470Z --- end context inventory ---
+2026-10-14T10:30:08.9448397Z .github/workflows/public-plugin-verify.yml
+2026-10-14T10:30:08.9449128Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/CLOSURE_AND_HANDOVER.md
+2026-10-14T10:30:08.9449872Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/HANDOVER_PACK_EXTERNAL_ACCEPTANCE.md
+2026-10-14T10:30:08.9450615Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/REAL_RECEIPT.txt
+2026-10-14T10:30:08.9451300Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/ROUND_RESULT_FAR2_REMEDIATION.md
+2026-10-14T10:30:08.9452355Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/ROUND_RESULT_S4R3X.md
+2026-10-14T10:30:08.9453069Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/admission/s4r3x_admission.json
+2026-10-14T10:30:08.9453870Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AFFECTED_ONLY_INVALIDATION.json
+2026-10-14T10:30:08.9455073Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/ALLOWLIST_MINIMUM_MEASUREMENT.json
+2026-10-14T10:30:08.9455976Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A11.md
+2026-10-14T10:30:08.9456872Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A12_A13_A14.md
+2026-10-14T10:30:08.9457963Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A7.md
+2026-10-14T10:30:08.9458959Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A8.md
+2026-10-14T10:30:08.9460238Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A9_A10.md
+2026-10-14T10:30:08.9461697Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_OUTCOME.json
+2026-10-14T10:30:08.9463114Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_ROOT_CAUSE_AND_ATTEMPT4.md
+2026-10-14T10:30:08.9464046Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C3_ALLOWLIST_BASELINE_DIFF.txt
+2026-10-14T10:30:08.9465111Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C3_REFUSAL_RECEIPT_DISTILLED.txt
+2026-10-14T10:30:08.9465926Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C3_REVISION_BINDING_RECEIPT.txt
+2026-10-14T10:30:08.9466701Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C4_REFUSAL_TESTS_RUN.log
+2026-10-14T10:30:08.9467477Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C4_REPIN_AND_DECLARED_BASE.txt
+2026-10-14T10:30:08.9468282Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C4_STAGE_B_REFUSAL_TESTS_SOURCE.py
+2026-10-14T10:30:08.9469079Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/CI_RUNS_AND_STEP_RECEIPTS.txt
+2026-10-14T10:30:08.9470090Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/CLOSURE_DISPOSITION.json
+2026-10-14T10:30:08.9470825Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/EVIDENCE_ENVELOPE.json
+2026-10-14T10:30:08.9471570Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/F006_RED_GREEN_RECEIPTS.txt
+2026-10-14T10:30:08.9472331Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/FAMILY_IDENTITY_RECEIPT.md
+2026-10-14T10:30:08.9473135Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/FINDING_ALLOWLIST_WIDENED_VS_CLAIM.md
+2026-10-14T10:30:08.9473914Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GATE_BLOB_DIGESTS.json
+2026-10-14T10:30:08.9474905Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C1V2.json
+2026-10-14T10:30:08.9475655Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C1_C3.json
+2026-10-14T10:30:08.9476381Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C3E.json
+2026-10-14T10:30:08.9477102Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C3V2.json
+2026-10-14T10:30:08.9477997Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C3V3.json
+2026-10-14T10:30:08.9478797Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_REM2.json
+2026-10-14T10:30:08.9480030Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_REM2_V2.json
+2026-10-14T10:30:08.9481521Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_REM3.json
+2026-10-14T10:30:08.9482728Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_REM3_V2.json
+2026-10-14T10:30:08.9483516Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_REM3_V3.json
+2026-10-14T10:30:08.9484260Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_REM3_V4.json
+2026-10-14T10:30:08.9485657Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C1V2.json
+2026-10-14T10:30:08.9486400Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C1_C3.json
+2026-10-14T10:30:08.9487254Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C3E.json
+2026-10-14T10:30:08.9488024Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C3V2.json
+2026-10-14T10:30:08.9488761Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C3V3.json
+2026-10-14T10:30:08.9489508Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_REM2.json
+2026-10-14T10:30:08.9490251Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_REM2_V2.json
+2026-10-14T10:30:08.9490996Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_REM3.json
+2026-10-14T10:30:08.9491726Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_REM3_V2.json
+2026-10-14T10:30:08.9492465Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_REM3_V3.json
+2026-10-14T10:30:08.9493214Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_REM3_V4.json
+2026-10-14T10:30:08.9493955Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_SELFTEST_RECEIPT.json
+2026-10-14T10:30:08.9495796Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_SELFTEST_RECEIPT_V2.json
+2026-10-14T10:30:08.9496851Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/HEAD_PROVENANCE_RECEIPT.txt
+2026-10-14T10:30:08.9497714Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/LOCAL_FULL_SUITE_RECEIPTS.txt
+2026-10-14T10:30:08.9499145Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/RECEIPT_PACK_C1_C2.json
+2026-10-14T10:30:08.9500538Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/RECEIVER_HANDOFF_BUNDLE.json
+2026-10-14T10:30:08.9501447Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/REM2_GATE_RUN_BOTH_STAGES.log
+2026-10-14T10:30:08.9502219Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/REM2_NECESSITY_DERIVATION.txt
+2026-10-14T10:30:08.9502965Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/REM2_PAIR_DIFF_FULL.txt
+2026-10-14T10:30:08.9503719Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/REM2_PRODUCT_CHANGE_DIFF.txt
+2026-10-14T10:30:08.9504809Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/REM3_COMMENT_PATCH_RECEIPT.txt
+2026-10-14T10:30:08.9505613Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/REM3_GATE_RUN_AT_CURRENT_HEADS.log
+2026-10-14T10:30:08.9506450Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/REM3_REMEDY_RECEIPT_AT_CURRENT_HEADS.txt
+2026-10-14T10:30:08.9507265Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/SELF_CAUGHT_FALSE_GREEN.md
+2026-10-14T10:30:08.9508204Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/SUBJECTS.json
+2026-10-14T10:30:08.9508925Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/SUPERSESSION_LEDGER.json
+2026-10-14T10:30:08.9509698Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/WRITE_SET_GATE_LOCAL_AND_CI.txt
+2026-10-14T10:30:08.9510460Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/WRITE_SET_GATE_STEP.yml
+2026-10-14T10:30:08.9511184Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/guards/REAL_RECEIPT.txt
+2026-10-14T10:30:08.9511924Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/writeset_gate_local_final.txt
+2026-10-14T10:30:08.9512657Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/CITED_PATH_RESOLUTION.json
+2026-10-14T10:30:08.9513354Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/E8_DISPATCH_PARAM_ERROR.md
+2026-10-14T10:30:08.9514038Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/EXECUTE_STUDY_DRAFT.md
+2026-10-14T10:30:08.9514972Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/LANE_RUNS_FINAL_LEDGER.md
+2026-10-14T10:30:08.9515688Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/PLAN_LEG_DIVERGENCE.md
+2026-10-14T10:30:08.9516403Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/RETRIEVAL_CHANNEL_FINDING.md
+2026-10-14T10:30:08.9517137Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/ROUND_RESULT_FAR_DECISION_STUDY.md
+2026-10-14T10:30:08.9517915Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/VERIFICATION_LANE_CAPABILITY_BOUNDARY.md
+2026-10-14T10:30:08.9518672Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest.json
+2026-10-14T10:30:08.9519400Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_c3e.json
+2026-10-14T10:30:08.9520190Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_v2.json
+2026-10-14T10:30:08.9521581Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_v3.json
+2026-10-14T10:30:08.9523195Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_v4.json
+2026-10-14T10:30:08.9523950Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_v5.json
+2026-10-14T10:30:08.9524907Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec.json
+2026-10-14T10:30:08.9525609Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_c3e.json
+2026-10-14T10:30:08.9526312Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_v2.json
+2026-10-14T10:30:08.9527011Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_v3.json
+2026-10-14T10:30:08.9527696Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_v4.json
+2026-10-14T10:30:08.9528375Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_v5.json
+2026-10-14T10:30:08.9529091Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c1_colocated.md
+2026-10-14T10:30:08.9529826Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c1_v2.md
+2026-10-14T10:30:08.9530520Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_recut.md
+2026-10-14T10:30:08.9531194Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_v2.md
+2026-10-14T10:30:08.9531862Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_v3.md
+2026-10-14T10:30:08.9532742Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_v4.md
+2026-10-14T10:30:08.9533428Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3e_only.md
+2026-10-14T10:30:08.9534096Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/draft_sha256.txt
+2026-10-14T10:30:08.9535001Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/far_admission.json
+2026-10-14T10:30:08.9535683Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/invocation_EXECUTE_a2.json
+2026-10-14T10:30:08.9536365Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/packet2_remediation.md
+2026-10-14T10:30:08.9537019Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/packet_execute.md
+2026-10-14T10:30:08.9537664Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt2_execute.md
+2026-10-14T10:30:08.9538314Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt_capability.md
+2026-10-14T10:30:08.9538952Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt_execute.md
+2026-10-14T10:30:08.9539711Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt_verify.md
+2026-10-14T10:30:08.9541020Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/EXECUTE_REMEDIATION_DRAFT.md
+2026-10-14T10:30:08.9542352Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/blocks_rem2.json
+2026-10-14T10:30:08.9543098Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/bundle_manifest_rem2.json
+2026-10-14T10:30:08.9543837Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/bundle_manifest_rem2_v2.json
+2026-10-14T10:30:08.9544880Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/far2_admission.json
+2026-10-14T10:30:08.9545573Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/guard_spec_rem2.json
+2026-10-14T10:30:08.9546273Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/guard_spec_rem2_v2.json
+2026-10-14T10:30:08.9547000Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/invocation_EXECUTE_a20.json
+2026-10-14T10:30:08.9547761Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/invocation_VERIFY_SECURITY_a21.json
+2026-10-14T10:30:08.9548767Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/invocation_VERIFY_SECURITY_a22.json
+2026-10-14T10:30:08.9549513Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/prompt_rem2_verify.md
+2026-10-14T10:30:08.9550216Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/prompt_rem2_verify_v2.md
+2026-10-14T10:30:08.9550916Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/stderr_EXECUTE_a20.txt
+2026-10-14T10:30:08.9551647Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/stderr_VERIFY_SECURITY_a21.txt
+2026-10-14T10:30:08.9552407Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/stderr_VERIFY_SECURITY_a22.txt
+2026-10-14T10:30:08.9553128Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/stdout_EXECUTE_a20.txt
+2026-10-14T10:30:08.9553854Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/stdout_VERIFY_SECURITY_a21.txt
+2026-10-14T10:30:08.9554885Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/stdout_VERIFY_SECURITY_a22.txt
+2026-10-14T10:30:08.9555649Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/verify/VERDICT_REM2_A21.txt
+2026-10-14T10:30:08.9556389Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/verify/VERDICT_REM2_V2_A22.txt
+2026-10-14T10:30:08.9557122Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/bundle_manifest_rem3.json
+2026-10-14T10:30:08.9558022Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/bundle_manifest_rem3_v2.json
+2026-10-14T10:30:08.9559467Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/bundle_manifest_rem3_v3.json
+2026-10-14T10:30:08.9560837Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/bundle_manifest_rem3_v4.json
+2026-10-14T10:30:08.9561706Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/far3_admission.json
+2026-10-14T10:30:08.9562393Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/guard_spec_rem3.json
+2026-10-14T10:30:08.9563085Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/guard_spec_rem3_v2.json
+2026-10-14T10:30:08.9563799Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/guard_spec_rem3_v3.json
+2026-10-14T10:30:08.9564899Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/guard_spec_rem3_v4.json
+2026-10-14T10:30:08.9565638Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/invocation_EXECUTE_a30.json
+2026-10-14T10:30:08.9566407Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/invocation_VERIFY_SECURITY_a31.json
+2026-10-14T10:30:08.9567199Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/invocation_VERIFY_SECURITY_a32.json
+2026-10-14T10:30:08.9567992Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/invocation_VERIFY_SECURITY_a33.json
+2026-10-14T10:30:08.9568778Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/invocation_VERIFY_SECURITY_a34.json
+2026-10-14T10:30:08.9569568Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/invocation_VERIFY_SECURITY_a35.json
+2026-10-14T10:30:08.9570417Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/invocation_VERIFY_SECURITY_a36.json
+2026-10-14T10:30:08.9571178Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/prompt_rem3_execute.md
+2026-10-14T10:30:08.9571897Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/prompt_rem3_verify.md
+2026-10-14T10:30:08.9572614Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/prompt_rem3_verify_v2.md
+2026-10-14T10:30:08.9573539Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/prompt_rem3_verify_v3.md
+2026-10-14T10:30:08.9574250Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/prompt_rem3_verify_v4.md
+2026-10-14T10:30:08.9575276Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stderr_EXECUTE_a30.txt
+2026-10-14T10:30:08.9576002Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stderr_VERIFY_SECURITY_a31.txt
+2026-10-14T10:30:08.9576756Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stderr_VERIFY_SECURITY_a32.txt
+2026-10-14T10:30:08.9577655Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stderr_VERIFY_SECURITY_a33.txt
+2026-10-14T10:30:08.9579079Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stderr_VERIFY_SECURITY_a34.txt
+2026-10-14T10:30:08.9580437Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stderr_VERIFY_SECURITY_a35.txt
+2026-10-14T10:30:08.9581219Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stderr_VERIFY_SECURITY_a36.txt
+2026-10-14T10:30:08.9581935Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stdout_EXECUTE_a30.txt
+2026-10-14T10:30:08.9582650Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stdout_VERIFY_SECURITY_a31.txt
+2026-10-14T10:30:08.9583398Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stdout_VERIFY_SECURITY_a32.txt
+2026-10-14T10:30:08.9584317Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stdout_VERIFY_SECURITY_a33.txt
+2026-10-14T10:30:08.9585527Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stdout_VERIFY_SECURITY_a34.txt
+2026-10-14T10:30:08.9586288Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stdout_VERIFY_SECURITY_a35.txt
+2026-10-14T10:30:08.9587050Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stdout_VERIFY_SECURITY_a36.txt
+2026-10-14T10:30:08.9587839Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/verify/VERDICT_REM3_A31.txt
+2026-10-14T10:30:08.9588583Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/verify/VERDICT_REM3_V2_A32.txt
+2026-10-14T10:30:08.9589327Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/verify/VERDICT_REM3_V3_A33.txt
+2026-10-14T10:30:08.9590063Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/verify/VERDICT_REM3_V4_A34.txt
+2026-10-14T10:30:08.9590809Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/verify/VERDICT_REM3_V4_A35.txt
+2026-10-14T10:30:08.9591614Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/verify/VERDICT_REM3_V4_A36_backup_checker.txt
+2026-10-14T10:30:08.9592395Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/retrieval_ledger.json
+2026-10-14T10:30:08.9593060Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/stderr_EXECUTE_a2.txt
+2026-10-14T10:30:08.9593711Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/stdout_EXECUTE_a2.txt
+2026-10-14T10:30:08.9594624Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/CAPABILITY_PROBE_A6.md
+2026-10-14T10:30:08.9595409Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C1_COLOCATED_A7.md
+2026-10-14T10:30:08.9620343Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C1_COLOCATED_A9.md
+2026-10-14T10:30:08.9621513Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C1_V2_A11.md
+2026-10-14T10:30:08.9622265Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3E_A14.md
+2026-10-14T10:30:08.9622985Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3_RECUT_A10.md
+2026-10-14T10:30:08.9623939Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3_RECUT_A8.md
+2026-10-14T10:30:08.9624931Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3_V2_A12.md
+2026-10-14T10:30:08.9625628Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3_V3_A13.md
+2026-10-14T10:30:08.9626316Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_VERIFY_A5.md
+2026-10-14T10:30:08.9627072Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a10.json
+2026-10-14T10:30:08.9627892Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a11.json
+2026-10-14T10:30:08.9628688Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a12.json
+2026-10-14T10:30:08.9629485Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a13.json
+2026-10-14T10:30:08.9630283Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a14.json
+2026-10-14T10:30:08.9631070Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a3.json
+2026-10-14T10:30:08.9631859Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a4.json
+2026-10-14T10:30:08.9632818Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a5.json
+2026-10-14T10:30:08.9634509Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a6.json
+2026-10-14T10:30:08.9636030Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a7.json
+2026-10-14T10:30:08.9636940Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a8.json
+2026-10-14T10:30:08.9637741Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a9.json
+2026-10-14T10:30:08.9638530Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a10.txt
+2026-10-14T10:30:08.9639298Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a11.txt
+2026-10-14T10:30:08.9640065Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a12.txt
+2026-10-14T10:30:08.9640827Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a13.txt
+2026-10-14T10:30:08.9641577Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a14.txt
+2026-10-14T10:30:08.9642332Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a3.txt
+2026-10-14T10:30:08.9643087Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a4.txt
+2026-10-14T10:30:08.9643831Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a5.txt
+2026-10-14T10:30:08.9644908Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a6.txt
+2026-10-14T10:30:08.9645678Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a7.txt
+2026-10-14T10:30:08.9646454Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a8.txt
+2026-10-14T10:30:08.9647204Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a9.txt
+2026-10-14T10:30:08.9647958Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a10.txt
+2026-10-14T10:30:08.9648902Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a11.txt
+2026-10-14T10:30:08.9649683Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a12.txt
+2026-10-14T10:30:08.9650454Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a13.txt
+2026-10-14T10:30:08.9651206Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a14.txt
+2026-10-14T10:30:08.9652364Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a3.txt
+2026-10-14T10:30:08.9653804Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a4.txt
+2026-10-14T10:30:08.9655146Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a5.txt
+2026-10-14T10:30:08.9655945Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a6.txt
+2026-10-14T10:30:08.9656717Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a7.txt
+2026-10-14T10:30:08.9657475Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a8.txt
+2026-10-14T10:30:08.9658236Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a9.txt
+2026-10-14T10:30:08.9658922Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/hgk_s4r3x_admission.py
+2026-10-14T10:30:08.9659770Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/assemble_round_evidence.py
+2026-10-14T10:30:08.9660439Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/bundle_guards.py
+2026-10-14T10:30:08.9661070Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/closure_close_out.py
+2026-10-14T10:30:08.9661756Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/collect_ci_step_evidence.py
+2026-10-14T10:30:08.9662556Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/far2_admission.py
+2026-10-14T10:30:08.9663182Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/far3_admission.py
+2026-10-14T10:30:08.9663786Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/far_admission.py
+2026-10-14T10:30:08.9664662Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/far_run_lane.py
+2026-10-14T10:30:08.9665287Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/fetch_job_log.py
+2026-10-14T10:30:08.9665920Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/make_receipt_pack.py
+2026-10-14T10:30:08.9666600Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/measure_allowlist_minimum.py
+2026-10-14T10:30:08.9667305Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/open_stageb_successor_pr.py
+2026-10-14T10:30:08.9667980Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/push_s4r3x_branches.sh
+2026-10-14T10:30:08.9668618Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/read_ci_for_sha.py
+2026-10-14T10:30:08.9669275Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/rem2_apply_gate_exclusion.py
+2026-10-14T10:30:08.9669943Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/rem3_build_bundle.py
+2026-10-14T10:30:08.9670688Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/rem3_remedy_receipt_at_head.py
+2026-10-14T10:30:08.9672037Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/report_family_identity.py
+2026-10-14T10:30:08.9673300Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_dryaudit.py
+2026-10-14T10:30:08.9674273Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_dryaudit2.py
+2026-10-14T10:30:08.9675442Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_f006.py
+2026-10-14T10:30:08.9676113Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_split_audit.py
+2026-10-14T10:30:08.9676803Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_writeset_gate_locally.py
+2026-10-14T10:30:08.9677479Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/splice_writeset_step.py
+2026-10-14T10:30:08.9678140Z .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/update_stageb_pr_body.py
+2026-10-14T10:30:08.9678638Z PREVIEW_NOTES_v0.1.1-preview.4.md
+2026-10-14T10:30:08.9678904Z README.md
+2026-10-14T10:30:08.9679109Z dist/WHEEL_MANIFEST.json
+2026-10-14T10:30:08.9679367Z dist/pipd_ls_sp-0.1.1a4-py3-none-any.whl
+2026-10-14T10:30:08.9679691Z dist/pipd_ls_sp-0.1.1a4-py3-none-any.whl.sha256
+2026-10-14T10:30:08.9679992Z docs/USER_GUIDE.md
+2026-10-14T10:30:08.9680268Z docs/adr/ADR-0007-plugin-distribution-private-first.md
+2026-10-14T10:30:08.9680687Z docs/adr/ADR-0008-repository-state-and-hygiene-inventory.md
+2026-10-14T10:30:08.9681121Z docs/adr/ADR-0009-session-handover-and-next-session-start.md
+2026-10-14T10:30:08.9681486Z docs/install/PIPD_WEB_FALLBACK.md
+2026-10-14T10:30:08.9681772Z docs/install/PIPD_WEB_FALLBACK.md.sha256
+2026-10-14T10:30:08.9682055Z docs/install/README.md
+2026-10-14T10:30:08.9682299Z fixtures/REQ-D2-SENTENCES/source.txt
+2026-10-14T10:30:08.9682579Z fixtures/REQ-D2-TOKENS/source.txt
+2026-10-14T10:30:08.9682857Z fixtures/REQ-MIXED-SCOPE/source.txt
+2026-10-14T10:30:08.9683136Z fixtures/REQ-NEG-PHRASES/source.txt
+2026-10-14T10:30:08.9683588Z packaging/public-plugin/plugin.json
+2026-10-14T10:30:08.9683869Z pyproject.toml
+2026-10-14T10:30:08.9684114Z schemas/ClaimCeiling.schema.json
+2026-10-14T10:30:08.9684684Z src/pipd_ls_sp/__init__.py
+2026-10-14T10:30:08.9684962Z src/pipd_ls_sp/requirements.py
+2026-10-14T10:30:08.9685219Z src/pipd_ls_sp/validate.py
+2026-10-14T10:30:08.9685478Z tests/test_atomic_requirements.py
+2026-10-14T10:30:08.9685743Z tests/test_claim_ceiling_shape.py
+2026-10-14T10:30:08.9686002Z tests/test_doctor_schema_truth.py
+2026-10-14T10:30:08.9686268Z tests/test_postrelease_quickstart.py
+2026-10-14T10:30:08.9686552Z tests/test_public_plugin_packaging.py
+2026-10-14T10:30:08.9686828Z tests/test_s4r2m_docs_route.py
+2026-10-14T10:30:08.9687071Z tools/build_dist.py
+2026-10-14T10:30:08.9687294Z tools/build_public_plugin.py
+2026-10-14T10:30:09.4619934Z UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: PREVIEW_NOTES_v0.1.1-preview.4.md
+2026-10-14T10:30:09.4715623Z UPGRADE_WROTE_FROZEN_PATH: dist/WHEEL_MANIFEST.json
+2026-10-14T10:30:09.4750713Z UPGRADE_WROTE_FROZEN_PATH: dist/pipd_ls_sp-0.1.1a4-py3-none-any.whl
+2026-10-14T10:30:09.4784781Z UPGRADE_WROTE_FROZEN_PATH: dist/pipd_ls_sp-0.1.1a4-py3-none-any.whl.sha256
+2026-10-14T10:30:09.5198876Z UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: fixtures/REQ-D2-SENTENCES/source.txt
+2026-10-14T10:30:09.5249758Z UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: fixtures/REQ-D2-TOKENS/source.txt
+2026-10-14T10:30:09.5300872Z UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: fixtures/REQ-MIXED-SCOPE/source.txt
+2026-10-14T10:30:09.5352480Z UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: fixtures/REQ-NEG-PHRASES/source.txt
+2026-10-14T10:30:09.5453279Z UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: pyproject.toml
+2026-10-14T10:30:09.5486929Z UPGRADE_WROTE_FROZEN_PATH: schemas/ClaimCeiling.schema.json
+2026-10-14T10:30:09.5521886Z UPGRADE_WROTE_FROZEN_PATH: src/pipd_ls_sp/__init__.py
+2026-10-14T10:30:09.5556072Z UPGRADE_WROTE_FROZEN_PATH: src/pipd_ls_sp/requirements.py
+2026-10-14T10:30:09.5590248Z UPGRADE_WROTE_FROZEN_PATH: src/pipd_ls_sp/validate.py
+2026-10-14T10:30:09.5643001Z UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tests/test_atomic_requirements.py
+2026-10-14T10:30:09.5695936Z UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tests/test_claim_ceiling_shape.py
+2026-10-14T10:30:09.5750722Z UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tests/test_doctor_schema_truth.py
+2026-10-14T10:30:09.5813240Z UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tests/test_postrelease_quickstart.py
+2026-10-14T10:30:09.5921689Z UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tests/test_s4r2m_docs_route.py
+2026-10-14T10:30:09.5975735Z UPGRADE_WROTE_OUTSIDE_ALLOWED_SET: tools/build_dist.py
+2026-10-14T10:30:09.6031715Z EXCLUDED_BY_DECLARATION (^\.hgk/) from the governed PRODUCT write set: 242 path(s)
+2026-10-14T10:30:09.6061976Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/CLOSURE_AND_HANDOVER.md
+2026-10-14T10:30:09.6063635Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/HANDOVER_PACK_EXTERNAL_ACCEPTANCE.md
+2026-10-14T10:30:09.6065347Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/REAL_RECEIPT.txt
+2026-10-14T10:30:09.6066727Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/ROUND_RESULT_FAR2_REMEDIATION.md
+2026-10-14T10:30:09.6068154Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/ROUND_RESULT_S4R3X.md
+2026-10-14T10:30:09.6069554Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/admission/s4r3x_admission.json
+2026-10-14T10:30:09.6071401Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AFFECTED_ONLY_INVALIDATION.json
+2026-10-14T10:30:09.6073199Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/ALLOWLIST_MINIMUM_MEASUREMENT.json
+2026-10-14T10:30:09.6075226Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A11.md
+2026-10-14T10:30:09.6076997Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A12_A13_A14.md
+2026-10-14T10:30:09.6079155Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A7.md
+2026-10-14T10:30:09.6080893Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A8.md
+2026-10-14T10:30:09.6082637Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_DRYAUDIT_VERDICT_A9_A10.md
+2026-10-14T10:30:09.6084247Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_OUTCOME.json
+2026-10-14T10:30:09.6091654Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/AO_LANE_ROOT_CAUSE_AND_ATTEMPT4.md
+2026-10-14T10:30:09.6093394Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C3_ALLOWLIST_BASELINE_DIFF.txt
+2026-10-14T10:30:09.6095333Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C3_REFUSAL_RECEIPT_DISTILLED.txt
+2026-10-14T10:30:09.6097070Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C3_REVISION_BINDING_RECEIPT.txt
+2026-10-14T10:30:09.6098729Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C4_REFUSAL_TESTS_RUN.log
+2026-10-14T10:30:09.6100382Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C4_REPIN_AND_DECLARED_BASE.txt
+2026-10-14T10:30:09.6102095Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/C4_STAGE_B_REFUSAL_TESTS_SOURCE.py
+2026-10-14T10:30:09.6103779Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/CI_RUNS_AND_STEP_RECEIPTS.txt
+2026-10-14T10:30:09.6105858Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/CLOSURE_DISPOSITION.json
+2026-10-14T10:30:09.6107800Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/EVIDENCE_ENVELOPE.json
+2026-10-14T10:30:09.6109497Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/F006_RED_GREEN_RECEIPTS.txt
+2026-10-14T10:30:09.6111202Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/FAMILY_IDENTITY_RECEIPT.md
+2026-10-14T10:30:09.6113248Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/FINDING_ALLOWLIST_WIDENED_VS_CLAIM.md
+2026-10-14T10:30:09.6115446Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GATE_BLOB_DIGESTS.json
+2026-10-14T10:30:09.6117070Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C1V2.json
+2026-10-14T10:30:09.6118755Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C1_C3.json
+2026-10-14T10:30:09.6120316Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C3E.json
+2026-10-14T10:30:09.6121896Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C3V2.json
+2026-10-14T10:30:09.6123454Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_C3V3.json
+2026-10-14T10:30:09.6125625Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_REM2.json
+2026-10-14T10:30:09.6127456Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_REM2_V2.json
+2026-10-14T10:30:09.6129054Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_REM3.json
+2026-10-14T10:30:09.6130638Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_REM3_V2.json
+2026-10-14T10:30:09.6132627Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_REM3_V3.json
+2026-10-14T10:30:09.6134689Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_COVERAGE_REM3_V4.json
+2026-10-14T10:30:09.6136368Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C1V2.json
+2026-10-14T10:30:09.6137967Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C1_C3.json
+2026-10-14T10:30:09.6139568Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C3E.json
+2026-10-14T10:30:09.6141125Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C3V2.json
+2026-10-14T10:30:09.6142685Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_C3V3.json
+2026-10-14T10:30:09.6144964Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_REM2.json
+2026-10-14T10:30:09.6146862Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_REM2_V2.json
+2026-10-14T10:30:09.6148529Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_REM3.json
+2026-10-14T10:30:09.6150101Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_REM3_V2.json
+2026-10-14T10:30:09.6151724Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_REM3_V3.json
+2026-10-14T10:30:09.6153339Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_RECEIPTS_REM3_V4.json
+2026-10-14T10:30:09.6155299Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_SELFTEST_RECEIPT.json
+2026-10-14T10:30:09.6156963Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/GUARD_SELFTEST_RECEIPT_V2.json
+2026-10-14T10:30:09.6158631Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/HEAD_PROVENANCE_RECEIPT.txt
+2026-10-14T10:30:09.6160309Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/LOCAL_FULL_SUITE_RECEIPTS.txt
+2026-10-14T10:30:09.6162253Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/RECEIPT_PACK_C1_C2.json
+2026-10-14T10:30:09.6163897Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/RECEIVER_HANDOFF_BUNDLE.json
+2026-10-14T10:30:09.6166185Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/REM2_GATE_RUN_BOTH_STAGES.log
+2026-10-14T10:30:09.6168139Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/REM2_NECESSITY_DERIVATION.txt
+2026-10-14T10:30:09.6169807Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/REM2_PAIR_DIFF_FULL.txt
+2026-10-14T10:30:09.6171417Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/REM2_PRODUCT_CHANGE_DIFF.txt
+2026-10-14T10:30:09.6173075Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/REM3_COMMENT_PATCH_RECEIPT.txt
+2026-10-14T10:30:09.6175184Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/REM3_GATE_RUN_AT_CURRENT_HEADS.log
+2026-10-14T10:30:09.6176946Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/REM3_REMEDY_RECEIPT_AT_CURRENT_HEADS.txt
+2026-10-14T10:30:09.6178590Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/SELF_CAUGHT_FALSE_GREEN.md
+2026-10-14T10:30:09.6180118Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/SUBJECTS.json
+2026-10-14T10:30:09.6182053Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/SUPERSESSION_LEDGER.json
+2026-10-14T10:30:09.6184131Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/WRITE_SET_GATE_LOCAL_AND_CI.txt
+2026-10-14T10:30:09.6186252Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/WRITE_SET_GATE_STEP.yml
+2026-10-14T10:30:09.6187771Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/guards/REAL_RECEIPT.txt
+2026-10-14T10:30:09.6189350Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/evidence/12_GATES/writeset_gate_local_final.txt
+2026-10-14T10:30:09.6190880Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/CITED_PATH_RESOLUTION.json
+2026-10-14T10:30:09.6192426Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/E8_DISPATCH_PARAM_ERROR.md
+2026-10-14T10:30:09.6193882Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/EXECUTE_STUDY_DRAFT.md
+2026-10-14T10:30:09.6195731Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/LANE_RUNS_FINAL_LEDGER.md
+2026-10-14T10:30:09.6197168Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/PLAN_LEG_DIVERGENCE.md
+2026-10-14T10:30:09.6198616Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/RETRIEVAL_CHANNEL_FINDING.md
+2026-10-14T10:30:09.6200198Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/ROUND_RESULT_FAR_DECISION_STUDY.md
+2026-10-14T10:30:09.6201861Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/VERIFICATION_LANE_CAPABILITY_BOUNDARY.md
+2026-10-14T10:30:09.6203850Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest.json
+2026-10-14T10:30:09.6205838Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_c3e.json
+2026-10-14T10:30:09.6207442Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_v2.json
+2026-10-14T10:30:09.6209013Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_v3.json
+2026-10-14T10:30:09.6210977Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_v4.json
+2026-10-14T10:30:09.6212533Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/bundle_manifest_v5.json
+2026-10-14T10:30:09.6214029Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec.json
+2026-10-14T10:30:09.6215792Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_c3e.json
+2026-10-14T10:30:09.6217380Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_v2.json
+2026-10-14T10:30:09.6218871Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_v3.json
+2026-10-14T10:30:09.6220533Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_v4.json
+2026-10-14T10:30:09.6222311Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/guard_spec_v5.json
+2026-10-14T10:30:09.6223969Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c1_colocated.md
+2026-10-14T10:30:09.6225721Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c1_v2.md
+2026-10-14T10:30:09.6227174Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_recut.md
+2026-10-14T10:30:09.6228932Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_v2.md
+2026-10-14T10:30:09.6230437Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_v3.md
+2026-10-14T10:30:09.6231950Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3_v4.md
+2026-10-14T10:30:09.6233468Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/bundles/prompt_c3e_only.md
+2026-10-14T10:30:09.6235295Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/draft_sha256.txt
+2026-10-14T10:30:09.6236697Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/far_admission.json
+2026-10-14T10:30:09.6238198Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/invocation_EXECUTE_a2.json
+2026-10-14T10:30:09.6239756Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/packet2_remediation.md
+2026-10-14T10:30:09.6241567Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/packet_execute.md
+2026-10-14T10:30:09.6243174Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt2_execute.md
+2026-10-14T10:30:09.6244885Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt_capability.md
+2026-10-14T10:30:09.6246380Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt_execute.md
+2026-10-14T10:30:09.6247747Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/prompt_verify.md
+2026-10-14T10:30:09.6249198Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/EXECUTE_REMEDIATION_DRAFT.md
+2026-10-14T10:30:09.6250712Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/blocks_rem2.json
+2026-10-14T10:30:09.6252193Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/bundle_manifest_rem2.json
+2026-10-14T10:30:09.6253742Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/bundle_manifest_rem2_v2.json
+2026-10-14T10:30:09.6255513Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/far2_admission.json
+2026-10-14T10:30:09.6257270Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/guard_spec_rem2.json
+2026-10-14T10:30:09.6259100Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/guard_spec_rem2_v2.json
+2026-10-14T10:30:09.6260929Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/invocation_EXECUTE_a20.json
+2026-10-14T10:30:09.6262545Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/invocation_VERIFY_SECURITY_a21.json
+2026-10-14T10:30:09.6264240Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/invocation_VERIFY_SECURITY_a22.json
+2026-10-14T10:30:09.6266110Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/prompt_rem2_verify.md
+2026-10-14T10:30:09.6267667Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/prompt_rem2_verify_v2.md
+2026-10-14T10:30:09.6269211Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/stderr_EXECUTE_a20.txt
+2026-10-14T10:30:09.6270781Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/stderr_VERIFY_SECURITY_a21.txt
+2026-10-14T10:30:09.6272401Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/stderr_VERIFY_SECURITY_a22.txt
+2026-10-14T10:30:09.6273955Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/stdout_EXECUTE_a20.txt
+2026-10-14T10:30:09.6275788Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/stdout_VERIFY_SECURITY_a21.txt
+2026-10-14T10:30:09.6278028Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/stdout_VERIFY_SECURITY_a22.txt
+2026-10-14T10:30:09.6279973Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/verify/VERDICT_REM2_A21.txt
+2026-10-14T10:30:09.6281646Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem2/verify/VERDICT_REM2_V2_A22.txt
+2026-10-14T10:30:09.6283258Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/bundle_manifest_rem3.json
+2026-10-14T10:30:09.6285142Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/bundle_manifest_rem3_v2.json
+2026-10-14T10:30:09.6286817Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/bundle_manifest_rem3_v3.json
+2026-10-14T10:30:09.6288464Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/bundle_manifest_rem3_v4.json
+2026-10-14T10:30:09.6290055Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/far3_admission.json
+2026-10-14T10:30:09.6291635Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/guard_spec_rem3.json
+2026-10-14T10:30:09.6293232Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/guard_spec_rem3_v2.json
+2026-10-14T10:30:09.6295343Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/guard_spec_rem3_v3.json
+2026-10-14T10:30:09.6297131Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/guard_spec_rem3_v4.json
+2026-10-14T10:30:09.6298752Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/invocation_EXECUTE_a30.json
+2026-10-14T10:30:09.6300378Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/invocation_VERIFY_SECURITY_a31.json
+2026-10-14T10:30:09.6302100Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/invocation_VERIFY_SECURITY_a32.json
+2026-10-14T10:30:09.6303827Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/invocation_VERIFY_SECURITY_a33.json
+2026-10-14T10:30:09.6306150Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/invocation_VERIFY_SECURITY_a34.json
+2026-10-14T10:30:09.6307871Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/invocation_VERIFY_SECURITY_a35.json
+2026-10-14T10:30:09.6309574Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/invocation_VERIFY_SECURITY_a36.json
+2026-10-14T10:30:09.6311197Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/prompt_rem3_execute.md
+2026-10-14T10:30:09.6312769Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/prompt_rem3_verify.md
+2026-10-14T10:30:09.6314778Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/prompt_rem3_verify_v2.md
+2026-10-14T10:30:09.6316630Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/prompt_rem3_verify_v3.md
+2026-10-14T10:30:09.6318516Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/prompt_rem3_verify_v4.md
+2026-10-14T10:30:09.6320057Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stderr_EXECUTE_a30.txt
+2026-10-14T10:30:09.6321629Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stderr_VERIFY_SECURITY_a31.txt
+2026-10-14T10:30:09.6323246Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stderr_VERIFY_SECURITY_a32.txt
+2026-10-14T10:30:09.6325179Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stderr_VERIFY_SECURITY_a33.txt
+2026-10-14T10:30:09.6327112Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stderr_VERIFY_SECURITY_a34.txt
+2026-10-14T10:30:09.6328804Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stderr_VERIFY_SECURITY_a35.txt
+2026-10-14T10:30:09.6330458Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stderr_VERIFY_SECURITY_a36.txt
+2026-10-14T10:30:09.6332397Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stdout_EXECUTE_a30.txt
+2026-10-14T10:30:09.6334269Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stdout_VERIFY_SECURITY_a31.txt
+2026-10-14T10:30:09.6336188Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stdout_VERIFY_SECURITY_a32.txt
+2026-10-14T10:30:09.6337821Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stdout_VERIFY_SECURITY_a33.txt
+2026-10-14T10:30:09.6339418Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stdout_VERIFY_SECURITY_a34.txt
+2026-10-14T10:30:09.6341041Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stdout_VERIFY_SECURITY_a35.txt
+2026-10-14T10:30:09.6342700Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/stdout_VERIFY_SECURITY_a36.txt
+2026-10-14T10:30:09.6344284Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/verify/VERDICT_REM3_A31.txt
+2026-10-14T10:30:09.6346175Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/verify/VERDICT_REM3_V2_A32.txt
+2026-10-14T10:30:09.6347794Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/verify/VERDICT_REM3_V3_A33.txt
+2026-10-14T10:30:09.6349735Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/verify/VERDICT_REM3_V4_A34.txt
+2026-10-14T10:30:09.6351647Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/verify/VERDICT_REM3_V4_A35.txt
+2026-10-14T10:30:09.6353395Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/rem3/verify/VERDICT_REM3_V4_A36_backup_checker.txt
+2026-10-14T10:30:09.6355733Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/retrieval_ledger.json
+2026-10-14T10:30:09.6357168Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/stderr_EXECUTE_a2.txt
+2026-10-14T10:30:09.6358566Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/stdout_EXECUTE_a2.txt
+2026-10-14T10:30:09.6360036Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/CAPABILITY_PROBE_A6.md
+2026-10-14T10:30:09.6361639Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C1_COLOCATED_A7.md
+2026-10-14T10:30:09.6363209Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C1_COLOCATED_A9.md
+2026-10-14T10:30:09.6365072Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C1_V2_A11.md
+2026-10-14T10:30:09.6366903Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3E_A14.md
+2026-10-14T10:30:09.6368773Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3_RECUT_A10.md
+2026-10-14T10:30:09.6370361Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3_RECUT_A8.md
+2026-10-14T10:30:09.6371874Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3_V2_A12.md
+2026-10-14T10:30:09.6373418Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_C3_V3_A13.md
+2026-10-14T10:30:09.6375650Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/VERDICT_VERIFY_A5.md
+2026-10-14T10:30:09.6377351Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a10.json
+2026-10-14T10:30:09.6379140Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a11.json
+2026-10-14T10:30:09.6380895Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a12.json
+2026-10-14T10:30:09.6382747Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a13.json
+2026-10-14T10:30:09.6385166Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a14.json
+2026-10-14T10:30:09.6387105Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a3.json
+2026-10-14T10:30:09.6388838Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a4.json
+2026-10-14T10:30:09.6390533Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a5.json
+2026-10-14T10:30:09.6392205Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a6.json
+2026-10-14T10:30:09.6393896Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a7.json
+2026-10-14T10:30:09.6395864Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a8.json
+2026-10-14T10:30:09.6397550Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/invocation_VERIFY_SECURITY_a9.json
+2026-10-14T10:30:09.6399214Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a10.txt
+2026-10-14T10:30:09.6401198Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a11.txt
+2026-10-14T10:30:09.6403197Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a12.txt
+2026-10-14T10:30:09.6405446Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a13.txt
+2026-10-14T10:30:09.6407116Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a14.txt
+2026-10-14T10:30:09.6408812Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a3.txt
+2026-10-14T10:30:09.6410471Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a4.txt
+2026-10-14T10:30:09.6412169Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a5.txt
+2026-10-14T10:30:09.6413857Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a6.txt
+2026-10-14T10:30:09.6415836Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a7.txt
+2026-10-14T10:30:09.6417734Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a8.txt
+2026-10-14T10:30:09.6419736Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stderr_VERIFY_SECURITY_a9.txt
+2026-10-14T10:30:09.6421532Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a10.txt
+2026-10-14T10:30:09.6423214Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a11.txt
+2026-10-14T10:30:09.6425389Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a12.txt
+2026-10-14T10:30:09.6427091Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a13.txt
+2026-10-14T10:30:09.6428785Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a14.txt
+2026-10-14T10:30:09.6430453Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a3.txt
+2026-10-14T10:30:09.6432095Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a4.txt
+2026-10-14T10:30:09.6433750Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a5.txt
+2026-10-14T10:30:09.6436051Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a6.txt
+2026-10-14T10:30:09.6438085Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a7.txt
+2026-10-14T10:30:09.6439847Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a8.txt
+2026-10-14T10:30:09.6441498Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/far-study/verify/stdout_VERIFY_SECURITY_a9.txt
+2026-10-14T10:30:09.6442990Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/hgk_s4r3x_admission.py
+2026-10-14T10:30:09.6444739Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/assemble_round_evidence.py
+2026-10-14T10:30:09.6446238Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/bundle_guards.py
+2026-10-14T10:30:09.6447665Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/closure_close_out.py
+2026-10-14T10:30:09.6449152Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/collect_ci_step_evidence.py
+2026-10-14T10:30:09.6450579Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/far2_admission.py
+2026-10-14T10:30:09.6451952Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/far3_admission.py
+2026-10-14T10:30:09.6453925Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/far_admission.py
+2026-10-14T10:30:09.6455657Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/far_run_lane.py
+2026-10-14T10:30:09.6457214Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/fetch_job_log.py
+2026-10-14T10:30:09.6458556Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/make_receipt_pack.py
+2026-10-14T10:30:09.6459982Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/measure_allowlist_minimum.py
+2026-10-14T10:30:09.6461484Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/open_stageb_successor_pr.py
+2026-10-14T10:30:09.6462985Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/push_s4r3x_branches.sh
+2026-10-14T10:30:09.6464727Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/read_ci_for_sha.py
+2026-10-14T10:30:09.6466228Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/rem2_apply_gate_exclusion.py
+2026-10-14T10:30:09.6467071Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/rem3_build_bundle.py
+2026-10-14T10:30:09.6467833Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/rem3_remedy_receipt_at_head.py
+2026-10-14T10:30:09.6468609Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/report_family_identity.py
+2026-10-14T10:30:09.6469621Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_dryaudit.py
+2026-10-14T10:30:09.6470372Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_dryaudit2.py
+2026-10-14T10:30:09.6471411Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_f006.py
+2026-10-14T10:30:09.6472148Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_ao_lane_split_audit.py
+2026-10-14T10:30:09.6473135Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/run_writeset_gate_locally.py
+2026-10-14T10:30:09.6474713Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/splice_writeset_step.py
+2026-10-14T10:30:09.6475532Z   excluded: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/scripts/update_stageb_pr_body.py
+2026-10-14T10:30:09.6476238Z WRITE_SET_VIOLATION (stage-b base 759b9f0dc880b2f960363b2ceaa68446c770061d)
+2026-10-14T10:30:09.6476936Z GATE_SELF_TEST_OK: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/../evil.sh is refused as a traversal path
+2026-10-14T10:30:09.6477671Z GATE_SELF_TEST_OK: docs/install/../../src/pipd_ls_sp/validate.py is refused as a traversal path
+2026-10-14T10:30:09.6478264Z GATE_SELF_TEST_OK: planted frozen-path violations and unlisted src/** are all refused
+2026-10-14T10:30:09.6478824Z GATE_SELF_TEST_OK: the declared exclusion matches scaffolding only and no product path
+2026-10-14T10:30:09.6479302Z GATE_SELF_TEST_OK: planted stage-b artefacts are all allowed
+2026-10-14T10:30:09.6491538Z ##[error]Process completed with exit code 1.
+2026-10-14T10:30:09.6614293Z ##[group]Run actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b
+2026-10-14T10:30:09.6614913Z with:
+2026-10-14T10:30:09.6615141Z   name: public-plugin-verify-raw-logs
+2026-10-14T10:30:09.6615774Z   path: resolved-deps.txt
+upgrade-tests.log
+full-unittest.log
+pre-mutation.log
+mutation-run.log
+fallback-green.log
+fallback-refusal.log
+
+2026-10-14T10:30:09.6616404Z   if-no-files-found: warn
+2026-10-14T10:30:09.6616641Z   compression-level: 6
+2026-10-14T10:30:09.6616866Z   overwrite: false
+2026-10-14T10:30:09.6617082Z   include-hidden-files: false
+2026-10-14T10:30:09.6617314Z env:
+2026-10-14T10:30:09.6617568Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-14T10:30:09.6618231Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-14T10:30:09.6618661Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-14T10:30:09.6619043Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-14T10:30:09.6619475Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-14T10:30:09.6619871Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-14T10:30:09.6620197Z ##[endgroup]
+2026-10-14T10:30:09.8392029Z (node:3041) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-14T10:30:09.8393626Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-14T10:30:09.8452089Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-14T10:30:09.8460067Z The least common ancestor is /home/runner/work/PIPD-LS-SP/PIPD-LS-SP. This will be the root directory of the artifact
+2026-10-14T10:30:09.8479879Z ##[warning]No files were found with the provided path: resolved-deps.txt
+upgrade-tests.log
+full-unittest.log
+pre-mutation.log
+mutation-run.log
+fallback-green.log
+fallback-refusal.log. No artifacts will be uploaded.
+2026-10-14T10:30:09.8832712Z Post job cleanup.
+2026-10-14T10:30:09.9780690Z [command]/usr/bin/git version
+2026-10-14T10:30:09.9828506Z git version 2.55.0
+2026-10-14T10:30:09.9869305Z Temporarily overriding HOME='/home/runner/work/_temp/9da17d63-8d81-49ef-ac0e-37823d44bd28' before making global git config changes
+2026-10-14T10:30:09.9870752Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T10:30:09.9878399Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/PIPD-LS-SP/PIPD-LS-SP
+2026-10-14T10:30:09.9923465Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T10:30:09.9963161Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-14T10:30:10.0248957Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T10:30:10.0295576Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-14T10:30:10.0766431Z Cleaning up orphan processes
+2026-10-14T10:30:10.1085615Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683, actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b, actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

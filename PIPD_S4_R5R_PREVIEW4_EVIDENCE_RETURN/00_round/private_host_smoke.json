@@ -1,0 +1,23 @@
+{
+  "attempted": {
+    "platform": "Windows 11, Chrome with a logged-in ChatGPT tab",
+    "refused_action": "click (background delivery) after the approval window closed",
+    "retried": false,
+    "step_reached": "tab inventory captured; switching to the ChatGPT tab was refused on approval timeout"
+  },
+  "ceiling_for_this_round": "NOT_SUPPORTED_FOR_ACCOUNT is NOT claimed (the account was not shown to be unentitled); the honest state is that this round did not perform the upload.",
+  "not_supported_for_account": false,
+  "previous_round_observation": {
+    "ceiling": "PRIVATE_SINGLE_ACCOUNT_OBSERVED, not replayed by this round",
+    "record": "one real account recorded upload -> install -> 8 skills discovered -> a source-positive invocation and a no-source refusal",
+    "subject": "r5z-evidence-return branch a0882fd"
+  },
+  "reason": "Desktop input for the upload flow requires an interactive consent approval. The approval prompt timed out without a response, and the driver's own rule is that silence is not consent, so the action was not retried and no upload was performed.",
+  "release_asset_available": "https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-preview.4/pipd-ls-sp-public-skills.zip",
+  "release_asset_sha256": "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75",
+  "status": "BLOCKED_AWAITING_UI_CONSENT",
+  "what_would_close_it": [
+    "one interactive approval for desktop input, or",
+    "the owner uploading the release asset pipd-ls-sp-public-skills.zip themselves and recording the nine-step UI log the previous round recorded"
+  ]
+}

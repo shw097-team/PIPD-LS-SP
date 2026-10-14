@@ -1,0 +1,73 @@
+{
+  "focused_green_after": {
+    "raw": {
+      "bytes": 147,
+      "path": "evidence/focused_patched.raw",
+      "sha256": "462cea00e87e2fd78ee8ceafeb1367ef1b955ceda283003535f7a1c6f517b71f"
+    },
+    "tail": [
+      "Ran 42 tests in 18.942s",
+      "OK"
+    ]
+  },
+  "focused_red_before": {
+    "raw": {
+      "bytes": 11530,
+      "path": "evidence/focused_red_before.raw",
+      "sha256": "b081627463d57b12488ea1df1939193e2cb85252b1a0fd362b1a543bf863d65d"
+    },
+    "tail": [
+      "Ran 18 tests in 0.091s",
+      "FAILED (failures=8, errors=5)"
+    ]
+  },
+  "full_suite_candidate": {
+    "raw": {
+      "bytes": 103389,
+      "path": "evidence/full_suite_candidate_final.raw",
+      "sha256": "51455072be9fad7bb4dc9c2d72155b3bbd5aa974009e33684f2f4b66a4547db6"
+    },
+    "tail": [
+      "Ran 610 tests in 172.683s",
+      "OK (skipped=4)"
+    ]
+  },
+  "full_suite_final_sha": {
+    "raw": {
+      "bytes": 103389,
+      "path": "evidence/full_suite_final_sha.raw",
+      "sha256": "b2e02d709e1c31db9db56481080ba1241316a2b74450f2f955ef22d30d29705f"
+    },
+    "tail": [
+      "Ran 610 tests in 185.936s",
+      "OK (skipped=4)"
+    ]
+  },
+  "github_ci": {
+    "earlier_red_run": {
+      "conclusion": "failure",
+      "failing_step": "Prove the upgrade wrote only inside its allowed set",
+      "id": 38549987338,
+      "log": {
+        "bytes": 106418,
+        "path": "evidence/ci_public_plugin_verify_failure.log",
+        "sha256": "e5901cc6cf87cb4572cc0b6651857702d4f9b537b1f3f6c2a945899e45e83d5b"
+      },
+      "root_cause": "the stage-b arm measures Stage A tip...HEAD, a range that includes every merge since that tip for any main-based branch"
+    },
+    "workflow_ci_run": {
+      "conclusion": "success",
+      "id": 38550343619,
+      "raw_counts": "Ran 610 tests OK (skipped=6); focused 108 OK"
+    },
+    "workflow_public_plugin_verify_run": {
+      "conclusion": "success",
+      "id": 38550350292,
+      "raw_counts": "54 OK (skipped=1); 610 OK (skipped=6)"
+    }
+  },
+  "negative_controls": {
+    "ci_mutation_gates": "public-plugin-verify independently mutated a pack document and a member's bytes on the runner and both refusals fired",
+    "red_before_is_real": "13 of 18 focused cases fail on the frozen subject with the repairs stashed, so the green run is not an always-green oracle"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "acts_not_executed_by_this_round": [
+    "public directory submission, developer identity, portal review (OUT_OF_SCOPE)"
+  ],
+  "claim_ceiling": "S4_PREVIEW_MVP_PHASE_TEMP_CLOSED for the publishable preview; PUBLIC_DIRECTORY, four-host full qualification, S4_FULL_PASS and PRODUCTION remain NOT_GRANTED.",
+  "deferred": [
+    "PLATFORM_DRIFT_TT: an OpenAI doc revision lists .codex-plugin/plugin.json as the standard manifest and does not list a bare root plugin.json. The private upload route accepted the root manifest in the previous recorded round; this round did not re-observe the upload, so the drift stays open with its check time and URLs recorded.",
+    "a preview.4-stamped Web mount pack (this release ships the fallback document instead)",
+    "TYPE-GATE-FIVE schema work beyond the two claim lists (close_conditions left unconstrained)",
+    "lane executable pin repair in the HG-KSEOS lane configuration (path and digest drift)"
+  ],
+  "independent_checker": {
+    "actually_used": "see the checker verdict file in this pack; the Codex EXECUTE lane was attempted twice and produced no output, which is disclosed separately",
+    "declared_lane": "Codex CLI on gpt-6.1-sol (per the round's model routing)",
+    "maker_not_self_accepting": true,
+    "role": "distinct VERIFY_ONLY lane; maker and checker are different processes and models"
+  },
+  "owner_authorizations_relied_on": [
+    "release path for the next immutable preview (tag + GitHub release) after the focused repair is green",
+    "desktop (host-smoke) authorization, which the tool-level consent gate then blocked"
+  ],
+  "rollback": {
+    "branch": "fix/s4r5r-d1d2-claimceiling-preview4-20261014 (kept)",
+    "previous_release": "v0.1.1-preview.3 (untouched, still downloadable)",
+    "revert": "revert the merge commit on main if a defect is found; the tag is immutable and is never rewritten"
+  }
+}

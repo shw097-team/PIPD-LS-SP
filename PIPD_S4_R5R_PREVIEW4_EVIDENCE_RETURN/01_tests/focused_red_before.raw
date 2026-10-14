@@ -1,0 +1,165 @@
+F.F.F.F.FFFF..EEEE.E
+======================================================================
+ERROR: test_mapping_entry_is_a_named_finding (tests.test_claim_ceiling_shape.ClaimCeilingShapeSemantics.test_mapping_entry_is_a_named_finding) (field='allowed_claims')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_claim_ceiling_shape.py", line 56, in test_mapping_entry_is_a_named_finding
+    found = self.findings(claim_record(**{field: [{"claim": "RELEASED"}]}))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_claim_ceiling_shape.py", line 43, in findings
+    return validate.semantic_invariants("ClaimCeiling", record)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\src\pipd_ls_sp\validate.py", line 119, in semantic_invariants
+    allowed = set(record.get("allowed_claims", []))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'dict'
+
+======================================================================
+ERROR: test_mapping_entry_is_a_named_finding (tests.test_claim_ceiling_shape.ClaimCeilingShapeSemantics.test_mapping_entry_is_a_named_finding) (field='forbidden_escalation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_claim_ceiling_shape.py", line 56, in test_mapping_entry_is_a_named_finding
+    found = self.findings(claim_record(**{field: [{"claim": "RELEASED"}]}))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_claim_ceiling_shape.py", line 43, in findings
+    return validate.semantic_invariants("ClaimCeiling", record)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\src\pipd_ls_sp\validate.py", line 120, in semantic_invariants
+    forbidden = set(record.get("forbidden_escalation", []))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'dict'
+
+======================================================================
+ERROR: test_null_allowed_claims_is_a_named_finding (tests.test_claim_ceiling_shape.ClaimCeilingShapeSemantics.test_null_allowed_claims_is_a_named_finding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_claim_ceiling_shape.py", line 46, in test_null_allowed_claims_is_a_named_finding
+    found = self.findings(claim_record(allowed_claims=None))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_claim_ceiling_shape.py", line 43, in findings
+    return validate.semantic_invariants("ClaimCeiling", record)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\src\pipd_ls_sp\validate.py", line 119, in semantic_invariants
+    allowed = set(record.get("allowed_claims", []))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_null_forbidden_escalation_is_a_named_finding (tests.test_claim_ceiling_shape.ClaimCeilingShapeSemantics.test_null_forbidden_escalation_is_a_named_finding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_claim_ceiling_shape.py", line 50, in test_null_forbidden_escalation_is_a_named_finding
+    found = self.findings(claim_record(forbidden_escalation=None))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_claim_ceiling_shape.py", line 43, in findings
+    return validate.semantic_invariants("ClaimCeiling", record)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\src\pipd_ls_sp\validate.py", line 120, in semantic_invariants
+    forbidden = set(record.get("forbidden_escalation", []))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable
+
+======================================================================
+ERROR: test_undeclared_claim_is_a_named_finding (tests.test_claim_ceiling_shape.ClaimCeilingShapeSemantics.test_undeclared_claim_is_a_named_finding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_claim_ceiling_shape.py", line 61, in test_undeclared_claim_is_a_named_finding
+    found = self.findings(claim_record(allowed_claims=["NOT_A_DECLARED_CLAIM"]))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_claim_ceiling_shape.py", line 43, in findings
+    return validate.semantic_invariants("ClaimCeiling", record)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\src\pipd_ls_sp\validate.py", line 126, in semantic_invariants
+    above = [c for c in allowed
+            ^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\src\pipd_ls_sp\validate.py", line 127, in <listcomp>
+    if CLAIM_LADDER.index(c) > CLAIM_LADDER.index("LOCAL_QUALIFIED")]
+       ^^^^^^^^^^^^^^^^^^^^^
+ValueError: 'NOT_A_DECLARED_CLAIM' is not in list
+
+======================================================================
+FAIL: test_ambiguous_negation_scope_is_refused_not_guessed (tests.test_atomic_requirements.FocusRepairPolarityAndBoundary.test_ambiguous_negation_scope_is_refused_not_guessed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_atomic_requirements.py", line 426, in test_ambiguous_negation_scope_is_refused_not_guessed
+    with self.assertRaises(IntakeInvalid):
+AssertionError: IntakeInvalid not raised
+
+======================================================================
+FAIL: test_domain_version_and_decimal_stay_one_atom (tests.test_atomic_requirements.FocusRepairPolarityAndBoundary.test_domain_version_and_decimal_stay_one_atom)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_atomic_requirements.py", line 433, in test_domain_version_and_decimal_stay_one_atom
+    self.assertEqual(len(atoms), 3)
+AssertionError: 8 != 3
+
+======================================================================
+FAIL: test_real_sentence_boundary_still_splits (tests.test_atomic_requirements.FocusRepairPolarityAndBoundary.test_real_sentence_boundary_still_splits)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_atomic_requirements.py", line 441, in test_real_sentence_boundary_still_splits
+    self.assertEqual([a["source_clause"]["text"] for a in atoms],
+AssertionError: Lists differ: ['系統必須記錄日誌', '版本必須為 1', '2'] != ['系統必須記錄日誌', '版本必須為 1.2']
+
+First differing element 1:
+'版本必須為 1'
+'版本必須為 1.2'
+
+First list contains 1 additional elements.
+First extra element 2:
+'2'
+
+- ['系統必須記錄日誌', '版本必須為 1', '2']
+?                      ^^^^
+
++ ['系統必須記錄日誌', '版本必須為 1.2']
+?                      ^
+
+
+======================================================================
+FAIL: test_unlisted_prohibition_phrasings_are_negated (tests.test_atomic_requirements.FocusRepairPolarityAndBoundary.test_unlisted_prohibition_phrasings_are_negated)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_atomic_requirements.py", line 406, in test_unlisted_prohibition_phrasings_are_negated
+    self.assertEqual(by_text["系統不允許傳送個資"]["risk_guard"]["polarity"], "MUST NOT")
+AssertionError: 'MUST' != 'MUST NOT'
+- MUST
++ MUST NOT
+
+
+======================================================================
+FAIL: test_mapping_entries_are_refused_by_the_schema (tests.test_claim_ceiling_shape.ClaimCeilingSchemaAdmission.test_mapping_entries_are_refused_by_the_schema)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_claim_ceiling_shape.py", line 102, in test_mapping_entries_are_refused_by_the_schema
+    self.assertTrue(found, "a mapping entry must not be schema-admissible")
+AssertionError: [] is not true : a mapping entry must not be schema-admissible
+
+======================================================================
+FAIL: test_null_lists_are_refused_by_the_schema (tests.test_claim_ceiling_shape.ClaimCeilingSchemaAdmission.test_null_lists_are_refused_by_the_schema) (field='allowed_claims')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_claim_ceiling_shape.py", line 98, in test_null_lists_are_refused_by_the_schema
+    self.assertTrue(any(field in f for f in found), found)
+AssertionError: False is not true : []
+
+======================================================================
+FAIL: test_null_lists_are_refused_by_the_schema (tests.test_claim_ceiling_shape.ClaimCeilingSchemaAdmission.test_null_lists_are_refused_by_the_schema) (field='forbidden_escalation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_claim_ceiling_shape.py", line 98, in test_null_lists_are_refused_by_the_schema
+    self.assertTrue(any(field in f for f in found), found)
+AssertionError: False is not true : []
+
+======================================================================
+FAIL: test_undeclared_claim_is_refused_by_the_schema (tests.test_claim_ceiling_shape.ClaimCeilingSchemaAdmission.test_undeclared_claim_is_refused_by_the_schema)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Agent_Workspace\PIPD\worktrees\r5r-wt\tests\test_claim_ceiling_shape.py", line 106, in test_undeclared_claim_is_refused_by_the_schema
+    self.assertTrue(found, "an undeclared claim must not be schema-admissible")
+AssertionError: [] is not true : an undeclared claim must not be schema-admissible
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.091s
+
+FAILED (failures=8, errors=5)

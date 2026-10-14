@@ -1,0 +1,38 @@
+{
+  "compiler_receipt": {
+    "acceptance": {
+      "exit_signal_present": false,
+      "stdout_sha256": null
+    },
+    "activation": {
+      "exit_signal_present": false,
+      "stdout_sha256": null
+    },
+    "lint": {
+      "exit_signal_present": false,
+      "stdout_sha256": null
+    }
+  },
+  "contract": {
+    "generator": "PIPD/.hgk/preflight/R5R-compiler/generate_contract.py",
+    "generator_sha256": "e83cc0d832cebdc7bd65c0dd684fc1a64e69398076b5d5df1cb6d0e7605a6f56",
+    "path": "PIPD/.hgk/preflight/R5R-compiler/R5R.CONTRACT.json"
+  },
+  "frozen_subject": {
+    "base_commit": "f4021aeff9c016cfb14f17e68a0c570ed4e825c5"
+  },
+  "hgk_admission": "see 00_freeze/R5R_FREEZE.json",
+  "note": "Prompt-contract lint/activation/acceptance were run against the round contract; the receipts are raw stdout files under 01_compiler/. This pack does not upgrade them into an admission it did not receive.",
+  "round": "R5R-20261014-s4-preview4-focused-close",
+  "tool_drift": {
+    "declared_codex_executable": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\2e5e00daee91c61d\\codex.exe",
+    "declared_codex_sha256": "D13914CED6C7AF174D8D638DB938284231227312104B06A25E9608C632A7DAEC",
+    "declared_codex_version": "0.162.0-alpha.17.2",
+    "disposition": "PATH_AND_DIGEST_STALE_VERSION_MATCHES; the only live binary is used through the documented operator override --codex-executable; the lane config is NOT mutated",
+    "finding": "TT-R5R-TOOL-DRIFT-LANE-CODEX-BINARY",
+    "live_codex_executable": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\9614f1d9b40d9c4f\\codex.exe",
+    "live_codex_sha256": "E98C516F1C8935789AABE9122EE7E05EC4C3EFD1BA6ACF179242E031C495B99E",
+    "live_codex_version": "0.162.0-alpha.17.2",
+    "path_exists": false
+  }
+}
