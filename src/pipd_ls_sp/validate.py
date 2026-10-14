@@ -76,6 +76,32 @@ def validate_record(contract: str, record: dict[str, Any], schemas_dir: Path | N
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 
 
+def _claim_names(contract: str, field: str, value: Any, out: list[str]) -> list[str]:
+    """TYPE5 (R5 §4.1): the two ClaimCeiling claim lists are arrays of DECLARED ladder claims.
+
+    Before this guard the library read ``set(record.get(field, []))`` and indexed ``CLAIM_LADDER``
+    directly, so five schema-admissible shapes (null, a mapping item, an undeclared claim name)
+    escaped as native ``TypeError``/``ValueError`` and became an untyped crash instead of a named
+    finding. Every one of them is now reported by name and the caller keeps only the claims that are
+    genuinely declared, so no caller ever indexes the ladder with an unknown value.
+    """
+    if not isinstance(value, list):
+        out.append(f"{contract}: {field} must be a list of declared claim names "
+                   f"(got {type(value).__name__})")
+        return []
+    names: list[str] = []
+    for item in value:
+        if not isinstance(item, str):
+            out.append(f"{contract}: {field} entries must be declared claim names "
+                       f"(got {type(item).__name__})")
+            continue
+        if item not in CLAIM_LADDER:
+            out.append(f"{contract}: {field} names the undeclared claim {item!r}")
+            continue
+        names.append(item)
+    return names
+
+
 def _body_hash(record: dict[str, Any]) -> str:
     """Recompute the record digest over everything EXCEPT the identity fields.
 
@@ -116,8 +142,10 @@ def semantic_invariants(contract: str, record: dict[str, Any]) -> list[str]:
     if sv and not (re.match(r"^[0-9]+\.[0-9]+\.[0-9]+$", sv) or re.match(r"^[A-Za-z0-9_.-]+@[0-9]+$", sv)):
         out.append(f"{contract}: schema_version must be semver or <Token>@<n>")
     if contract == "ClaimCeiling":
-        allowed = set(record.get("allowed_claims", []))
-        forbidden = set(record.get("forbidden_escalation", []))
+        allowed = set(_claim_names(contract, "allowed_claims",
+                                   record.get("allowed_claims", []), out))
+        forbidden = set(_claim_names(contract, "forbidden_escalation",
+                                     record.get("forbidden_escalation", []), out))
         if allowed & forbidden:
             out.append("ClaimCeiling: a claim cannot be both allowed and forbidden")
         # C-8 repair: a maker could previously mint claim_ceiling(['INDEPENDENT_PASS']).

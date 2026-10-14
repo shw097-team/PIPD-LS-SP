@@ -91,10 +91,10 @@ class ChooseYourPathSection(unittest.TestCase):
     def test_section_names_both_paths_and_their_artefacts(self) -> None:
         section = _section(_readme_text(), "Choose your path: CLI or Skills")
         # CLI / headless harness: the immutable published wheel + its digest.
-        self.assertIn("v0.1.1-preview.3", section)
-        self.assertIn("pipd_ls_sp-0.1.1a3-py3-none-any.whl", section)
+        self.assertIn("v0.1.1-preview.4", section)
+        self.assertIn("pipd_ls_sp-0.1.1a4-py3-none-any.whl", section)
         self.assertIn(
-            "e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec", section)
+            "3b59a985dc9fc1cd4c1c5ca9a7b779122459ab7cadc8f439e17063d6c934cc0c", section)
         self.assertIn("doctor", section)
         # Skills / document consumption: the candidate-branch mount pack, not a release asset.
         self.assertIn("dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip", section)

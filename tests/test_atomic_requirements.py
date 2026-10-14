@@ -390,5 +390,75 @@ class RepoContextBinding(unittest.TestCase):
             self.assertEqual(repo_context.probe_repository(syn)["tracked_files"], 2)
 
 
+class FocusRepairPolarityAndBoundary(unittest.TestCase):
+    """R5 §4.2/§4.3: the focused semantic repair, with positive AND negative coverage.
+
+    D1: the pre-repair negation surface missed `不允許`／`請勿`／`should not`, so a prohibition was
+    silently compiled as a MUST, and one clause-level negation flattened a neighbouring positive
+    obligation into the same polarity. D2: the pre-repair scanner treated every ASCII period as a
+    clause boundary, so `api.example.com` and `v1.2.3` dissolved into meaningless atoms.
+    """
+
+    def test_unlisted_prohibition_phrasings_are_negated(self):
+        atoms = compile_fixture("REQ-NEG-PHRASES")
+        self.assertEqual(len(atoms), 3)
+        by_text = {a["source_clause"]["text"]: a for a in atoms}
+        self.assertEqual(by_text["系統不允許傳送個資"]["risk_guard"]["polarity"], "MUST NOT")
+        self.assertEqual(
+            by_text["The system should not publish customer secrets"]["risk_guard"]["polarity"],
+            "MUST NOT")
+        # The pre-existing baseline phrasings must keep their meaning.
+        self.assertEqual(by_text["系統不得上傳遙測"]["risk_guard"]["polarity"], "MUST NOT")
+        self.assertEqual(len({a["risk_guard"]["negative_fixture"] for a in atoms}), 3)
+
+    def test_positive_and_negative_scope_are_not_flattened(self):
+        atoms = compile_fixture("REQ-MIXED-SCOPE")
+        self.assertEqual(len(atoms), 2)
+        by_text = {a["source_clause"]["text"]: a for a in atoms}
+        self.assertEqual(by_text["系統必須記錄稽核日誌"]["risk_guard"]["polarity"], "MUST")
+        self.assertEqual(by_text["不得外洩個資"]["risk_guard"]["polarity"], "MUST NOT")
+        self.assertEqual(len({a["req_id"] for a in atoms}), 2)
+
+    def test_ambiguous_negation_scope_is_refused_not_guessed(self):
+        with tempfile.TemporaryDirectory() as td:
+            src = Path(td) / "ambiguous.txt"
+            src.write_text("系統必須不得外洩個資。\n", encoding="utf-8")
+            with self.assertRaises(IntakeInvalid):
+                requirements.compile_requirements("goal", [str(src)])
+        with self.assertRaises(IntakeInvalid):
+            requirements._expand("系統必須不得外洩個資")
+
+    def test_domain_version_and_decimal_stay_one_atom(self):
+        atoms = compile_fixture("REQ-D2-TOKENS")
+        self.assertEqual(len(atoms), 3)
+        self.assertEqual([a["source_clause"]["text"] for a in atoms],
+                         ["系統不得上傳至 api.example.com", "版本必須為 v1.2.3", "比例必須為 1.25"])
+        self.assertEqual(atoms[0]["risk_guard"]["polarity"], "MUST NOT")
+        self.assertEqual(atoms[1]["risk_guard"]["polarity"], "MUST")
+
+    def test_real_sentence_boundary_still_splits(self):
+        atoms = compile_fixture("REQ-D2-SENTENCES")
+        self.assertEqual([a["source_clause"]["text"] for a in atoms],
+                         ["系統必須記錄日誌", "版本必須為 1.2"])
+
+    def test_token_atoms_keep_their_original_source_span(self):
+        source = (FIXTURES / "REQ-D2-TOKENS" / "source.txt").read_text(encoding="utf-8")
+        for atom in compile_fixture("REQ-D2-TOKENS"):
+            clause = atom["source_clause"]
+            span = clause["span"]
+            self.assertEqual(source[span[0]:span[1]], clause["text"])
+            self.assertTrue(clause["clause_id"].startswith("clause-"))
+
+    def test_distributive_and_baseline_negation_regressions_hold(self):
+        # The pre-existing negation fixture is the regression oracle for D1: its four atoms,
+        # polarities and distributive sub-scopes must be byte-identical after the repair.
+        atoms = compile_fixture("REQ-NEGATION")
+        self.assertEqual(len(atoms), 4)
+        by_text = {a["source_clause"]["text"]: a for a in atoms}
+        self.assertEqual(by_text["系統不得交付遙測資料"]["risk_guard"]["polarity"], "MUST NOT")
+        self.assertEqual(by_text["測試分別不得遺漏"]["risk_guard"]["polarity"], "MUST NOT")
+        self.assertEqual(len({a["req_id"] for a in atoms}), 4)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

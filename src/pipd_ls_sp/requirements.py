@@ -22,7 +22,18 @@ from .util import canonical_json, sha256_text
 
 STAGES = ('SRC', 'REQ/Child', 'SPEC', 'ACC', 'VER', 'EVD', 'DEL', 'GATE')
 DISTRIBUTIVE = ('各有', '分別', '對應')
-NEGATION = re.compile(r'(?i)\b(?:must not|shall not|never|may not)\b|不得|禁止|不可|不應|嚴禁|不准')
+# D1 (R5 §4.2): the negation surface must cover the source-bound prohibition phrasings, not only the
+# MUST-NOT baseline. A prohibition that is not recognised here silently becomes a MUST.
+NEGATION = re.compile(r'(?i)\b(?:must not|shall not|should not|never|may not|is not allowed to)\b'
+                      r'|不得|禁止|不可|不應|嚴禁|不准|不允許|不許可|請勿')
+# D1c (R5 §4.2): an explicit positive obligation modal, used ONLY to detect a genuinely ambiguous
+# negation scope. The lookarounds keep a negated modal ("不應該", "must not") from reading as a
+# positive one, and bare 需/應 are deliberately excluded so "不得需要…" is not a false refusal.
+POSITIVE_MODAL = re.compile(r'(?i)\b(?:must|shall|should|required|need to)\b(?!\s+not)'
+                            r'|(?<!不)(?:必須|應該)')
+# D2 (R5 §4.3): marks that ALWAYS end a clause. An ASCII period is handled separately because it is
+# also the internal separator of domains, versions and decimals.
+TERMINAL_PUNCT = '。；;\n!?！？'
 FILLER_CHARS = re.compile(r'[\s。．.，,、；;：:！!？?…~〜—\-_*()\[\]{}「」『』"\']')
 FILLER_TOKENS = re.compile(r'嗯+|啊+|哦+|噢+|喔+|呃+|嘛+|呢+|吧+|哈+|呀+|欸+|喂+|唉+|哎+')
 
@@ -45,15 +56,40 @@ def advisory_axis(statement: str) -> str:
     return "intent"
 
 
+def _is_clause_terminator(text: str, index: int) -> bool:
+    """D2 (R5 §4.3): an ASCII period ends a clause only when it is NOT internal to a token.
+
+    The pre-repair scanner treated `.` as an unconditional boundary, so `api.example.com` split into
+    three meaningless atoms and `v1.2.3` into three more, and the requirement count stopped matching
+    the source. A period flanked on BOTH sides by ASCII alphanumerics is internal (domain, version,
+    decimal); anywhere else it is sentence-final and does end the clause.
+    """
+    previous = text[index - 1] if index > 0 else ''
+    following = text[index + 1] if index + 1 < len(text) else ''
+    return not (previous.isascii() and previous.isalnum()
+                and following.isascii() and following.isalnum())
+
+
 def _parts(text: str):
     # Keep offsets in the original source, including repeated identical sentences.
-    for match in re.finditer(r'[^。；;\n.!?！？]+', text):
-        start, end = match.span()
-        clause = match.group().strip()
-        start += len(match.group()) - len(match.group().lstrip())
+    segment_start = 0
+    for index, char in enumerate(text):
+        ends_clause = char in TERMINAL_PUNCT or (char == '.' and _is_clause_terminator(text, index))
+        if not ends_clause:
+            continue
+        raw = text[segment_start:index]
+        clause = raw.strip()
+        start = segment_start + (len(raw) - len(raw.lstrip()))
         end = start + len(clause)
         if clause:
             yield start, end, clause
+        segment_start = index + 1
+    raw = text[segment_start:]
+    clause = raw.strip()
+    start = segment_start + (len(raw) - len(raw.lstrip()))
+    end = start + len(clause)
+    if clause:
+        yield start, end, clause
 
 
 def _split_subjects(text: str) -> list[str]:
@@ -90,10 +126,22 @@ def _expand(clause: str) -> list[tuple[str, bool]]:
         return [(s + marker + p, negated) for s, p in pairs]
     # Punctuation/conjunction boundaries delimit independent obligations (own negation scope).
     segments = [s.strip() for s in re.split(r'，|,|以及|\band\b', clause) if s.strip()]
-    # A clause-level negation must not be fragmented by object-list conjunctions.
-    if not NEGATION.search(clause):
-        segments = [s.strip() for seg in segments
-                    for s in re.split(r'與|和|及', seg) if s.strip()]
+    if NEGATION.search(clause):
+        # D1b (R5 §4.2): one clause-level negation does NOT license flattening a positive obligation
+        # and a prohibition into a single polarity. When the segments disagree, each segment keeps
+        # its own scope; when they agree, today's single-scope behaviour is preserved.
+        flags = [bool(NEGATION.search(segment)) for segment in segments]
+        if len(segments) > 1 and len(set(flags)) > 1:
+            return [(segment, flag) for segment, flag in zip(segments, flags)]
+        # D1c: no boundary to split on and a positive modal present as well -- the scope is
+        # genuinely ambiguous, so refuse by type instead of guessing a polarity for the sentence.
+        if len(segments) <= 1 and POSITIVE_MODAL.search(clause):
+            raise IntakeInvalid('ambiguous negation scope: a positive obligation and a negation '
+                                'share one clause with no boundary to split them')
+        # A clause-level negation must not be fragmented by object-list conjunctions.
+        return [(clause, True)]
+    segments = [s.strip() for seg in segments
+                for s in re.split(r'與|和|及', seg) if s.strip()]
     return [(s, False) for s in segments]
 
 

@@ -5,7 +5,7 @@ this page or points at it. There are **two install routes and only two** — **W
 and they have different ceilings. Pick one, read its ceiling, and do not read a green build (or a
 copied file) as anything more than what the [states table](#states-that-are-not-the-same) below says.
 
-Version pin for everything on this page: release **`v0.1.1-preview.3`**, release-tag target and
+Version pin for everything on this page: release **`v0.1.1-preview.4`**, release-tag target and
 build-source commit **`cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`**. The authority for these facts is
 [`docs/RELEASE_TUPLE.json`](../RELEASE_TUPLE.json); read it before you rely on any digest quoted
 below.
@@ -47,13 +47,13 @@ files** in total.
 
 `PIPD_WEB_FALLBACK.md` is one markdown document built from a *frozen mount pack* — a directory that
 carries its own `MANIFEST.sha256`, e.g. the checked-in
-[`dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3/`](../../dist/mount/) pack. Build it with
+[`dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.4/`](../../dist/mount/) pack. Build it with
 the tool's own CLI:
 
 ```bash
 python tools/build_web_fallback.py \
-  --mount-pack dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3 \
-  --release-id v0.1.1-preview.3 \
+  --mount-pack dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.4 \
+  --release-id v0.1.1-preview.4 \
   --release-commit cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a \
   --out PIPD_WEB_FALLBACK.md
 ```
@@ -135,19 +135,26 @@ Everything below is subordinate to the two routes above. It is not an alternativ
 
 Pin the **immutable** identity, never a moving branch tip:
 
-- release id **`v0.1.1-preview.3`**; release-tag target **`cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`**.
-- authoritative record: [`docs/RELEASE_TUPLE.json`](../RELEASE_TUPLE.json).
-- **Known open item, stated rather than hidden:** the immutable `v0.1.1-preview.3` **tag** still
-  holds the pre-correction pack, so a rebuild *from the tag's tree* does not reproduce the currently
-  served asset. The served asset was corrected in place and is reproducible from this tree
-  (`docs/RELEASE_TUPLE.json` → `authority_note`). Closing that needs a new immutable preview, not
-  another in-place replacement — it is a Release Owner item and it is **not closed**.
+- release id **`v0.1.1-preview.4`**; the release-tag target commit and tree are recorded in the
+  release's own `RELEASE_TUPLE_v0.1.1-preview.4.json` asset, together with every served asset digest
+  (`docs/RELEASE_TUPLE.json` in this tree is the **historical** preview.3 record and is left as-is —
+  the tag's tree is never rewritten).
+- **Closed open item:** the previous immutable preview's tag held the pre-correction pack, so a
+  rebuild *from that tag's tree* did not reproduce the served asset. `v0.1.1-preview.4` is the new
+  immutable preview built from the repaired merged `main`, so the corrected source and the served
+  bytes now share one tag; the older tag stays historical and untouched.
 
 ### Hashes
 
-- Wheel `pipd_ls_sp-0.1.1a3-py3-none-any.whl`: the published digest is recorded in the repository
+- Wheel `pipd_ls_sp-0.1.1a4-py3-none-any.whl`: the published digest is recorded in the repository
   front page (`README.md`). Verify the bytes you downloaded against that digest before installing;
   this page does not replace the sidecar.
+- Private skills-only plugin ZIP `pipd-ls-sp-public-skills.zip`: the **ChatGPT Web private route**
+  (import a ZIP you own, eight skills, no MCP/Apps/Hooks). Its digest is recorded in the release's
+  `SHA256SUMS` asset; the ZIP carries a single plugin root, one manifest and exactly the eight
+  existing skills. Uploading it needs an account/workspace that actually offers the upload option —
+  without that permission the ceiling stays `NOT_SUPPORTED_FOR_ACCOUNT` and the Web fallback document
+  below is the route to use.
 - Mount pack ZIP `PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip`: digest recorded in
   `docs/RELEASE_TUPLE.json` (`published_asset_sha256`), with a `.sha256` sidecar next to the ZIP.
 - Inside an unpacked pack, `MANIFEST.sha256` lists every member's sha256 (LF-normalised text bytes
