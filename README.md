@@ -24,12 +24,68 @@ each thing lives. Shell-level installation detail has exactly one home and is no
 | Want a private ChatGPT plugin (no directory listing) | [Private plugin route](#install) | ZIP download + four UI steps, verified 2026-10-14 |
 | Actually using it, task by task | [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md) | **The single user guide** — the only manual |
 | Driving the CLI/Wheel directly | [CLI advanced](#choose-your-path-cli-or-skills) | 13 verbs, JSON output, typed refusals |
+| Want the current state, evidence and gates in one place | [Current state and evidence entry points (2026-10-14)](#current-state-and-evidence-entry-points-2026-10-14) | Merged main, evidence packs, lane receipts, gates |
 
 Two routes exist, and only two: **Web** (one document, no shell) and **Agent** (one copy-paste
 prompt). The historical shell transcripts further down are retained as evidence of what was actually
 executed against the published wheel — they are **not** a second installation instruction. When the
 two disagree, [`docs/install/README.md`](docs/install/README.md) and the [user guide](docs/USER_GUIDE.md)
 win.
+
+## Current state and evidence entry points (2026-10-14)
+
+This front page is an **entry point, not a manual**: it states where things are and what is proven,
+and the manual itself lives in [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md) and
+[`docs/install/README.md`](docs/install/README.md). The repository is in an owner-authorized
+**merged candidate** state, not a release: `main` at merge commit
+`b3a27c1f00c90b010feec7b4da5f420d45edec61` (**1911 blobs**), with the `ci` workflow reporting
+**success** on that commit. That merged state is a candidate; it grants no portal approval, no
+publication and no S4 acceptance.
+
+| Where | What it holds |
+|---|---|
+| Evidence branch `r5z-evidence-return-20261014` (head `6d6af2de2e79` at record time) | The externally readable evidence packs, no credential needed to read them |
+| `PIPD_S4_R6_FAR_AND_ALIGNMENT_RETURN/` | R6 FAR + Tier-1 pack: `VERIFICATION_PROTOCOL.md`, `UPG_TRACEABILITY_R6.tsv` (**105 rows**), `ZIP_REPRODUCTION.json`, `06_verification/VERDICT_R6_PASS.json`, and `03_execute/` with the candidate ZIP plus its lane receipt |
+| `PIPD_S4_R6_FAR_AND_ALIGNMENT_RETURN/acceptance/` | The **five** governing documents and `GOVERNING_DOCS_MANIFEST.json` (5/5 hash match; one redaction rule, `<REDACTED_CREDENTIAL_LOCATOR>`) |
+| Repository state and hygiene inventory | [`docs/adr/ADR-0008-repository-state-and-hygiene-inventory.md`](docs/adr/ADR-0008-repository-state-and-hygiene-inventory.md) — branches, pull-request dispositions, CI state, hygiene rules |
+| Starting a new session on this repo | [`docs/adr/ADR-0009-session-handover-and-next-session-start.md`](docs/adr/ADR-0009-session-handover-and-next-session-start.md) — state, open owner decisions, reproducible commands, lane dispatch template |
+| `PIPD_S4_R5Z_SESSION_CONFORMANCE_RETURN/`, `PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/`, `PIPD_S4_R4_EVIDENCE_RETURN/` | The other three return packs: session conformance, the private-plugin UI/functional evidence, and the expanded R4 evidence return |
+
+The binding evidence for the R6 work is the **lane receipt**, not a self-report:
+
+| Lane | Engine | Arm (required = served) | Rank | ok | Window |
+|---|---|---|---|---|---|
+| EXECUTE | CODEX CLI | `opencode-go/deepseek-v4.1-flash` | 1 | true | `2026-10-14T06:19:07Z` (476.0 s) |
+| VERIFY_SECURITY | CODEX CLI | `opencode-go/glm-5.3-flash` | 3 | true | `2026-10-14T06:23:25Z` (130.72 s) |
+
+Both receipts record `subject_mutation` verdict **CLEAN**; VERIFY_SECURITY returned `overall` **PASS**.
+
+The plugin ZIP is reproducible. Run from the frozen R5Y worktree at commit
+`062d84ae3e951d02b2ba6bb732359b18799d2864`:
+
+```bash
+python tools/freeze_public_plugin_source.py --repo-root . --out ledger.json
+python tools/build_public_plugin.py --ledger ledger.json --source-commit 062d84ae3e951d02b2ba6bb732359b18799d2864 \
+  --packaging-root packaging/public-plugin --out-dir out --generate-icons
+```
+
+This produces `out/pipd-ls-sp-public-skills.zip` — **68,355 bytes**, sha256
+`2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199`, **56 entries**, **8 `SKILL.md`**.
+Two independent builds are byte-identical. A local packager PASS is not portal approval.
+
+| Gate | State | What it means |
+|---|---|---|
+| Private plugin route (download ZIP, install on your own account) | **PASS** (owner's own account) | Creation, installation and one `@pipd-route-intake` call observed; evidence in `PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/09_ui_fda/` |
+| Public directory listing | **HOLD** | OpenAI developer identity verification is a human gate; no submit/review/publish was performed |
+| Tag / release | **Pending owner version decision** | No tag and no release was created for the merged candidate |
+
+Truth-ticket status as recorded: **TT-004** (citation defects) **CLOSED**; **TT-005** (lane arm
+binding) **CLOSED**; **TT-001** (PLAN model declaration) closed as a **documented substitute** — the
+PLAN lane ran on `opencode-go/deepseek-v4.1-flash` while the declared PLAN model is
+`opencode-go/glm-5.3-flash`, so the segregation is engine separation (Hermes vs CODEX CLI) with
+receipt-backed measurement, not model-level segregation.
+
+`BUILD_PASS != PORTAL_APPROVED != PUBLISHED != HOST_QUALIFIED != S4_PASS`
 
 ## Verification entry point — candidate on `feat/s4post-triple-upgrade-20261013-r3`
 
