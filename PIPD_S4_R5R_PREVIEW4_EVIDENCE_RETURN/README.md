@@ -98,10 +98,15 @@ no MCP, no Apps, no Hooks, no `.hgk/` migration, no history rewrite, no re-point
 - **The follow-up fix is in no release.** Publishing a further preview needs a fresh owner authorization.
 - **No four-host qualification, no public directory submission, no Developer Identity/KYC, no portal
   review, no `PRODUCTION`, no `S4_FULL_PASS`.** All remain `NOT_GRANTED` / `OUT_OF_SCOPE`.
-- **The Codex EXECUTE lane produced no output this round.** It was attempted twice (a stale pinned binary
-  path, then an idle child that made no file change in 20 minutes) and is recorded as blocked; the
-  bounded write was performed in the orchestrator lane and the checks ran in distinct read-only lanes.
-  Maker and checker are not the same process or model.
+- **The declared lane/model arrangement was not met, and the first version of this pack over-claimed the
+  check.** The planner/orchestrator ran on `deepseek-v4.1-flash` (opencode-go) — the model the arrangement
+  assigns to the *writer* — not on the declared planner model; the declared checker model
+  (`openai-codex/gpt-6.1-sol`, OpenAI OAuth) produced **zero bytes** all round (its re-check arm timed out
+  with empty stdout and stderr); and no lane receipt exists for the original independent check, so the
+  "different model from the writer" clause cannot be evidenced and has been **withdrawn**. The details,
+  receipts and the requirements for real conformance are in `00_round/LANE_CONFORMANCE.json`. Only the
+  re-check followed the substitution rule: after the declared arm failed, the backup checker
+  (`opencode-go/glm-5.3-flash`) was dispatched and any verdict from it is labelled as a different checker.
 - **The follow-up fix is in no release.** Publishing a further preview needs a fresh owner authorization.
 - **An OpenAI documentation revision may have moved the plugin manifest convention.** The drift, its check
   time and its URLs are recorded as an open item; it is not resolved by assertion here.

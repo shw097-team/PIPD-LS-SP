@@ -1,0 +1,54 @@
+{
+  "record": "lane_and_model_conformance",
+  "round": "R5R-20261014-s4-preview4-focused-close",
+  "why_this_file_exists": "The operator asked why this session did not run the declared lane/model arrangement. The audit found that it did not, and that one sentence of the delivered pack asserted a property the evidence does not support. This file states what actually served each role, what is provable, and what has been withdrawn.",
+  "declared_arrangement": {
+    "source": "operator instruction for this round",
+    "plan_and_orchestrator": "GPT 6.1 SOL-MEDIUM (OpenAI OAuth), inside Hermes",
+    "execute": "CODEX CLI, provider/model opencode-go/deepseek-v4.1-flash",
+    "verify_security": "CODEX CLI, checker model openai-codex/gpt-6.1-sol (OpenAI OAuth)"
+  },
+  "observed": {
+    "plan_and_orchestrator": {
+      "served_by": "the Hermes session itself, serving model deepseek-v4.1-flash, provider opencode-go",
+      "evidence": "session metadata for this run (model field), plus the lane receipts below; the declared planner model served nothing this round",
+      "conformance": "NOT_CONFORMANT",
+      "note": "the planner/orchestrator therefore ran on the same model family that the arrangement assigns to the writer"
+    },
+    "execute": {
+      "served_by": "no lane output; the bounded write was performed by the orchestrator",
+      "receipt": "EXECUTE/dispatch_receipt.json - lane EXECUTE, role writer, engine codex-cli, rank 1, provider opencode-go, model deepseek-v4.1-flash, ok=null (no completion recorded)",
+      "runtime_artifacts": "EXECUTE/runner.log is 0 bytes; the two dispatches failed as recorded (stale pinned executable path, then an idle child making no file change)",
+      "conformance": "NOT_CONFORMANT",
+      "note": "the lane was invoked with the CORRECT declared model and still produced nothing, so the writer role collapsed back onto the planner model"
+    },
+    "verify_security_original_check": {
+      "served_by": "not evidenced",
+      "artifact": "verify/VERDICT.md (produced 18:50 local), probes in verify/",
+      "receipt": "NONE - no lane dispatch receipt or attempt marker for this check exists in the round's var directory; the only VERIFY_SECURITY attempt markers on disk are the three re-check attempts at 22:43, 22:44 and 23:13",
+      "conformance": "NOT_EVIDENCED",
+      "note": "the pack asserted 'a distinct read-only lane, different process and different model from the writer'. The distinct-process part is plausible; the different-model part has no receipt behind it and, on the evidence available, cannot be established. That clause is WITHDRAWN in this revision."
+    },
+    "verify_security_recheck_of_the_fix": {
+      "declared_arm": "rank 4 openai-codex/gpt-6.1-sol (OpenAI OAuth, human-home transport) - dispatched, TIMED OUT with zero bytes on stdout and stderr; receipt code ERR_LANE_ALL_ROUTES_EXHAUSTED, timed_out_arms [openai-codex/gpt-6.1-sol], ok=false",
+      "actual_arm": "rank 3 opencode-go/glm-5.3-flash (DISPATCHABLE), dispatched with the same read-only brief after the declared arm failed",
+      "conformance": "DEVIATION_DECLARED",
+      "note": "the declared checker model produced nothing this round; any verdict from this re-check comes from a DIFFERENT checker than the round declared, and is labelled as such wherever it is cited"
+    }
+  },
+  "separation_of_duties_actual": {
+    "intended": "planner, writer and checker on three distinct models/providers",
+    "actual": "planner and writer were the same model (deepseek-v4.1-flash); the original check has no receipt naming its model; the declared checker model produced zero bytes",
+    "verdict": "model-level separation of duties was NOT achieved for the original independent check, and the delivered pack over-claimed it"
+  },
+  "corrections_applied": [
+    "this file added to the pack",
+    "the README claim 'Maker and checker are not the same process or model' replaced with an accurate statement that names the gap",
+    "the checker_verdict entry 'different process and different model from the writer' revised to 'different process; model not evidenced'"
+  ],
+  "what_conformance_would_require": [
+    "run the planner on the declared planner model - this is a session/profile model change that only the operator can authorise, and it was never requested or disclosed this round",
+    "carry a lane receipt for the writer and for the checker that names rank, provider and model, with non-empty stdout, and cite it in the pack",
+    "if the declared checker arm is unreachable, say so at the time and label every substitute verdict as coming from a different checker (only the re-check followed this rule this round)"
+  ]
+}
