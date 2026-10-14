@@ -1,0 +1,42 @@
+{
+  "artefact": {
+    "path": "05_check/VERDICT.md",
+    "sha256": "9e4a45d5e971058efbef9b8bab7ddebf866b5d87b8cee816b02ea3e1f55e499e"
+  },
+  "checker": "a distinct read-only lane, different process and different model from the writer",
+  "checker_criticism_of_the_pack": "the first pack shipped the failing CI log but not the green one",
+  "claim_limit": "the published v0.1.1-preview.4 carries the behaviour the checker judged PARTIAL; the fix is on main and in no release, so a release note must not claim preview.4 is free of those two defects.",
+  "defects_and_disposition": [
+    {
+      "defect": "same-polarity obligations merged into one atom (silent collapse)",
+      "id": "D1b",
+      "status": "FIXED in 749dc322 - one atom per segment; the negation now governs cue-less segments that follow it"
+    },
+    {
+      "defect": "a period between two alphanumerics was never a boundary, so a no-space sentence end stopped splitting",
+      "id": "D2",
+      "status": "FIXED in 749dc322 - the token rule yields to an uppercase letter after the period"
+    },
+    {
+      "defect": "over-refusal of a prohibition whose object contains a modal word",
+      "id": "D1c",
+      "status": "FIXED in 749dc322 - only the inverted order (modal first) is refused"
+    },
+    {
+      "defect": "the stage-c arm can be widened by self-declaration; its trigger paths omitted src/**, schemas/**, tests/**, fixtures/**, pyproject.toml, tools/build_dist.py",
+      "id": "GATE",
+      "status": "trigger paths FIXED; the widening cannot be removed by construction (an arm that must allow src/ cannot refuse it) and is now stated in the file and carried as an open item"
+    }
+  ],
+  "pack_response": "both green logs plus the failing run are now included, and the intermediate red full-suite run is recorded instead of dropped",
+  "re_check_of_the_fix": "dispatched on the VERIFY_SECURITY lane against 749dc322; its verdict is recorded in 05_check/ when it lands, and it is stated to come from a different checker than the one that wrote the code",
+  "verdicts": {
+    "ClaimCeiling typing and named findings": "CONFIRMED",
+    "D1 scope splitting": "PARTIAL (refusal confirmed; per-segment scope refuted)",
+    "D2 token/boundary": "PARTIAL (tokens confirmed; no-space sentence end refuted)",
+    "gate amendment": "PARTIAL (A/B unchanged; the arm materially widens)",
+    "negation surface": "CONFIRMED",
+    "three repointed tests not weakened": "CONFIRMED",
+    "version/identity bump and manifest": "CONFIRMED"
+  }
+}

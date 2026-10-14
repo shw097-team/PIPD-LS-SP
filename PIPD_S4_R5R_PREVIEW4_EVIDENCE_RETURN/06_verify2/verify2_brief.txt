@@ -1,0 +1,75 @@
+You are the Independent Acceptance Officer (VERIFY / SECURITY) for one bounded, read-only check.
+Your verdict is the only thing that can retire the three defects below; the author's own summary
+counts for nothing. Try to BREAK these claims, not to confirm them.
+
+SUBJECT (frozen for this check — pin every command to these SHAs, not to a branch name):
+- repo: shw097-team/PIPD-LS-SP
+- candidate commit: 749dc322dbdef4a0bc17f7dc5abf6c19e0231ed7
+  (branch fix/r5r2-segment-and-boundary-20261014, checkout at
+   C:/Projects/Agent_Workspace/PIPD/worktrees/r5r-wt)
+- its parent: cc6c1930765160697e7e51d6e37735b9220a30db
+- the ORIGINAL frozen subject for A/B comparison: f4021aeff9c016cfb14f17e68a0c570ed4e825c5
+- the previously published release (do NOT modify anything about it): tag v0.1.1-preview.4
+  (annotated, target cc6c193). It is immutable and must not be re-pointed, deleted or re-tagged.
+
+An earlier independent checker found four defects in the PREVIOUS revision. Three are claimed fixed in
+749dc322. Verify each by executing the code; write your probes under
+C:/Projects/Agent_Workspace/HG-KSEOS/var/R5R-20261014-s4-preview4-focused-close/verify2/ and change
+nothing inside the repository (it is read-only for you).
+
+CLAIM 1 (defect: same-polarity obligations merged into one atom — a silent semantic collapse).
+Verify in src/pipd_ls_sp/requirements.py that a clause joined by ，/, /以及/and now yields ONE ATOM PER
+SEGMENT again, with the right polarity for each:
+  - 系統不得交付遙測資料，不得上傳日誌。      -> 2 atoms, both MUST NOT
+  - 不得A，不得B，不得C。                     -> 3 atoms
+  - The system must not log data, must not leak data.  -> 2 atoms
+  - 系統不得外洩個資以及不得延遲。            -> 2 atoms
+and that the negation scope is right in both directions:
+  - 系統不得外洩個資，延遲交付。              -> 2 atoms, MUST NOT / MUST NOT (the cue-less segment is
+    inside the prohibition's scope)
+  - 系統不得外洩個資，必須上傳日誌。          -> MUST NOT / MUST (its own modality wins)
+Compare against the ORIGINAL f4021ae behaviour where a difference is claimed; report any case where the
+new revision still merges, or where a segment gets the wrong polarity.
+
+CLAIM 2 (defect: an ASCII period between two alphanumerics was never a clause boundary, so a sentence
+end typed without a space stopped splitting). Verify:
+  - Do task A.Task B must run.   -> 2 clauses (was 1)
+  - Rate is 5.Use 3.             -> 2 clauses
+  - 系統不得上傳至 api.example.com。  -> 1 atom (token rule preserved)
+  - 版本必須為 v1.2.3。          -> 1 atom;  比例必須為 1.25。 -> 1 atom
+Also confirm clause spans, clause_id, req_id and source_sha256 still bind to the original source text
+after the change, and report any NEW false split or false merge introduced by the uppercase rule.
+
+CLAIM 3 (defect: over-refusal — a prohibition whose object merely contains a modal word was refused).
+Verify:
+  - 系統不得使用必須的憑證。   -> exactly 1 atom, polarity MUST NOT (NOT a refusal)
+  - 系統必須不得外洩個資。     -> still REFUSED by type (IntakeInvalid), i.e. the refusal was narrowed,
+    not removed
+and state whether you can construct any input where the narrowed rule now GUESSES a polarity instead of
+refusing (that would be worse than the over-refusal it replaced).
+
+CLAIM 4 (no regression). Run the project's own suite at this commit as far as the sandbox allows and
+report the real counts and exit codes, for example:
+  cd C:/Projects/Agent_Workspace/PIPD/worktrees/r5r-wt
+  C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -m unittest tests.test_atomic_requirements -v
+  C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -m unittest tests.test_claim_ceiling_shape -v
+Then check the four existing fixtures still behave as the baseline: REQ-NEGATION (4 atoms with its
+distributive sub-scope), REQ-MIXED-SCOPE (2), REQ-D2-TOKENS (3), REQ-D2-SENTENCES (2).
+
+CLAIM 5 (the docs and gate corrections in the same commit, judged adversarially).
+  - README.md no longer asserts that v0.1.1-preview.4 both carries and supersedes the Trace false-PASS
+    defect, and no longer lists preview.4 as superseded while telling the reader to use it.
+  - .github/workflows/public-plugin-verify.yml now triggers on src/**, schemas/**, tests/**,
+    fixtures/**, pyproject.toml and tools/build_dist.py. Judge honestly whether the stage-c arm's
+    declared limit (an arm that must allow src/ cannot refuse it, so its control is review of its own
+    diff) is acceptable, and whether the change weakens stages A or B (they must be unchanged).
+
+OUTPUT (this is the deliverable; be exact, no rounding up):
+1. A table: claim -> CONFIRMED / REFUTED / PARTIAL, with the exact command, exit code and the verbatim
+   output lines that support it, for every claim.
+2. Every counterexample you found, with the input text and the observed result.
+3. Explicitly: what you could NOT verify and why (NOT_RUN beats a guess).
+4. A one-line verdict on whether 749dc322 may be described as repairing the three defects without
+   qualification. If it may not, say exactly which sentence a release note would be wrong to print.
+Do not modify any file in the repository, do not push, do not create or move any tag. If you are asked
+to write anything, write it under the verify2/ directory named above.

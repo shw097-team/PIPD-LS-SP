@@ -1,27 +1,38 @@
 {
-  "acts_not_executed_by_this_round": [
-    "public directory submission, developer identity, portal review (OUT_OF_SCOPE)"
+  "acts_not_executed": [
+    "public directory submission, developer identity/KYC, portal review (OUT_OF_SCOPE)"
   ],
-  "claim_ceiling": "S4_PREVIEW_MVP_PHASE_TEMP_CLOSED for the publishable preview; PUBLIC_DIRECTORY, four-host full qualification, S4_FULL_PASS and PRODUCTION remain NOT_GRANTED.",
-  "deferred": [
-    "PLATFORM_DRIFT_TT: an OpenAI doc revision lists .codex-plugin/plugin.json as the standard manifest and does not list a bare root plugin.json. The private upload route accepted the root manifest in the previous recorded round; this round did not re-observe the upload, so the drift stays open with its check time and URLs recorded.",
-    "a preview.4-stamped Web mount pack (this release ships the fallback document instead)",
-    "TYPE-GATE-FIVE schema work beyond the two claim lists (close_conditions left unconstrained)",
-    "lane executable pin repair in the HG-KSEOS lane configuration (path and digest drift)"
+  "claim_ceiling": "S4_PREVIEW_MVP_PHASE_TEMP_CLOSED for the preview. PRIVATE_PLUGIN_INSTALLED for this round, four-host qualification, PUBLIC_DIRECTORY, S4_FULL_PASS and PRODUCTION remain NOT_GRANTED. The D1/D2 repair is not fully accepted: the two PARTIAL findings are fixed on main but unpublished and not yet re-checked by an independent lane on the new commit.",
+  "merges_made_by_the_orchestrator_under_that_authorization": [
+    {
+      "merge": "cc6c1930765160697e7e51d6e37735b9220a30db",
+      "pr": 11
+    },
+    {
+      "merge": "eb34585e65cda217dbffc6bcf32370f22e996abf",
+      "pr": 12
+    },
+    {
+      "merge": "dba4b19456777d3b597fdf71480f6423dd974243",
+      "pr": 13
+    }
   ],
-  "independent_checker": {
-    "actually_used": "see the checker verdict file in this pack; the Codex EXECUTE lane was attempted twice and produced no output, which is disclosed separately",
-    "declared_lane": "Codex CLI on gpt-6.1-sol (per the round's model routing)",
-    "maker_not_self_accepting": true,
-    "role": "distinct VERIFY_ONLY lane; maker and checker are different processes and models"
+  "open_items": {
+    "derived_skill_frontmatter": "the plugin ZIP's eight SKILL.md members are derived (frontmatter reduced to name+description), so they cannot be cross-checked against the frozen ledger's source hashes",
+    "followup_release": "the repaired behaviour is on main and in no release; a further preview needs a fresh owner authorization",
+    "gate_widening": "see checker_verdict.json; the arm states its own limit",
+    "host_smoke": "BLOCKED_AWAITING_UI_CONSENT - desktop input needed an interactive approval, the prompt timed out, and silence is not consent, so it was not retried. NOT a NOT_SUPPORTED_FOR_ACCOUNT verdict.",
+    "lane_executable_pin": "the lane config's pinned codex path/digest is stale (the live binary is 9614f1d9b40d9c4f); recorded, not silently retargeted",
+    "platform_manifest_drift": "an OpenAI doc revision lists .codex-plugin/plugin.json as the standard manifest and does not list a bare root plugin.json; the private route accepted the root manifest in the recorded round, and this round did not re-observe the upload",
+    "web_mount_pack": "a preview.4-stamped web mount pack is deferred; the release ships the fallback document instead"
   },
   "owner_authorizations_relied_on": [
-    "release path for the next immutable preview (tag + GitHub release) after the focused repair is green",
-    "desktop (host-smoke) authorization, which the tool-level consent gate then blocked"
+    "the release path for the immutable preview (tag + GitHub release) once the focused repair was green",
+    "the standing authorization to push implementation and evidence to the repository for external acceptance",
+    "desktop authorization for the host smoke, which the tool-level consent gate then blocked"
   ],
   "rollback": {
-    "branch": "fix/s4r5r-d1d2-claimceiling-preview4-20261014 (kept)",
-    "previous_release": "v0.1.1-preview.3 (untouched, still downloadable)",
-    "revert": "revert the merge commit on main if a defect is found; the tag is immutable and is never rewritten"
+    "previous_release": "v0.1.1-preview.3 (untouched)",
+    "revert": "revert the merge commit on main; the tag is immutable and is never rewritten"
   }
 }

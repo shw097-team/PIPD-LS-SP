@@ -1,0 +1,34 @@
+{
+  "correction_1_missing_sums_asset": {
+    "fix": "attached the file to the existing release and re-verified the served bytes",
+    "found_by": "this round's own served-byte readback, independently re-found by the wheel clean-install lane",
+    "impact": "the release notes and the README told the reader to fetch SHA256SUMS; that request returned 404, so the documented verify route was broken for this tag",
+    "what": "SHA256SUMS was never uploaded: the generator builds the sums over every asset EXCEPT the sums file itself, and the upload loop then used that same list"
+  },
+  "correction_2_crlf_sums": {
+    "digest_before_after": {
+      "after_lf_sha256_of_sums_file": "0f76502670038ae35bd4f772dc23223f6b47241c3acee2f918d106eaabffe689",
+      "before_crlf_sha256_of_sums_file": "e20d14b16344ae19bc4f615b86e8ad96adcf8092431819e9e9067c3c6774824a",
+      "contained_asset_digests_changed": false
+    },
+    "fix": "re-emitted with LF (script recompute_sums_lf.py, which refuses on any digest drift), replaced the asset, re-ran the readback, and confirmed the documented reader command now passes",
+    "observed": "{name}\\r: FAILED open or read for all six entries",
+    "what": "the first sums file was written with CRLF endings, so `sha256sum -c` folds a CR into each file name and reports every entry unreadable"
+  },
+  "honesty_note": "both corrections were made to a PUBLISHED release. The tag and its commit were not touched; only non-tag assets were added or replaced, and the changes are recorded here rather than being quietly re-cut.",
+  "published_assets_now": [
+    "PIPD_WEB_FALLBACK.md",
+    "PIPD_WEB_FALLBACK.md.sha256",
+    "PREVIEW_NOTES_v0.1.1-preview.4.md",
+    "SHA256SUMS",
+    "pipd-ls-sp-public-skills.zip",
+    "pipd-ls-sp-v0.1.1-preview.4-source.zip",
+    "pipd_ls_sp-0.1.1a4-py3-none-any.whl"
+  ],
+  "release": "v0.1.1-preview.4",
+  "served_byte_readback_final": {
+    "all_served_bytes_match_sums": true,
+    "assets_checked": 7,
+    "method_note": "the first readback attempt hashed the asset API's JSON metadata body and was rejected as a false positive before any claim was made"
+  }
+}
