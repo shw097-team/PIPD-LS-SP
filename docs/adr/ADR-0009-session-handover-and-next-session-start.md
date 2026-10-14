@@ -1,3 +1,11 @@
+
+## 0. Re-read main before acting
+
+`main` at the time of writing: `fc55591852bc016ae8dc861edf88db0e613b3c6a` (merge of PR #9; PR #8 merged at
+`b3a27c1f00c90b010feec7b4da5f420d45edec61`). Any session that starts later must re-read `main` rather than trust
+this line: run `git -C <clone> fetch origin && git -C <clone> rev-parse origin/main` first, and treat the evidence
+branch (`r5z-evidence-return-20261014`) as the place where the frozen receipts live.
+
 # ADR-0009 — Session handover protocol and next-session start pack
 
 - **Status**: Accepted (round `R7-20261014-merge-hygiene-closeout`, 2026-10-14)

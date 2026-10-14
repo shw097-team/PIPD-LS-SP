@@ -38,8 +38,9 @@ This front page is an **entry point, not a manual**: it states where things are 
 and the manual itself lives in [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md) and
 [`docs/install/README.md`](docs/install/README.md). The repository is in an owner-authorized
 **merged candidate** state, not a release: `main` at merge commit
-`b3a27c1f00c90b010feec7b4da5f420d45edec61` (**1911 blobs**), with the `ci` workflow reporting
-**success** on that commit. That merged state is a candidate; it grants no portal approval, no
+the session's merge commits are `b3a27c1f00c90b010feec7b4da5f420d45edec61` (PR #8, 1911 blobs) and
+`fc55591852bc016ae8dc861edf88db0e613b3c6a` (PR #9, 1913 blobs), and `main` may advance past them —
+always re-read `main` before acting. `ci` reports success on the merge commits. That merged state is a candidate; it grants no portal approval, no
 publication and no S4 acceptance.
 
 | Where | What it holds |
