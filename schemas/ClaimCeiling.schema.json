@@ -21,8 +21,40 @@
     "schema_version"
   ],
   "properties": {
-    "allowed_claims": {},
-    "forbidden_escalation": {},
+    "allowed_claims": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "PROMPT_COMPILE_PASS",
+          "HGK_ADMITTED",
+          "RUNTIME_READY",
+          "LOCAL_QUALIFIED",
+          "INDEPENDENT_PASS",
+          "PUBLICATION_APPROVED",
+          "RELEASED",
+          "PRODUCTION_VERIFIED"
+        ]
+      },
+      "description": "TYPE5 (R5 §4.1): the declared claim ladder. Before this constraint the field was `{}`, so a null, a mapping item or an undeclared claim name was schema-admissible and escaped the library as a native TypeError/ValueError instead of a named refusal."
+    },
+    "forbidden_escalation": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "PROMPT_COMPILE_PASS",
+          "HGK_ADMITTED",
+          "RUNTIME_READY",
+          "LOCAL_QUALIFIED",
+          "INDEPENDENT_PASS",
+          "PUBLICATION_APPROVED",
+          "RELEASED",
+          "PRODUCTION_VERIFIED"
+        ]
+      },
+      "description": "TYPE5 (R5 §4.1): same declared claim ladder as allowed_claims; the two lists must be typed before the semantic guard can report a named finding."
+    },
     "close_conditions": {},
     "subject_id": {
       "type": "string",

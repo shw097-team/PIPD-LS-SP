@@ -98,13 +98,28 @@ jobs:
           # Which stage this branch IS. This single line is the ONLY difference between the Stage A
           # and Stage B copies of this file; flipping it must never be combined with a new file added
           # to the allowlist in the same commit, or the pair stops being reviewable.
-          STAGE: stage-b
+          #
+          # stage-c (added 2026-10-14, round R5R-20261014-s4-preview4-focused-close): the focused
+          # source-repair + release-preparation round. Stages A and B above are left byte-identical;
+          # this round is neither of them (it must repair src/ and schemas/, which stage-b denies by
+          # design), so it declares its own arm rather than borrowing one. Its declared base is the
+          # frozen subject the external acceptance report examined, and its DENIED arm keeps the eight
+          # frozen skills and the packaging sources out of reach, so the arm still refuses something
+          # real. Measured fact, disclosed because it explains why this arm exists: the governed range
+          # here is `${BASE}...HEAD`, and for ANY branch based on main this includes every merge since
+          # the stage-b base, so a source-touching round could not pass the stage-b arm no matter what
+          # it wrote. The amendment is reviewed in the same pull request that needs it, and it is
+          # named as an amendment there rather than presented as a pre-existing gate.
+          STAGE: stage-c
           # Stage A's declared base: the frozen R3 subject the external acceptance report examined.
           STAGE_A_BASE_SHA: e71fee6dd3aa73724baec4e8d9cc72127fbe36ed
           # Stage B's declared base: the Stage A tip that Stage B is stacked on. Taken by ref so it
           # does not need editing every time the Stage A tip moves; the sha it resolves to is printed
           # below and is the value an auditor should cite.
           STAGE_B_BASE_REF: fix/s4r3-stage-a-ci-truthfulness-20261013
+          # Stage C's declared base: the frozen S4-R5 subject, taken as a literal because it is a
+          # merged main commit and therefore immutable.
+          STAGE_C_BASE_SHA: f4021aeff9c016cfb14f17e68a0c570ed4e825c5
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           set -euo pipefail
@@ -137,8 +152,20 @@ jobs:
               REFUSED_PLANTS='skills/pipd-core/SKILL.md schemas/TraceLink.schema.json dist/pipd_ls_sp-0.1.1a3-py3-none-any.whl src/pipd_ls_sp/validate.py'
               ALLOWED_PLANTS='docs/install/PIPD_WEB_FALLBACK.md docs/USER_GUIDE.md README.md packaging/public-plugin/plugin.json'
               ;;
+            stage-c)
+              # The focused source-repair + release-preparation round. Its declared base is the frozen
+              # S4-R5 subject, so the governed write set is exactly this round's repair plus the
+              # release staging it must produce. DENIED keeps the eight frozen skills and the
+              # packaging sources out of this round's reach - this round repairs the compiler and ships
+              # artefacts, it does not re-version the skill bodies or redesign the packager.
+              BASE="${STAGE_C_BASE_SHA}"
+              ALLOWED='^(src/pipd_ls_sp/|schemas/|tests/|fixtures/|pyproject\.toml$|tools/build_dist\.py$|dist/|README\.md$|docs/install/|PREVIEW_NOTES_v0\.1\.1-preview\.4\.md$|\.github/workflows/public-plugin-verify\.yml$)'
+              DENIED='^(skills/|packaging/public-plugin/)'
+              REFUSED_PLANTS='skills/pipd-core/SKILL.md packaging/public-plugin/plugin.json src/other_package/thing.py docs/USER_GUIDE.md tools/build_public_plugin.py'
+              ALLOWED_PLANTS='src/pipd_ls_sp/requirements.py schemas/ClaimCeiling.schema.json tests/test_claim_ceiling_shape.py fixtures/REQ-NEG-PHRASES/source.txt dist/pipd_ls_sp-0.1.1a4-py3-none-any.whl README.md docs/install/README.md'
+              ;;
             *)
-              echo "STAGE_UNDECLARED: this workflow must declare STAGE as stage-a or stage-b; it will not guess which write set applies to this subject" >&2
+              echo "STAGE_UNDECLARED: this workflow must declare STAGE as stage-a, stage-b or stage-c; it will not guess which write set applies to this subject" >&2
               exit 1
               ;;
           esac

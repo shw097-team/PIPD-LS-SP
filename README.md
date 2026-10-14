@@ -111,8 +111,11 @@ with the round's verification harness on `chore/s4post-verification-harness`.
 - Four-host UAT, Portal scan/review/publish, security scan and a real candidate build: **`NOT_EXECUTED`**.
   Four owner supplies and four owner-only acts are outstanding — see the candidate's
   `OWNER_ACTION_REQUEST.md`.
-- The **published** `v0.1.1-preview.3` wheel still carries the known Trace false-PASS defect
-  (`FAIL_CHALLENGE`, product scope).
+- The **`v0.1.1-preview.4`** wheel carries the known Trace false-PASS defect (`FAIL_CHALLENGE`,
+  product scope). **`v0.1.1-preview.4`** supersedes it: it is built from the merged `main` that
+  repairs the D1 negation-polarity/scope and D2 clause-boundary defects and adds the ClaimCeiling
+  claim-shape guard, and it re-publishes the **same eight** skills (no ninth skill, no MCP, no Apps,
+  no Hooks). Every limitation listed above still holds for it.
 
 Everything below this section describes the **published preview**, not this candidate.
 
@@ -158,10 +161,10 @@ Version pin, hashes, uninstall/rollback and how to report a failure live in
 
 | | |
 |---|---|
-| **Installable preview** | tag **`v0.1.1-preview.3`** — Apache-2.0 |
-| **Release page** | https://github.com/shw097-team/PIPD-LS-SP/releases/tag/v0.1.1-preview.3 |
+| **Installable preview** | tag **`v0.1.1-preview.4`** — Apache-2.0 |
+| **Release page** | https://github.com/shw097-team/PIPD-LS-SP/releases/tag/v0.1.1-preview.4 |
 | **Download the tag, not the branch** | `main` now carries the repaired code, but a branch tip is a moving target. The **immutable** bytes are the tag's. |
-| **Superseded** | `v0.1.0-preview.1` and `v0.1.0-preview.2` — both still downloadable. `.1` ships the two defects described below; `.2` predates the S4-R2 repairs. Use `.3`. |
+| **Superseded** | `v0.1.0-preview.1`, `v0.1.0-preview.2` and `v0.1.1-preview.4` — all still downloadable. `.1` ships the two defects described below, `.2` predates the S4-R2 repairs and `.3` predates the D1/D2 semantic repair. Use `.4`. |
 | **What is not claimed** | [Claim ceiling](#claim-ceiling) and the release notes |
 
 ## Choose your path: CLI or Skills
@@ -170,17 +173,20 @@ The published wheel and a chat-host skill pack are **two different artefacts wit
 boundaries**. Pick the one your job needs — installing the wheel does not make the eight logical
 skills appear in a web chat host, and mounting the pack does not put `pipd` on your machine.
 
-**CLI / headless harness** — download the immutable wheel published under the **`v0.1.1-preview.3`**
-tag (`pipd_ls_sp-0.1.1a3-py3-none-any.whl`; published digest
-`e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec`, verified against the tag's
+**CLI / headless harness** — download the immutable wheel published under the **`v0.1.1-preview.4`**
+tag (`pipd_ls_sp-0.1.1a4-py3-none-any.whl`; published digest
+`3b59a985dc9fc1cd4c1c5ca9a7b779122459ab7cadc8f439e17063d6c934cc0c`, verified against the tag's
 `SHA256SUMS`). Install with **Python >= 3.11** into a **virtual environment**, then run `pipd doctor`.
 The wheel carries the Python **13-command CLI** and the **19 installed schemas**; it does **not**
 install or auto-load the eight logical skills into a web host.
 
 **Skills / document consumption** — the versioned mount pack
 `dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip` (with its `.sha256` sidecar and the
-`MANIFEST.sha256` inside the unpacked directory). From `v0.1.1-preview.3` onward the pack is published
-as a release asset of the same tag, alongside the wheel. Two sub-options:
+`MANIFEST.sha256` inside the unpacked directory) — published as a release asset of the same tag
+(`v0.1.1-preview.3`). `v0.1.1-preview.4` ships the Wheel, the private skills-only plugin ZIP, the
+source ZIP, the release notes and the Web fallback document; the pack above remains the **last
+published mount pack** (a preview.4-stamped pack is a deferred item, not a release gate). Two
+sub-options:
 
 - **(a) native skill uploader** — a host that has a real native skill uploader could register the
   pack; this path is **not yet demonstrated here**.
@@ -191,32 +197,32 @@ as a release asset of the same tag, alongside the wheel. Two sub-options:
 ## Quickstart
 
 Copy-paste, from a shell. Requires **Python >= 3.11** and `curl`. The installable identity is the
-**immutable** tag `v0.1.1-preview.3`; `main` is rolling, so pin the tag rather than the branch.
+**immutable** tag `v0.1.1-preview.4`; `main` is rolling, so pin the tag rather than the branch.
 
 ### bash / POSIX
 
 ```bash
 set -e                             # stop at the first failing step; no step fails silently
 # 1. Fetch the published wheel and the checksum list, from the immutable tag.
-BASE=https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-preview.3
-curl -fsSLO "$BASE/pipd_ls_sp-0.1.1a3-py3-none-any.whl"
+BASE=https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-preview.4
+curl -fsSLO "$BASE/pipd_ls_sp-0.1.1a4-py3-none-any.whl"
 curl -fsSLO "$BASE/SHA256SUMS"
 
 # 2. Verify the bytes. Check exactly what step 1 downloaded: SHA256SUMS lists three assets, but
 #    only the wheel is present here, so select its line. This is the ONLY integrity check offered:
 #    there is no install-time or startup cryptographic readback, and no release signature.
-#    Published wheel digest: e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec
-grep '  pipd_ls_sp-0.1.1a3-py3-none-any.whl$' SHA256SUMS | sha256sum -c -
-#    expect: pipd_ls_sp-0.1.1a3-py3-none-any.whl: OK
+#    Published wheel digest: 3b59a985dc9fc1cd4c1c5ca9a7b779122459ab7cadc8f439e17063d6c934cc0c
+grep '  pipd_ls_sp-0.1.1a4-py3-none-any.whl$' SHA256SUMS | sha256sum -c -
+#    expect: pipd_ls_sp-0.1.1a4-py3-none-any.whl: OK
 #    Alternative, only after fetching EVERY asset SHA256SUMS lists, the whole file checks clean:
-#      curl -fsSLO "$BASE/pipd-ls-sp-v0.1.1-preview.3-source.zip"
-#      curl -fsSLO "$BASE/PREVIEW_NOTES_v0.1.1-preview.3.md"
+#      curl -fsSLO "$BASE/pipd-ls-sp-v0.1.1-preview.4-source.zip"
+#      curl -fsSLO "$BASE/PREVIEW_NOTES_v0.1.1-preview.4.md"
 #      sha256sum -c SHA256SUMS       # expect three ": OK" lines (wheel, source zip, notes)
 
 # 3. Install into a virtual environment.
 python -m venv .venv
 . .venv/bin/activate 2>/dev/null || . .venv/Scripts/activate   # POSIX: .venv/bin/ ; Windows: .venv/Scripts/
-python -m pip install ./pipd_ls_sp-0.1.1a3-py3-none-any.whl
+python -m pip install ./pipd_ls_sp-0.1.1a4-py3-none-any.whl
 
 # 4. Check the install, then use it.
 pipd doctor                        # expect: {"verdict": "PASS", ...}
@@ -232,22 +238,22 @@ pipd doctor                       # -> {"verdict": "PASS", ...}, and it names th
 ```powershell
 $ErrorActionPreference = 'Stop'   # stop at the first failing step; no step fails silently
 # 1. Fetch the same wheel and checksum list, from the immutable tag.
-$Base = "https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-preview.3"
-Invoke-WebRequest -Uri "$Base/pipd_ls_sp-0.1.1a3-py3-none-any.whl" -OutFile "pipd_ls_sp-0.1.1a3-py3-none-any.whl"
+$Base = "https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-preview.4"
+Invoke-WebRequest -Uri "$Base/pipd_ls_sp-0.1.1a4-py3-none-any.whl" -OutFile "pipd_ls_sp-0.1.1a4-py3-none-any.whl"
 Invoke-WebRequest -Uri "$Base/SHA256SUMS" -OutFile "SHA256SUMS"
 
 # 2. Verify the wheel against its published digest. SHA256SUMS lists three assets but only the wheel
 #    was fetched, so compare the wheel's own hash to the published literal.
-$expected = "e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec"
-$actual = (Get-FileHash -Algorithm SHA256 -Path "pipd_ls_sp-0.1.1a3-py3-none-any.whl").Hash.ToLower()
+$expected = "3b59a985dc9fc1cd4c1c5ca9a7b779122459ab7cadc8f439e17063d6c934cc0c"
+$actual = (Get-FileHash -Algorithm SHA256 -Path "pipd_ls_sp-0.1.1a4-py3-none-any.whl").Hash.ToLower()
 if ($actual -ne $expected) { throw "wheel SHA-256 mismatch: $actual" }
-"pipd_ls_sp-0.1.1a3-py3-none-any.whl: OK"   # expect this line
+"pipd_ls_sp-0.1.1a4-py3-none-any.whl: OK"   # expect this line
 
 # 3. Install into a virtual environment.
 python -m venv .venv
 if ($LASTEXITCODE -ne 0) { throw "python -m venv failed (exit $LASTEXITCODE)" }
 .\.venv\Scripts\Activate.ps1
-python -m pip install .\pipd_ls_sp-0.1.1a3-py3-none-any.whl
+python -m pip install .\pipd_ls_sp-0.1.1a4-py3-none-any.whl
 if ($LASTEXITCODE -ne 0) { throw "pip install failed (exit $LASTEXITCODE)" }
 
 # 4. Check the install, then use it.
@@ -265,7 +271,7 @@ If you do not need to check the bytes against the published digest, pip can fetc
 wheel in one line:
 
 ```bash
-python -m pip install "https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-preview.3/pipd_ls_sp-0.1.1a3-py3-none-any.whl"
+python -m pip install "https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-preview.4/pipd_ls_sp-0.1.1a4-py3-none-any.whl"
 ```
 
 This performs **no hash verification** - pip installs whatever the URL serves when you run it. Use
@@ -382,9 +388,9 @@ which is the boundary the paragraph above describes.
 | `fixtures/` | typed negative and golden fixtures used by the tests |
 | `examples/` | runnable fixtures: [`examples/first-run/`](examples/first-run/) is the real input the compiler walk-through above uses, and `examples/self-bootstrap/` is the self-bootstrap transcript |
 | `openspec/` | the change proposals these rounds implemented |
-| `dist/` | **the published build** — wheel `pipd_ls_sp-0.1.1a3-py3-none-any.whl` (SHA-256 `e8ca509d…`), its `.sha256`, `WHEEL_MANIFEST.json` and `web/` packs |
+| `dist/` | **the published build** — wheel `pipd_ls_sp-0.1.1a4-py3-none-any.whl` (SHA-256 `3b59a985…`), its `.sha256`, `WHEEL_MANIFEST.json` and `web/` packs |
 | `.hgk/` | the rounds' governance record: admission, kanban, knowledge index, preflight, round receipts and surfaces |
-| `pyproject.toml` | packaging metadata (`pipd-ls-sp` 0.1.1a3, `requires-python >= 3.11`, `license = "Apache-2.0"`) |
+| `pyproject.toml` | packaging metadata (`pipd-ls-sp` 0.1.1a4, `requires-python >= 3.11`, `license = "Apache-2.0"`) |
 | `LICENSE`, `NOTICE`, `OWNER_LICENSE_DECISION.yaml`, `SBOM.cdx.json` | the Apache-2.0 grant, its attribution, the owner's operative decision record (`decision: Apache-2.0`) and the machine-readable component inventory |
 | `PROVENANCE.md`, `ACCEPTANCE.md` | how the artefacts were produced, and what was accepted |
 | `.agents`, `.hermes`, `.gitattributes`, `.gitignore` | agent and repository plumbing |

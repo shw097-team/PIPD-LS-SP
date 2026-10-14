@@ -21,8 +21,8 @@ if str(ROOT / "src") not in sys.path:
     sys.path.insert(0, str(ROOT / "src"))
 README = ROOT / "README.md"
 
-PUBLISHED_WHEEL_DIGEST = "e8ca509d9014e57536d18bc103d91d06e4cd40e4f2e3ef0cec6a7a083fafe7ec"
-WHEEL = "pipd_ls_sp-0.1.1a3-py3-none-any.whl"
+PUBLISHED_WHEEL_DIGEST = "3b59a985dc9fc1cd4c1c5ca9a7b779122459ab7cadc8f439e17063d6c934cc0c"
+WHEEL = "pipd_ls_sp-0.1.1a4-py3-none-any.whl"
 SHA256SUMS = "SHA256SUMS"
 
 def _readme_text() -> str:
@@ -134,7 +134,7 @@ class QuickstartChecksumScope(unittest.TestCase):
         text = _readme_text()
         url = (
             "https://github.com/shw097-team/PIPD-LS-SP/releases/download/"
-            "v0.1.1-preview.3/pipd_ls_sp-0.1.1a3-py3-none-any.whl"
+            "v0.1.1-preview.4/pipd_ls_sp-0.1.1a4-py3-none-any.whl"
         )
         self.assertIn(f'python -m pip install "{url}"', text)
         lowered = text.lower()
