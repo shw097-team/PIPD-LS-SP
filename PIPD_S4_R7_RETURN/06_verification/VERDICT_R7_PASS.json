@@ -1,0 +1,170 @@
+{
+  "lane": "VERIFY_SECURITY",
+  "round": "R7-20261014-merge-hygiene-closeout",
+  "generated_at_utc": "2026-10-14T07:05:00Z",
+  "subject": {
+    "worktree": "C:/Projects/Agent_Workspace/PIPD/worktrees/r7v-wt",
+    "head_sha": "fc55591852bc016ae8dc861edf88db0e613b3c6a",
+    "merged_main_sha_cited": "b3a27c1f00c90b010feec7b4da5f420d45edec61",
+    "blob_count": 1913
+  },
+  "item_1": {
+    "verdict": "PASS",
+    "method": "git rev-parse HEAD; git ls-tree -r HEAD; required-path check",
+    "raw_values": {
+      "head_sha": "fc55591852bc016ae8dc861edf88db0e613b3c6a",
+      "blob_count": 1913,
+      "all_required_paths_exist": true,
+      "checked_paths": [
+        "packaging/public-plugin/plugin.json",
+        "tools/build_public_plugin.py",
+        "tools/freeze_public_plugin_source.py",
+        "tools/build_web_fallback.py",
+        "docs/install/README.md",
+        "docs/install/PIPD_WEB_FALLBACK.md",
+        "docs/USER_GUIDE.md",
+        ".github/workflows/ci.yml",
+        ".github/workflows/public-plugin-verify.yml",
+        "docs/adr/ADR-0007-plugin-distribution-private-first.md",
+        "docs/adr/ADR-0008-repository-state-and-hygiene-inventory.md",
+        "docs/adr/ADR-0009-session-handover-and-next-session-start.md",
+        "tests/test_public_plugin_packaging.py"
+      ]
+    }
+  },
+  "item_2": {
+    "verdict": "PASS",
+    "method": "README content parsed and cross-checked against git refs and tree paths",
+    "raw_values": {
+      "merged_main_sha_matches": true,
+      "evidence_branch_present": true,
+      "evidence_pack_paths_present_on_evidence_branch": true,
+      "packs": [
+        "PIPD_S4_R6_FAR_AND_ALIGNMENT_RETURN/",
+        "PIPD_S4_R5Z_SESSION_CONFORMANCE_RETURN/",
+        "PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/",
+        "PIPD_S4_R4_EVIDENCE_RETURN/"
+      ],
+      "UPG_TRACEABILITY_R6_row_count": "105 rows confirmed on r5z-evidence-return-20261014 (106 including header line)",
+      "quoted_zip_digest_match": true,
+      "quoted_zip_bytes": 68355,
+      "quoted_zip_sha256": "2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199",
+      "claim_ceiling_exact_string_found": true
+    },
+    "unsubstantiated_or_scope_notes": [
+      "CI success and PR merge state were NOT verified against live GitHub; they are recorded from README/ADR claims, not independently observed by this lane.",
+      "Plugin private-route PASS on owner's own account and OpenAI developer-identity HOLD are owner-reported states and cannot be substantiated from this tree alone.",
+      "The following provenance/lineage statements are recorded but not reproducibly validated by this lane: 'Two independent builds are byte-identical', '56 entries', '8 SKILL.md', 'TT-004/TT-005/TT-001 states', and specific published tag verification claims on v0.1.1-preview.3."
+    ]
+  },
+  "item_3": {
+    "verdict": "PASS",
+    "method": "ADR-0008 text table parsed; ancestry checked with git merge-base --is-ancestor",
+    "raw_values": {
+      "branch_table_rows_excluding_main": 19,
+      "rows_with_head_and_disposition": 19,
+      "frozen_subject_rows_all_marked_keep": true,
+      "main_marked_keep": true,
+      "pr_dispositions_match_claim": true,
+      "pr_8_merged": true,
+      "pr_6_ancestor_of_merge": true,
+      "pr_5_ancestor_of_merge": true,
+      "pr_3_ancestor_of_merge": true,
+      "pr_2_gate_failure_recorded": true,
+      "pr_4_dirty_and_superseded_recorded": true,
+      "contradiction_found": false
+    },
+    "unsubstantiated_or_scope_notes": [
+      "PR/CI conclusion status is taken from the ADR text; no live GitHub query was performed by this lane."
+    ]
+  },
+  "item_4": {
+    "verdict": "PASS",
+    "method": "ADR-0009 section check",
+    "raw_values": {
+      "has_current_state": true,
+      "has_open_owner_decisions": true,
+      "has_reproducible_commands": true,
+      "prescribed_commands": [
+        "python tools/freeze_public_plugin_source.py --repo-root . --out ledger.json",
+        "python tools/build_public_plugin.py --ledger ledger.json --source-commit 062d84ae3e951d02b2ba6bb732359b18799d2864 --packaging-root packaging/public-plugin --out-dir out --generate-icons"
+      ],
+      "expected_digest": "2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199",
+      "has_lane_dispatch_template": true,
+      "dispatch_template_command_lines": [
+        "python C:/Projects/Agent_Workspace/HG-KSEOS/scripts/hgk-lane-dispatch.py --lane EXECUTE --prompt <prompt-file> --force-rank 1 --require-arm opencode-go/deepseek-v4.1-flash",
+        "python C:/Projects/Agent_Workspace/HG-KSEOS/scripts/hgk-lane-dispatch.py --lane VERIFY_SECURITY --prompt <prompt-file> --force-rank 3 --require-arm opencode-go/glm-5.3-flash"
+      ],
+      "has_claim_ceiling": true
+    }
+  },
+  "item_5": {
+    "verdict": "PASS",
+    "method": "git status --porcelain (subject and main clone) and targeted content scan with the authorized Python interpreter",
+    "raw_values": {
+      "subject_status_porcelain_first_20": [],
+      "subject_status_clean": true,
+      "main_clone_status_porcelain_first_20": [
+        " M .gitignore",
+        " M .hgk/rounds/R5P-20261010-s4-post-challenge/evidence/PUBLICATION_PROJECTION_EQUIVALENCE.json",
+        "?? .hgk/artifacts/tqaep_design_tmp/",
+        "?? .hgk/preflight/R5-compiler/lane/log_ao.txt",
+        "?? .hgk/preflight/R5-compiler/lane/log_ao_attempt4_contaminated.txt",
+        "?? .hgk/preflight/R5-compiler/lane/log_wo1.txt",
+        "?? .hgk/preflight/R5-compiler/lane/log_wo2.txt",
+        "?? .hgk/preflight/R5-compiler/lane/log_wo3.txt",
+        "?? .hgk/preflight/R5-compiler/opencodex-config.backup-20261010.json",
+        "?? .hgk/rounds/R2-20261009-qualification/execute/knowledge/own-derived.db",
+        "?? .hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt1_provider_error.log",
+        "?? .hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt2_provider_error.log",
+        "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt4_contaminated/",
+        "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt5/log_ao.txt",
+        "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt7_codex_01512_verdict/AO_LOG.ndjson",
+        "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt7_codex_01512_verdict/RAW_RUNS.jsonl",
+        "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt7_codex_01512_verdict/log_ao.txt",
+        "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt_codex_01512/log_ao.txt",
+        "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/rerun_b4_probe.py",
+        "?? .hgk/rounds/R5-20261009-s4-user-operability/uat/RAW_RUNS.jsonl"
+      ],
+      "credential_locator_substring_hits": [],
+      "hex_40plus_tokens_by_file": [
+        {
+          "file": "README.md",
+          "hits": 10
+        },
+        {
+          "file": "docs/adr/ADR-0008-repository-state-and-hygiene-inventory.md",
+          "hits": 4
+        },
+        {
+          "file": "docs/adr/ADR-0009-session-handover-and-next-session-start.md",
+          "hits": 6
+        }
+      ],
+      "scan_note": "All 40/64-length hex hits are SHA commit hashes or SHA256 digests used as provenance anchors. None resemble an API token or a 'API KEY/GITHUB-REPO' locator. The exact locator substring was absent in all three documents."
+    },
+    "informational_only": [
+      "Main-clone working tree entries are pre-existing and outside this lane's write scope; no action taken."
+    ]
+  },
+  "item_6": {
+    "verdict": "PASS",
+    "method": "self-managed write-set audit; no writes outside the lane output directory",
+    "raw_values": {
+      "files_created_by_this_run": [
+        "C:/Projects/Agent_Workspace/HG-KSEOS/var/R7-20261014-merge-hygiene-closeout/VERIFY_SECURITY/verify_checks.py",
+        "C:/Projects/Agent_Workspace/HG-KSEOS/var/R7-20261014-merge-hygiene-closeout/VERIFY_SECURITY/VERDICT_R7.json"
+      ],
+      "round_tree_changed": false,
+      "worktree_r7_wt_changed": false,
+      "worktree_r7v_wt_changed": false,
+      "all_created_files_valid_location": true
+    }
+  },
+  "overall": "PASS",
+  "binding_evidence_note": "the dispatcher receipt is binding, not this self-report",
+  "unverifiable_disclosures": [
+    "Live GitHub API/network state (merges, PR statuses, CI conclusions, existence of tags/releases) was not queried by this lane.",
+    "Build repeatability outside this environment and any platform-external dependencies (OpenAI developer identity, account entitlements, portal eligibility, tag validity) cannot be verified from the tree."
+  ]
+}

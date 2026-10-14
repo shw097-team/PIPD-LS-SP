@@ -1,0 +1,117 @@
+{
+  "round": "R7-20261014-merge-hygiene-closeout",
+  "lane": "VERIFY_SECURITY",
+  "subject_repo": "C:/Projects/Agent_Workspace/PIPD",
+  "write_scope": ["C:/Projects/Agent_Workspace/HG-KSEOS/var/R7-20261014-merge-hygiene-closeout/VERIFY_SECURITY"],
+  "item_1": {
+    "verdict": "FAIL",
+    "method": "git rev-parse origin/main; git ls-tree; git cat-file; path probes",
+    "raw_values": {
+      "rev_parse_origin_main": "b3a27c1f00c90b010feec7b4da5f420d45edec61",
+      "expected_origin_main": "fc55591852bc016ae8dc861edf88db0e613b3c6a",
+      "tree_blob_count_origin_main": 1911,
+      "expected_merge_commit_object_readable": false,
+      "expected_merge_commit_probe": "git cat-file: bad file",
+      "path_checks": [
+        "packaging/public-plugin/plugin.json MISSING",
+        "tools/build_public_plugin.py MISSING",
+        "tools/freeze_public_plugin_source.py MISSING",
+        "tools/build_web_fallback.py MISSING",
+        "docs/install/README.md MISSING",
+        "docs/install/PIPD_WEB_FALLBACK.md MISSING",
+        "docs/USER_GUIDE.md MISSING",
+        ".github/workflows/ci.yml MISSING",
+        ".github/workflows/public-plugin-verify.yml MISSING",
+        "docs/adr/ADR-0007-plugin-distribution-private-first.md MISSING",
+        "docs/adr/ADR-0008-repository-state-and-hygiene-inventory.md MISSING",
+        "docs/adr/ADR-0009-session-handover-and-next-session-start.md MISSING",
+        "tests/test_public_plugin_packaging.py MISSING"
+      ]
+    },
+    "note": "origin/main points to b3a27c1..., not the required fc555918..., and no tree/commit for fc555918... exists in the local object store."
+  },
+  "item_2": {
+    "verdict": "FAIL",
+    "method": "origin/main README read via git show; digest and UPG_TRACEABILITY_R6.tsv lookup; claim-ceiling grep",
+    "raw_values": {
+      "README_status": "UNREADABLE_FROM_LOCAL_OBJECT_STORE",
+      "readme_claim_substantiated": false,
+      "UPG_TRACEABILITY_R6.tsv": "NOT_LOCATED_LOCALLY",
+      "ZIP_digest_68355_2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199": "UNVERIFIED_LOCALLY",
+      "claim_ceiling_line_FOUND": false
+    },
+    "note": "README.md not retrievable from origin/main commit b3a27c1...; claims cannot be substantiated."
+  },
+  "item_3": {
+    "verdict": "NOT_RUN",
+    "method": "ADR-0008 read from expected merge commit; row and disposition consistency scan",
+    "raw_values": {
+      "ADR-0008_status": "NOT_LOCATED_LOCALLY",
+      "branch_row_count": "UNREADABLE",
+      "PR_dispositions_checked": false
+    },
+    "note": "ADR-0008 is not present in reachable local objects, so consistency check cannot run."
+  },
+  "item_4": {
+    "verdict": "NOT_RUN",
+    "method": "ADR-0009 read from expected merge commit; grep for bullets, decisions, build commands, lane template, claim ceiling",
+    "raw_values": {
+      "ADR-0009_status": "NOT_LOCATED_LOCALLY",
+      "present_components": []
+    },
+    "note": "ADR-0009 is not present in reachable local objects."
+  },
+  "item_5": {
+    "verdict": "FAIL",
+    "method": "git status --porcelain; token locator scan limited to local content; no token/credential scanning of unrelated filesystem",
+    "raw_values": {
+      "working_tree": {
+        "branch": "r5p-post-challenge-repair",
+        "modified_count": 2,
+        "untracked_count": "many (raw evidence captured)",
+        "first_20_lines": [
+          " M .gitignore",
+          " M .hgk/rounds/R5P-20261010-s4-post-challenge/evidence/PUBLICATION_PROJECTION_EQUIVALENCE.json",
+          "?? .hgk/artifacts/tqaep_design_tmp/",
+          "?? .hgk/preflight/R5-compiler/lane/log_ao.txt",
+          "?? .hgk/preflight/R5-compiler/lane/log_ao_attempt4_contaminated.txt",
+          "?? .hgk/preflight/R5-compiler/lane/log_wo1.txt",
+          "?? .hgk/preflight/R5-compiler/lane/log_wo2.txt",
+          "?? .hgk/preflight/R5-compiler/lane/log_wo3.txt",
+          "?? .hgk/preflight/R5-compiler/opencodex-config.backup-20261010.json",
+          "?? .hgk/rounds/R2-20261009-qualification/execute/knowledge/own-derived.db",
+          "?? .hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt1_provider_error.log",
+          "?? .hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt2_provider_error.log",
+          "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt4_contaminated/",
+          "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt5/log_ao.txt",
+          "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt7_codex_01512_verdict/AO_LOG.ndjson",
+          "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt7_codex_01512_verdict/RAW_RUNS.jsonl",
+          "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt7_codex_01512_verdict/log_ao.txt",
+          "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt_codex_01512/log_ao.txt",
+          "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/rerun_b4_probe.py",
+          "?? .hgk/rounds/R5-20261009-s4-user-operability/uat/RAW_RUNS.jsonl"
+        ]
+      },
+      "credential_locator_hits": [],
+      "40_hex_token_hits": [],
+      "scan_scope_limitation": "README.md and the two ADR files are not retrievable from local objects, so token scans could only cover repository content generally and could not conclusively verify those specific documents."
+    }
+  },
+  "item_6": {
+    "verdict": "PASS",
+    "method": "runtime scope discipline; no writes outside allowed VERIFY_SECURITY directory",
+    "files_created": [
+      "C:/Projects/Agent_Workspace/HG-KSEOS/var/R7-20261014-merge-hygiene-closeout/VERIFY_SECURITY/RAW_EVIDENCE_R7.txt",
+      "C:/Projects/Agent_Workspace/HG-KSEOS/var/R7-20261014-merge-hygiene-closeout/VERIFY_SECURITY/VERDICT_R7.json"
+    ],
+    "round_tree_or_worktree_changes": false
+  },
+  "overall": "FAIL",
+  "binding_evidence_note": "the dispatcher receipt is binding, not this self-report",
+  "disclosures": [
+    "origin/main and object store do not contain fc55591852bc016ae8dc861edf88db0e613b3c6a as a readable object.",
+    "The current origin/main resolves to b3a27c1f00c90b010feec7b4da5f420d45edec61, a different merge commit.",
+    "README.md, ADR-0008, ADR-0009 are not retrievable locally, so their content claims, hygiene rows, next-session pack, and token scans could not be performed.",
+    "No evidence packet, traceability file, or plugin ZIP was found or validated locally."
+  ]
+}

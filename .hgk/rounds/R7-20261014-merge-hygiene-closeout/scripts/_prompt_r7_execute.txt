@@ -1,0 +1,51 @@
+ROLE: bounded writer, lane EXECUTE (CODEX CLI), governed round R7-20261014-merge-hygiene-closeout under HG-KSEOS.
+WORKING TREE (write here only): C:/Projects/Agent_Workspace/PIPD/worktrees/r7-wt  (git worktree of the merged main; branch feat/s4r7-main-upgrade-and-repo-state-20261014)
+Do NOT touch: the round tree C:\Projects\Agent_Workspace\PIPD\.hgk\rounds\R7-20261014-merge-hygiene-closeout, any other worktree, main, or any remote.
+
+CONTEXT YOU MUST USE (measured facts -- do not invent numbers):
+- PR #8 was merged into main this turn under explicit owner authorization; merged main = b3a27c1f00c90b010feec7b4da5f420d45edec61 (1911 blobs); CI workflow `ci` on that commit = success.
+- Evidence branch on the remote: r5z-evidence-return-20261014 (head 6d6af2de2e79 at record time) carrying:
+  PIPD_S4_R6_FAR_AND_ALIGNMENT_RETURN/ (acceptance/ with five governing documents + GOVERNING_DOCS_MANIFEST.json,
+  R4_EVIDENCE_EXPANDED/, UPG_TRACEABILITY_R6.tsv with 105 rows, VERIFICATION_PROTOCOL.md, ZIP_REPRODUCTION.json,
+  06_verification/VERDICT_R6_PASS.json, 03_execute/ with the candidate ZIP + lane receipt) and PIPD_S4_R5Z_SESSION_CONFORMANCE_RETURN/,
+  PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/, PIPD_S4_R4_EVIDENCE_RETURN/.
+- Lane receipts (binding evidence, never self-report): EXECUTE opencode-go/deepseek-v4.1-flash rank1 ok=true CLEAN;
+  VERIFY_SECURITY opencode-go/glm-5.3-flash rank3 ok=true CLEAN, verdict PASS.
+- Reproducible build: python tools/freeze_public_plugin_source.py --repo-root . --out ledger.json ;
+  python tools/build_public_plugin.py --ledger ledger.json --source-commit 062d84ae3e951d02b2ba6bb732359b18799d2864
+  --packaging-root packaging/public-plugin --out-dir out --generate-icons  ->  out/pipd-ls-sp-public-skills.zip
+  68,355 bytes, sha256 2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199, 56 entries, 8 SKILL.md.
+- Gate status: private plugin route (download ZIP, build your own) = PASS on the owner's own account; public directory listing = HOLD
+  (OpenAI developer identity verification is a human gate). Tag/release: not created (owner version decision outstanding).
+- truth tickets: TT-004 (citation defects) CLOSED; TT-005 (lane arm binding) CLOSED; TT-001 (PLAN model declaration) closed as a
+  documented substitute: the PLAN lane ran on opencode-go/deepseek-v4.1-flash while the declared PLAN model is opencode-go/glm-5.3-flash,
+  i.e. engine separation (Hermes vs CODEX CLI) with receipt-backed measurement, not model-level segregation.
+- Branch inventory facts: 19 branches exist; branches carrying frozen subjects cited by evidence packs (e.g. feat/s4r5y-plugin-publication-20261014
+  @ 062d84ae3e951d02b2ba6bb732359b18799d2864, feat/s4r5x-manifest-fit-20261014, feat/s4r5z-readme-plugin-route-20261014, fix/s4r3-stage-a-ci-truthfulness-20261013,
+  feat/s4r3-stageb-successor-20261013, r5z-evidence-return-20261014) MUST NOT be deleted -- they are verifiability anchors.
+
+DELIVERABLE 1 -- README.md (in the worktree): insert ONE new section titled `## Current state and evidence entry points (2026-10-14)`
+immediately AFTER the existing "Start here" navigation table, and add a matching row to that table pointing at it.
+The section must state, in plain prose plus a small table: the merged main commit; that the repo front page is an entry point, not a manual;
+where the evidence lives (evidence branch name, the four return packs, VERIFICATION_PROTOCOL.md, UPG_TRACEABILITY_R6.tsv 105 rows,
+governing documents under acceptance/); the binding lane receipts (engine/arm/rank/ok/window); the reproducible build command and expected
+digest; the gate table (private route PASS / public listing HOLD / tag+release pending owner version decision); the truth-ticket status; and the
+claim ceiling line exactly: `BUILD_PASS != PORTAL_APPROVED != PUBLISHED != HOST_QUALIFIED != S4_PASS`. Do not remove or weaken any existing
+claim-ceiling or known-limitations content; keep the existing wording of unrelated sections intact.
+
+DELIVERABLE 2 -- docs/REPO_STATE.md (new): a hygiene inventory: (a) branch table (branch, head sha short, purpose, frozen-subject? keep|proposable-for-deletion, evidence pointer);
+(b) pull-request dispositions (#8 merged with the merge commit sha; #2/#3/#4/#5/#6 closed -- #3/#5/#6 contained in the merge (their heads are ancestors of the merged main),
+#2 failed the public-plugin-verify gate, #4 was dirty and superseded by #5); (c) CI state (workflow names, last conclusions on main);
+(d) local worktrees and what they hold; (e) a short "rules for hygiene" list (never delete a frozen-subject branch; never relax the write-set gate for convenience).
+
+DELIVERABLE 3 -- docs/NEXT_SESSION_START.md (new): the starting pack for a NEW session that continues PIPD-LS-SP development:
+current state in five bullets; the open owner decisions (version/tag/release, public listing identity, brand assets, lane pool ordering, three-in-one 42 atoms change set);
+the governing documents and where to read them; the exact commands to reproduce the build and to run the test suite; the lane dispatch template
+(hgk-lane-dispatch.py with --force-rank 1 --require-arm opencode-go/deepseek-v4.1-flash for EXECUTE and --force-rank 3 --require-arm opencode-go/glm-5.3-flash for VERIFY_SECURITY);
+the round directories of this session (R4..R7 under .hgk/rounds/); and the claim ceiling.
+
+QUALITY RULES: keep every factual number identical to the facts above; if you cannot verify something, write NOT_RUN with the reason instead of a value;
+no credentials in any file (never write a token, and never write any path under an API KEY directory); Traditional Chinese is acceptable for the documents but keep
+identifiers and command lines in English. Write ONLY inside C:/Projects/Agent_Workspace/PIPD/worktrees/r7-wt.
+PYTHON: C:/Projects/Agent_Workspace/HG-KSEOS/.venv/Scripts/python.exe
+End your reply with the last line exactly: HGK_LANE_NONCE_OK

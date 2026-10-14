@@ -1,0 +1,30 @@
+ROLE: VERIFY_SECURITY lane (Independent Acceptance Officer), engine CODEX CLI, round R7-20261014-merge-hygiene-closeout.
+VERIFY_ONLY. WRITE ONLY UNDER C:\Projects\Agent_Workspace\HG-KSEOS\var\R7-20261014-merge-hygiene-closeout/VERIFY_SECURITY. GUARDED (must not change): C:\Projects\Agent_Workspace\PIPD\.hgk\rounds\R7-20261014-merge-hygiene-closeout, C:/Projects/Agent_Workspace/PIPD/worktrees/r7-wt, C:/Projects/Agent_Workspace/PIPD/worktrees/r7v-wt.
+
+SUBJECT (already fetched and checked out for you): a clean detached worktree of the merged main at C:/Projects/Agent_Workspace/PIPD/worktrees/r7v-wt;
+`git -C C:/Projects/Agent_Workspace/PIPD/worktrees/r7v-wt rev-parse HEAD` must equal fc55591852bc016ae8dc861edf88db0e613b3c6a and the tree must hold 1913 blobs. Use only read-only git commands.
+
+CHECK SIX ITEMS; report raw values; never PASS an unrun check.
+1. Identity and tree of the subject worktree: HEAD sha; blob count; existence of packaging/public-plugin/plugin.json, tools/build_public_plugin.py,
+   tools/freeze_public_plugin_source.py, tools/build_web_fallback.py, docs/install/README.md, docs/install/PIPD_WEB_FALLBACK.md, docs/USER_GUIDE.md,
+   .github/workflows/ci.yml, .github/workflows/public-plugin-verify.yml, docs/adr/ADR-0007-plugin-distribution-private-first.md,
+   docs/adr/ADR-0008-repository-state-and-hygiene-inventory.md, docs/adr/ADR-0009-session-handover-and-next-session-start.md, tests/test_public_plugin_packaging.py.
+2. README claims vs reality, using the subject worktree's README.md: check every factual claim about this round against the tree itself -- the merged main sha,
+   the evidence-branch name, the evidence-pack names, the UPG_TRACEABILITY_R6.tsv row count if reachable, the quoted ZIP digest
+   (68355 / 2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199), and the claim-ceiling line
+   `BUILD_PASS != PORTAL_APPROVED != PUBLISHED != HOST_QUALIFIED != S4_PASS`. Report every statement you cannot substantiate from the tree.
+3. ADR-0008: read it; report the number of branch rows and whether each carries a head and a disposition; confirm frozen-subject rows are marked keep; confirm its PR
+   dispositions match what it claims (#8 merged; #3/#5/#6 contained in the merge; #2 gate failure; #4 dirty/superseded); report any contradiction.
+4. ADR-0009: confirm the five required components are present (current state; open owner decisions; reproducible commands with the expected digest; lane dispatch
+   template with forced ranks; claim ceiling); quote the command lines it prescribes.
+5. Hygiene + secret scan on the subject worktree: `git -C C:/Projects/Agent_Workspace/PIPD/worktrees/r7v-wt status --porcelain` (report the first 20 lines; an empty list is the expected result for a clean
+   detached worktree); then scan README.md, ADR-0008 and ADR-0009 for the credential-locator substring "API" + " " + "KEY" + "/" + "GITHUB-REPO" and for any 40+ char
+   hex-looking token; report every hit with file and line. Also report (informationally, not a pass/fail criterion) `git -C C:/Projects/Agent_Workspace/PIPD status --porcelain | head -20`
+   so the main clone's own working-tree state is on record.
+6. Anti-mutation: list every file you created (all must be under C:\Projects\Agent_Workspace\HG-KSEOS\var\R7-20261014-merge-hygiene-closeout/VERIFY_SECURITY) and state explicitly whether anything inside the round tree C:\Projects\Agent_Workspace\PIPD\.hgk\rounds\R7-20261014-merge-hygiene-closeout or the worktrees r7-wt / r7v-wt changed during your run.
+PYTHON: C:/Projects/Agent_Workspace/HG-KSEOS/.venv/Scripts/python.exe
+
+OUTPUT: C:\Projects\Agent_Workspace\HG-KSEOS\var\R7-20261014-merge-hygiene-closeout/VERIFY_SECURITY/VERDICT_R7.json with item_1..item_6 (verdict/method/raw values), overall (PASS only if every item PASS),
+binding_evidence_note "the dispatcher receipt is binding, not this self-report", and disclose anything unverifiable.
+CRITICAL DELIVERY RULE: a turn that ends without writing VERDICT_R7.json is a FAILED turn; write the file first, reply afterwards.
+Print the JSON, then the very last line exactly: HGK_LANE_NONCE_OK

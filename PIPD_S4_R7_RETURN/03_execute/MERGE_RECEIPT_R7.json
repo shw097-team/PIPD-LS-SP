@@ -1,0 +1,69 @@
+{
+ "merge_receipt_id": "MERGE-R7-20261014-001",
+ "owner_authorization": "user instructed this turn: execute the FAR plan directly until the session can close",
+ "merges": [
+  {
+   "pr": 8,
+   "title": "R5Y/R5Z chain: Stage A/B + skills-only plugin packaging + README private-plugin route + ADR-0007",
+   "head": "96434958171f",
+   "precondition": "main (22459143) was an ancestor of the head (git merge-base --is-ancestor: true) => zero-conflict",
+   "merge_commit": "b3a27c1f00c90b010feec7b4da5f420d45edec61",
+   "main_blobs_after": 1911,
+   "checks_on_pr_head": {
+    "public-plugin-verify": "success",
+    "ci": "success"
+   },
+   "ci_on_merge_commit": "success"
+  },
+  {
+   "pr": 9,
+   "title": "README evidence entry points + ADR-0008 repo-state inventory + ADR-0009 next-session pack",
+   "head": "6dc5ec22d003",
+   "merge_commit": "fc55591852bc016ae8dc861edf88db0e613b3c6a",
+   "main_blobs_after": 1913,
+   "checks_on_pr_head": {
+    "public-plugin-verify": "success",
+    "ci": "success",
+    "offline-gate": "success"
+   },
+   "ci_on_merge_commit": "success"
+  },
+  {
+   "pr": 10,
+   "title": "README/ADR-0009 main-sha truthfulness follow-up (found by R7 verification item 2)",
+   "head": "7f126aa1133c",
+   "merge_commit": "f4021aeff9c016cfb14f17e68a0c570ed4e825c5",
+   "main_blobs_after": 1913,
+   "checks_on_pr_head": {
+    "verify": "success",
+    "offline-gate": "success"
+   },
+   "ci_on_merge_commit": "success"
+  }
+ ],
+ "closed_prs": [
+  {
+   "pr": 6,
+   "reason": "contained in the merge (head 062d84ae is an ancestor of merged main)"
+  },
+  {
+   "pr": 5,
+   "reason": "contained in the merge (head 940a37d0 is an ancestor of merged main)"
+  },
+  {
+   "pr": 4,
+   "reason": "dirty and superseded by #5; contained in the merge"
+  },
+  {
+   "pr": 3,
+   "reason": "contained in the merge (head 759b9f0d is an ancestor of merged main)"
+  },
+  {
+   "pr": 2,
+   "reason": "CI gate public-plugin-verify failure (mergeable_state unstable)"
+  }
+ ],
+ "open_prs_after": 0,
+ "final_main": "f4021aeff9c016cfb14f17e68a0c570ed4e825c5",
+ "claim_ceiling": "owner-authorized merge of a candidate; no tag/release, no portal submission, no third-party acceptance"
+}

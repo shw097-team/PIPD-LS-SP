@@ -1,0 +1,145 @@
+{
+  "schema": "HGK-LANE-RESOLUTION/1",
+  "lane": "VERIFY_SECURITY",
+  "role": "checker",
+  "engine": "codex-cli",
+  "codex_executable": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\2e5e00daee91c61d\\codex.exe",
+  "codex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+  "relay_base": "http://127.0.0.1:10101/v1",
+  "codex_home_is_declared_lane_home": true,
+  "human_home_transport_acknowledged": false,
+  "skipped_arms": [
+    {
+      "rank": 2,
+      "arm": "nvidia/deepseek-ai/deepseek-v4.1-flash",
+      "reason": "UNREACHABLE_MEASURED_20261011"
+    }
+  ],
+  "transport": "opencodex relay via per-invocation -c openai_base_url (no config mutation)",
+  "transport_target": "http://127.0.0.1:10101/v1",
+  "front_door_port": null,
+  "front_door_note": "the lane-scoped pool door (10103 VERIFY_SECURITY / 10105 EXECUTE) carries the hop and ledgers every decision; the sealed single-model 10100 door is unchanged and unused; None here means direct to the relay on 10101",
+  "sandbox": "danger-full-access",
+  "sandbox_by_role_default": "read-only",
+  "sandbox_escalation_authorised": true,
+  "cwd": "C:/Projects/Agent_Workspace/PIPD/worktrees/r7v-wt",
+  "side_effect_note": "danger-full-access has NO sandbox root: any absolute path is writable, so a read-only subject must be a frozen copy checked afterwards by digest",
+  "receipt_binding": "usage rows appended after this attempt started (byte offset bound)",
+  "pool": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\config\\lane-route-slots.candidate.json",
+  "candidates_considered": [
+    3
+  ],
+  "mode": "forced_rank",
+  "unguarded_escalation_acknowledged": false,
+  "inject_429_first": false,
+  "identity_gate": {
+    "state": "enforced",
+    "lane_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+    "relay_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes",
+    "arms": [
+      {
+        "rank": 3,
+        "provider": "opencode-go",
+        "model": "glm-5.3-flash",
+        "requirement": "none",
+        "ok": true,
+        "detail": "key-auth arm: no human-attended identity"
+      }
+    ],
+    "degraded": false,
+    "required_arm": "opencode-go/glm-5.3-flash"
+  },
+  "authorization": {
+    "checked": false
+  },
+  "subject_mutation": {
+    "files_before": 3838,
+    "files_after": 3838,
+    "added": [],
+    "removed": [],
+    "changed": [],
+    "mutated": false,
+    "mutated_known": true,
+    "inconclusive": false,
+    "verdict": "CLEAN",
+    "rule": "removed/changed => verdict void; added is recorded, not fatal; an empty side => INCONCLUSIVE (never a clean verdict from nothing)",
+    "guard_roots": [
+      "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R7-20261014-merge-hygiene-closeout",
+      "C:/Projects/Agent_Workspace/PIPD/worktrees/r7-wt",
+      "C:/Projects/Agent_Workspace/PIPD/worktrees/r7v-wt"
+    ],
+    "subject_digest_sha256_before": "030cfa129bd171fc1c187a078a7be7814ba986b6b03c59be26971c877fa53c17",
+    "subject_digest_sha256_after": "030cfa129bd171fc1c187a078a7be7814ba986b6b03c59be26971c877fa53c17"
+  },
+  "attempt_log_dir": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R7-20261014-merge-hygiene-closeout\\VERIFY_SECURITY\\attempt-2-20261014T070132Z",
+  "output_dir_policy": {
+    "mode": "derived",
+    "derived": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R7-20261014-merge-hygiene-closeout\\VERIFY_SECURITY\\attempt-2-20261014T070132Z",
+    "attempt_number": 2,
+    "attempt_marker": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R7-20261014-merge-hygiene-closeout\\VERIFY_SECURITY\\attempt-2-20261014T070132Z\\attempt.marker.json"
+  },
+  "repair_precondition": {
+    "checked": false
+  },
+  "remote_write_precheck": {
+    "mode": "DETECTION_ONLY",
+    "ran": false
+  },
+  "attempts": [
+    {
+      "rank": 3,
+      "provider": "opencode-go",
+      "model": "glm-5.3-flash",
+      "transport_model": "opencode-go/glm-5.3-flash",
+      "sandbox": "danger-full-access",
+      "reasoning_effort": null,
+      "exit": 0,
+      "seconds": 133.59,
+      "nonce_present": true,
+      "nonce_present_raw_stdout": true,
+      "nonce_source": "item.completed/agent_message",
+      "usage_rows_after_offset": 43,
+      "usage_offset": 21821572,
+      "usage_provider": "opencode-go",
+      "usage_model": "glm-5.3-flash",
+      "usage_status": 200,
+      "usage_receipt_ok": true,
+      "usage_receipt_reason": "",
+      "usage_ledger_rewritten": false,
+      "usage_rows_shape_invalid": 0,
+      "usage_rows_undecodable": 0,
+      "carrier_lines_undecodable": 0,
+      "carrier_lines_surrogate": 0,
+      "credential_posture": {
+        "verdict": "INCONCLUSIVE",
+        "decision": "WARN_CONTINUE",
+        "reason": "helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN",
+        "prompt_capable_helper": null,
+        "origin": null,
+        "git_terminal_prompt": "0"
+      },
+      "attempt_log_dir": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R7-20261014-merge-hygiene-closeout\\VERIFY_SECURITY\\attempt-2-20261014T070132Z",
+      "stdout_byte_exact": true,
+      "stdout_path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R7-20261014-merge-hygiene-closeout\\VERIFY_SECURITY\\attempt-2-20261014T070132Z\\attempt-9172-1791961292-3-stdout.txt",
+      "stdout_bytes": 110384,
+      "stdout_sha256": "d49027755f8c512b3b7b9710748dc6a5a643f33e44310f3651e02d541dae77e8",
+      "stderr_byte_exact": true,
+      "stderr_path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R7-20261014-merge-hygiene-closeout\\VERIFY_SECURITY\\attempt-2-20261014T070132Z\\attempt-9172-1791961292-3-stderr.txt",
+      "stderr_bytes": 1214,
+      "stderr_sha256": "6ada9f190861b3270abab28c20c5818a24056700c674a10e270a83b79fd5697d",
+      "stdout_tail": "repeatability outside this environment and any platform-external dependencies (OpenAI developer identity, account entitlements, portal eligibility, tag validity) cannot be verified from the tree.\\\"\\n  ]\\n}\\n```\\nHGK_LANE_NONCE_OK\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":413177,\"cached_input_tokens\":367744,\"cache_write_input_tokens\":0,\"output_tokens\":9744,\"reasoning_output_tokens\":516}}\n",
+      "stderr_tail": "te/pipd-ls-sp-public-skills.zip\\\\\\\" > $env:TEMP'\\\\\\\"\\\\\\\\\\\\\\\\r7zip_tmp.bin\\\\n\\\\\\\"'$r7z = Get-FileHash -Algorithm SHA256 -Path $env:TEMP'\\\\\\\"\\\\\\\\\\\\\\\\r7zip_tmp.bin\\\\n'ZIP_SHA256=' + \\\\\\\"'$r7z.Hash.ToLower()\\\\nRemove-Item $env:TEMP'\\\\\\\"\\\\\\\\\\\\\\\\r7zip_tmp.bin -Force\\\\\\\"` rejected: blocked by policy\\\")\" }\n"
+    }
+  ],
+  "used_rank": 3,
+  "used_transport_model": "opencode-go/glm-5.3-flash",
+  "used_seconds": 133.59,
+  "generated_utc": "2026-10-14T07:03:48.791157+00:00",
+  "claim_ceiling": "a pass here proves the Codex-CLI lane served this turn through the relay with a matching usage receipt; it is not an acceptance of any subject",
+  "ok": true,
+  "usage_receipt_ok": true,
+  "usage_rows_shape_invalid": 0,
+  "usage_rows_undecodable": 0,
+  "required_arm": "opencode-go/glm-5.3-flash",
+  "served_arm": "opencode-go/glm-5.3-flash"
+}

@@ -1,0 +1,176 @@
+{
+  "round": "R7-20261014-merge-hygiene-closeout",
+  "verifier_role": "VERIFY_SECURITY",
+  "subject": "C:/Projects/Agent_Workspace/PIPD/worktrees/r7v-wt",
+  "read_only_commands_used": true,
+  "overall": "PASS",
+  "binding_evidence_note": "the dispatcher receipt is binding, not this self-report",
+  "disclosures": [
+    "UPG_TRACEABILITY_R6.tsv is not reachable as a file inside the tree of this subject worktree; the 105-rows claim is corroborated indirectly by reading the evidence branch r5z-evidence-return-20261014 (106 lines = header + 105 data rows).",
+    "The GitHub-hosted ci success runs on the merge commits and the PR #2 gate-failure/unstable state are documented and asserted in the tree, but are not independently provable from the subject worktree alone; no network calls to GitHub were made.",
+    "Platform/OpenAI login-state and KYC evidence is external and cannot be confirmed locally."
+  ],
+  "item_1": {
+    "verdict": "PASS",
+    "method": [
+      "git -C subject rev-parse HEAD",
+      "git -C subject ls-files line count",
+      "filesystem path existence checks"
+    ],
+    "raw_values": {
+      "head_sha": "f4021aeff9c016cfb14f17e68a0c570ed4e825c5",
+      "blob_count": 1913,
+      "required_files": {
+        "packaging/public-plugin/plugin.json": true,
+        "tools/build_public_plugin.py": true,
+        "tools/freeze_public_plugin_source.py": true,
+        "tools/build_web_fallback.py": true,
+        "docs/install/README.md": true,
+        "docs/install/PIPD_WEB_FALLBACK.md": true,
+        "docs/USER_GUIDE.md": true,
+        ".github/workflows/ci.yml": true,
+        ".github/workflows/public-plugin-verify.yml": true,
+        "docs/adr/ADR-0007-plugin-distribution-private-first.md": true,
+        "docs/adr/ADR-0008-repository-state-and-hygiene-inventory.md": true,
+        "docs/adr/ADR-0009-session-handover-and-next-session-start.md": true,
+        "tests/test_public_plugin_packaging.py": true
+      }
+    }
+  },
+  "item_2": {
+    "verdict": "PASS",
+    "method": [
+      "README.md text inspection",
+      "git ls-tree -r",
+      "git rev-list --count",
+      "git merge-base --is-ancestor"
+    ],
+    "raw_values": {
+      "merged_main_shas_claimed_and_observed_in_lineage": [
+        "b3a27c1f00c90b010feec7b4da5f420d45edec61",
+        "fc55591852bc016ae8dc861edf88db0e613b3c6a"
+      ],
+      "evidence_branch_claimed": "r5z-evidence-return-20261014",
+      "evidence_branch_head_observed": "6d6af2de2e795840a7198596d98d529493386aae",
+      "upg_traceability_r6_rows_reachable_from_subject_tree_itself": false,
+      "upg_traceability_r6_rows_indirect_from_evidence_branch": {
+        "lines_inspected": 106,
+        "expected_data_rows_excluding_header": 105,
+        "file": "PIPD_S4_R6_FAR_AND_ALIGNMENT_RETURN/UPG_TRACEABILITY_R6.tsv"
+      },
+      "zip_digest_claimed": {
+        "size": 68355,
+        "sha256": "2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199"
+      },
+      "claim_ceiling_line": "BUILD_PASS != PORTAL_APPROVED != PUBLISHED != HOST_QUALIFIED != S4_PASS",
+      "statements_that_could_not_be_substantiated_from_tree_alone": [
+        "UPG_TRACEABILITY_R6.tsv row count (only indirectly via the evidence branch)",
+        "hosted GitHub ci success on the merge commits",
+        "external GitHub-hosted state for PR #2 gate failure, PR #8 merged, PR #3/#5/#6 closed, PR #4 dirty/superseded"
+      ]
+    }
+  },
+  "item_3": {
+    "verdict": "PASS",
+    "method": [
+      "line-count/text inspection of ADR-0008 rows",
+      "git merge-base --is-ancestor against subject HEAD"
+    ],
+    "raw_values": {
+      "branch_rows": 19,
+      "branch_rows_with_head_and_disposition": 19,
+      "frozen_subject_rows": 7,
+      "frozen_subject_rows_marked_keep": 7,
+      "pr_disposition_rows": 6,
+      "pr_dispositions_claimed": [
+        "#8 merged",
+        "#3/#5/#6 contained in the merge",
+        "#2 gate failure",
+        "#4 dirty/superseded"
+      ],
+      "tree_backed_ancestry_checks": [
+        "b3a27c1f00c90b010feec7b4da5f420d45edec61 is ancestor of HEAD",
+        "759b9f0 is ancestor of HEAD",
+        "940a37d is ancestor of HEAD",
+        "062d84a is ancestor of HEAD"
+      ],
+      "merge_commits_observed_in_recent_history": [
+        "f4021aeff9c016cfb14f17e68a0c570ed4e825c5 (PR #10)",
+        "fc55591852bc016ae8dc861edf88db0e613b3c6a (PR #9)",
+        "b3a27c1f00c90b010feec7b4da5f420d45edec61 (PR #8)"
+      ]
+    }
+  },
+  "item_4": {
+    "verdict": "PASS",
+    "method": "text inspection of ADR-0009's five required components",
+    "raw_values": {
+      "components_present": {
+        "current_state": true,
+        "open_owner_decisions": true,
+        "reproducible_command_with_expected_digest": true,
+        "lane_dispatch_template_with_forced_ranks": true,
+        "claim_ceiling": true
+      },
+      "command_lines_prescribed": [
+        "python tools/freeze_public_plugin_source.py --repo-root . --out ledger.json",
+        "python tools/build_public_plugin.py --ledger ledger.json --source-commit 062d84ae3e951d02b2ba6bb732359b18799d2864 --packaging-root packaging/public-plugin --out-dir out --generate-icons",
+        "python C:/Projects/Agent_Workspace/HG-KSEOS/scripts/hgk-lane-dispatch.py --lane EXECUTE --prompt <prompt-file> --force-rank 1 --require-arm opencode-go/deepseek-v4.1-flash",
+        "python C:/Projects/Agent_Workspace/HG-KSEOS/scripts/hgk-lane-dispatch.py --lane VERIFY_SECURITY --prompt <prompt-file> --force-rank 3 --require-arm opencode-go/glm-5.3-flash"
+      ],
+      "expected_digest": {
+        "size": 68355,
+        "sha256": "2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199"
+      }
+    }
+  },
+  "item_5": {
+    "verdict": "PASS",
+    "method": [
+      "git status --porcelain on subject worktree",
+      "regex scan of README.md and both ADRs for credential locator and 40+ hex token"
+    ],
+    "raw_values": {
+      "subject_status_porcelain_first_20_lines": [],
+      "credential_locator_literal_hits": [],
+      "hex_like_40_plus_chars_hits": [],
+      "main_working_tree_status_context": "PIPD main clone shows pre-existing uncommitted local worktree-state artifacts (untracked and modified files). Read-only check; no further values recorded against protected trees."
+    }
+  },
+  "item_6": {
+    "verdict": "PASS",
+    "method": [
+      "write-target constrained to HG-KSEOS VERIFY_SECURITY",
+      "all git invocations read-only",
+      "subject worktree remained detached with an empty status list"
+    ],
+    "raw_values": {
+      "files_created": [
+        "C:/Projects/Agent_Workspace/HG-KSEOS/var/R7-20261014-merge-hygiene-closeout/VERIFY_SECURITY/VERDICT_R7.json"
+      ],
+      "subject_mutation": false,
+      "round_tree_r7_changed": false,
+      "worktree_r7_wt_changed": false,
+      "worktree_r7v_wt_changed": false
+    }
+  },
+  "item_7": {
+    "verdict": "PASS",
+    "method": [
+      "README.md sentence inspection",
+      "docs/adr/ADR-0009 sentence inspection",
+      "git rev-parse HEAD cross-check"
+    ],
+    "raw_values": {
+      "actual_head_sha": "f4021aeff9c016cfb14f17e68a0c570ed4e825c5",
+      "README_sentences": [
+        "The session's merge commits are `b3a27c1f00c90b010feec7b4da5f420d45edec61` (PR #8, 1911 blobs) and `fc55591852bc016ae8dc861edf88db0e613b3c6a` (PR #9, 1913 blobs).",
+        "`main` may advance past them — always re-read `main` before acting."
+      ],
+      "ADR_0009_sentences": [
+        "`main` at the time of writing: `fc55591852bc016ae8dc861edf88db0e613b3c6a` (merge of PR #9; PR #8 merged at `b3a27c1f00c90b010feec7b4da5f420d45edec61`).",
+        "Any session that starts later must re-read `main` rather than trust this line."
+      ]
+    }
+  }
+}

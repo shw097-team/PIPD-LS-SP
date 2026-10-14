@@ -1,0 +1,63 @@
+{
+ "admission_id": "ADM-R7-20261014-001",
+ "round": "R7-20261014-merge-hygiene-closeout",
+ "project": "PIPD-LS-SP-20261008",
+ "control_plane": "HG-KSEOS",
+ "runtime_plane": "canonical Hermes (governed)",
+ "owner_authorization": {
+  "verbatim": "用戶直接授權，前項FAR提出「最佳工程裁決+執行方案」之後，你必須直接執行，並且執行到本SESSION可以完整結案，供用戶可以開新SESSION繼續PIPD-LS-SP的開發。",
+  "scopes_granted": [
+   "merge into main",
+   "full repo update",
+   "engineering hygiene",
+   "main/README upgrade",
+   "session closure & handover"
+  ],
+  "scopes_NOT_granted": [
+   "portal publication (developer-identity HumanGate)",
+   "brand asset authorship",
+   "gate allowlist relaxation"
+  ]
+ },
+ "lanes": {
+  "PLAN": {
+   "engine": "hermes",
+   "declared_model": "opencode-go/glm-5.3-flash",
+   "actual_model": "opencode-go/deepseek-v4.1-flash",
+   "note": "TT-001 documented substitute"
+  },
+  "EXECUTE": {
+   "engine": "CODEX CLI",
+   "required_arm": "opencode-go/deepseek-v4.1-flash",
+   "force_rank": 1
+  },
+  "VERIFY_SECURITY": {
+   "engine": "CODEX CLI",
+   "required_arm": "opencode-go/glm-5.3-flash",
+   "force_rank": 3
+  }
+ },
+ "merge_plan": {
+  "merge": "PR #8 -> main (main is ancestor of #8; zero conflict)",
+  "close": [
+   "#6",
+   "#5",
+   "#4",
+   "#3",
+   "#2"
+  ],
+  "close_reasons": {
+   "#6": "contained in #8 (ancestor)",
+   "#5": "contained in #8 (ancestor)",
+   "#4": "contained in #5; dirty",
+   "#3": "contained in #8 (ancestor)",
+   "#2": "CI gate public-plugin-verify failure (unstable)"
+  }
+ },
+ "guard_subjects": [
+  "C:\\Projects\\Agent_Workspace\\PIPD\\.hgk\\rounds\\R7-20261014-merge-hygiene-closeout",
+  "C:/Projects/Agent_Workspace/PIPD/worktrees/r7-wt"
+ ],
+ "claim_ceiling": "owner-authorized merge + docs/hygiene upgrade + closure; no tag/release/portal publication",
+ "created_utc": "2026-10-14T06:37:02.045008"
+}
