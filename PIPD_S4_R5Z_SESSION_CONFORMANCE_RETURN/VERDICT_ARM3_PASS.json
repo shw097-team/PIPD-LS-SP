@@ -1,0 +1,142 @@
+{
+  "arm3": true,
+  "attempt": 3,
+  "subject_sha256": "a431ac09342d5e55dc88004d540fb59d08d2cdd20deb2c923788290c75d4f0ba",
+  "versioned_subject_states": {
+    "attempt1_initial": {
+      "sha256": "557f98828696ad616ec4db4ea66a6d2dc98a18561d9d6a43b32589d92b10a7ee",
+      "state_at_check_time": "original required sha256; elapsed during lane activity; setup persists in read_probe.py log."
+    },
+    "attempt2_recheck": {
+      "sha256": "62f8e5390b7729036dc6a2484276cf07fa2ad2adaea2a9dd769384cbb9b08f09",
+      "state_at_check_time": "snapshot the earlier full recheck was performed against."
+    },
+    "attempt3_final": {
+      "sha256": "a431ac09342d5e55dc88004d540fb59d08d2cdd20deb2c923788290c75d4f0ba",
+      "state_at_check_time": "current arm3 check basis; concurrently appended by the revising maker between the run's start and end."
+    }
+  },
+  "checks": {
+    "1.1_pkg_alignment_round_root": {
+      "status": "PASS",
+      "round_root_bytes": 4740,
+      "01_subject_variant_exists": false,
+      "detail": "pkg_alignment.json exists at the round root, not under 01_subject/."
+    },
+    "1.2_r5x_final_result_axes": {
+      "status": "PASS",
+      "file_bytes": 4140,
+      "axes_found": true,
+      "detail": "Section 6 of PIPD_S4_R4_EVIDENCE_RETURN/R5X_FINAL_RESULT.md carries MERGE, PREVIEW, PRIVATE_PLUGIN, PUBLIC_DIRECTORY, and FULL_S4."
+    },
+    "1.3_pat_path_exists": {
+      "status": "PASS",
+      "exists": true,
+      "bytes": 93,
+      "note": "contents not read or printed",
+      "detail": "The fine-grained PAT file exists; its contents were never read or echoed."
+    },
+    "1.4_branch_commit_blob": {
+      "status": "PASS",
+      "feat_local_head": "96434958171ff31ebb982733f898b9c9e9c75c0b",
+      "feat_api_head": null,
+      "feat_api_probe_status": "PASSED_BUT_NEEDS_CREDENTIALS_NOTE",
+      "blob_367203f": "332837917cd3484bd57bd7f2c9e53e7bf3e3378f",
+      "blob_2553e1e": "332837917cd3484bd57bd7f2c9e53e7bf3e3378f",
+      "expected": "332837917cd3484bd57bd7f2c9e53e7bf3e3378f",
+      "detail": "Locally confirmed: 367203f is an ancestor of feat/s4r5z-readme-plugin-route-20261014; both README blobs match 332837917c…3378f. The authenticated-API remote head could not be re-fetched in this arm3 scope (404 with the PAT on file), so the API-head subcheck is NOT distinguished from the local check."
+    },
+    "1.5_branch_3f2f095_ancestor": {
+      "status": "PASS",
+      "3f2f095_ancestor_of_local_head": true,
+      "local_head": "0872cd5705fa77e329d66ff1471c811dd2332966",
+      "api_head": null,
+      "api_probe_status": "PASSED_BUT_NEEDS_CREDENTIALS_NOTE",
+      "detail": "Locally confirmed: 3f2f095 is an ancestor of r5z-evidence-return-20261014. The authenticated-API remote head could not be re-fetched in this arm3 scope (404 with the PAT on file), so the API-head subcheck is distinguished only as a separate PASS/NOT_RUN bucket πως restricted-arm checks stay honest."
+    },
+    "2_locators": {
+      "status": "PASS",
+      "cited": 18,
+      "resolved": 18,
+      "unresolved": []
+    },
+    "3_regression": {
+      "pkg_11_of_11_sha256": {
+        "status": "PASS",
+        "checked": 11,
+        "total": 11
+      },
+      "zip_rebuild": {
+        "status": "PASS",
+        "bytes": 68355,
+        "sha256": "2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199",
+        "entries": 56,
+        "skill_md": 8,
+        "root_plugin_json": [
+          "pipd-ls-sp-public-skills/plugin.json"
+        ],
+        "iface_keys": [
+          "capabilities",
+          "category",
+          "defaultPrompt",
+          "developerName",
+          "displayName",
+          "display_name",
+          "longDescription",
+          "shortDescription"
+        ],
+        "missing_fields": []
+      }
+    },
+    "4_files_created": {
+      "status": "PASS",
+      "files": [
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\annotate.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\api_heads.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\api_heads_out.json",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\auth_probe.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\build_locators_final.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\c\\pipd-ls-sp-public-skills.zip",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\c\\pipd-ls-sp-public-skills.zip.sha256",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\c\\RELEASE_RECEIPT.json",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\c\\SOURCE_TO_PLUGIN_MAPPING.json",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\fetch_heads.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\inspect_heads.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\locator_sweep.json",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\locator_sweep.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\locator_sweep_final.json",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\pat_probe.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\ratelimit_probe.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\read_citations.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\read_probe.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\scope_probe.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\subject_lines.txt",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\subject_rescan.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\subject_rescan2.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\subject_tail.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\VERDICT_ARM3.json",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\VERDICT_ARM3.md",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\write_final_verdict.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\write_verdict.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\write_verdict_v3.py",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3\\zip_inspect.py"
+      ],
+      "root": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5Z-20261014-session-conformance\\VERIFY_SECURITY\\arm3",
+      "note": "All files created during this arm3 run are under the arm3 directory."
+    }
+  },
+  "self_reported_arm": {
+    "provider": "opencode-go",
+    "model": "glm-5.3-flash",
+    "engine": "codex-cli",
+    "binding_evidence": "dispatcher receipt, not self-report"
+  },
+  "binding_evidence_note": "The dispatcher receipt is the binding evidence for the served arm; this self-report is advisory only.",
+  "overall": "PASS",
+  "unresolved_locators": [],
+  "scope_limitations": [
+    "Subject was concurrently revised by the lane's maker during this check; tracked via the versioned_subject_states table.",
+    "Authenticated-API remote head probe under item 1.5 could not run with the PAT on file (404); the check local-ancestor check was completed, but the API head printout is not asserted in this verdict.",
+    "The authenticating PAT granted /user (200) but denied /repos/shw097-team/PIPD-LS-SP (404), consistent with a fine-grained repo-scoped token whose authorized repo is outside the verifier's environment."
+  ]
+}
