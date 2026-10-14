@@ -1,0 +1,16 @@
+{
+ "receipt_ok": true,
+ "required_arm": "opencode-go/glm-5.3-flash",
+ "served_arm": "opencode-go/glm-5.3-flash",
+ "used_rank": 3,
+ "used_seconds": 49.72,
+ "subject_mutation": {
+  "verdict": "CLEAN",
+  "mutated": false,
+  "files_before": 3852,
+  "files_after": 3852
+ },
+ "content_produced": false,
+ "why_no_content": "the turn ran the degraded path: stderr shows 'failed to connect to websocket: HTTP error: 426 Upgrade Required, ws://127.0.0.1:10101/v1/responses' and 'Reading additional input from stdin...'; the dispatcher still reported ok=true because the required arm was served and the usage receipt matched",
+ "consequence": "arm4 proves a CLEAN window with the required arm served, but it is NOT a verification verdict; a content-bearing clean-window verdict is still needed (arm5 dispatched)"
+}
