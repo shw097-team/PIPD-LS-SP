@@ -86,10 +86,16 @@ no MCP, no Apps, no Hooks, no `.hgk/` migration, no history rewrite, no re-point
 
 ## What is NOT claimed
 
-- **No private-host install was performed by this round.** Desktop input needed an interactive consent
-  approval; the prompt timed out and the driver's rule is that silence is not consent, so the action was
-  not retried. `05_host/` records the attempt, the refusal and what would close the item. This is **not**
-  `NOT_SUPPORTED_FOR_ACCOUNT` — the account was never shown to be unentitled.
+- **The private-host import was refused by the host, and the cause is unresolved.** Under the
+  operator's explicit authorisation this round drove the account's own upload flow: the 新增外掛程式
+  dialog is offered, the digest-verified copy of the released asset was selected, the primary button
+  enabled — and the server answered `無法新增外掛程式。請再試一次。`, twice, including after a rename.
+  The bytes the host rejected are byte-identical to the published asset
+  (`545e359a…`), so this is not an asset defect. It is **not** `NOT_SUPPORTED_FOR_ACCOUNT` either: the
+  upload UI is present and the button enabled, which rules out a client-side block. `05_host/` carries
+  the record, three numbered candidate causes, and two digest-stamped diagnostic bundles that
+  discriminate account-side from content-side refusal in one click each. The import is **not** achieved.
+- **The follow-up fix is in no release.** Publishing a further preview needs a fresh owner authorization.
 - **No four-host qualification, no public directory submission, no Developer Identity/KYC, no portal
   review, no `PRODUCTION`, no `S4_FULL_PASS`.** All remain `NOT_GRANTED` / `OUT_OF_SCOPE`.
 - **The Codex EXECUTE lane produced no output this round.** It was attempted twice (a stale pinned binary

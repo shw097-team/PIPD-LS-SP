@@ -1,0 +1,78 @@
+{
+  "record": "private_host_upload_rejection",
+  "round": "R5R-20261014-s4-preview4-focused-close",
+  "task": "TS-07 private host smoke (import / install / 8 skills / trigger)",
+  "verdict": "HOST_UPLOAD_REJECTED_CAUSE_UNRESOLVED",
+  "not_a_pass": true,
+  "what_this_is_not": [
+    "NOT a successful private import - no plugin was added on the account",
+    "NOT NOT_SUPPORTED_FOR_ACCOUNT - the upload UI is present and functional on this account",
+    "NOT a defect in the released assets - the archive the host received is byte-identical to the published asset"
+  ],
+  "account": "chatgpt.com, signed in as the Plus account shown in the sidebar; UI locale zh-TW",
+  "ui_facts_observed": {
+    "route": "chatgpt.com/plugins",
+    "account_entitlement_signal": "a 新增 (New) dropdown and a 新增外掛程式 dialog are offered: a drag/點選上傳 drop zone, accepted formats .tar.gz/.tgz/.zip, stated size limit 100 MB, plus a 新增自訂 MCP 伺服器 action and a separate skill tab",
+    "upload_attempt": "file dialog (mtitle 開啟) opened at the round's own build folder; the digest-verified copy of the released asset was entered by path and accepted; the dialog then showed the file name and enabled the primary 新增外掛程式 button"
+  },
+  "submitted_artifact": {
+    "name_as_submitted": "pipd-ls-sp-public-skills_1014.zip",
+    "renamed_before_second_attempt": true,
+    "bytes": 68357,
+    "sha256": "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75",
+    "identity_with_release": "this digest equals the digest GitHub reports for the pipd-ls-sp-public-skills.zip asset of release v0.1.1-preview.4, so the bytes the host rejected are the released bytes",
+    "members": 56,
+    "single_wrapping_root": "pipd-ls-sp-public-skills/",
+    "manifest": "pipd-ls-sp-public-skills/plugin.json, $schema https://agent-plugins.org/schemas/1.0.0/plugin.schema.json, with a com.openai extension block"
+  },
+  "host_response": {
+    "message": "無法新增外掛程式。請再試一次。",
+    "translation": "Unable to add plugin. Please try again.",
+    "attempts": 2,
+    "operator_reported_after_rename": true,
+    "http_detail_available": false,
+    "note": "the client exposes no error code, response body or request id; the refusal is server-side and undiagnosed from here"
+  },
+  "candidate_causes": [
+    {
+      "id": "H1",
+      "claim": "the host expects the manifest at the archive root, not inside one wrapping folder",
+      "basis": "the submission's first member is pipd-ls-sp-public-skills/plugin.json",
+      "test": "variant-a-root-manifest.zip - the same 56 members with the wrapping folder removed",
+      "status": "NOT_YET_TESTED"
+    },
+    {
+      "id": "H2",
+      "claim": "the host validates the manifest against its own current convention and rejects this schema/field set",
+      "basis": "the bundle declares the agent-plugins.org 1.0.0 schema with an OpenAI extension namespace, a convention that may since have been revised",
+      "test": "compare against the live builder documentation, then rebuild the manifest",
+      "status": "NOT_YET_TESTED"
+    },
+    {
+      "id": "H3",
+      "claim": "upload acceptance is disabled server-side for this account/plan/region even though the UI is offered",
+      "basis": "the UI is fully present and the button enabled, which excludes a client-side block",
+      "test": "variant-b-minimal.zip - a 548-byte, 2-member bundle (one manifest, one skill); if the host refuses it too, the cause is account-side, not content-side",
+      "status": "NOT_YET_TESTED"
+    }
+  ],
+  "diagnostic_artifacts_built": [
+    {
+      "file": "variant-a-root-manifest.zip",
+      "bytes": 65764,
+      "members": 56,
+      "sha256": "d52501c2a56eabf3245166a155667786975883e35ced73763a2464573ff5aecb",
+      "tests": "H1"
+    },
+    {
+      "file": "variant-b-minimal.zip",
+      "bytes": 548,
+      "members": 2,
+      "sha256": "af1a4ab33999c4c4966a0412136dbcc1f4f0346252b99da918b52466e13b599c",
+      "tests": "H3"
+    }
+  ],
+  "claim_ceiling": "the bundle's local structure, determinism and derivation are verified locally and its bytes are published; the host import is NOT achieved and no plugin was added to the account",
+  "next_step": "submit variant-b first (it discriminates account-side from content-side in one click); if it is refused, stop and treat the edge as account-side; if it is accepted, submit variant-a to test the manifest position, then rebuild the manifest against the live convention for H2",
+  "disclosure": "desktop input was performed under the operator's explicit authorisation; each mutating action was approved through the assistant's consent prompt; the account, route and observed UI state are recorded above so the attempt can be audited or repeated by a human"
+}
