@@ -1,0 +1,51 @@
+ROLE: bounded writer, lane EXECUTE (CODEX CLI), governed round R6-20261014-far-remediation-and-repair, under HG-KSEOS.
+WRITE ONLY UNDER: C:\Projects\Agent_Workspace\HG-KSEOS\var\R6-20261014-far-remediation-and-repair\EXECUTE\out   (never anywhere else; the round tree and the worktrees are GUARDED and must not change)
+
+TASK 1 -- publish the governing documents for an external verifier.
+For each (target_name, source_path) below: read the source as strict UTF-8, apply EXACTLY ONE redaction -- every occurrence of the
+credential-locator path string  C:\Projects\Agent_Workspace\API KEY\GITHUB-REPO_SHW097-4.txt  becomes  <REDACTED_CREDENTIAL_LOCATOR>  -- write the result to C:\Projects\Agent_Workspace\HG-KSEOS\var\R6-20261014-far-remediation-and-repair\EXECUTE\out/acceptance/<target_name>.
+  {
+ "R4_PROMPT.md": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\PIPD\\PROMPT\\PIPD-LS-SP S4 R4｜Hermes  HG-KSEOS  Fabric 合規指揮薄 PROMPT_2026-10-13.md",
+ "R4_REPORT.md": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\PIPD\\驗收報告\\PIPD-LS-SP｜S4 R4 驗收報告_20261013.md",
+ "GPT_PLUGIN_PLAN.md": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\PIPD\\升級方案\\PIPD-LS-SP S4｜三合一小型升級\\討論\\PIPD-LS-SP S4｜三合一小型升級：Public Skills-only Plugin × 公開發行 × 極簡安裝體驗.md",
+ "TRIPLE_UPGRADE_BLUEPRINT_R2.md": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\PIPD\\升級方案\\PIPD-LS-SP S4｜三合一小型升級\\PIPD-LS-SP S4｜三合一小型升級藍圖.md",
+ "R3_EXTERNAL_ACCEPTANCE.md": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\PIPD\\驗收報告\\PIPD-LS-SP S4 修補後外部獨立複驗暨三合一小型升級實作驗收_20261013.md"
+}
+Then write C:\Projects\Agent_Workspace\HG-KSEOS\var\R6-20261014-far-remediation-and-repair\EXECUTE\out/acceptance/GOVERNING_DOCS_MANIFEST.json with, per file: target_name, source_path, source_sha256, published_sha256,
+published_bytes, published_chars, redacted_occurrence_count, note. Also record the total number of files and the redaction rule text.
+
+TASK 2 -- expand the R4 evidence return.
+Copy these into C:\Projects\Agent_Workspace\HG-KSEOS\var\R6-20261014-far-remediation-and-repair\EXECUTE\out/R4_EVIDENCE_EXPANDED/ : every file directly under C:/Projects/Agent_Workspace/PIPD/PIPD_S4_R4_EVIDENCE_RETURN/
+and C:/Projects/Agent_Workspace/PIPD/PIPD_S4_R5Z_SESSION_CONFORMANCE_RETURN/R5X_FINAL_RESULT.md if present.
+Then write C:\Projects\Agent_Workspace\HG-KSEOS\var\R6-20261014-far-remediation-and-repair\EXECUTE\out/R4_EVIDENCE_EXPANDED/LANE_RECEIPT_INDEX.json listing every file matching LANE_RECEIPT_*.json or LANE_ATTEMPTS_*.ndjson
+in C:/Projects/Agent_Workspace/PIPD/PIPD_S4_R5Z_SESSION_CONFORMANCE_RETURN/ with name, bytes, sha256, and one-line meaning.
+
+TASK 3 -- traceability table C:\Projects\Agent_Workspace\HG-KSEOS\var\R6-20261014-far-remediation-and-repair\EXECUTE\out/UPG_TRACEABILITY_R6.tsv  (columns: id, domain, status, evidence_pointer, owner)
+Rows to write:
+  UPG-P01 | plugin projection (skills-only ZIP) | PARTIAL | packaging/public-plugin/*, tools/build_public_plugin.py; ZIP reproduced at frozen commit 062d84a | Owner: brand/identity/semver remaining
+  UPG-P02 | Web/Agent install route + single MD fallback | PARTIAL | docs/install/README.md, docs/install/PIPD_AGENT_INSTALL_PROMPT.md, docs/install/PIPD_WEB_FALLBACK.md | Owner: real host first-run UAT
+  UPG-P03 | security/schema/provenance/negative/host UAT | PARTIAL | tests/test_public_plugin_packaging.py, tests/test_web_fallback.py, .github/workflows/public-plugin-verify.yml (CI green on 9643495) | External: 4-host UAT receipts
+  UPG-P04 | release manifest/rollback/portal handoff | PARTIAL | candidate ZIP + SOURCE_TO_PLUGIN_MAPPING.json + RELEASE_RECEIPT.json | Owner: version, tag, rollback runbook, portal handoff
+  MR-01 | governing documents published for external verifier | DONE | acceptance/GOVERNING_DOCS_MANIFEST.json | hermes
+  MR-02 | R4 evidence pack expanded | DONE | R4_EVIDENCE_EXPANDED/ | hermes
+  MR-03 | verification protocol published | DONE | VERIFICATION_PROTOCOL.md | hermes
+  MR-04 | merge/tag/release/publish + developer identity + brand assets | OWNER | R4 report section 10 | Owner/Human
+  MR-05 | lane pool ordering (arm binding) | OWNER | CHECKER_ARM_BINDING_LEDGER.md | HG-KSEOS lane owner
+  and then TR-01..TR-40, A01..A42, F01..F14 each as: <id> | three-in-one blueprint R2 atom | NOT_RUN | blueprint section 12 / Appendix C-E | future ChangeSet S4-UX-DISTRIBUTION-UPGRADE-R1
+Sort by id. Use a real TAB between fields.
+
+TASK 4 -- measurement (not a claim): rebuild the plugin ZIP.
+  cd C:/Projects/Agent_Workspace/PIPD/worktrees/r5y-wt
+  python tools/freeze_public_plugin_source.py --repo-root . --out C:\Projects\Agent_Workspace\HG-KSEOS\var\R6-20261014-far-remediation-and-repair\EXECUTE\out/zipcheck/ledger.json
+  python tools/build_public_plugin.py --ledger C:\Projects\Agent_Workspace\HG-KSEOS\var\R6-20261014-far-remediation-and-repair\EXECUTE\out/zipcheck/ledger.json --source-commit 062d84ae3e951d02b2ba6bb732359b18799d2864 --packaging-root packaging/public-plugin --out-dir C:\Projects\Agent_Workspace\HG-KSEOS\var\R6-20261014-far-remediation-and-repair\EXECUTE\out/zipcheck/c --generate-icons
+  then record bytes, sha256, zip entry count, SKILL.md count, presence of a root plugin.json and the seven camelCase fields into C:\Projects\Agent_Workspace\HG-KSEOS\var\R6-20261014-far-remediation-and-repair\EXECUTE\out/ZIP_REPRODUCTION.json.
+  PYTHON: C:/Projects/Agent_Workspace/HG-KSEOS/.venv/Scripts/python.exe
+
+TASK 5 -- write C:\Projects\Agent_Workspace\HG-KSEOS\var\R6-20261014-far-remediation-and-repair\EXECUTE\out/VERIFICATION_PROTOCOL.md containing: (a) how to obtain the evidence branch anonymously; (b) the exact rebuild commands
+from TASK 4 with the expected values you actually measured; (c) the three evidence checks (MANIFEST hash match, PKG 11/11 sha256 match against
+01_subject/PKG_INDEX_R6.json of the round, lane receipt required_arm == served_arm == opencode-go/glm-5.3-flash with ok=true and CLEAN window);
+(d) pass criteria; (e) the claim ceiling line: BUILD_PASS != PORTAL_APPROVED != PUBLISHED != HOST_QUALIFIED != S4_PASS; (f) the list of things
+an external verifier cannot do from the repo alone (host UAT, portal publication, public consumer verification, private plugin install).
+
+RULES: no writes outside C:\Projects\Agent_Workspace\HG-KSEOS\var\R6-20261014-far-remediation-and-repair\EXECUTE\out; no git commands that write; no network credentials; never claim PASS for something you did not run; if a task is
+impossible, say NOT_RUN with the reason. End your reply with the last line exactly: HGK_LANE_NONCE_OK

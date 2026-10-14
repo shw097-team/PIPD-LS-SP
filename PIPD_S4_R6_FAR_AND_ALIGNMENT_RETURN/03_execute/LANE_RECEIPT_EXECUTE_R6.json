@@ -1,0 +1,148 @@
+{
+  "schema": "HGK-LANE-RESOLUTION/1",
+  "lane": "EXECUTE",
+  "role": "writer",
+  "engine": "codex-cli",
+  "codex_executable": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\2e5e00daee91c61d\\codex.exe",
+  "codex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+  "relay_base": "http://127.0.0.1:10101/v1",
+  "codex_home_is_declared_lane_home": true,
+  "human_home_transport_acknowledged": false,
+  "skipped_arms": [
+    {
+      "rank": 2,
+      "arm": "nvidia/deepseek-ai/deepseek-v4.1-flash",
+      "reason": "UNREACHABLE_MEASURED_20261011"
+    }
+  ],
+  "transport": "opencodex relay via per-invocation -c openai_base_url (no config mutation)",
+  "transport_target": "http://127.0.0.1:10101/v1",
+  "front_door_port": null,
+  "front_door_note": "the lane-scoped pool door (10103 VERIFY_SECURITY / 10105 EXECUTE) carries the hop and ledgers every decision; the sealed single-model 10100 door is unchanged and unused; None here means direct to the relay on 10101",
+  "sandbox": "danger-full-access",
+  "sandbox_by_role_default": "danger-full-access",
+  "sandbox_escalation_authorised": false,
+  "cwd": "C:/Projects/Agent_Workspace/PIPD/worktrees/r5z-wt",
+  "side_effect_note": "danger-full-access has NO sandbox root: any absolute path is writable, so a read-only subject must be a frozen copy checked afterwards by digest",
+  "receipt_binding": "usage rows appended after this attempt started (byte offset bound)",
+  "pool": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\config\\lane-route-slots.candidate.json",
+  "candidates_considered": [
+    1
+  ],
+  "mode": "forced_rank",
+  "unguarded_escalation_acknowledged": false,
+  "inject_429_first": false,
+  "identity_gate": {
+    "state": "enforced",
+    "lane_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+    "relay_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes",
+    "arms": [
+      {
+        "rank": 1,
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "requirement": "none",
+        "ok": true,
+        "detail": "key-auth arm: no human-attended identity"
+      }
+    ],
+    "degraded": false,
+    "required_arm": "opencode-go/deepseek-v4.1-flash"
+  },
+  "authorization": {
+    "checked": false
+  },
+  "subject_mutation": {
+    "files_before": 1921,
+    "files_after": 1924,
+    "added": [
+      "C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R6-20261014-far-remediation-and-repair/02_plan/PKG_ALIGNMENT_R6.md",
+      "C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R6-20261014-far-remediation-and-repair/scripts/_prompt_r6_verify.txt",
+      "C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R6-20261014-far-remediation-and-repair/scripts/run_r6_verify.py"
+    ],
+    "removed": [],
+    "changed": [],
+    "mutated": false,
+    "mutated_known": true,
+    "inconclusive": false,
+    "verdict": "CLEAN",
+    "rule": "removed/changed => verdict void; added is recorded, not fatal; an empty side => INCONCLUSIVE (never a clean verdict from nothing)",
+    "guard_roots": [
+      "C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R6-20261014-far-remediation-and-repair",
+      "C:/Projects/Agent_Workspace/PIPD/worktrees/r5y-wt"
+    ],
+    "subject_digest_sha256_before": "bd468cf0927162bc19cfb9fc12501862cd3bf96b1aef7aa0c622d178ace81334",
+    "subject_digest_sha256_after": "d22a674e8aee01ad79c9fecc18736185bc091f698403e45a80b24651685cbfda"
+  },
+  "attempt_log_dir": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R6-20261014-far-remediation-and-repair\\EXECUTE\\attempt-1-20261014T061109Z",
+  "output_dir_policy": {
+    "mode": "derived",
+    "derived": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R6-20261014-far-remediation-and-repair\\EXECUTE\\attempt-1-20261014T061109Z",
+    "attempt_number": 1,
+    "attempt_marker": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R6-20261014-far-remediation-and-repair\\EXECUTE\\attempt-1-20261014T061109Z\\attempt.marker.json"
+  },
+  "repair_precondition": {
+    "checked": false
+  },
+  "remote_write_precheck": {
+    "mode": "DETECTION_ONLY",
+    "ran": false
+  },
+  "attempts": [
+    {
+      "rank": 1,
+      "provider": "opencode-go",
+      "model": "deepseek-v4.1-flash",
+      "transport_model": "opencode-go/deepseek-v4.1-flash",
+      "sandbox": "danger-full-access",
+      "reasoning_effort": null,
+      "exit": 0,
+      "seconds": 476.0,
+      "nonce_present": true,
+      "nonce_present_raw_stdout": true,
+      "nonce_source": "item.completed/agent_message",
+      "usage_rows_after_offset": 74,
+      "usage_offset": 21007699,
+      "usage_provider": "opencode-go",
+      "usage_model": "deepseek-v4.1-flash",
+      "usage_status": 200,
+      "usage_receipt_ok": true,
+      "usage_receipt_reason": "",
+      "usage_ledger_rewritten": false,
+      "usage_rows_shape_invalid": 0,
+      "usage_rows_undecodable": 0,
+      "carrier_lines_undecodable": 0,
+      "carrier_lines_surrogate": 0,
+      "credential_posture": {
+        "verdict": "INCONCLUSIVE",
+        "decision": "WARN_CONTINUE",
+        "reason": "helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN",
+        "prompt_capable_helper": null,
+        "origin": null,
+        "git_terminal_prompt": "0"
+      },
+      "attempt_log_dir": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R6-20261014-far-remediation-and-repair\\EXECUTE\\attempt-1-20261014T061109Z",
+      "stdout_byte_exact": true,
+      "stdout_path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R6-20261014-far-remediation-and-repair\\EXECUTE\\attempt-1-20261014T061109Z\\attempt-7836-1791958269-1-stdout.txt",
+      "stdout_bytes": 315260,
+      "stdout_sha256": "ae26e5f22ace50bcf5d20b8ed8d5cdfc6293d58bace07b0bc583e8b613bcc7b5",
+      "stderr_byte_exact": true,
+      "stderr_path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R6-20261014-far-remediation-and-repair\\EXECUTE\\attempt-1-20261014T061109Z\\attempt-7836-1791958269-1-stderr.txt",
+      "stderr_bytes": 3658,
+      "stderr_sha256": "64269fd782c14e0286bbf7469ac16266e21176cec0a7a614fbd8d7d63bc45e30",
+      "stdout_tail": " claim-ceiling line, and the cannot-do-from-repo-alone list.\\n\\nFinal self-check: manifest 5/5 match, raw-credential hits 0, ZIP matches expected, lane index 10, TSV 105 rows, protocol present.\\n\\n```\\nHGK_LANE_NONCE_OK\\n```\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":1878189,\"cached_input_tokens\":1718784,\"cache_write_input_tokens\":0,\"output_tokens\":31347,\"reasoning_output_tokens\":12671}}\n",
+      "stderr_tail": " -Command \\\\\\\"Remove-Item -LiteralPath \\\\\\\\\\\\\\\"C:\\\\\\\\\\\\\\\\Projects\\\\\\\\\\\\\\\\Agent_Workspace\\\\\\\\\\\\\\\\HG-KSEOS\\\\\\\\\\\\\\\\var\\\\\\\\\\\\\\\\R6-20261014-far-remediation-and-repair\\\\\\\\\\\\\\\\EXECUTE\\\\\\\\\\\\\\\\out\\\\\\\\\\\\\\\\_task1.py\\\\\\\\\\\\\\\" -Force\\\\nWrite-Output \\\\\\\\\\\\\\\"removed1=\\\\\\\"'$?\\\\\\\"'` rejected: blocked by policy\\\")\" }\n"
+    }
+  ],
+  "used_rank": 1,
+  "used_transport_model": "opencode-go/deepseek-v4.1-flash",
+  "used_seconds": 476.0,
+  "generated_utc": "2026-10-14T06:19:07.456920+00:00",
+  "claim_ceiling": "a pass here proves the Codex-CLI lane served this turn through the relay with a matching usage receipt; it is not an acceptance of any subject",
+  "ok": true,
+  "usage_receipt_ok": true,
+  "usage_rows_shape_invalid": 0,
+  "usage_rows_undecodable": 0,
+  "required_arm": "opencode-go/deepseek-v4.1-flash",
+  "served_arm": "opencode-go/deepseek-v4.1-flash"
+}

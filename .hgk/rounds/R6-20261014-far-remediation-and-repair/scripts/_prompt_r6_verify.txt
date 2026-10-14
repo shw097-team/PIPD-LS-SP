@@ -1,0 +1,22 @@
+ROLE: VERIFY_SECURITY lane (Independent Acceptance Officer), engine CODEX CLI, round R6-20261014-far-remediation-and-repair.
+VERIFY_ONLY: change nothing outside your output dir; the round tree and the worktrees are GUARDED.
+
+SUBJECT (the Tier-1 repair artifacts produced by the EXECUTE lane): C:\Projects\Agent_Workspace\HG-KSEOS\var\R6-20261014-far-remediation-and-repair\EXECUTE\out
+- acceptance/{R4_PROMPT.md,R4_REPORT.md,GPT_PLUGIN_PLAN.md,TRIPLE_UPGRADE_BLUEPRINT_R2.md,R3_EXTERNAL_ACCEPTANCE.md,GOVERNING_DOCS_MANIFEST.json}
+- R4_EVIDENCE_EXPANDED/ , UPG_TRACEABILITY_R6.tsv , ZIP_REPRODUCTION.json , VERIFICATION_PROTOCOL.md
+
+CHECK THESE FIVE ITEMS and report raw values (never PASS an unrun check):
+1. Manifest integrity: for every entry in GOVERNING_DOCS_MANIFEST.json recompute published_sha256/published_bytes and compare; report match count.
+2. Redaction compliance: scan every published document (and the manifest itself) for the credential-locator substring "API" + " KEY" + path separator + "GITHUB-REPO_SHW097-4.txt"; report every hit with file and line. The published copies must contain <REDACTED_CREDENTIAL_LOCATOR> instead. Also confirm the redaction did NOT alter anything else by comparing, for the shortest document, the published text to the source with only that substitution applied.
+3. Traceability table: read UPG_TRACEABILITY_R6.tsv and report row count and the exact status set per id family (UPG-*, MR-*, TR-*, A*, F*). Flag any row whose status is DONE/PASS without an existing evidence pointer.
+4. ZIP reproduction measurement: re-run the rebuild yourself in a fresh dir under your OUT (cd C:/Projects/Agent_Workspace/PIPD/worktrees/r5y-wt ; tools/freeze_public_plugin_source.py then tools/build_public_plugin.py --source-commit 062d84ae3e951d02b2ba6bb732359b18799d2864 --packaging-root packaging/public-plugin --out-dir <your OUT>/c --generate-icons) and report bytes/sha256/entry count/SKILL.md count vs the expected 68355 bytes / 2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199.
+5. Anti-mutation: list every file you created (all must be under your OUT) and state explicitly whether anything inside C:\Projects\Agent_Workspace\PIPD\.hgk\rounds\R6-20261014-far-remediation-and-repair or the r5y-wt worktree changed during your run.
+PYTHON: C:/Projects/Agent_Workspace/HG-KSEOS/.venv/Scripts/python.exe
+
+OUTPUT: write C:\Projects\Agent_Workspace\HG-KSEOS\var\R6-20261014-far-remediation-and-repair/VERIFY_SECURITY/VERDICT_R6.json with keys: item_1..item_5 each with verdict/method/raw values, overall (PASS only if all PASS),
+plus binding_evidence_note "the dispatcher receipt is binding, not this self-report", and DISCLOSE anything you could not verify.
+Print the JSON at the end. End your reply with the last line exactly: HGK_LANE_NONCE_OK
+
+CRITICAL DELIVERY RULE: a turn that ends without writing the VERDICT_R6.json file is a FAILED turn. Do the work first, write the file,
+and only then reply. If a check cannot be run, still write the file with that item marked NOT_RUN and the reason. The last line of your
+reply must be exactly: HGK_LANE_NONCE_OK  (the dispatcher requires this nonce; omitting it voids the turn).

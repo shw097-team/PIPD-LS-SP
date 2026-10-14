@@ -1,0 +1,33 @@
+{
+ "admission_id": "ADM-R6-20261014-001",
+ "round": "R6-20261014-far-remediation-and-repair",
+ "project": "PIPD-LS-SP-20261008",
+ "control_plane": "HG-KSEOS",
+ "runtime_plane": "canonical Hermes (governed)",
+ "lanes": {
+  "PLAN": {
+   "engine": "hermes",
+   "declared_model": "opencode-go/glm-5.3-flash",
+   "actual_model": "opencode-go/deepseek-v4.1-flash",
+   "deviation": "R5Z-TT-001 carried forward"
+  },
+  "EXECUTE": {
+   "engine": "CODEX CLI",
+   "required_arm": "opencode-go/deepseek-v4.1-flash",
+   "force_rank": 1
+  },
+  "VERIFY_SECURITY": {
+   "engine": "CODEX CLI",
+   "required_arm": "opencode-go/glm-5.3-flash",
+   "force_rank": 3
+  }
+ },
+ "guard_subjects": [
+  "C:/Projects/Agent_Workspace/PIPD/.hgk/rounds/R6-20261014-far-remediation-and-repair",
+  "C:/Projects/Agent_Workspace/PIPD/worktrees/r5z-ev-wt"
+ ],
+ "writable_root": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R6-20261014-far-remediation-and-repair\\EXECUTE\\out",
+ "claim_ceiling": "candidate-level repair + verifiability reinforcement; no merge/tag/release/publish",
+ "user_authorization": "user authorized direct execution of the FAR Tier-1 plan",
+ "created_utc": "2026-10-14T06:08:34.369279"
+}

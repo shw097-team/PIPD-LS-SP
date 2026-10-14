@@ -1,0 +1,79 @@
+{
+  "schema": "PIPD-R6-ZIP-REPRODUCTION/1",
+  "task": "TASK 4 measurement (not a claim): rebuild the plugin ZIP at frozen commit 062d84ae3e951d02b2ba6bb732359b18799d2864",
+  "source_worktree": "C:/Projects/Agent_Workspace/PIPD/worktrees/r5y-wt",
+  "source_commit": "062d84ae3e951d02b2ba6bb732359b18799d2864",
+  "source_tree": "f642e2b7900b0369f6925948d3a43aba0575016c",
+  "ledger": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R6-20261014-far-remediation-and-repair\\EXECUTE\\out\\zipcheck\\ledger.json",
+  "commands": [
+    "python tools/freeze_public_plugin_source.py --repo-root . --out <out>/zipcheck/ledger.json",
+    "python tools/build_public_plugin.py --ledger <out>/zipcheck/ledger.json --source-commit 062d84ae3e951d02b2ba6bb732359b18799d2864 --packaging-root packaging/public-plugin --out-dir <out>/zipcheck/c --generate-icons"
+  ],
+  "python": "C:/Projects/Agent_Workspace/HG-KSEOS/.venv/Scripts/python.exe",
+  "build_a": {
+    "zip": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R6-20261014-far-remediation-and-repair\\EXECUTE\\out\\zipcheck\\c\\pipd-ls-sp-public-skills.zip",
+    "bytes": 68355,
+    "sha256": "2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199",
+    "zip_entry_count": 56,
+    "skill_md_count": 8,
+    "skill_md_entries": [
+      "pipd-ls-sp-public-skills/skills/pipd-assurance-tqaep/SKILL.md",
+      "pipd-ls-sp-public-skills/skills/pipd-authority-source/SKILL.md",
+      "pipd-ls-sp-public-skills/skills/pipd-execution-contract/SKILL.md",
+      "pipd-ls-sp-public-skills/skills/pipd-package-project/SKILL.md",
+      "pipd-ls-sp-public-skills/skills/pipd-pd-bind/SKILL.md",
+      "pipd-ls-sp-public-skills/skills/pipd-pi-compile/SKILL.md",
+      "pipd-ls-sp-public-skills/skills/pipd-profile-tailor/SKILL.md",
+      "pipd-ls-sp-public-skills/skills/pipd-route-intake/SKILL.md"
+    ],
+    "root_plugin_json_present": true,
+    "camel_case_fields_present": {
+      "capabilities": true,
+      "category": true,
+      "defaultPrompt": true,
+      "developerName": true,
+      "displayName": true,
+      "longDescription": true,
+      "shortDescription": true
+    },
+    "camel_case_field_count": 7
+  },
+  "build_b": {
+    "zip": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R6-20261014-far-remediation-and-repair\\EXECUTE\\out\\zipcheck\\c2\\pipd-ls-sp-public-skills.zip",
+    "bytes": 68355,
+    "sha256": "2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199",
+    "zip_entry_count": 56,
+    "skill_md_count": 8,
+    "skill_md_entries": [
+      "pipd-ls-sp-public-skills/skills/pipd-assurance-tqaep/SKILL.md",
+      "pipd-ls-sp-public-skills/skills/pipd-authority-source/SKILL.md",
+      "pipd-ls-sp-public-skills/skills/pipd-execution-contract/SKILL.md",
+      "pipd-ls-sp-public-skills/skills/pipd-package-project/SKILL.md",
+      "pipd-ls-sp-public-skills/skills/pipd-pd-bind/SKILL.md",
+      "pipd-ls-sp-public-skills/skills/pipd-pi-compile/SKILL.md",
+      "pipd-ls-sp-public-skills/skills/pipd-profile-tailor/SKILL.md",
+      "pipd-ls-sp-public-skills/skills/pipd-route-intake/SKILL.md"
+    ],
+    "root_plugin_json_present": true,
+    "camel_case_fields_present": {
+      "capabilities": true,
+      "category": true,
+      "defaultPrompt": true,
+      "developerName": true,
+      "displayName": true,
+      "longDescription": true,
+      "shortDescription": true
+    },
+    "camel_case_field_count": 7
+  },
+  "determinism": {
+    "two_builds_identical": true
+  },
+  "expected": {
+    "sha256": "2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199",
+    "bytes": 68355
+  },
+  "matches_expected": true,
+  "claim_ceiling": "BUILD_PASS != PORTAL_APPROVED != PUBLISHED != HOST_QUALIFIED != S4_PASS",
+  "official_portal_verification": "NOT_EXECUTED"
+}

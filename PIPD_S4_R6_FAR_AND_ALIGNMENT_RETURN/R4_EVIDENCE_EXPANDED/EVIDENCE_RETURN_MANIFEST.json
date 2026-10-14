@@ -1,0 +1,122 @@
+{
+ "schema": "R5X-EVIDENCE-RETURN/1",
+ "generated_at": "2026-10-14T00:51:09.063452",
+ "task_id": "PIPD-LS-SP-HERMES-R4-R5-CLOSEOUT-CONTINUATION",
+ "subject": {
+  "repo": "shw097-team/PIPD-LS-SP",
+  "main": "224591431a164ab72a9423cd180e417e8a762403",
+  "stage_a": "759b9f0dc880b2f960363b2ceaa68446c770061d",
+  "stage_b": "940a37d00d5c1d12dfc9ae5d2325d8837b08501b",
+  "candidate_branch": "feat/s4r5x-manifest-fit-20261014",
+  "candidate_head": "e00ab7b68c914c9a531beb9b5cb6e5ebbd794277",
+  "candidate_zip_sha256": "08025b43aa20306cf33c6528c49ddfdee53bf1a211a1e837d18c4453e01595a8"
+ },
+ "compiler": {
+  "contract_sha256": "d409185eb0c3348f0f77097e4ff3f097f511d4f507d4b04ebf3d8691d477e97b",
+  "verdict": "PROMPT_COMPILE_PASS",
+  "receipt_path": ".hgk/rounds/R5-20261014-s4-r4-closeout/compiler/compiled/compiler-receipt.json",
+  "duplication": "thin-prompt.md bytes identical across two independent compile runs"
+ },
+ "admission": {
+  "requirements": 7,
+  "taskspecs": 14,
+  "taskspecs_auto_draft": 7,
+  "taskspecs_explicit_admitted": 7,
+  "workorders": 7,
+  "writer": "codex-cli-deepseek-v4.1-flash",
+  "readback": ".hgk/rounds/R5-20261014-s4-r4-closeout/admission/r5x_readback.json",
+  "correction": "v1 under-reported taskspecs (7); corrected per checker finding R5X-TT-001"
+ },
+ "kanban_swarm": {
+  "board": "r5x-closeout-20261014",
+  "root_id": "t_94e7cfe7",
+  "worker_ids": [
+   "t_7b8c72ab",
+   "t_f560b992",
+   "t_ed10c0ff",
+   "t_3c441ef1",
+   "t_f814e492",
+   "t_214f3eb0",
+   "t_400f6a58"
+  ],
+  "verifier_id": "t_807388c0",
+  "synthesizer_id": "t_9f886125"
+ },
+ "pieces": [
+  {
+   "id": "P01_source_manifest",
+   "path": ".hgk/rounds/R5-20261014-s4-r4-closeout/source-freeze/sources_manifest.json",
+   "sha256": "35c87ce8b6a4542d393b1d8958fe1dd98a3cfeb2ac66c57bc64700033e0f89ae"
+  },
+  {
+   "id": "P02_platform_drift",
+   "path": "evidence/PLATFORM_DRIFT_PROBE.json",
+   "status": "PASS (fresh fetch 2026-10-14; root plugin.json remains supported)"
+  },
+  {
+   "id": "P03_manifest_fit",
+   "path": "branch diff Stage B..candidate_head: 1 file, +5/-1 (plugin.json com.openai.interface fields)",
+   "status": "PASS"
+  },
+  {
+   "id": "P04_zip_2x",
+   "path": "evidence/plugin_build/pipd-plugin-build-{a,b}/pipd-ls-sp-public-skills.zip",
+   "sha256": "08025b43aa20306cf33c6528c49ddfdee53bf1a211a1e837d18c4453e01595a8",
+   "status": "PASS (equal sha twice from frozen head)"
+  },
+  {
+   "id": "P05_packaging_tests",
+   "path": "tests/test_public_plugin_packaging.py + tests/test_web_fallback.py on candidate head",
+   "status": "PASS 53 passed, 1 skipped, 13 subtests"
+  },
+  {
+   "id": "P06_negatives",
+   "path": ".hgk/rounds/R5-20261014-s4-r4-closeout/gates/NEGATIVE_CASES.json",
+   "status": "PASS (PORTAL-01..03 probes recorded)"
+  },
+  {
+   "id": "P07_private_uat",
+   "path": "evidence/plugin_private_host_uat.json",
+   "status": "READY/NOT_VERIFIED (HumanGate)"
+  },
+  {
+   "id": "P08_release_tuple",
+   "path": "evidence/wheel_and_release_tuple.json",
+   "status": "STUB_READY (owner gates tag/publish)"
+  },
+  {
+   "id": "P09_merge_decisions",
+   "path": "",
+   "status": "NOT_RUN (PR#3 then PR#5 merges are Repo Owner gates)"
+  },
+  {
+   "id": "P10_independent_challenge",
+   "path": "HG-KSEOS/var/R5-20261014-s4-r4-closeout/VERIFY_SECURITY/checker-verdict.json",
+   "status": "PASS (final; A-G all PASS after R5X-TT-001 correction; recheck=true; checker openai-codex/gpt-6.1-sol medium)"
+  }
+ ],
+ "owner_gates_open": [
+  "PR#3 merge (Repo Owner)",
+  "PR#5 rebase/merge (Repo Owner)",
+  "preview tag SemVer + Release (Release Owner)",
+  "private import execution (entitled account)",
+  "public directory submission (Publisher)"
+ ],
+ "claim_ceiling": "CANDIDATE_ONLY_LOCAL_EVIDENCE",
+ "independent_challenge": {
+  "checker": "openai-codex/gpt-6.1-sol (reasoning medium) via CODEX CLI HG-KSEOS VERIFY_SECURITY lane, arm B, round R5-20261014-s4-r4-closeout",
+  "first_verdict": "FAIL (G: taskspec count 7/14/7 vs claimed 7/7/7)",
+  "correction": "R5X-TT-001: readback v1 under-reported taskspecs; corrected to 7 req / 14 TS (7 auto DRAFT + 7 explicit ADMITTED) / 7 WO",
+  "final_verdict": "PASS",
+  "recheck": true,
+  "claim_ceiling": "LOCAL_CANDIDATE_EVIDENCE_ONLY; no production/portal/owner gates claimed"
+ },
+ "gates_summary": {
+  "MERGE": "NOT_RUN (owner gate: PR#3 then PR#5)",
+  "PREVIEW": "NOT_RUN (owner gate: preview.4 tag+release after merge)",
+  "PRIVATE_PLUGIN": "READY_NOT_VERIFIED (HumanGate: entitled account; ZIP candidate + UAT procedure ready)",
+  "PUBLIC_DIRECTORY": "HOLD (per R4 report; separate publisher channel)",
+  "FULL_S4": "PARTIAL (per R4 report, unchanged)",
+  "CANDIDATE_EVIDENCE": "PASS (independent checker A-G)"
+ }
+}

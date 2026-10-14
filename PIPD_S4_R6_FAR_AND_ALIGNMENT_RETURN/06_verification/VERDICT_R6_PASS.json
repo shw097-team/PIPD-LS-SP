@@ -1,0 +1,91 @@
+{
+  "round": "R6-20261014-far-remediation-and-repair",
+  "lane": "VERIFY_SECURITY",
+  "engine": "CODEX CLI",
+  "verified_at_utc": "2026-10-14T06:35:00Z",
+  "subject": "C:/Projects/Agent_Workspace/HG-KSEOS/var/R6-20261014-far-remediation-and-repair/EXECUTE/out",
+  "item_1": {
+    "verdict": "PASS",
+    "method": "Recomputed SHA-256 and byte size of each of the 5 manifest-targeted published documents with the specified Python interpreter; compared with published_sha256 and published_bytes declared in GOVERNING_DOCS_MANIFEST.json.",
+    "match_count": 5,
+    "total_entries": 5,
+    "mismatches": []
+  },
+  "item_2": {
+    "verdict": "PASS",
+    "method": "Scanned every published document and the governing manifest for the literal credential locator and for the redacted token; compared the shortest published document (R4_PROMPT.md) byte-for-byte against its source after applying the manifest-substitution rule.",
+    "literal_hits": [],
+    "redacted_token_occurrences": {
+      "R4_PROMPT.md": [
+        23,
+        100
+      ],
+      "GOVERNING_DOCS_MANIFEST.json": [
+        3,
+        6,
+        18
+      ],
+      "VERIFICATION_PROTOCOL.md": [
+        74
+      ]
+    },
+    "byte_equal_after_substitution": true,
+    "note": "The manifest corpus uses the path-separator form of the locator; the source file stores it inside a longer machine-local path. Redacting the manifest-defined locator from the source reproduces the published bytes hash c9a597a11ffa0ccaa07a1476220f89b68e50432cde8b8cee4b39a2f0c95e9a1b exactly."
+  },
+  "item_3": {
+    "verdict": "PASS",
+    "method": "Read all 105 rows of UPG_TRACEABILITY_R6.tsv; grouped by id family and audited status/evidence_pointer pairs.",
+    "row_count": 105,
+    "status_set_per_family": {
+      "UPG-*": {
+        "PARTIAL": 4
+      },
+      "MR-*": {
+        "DONE": 3,
+        "OWNER": 2
+      },
+      "TR-*": {
+        "NOT_RUN": 40
+      },
+      "A*": {
+        "NOT_RUN": 42
+      },
+      "F*": {
+        "NOT_RUN": 14
+      }
+    },
+    "rows_with_DONE_or_PASS_lacking_evidence": []
+  },
+  "item_4": {
+    "verdict": "PASS",
+    "method": "Re-ran freeze_public_plugin_source.py and build_public_plugin.py from the r5y-wt worktree in a fresh directory under the VERIFY_SECURITY output, using the specified source commit and packaging root.",
+    "bytes": 68355,
+    "sha256": "2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199",
+    "entry_count": 56,
+    "skill_md_count": 8,
+    "expected_bytes": 68355,
+    "expected_sha256": "2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199",
+    "byte_identical_to_execute_lane_zip": true,
+    "rebuild_note": "The initial rebuild command omitted the required --ledger argument; freeze_public_plugin_source.py supports --out to persist the frozen ledger, so it was used to pass the ledger explicitly to build_public_plugin.py. Result reproduces the expected digest."
+  },
+  "item_5": {
+    "verdict": "PASS",
+    "method": "Inspected the round tree and git status of the r5y-wt worktree after all reads and rebuilds.",
+    "files_created_in_this_run": [
+      "C:/Projects/Agent_Workspace/HG-KSEOS/var/R6-20261014-far-remediation-and-repair/VERIFY_SECURITY/frozen_ledger.json",
+      "C:/Projects/Agent_Workspace/HG-KSEOS/var/R6-20261014-far-remediation-and-repair/VERIFY_SECURITY/out_c/pipd-ls-sp-public-skills.zip",
+      "C:/Projects/Agent_Workspace/HG-KSEOS/var/R6-20261014-far-remediation-and-repair/VERIFY_SECURITY/out_c/pipd-ls-sp-public-skills.zip.sha256",
+      "C:/Projects/Agent_Workspace/HG-KSEOS/var/R6-20261014-far-remediation-and-repair/VERIFY_SECURITY/out_c/RELEASE_RECEIPT.json",
+      "C:/Projects/Agent_Workspace/HG-KSEOS/var/R6-20261014-far-remediation-and-repair/VERIFY_SECURITY/out_c/SOURCE_TO_PLUGIN_MAPPING.json",
+      "C:/Projects/Agent_Workspace/HG-KSEOS/var/R6-20261014-far-remediation-and-repair/VERIFY_SECURITY/VERDICT_R6.json"
+    ],
+    "changed_inside_round_tree": "NO",
+    "changed_inside_r5y_wt_worktree": "NO"
+  },
+  "overall": "PASS",
+  "binding_evidence_note": "the dispatcher receipt is binding, not this self-report",
+  "disclose": [
+    "Initial rebuild omission of the required --ledger argument was corrected by writing the frozen ledger into the VERIFY_SECURITY out directory and passing it explicitly; output still reproduces the expected digest.",
+    "The manifest-declared credential locator string differs from the longer machine-local path present in the source document; applying the manifest-defined substitution reproduces the published bytes exactly, so no non-redaction mutation is detected."
+  ]
+}
