@@ -4,12 +4,24 @@
   "extensions": {
     "com.openai": {
       "interface": {
+        "capabilities": [
+          "Source-bound planning",
+          "Acceptance preparation",
+          "Evidence-driven refusal"
+        ],
+        "category": "Developer Tools",
+        "defaultPrompt": [
+          "Help me prepare a source-bound pre-implementation plan.",
+          "Audit missing evidence before a pre-development handoff.",
+          "Plan safe ECP and TQAEP acceptance tests."
+        ],
         "developerName": "shw097-team",
         "displayName": "PIPD-LS-SP Public Skills",
         "display_name": "PIPD-LS-SP Public Skills",
         "longDescription": "Eight fail-closed lifecycle skills packaged deterministically as an Agent Plugins 1.0 candidate. claim_ceiling=LOCAL_PACKAGER_PASS_ONLY; the vendor validator and the Portal scan are NOT_EXECUTED.",
         "shortDescription": "Source-bound PIPD lifecycle skills"
-      }
+      },
+      "onboardingSkill": "./skills/pipd-route-intake/SKILL.md"
     },
     "com.pipd.s4": {
       "display_name": "PIPD-LS-SP Public Skills",
