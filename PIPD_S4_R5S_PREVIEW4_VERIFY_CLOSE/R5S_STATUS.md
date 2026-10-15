@@ -11,7 +11,7 @@ frozen_subject:
   main_commit: dba4b19456777d3b597fdf71480f6423dd974243
   main_tree: d00175d5aef6e031d282bb018f9a538184c48681
   release: v0.1.1-preview.4（annotated tag 0618d73c… → commit cc6c1930…, 7 assets, 非 draft, prerelease）
-  evidence_branch: r5r-evidence-return-20261014 @ 389d9b5a2ffcc2959a3b3ee2c3e67ca644ef9db4
+  evidence_branch: r5r-evidence-return-20261014（本回合歷次 push：389d9b5a… → 202411e5… → 01dbdc44… → 79b20ea1…；本檔所述內容凍結於 79b20ea1ea4b326627540051363b4ad9ca14fcdc，其後若有排版修正屬後續 commit）
   open_pull_requests: 0
 compiler_verdict: PROMPT_COMPILE_NOT_RUN_THIS_SESSION（前回合 R5R 已產生 compiler receipts；本回合依 delta-only 規則未重編譯）
 hgk_admission: ADMITTED_READ_WRITE_SCOPED（沿用前回合 WorkOrder/ExecutionBinding；本回合只新增唯讀驗證、隔離 worktree 與本回合 var/ 產物）
