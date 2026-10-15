@@ -1,0 +1,33 @@
+READ-ONLY independent check. Derive from the artifact; do not read or restate any writer report.
+
+SUBJECT: C:/Projects/Agent_Workspace/PIPD/worktrees/r5s-verify-wt (commit dba4b19)
+INTERPRETER - try in this order and record which one worked:
+  1) C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe
+  2) the `python` / `py -3.11` on PATH
+  3) any python 3.11 you can actually execute
+If you substitute, say so. If NO interpreter can be executed at all, DO NOT stop: read
+src/pipd_ls_sp/requirements.py yourself and report the nine cases as READING_ONLY verdicts
+(mark them READING_ONLY, never CONFIRMED, so the two kinds of evidence stay distinguishable).
+Every run: cwd = the subject root, PYTHONPATH=<subject>/src, PYTHONDONTWRITEBYTECODE=1.
+Write NOTHING inside the subject; no temp files: use `python -c` one-liners. Note
+`requirements.compile_requirements(text, [dir])` treats a DIRECTORY source as the inline clause
+text, so pass the subject root as that directory and no temp file is needed.
+
+STEP 1: python -m unittest discover -s tests -p test_atomic_requirements.py -t . -v
+        report its exit code and last three lines, or say why it could not start.
+STEP 2: one `python -c` per input; report atom count and risk_guard.polarity list:
+        a) 系統不允許傳送個資。               1 atom MUST NOT
+        b) The system should not disclose customer secrets.   1 atom MUST NOT
+        c) 不得上傳個資，不得對外分享。         2 atoms both MUST NOT
+        d) 不得上傳資料，保留紀錄。             2 atoms, second inherits MUST NOT
+        e) 不得使用必須的憑證。                 not refused, 1 atom MUST NOT
+        f) 系統不得上傳至 api.example.com。      1 atom, domain must not split
+        g) 版本必須為 v1.2.3。                  1 atom
+        h) 系統必須備份資料。系統必須驗證資料。   2 atoms
+        i) Do task A.Task B must run.          2 atoms
+
+OUTPUT: nothing but JSON on stdout. FIRST line exactly HGK_LANE_NONCE_OK, LAST line exactly
+HGK_LANE_NONCE_OK. Between them one JSON object:
+{"nonce":"HGK_LANE_NONCE_OK","subject_commit":"...","interpreter_used":"...","unittest":{"rc":0,"tail":"..."},
+ "cases":[{"id":"a","expected":"...","actual":"...","verdict":"CONFIRMED|REFUTED|READING_ONLY|UNCERTAIN"}],
+ "disagreement":[],"uncertainty":[],"claim_ceiling":"independent re-check of the named cases on the frozen commit only"}

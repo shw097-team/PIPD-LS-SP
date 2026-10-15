@@ -1,0 +1,25 @@
+READ-ONLY independent check. Derive everything from the artifact; do not read or restate any writer report. If a step blocks you, mark it UNCERTAIN and finish - do not loop.
+
+SUBJECT: C:/Projects/Agent_Workspace/PIPD/worktrees/r5s-verify-wt (commit dba4b19)
+INTERPRETER (pin by absolute path): C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe
+Every run: cwd = the subject root, PYTHONPATH=<subject>/src, PYTHONDONTWRITEBYTECODE=1.
+Write NOTHING inside the subject and create no files: use `python -c` one-liners only. The API
+`requirements.compile_requirements(text, [dir])` treats a DIRECTORY source as the inline clause text,
+so you can pass the subject root as the dir and no temp file is needed.
+
+STEP 1: run  python -m unittest discover -s tests -p test_atomic_requirements.py -t . -v
+        report the exit code and the last three lines.
+STEP 2: one `python -c` per input below; report the atom count and the risk_guard.polarity list:
+        a) 系統不允許傳送個資。               expect 1 atom MUST NOT
+        b) The system should not publish customer secrets.   expect 1 atom MUST NOT
+        c) 不得上傳個資，不得對外分享。         expect 2 atoms, both MUST NOT
+        d) 不得上傳資料，保留紀錄。             expect 2 atoms, second inherits MUST NOT
+        e) 不得使用必須的憑證。                 expect NOT refused, 1 atom MUST NOT
+        f) 系統不得上傳至 api.example.com。     expect 1 atom (the domain must not split)
+        g) 版本必須為 v1.2.3。                  expect 1 atom
+        h) 系統必須備份資料。系統必須驗證資料。   expect 2 atoms
+        i) Do task A.Task B must run.          expect 2 atoms
+
+OUTPUT: nothing but JSON on stdout. FIRST line exactly HGK_LANE_NONCE_OK, LAST line exactly
+HGK_LANE_NONCE_OK. Between them:
+{"nonce":"HGK_LANE_NONCE_OK","subject_commit":"...","unittest":{"rc":0,"tail":"..."},"cases":[{"id":"a","expected":"...","actual":"...","verdict":"CONFIRMED|REFUTED|UNCERTAIN"}],"uncertainty":[],"claim_ceiling":"independent re-check of the named cases on the frozen commit only"}

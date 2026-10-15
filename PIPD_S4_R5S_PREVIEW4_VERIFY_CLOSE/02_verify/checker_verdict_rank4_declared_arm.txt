@@ -1,0 +1,74 @@
+HGK_LANE_NONCE_OK
+{
+  "nonce": "HGK_LANE_NONCE_OK",
+  "subject_commit": "dba4b19456777d3b597fdf71480f6423dd974243",
+  "interpreter_used": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/hermes-agent/venv/Scripts/python.exe",
+  "interpreter_selection": "Substituted PATH python, Python 3.11.17. The first requested executable could not be found. PATH python executed successfully; py -3.11 reported 'No installed Python found!' (rc 112).",
+  "unittest": {
+    "rc": 1,
+    "tail": "Ran 35 tests in 23.313s\n\nFAILED (errors=13)",
+    "explanation": "The suite started, but 13 errors arose from tempfile.TemporaryDirectory: FileNotFoundError, no usable temporary directory in the read-only environment."
+  },
+  "cases": [
+    {
+      "id": "a",
+      "expected": "1 atom; polarity [MUST NOT]",
+      "actual": {"atom_count": 1, "polarity": ["MUST NOT"]},
+      "verdict": "CONFIRMED"
+    },
+    {
+      "id": "b",
+      "expected": "1 atom; polarity [MUST NOT]",
+      "actual": {"atom_count": 1, "polarity": ["MUST NOT"]},
+      "verdict": "CONFIRMED"
+    },
+    {
+      "id": "c",
+      "expected": "2 atoms; polarity [MUST NOT, MUST NOT]",
+      "actual": {"atom_count": 2, "polarity": ["MUST NOT", "MUST NOT"]},
+      "verdict": "CONFIRMED"
+    },
+    {
+      "id": "d",
+      "expected": "2 atoms; second inherits MUST NOT",
+      "actual": {"atom_count": 2, "polarity": ["MUST NOT", "MUST NOT"]},
+      "verdict": "CONFIRMED"
+    },
+    {
+      "id": "e",
+      "expected": "Not refused; 1 atom; polarity [MUST NOT]",
+      "actual": {"atom_count": 1, "polarity": ["MUST NOT"]},
+      "verdict": "CONFIRMED"
+    },
+    {
+      "id": "f",
+      "expected": "1 atom; domain must not split",
+      "actual": {"atom_count": 1, "polarity": ["MUST NOT"], "clauses": ["系統不得上傳至 api.example.com"]},
+      "verdict": "CONFIRMED"
+    },
+    {
+      "id": "g",
+      "expected": "1 atom",
+      "actual": {"atom_count": 1, "polarity": ["MUST"]},
+      "verdict": "CONFIRMED"
+    },
+    {
+      "id": "h",
+      "expected": "2 atoms",
+      "actual": {"atom_count": 2, "polarity": ["MUST", "MUST"]},
+      "verdict": "CONFIRMED"
+    },
+    {
+      "id": "i",
+      "expected": "2 atoms",
+      "actual": {"atom_count": 2, "polarity": ["MUST", "MUST"]},
+      "verdict": "CONFIRMED"
+    }
+  ],
+  "disagreement": [],
+  "uncertainty": [
+    "The unittest suite cannot be claimed passing: it exited 1 with 13 temporary-directory errors under read-only restrictions. All nine named cases independently executed successfully, each in its own python -c invocation using the subject root as the directory source."
+  ],
+  "claim_ceiling": "independent re-check of the named cases on the frozen commit only"
+}
+HGK_LANE_NONCE_OK

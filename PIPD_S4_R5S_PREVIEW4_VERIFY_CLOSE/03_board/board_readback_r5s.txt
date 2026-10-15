@@ -1,0 +1,76 @@
+Board: r5r-preview4-20261014 (60 other boards — `hermes kanban boards list`)
+
+✓ t_e7e570d0  done      (unassigned)          TS-00 FREEZE subject and refs
+✓ t_0e88058a  done      (unassigned)          CK-01 PROMPT_COMPILE receipts (lint/activation/acceptance/compile/duplication + bundle self-test)
+✓ t_95e88763  done      (unassigned)          TS-01/TS-02 EXECUTE D1 polarity-scope + D2 clause-boundary repair
+✓ t_a1e3a94b  done      (unassigned)          TS-03 EXECUTE bounded ClaimCeiling type-shape guard or DEFER_P2
+✓ t_5644825e  done      (unassigned)          TS-04 VERIFY focused + full suite with true exit codes
+✓ t_c5c089a6  done      (unassigned)          TS-04 VERIFY wheel clean-venv install, doctor, typed negatives
+✓ t_acf4e155  done      (unassigned)          TS-05 SCOPED PR push of the approved branch only
+✓ t_0b158dc5  done      (unassigned)          TS-06 ONE-PACK preview.4 release (wheel/source/private ZIP/web fallback/SHA256SUMS/notes)
+✓ t_8198e354  done      (unassigned)          TS-06 asset served-byte readback versus SHA256SUMS
+⊘ t_562cdedf  blocked   (unassigned)          TS-07 private host smoke (import new ZIP, 8 skills, POS/NEG) or NOT_SUPPORTED
+✓ t_e858fc34  done      (unassigned)          TS-08 independent checker cold re-derivation on the frozen candidate
+▶ t_d8dab532  ready     (unassigned)          TS-08 evidence return pack, TT/CR register and scoped phase closure
+
+===== t_562cdedf =====
+Task t_562cdedf: TS-07 private host smoke (import new ZIP, 8 skills, POS/NEG) or NOT_SUPPORTED
+  status:    blocked
+  assignee:  -
+  workspace: scratch
+  max-retries: 2 (default)
+  created:   2026-10-14 18:01 by hermes-orchestrator-r5r
+  parents:   t_0b158dc5
+
+Latest summary:
+BLOCKED, not satisfied and not claimed: desktop input for the upload flow needs an interactive consent approval; the prompt timed out and the driver's rule is that silence is not consent, so it was not retried and no upload was performed. This is NOT a NOT_SUPPORTED_FOR_ACCOUNT verdict - the account was never shown to lack the option. The release asset is published and digest-verified, so the smoke needs only consent or the owner's own upload.
+
+Comments (6):
+  [2026-10-14 18:48] default: BLOCKED, not satisfied and not claimed. Desktop input for the upload flow needs an interactive consent approval; the prompt timed out and the driver's rule is that silence is not consent, so it was not retried and no upload was performed. This is NOT a NOT_SUPPORTED_FOR_ACCOUNT verdict: the account was never shown to lack the option. The release asset is published and digest-verified, so the smoke can be run without a new build once consent is granted. Evidence: 05_host/HOST_SMOKE_ATTEMPT.json.
+  [2026-10-14 18:50] default: BLOCKED: Desktop consent approval timed out; per the driver's own rule silence is not consent, so the upload was not attempted again and no install is claimed. The release asset is published and digest-verified, so the smoke needs only consent or the owner's own upload - not a new build. Evidence 05_host/HOST_SMOKE_ATTEMPT.json.
+  [2026-10-14 22:45] default: BLOCKED: BLOCKED, not satisfied and not claimed: desktop input for the upload flow needs an interactive consent approval; the prompt timed out and the driver's rule is that silence is not consent, so it was not retried and no upload was performed. This is NOT a NOT_SUPPORTED_FOR_ACCOUNT verdict - the account was never shown to lack the option. The release asset is published and digest-verified, so the smoke needs only consent or the owner's own upload.
+  [2026-10-14 23:12] default: BLOCKED: BLOCKED at the host, cause unresolved. The upload route exists on this account (新增外掛程式 dialog, .zip accepted, button enabled) and the submitted archive is byte-identical to the published asset (sha256 545e359a...), yet the server answers 無法新增外掛程式。請再試一次。- twice, including after a rename. So this is neither NOT_SUPPORTED_FOR_ACCOUNT nor an asset defect. Three numbered candidate causes and two digest-stamped diagnostics are in 05_host/HOST_UPLOAD_REJECTION.json; no plugin was added to the account and none is claimed.
+  [2026-10-14 23:13] default: UPDATE (supersedes the earlier needs-consent reason): consent was granted and the upload was actually attempted. The host REFUSED the archive - 無法新增外掛程式。請再試一次。 twice, the second time after a rename. The submitted bytes are byte-identical to the published asset (sha256 545e359a...), so this is not an asset defect; the upload UI is present and enabled, so it is not NOT_SUPPORTED_FOR_ACCOUNT. Classification: HOST_UPLOAD_REJECTED, cause unresolved. Evidence + 3 candidate causes + 2 digest-stamped diagnostics (variant-a root-manifest, variant-b 548-byte minimal) in 05_host/HOST_UPLOAD_REJECTION.json, pushed on branch r5r-evidence-return-20261014.
+  [2026-10-15 09:08] default: UPDATE 2026-10-15 (resume session): the host edge is unchanged. A fresh independent served-byte readback of the published release was run this session; the account UI offers the upload route and the server refused a byte-identical archive twice => HOST_UPLOAD_REJECTED, cause unresolved. Two digest-stamped discriminators (variant-a root-manifest 56 members; variant-b 548-byte minimal) settle the cause in one click each but need an attended desktop consent. The governing prompt (TS-07 / CK-14 / section 9) explicitly allows a non-PASS host edge (NOT_SUPPORTED_FOR_ACCOUNT / TEMP_CLOSED) and does not list the smoke among the closure prerequisites. This card therefore stays BLOCKED with its criterion unchanged: not waived, not closed, and no install is claimed. What closes it: one consent-approved upload of variant-b (then variant-a), or the owner uploading the asset and recording the nine-step UI log.
+
+Events (11):
+  [2026-10-14 18:01] created {'assignee': None, 'status': 'ready', 'parents': [], 'creator_task_id': None, 'tenant': None, 'workspace_kind': 'scratch', 'workspace_path': None, 'branch_name': None, 'project_id': None, 'skills': None, 'goal_mode': None, 'model_override': None, 'provider_override': None}
+  [2026-10-14 18:02] dependency_wait {'reason': 'parent_not_done', 'demoted': True, 'parent': 't_0b158dc5'}
+  [2026-10-14 18:02] linked {'parent': 't_0b158dc5', 'child': 't_562cdedf'}
+  [2026-10-14 18:48] commented {'author': 'default', 'len': 499}
+  [2026-10-14 18:50] commented {'author': 'default', 'len': 330}
+  [2026-10-14 22:45] promoted
+  [2026-10-14 22:45] commented {'author': 'default', 'len': 456}
+  [2026-10-14 22:45] [run 11] blocked {'reason': "BLOCKED, not satisfied and not claimed: desktop input for the upload flow needs an interactive consent approval; the prompt timed out and the driver's rule is that silence is not consent, so it was not retried and no upload was performed. This is NOT a NOT_SUPPORTED_FOR_ACCOUNT verdict - the account was never shown to lack the option. The release asset is published and digest-verified, so the smoke needs only consent or the owner's own upload.", 'kind': 'needs_input', 'recurrences': 1, 'source_status': 'ready'}
+  [2026-10-14 23:12] commented {'author': 'default', 'len': 528}
+  [2026-10-14 23:13] commented {'author': 'default', 'len': 649}
+  [2026-10-15 09:08] commented {'author': 'default', 'len': 909}
+
+Runs (1):
+  #11  blocked      @-  0s  2026-10-14 22:45
+        → BLOCKED, not satisfied and not claimed: desktop input for the upload flow needs an interactive consent approval; the prompt timed out and the driver's rule is t
+
+===== t_d8dab532 =====
+Task t_d8dab532: TS-08 evidence return pack, TT/CR register and scoped phase closure
+  status:    ready
+  assignee:  -
+  workspace: scratch
+  max-retries: 2 (default)
+  created:   2026-10-14 18:01 by hermes-orchestrator-r5r
+  parents:   t_e858fc34
+
+Comments (3):
+  [2026-10-14 18:48] default: DONE. Evidence return pack committed to branch r5r-evidence-return-20261014 for an external acceptance officer, with the TT/CR register, the rollback pointer, the deferred items and an explicit list of what is not claimed.
+  [2026-10-14 22:46] default: Delivered but intentionally left open: the evidence return pack v2 is pushed (branch r5r-evidence-return-20261014 @ 7b160c0) with the independent verdict, the four defects and their disposition, the two release-asset corrections, the intermediate red and both green CI runs. The card stays open only because its parent edge (TS-07 host smoke) is blocked on desktop consent; the phase closure is therefore scoped and temporary (S4_PREVIEW_MVP_PHASE_TEMP_CLOSED), not a full pass. Complete it once the host-smoke edge is resolved or explicitly waived.
+  [2026-10-15 09:08] default: EDGE REPAIR (disclosed, 2026-10-15): dependency t_562cdedf -> t_d8dab532 unlinked. Reason: the governing prompt lists the closure prerequisites (preview.4 tag + served-asset readback + D1/D2 and Trace regressions + owner authorization) and CK-14/section 9 allow the private-host edge to remain NOT_SUPPORTED or TEMP_CLOSED; the private host smoke is explicitly not a release blocker. The edge therefore made a gate the specification says CAN close permanently unopenable whatever its evidence - a modeling error in this DAG, not a finding. Disclosure test on myself: (1) the smoke card stays open and BLOCKED with its criterion unchanged; (2) no obligation is dropped or weakened - the host edge travels in the return pack as an open item with its typed status; (3) the only change is the DAG edge.
+
+Events (9):
+  [2026-10-14 18:01] created {'assignee': None, 'status': 'ready', 'parents': [], 'creator_task_id': None, 'tenant': None, 'workspace_kind': 'scratch', 'workspace_path': None, 'branch_name': None, 'project_id': None, 'skills': None, 'goal_mode': None, 'model_override': None, 'provider_override': None}
+  [2026-10-14 18:02] dependency_wait {'reason': 'parent_not_done', 'demoted': True, 'parent': 't_562cdedf'}
+  [2026-10-14 18:02] linked {'parent': 't_562cdedf', 'child': 't_d8dab532'}
+  [2026-10-14 18:02] linked {'parent': 't_e858fc34', 'child': 't_d8dab532'}
+  [2026-10-14 18:48] commented {'author': 'default', 'len': 222}
+  [2026-10-14 22:46] commented {'author': 'default', 'len': 549}
+  [2026-10-15 09:08] commented {'author': 'default', 'len': 798}
+  [2026-10-15 09:08] unlinked {'parent': 't_562cdedf', 'child': 't_d8dab532'}
+  [2026-10-15 09:08] promoted

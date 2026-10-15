@@ -1,0 +1,33 @@
+You are an INDEPENDENT VERIFY/SECURITY checker working read-only. RE-DERIVE every result yourself from the artifact. Do NOT read, cite or restate any writer's report, verdict file or commit message; if the artifact does not let you re-derive something, mark it UNCERTAIN and say what blocked you. Never weaken a case to make it pass.
+
+SUBJECT (frozen, read-only): C:/Projects/Agent_Workspace/PIPD/worktrees/r5s-verify-wt
+SUBJECT COMMIT: dba4b19456777d3b597fdf71480f6423dd974243
+INTERPRETER (pin it by absolute path, do not use a bare `python`):
+  C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe
+Every python invocation must set:
+  PYTHONPATH=C:/Projects/Agent_Workspace/PIPD/worktrees/r5s-verify-wt/src
+  PYTHONDONTWRITEBYTECODE=1
+Do NOT write anything inside the subject tree. A scratch file may go in %TEMP% only.
+
+FILES UNDER TEST:
+  src/pipd_ls_sp/requirements.py
+  tests/test_atomic_requirements.py
+
+STEP 1 - Print the sha256 of both files.
+STEP 2 - From the subject root, run exactly:
+  python -m unittest tests.test_atomic_requirements -v
+  Record the exit code and the last three lines of output verbatim.
+STEP 3 - Write your OWN probe script under %TEMP% that imports the library directly and exercises the nine cases below. Report expected vs actual for each, one JSON object per case:
+  C1 negation_surface_unlisted_cn: the clause "系統不允許傳送個資" compiles to polarity MUST NOT.
+  C2 negation_surface_unlisted_en: "The system should not publish customer secrets" compiles to MUST NOT.
+  C3 baseline_mustnot_intact: "系統不得上傳資料" stays MUST NOT.
+  C4 mixed_scope_per_segment: "不得上傳個資，不得對外分享" yields TWO atoms, not one.
+  C5 negation_governs_uncued_segment: in "不得上傳資料並保留紀錄" the trailing un-cued segment inherits the negation.
+  C6 no_over_refusal_on_modal_object: "不得使用必須的憑證" is NOT refused as ambiguous.
+  C7 single_atom_tokens: each of "系統不得上傳至 api.example.com。", "版本必須為 v1.2.3。", "限制值為 1.25。" yields exactly ONE atom whose recorded source span text equals the original substring.
+  C8 real_boundary_splits: "系統必須備份資料。系統必須驗證資料。" yields TWO atoms, and "Do task A.Task B must run." also yields TWO.
+  C9 span_and_id_stability: every atom's source span text equals the original substring, and two identical compilations of the same input produce identical atom ids.
+STEP 4 - For any case you cannot reproduce, mark UNCERTAIN with the blocking reason.
+
+OUTPUT: print nothing but JSON on stdout. The FIRST line must be exactly HGK_LANE_NONCE_OK and the LAST line must be exactly HGK_LANE_NONCE_OK. Between them, one JSON object:
+{"nonce":"HGK_LANE_NONCE_OK","subject_commit":"...","file_sha256":{},"unittest":{"rc":0,"tail":"..."},"cases":[{"case_id":"C1","expected":"...","actual":"...","verdict":"CONFIRMED|REFUTED|UNCERTAIN"}],"disagreement":[],"uncertainty":[],"claim_ceiling":"independent re-check of the D1/D2 cases on the frozen commit only; not a product acceptance"}

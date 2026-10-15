@@ -1,0 +1,134 @@
+WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE: the credential-posture detector could not reach a verdict (helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN); continuing -- the user-scope git default (L1) remains the structural control and this gate is the second layer. Inconclusive is NOT a pass.
+WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE: credential posture could not be decided (helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN); CONTINUING (a detector fault must not become a lane outage; L1 remains the structural control; INCONCLUSIVE is NOT a pass).
+{
+  "schema": "HGK-LANE-RESOLUTION/1",
+  "lane": "VERIFY_SECURITY",
+  "role": "checker",
+  "engine": "codex-cli",
+  "codex_executable": "C:/Users/user/AppData/Local/OpenAI/Codex/bin/9614f1d9b40d9c4f/codex.exe",
+  "codex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+  "relay_base": "http://127.0.0.1:10101/v1",
+  "codex_home_is_declared_lane_home": true,
+  "human_home_transport_acknowledged": true,
+  "skipped_arms": [
+    {
+      "rank": 2,
+      "arm": "nvidia/deepseek-ai/deepseek-v4.1-flash",
+      "reason": "UNREACHABLE_MEASURED_20261011"
+    }
+  ],
+  "transport": "opencodex relay via per-invocation -c openai_base_url (no config mutation)",
+  "transport_target": "http://127.0.0.1:10101/v1",
+  "front_door_port": null,
+  "front_door_note": "the lane-scoped pool door (10103 VERIFY_SECURITY / 10105 EXECUTE) carries the hop and ledgers every decision; the sealed single-model 10100 door is unchanged and unused; None here means direct to the relay on 10101",
+  "sandbox": "read-only",
+  "sandbox_by_role_default": "read-only",
+  "sandbox_escalation_authorised": false,
+  "cwd": "C:/Projects/Agent_Workspace/PIPD/worktrees/r5s-verify-wt",
+  "side_effect_note": "no write access granted by the sandbox mode",
+  "receipt_binding": "usage rows appended after this attempt started (byte offset bound)",
+  "pool": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\config\\lane-route-slots.candidate.json",
+  "candidates_considered": [
+    4
+  ],
+  "mode": "forced_rank",
+  "unguarded_escalation_acknowledged": false,
+  "inject_429_first": false,
+  "identity_gate": {
+    "state": "enforced",
+    "lane_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+    "relay_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes",
+    "arms": [
+      {
+        "rank": 4,
+        "provider": "openai-codex",
+        "model": "gpt-6.1-sol",
+        "requirement": "relay_pool",
+        "ok": true,
+        "detail": "non-empty refreshable credential present in codex-accounts.json"
+      }
+    ],
+    "degraded": false,
+    "required_arm": null
+  },
+  "authorization": {
+    "checked": false
+  },
+  "subject_mutation": {
+    "state": "not_guarded"
+  },
+  "attempt_log_dir": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5S-20261015-s4-preview4-verify-close\\VERIFY3\\out5\\R5S-20261015\\VERIFY_SECURITY\\attempt-5-20261015T013731Z",
+  "output_dir_policy": {
+    "mode": "derived",
+    "derived": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5S-20261015-s4-preview4-verify-close\\VERIFY3\\out5\\R5S-20261015\\VERIFY_SECURITY\\attempt-5-20261015T013731Z",
+    "attempt_number": 5,
+    "attempt_marker": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5S-20261015-s4-preview4-verify-close\\VERIFY3\\out5\\R5S-20261015\\VERIFY_SECURITY\\attempt-5-20261015T013731Z\\attempt.marker.json"
+  },
+  "repair_precondition": {
+    "checked": false
+  },
+  "remote_write_precheck": {
+    "mode": "DETECTION_ONLY",
+    "ran": true,
+    "brief": "C:/Projects/Agent_Workspace/HG-KSEOS/var/R5S-20261015-s4-preview4-verify-close/VERIFY3/checker_brief_v4.txt",
+    "markers": [],
+    "publication_wo": null,
+    "would_refuse": false
+  },
+  "attempts": [
+    {
+      "rank": 4,
+      "provider": "openai-codex",
+      "model": "gpt-6.1-sol",
+      "transport_model": "gpt-6.1-sol",
+      "sandbox": "read-only",
+      "reasoning_effort": "medium",
+      "exit": 0,
+      "seconds": 69.83,
+      "nonce_present": true,
+      "nonce_present_raw_stdout": true,
+      "nonce_source": "item.completed/agent_message",
+      "usage_rows_after_offset": 9,
+      "usage_offset": 22369983,
+      "usage_provider": "openai-p6a1fe3",
+      "usage_model": "gpt-6.1-sol",
+      "usage_status": 200,
+      "usage_receipt_ok": true,
+      "usage_receipt_reason": "",
+      "usage_ledger_rewritten": false,
+      "usage_rows_shape_invalid": 0,
+      "usage_rows_undecodable": 0,
+      "carrier_lines_undecodable": 0,
+      "carrier_lines_surrogate": 0,
+      "credential_posture": {
+        "verdict": "INCONCLUSIVE",
+        "decision": "WARN_CONTINUE",
+        "reason": "helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN",
+        "prompt_capable_helper": null,
+        "origin": null,
+        "git_terminal_prompt": "0"
+      },
+      "attempt_log_dir": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5S-20261015-s4-preview4-verify-close\\VERIFY3\\out5\\R5S-20261015\\VERIFY_SECURITY\\attempt-5-20261015T013731Z",
+      "stdout_byte_exact": true,
+      "stdout_path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5S-20261015-s4-preview4-verify-close\\VERIFY3\\out5\\R5S-20261015\\VERIFY_SECURITY\\attempt-5-20261015T013731Z\\attempt-2228-1792028251-4-stdout.txt",
+      "stdout_bytes": 120168,
+      "stdout_sha256": "0711d961561a260ef2ed043b8122abc08f72f732be92940bf2cefe9078222f9e",
+      "stderr_byte_exact": true,
+      "stderr_path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R5S-20261015-s4-preview4-verify-close\\VERIFY3\\out5\\R5S-20261015\\VERIFY_SECURITY\\attempt-5-20261015T013731Z\\attempt-2228-1792028251-4-stderr.txt",
+      "stderr_bytes": 220,
+      "stderr_sha256": "96c4c89affaaa0e234c355b9fc0884d48290d0a15d135e3042cb9d898e2ad48c",
+      "stdout_tail": "y executed successfully, each in its own python -c invocation using the subject root as the directory source.\\\"\\n  ],\\n  \\\"claim_ceiling\\\": \\\"independent re-check of the named cases on the frozen commit only\\\"\\n}\\nHGK_LANE_NONCE_OK\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":127492,\"cached_input_tokens\":96512,\"cache_write_input_tokens\":0,\"output_tokens\":2232,\"reasoning_output_tokens\":57}}\n",
+      "stderr_tail": "Reading additional input from stdin...\n2026-10-15T01:37:31.941117Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10101/v1/responses\n"
+    }
+  ],
+  "used_rank": 4,
+  "used_transport_model": "gpt-6.1-sol",
+  "used_seconds": 69.83,
+  "generated_utc": "2026-10-15T01:38:41.690990+00:00",
+  "claim_ceiling": "a pass here proves the Codex-CLI lane served this turn through the relay with a matching usage receipt; it is not an acceptance of any subject",
+  "ok": true,
+  "usage_receipt_ok": true,
+  "usage_rows_shape_invalid": 0,
+  "usage_rows_undecodable": 0
+}
+DISPATCH_EXIT=0

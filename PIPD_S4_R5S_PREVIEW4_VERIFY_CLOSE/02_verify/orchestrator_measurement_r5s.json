@@ -1,0 +1,89 @@
+{
+ "schema": "R5S-VERIFY-MEASUREMENT/1",
+ "attribution": "ORCHESTRATOR_MEASUREMENT (separate read-only process; NOT a lane verdict and NOT model-independent)",
+ "captured_utc": "2026-10-15T01:21:16.877806+00:00",
+ "subject_commit": "dba4b19456777d3b597fdf71480f6423dd974243",
+ "subject_dirty": "",
+ "file_sha256": {
+  "src/pipd_ls_sp/requirements.py": "ce4f66e243b81f74f97811c0f699f74baffe5f32516fb444519afc2931340816",
+  "tests/test_atomic_requirements.py": "91b6a6ebf5bef10d631b426e16f8b5362f9761ac6589027fa05bc771b9ddb7cc"
+ },
+ "cases": [
+  {
+   "case_id": "C1",
+   "expected": "1 atom, MUST NOT",
+   "actual": "1 atom(s), ['MUST NOT']",
+   "verdict": "CONFIRMED"
+  },
+  {
+   "case_id": "C2",
+   "expected": "1 atom, MUST NOT",
+   "actual": "1 atom(s), ['MUST NOT']",
+   "verdict": "CONFIRMED"
+  },
+  {
+   "case_id": "C3",
+   "expected": "1 atom, MUST NOT",
+   "actual": "1 atom(s), ['MUST NOT']",
+   "verdict": "CONFIRMED"
+  },
+  {
+   "case_id": "C4",
+   "expected": "2 atoms, both MUST NOT",
+   "actual": "2 atom(s), ['MUST NOT', 'MUST NOT']",
+   "verdict": "CONFIRMED"
+  },
+  {
+   "case_id": "C5",
+   "expected": "2 atoms, cue-less segment inherits MUST NOT",
+   "actual": "2 atom(s), ['MUST NOT', 'MUST NOT']",
+   "verdict": "CONFIRMED"
+  },
+  {
+   "case_id": "C5b",
+   "expected": "2 atoms: MUST NOT then MUST (positive modal resets scope)",
+   "actual": "2 atom(s), ['MUST NOT', 'MUST']",
+   "verdict": "CONFIRMED"
+  },
+  {
+   "case_id": "C6",
+   "expected": "NOT refused; 1 atom MUST NOT",
+   "actual": "1 atom(s), ['MUST NOT']",
+   "verdict": "CONFIRMED"
+  },
+  {
+   "case_id": "C7",
+   "expected": "each input 1 atom with the original span",
+   "actual": "domain: 1 atom(s), span_ok=True | version: 1 atom(s), span_ok=True | decimal: 1 atom(s), span_ok=True",
+   "verdict": "CONFIRMED"
+  },
+  {
+   "case_id": "C8",
+   "expected": "2 atoms each",
+   "actual": "cn=2 atoms, en=2 atoms",
+   "verdict": "CONFIRMED"
+  },
+  {
+   "case_id": "C9",
+   "expected": "identical ids on re-compile and spans match the source",
+   "actual": "ids_stable=True, span_ok=True, n=2",
+   "verdict": "CONFIRMED"
+  },
+  {
+   "case_id": "C10",
+   "expected": "typed refusal (IntakeInvalid)",
+   "actual": "IntakeInvalid",
+   "verdict": "CONFIRMED"
+  }
+ ],
+ "unittest": {
+  "rc": 0,
+  "tail": "----------------------------------------------------------------------\nRan 35 tests in 19.218s\n\nOK"
+ },
+ "counts": {
+  "confirmed": 11,
+  "refuted": 0,
+  "uncertain": 0
+ },
+ "claim_ceiling": "measures the named D1/D2 cases on the frozen commit and re-runs the subject's own test module; it is not an independent checker's verdict and it is not a product acceptance"
+}

@@ -1,0 +1,75 @@
+{
+ "schema": "R5S-LANE-CONFORMANCE/1",
+ "round": "R5S-20261015-s4-preview4-verify-close",
+ "question_answered": "did this session search for and use the existing reusable HG-KSEOS lanes, and did it adopt the declared arrangement (PLAN = GPT 6.1 SOL-MEDIUM OpenAI OAuth in Hermes; EXECUTE = CODEX CLI on opencode-go/deepseek-v4.1-flash; VERIFY/SECURITY = CODEX CLI checker gpt-6.1-sol OpenAI OAuth)? why is there no gpt-6.1-sol token consumption?",
+ "declared_arrangement": {
+  "source": "owner instruction for this session",
+  "plan_and_orchestrator": "GPT 6.1 SOL-MEDIUM (OpenAI OAuth), inside Hermes",
+  "execute": "CODEX CLI, provider/model opencode-go/deepseek-v4.1-flash",
+  "verify_security": "CODEX CLI, checker model openai-codex/gpt-6.1-sol (OpenAI OAuth)"
+ },
+ "reuse_of_existing_lanes": {
+  "searched": true,
+  "what_was_reused": [
+   "scripts/hgk-lane-dispatch.py (the existing lane dispatcher; not rebuilt)",
+   "config/lane-route-slots.candidate.json (the existing ordered pool; rank 3 = opencode-go/glm-5.3-flash, rank 4 = openai-codex/gpt-6.1-sol for VERIFY_SECURITY)",
+   "the previous round's GIT_ASKPASS credential pattern (no credential handling invented)",
+   "the documented --codex-executable override seam for the stale lane pin",
+   "the isolated relay command the launcher itself would run (opencodex start --port 10101)"
+  ],
+  "not_reused_and_why": "config/hermes-codex-lane.json could not be used as-is: its pinned codex_executable does not exist on this host, and the launcher throws ERR_RUNTIME_FILE_MISSING before ANY action, including -Action StartOpenCodex. That is recorded as the root cause in LANE_ROOT_CAUSE.json; the pin was NOT retargeted."
+ },
+ "observed_per_role": {
+  "plan_and_orchestrator": {
+   "served_by": "this Hermes session, model deepseek-v4.1-flash, provider opencode-go (session metadata)",
+   "conformance": "NOT_CONFORMANT",
+   "why": "the declared planner model is openai-codex/gpt-6.1-sol (OpenAI OAuth). The session model is chosen at the Hermes profile/session level; changing it mid-conversation is an operator action and was not performed or silently substituted.",
+   "consequence": "the planner/orchestrator ran on the model family the arrangement assigns to the writer",
+   "what_would_fix_it": "set the Hermes session/profile model to openai-codex/gpt-6.1-sol (or run the PLAN role as a pinned lane) under the operator's own change"
+  },
+  "execute": {
+   "served_by": "no CODEX-CLI writer lane was dispatched this session",
+   "conformance": "NOT_EXERCISED_THIS_SESSION",
+   "why": "the round is delta-only: preview.4 and the D1/D2 repair were already merged, so no product source write was required. The writes this session were round evidence artifacts, authored by the orchestrator.",
+   "note": "this is a deviation to disclose, not a success: the EXECUTE lane was not exercised, so this session says nothing new about it"
+  },
+  "verify_security": {
+   "declared_arm": "rank 4, openai-codex/gpt-6.1-sol (OpenAI OAuth), transport model gpt-6.1-sol",
+   "attempts_this_session": [
+    {"attempt": 1, "rank": 3, "arm": "opencode-go/glm-5.3-flash", "result": "TIMEOUT at 900 s, stdout 0 bytes, ERR_LANE_ALL_ROUTES_EXHAUSTED", "receipt": "VERIFY3/dispatch_receipt.json"},
+    {"attempt": 2, "rank": 3, "arm": "opencode-go/glm-5.3-flash", "result": "ok=true, used_seconds 118.09, input 237682 / output 3380 tokens, 9/9 cases CONFIRMED", "receipt": "VERIFY3/dispatch_receipt2.json", "verdict": "VERIFY3/checker_verdict_armA_raw.txt", "why_rank_3_first": "the previous round's rank-4 arm had already timed out with 0 bytes and the standing rule is to continue on the declared backup rather than pause"},
+    {"attempt": 3, "rank": 4, "arm": "openai-codex/gpt-6.1-sol", "result": "ok=true, used_seconds 26.16, input 41886 / output 773 tokens, all nine cases UNCERTAIN (the turn could not execute the pinned interpreter and said so instead of guessing)", "receipt": "VERIFY3/dispatch_receipt3.json", "verdict": "VERIFY3/checker_verdict_armB_raw.txt"},
+    {"attempt": 4, "rank": 4, "arm": "openai-codex/gpt-6.1-sol", "result": "REFUSED BEFORE DISPATCH: ERR_LANE_REMOTE_WRITE_NOT_AUTHORIZED - the brief-level detector matched the marker word in the case text and no publication WorkOrder is attached", "receipt": "VERIFY3/dispatch_receipt4.json"},
+    {"attempt": 5, "rank": 4, "arm": "openai-codex/gpt-6.1-sol", "result": "ok=true, used_seconds 69.83, input 127492 / output 2232 tokens, 9/9 cases CONFIRMED with executed actual values", "receipt": "VERIFY3/dispatch_receipt5.json", "verdict": "VERIFY3/checker_verdict_armB2_raw.txt", "marker_removed": "the case text was reworded so the detector's marker word no longer appears; the case still exercises the same English negation surface"}
+   ],
+   "conformance": "PARTIAL_DECLARED_ARM_USED_ON_THE_THIRD_DISPATCH",
+   "verdict_independence": "both verdicts come from a different model than the writer; neither comes from the round's declared planner"
+  }
+ },
+ "token_consumption_evidence": {
+  "ledger": "%LOCALAPPDATA%/HG-KSEOS/opencodex-hermes/usage.jsonl (the isolated relay's accounting of record)",
+  "window": "last 6 h, filtered against the real clock",
+  "rows_by_provider_model": [
+   {"provider": "opencode-go", "model": "glm-5.3-flash", "rows": 107},
+   {"provider": "opencode-go", "model": "deepseek-v4.1-flash", "rows": 11},
+   {"provider": "openai-p6a1fe3", "model": "gpt-6.1-sol", "rows": 10}
+  ],
+  "gpt_rows_are_this_session": ["09:27:11-09:27:26 (attempt 3)", "09:37:31-09:38:23 (attempt 5)"],
+  "why_it_looked_like_zero_before_09:27": "nothing had been routed to that arm in this session: attempt 1 and 2 both pinned rank 3, and the previous round's single rank-4 dispatch produced 0 bytes and no usage row. The 09:27 and 09:37 rows are the first gpt-6.1-sol traffic from this round.",
+  "token_counts_source": "the lanes' own turn.completed events in the raw attempt stdouts (the relay ledger rows for this provider do not carry the token columns)"
+ },
+ "tool_and_environment_findings": [
+  {
+   "id": "STRAY-MSYSTEM-PATH",
+   "what": "the dispatcher was given --json-out and --output-root values in MSYS form (/c/Projects/...). A native process resolves a leading / against the CURRENT DRIVE ROOT, so receipts and per-attempt stdout/stderr were written to C:\\c\\Projects\\... instead of the round directory. Detected by the absence of the expected files, then located and moved back into the round directory; the stray C:\\c\\Projects tree was removed.",
+   "disclosure": "a second stray tree C:\\c\\Users\\... (a file named SOUL.md) belongs to a different writer and was left untouched",
+   "rule": "hand every native tool a C:/ forward-slash path, never /c/..."
+  },
+  {
+   "id": "STALE-LANE-PIN",
+   "what": "config/hermes-codex-lane.json pins codex_executable at C:/Users/user/AppData/Local/OpenAI/Codex/bin/2e5e00daee91c61d/codex.exe, which does not exist; the only live binary is 9614f1d9b40d9c4f/codex.exe (sha256 e98c516f...). The launcher refuses every action until that precondition passes, which is why the relay was down and every lane turn came back empty.",
+   "disposition": "recorded, NOT repaired in this round: retargeting the canonical pin is a control-plane change and belongs to the tool-drift item under its own change. The lanes were driven through the documented --codex-executable seam instead, and that is stated wherever the receipts are cited."
+  }
+ ],
+ "claim_ceiling": "records what served each role in THIS session with receipts; it is not an acceptance of any subject and it does not claim model-level separation of duties"
+}
