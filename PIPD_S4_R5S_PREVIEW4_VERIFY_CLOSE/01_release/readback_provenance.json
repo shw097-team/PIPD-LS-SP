@@ -1,0 +1,40 @@
+{
+ "schema": "R5S-ASSET-READBACK-PROVENANCE/1",
+ "round": "R5S-20261015-s4-preview4-verify-close",
+ "artifact_under_question": "01_release/asset_readback_r5s.json",
+ "authoritative_version": "the one carrying skill_count 8, exactly_eight_skills true and all_crc_ok true, produced by the final clean run below",
+ "attempts": [
+  {
+   "attempt": 1,
+   "script_state": "skill-root enumeration written as roots.pop() INSIDE a set comprehension, so the first member consumed the only element and the next member popped an empty set",
+   "result": "FAILED - KeyError: pop from an empty set (no artifact written)",
+   "disclosure": "reported, not hidden: the run crashed instead of producing a partial file"
+  },
+  {
+   "attempt": 2,
+   "script_state": "root hoisted to a single next(iter(roots)) lookup",
+   "result": "ran to completion but the skill list was read at the WRONG DEPTH - it reported ['skills'] where the eight skill names were expected",
+   "artifact": "01_release/asset_readback_run2_superseded.json",
+   "disclosure": "this wrong-depth field briefly sat in the pack; it is superseded here rather than deleted, so the correction is checkable"
+  },
+  {
+   "attempt": 3,
+   "script_state": "enumeration taken at the component below root/skills/, plus an explicit exactly_eight_skills assertion and an explicit SKILL.md path list",
+   "result": "PASS - single root, 56 members, skill_count 8, exactly_eight_skills true, one plugin.json, no mcp/hooks/apps, no path escape, all_crc_ok true, all seven assets' sha256 equal to the GitHub API digest",
+   "artifact": "01_release/asset_readback_r5s.json"
+  }
+ ],
+ "operator_error_also_disclosed": {
+  "what": "one re-run was launched with an MSYS /c/... script path; the native interpreter resolved it against the drive root and failed with Errno 2 before doing any work",
+  "class": "the same path-mangling class recorded in the lane record; the fix is to hand every native tool C:/ forward-slash paths"
+ },
+ "lesson": "a readback whose headline field is a count or a set must ASSERT the expected cardinality in the same run; an enumeration that silently returns a container name instead of its members produces a plausible-looking artifact with a wrong claim",
+ "served_byte_facts": {
+  "asset_count": 7,
+  "all_api_digests_match": true,
+  "all_sha256sums_entries_match": true,
+  "plugin_zip_served_sha256_prefix": "545e359a5ca6abc7",
+  "plugin_zip_is_a_new_build": "this ZIP is built from the current main, not the historical evidence-branch ZIP of the earlier round; the two hashes are expected to differ and neither substitutes for the other"
+ },
+ "claim_ceiling": "readback of the published release as served over the network; it says nothing about host installation or about the contents of any private account"
+}

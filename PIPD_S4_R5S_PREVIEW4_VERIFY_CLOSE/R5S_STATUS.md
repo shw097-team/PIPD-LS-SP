@@ -32,7 +32,7 @@ not_granted: [S4_FULL_PASS, FOUR_HOST_QUALIFICATION, PUBLIC_DIRECTORY, PRODUCTIO
 | 3 | 修復傳輸（**未動 canonical 設定**）：以 launcher 自己會下的同一條指令直接啟動隔離 relay | relay pid 19892；`10101` LISTENING；healthz ok | **副作用**：本機多了一個先前沒有的 relay 程序 |
 | 4 | 傳輸探針：`VERIFY_SECURITY` rank 3 = `opencode-go/glm-5.3-flash`，`ok=true`、nonce 回聲、usage receipt ok | `VERIFY3/probe_receipt.json` | 該 arm 是前回合宣告的備援 checker，非原宣告 arm（標示為不同 checker） |
 | 5 | 獨立複核車道（唯讀、`force-rank 3`、subject = 新 worktree `r5s-verify-wt@dba4b19`） | `VERIFY3/dispatch_receipt.json`、`VERIFY3/verdict_stdout.txt` | **副作用**：新增 worktree `PIPD/worktrees/r5s-verify-wt`（detached） |
-| 6 | 匿名 served-byte 重讀：7 資產下載重算 sha256，對 GitHub digest 與 `SHA256SUMS` 三方比對；ZIP 從**下載位元組**再驗（56 members / 1 root / 1 manifest / 8 skills / CRC 全通過 / 無 MCP·Hooks·Apps / 無路徑逃逸），並二次下載確認同 bytes | `03_release/asset_readback_r5s.json` | 無 |
+| 6 | 匿名 served-byte 重讀：7 資產下載重算 sha256，對 GitHub digest 與 `SHA256SUMS` 三方比對；ZIP 從**下載位元組**再驗（56 members / 1 root / 1 manifest / **8 個 skill 逐一點名** / CRC 全通過 / 無 MCP·Hooks·Apps / 無路徑逃逸） | `01_release/asset_readback_r5s.json`（產出過程與權威版本：`01_release/readback_provenance.json`；另保留錯誤版本 `asset_readback_run2_superseded.json`） | 無 |
 | 7 | 上游對齊（知識庫**唯讀**）：11 份 `PIPD-PKG-00~10` 的 bytes/sha256 盤點 | `landing/UPSTREAM_ALIGNMENT.json` | 未對知識庫做任何寫入 |
 | 8 | 看板：`t_562cdedf` 補記最新 host 狀態；修復 DAG 邊 `t_562cdedf → t_d8dab532`（揭露三項自檢） | 看板註記 | 邊的變更已揭露 |
 

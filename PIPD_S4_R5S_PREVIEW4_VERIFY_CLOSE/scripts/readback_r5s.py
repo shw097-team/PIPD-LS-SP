@@ -71,7 +71,7 @@ if zipped:
     names = zf.namelist()
     roots = {n.split("/")[0] for n in names}
     root = next(iter(roots)) if len(roots) == 1 else None
-    skills = sorted({n.split("/")[1] for n in names if root and n.startswith(f"{root}/skills/") and n.count("/") >= 2})
+    skills = sorted({p.split("/")[2] for p in names if root and p.startswith(f"{root}/skills/") and p.count("/") >= 3})
     bad = zf.testzip()
     report["plugin_zip_inspection_from_downloaded_bytes"] = {
         "sha256": hashlib.sha256(zipped).hexdigest(),
@@ -80,6 +80,8 @@ if zipped:
         "manifests": [n for n in names if n.endswith("plugin.json")],
         "skill_count": len(skills),
         "skills": skills,
+        "skill_md_paths": [p for p in names if root and p.startswith(f"{root}/skills/") and p.endswith("/SKILL.md")],
+        "exactly_eight_skills": len(skills) == 8,
         "has_mcp_or_hooks_or_apps": [n for n in names if re.search(r"(^|/)(mcp\.json|hooks/|\.app\.json)", n)],
         "path_escape_or_absolute": [n for n in names if n.startswith("/") or ".." in n.split("/") or "\\" in n],
         "crc_first_bad_member": bad,
