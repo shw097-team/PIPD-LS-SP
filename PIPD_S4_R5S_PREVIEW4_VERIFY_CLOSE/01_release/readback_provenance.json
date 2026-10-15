@@ -28,6 +28,7 @@
   "what": "one re-run was launched with an MSYS /c/... script path; the native interpreter resolved it against the drive root and failed with Errno 2 before doing any work",
   "class": "the same path-mangling class recorded in the lane record; the fix is to hand every native tool C:/ forward-slash paths"
  },
+ "raw_log_availability": "the crashing run's stdout went to a log path that a LATER successful run reused, so the traceback text survives only in the session's process notification and as this transcription; the wrong-depth run's artifact is kept verbatim as asset_readback_run2_superseded.json; the Errno 2 line likewise survives only as transcription. No raw log is claimed for those two. Verbatim as reported: 'KeyError: pop from an empty set' at the skills-enumeration line, and 'can't open file C:\\\\c\\\\Projects\\\\...\\\\readback_r5s.py: [Errno 2] No such file or directory' with READBACK_EXIT=2.",
  "lesson": "a readback whose headline field is a count or a set must ASSERT the expected cardinality in the same run; an enumeration that silently returns a container name instead of its members produces a plausible-looking artifact with a wrong claim",
  "served_byte_facts": {
   "asset_count": 7,
