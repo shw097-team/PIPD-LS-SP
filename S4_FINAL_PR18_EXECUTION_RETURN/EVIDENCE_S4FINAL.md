@@ -20,7 +20,7 @@
 | G3 最小修補例外 | **未觸發**（STOP RULE：五類反證未命中） |
 | G4 受控傳輸 | push ×1（scoped evidence 分支）；憑證未外洩（見 `AUTHORIZATION_MANIFEST.md`） |
 | G5 私人 ZIP／UAT | 結構**位元組級驗證通過**；真帳號 smoke = `NOT_RUN`（`HOST_OWNER`） |
-| G6 TQAEP／獨立驗收 | 見 `checker_and_owner_closeout.md`（同模型軸限制明示） |
+| G6 TQAEP／獨立驗收 | **`PARTIAL`**：checker 車道沙箱無網路出口（`WinError 10013`），live 複驗 `UNVERIFIABLE`；車道以自身 git 讀取獨立確認 C2／C3／C5／C6 且「可測者無一虛假宣稱」（同模型軸明示） |
 | G7 新 Preview | **未觸發**；`.4` 為 `IMMUTABLE_HISTORICAL_RELEASE` |
 
 ## 3. 驗收聲明上限（Claim ceiling）

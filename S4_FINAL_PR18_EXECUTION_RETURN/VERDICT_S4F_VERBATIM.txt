@@ -1,0 +1,117 @@
+I've extracted everything the frozen local state can settle. Here is my verdict.
+
+---
+
+# CHECKER VERDICT — WO-TS-PR18-04
+
+**Result: `PARTIAL`**
+
+I must lead with the environment fact that dominates this verdict. My arm ran in a **read-only sandbox with outbound TCP refused at the socket layer**. Every network attempt failed identically:
+
+```
+urllib.request.urlopen('https://api.github.com')  ->  PermissionError: [WinError 10013] 嘗試存取通訊端被拒絕...
+Invoke-WebRequest https://api.github.com/rate_limit  ->  嘗試存取通訊端被拒絕 (api.github.com:443)
+git ls-remote origin  ->  fatal: unable to access ... Failed to connect to github.com port 443
+raw.githubusercontent.com -> same WinError 10013
+```
+
+Writing was also denied everywhere I tried (round root, `_handover/r18`, `TEMP`, the workspace root). I therefore **could not make "my own HTTP calls"** (C1's stipulated method), could not create my own scratch directory (C3's stipulated method), and could not download the release asset myself (C5's stipulated method). I substituted the strongest independent local sources available: the frozen git object database in `PIPD-S4R6-wt` (I computed diffs/reads myself, not from the packet) and one byte-identical local copy of the published ZIP. Those corroborate much of the packet, but they are **not** the live-HTTP evidence the brief demands, so I do not convert corroboration into a pass. No claim I could test was refuted.
+
+## C1 — Subject freeze — `UNVERIFIABLE (by stipulated method)`; fields locally corroborated
+
+I could not re-read `main`, the PRs, the tag chain, or asset digests over HTTP. Against the local frozen object store (my own `git` reads), the identity fields I could reach all match `identities_and_release.json`:
+
+```
+git cat-file -t <each frozen sha>   -> commit, commit, commit, tag, commit
+git rev-parse origin/main           -> d3bd5456afbff21a8c8837994a49f57be3e1b97e   (frozen main)
+git rev-parse d3bd5456...^{tree}    -> bc8dfc21e912312d5224eb94e5dbf223c99ab933   (main_tree)
+git cat-file -p 0618d73c...         -> tag -> object cc6c1930... type commit      (tag obj/commit)
+git rev-parse cc6c1930...^{tree}    -> 7d277a0afaff28b6841836cea3a31ffd0b214d94   (tag tree)
+git rev-list --count d3bd5456..c17aa76  -> 4
+git rev-list --left-right --count d3bd5456...cc6c1930 -> 11  0                    (ahead_by/behind_by)
+git for-each-ref taggerdate         -> 2026-10-14T18:37:07+08:00 = ...T10:37:07Z  (tagger_date)
+```
+
+Fields checked this way: **11 values corroborated, 0 mismatches.** Not reachable without HTTP and therefore genuinely UNVERIFIABLE: `pr18.state/draft/mergeable/mergeable_state`, the **release asset list and its 7 digests**, `download_count`s, and `release.published_at`. (The `.4` ZIP digest itself is corroborated under C5, not here.) `origin/main` local value is the frozen one; note the *local branch* `main` is a separate stale ref (`2245914`, 0 ahead / 153 behind `origin/main`) — a local worktree artifact, not the remote subject.
+
+## C2 — PR #18 stays out of the product — `CONFIRMED (local git)`
+
+Computed by my own read of the frozen base→head trees, not from the JSON:
+
+```
+git diff --name-status d3bd5456... c17aa76...
+M  .github/workflows/public-plugin-verify.yml
+M  docs/USER_GUIDE.md
+M  docs/install/README.md
+A  tests/test_r6_doc_identity_guard.py
+count = 4
+git diff --stat d3bd5456... c17aa76...
+ 4 files changed, 465 insertions(+), 23 deletions(-)
+```
+
+Exactly the four named paths; **none under `src/` or `schemas/`**; deltas `+465/−23`, `commits=4`, `merge-base == base` — all equal to the packet's values. The PR's live `open/mergeable` state is UNVERIFIABLE.
+
+## C3 — Packet manifest — `CONFIRMED`
+
+`SHA256SUMS` has 8 entries; all 8 recomputed sha256 match: **8/8 byte-identical**. No CRLF in any packet file (CRLF=0 across all ten files; bare-LF counts only).
+
+The two files whose absence or mismatch would matter most — `identities_and_release.json` (C1 subject) and `private_plugin_status.json` (C5 subject) — are both present with matching hashes. I also tied the packet to its evidence path: all ten packet blobs on branch `s4-final-closeout-evidence-20261016` hash-identically to the frozen copies (`git hash-object` vs `ls-tree`: **match=10 diff=0**).
+
+## C4 — Denominators separate and honest — `PARTIAL`
+
+From `pr_and_ci_raw_index.json`, each environment's test line verbatim:
+
+| environment | line |
+|---|---|
+| hosted_ci_pr18 | `Ran 635 tests in 43.711s` / `OK (skipped=6)` |
+| hosted_plugin_verify_pr18 | `Ran 54 tests in 0.873s` `OK (skipped=1)` **and** `Ran 635 tests in 57.722s` `OK (skipped=6)` |
+| evidence_branch | `Ran 633 tests in 45.848s` / `OK (skipped=6)` |
+| previous_main_baseline | `Ran 624 tests in 56.313s` / `OK (skipped=6)` |
+| candidate_authors_local_windows_run | `635 OK / 4 skipped` (declared history, not re-run) |
+
+Internal checks pass: the four environments keep distinct denominators, `denominators_are_not_interchangeable: true`, and the hosted `635/6` is **not** reconciled with the local `635/4`. Every listed row carries `status: RAW_OK`, `metadata_http: 200`, `log_http: 200` (none say `UNFETCHED`/`METADATA_ONLY` — vacuously satisfied since no row is unfetched). But the four job ids, run ids and the raw logs are **live-GitHub artifacts I cannot fetch**, so I cannot confirm the numbers are what the hosted runs actually printed.
+
+## C5 — Private ZIP claim — `CONFIRMED (byte-identical local copy)`
+
+I could not download the asset; instead I found a local file whose bytes are identical to the claimed asset and inspected those bytes:
+
+```
+.../R5R-.../RELEASE/pipd-ls-sp-public-skills.zip
+  len=68357  sha256=545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75   (both match)
+```
+
+From the bytes (Python `zipfile`, my own read): **members=56**, roots = `['pipd-ls-sp-public-skills']` (**single_root**), **8** `skills/*/SKILL.md`, no `mcp`/`apps`/`hooks`/`server` entries, no absolute or `..` member path, `plugin.json` keys = the 8 listed keys, `name=pipd-ls-sp-public-skills`. Every C5 assertion agrees with `private_plugin_status.json`; **no disagreement found**. Caveat: provenance — that these exact bytes are what GitHub serves today — rests on the identity under C1, which I could not fetch (two *other* local ZIPs, 68,355 B, are the historical build outputs).
+
+## C6 — Falsify "we changed nothing" — `CONFIRMED` locally / `UNVERIFIABLE` for API-only items
+
+| check | call | result |
+|---|---|---|
+| `main` SHA | `git rev-parse origin/main` | `d3bd5456…b97e` = frozen, **CONFIRMED** |
+| PR #18 still open | — | **UNVERIFIABLE** (needs PR API) |
+| PR #17 still open | — | **UNVERIFIABLE** |
+| PR #18 merged into main? | `git merge-base --is-ancestor c17aa76 origin/main` | exit 1 → **not merged, CONFIRMED** |
+| PR #17 merged into main? | `git merge-base --is-ancestor 97a01dab origin/main` | exit 1 → **not merged, CONFIRMED** |
+| tag list | `git show-ref --tags` | 4 tags, `.4` obj `0618d73c…5197` matches, **CONFIRMED** |
+| release list | — | **UNVERIFIABLE** (needs releases API) |
+| evidence branch exists w/ packet | `git merge-base --is-ancestor 71e70f74 <branch>`; `ls-tree -r <branch>` | head `219e92b`, parent `71e70f74`; ten packet files present — **CONFIRMED** |
+
+No write to remote product branch or `main` is contradicted by anything I can see. Note the packet's own framing on the tag list would require the releases API to fully close.
+
+## C7 — Adversarial miss-check (three load-bearing claims)
+
+1. **"`main` is `d3bd5456` and the tag targets `cc6c1930`."** Attempt: `git rev-parse origin/main`, `git cat-file -p 0618d73c`. → `d3bd5456…` (reflog shows a real fast-forward fetch) and tag→`cc6c1930`, type commit. Not falsified.
+2. **"PR #18 is exactly four paths, none under `src/`/`schemas/`."** Attempt: `git diff --name-status d3bd5456... c17aa76`. → 4 paths, none product-tree. Not falsified.
+3. **"The private ZIP is 68,357 B, sha256 `545e…`, 56 members, one root, 8 SKILL.md, no MCP/Apps/Hooks/traversal."** Attempt: sha256 + `zipfile` inspection of the byte-identical local copy. → every value holds. Not falsified.
+
+Live-server versions of all three (Actions logs, release endpoint) remain unreachable.
+
+## `qualification_limits`
+
+- **No egress.** Every outbound TCP was refused (`WinError 10013`), so C1's HTTP re-read, all live CI logs (C4 truth), the live PR/release state (C1, C6), and my own asset download (C5 method) are UNVERIFIABLE. This, not the packet, is why the verdict is PARTIAL.
+- **Read-only, no writable path.** I could not extract the packet to my own scratch dir (C3 method) — I verified hashes and structure in place, read-only, which does not mutate the subject.
+- **Corroboration ≠ stipulated evidence.** C2/C5/C6/C7 rely on the frozen local git object store and one local byte-identical ZIP. These are my own reads, independent of the packet JSON, but they are not independent of the maker's clone, and they cannot attest to *today's* server state.
+- **Data I could not reach even locally:** release asset list/digests/counts, `download_count`s, release published date, PR state/mergeable flags.
+- **Same-model-axis limitation (explicit):** maker and checker are the **same arm**, `opencode-go/deepseek-v4.1-flash`, per owner order (registry `SOD006-C3`, `OWNER_ORDERED_IN_FORCE`). **Model-axis independence is ABSENT and is not claimed.** What remains is process, lane, evidence-path independence plus the no-self-acceptance rule. This matches the round's own disclosure in `checker_and_owner_closeout.md` §1.
+- I found **no false claim** among those I could test; I found several I **could not** test.
+
+HGK_LANE_NONCE_OK

@@ -7,9 +7,18 @@
 - 車道：`VERIFY_SECURITY`（`VERIFY_ONLY`，不寫候選、不修補、不建 WorkOrder）。
 - **模型軸**：maker 與 checker **同臂**（registry `SOD006-C3`，owner order `OWNER_ORDERED_IN_FORCE`）→
   **模型軸獨立性不存在**；剩下的分離只有「程序／車道／證據路徑」＋不得自我驗收。
-- 本回合裁決檔：`S4_FINAL_PR18_EXECUTION_RETURN/checker_verdict_s4f.json`（若存在）＋ `lane/**` 收據。
+- 本回合裁決：**`PARTIAL`**（見 `checker_verdict_s4f.json` 與逐字 `VERDICT_S4F_VERBATIM.txt`）。
   收據為逐字擷取，**不可編輯**。
-- 車道收據清單（本次運出）：`PENDING — lane dispatch not yet run at assembly time`
+- 裁決要點：車道沙箱為 **read-only 且外送 TCP 全數被拒**（`WinError 10013`），故 brief 要求的
+  live-HTTP 複驗全部為 `UNVERIFIABLE`；車道改以**自身執行的 git 讀取**獨立確認——
+  C2 PR #18 四路徑非產品樹（`+465/−23`）、C3 封包 `SHA256SUMS` **8/8 重算相符**且 blob 對分支
+  `match=10 diff=0`、C5 ZIP 56 成員／單 root／8 SKILL.md／無逃逸、C6 `main` 未動且兩 PR 皆**未合併**
+  （`merge-base --is-ancestor` exit 1）——並明言「可測者**無一虛假宣稱**、多項**無法測**」。
+- 車道收據清單（本次運出）：`['lane\\verify_s4f\\logs\\attempt-23372-1792160039-1-stderr.txt', 'lane\\verify_s4f\\logs\\attempt-23372-1792160039-1-stdout.txt', 'lane\\verify_s4f\\run.txt', 'lane\\verify_s4f\\verify_turn.json', 'lane\\verify_s4f\\verify_turn.json.attempts.ndjson']`
+- **裁決範圍**：本裁決涵蓋 `219e92ba…` 推送時的**十個**封包檔；其後新增之裁決索引／逐字全文／收據副本
+  為**裁決後追加**，已在 `checker_verdict_s4f.json#verdict_scope` 明示。
+- 車道並附帶觀測：PIPD 克隆的**本地分支 `main`** 是陳舊獨立 ref（`2245914`，相對 `origin/main` 0 ahead／153 behind），
+  屬本地 worktree 產物、**非**受驗遠端主體。
 
 ## 2. Owner 交還（`OWNER_ACTION_REQUIRED`，本回合**不代行**）
 
