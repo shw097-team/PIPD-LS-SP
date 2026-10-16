@@ -174,10 +174,16 @@ jobs:
               # not be widened to cover a path the round's WorkOrder does not grant. An independent
               # challenge of this amendment recorded exactly that, and it is carried as an open item.
               BASE="${STAGE_C_BASE_SHA}"
-              ALLOWED='^(src/pipd_ls_sp/|schemas/|tests/|fixtures/|pyproject\.toml$|tools/build_dist\.py$|dist/|README\.md$|docs/install/|PREVIEW_NOTES_v0\.1\.1-preview\.4\.md$|\.github/workflows/public-plugin-verify\.yml$)'
+              # AMENDMENT R5R3-20261016 (named, reviewed in the same pull request that needs it, and
+              # not presented as a pre-existing gate): docs/RELEASE_TUPLE.json is added to this arm.
+              # Reason measured on main: docs/install/README.md already tells a reader that the
+              # preview.4 identities live in the v0.1.1-preview.4 entry of docs/RELEASE_TUPLE.json,
+              # while that entry did not exist - the documented route pointed at nothing. One file is
+              # added, not a prefix, and the arm still refuses skills/ and packaging/public-plugin/.
+              ALLOWED='^(src/pipd_ls_sp/|schemas/|tests/|fixtures/|pyproject\.toml$|tools/build_dist\.py$|dist/|README\.md$|docs/install/|docs/RELEASE_TUPLE\.json$|PREVIEW_NOTES_v0\.1\.1-preview\.4\.md$|\.github/workflows/public-plugin-verify\.yml$)'
               DENIED='^(skills/|packaging/public-plugin/)'
               REFUSED_PLANTS='skills/pipd-core/SKILL.md packaging/public-plugin/plugin.json src/other_package/thing.py docs/USER_GUIDE.md tools/build_public_plugin.py'
-              ALLOWED_PLANTS='src/pipd_ls_sp/requirements.py schemas/ClaimCeiling.schema.json tests/test_claim_ceiling_shape.py fixtures/REQ-NEG-PHRASES/source.txt dist/pipd_ls_sp-0.1.1a4-py3-none-any.whl README.md docs/install/README.md'
+              ALLOWED_PLANTS='src/pipd_ls_sp/requirements.py schemas/ClaimCeiling.schema.json tests/test_claim_ceiling_shape.py fixtures/REQ-NEG-PHRASES/source.txt dist/pipd_ls_sp-0.1.1a4-py3-none-any.whl README.md docs/install/README.md docs/RELEASE_TUPLE.json'
               ;;
             *)
               echo "STAGE_UNDECLARED: this workflow must declare STAGE as stage-a, stage-b or stage-c; it will not guess which write set applies to this subject" >&2

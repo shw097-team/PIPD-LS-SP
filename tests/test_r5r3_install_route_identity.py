@@ -26,7 +26,7 @@ HEX64 = re.compile(r"\b[0-9a-f]{64}\b")
 SERVED_ZIP = "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75"
 SUPERSEDED_ZIP = "2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199"
 TAG = "v0.1.1-preview.4"
-SERVED_RECORD_REL = "R5R3_PREVIEW4_EVIDENCE_RETURN/raw/served_assets.json"
+SERVED_RECORD_REL = "docs/install/ASSET_READBACK_v0.1.1-preview.4.json"
 DISCLOSURE = ("superseded", "historical", "history", "do not install")
 
 
@@ -122,9 +122,8 @@ class TupleRecordsThePreview4IdentityTests(unittest.TestCase):
         self.assertEqual(set(entry["served_assets"]), set(served),
                          "the tuple must list every served asset of this release, and no other name")
         for name, meta in entry["served_assets"].items():
-            self.assertEqual(meta["sha256"], served[name]["sha256"], name)
-            self.assertEqual(meta["bytes"], served[name]["size"], name)
-        listed_in_sums = set(record["sha256sums"]["rows"])
+            self.assertEqual(meta, served[name], name)
+        listed_in_sums = set(record["sha256sums_entries"])
         self.assertEqual(sorted(listed_in_sums - set(entry["served_assets"])), [],
                          "an entry of the release's SHA256SUMS is missing from the tuple")
 
