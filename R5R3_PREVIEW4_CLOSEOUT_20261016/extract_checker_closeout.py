@@ -45,7 +45,53 @@ def objects_in(text: str) -> list[dict]:
     return found
 
 
+def from_codex_stdout(path: pathlib.Path) -> list[dict]:
+    """Verdict objects carried inside a Codex CLI JSONL event stream.
+
+    The lane answers as one `item.completed` / `agent_message` event whose `text` is itself the JSON object,
+    so the outer JSON must be parsed first and the inner text parsed second. A brace scan over the raw file
+    cannot see through the string escaping, which is why the first extraction pass found nothing.
+    """
+    found: list[dict] = []
+    for line in path.read_text(encoding="utf-8", errors="ignore").splitlines():
+        line = line.strip()
+        if not line.startswith("{"):
+            continue
+        try:
+            ev = json.loads(line)
+        except Exception:  # noqa: BLE001
+            continue
+        item = ev.get("item") or {}
+        if item.get("type") != "agent_message":
+            continue
+        text = item.get("text") or ""
+        if NONCE not in text:
+            continue
+        for obj in objects_in(text):
+            if obj.get("nonce") == NONCE and "items" in obj:
+                found.append(obj)
+    return found
+
+
 def main() -> int:
+    if len(sys.argv) > 1:
+        path = pathlib.Path(sys.argv[1])
+        if not path.is_file():
+            print(f"NO_VERDICT: no such stdout file: {path}")
+            return 2
+        hits = from_codex_stdout(path)
+        if not hits:
+            print(f"NO_VERDICT: {path} carries no agent_message with the nonce and an items map")
+            return 2
+        verdict = hits[-1]
+        (ROUND / "raw" / "CHECKER_VERDICT_R5R3.json").write_text(
+            json.dumps(verdict, ensure_ascii=False, indent=1) + "\n", encoding="utf-8", newline="\n")
+        print(json.dumps({"source": str(path).replace("\\", "/"), "nonce": verdict.get("nonce"),
+                          "items": {k: v.get("verdict") for k, v in (verdict.get("items") or {}).items()},
+                          "weakest_claim": verdict.get("weakest_claim"),
+                          "over_reach_found": verdict.get("over_reach_found")},
+                         ensure_ascii=False, indent=1))
+        return 0
     roots = [ROUND / "raw" / "verify_ds_attempts2", ROUND / "raw" / "verify_ds_attempts", ROUND / "raw"]
     hits: list[tuple[pathlib.Path, dict]] = []
     for root in roots:

@@ -61,7 +61,11 @@ yours and not the round's.
 
 - Owner gates still NOT_GRANTED: `NEW_RELEASE`, `PRIVATE_HOST_INSTALL`, `PUBLIC_DIRECTORY`, `PRODUCTION`,
   `S4_FULL_PASS`. This round executed no such act.
-- The round's only external effect is the evidence push to the repository (authorised for external acceptance).
+- External effects of the SESSION (not only of this round), so the record is not narrower than the evidence:
+  the previous round's owner-authorised merge of PR #16 into `main` (`dba4b19` -> `d3bd5456`), plus this
+  round's two branch pushes and the opening of PR #17. **Correction:** an earlier wording said "the round's
+  only external effect is the evidence push", which understated the session's recorded effects; the ODR
+  itself still asserts nothing as executed, and the merge genuinely belongs to the previous round.
 - Mandated model plan for this round was PLAN=GLM-5.3-Flash, EXECUTE=DeepSeek V4.1 Flash (CODEX CLI),
   VERIFY/SECURITY=DeepSeek V4.1 Flash (CODEX CLI). Writer and checker on the same model means model-axis
   independence is ABSENT; independence rests on process, lane, fresh context and re-derivation by the checker.

@@ -19,6 +19,10 @@ DEST = WT / "R5R3_PREVIEW4_CLOSEOUT_20261016"
 
 COPY = [
     ("ROUND_STATUS_CLOSEOUT.md", "ROUND_STATUS_CLOSEOUT.md"),
+    ("ARTIFACT_DATING.md", "ARTIFACT_DATING.md"),
+    ("CLAIM_CORRECTIONS_R5R3.md", "CLAIM_CORRECTIONS_R5R3.md"),
+    ("CHECKER_VERDICT_WS_C.json", "CHECKER_VERDICT_WS_C.json"),
+    ("raw/gstack_readback.json", "gstack_readback_epoch19.json"),
     ("PLAN_CONTRACT_FAR_R5R3.md", "PLAN_CONTRACT_FAR_R5R3.md"),
     ("raw/plan_glm_oneshot.log", "PLAN_DECISION_GLM_raw.log"),
     ("raw/PLAN_DECISION_GLM.json", "PLAN_DECISION_GLM.json"),
