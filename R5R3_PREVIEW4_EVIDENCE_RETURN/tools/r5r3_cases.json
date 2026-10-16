@@ -1,0 +1,32 @@
+{
+ "schema": "R5R3-20261016/acceptance-edge-cases/1",
+ "claim_ceiling": "machine probe on a frozen subject; not an acceptance",
+ "d1": [
+  {"id": "D1-ZH-NEW-NEG",    "text": "系統不允許傳送個資。",                   "expect": {"polarities": ["MUST NOT"]}},
+  {"id": "D1-ZH-NEW-NEG2",   "text": "請勿將金鑰寫入日誌。",                   "expect": {"polarities": ["MUST NOT"]}},
+  {"id": "D1-ZH-BASE-NEG",   "text": "系統不得上傳客戶資料。",                 "expect": {"polarities": ["MUST NOT"]}},
+  {"id": "D1-ZH-BASE-POS",   "text": "系統必須保存稽核紀錄。",                 "expect": {"polarities": ["MUST"]}},
+  {"id": "D1-EN-NEW-NEG",    "text": "The system should not publish customer secrets.", "expect": {"polarities": ["MUST NOT"]}},
+  {"id": "D1-EN-NEW-NEG2",   "text": "The system is not allowed to publish raw keys.",  "expect": {"polarities": ["MUST NOT"]}},
+  {"id": "D1-EN-BASE-NEG",   "text": "The system must not publish customer secrets.",   "expect": {"polarities": ["MUST NOT"]}},
+  {"id": "D1-EN-BASE-POS",   "text": "The system must publish an audit log.",           "expect": {"polarities": ["MUST"]}},
+  {"id": "D1-MIXED-SCOPE",   "text": "系統必須保存紀錄，不得外洩個資。",         "expect": {"polarities": ["MUST", "MUST NOT"]}},
+  {"id": "D1-AMBIG-REFUSE",  "text": "系統必須保存紀錄不得外洩個資。",           "expect": {"refuse": "IntakeInvalid"}}
+ ],
+ "d2": [
+  {"id": "D2-DOMAIN",   "text": "系統不得上傳至 api.example.com。",   "expect": {"atom_count": 1, "polarities": ["MUST NOT"]}},
+  {"id": "D2-VERSION",  "text": "版本必須為 v1.2.3。",                "expect": {"atom_count": 1, "polarities": ["MUST"]}},
+  {"id": "D2-DECIMAL",  "text": "金額上限為 1.25 元。",               "expect": {"atom_count": 1, "polarities": ["MUST"]}},
+  {"id": "D2-TWO-SENT", "text": "系統必須保存紀錄。系統必須輸出報告。", "expect": {"atom_count": 2, "polarities": ["MUST", "MUST"]}},
+  {"id": "D2-NO-SPACE", "text": "Do task A.Task B must run.",         "expect": {"atom_count": 2}}
+ ],
+ "type5": [
+  {"id": "T1_allowed_null",      "expect": {"native_exception": false, "schema_finding": true, "semantic_finding": true}},
+  {"id": "T2_forbidden_null",    "expect": {"native_exception": false, "schema_finding": true, "semantic_finding": true}},
+  {"id": "T3_allowed_dict_item", "expect": {"native_exception": false, "schema_finding": true, "semantic_finding": true}},
+  {"id": "T4_forbidden_dict",    "expect": {"native_exception": false, "schema_finding": true, "semantic_finding": true}},
+  {"id": "T5_unknown_claim",     "expect": {"native_exception": false, "schema_finding": true, "semantic_finding": true}},
+  {"id": "POS_allowed_only",     "expect": {"native_exception": false, "schema_finding": false, "semantic_finding": false}},
+  {"id": "POS_split_lists",      "expect": {"native_exception": false, "schema_finding": false, "semantic_finding": false}}
+ ]
+}

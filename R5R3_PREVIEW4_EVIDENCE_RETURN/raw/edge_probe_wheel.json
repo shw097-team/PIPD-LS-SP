@@ -1,0 +1,528 @@
+{
+ "schema": "R5R3-20261016/acceptance-edge-probe/1",
+ "subject": "C:\\Projects\\wt-r5r3",
+ "claim_ceiling": "machine probe; not an acceptance",
+ "cases": [
+  {
+   "id": "D1-ZH-NEW-NEG",
+   "kind": "d1",
+   "expect": {
+    "polarities": [
+     "MUST NOT"
+    ]
+   },
+   "observed": {
+    "polarities": [
+     "MUST NOT"
+    ],
+    "spans": [
+     [
+      0,
+      9
+     ]
+    ],
+    "statements": [
+     "系統不允許傳送個資"
+    ],
+    "source_sha256_present": true
+   },
+   "match": true
+  },
+  {
+   "id": "D1-ZH-NEW-NEG2",
+   "kind": "d1",
+   "expect": {
+    "polarities": [
+     "MUST NOT"
+    ]
+   },
+   "observed": {
+    "polarities": [
+     "MUST NOT"
+    ],
+    "spans": [
+     [
+      0,
+      9
+     ]
+    ],
+    "statements": [
+     "請勿將金鑰寫入日誌"
+    ],
+    "source_sha256_present": true
+   },
+   "match": true
+  },
+  {
+   "id": "D1-ZH-BASE-NEG",
+   "kind": "d1",
+   "expect": {
+    "polarities": [
+     "MUST NOT"
+    ]
+   },
+   "observed": {
+    "polarities": [
+     "MUST NOT"
+    ],
+    "spans": [
+     [
+      0,
+      10
+     ]
+    ],
+    "statements": [
+     "系統不得上傳客戶資料"
+    ],
+    "source_sha256_present": true
+   },
+   "match": true
+  },
+  {
+   "id": "D1-ZH-BASE-POS",
+   "kind": "d1",
+   "expect": {
+    "polarities": [
+     "MUST"
+    ]
+   },
+   "observed": {
+    "polarities": [
+     "MUST"
+    ],
+    "spans": [
+     [
+      0,
+      10
+     ]
+    ],
+    "statements": [
+     "系統必須保存稽核紀錄"
+    ],
+    "source_sha256_present": true
+   },
+   "match": true
+  },
+  {
+   "id": "D1-EN-NEW-NEG",
+   "kind": "d1",
+   "expect": {
+    "polarities": [
+     "MUST NOT"
+    ]
+   },
+   "observed": {
+    "polarities": [
+     "MUST NOT"
+    ],
+    "spans": [
+     [
+      0,
+      46
+     ]
+    ],
+    "statements": [
+     "The system should not publish customer secrets"
+    ],
+    "source_sha256_present": true
+   },
+   "match": true
+  },
+  {
+   "id": "D1-EN-NEW-NEG2",
+   "kind": "d1",
+   "expect": {
+    "polarities": [
+     "MUST NOT"
+    ]
+   },
+   "observed": {
+    "polarities": [
+     "MUST NOT"
+    ],
+    "spans": [
+     [
+      0,
+      45
+     ]
+    ],
+    "statements": [
+     "The system is not allowed to publish raw keys"
+    ],
+    "source_sha256_present": true
+   },
+   "match": true
+  },
+  {
+   "id": "D1-EN-BASE-NEG",
+   "kind": "d1",
+   "expect": {
+    "polarities": [
+     "MUST NOT"
+    ]
+   },
+   "observed": {
+    "polarities": [
+     "MUST NOT"
+    ],
+    "spans": [
+     [
+      0,
+      44
+     ]
+    ],
+    "statements": [
+     "The system must not publish customer secrets"
+    ],
+    "source_sha256_present": true
+   },
+   "match": true
+  },
+  {
+   "id": "D1-EN-BASE-POS",
+   "kind": "d1",
+   "expect": {
+    "polarities": [
+     "MUST"
+    ]
+   },
+   "observed": {
+    "polarities": [
+     "MUST"
+    ],
+    "spans": [
+     [
+      0,
+      36
+     ]
+    ],
+    "statements": [
+     "The system must publish an audit log"
+    ],
+    "source_sha256_present": true
+   },
+   "match": true
+  },
+  {
+   "id": "D1-MIXED-SCOPE",
+   "kind": "d1",
+   "expect": {
+    "polarities": [
+     "MUST",
+     "MUST NOT"
+    ]
+   },
+   "observed": {
+    "polarities": [
+     "MUST",
+     "MUST NOT"
+    ],
+    "spans": [
+     [
+      0,
+      15
+     ],
+     [
+      0,
+      15
+     ]
+    ],
+    "statements": [
+     "系統必須保存紀錄",
+     "不得外洩個資"
+    ],
+    "source_sha256_present": true
+   },
+   "match": true
+  },
+  {
+   "id": "D1-AMBIG-REFUSE",
+   "kind": "d1",
+   "expect": {
+    "refuse": "IntakeInvalid"
+   },
+   "observed": {
+    "exception": "IntakeInvalid",
+    "message": "ambiguous negation scope: a positive obligation and a negation share one clause with no boundary to split them"
+   },
+   "match": true
+  },
+  {
+   "id": "D2-DOMAIN",
+   "kind": "d2",
+   "expect": {
+    "atom_count": 1,
+    "polarities": [
+     "MUST NOT"
+    ]
+   },
+   "observed": {
+    "atom_count": 1,
+    "polarities": [
+     "MUST NOT"
+    ],
+    "spans": [
+     [
+      0,
+      23
+     ]
+    ],
+    "statements": [
+     "系統不得上傳至 api.example.com"
+    ],
+    "spans_point_into_source": true,
+    "source_sha256_present": true
+   },
+   "match": true
+  },
+  {
+   "id": "D2-VERSION",
+   "kind": "d2",
+   "expect": {
+    "atom_count": 1,
+    "polarities": [
+     "MUST"
+    ]
+   },
+   "observed": {
+    "atom_count": 1,
+    "polarities": [
+     "MUST"
+    ],
+    "spans": [
+     [
+      0,
+      12
+     ]
+    ],
+    "statements": [
+     "版本必須為 v1.2.3"
+    ],
+    "spans_point_into_source": true,
+    "source_sha256_present": true
+   },
+   "match": true
+  },
+  {
+   "id": "D2-DECIMAL",
+   "kind": "d2",
+   "expect": {
+    "atom_count": 1,
+    "polarities": [
+     "MUST"
+    ]
+   },
+   "observed": {
+    "atom_count": 1,
+    "polarities": [
+     "MUST"
+    ],
+    "spans": [
+     [
+      0,
+      12
+     ]
+    ],
+    "statements": [
+     "金額上限為 1.25 元"
+    ],
+    "spans_point_into_source": true,
+    "source_sha256_present": true
+   },
+   "match": true
+  },
+  {
+   "id": "D2-TWO-SENT",
+   "kind": "d2",
+   "expect": {
+    "atom_count": 2,
+    "polarities": [
+     "MUST",
+     "MUST"
+    ]
+   },
+   "observed": {
+    "atom_count": 2,
+    "polarities": [
+     "MUST",
+     "MUST"
+    ],
+    "spans": [
+     [
+      0,
+      8
+     ],
+     [
+      9,
+      17
+     ]
+    ],
+    "statements": [
+     "系統必須保存紀錄",
+     "系統必須輸出報告"
+    ],
+    "spans_point_into_source": true,
+    "source_sha256_present": true
+   },
+   "match": true
+  },
+  {
+   "id": "D2-NO-SPACE",
+   "kind": "d2",
+   "expect": {
+    "atom_count": 2
+   },
+   "observed": {
+    "atom_count": 1,
+    "polarities": [
+     "MUST"
+    ],
+    "spans": [
+     [
+      0,
+      25
+     ]
+    ],
+    "statements": [
+     "Do task A.Task B must run"
+    ],
+    "spans_point_into_source": true,
+    "source_sha256_present": true
+   },
+   "match": false
+  },
+  {
+   "id": "T1_allowed_null",
+   "kind": "type5",
+   "expect": {
+    "native_exception": false,
+    "schema_finding": true,
+    "semantic_finding": true
+   },
+   "observed": {
+    "native_exception": null,
+    "schema_findings": [
+     "ClaimCeiling/allowed_claims: None is not of type 'array'"
+    ],
+    "semantic_findings": [
+     "ClaimCeiling: allowed_claims must be a list of declared claim names (got NoneType)"
+    ]
+   },
+   "match": true
+  },
+  {
+   "id": "T2_forbidden_null",
+   "kind": "type5",
+   "expect": {
+    "native_exception": false,
+    "schema_finding": true,
+    "semantic_finding": true
+   },
+   "observed": {
+    "native_exception": null,
+    "schema_findings": [
+     "ClaimCeiling/forbidden_escalation: None is not of type 'array'"
+    ],
+    "semantic_findings": [
+     "ClaimCeiling: forbidden_escalation must be a list of declared claim names (got NoneType)"
+    ]
+   },
+   "match": true
+  },
+  {
+   "id": "T3_allowed_dict_item",
+   "kind": "type5",
+   "expect": {
+    "native_exception": false,
+    "schema_finding": true,
+    "semantic_finding": true
+   },
+   "observed": {
+    "native_exception": null,
+    "schema_findings": [
+     "ClaimCeiling/allowed_claims/0: {'claim': 'RELEASED'} is not of type 'string'",
+     "ClaimCeiling/allowed_claims/0: {'claim': 'RELEASED'} is not one of ['PROMPT_COMPILE_PASS', 'HGK_ADMITTED', 'RUNTIME_READY', 'LOCAL_QUALIFIED', 'INDEPENDENT_PASS', 'PUBLICATION_APPROVED', 'RELEASED', 'PRODUCTION_VERIFIED']"
+    ],
+    "semantic_findings": [
+     "ClaimCeiling: allowed_claims entries must be declared claim names (got dict)"
+    ]
+   },
+   "match": true
+  },
+  {
+   "id": "T4_forbidden_dict",
+   "kind": "type5",
+   "expect": {
+    "native_exception": false,
+    "schema_finding": true,
+    "semantic_finding": true
+   },
+   "observed": {
+    "native_exception": null,
+    "schema_findings": [
+     "ClaimCeiling/forbidden_escalation/0: {'claim': 'RELEASED'} is not of type 'string'",
+     "ClaimCeiling/forbidden_escalation/0: {'claim': 'RELEASED'} is not one of ['PROMPT_COMPILE_PASS', 'HGK_ADMITTED', 'RUNTIME_READY', 'LOCAL_QUALIFIED', 'INDEPENDENT_PASS', 'PUBLICATION_APPROVED', 'RELEASED', 'PRODUCTION_VERIFIED']"
+    ],
+    "semantic_findings": [
+     "ClaimCeiling: forbidden_escalation entries must be declared claim names (got dict)"
+    ]
+   },
+   "match": true
+  },
+  {
+   "id": "T5_unknown_claim",
+   "kind": "type5",
+   "expect": {
+    "native_exception": false,
+    "schema_finding": true,
+    "semantic_finding": true
+   },
+   "observed": {
+    "native_exception": null,
+    "schema_findings": [
+     "ClaimCeiling/allowed_claims/0: 'NOT_A_DECLARED_CLAIM' is not one of ['PROMPT_COMPILE_PASS', 'HGK_ADMITTED', 'RUNTIME_READY', 'LOCAL_QUALIFIED', 'INDEPENDENT_PASS', 'PUBLICATION_APPROVED', 'RELEASED', 'PRODUCTION_VERIFIED']"
+    ],
+    "semantic_findings": [
+     "ClaimCeiling: allowed_claims names the undeclared claim 'NOT_A_DECLARED_CLAIM'"
+    ]
+   },
+   "match": true
+  },
+  {
+   "id": "POS_allowed_only",
+   "kind": "type5",
+   "expect": {
+    "native_exception": false,
+    "schema_finding": false,
+    "semantic_finding": false
+   },
+   "observed": {
+    "native_exception": null,
+    "schema_findings": [],
+    "semantic_findings": []
+   },
+   "match": true
+  },
+  {
+   "id": "POS_split_lists",
+   "kind": "type5",
+   "expect": {
+    "native_exception": false,
+    "schema_finding": false,
+    "semantic_finding": false
+   },
+   "observed": {
+    "native_exception": null,
+    "schema_findings": [],
+    "semantic_findings": []
+   },
+   "match": true
+  }
+ ],
+ "summary": {
+  "total": 22,
+  "match": 21,
+  "fail": 1,
+  "verdict": "FAIL"
+ }
+}
