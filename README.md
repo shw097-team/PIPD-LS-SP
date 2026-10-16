@@ -20,17 +20,20 @@ each thing lives. Shell-level installation detail has exactly one home and is no
 |---|---|---|
 | New, and you want to know what this is / is not | [What it does, and does not](#what-is-in-this-tree) | Scope and non-goals |
 | Checking whether it is safe to build on | [Claim ceiling](#claim-ceiling) · [Known limitations](#known-limitations) | What is verified, what is not |
-| Installing it, by either route | [`docs/install/README.md`](docs/install/README.md) | **The single install SSOT** — versions, hashes, uninstall |
+| Installing it, by any of the three routes | [`docs/install/README.md`](docs/install/README.md) | **The single install SSOT** — versions, hashes, uninstall |
 | Want a private ChatGPT plugin (no directory listing) | [Private plugin route](#install) | ZIP download + four UI steps, verified 2026-10-14 |
 | Actually using it, task by task | [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md) | **The single user guide** — the only manual |
 | Driving the CLI/Wheel directly | [CLI advanced](#choose-your-path-cli-or-skills) | 13 verbs, JSON output, typed refusals |
 | Want the current state, evidence and gates in one place | [Current state and evidence entry points (2026-10-14)](#current-state-and-evidence-entry-points-2026-10-14) | Merged main, evidence packs, lane receipts, gates |
 
-Two routes exist, and only two: **Web** (one document, no shell) and **Agent** (one copy-paste
-prompt). The historical shell transcripts further down are retained as evidence of what was actually
-executed against the published wheel — they are **not** a second installation instruction. When the
-two disagree, [`docs/install/README.md`](docs/install/README.md) and the [user guide](docs/USER_GUIDE.md)
-win.
+Three routes exist. **Web** (one document, no shell) and **Agent** (one copy-paste prompt) are the two
+the install page describes first; the third is the **private plugin ZIP** — download one skills ZIP from
+the release and add it to your own ChatGPT account, no shell required
+([`docs/install/README.md`](docs/install/README.md), *Route 3*). The historical shell transcripts further
+down are retained as evidence of what was actually executed against the published wheel — they are
+**not** an installation instruction. When these routes disagree,
+[`docs/install/README.md`](docs/install/README.md) and the [user guide](docs/USER_GUIDE.md) win; the
+install page is the SSOT for all three.
 
 ## Current state and evidence entry points (2026-10-16)
 
@@ -165,8 +168,8 @@ Everything below this section describes the **published preview**, not this cand
 
 ## Install
 
-Install is one of **two routes**, and [`docs/install/README.md`](docs/install/README.md) is the
-single source of truth for both:
+Install is one of **three routes**, and [`docs/install/README.md`](docs/install/README.md) is the
+single source of truth for all three:
 
 - **Web** — no public plugin directory listing exists yet, so the Web route today is the single
   document **[`docs/install/PIPD_WEB_FALLBACK.md`](docs/install/PIPD_WEB_FALLBACK.md)** — a real,
