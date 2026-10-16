@@ -82,6 +82,13 @@ gate labelling, document ceilings). Result: `GATE_PASS`, 10/10 (`raw/selfcheck_f
 
 ## Open / handed over
 
+0. **RESOLVED by owner instruction** — 「直接用「PIPD-LS-SP Public Skills_P4」的名字，進行安裝」: candidate G
+   (preview.4's bytes, new identity `pipd-ls-sp-public-skills-p4`, display `PIPD-LS-SP Public Skills_P4`) was
+   accepted as a create **and then installed**, verified after a reload (the `已安裝` list holds five entries
+   including `PIPD-LS-SP Public Skills_P4`; both created cards show `更多操作`). Evidence:
+   `FAR_R5R3_ZIPSPEC/VERDICT_P6_and_INSTALL.md`, `CANDIDATE_G_MANIFEST.json`, `host_smoke/cand-G-preview4-p4-name.zip`.
+   This honours `PRIVATE_HOST_INSTALL` for the single action the owner named and for nothing further.
+
 1. **Owner one-action decision** — the update route (R1) or remove-then-readd (R2) to land preview.4's bytes on
    the account; the agent does not execute account-mutating steps under the standing gates.
 2. **Checker verdict** — pending (`proc_7598e96175cd`); the re-derivation card stays open until it returns.
