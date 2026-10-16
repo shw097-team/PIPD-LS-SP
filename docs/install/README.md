@@ -148,7 +148,7 @@ Pin the **immutable** identity, never a moving branch tip:
   dereferences to target commit `cc6c1930765160697e7e51d6e37735b9220a30db`, tree
   `7d277a0afaff28b6841836cea3a31ffd0b214d94`. The release carries **no** `RELEASE_TUPLE_*.json` asset;
   its identities live in the `v0.1.1-preview.4` entry of
-  [`docs/RELEASE_TUPLE.json`](RELEASE_TUPLE.json) in this tree, and the digests a downloader verifies
+  [`docs/RELEASE_TUPLE.json`](../RELEASE_TUPLE.json) in this tree, and the digests a downloader verifies
   against are the release's own `SHA256SUMS` asset. Both are independently re-derivable:
   `git rev-parse <tag>`, `git rev-parse <tag>^{commit}`, `git rev-parse <tag>^{tree}`, and
   `sha256sum <downloaded asset>` against `SHA256SUMS`. The earlier releases' entries stay as history —
