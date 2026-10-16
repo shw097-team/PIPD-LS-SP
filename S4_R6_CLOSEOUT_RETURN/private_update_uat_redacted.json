@@ -1,0 +1,43 @@
+{
+  "schema": "PIPD-S4-R6-CLOSEOUT-RETURN/private-update-uat/1",
+  "exists": false,
+  "reason": "No agent may operate a private ChatGPT account UI. No human account with upload/update permission was made available to this round, so no UAT was attempted and none is claimed.",
+  "ledger": [
+    {
+      "case_id": "UU-01",
+      "what": "same-plugin_id UPDATE on an account that already has the plugin",
+      "status": "NOT_RUN",
+      "owner": "Human Host Owner",
+      "unblock": "an account whose plugins page offers Manage/Update or Upload new version"
+    },
+    {
+      "case_id": "UU-02",
+      "what": "1 positive source-bound task after the update",
+      "status": "NOT_RUN",
+      "owner": "Human Host Owner",
+      "unblock": "same as UU-01"
+    },
+    {
+      "case_id": "UU-03",
+      "what": "1 source-less typed NACK",
+      "status": "NOT_RUN",
+      "owner": "Human Host Owner",
+      "unblock": "same as UU-01"
+    },
+    {
+      "case_id": "UU-04",
+      "what": "1 non-trigger / out-of-scope security NEG",
+      "status": "NOT_RUN",
+      "owner": "Human Host Owner",
+      "unblock": "same as UU-01"
+    }
+  ],
+  "route_available_to_the_user": {
+    "path": "docs/install/README.md#updating-a-plugin-you-already-installed",
+    "ceiling": "DOCUMENTED; the UI action itself is the human's"
+  },
+  "fallback_for_no_upload_permission": {
+    "path": "PIPD_WEB_FALLBACK.md",
+    "ceiling": "DOC_MOUNT_ONLY"
+  }
+}

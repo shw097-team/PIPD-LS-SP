@@ -1,0 +1,9 @@
+finding_id	class	ck	task	disposition	evidence_note	evidence_path	req
+F-R6-01	NON_BLOCKING_OBSERVATION	CK-04	T-06	FIXED_ON_CANDIDATE	docs/install/README.md version pin + legacy preview.3 example	diff_and_tests/r6_doc_identity_check.json	REQ-01/REQ-03
+F-R6-02	NON_BLOCKING_OBSERVATION	CK-05	T-07	FIXED_ON_CANDIDATE	docs/USER_GUIDE.md ceilings updated; S4_FULL_PASS still NOT_GRANTED	diff_and_tests/r6_doc_identity_check.json	REQ-03
+F-R6-03	EVIDENCE_GAP	CK-08	T-08	FIXED_ON_CANDIDATE	same-plugin_id UPDATE route added to the install SSOT	diff_and_tests/r6_doc_identity_check.json	REQ-03/REQ-04
+F-R6-04	EVIDENCE_GAP	CK-06	T-23	NOT_TRIGGERED_THIS_ROUND	11 commits after the tag remain unpublished; no .5 issued	subject_versions.json	REQ-01
+F-R6-05	EVIDENCE_GAP	CK-10,CK-11	T-22	DEFERRED_HOST_UAT	four-host 8x replay not performed; single-account UI unavailable to this round	release_and_plugin_scope.json	REQ-04
+F-R6-06	NON_BLOCKING_OBSERVATION	CK-07	T-09	OWNER_GATED	PR #17 open, non-draft, 1 file, +14/-0, mergeable clean; merge is the owner's	release_readback.json	REQ-06
+F-R6-07	OUT_OF_SCOPE	CK-13	T-09	OUT_OF_SCOPE	PR #14 (567 files, draft) / PR #15 (16 files, draft) not merged, not touched	release_readback.json	REQ-05
+F-R6-08	NEW_OBSERVATION_THIS_ROUND	CK-02,CK-04	T-06	DOCUMENTED_NON_BLOCKING	the preview.4 release SERVES PIPD_WEB_FALLBACK.md whose own header declares release_id v0.1.1-preview.3; the served sha256 equals the committed file's, so the served document carries preview.3 provenance	diff_and_tests/release_readback.json + docs/install/PIPD_WEB_FALLBACK.md header	REQ-01/REQ-04

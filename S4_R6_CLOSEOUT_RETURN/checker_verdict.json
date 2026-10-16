@@ -1,0 +1,53 @@
+{
+  "schema": "PIPD-S4-R6-CLOSEOUT-RETURN/checker-verdict/1",
+  "subject_commit": "552bbde073806e254f84e95039f05c9767608aa1",
+  "subject_tree": "a95579bf8c1bc77550d1044d12b2de7ed2028ae5",
+  "maker": {
+    "lane": "EXECUTE",
+    "model": "opencode-go/deepseek-v4.1-flash"
+  },
+  "checker": {
+    "lane": "VERIFY_SECURITY",
+    "model": "openai-codex/gpt-6.1-sol (transport model gpt-6.1-sol, OpenAI OAuth)"
+  },
+  "maker_id_equals_checker_id": false,
+  "independence_basis": "different model axis, not merely a different lane name",
+  "despatches": [
+    {
+      "dispatch_receipt": "verify_turn1",
+      "lane": "VERIFY_SECURITY",
+      "required_arm": "openai-codex/gpt-6.1-sol",
+      "used_rank": null,
+      "used_transport_model": null,
+      "receipt_ok": false,
+      "receipt_code": "ERR_NO_ARM_EMITTED_NONCE",
+      "usage_receipt_ok": true,
+      "nonce_present_in_stdout": false,
+      "checker_id": "independent-chatgpt-VERIFY_SECURITY-PIPD-S4-R6-20261016-552bbde",
+      "verdict": "PARTIAL",
+      "verdict_text_sha256": "b1e7e67ce81be717d9cb100c31c26117704940e8fd70625adb9a7feb6d150fd7"
+    },
+    {
+      "dispatch_receipt": "verify_turn2",
+      "lane": "VERIFY_SECURITY",
+      "required_arm": "openai-codex/gpt-6.1-sol",
+      "used_rank": 2,
+      "used_transport_model": "gpt-6.1-sol",
+      "receipt_ok": true,
+      "receipt_code": null,
+      "usage_receipt_ok": true,
+      "nonce_present_in_stdout": true,
+      "checker_id": "independent-verify-security-PIPD-S4-R6-20261016-552bbde",
+      "verdict": "PARTIAL",
+      "verdict_text_sha256": "061da76a78613f7d43c928ee279e42f735b5d03c23d33f2ce7d7f9adf27c390a"
+    }
+  ],
+  "verdict": "PARTIAL",
+  "checker_id": "independent-chatgpt-VERIFY_SECURITY-PIPD-S4-R6-20261016-552bbde",
+  "qualification_limits": [
+    "The checker's sandbox denied network access (WinError 10013), so it could not fetch the served release ZIP; that item is its NOT_RUN, while the maker's own fresh HTTPS recomputation is recorded in diff_and_tests/release_readback.json and is re-runnable by anyone.",
+    "The checker's sandbox had no usable temporary storage, so its pytest invocation failed before collecting tests; its verdict is therefore PARTIAL rather than PASS.",
+    "First dispatch receipt is non-green (ERR_NO_ARM_EMITTED_NONCE) because the maker's brief did not ask the arm to echo the nonce; the second dispatch (corrected brief) is recorded alongside so both are visible."
+  ],
+  "claim_ceiling": "Read-only independent inspection of the frozen candidate. Establishes: the scoped document claims and the changed-path set at that commit. Does NOT establish: served-asset integrity (checker-side), test execution (checker-side), host UI behaviour, HOST_QUALIFIED, S4_FULL_PASS or production."
+}

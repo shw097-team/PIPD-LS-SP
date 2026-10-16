@@ -1,0 +1,68 @@
+{
+  "schema": "PIPD-S4-R6-CLOSEOUT-RETURN/release-and-plugin-scope/1",
+  "release": {
+    "tag": "v0.1.1-preview.4",
+    "assets": 7,
+    "asset_metadata_all_match": true,
+    "unchanged_by_this_round": true,
+    "tag_moved_by_this_round": false,
+    "assets_replaced_by_this_round": false
+  },
+  "plugin_zip": {
+    "name": "pipd-ls-sp-public-skills.zip",
+    "bytes": 68357,
+    "sha256": "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75",
+    "sha256_recomputed_from_served_bytes": true,
+    "download_entry": "https://github.com/shw097-team/PIPD-LS-SP/releases/tag/v0.1.1-preview.4",
+    "entries": 56,
+    "skillmd_count": 8,
+    "manifest_count": 1,
+    "manifest_path": [
+      "pipd-ls-sp-public-skills/plugin.json"
+    ],
+    "roots": [
+      "pipd-ls-sp-public-skills"
+    ],
+    "traversal_members": [],
+    "has_mcp_apps_hooks": false,
+    "plugin_json_name": "pipd-ls-sp-public-skills",
+    "plugin_json_version": "0.1.1"
+  },
+  "host_scope": [
+    {
+      "host": "ChatGPT Web private plugin (single account, historical)",
+      "verdict": "PARTIAL_SCOPED",
+      "evidence": "R6 §5 five-pack matrix carried over: same-id ADD refused; renamed-derivative CREATE+INSTALL observed",
+      "this_round": "NOT_RUN - no account UI available to an agent; not an agent-executable action"
+    },
+    {
+      "host": "Web GPT-6 fallback document",
+      "verdict": "RELEASE_PASS_DOC_ONLY",
+      "evidence": "PIPD_WEB_FALLBACK.md served at 42,145 B / c88ddc49...",
+      "this_round": "VERIFIED via SHA256SUMS"
+    },
+    {
+      "host": "Hermes Agent",
+      "verdict": "PARTIAL / NO_HOST_GLOBAL_PASS",
+      "evidence": "R6 §6",
+      "this_round": "NOT_RUN"
+    },
+    {
+      "host": "Codex Desktop GUI",
+      "verdict": "PARTIAL",
+      "evidence": "R6 §6",
+      "this_round": "NOT_RUN"
+    },
+    {
+      "host": "Codex CLI",
+      "verdict": "CLI_ENGINE_PASS_SCOPED / SKILL_HOST_PARTIAL",
+      "evidence": "R6 §6",
+      "this_round": "NOT_RUN"
+    }
+  ],
+  "four_host_qualified": "NOT_GRANTED",
+  "s4_full_pass": "NOT_GRANTED",
+  "production": "NOT_GRANTED",
+  "public_plugin_directory": "OUT_OF_SCOPE",
+  "release_state": "UNCHANGED_THIS_ROUND"
+}

@@ -1,0 +1,64 @@
+{
+  "schema": "PIPD-S4-R6-CLOSEOUT-RETURN/diff-and-tests/1",
+  "candidate": {
+    "commit": "552bbde073806e254f84e95039f05c9767608aa1",
+    "tree": "a95579bf8c1bc77550d1044d12b2de7ed2028ae5",
+    "base": "d3bd5456afbff21a8c8837994a49f57be3e1b97e",
+    "branch": "fix/s4r6-closeout-doc-identity-and-update-route-20261016"
+  },
+  "changed_paths": [
+    "docs/USER_GUIDE.md",
+    "docs/install/README.md"
+  ],
+  "authorized_paths": [
+    "docs/install/README.md",
+    "docs/USER_GUIDE.md",
+    "tests/test_r5r3_install_route_identity.py",
+    "S4_R6_CLOSEOUT_RETURN/"
+  ],
+  "changed_paths_within_authorized_set": true,
+  "git_diff_check_exit": 0,
+  "git_diff_check_clean": true,
+  "tests": {
+    "install_route_identity": {
+      "cmd": "python -m pytest tests/test_r5r3_install_route_identity.py -q --no-header",
+      "exit": 0,
+      "raw": "10 passed in 0.18s",
+      "log": "diff_and_tests/pytest_install_route_identity.txt"
+    },
+    "affected_subset": {
+      "cmd": "python -m pytest tests/test_r5r3_install_route_identity.py tests/test_s4ext_release_provenance.py tests/test_postrelease_web_mount.py tests/test_public_plugin_packaging.py tests/test_first_run_examples.py tests/test_s4ext_artifact_reproducibility.py tests/test_publication_projection.py -q --no-header",
+      "exit": 0,
+      "raw": "92 passed, 18 skipped, 13 subtests passed in 37.70s",
+      "log": "diff_and_tests/pytest_affected.txt"
+    },
+    "full_local_suite": {
+      "cmd": "python -m pytest tests -q --no-header -p no:cacheprovider",
+      "exit": 0,
+      "raw": "621 passed, 20 skipped, 62 subtests passed in 197.48s (0:03:17)",
+      "log": "diff_and_tests/pytest_full.txt",
+      "note": "LOCAL Windows run. This is NOT a reproduction of the R6 CI run (624 tests OK / 6 skipped on that runner): different environment, different skip set. Denominators are not interchangeable."
+    }
+  },
+  "doc_identity_detector": {
+    "verdict": "PASS",
+    "totals": {
+      "checks": 7,
+      "checks_passed": 7,
+      "mutations": 7,
+      "mutations_fired": 7
+    },
+    "log": "diff_and_tests/r6_doc_identity_check.json",
+    "non_vacuity": "every check has a paired mutation that must fire; 7/7 fired"
+  },
+  "raw_log_hashes": {
+    "candidate_diff.patch": "11f3afeee6494ee39b366f4044a758485c9e9be5639657550fe3e403690cf2ec",
+    "pytest_affected.txt": "6b191fb4f5aa65e5f96335467c2f03a0cd7a78ccd39b3276094347c16efc32cc",
+    "pytest_full.txt": "b47ea36de5fcf11202c10a35a2f0828d2abc48c3259ea6096098dfcc10a4191a",
+    "pytest_install_route_identity.txt": "53bd23da01da6fe2b57cb306a9085c43204a77b8d5660f920005fe5814aa2df3",
+    "r6_doc_identity_check.json": "e2eebe1d597788268e51c4b9bd57e3d166e9015b98b02e023407bf6eb67915c4",
+    "README.md": "dd23044a6ea5701ebc64df3236fe3a00629bbd7f260a3c8349dac21048b5525e",
+    "release_readback.json": "e1f92c5d99deb46d0190a30f8597edbaf7e376ad5e0f13b898b0689e4f7fea36",
+    "summary.json": "cf05bd3ada3f7205984d68f0ab804db6a78f1f15cfa186da9a3be140755f4274"
+  }
+}
