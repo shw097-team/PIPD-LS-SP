@@ -1,0 +1,142 @@
+{
+  "schema": "HYGIENE-ACTIONS/1",
+  "round": "PIPD-REPO-HYGIENE-AND-HANDOVER-20261016",
+  "E1_reclaim": {
+    "before": 29,
+    "after": 17,
+    "removed_count": 12,
+    "removed": [
+      {
+        "path": "C:/Projects/Agent_Workspace/PIPD/worktrees/r5r-wt",
+        "branch": "r5r-evidence-return-20261014",
+        "tip": "fb6e835d3539"
+      },
+      {
+        "path": "C:/Projects/Agent_Workspace/PIPD/worktrees/r5y-wt",
+        "branch": "feat/s4r5y-plugin-publication-20261014",
+        "tip": "062d84ae3e95"
+      },
+      {
+        "path": "C:/Projects/Agent_Workspace/PIPD/worktrees/r5z-ev-wt",
+        "branch": "r5z-evidence-return-20261014",
+        "tip": "a0882fd721f8"
+      },
+      {
+        "path": "C:/Projects/Agent_Workspace/PIPD/worktrees/r5z-wt",
+        "branch": "feat/s4r5z-readme-plugin-route-20261014",
+        "tip": "96434958171f"
+      },
+      {
+        "path": "C:/Projects/Agent_Workspace/PIPD/worktrees/r7-wt",
+        "branch": "feat/s4r7-main-upgrade-and-repo-state-20261014",
+        "tip": "6dc5ec22d003"
+      },
+      {
+        "path": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4ext-r1-wt",
+        "branch": "fix/s4-external-challenge-20261012-r1-provenance-trace",
+        "tip": "eef951acdfe0"
+      },
+      {
+        "path": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3a-wt",
+        "branch": "fix/s4r3-stage-a-ci-truthfulness-20261013",
+        "tip": "759b9f0dc880"
+      },
+      {
+        "path": "C:/Projects/Agent_Workspace/PIPD/worktrees/s4r3c-wt",
+        "branch": "feat/s4r5x-manifest-fit-20261014",
+        "tip": "e00ab7b68c91"
+      },
+      {
+        "path": "C:/Projects/wt-r5r3",
+        "branch": "fix/r5r3-preview4-identity-and-route",
+        "tip": "4cbb22fc9be3"
+      },
+      {
+        "path": "C:/Projects/wt-r5r3-closeout-evidence",
+        "branch": "r5r3-closeout-evidence-20261016",
+        "tip": "1000fe25f478"
+      },
+      {
+        "path": "C:/Projects/wt-r5r3-evidence",
+        "branch": "r5r3-evidence-return-20261016",
+        "tip": "728849b20ded"
+      },
+      {
+        "path": "C:/Projects/wt-r5r3-product-r2",
+        "branch": "docs/r5r3-asset-reproducibility-readback",
+        "tip": "97a01dab95bc"
+      }
+    ],
+    "skipped_count": 1,
+    "skipped": [
+      {
+        "path": "C:/Projects/Agent_Workspace/PIPD-S4R6-wt",
+        "why": "IN_USE_OR_NOT_PRUNABLE"
+      }
+    ],
+    "guard": "dirty==0 AND tip==origin/<branch>; in-use excluded"
+  },
+  "E2_rescue": {
+    "branch": "rescue/r5p-uncommitted-20261016",
+    "modified_files": [],
+    "untracked_left_in_place": 218,
+    "result": "NOTHING_TO_RESCUE"
+  },
+  "E3_scratch": {
+    "dir": "C:\\Projects\\Agent_Workspace\\_handover\\S4-FINAL-PR18-CLOSEOUT-20261016\\_scratch",
+    "removed": [
+      "verify",
+      "verify2",
+      "verify3",
+      "verify4",
+      "verify5"
+    ],
+    "count": 5,
+    "verified_after": []
+  },
+  "E3_gitignore_candidate": {
+    "applied": false,
+    "probe": [
+      {
+        "prefix": ".hgk",
+        "untracked_files": 211,
+        "tracked_files_under_prefix": 644,
+        "ignore_rule_provable": false
+      }
+    ],
+    "rationale": "本回合可寫範圍不含主 clone；只交付 not-applied 候選與安全性證明，交 Owner 處置"
+  },
+  "E2_rescue_actual": {
+    "note": "The rescue was performed by the FIRST run of this script, which crashed AFTER E2 and BEFORE its record was written; the record below was recovered by direct git inspection.",
+    "performed": true,
+    "branch": "rescue/r5p-uncommitted-20261016",
+    "commit": "39079c0",
+    "files_committed": [
+      "src/pipd_ls_sp/cli.py",
+      "src/pipd_ls_sp/pipeline.py",
+      "src/pipd_ls_sp/validate.py",
+      ".gitignore",
+      ".hgk/* (2 tracked files)"
+    ],
+    "original_branch": "r5p-post-challenge-repair",
+    "original_branch_untouched": true,
+    "pushed": false,
+    "tracked_modifications_after": 0,
+    "untracked_preserved": 218,
+    "verification": "git -C PIPD status --porcelain | grep -v '^??' -> empty; git rev-parse --abbrev-ref HEAD -> rescue/..."
+  },
+  "self_inflicted_defects": [
+    {
+      "id": "SID-01",
+      "severity": "record-integrity",
+      "what": "checks/execute_hygiene.py crashed in its E3 block after E1/E2 had already run (inventory JSON shape assumption: worktrees/prunable_candidates and untracked_buckets were read with the wrong container type), and the report was written only at the END of main().",
+      "effect": "E2's rescue commit existed on disk with no record written by the run that made it; E1 that run removed nothing (its candidate set fell back to the 9 dirty worktrees, all correctly rejected by the dirty==0 guard).",
+      "repair": "report is now written after EVERY phase (dump()); E1 candidate set read explicitly from prunable_candidates; E2 made idempotent; the E2 action was recovered by direct git inspection and recorded here.",
+      "class_rule": "A destructive/mutating multi-phase script must persist its own record incrementally; writing the record only at the end makes the log a victim of the very crash it must survive."
+    }
+  ],
+  "guard_effectiveness": {
+    "E1_guard": "dirty==0 AND tip==origin/<branch>: 12 removed, 0 violations",
+    "in_use_excluded": "PIPD-S4R6-wt (this session's worktree) skipped by design"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "schema": "EVIDENCE/checks_and_routes/1",
+  "hgk_admission": {
+    "verdict": "ADMISSION_OK",
+    "final_state": "WORKORDERS_ADMITTED",
+    "project_id": "PIPD-REPO-HYGIENE-20261016",
+    "sources_present": 19,
+    "checkpoint": "CK-20261016-25D7301C",
+    "workorders": [
+      "WO-TS-20261016-01",
+      "WO-TS-20261016-02",
+      "WO-TS-20261016-03",
+      "WO-TS-20261016-04",
+      "WO-TS-20261016-05"
+    ]
+  },
+  "gstack_routes": {
+    "active_selected": [
+      "gstack.cso",
+      "gstack.office-hours",
+      "gstack.plan-eng-review",
+      "gstack.qa",
+      "gstack.retro",
+      "gstack.review",
+      "gstack.ship",
+      "openspec"
+    ],
+    "routes": [
+      {
+        "flow": "repo hygiene audit plan review of recoverable worktrees and uncommitted work",
+        "route": "GSTACK",
+        "provider": "gstack.plan-eng-review"
+      },
+      {
+        "flow": "independent security review of the docs-only branch write scope and credential handling",
+        "route": "GSTACK",
+        "provider": "gstack.cso"
+      },
+      {
+        "flow": "qa of the evidence pack self-test and the shipped-bytes manifest",
+        "route": "GSTACK",
+        "provider": "gstack.qa"
+      },
+      {
+        "flow": "front page truthfulness review of the repo readme current state section",
+        "route": "GSTACK",
+        "provider": "gstack.review"
+      },
+      {
+        "flow": "milestone acceptance of the session closeout and handover record",
+        "route": "NATIVE",
+        "provider": null
+      },
+      {
+        "flow": "unrelated quarterly tax filing",
+        "route": "NATIVE",
+        "provider": null
+      }
+    ],
+    "negative_control": {
+      "flow": "unrelated quarterly tax filing",
+      "route": "NATIVE",
+      "provider": null,
+      "ok": true
+    }
+  },
+  "openspec": {
+    "change": "pipd-repo-hygiene-and-handover-20261016",
+    "validate_strict": "Change 'pipd-repo-hygiene-and-handover-20261016' is valid",
+    "unchanged_pre_existing_failures_in_other_changes": [
+      "hgk-plan-plane-rebind-20261015",
+      "sod-independent-verify-enforcement"
+    ]
+  },
+  "kanban": {
+    "board": "repo-hygiene-and-handover-20261016",
+    "gates": [
+      "t_1b226461",
+      "t_2b5064ae",
+      "t_f65bf1db",
+      "t_294d54e5",
+      "t_4234b39e",
+      "t_19f65b72",
+      "t_6092fa59",
+      "t_d1f1b773"
+    ]
+  },
+  "so_disclosure": "PLAN/EXECUTE/VERIFY share one arm (opencode-go/deepseek-v4.1-flash); registry SOD006-C3 means model-level segregation does not exist and no cross-model independence is claimed."
+}

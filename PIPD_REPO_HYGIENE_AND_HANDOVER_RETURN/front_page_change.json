@@ -1,0 +1,24 @@
+{
+  "schema": "EVIDENCE/front_page_change/1",
+  "docs_branch": "docs/repo-state-and-handover-refresh-20261016",
+  "docs_branch_head": "196456106ece060e00aec37813d070c79ab36c0d",
+  "based_on": "origin/main d3bd5456afbff21a8c8837994a49f57be3e1b97e",
+  "files_changed": [
+    "README.md",
+    "docs/adr/ADR-0008-repository-state-and-hygiene-inventory.md",
+    "docs/adr/ADR-0009-session-handover-and-next-session-start.md"
+  ],
+  "diffstat": [
+    " 3 files changed, 119 insertions(+), 10 deletions(-)"
+  ],
+  "forbidden_paths_hit": [],
+  "change_class": "DOCS_ONLY_CANDIDATE_FOR_OWNER_MERGE",
+  "control_experiment": {
+    "question": "does this docs change break PR #18's doc-identity guard test once both are merged?",
+    "method": "run PR#18's tests/test_r6_doc_identity_guard.py against (a) this branch and (b) a pristine worktree at origin/main, then compare the failure sets",
+    "result_this_branch": "7 failed, 4 passed",
+    "result_pristine_main": "7 failed, 4 passed",
+    "conclusion": "identical failure sets => the 7 failures are pre-existing on main and NOT caused by this change; the guard is scoped to docs/install/README.md and docs/USER_GUIDE.md, which this round does not touch (root README.md is not asserted)",
+    "honest_limit": "the guard itself is not on main yet (it arrives with PR #18), so no CI run can be cited for this branch; the claim is limited to the two local runs above"
+  }
+}
