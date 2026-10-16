@@ -23,18 +23,23 @@
   "plan_orchestrator": "Hermes (this session)",
   "execute": {
    "lane": "EXECUTE",
+   "provider_cli": "CODEX CLI",
    "required_arm": "opencode-go/deepseek-v4.1-flash",
-   "attempt_1": {"verdict": "FAILED", "code": "ERR_NO_ARM_EMITTED_NONCE", "observed": "rank 1 / provider opencode-go / model deepseek-v4.1-flash, exit 0 after 4.8s, but nonce_present=false", "meaning": "the arm WAS the declared one, yet it did not emit the run nonce, so the receipt could not bind it; not counted as a served arm"},
-   "attempt_2": {"verdict": "OK", "served_arm": "opencode-go/deepseek-v4.1-flash", "rank": 1, "provider": "opencode-go", "model": "deepseek-v4.1-flash", "nonce_present": true, "seconds": 168.05},
-   "provider_cli": "CODEX CLI"},
+   "jobs": [
+    {"job": "brief_probe_execute.md", "receipt": "EXECUTE_dispatch_receipt_attempt1.json", "verdict": "FAILED", "code": "ERR_NO_ARM_EMITTED_NONCE", "seconds": 4.8, "observed": "rank 1 / provider opencode-go / model deepseek-v4.1-flash, payload echoed LANE_ECHO=EXECUTE and PROBE_DONE=R5R3-PROBE-d8e74bea7225, nonce_present=false", "claim": "TRANSPORT_PROBE_ONLY / NOT_BOUND - the payload returned, but the dispatcher could not bind the arm, so this is not a served-arm claim"},
+    {"job": "brief_writer_ws_a.md", "receipt": "EXECUTE_dispatch_receipt_attempt2.json", "verdict": "OK", "served_arm": "opencode-go/deepseek-v4.1-flash", "required_equals_served": true, "rank": 1, "provider": "opencode-go", "model": "deepseek-v4.1-flash", "nonce_present": true, "seconds": 168.05}
+   ],
+   "attribution_note": "the receipt name carries no job key, so attempt1 and attempt2 here are TWO DIFFERENT jobs (probe, then writer), not one job retried; see LANE_RECEIPT_ATTRIBUTION.md"},
   "verify_security": {
    "lane": "VERIFY_SECURITY",
-   "required_arm": "openai-codex/gpt-6.1-sol",
-   "attempt_1": {"verdict": "FAILED", "code": "ERR_NO_ARM_EMITTED_NONCE", "observed": "rank 1 / provider openai-codex / model gpt-6.1-sol, exit 0 after 10.87s, but nonce_present=false"},
-   "attempt_2": {"verdict": "OK", "served_arm": "openai-codex/gpt-6.1-sol", "rank": 1, "provider": "openai-codex", "model": "gpt-6.1-sol", "nonce_present": true, "seconds": 254.43, "effort": "medium"},
+   "provider_cli": "CODEX CLI",
    "read_only": true,
-   "provider_cli": "CODEX CLI"},
-  "lane_evidence": "every attempt of both lanes travels in the pack (lane_runs/ with stdout, stderr, markers and the per-attempt ndjson rows), so the failed first attempt is visible beside the successful retry",
+   "required_arm": "openai-codex/gpt-6.1-sol",
+   "jobs": [
+    {"job": "brief_probe_verify.md", "receipt": "VERIFY_SECURITY_dispatch_receipt_attempt1.json", "verdict": "FAILED", "code": "ERR_NO_ARM_EMITTED_NONCE", "seconds": 10.87},
+    {"job": "brief_checker_ws_b.md", "receipt": "VERIFY_SECURITY_dispatch_receipt_attempt2.json", "verdict": "OK", "served_arm": "openai-codex/gpt-6.1-sol", "required_equals_served": true, "rank": 1, "provider": "openai-codex", "model": "gpt-6.1-sol", "nonce_present": true, "seconds": 254.43, "effort": "medium", "checker_verdict": "VERIFIED_WITH_FINDINGS"}
+   ]},
+  "lane_evidence": "every lane artifact travels in the pack: lane_runs/ holds both flat receipts with their ndjson rows AND the unique per-attempt subdirectories (<lane>/attempt-N-<UTC>Z/) with stdout, stderr and markers, plus the four dispatcher logs (raw/probe_execute.log, raw/probe_verify.log, raw/ws_a_execute.log, raw/ws_b_checker.log). The flat receipt names carry no job key, so attribution is documented in LANE_RECEIPT_ATTRIBUTION.md: four jobs ran, two probes failed with ERR_NO_ARM_EMITTED_NONCE (TRANSPORT_PROBE_ONLY / NOT_BOUND) and the writer and checker dispatches were nonce-bound (required == served).",
   "disclosed_lane_warnings": [
    {"warning": "WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE", "detail": "the credential-posture detector could not reach a verdict on all four attempts (helper_resolution_reset=PASS, helper_non_interactive=UNKNOWN). The dispatcher continued by design; INCONCLUSIVE is NOT a pass.", "affected": "both lanes, both attempts"},
    {"warning": "relay websocket 426", "detail": "codex_api::endpoint::responses_websocket: HTTP 426 Upgrade Required on ws://127.0.0.1:10101/v1/responses; the JSON path served the turn"}
