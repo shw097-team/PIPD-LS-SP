@@ -1,0 +1,65 @@
+{
+  "schema": "S4F-PRIVATE-PLUGIN-STATUS/1",
+  "release_asset": {
+    "name": "pipd-ls-sp-public-skills.zip",
+    "url": "https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-preview.4/pipd-ls-sp-public-skills.zip",
+    "bytes": 68357,
+    "sha256": "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75",
+    "expected_bytes": 68357,
+    "expected_sha256": "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75",
+    "bytes_match": true,
+    "sha256_match": true
+  },
+  "structure": {
+    "members": 56,
+    "roots": [
+      "pipd-ls-sp-public-skills"
+    ],
+    "single_root": true,
+    "skill_entrypoints": 8,
+    "plugin_id": "pipd-ls-sp-public-skills",
+    "plugin_manifest_keys": [
+      "$schema",
+      "description",
+      "extensions",
+      "keywords",
+      "license",
+      "name",
+      "repository",
+      "version"
+    ],
+    "mcp_or_apps_or_hooks": [],
+    "absolute_or_traversal": [],
+    "checks": {
+      "size_and_digest": true,
+      "single_root": true,
+      "eight_skill_entrypoints": true,
+      "no_mcp_apps_hooks": true,
+      "no_traversal_or_absolute": true
+    },
+    "verdict": "ZIP_STRUCTURE_PASS",
+    "method": "downloaded the published release asset and inspected the bytes (no reuse of any earlier claim)"
+  },
+  "update_route": {
+    "document": "docs/install/README.md at PR #18 head c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20",
+    "procedure": [
+      "identify the installed plugin_id first",
+      "if the workspace UI offers Upload new version / Update, use it",
+      "otherwise back up locally, uninstall with owner consent, then add again",
+      "verify, and keep the previous package for rollback"
+    ],
+    "source": "external report section 3, F-R6-03; PR #18 documented candidate"
+  },
+  "served_web_fallback": {
+    "fact": "the .4 release serves a fallback document whose header still names preview.3",
+    "locator": "tag cc6c1930765160697e7e51d6e37735b9220a30db docs/install/PIPD_WEB_FALLBACK.md:4-5",
+    "disposition": "NON_BLOCKING_OBSERVATION; immutable history, not rewritten in place"
+  },
+  "host_status": {
+    "real_account_install_or_update_smoke": "NOT_RUN",
+    "reason": "no upload-capable account was operated by the agent; this effect is HOST_OWNER only",
+    "historical_evidence": "ONE_ACCOUNT_OBSERVED (previous rounds, single account; not a general guarantee)",
+    "claim": "FORMAT_PASS / ONE_ACCOUNT_PARTIAL"
+  },
+  "defects": []
+}

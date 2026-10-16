@@ -1,0 +1,333 @@
+{
+  "schema": "S4F-SOURCES-COMPILER-ADMISSION/1",
+  "round": "S4-FINAL-PR18-CLOSEOUT-20261016",
+  "compiler": {
+    "bundle_root": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler",
+    "compiler_sha256": "2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9",
+    "contract_sha256": "c3db4886f9ec97bc34f72be47ab07b495756858c3fccc9eb2654fbf7cc00de21",
+    "prompt_sha256": "4ac80bf1d1b1062d407625db6c089bedf3acf7b76c329c222db2a9679ad1bde6",
+    "verdict": "PROMPT_COMPILE_PASS",
+    "generated_at": "2026-10-16T14:00:24.055429+00:00",
+    "commands": {
+      "lint": "PROMPT_COMPILE_PASS",
+      "activation": "PROMPT_COMPILE_PASS",
+      "acceptance": "PROMPT_COMPILE_PASS",
+      "compile": "PROMPT_COMPILE_PASS"
+    },
+    "contract_path": "contract/s4final_contract.json",
+    "builder": "build_contract.py (mirrors the shipped lint-clean reference evo005r7_contract.json)",
+    "duplication_probe": {
+      "sources": [
+        "S4 FINAL｜PR #18＋私人 Plugin＋階段結案指揮薄.md",
+        "PIPD-LS-SP｜S4 最終獨立驗收報告：PR #18、Preview.4、私人 ZIP 與階段性結案.md"
+      ],
+      "ratio": [
+        0.001781,
+        0.0
+      ],
+      "threshold": 0.25,
+      "verdict": "PASS"
+    },
+    "bundle_self_suite": "Ran 22 tests OK"
+  },
+  "hgk_typed_admission": {
+    "project_id": "PIPD-S4-FINAL-PR18",
+    "verdict": "ADMISSION_OK",
+    "final_state": "WORKORDERS_ADMITTED",
+    "sources_present": 18,
+    "sources_missing": [],
+    "steps": [
+      {
+        "step": "start",
+        "result": "CREATED",
+        "state": "PROJECT_CREATED"
+      },
+      {
+        "step": "intake",
+        "status": "READY",
+        "source_count": 18,
+        "blocking_missing": [],
+        "conflicts": []
+      },
+      {
+        "step": "transition",
+        "to": "INTENT_BOUND",
+        "result": "OK"
+      },
+      {
+        "step": "transition",
+        "to": "REQUIREMENTS_READY",
+        "result": "OK"
+      },
+      {
+        "step": "transition",
+        "to": "DESIGN_READY",
+        "result": "OK"
+      },
+      {
+        "step": "plan",
+        "task_count": 5,
+        "titles": [
+          "Source discovery",
+          "Authority source admission",
+          "Knowledge pipeline",
+          "Acceptance and evidence",
+          "Package and delivery"
+        ]
+      },
+      {
+        "step": "admit_workorders",
+        "result": {
+          "project_id": "PIPD-S4-FINAL-PR18",
+          "workorders": [
+            "WO-TS-PR18-01",
+            "WO-TS-PR18-02",
+            "WO-TS-PR18-03",
+            "WO-TS-PR18-04",
+            "WO-TS-PR18-05"
+          ],
+          "count": 5
+        }
+      }
+    ],
+    "workorders": [
+      "WO-TS-PR18-01",
+      "WO-TS-PR18-02",
+      "WO-TS-PR18-03",
+      "WO-TS-PR18-04",
+      "WO-TS-PR18-05"
+    ],
+    "checkpoint": "CK-PR18-A2FBBBB0",
+    "denominator": {
+      "project_id": "PIPD-S4-FINAL-PR18",
+      "state": "WORKORDERS_ADMITTED",
+      "requirements_total": 1,
+      "requirements_frozen": 1,
+      "taskspecs_total": 5,
+      "workorders_total": 5,
+      "workorders_open": [
+        "WO-TS-PR18-01",
+        "WO-TS-PR18-02",
+        "WO-TS-PR18-03",
+        "WO-TS-PR18-04",
+        "WO-TS-PR18-05"
+      ],
+      "workorders_open_count": 5,
+      "acceptances_total": 1,
+      "acceptances_open": [
+        "ACC-REQ-PIPD-S4-FINAL-PR18-PLAN"
+      ],
+      "acceptances_open_count": 1,
+      "required_active_capabilities": [
+        "openspec",
+        "gstack.plan-eng-review",
+        "gstack.review",
+        "gstack.qa",
+        "gstack.cso",
+        "gstack.ship",
+        "gstack.office-hours",
+        "gstack.retro"
+      ],
+      "required_active_capabilities_total": 8,
+      "required_active_capabilities_open": [],
+      "required_active_capabilities_open_count": 0,
+      "required_local_scope_open": 6,
+      "guard_required_workorders_terminal": false,
+      "denominator_available": true
+    }
+  },
+  "gstack_openspec_route_check": {
+    "registry_source_basis": "hg_kseos.named_methods route()/registry_snapshot()",
+    "active_selected": [
+      "gstack.cso",
+      "gstack.office-hours",
+      "gstack.plan-eng-review",
+      "gstack.qa",
+      "gstack.retro",
+      "gstack.review",
+      "gstack.ship",
+      "openspec"
+    ],
+    "routes": [
+      {
+        "flow": "s4 final closeout plan review of the read-only verification round",
+        "route": "GSTACK",
+        "provider": "gstack.plan-eng-review",
+        "state": "CERTIFIED"
+      },
+      {
+        "flow": "s4 final independent security review of the published release identity",
+        "route": "GSTACK",
+        "provider": "gstack.cso",
+        "state": "CERTIFIED"
+      },
+      {
+        "flow": "s4 final qa of the evidence pack self-test",
+        "route": "GSTACK",
+        "provider": "gstack.qa",
+        "state": "CERTIFIED"
+      },
+      {
+        "flow": "s4 final milestone acceptance of the preview mvp phase close",
+        "route": "GSTACK",
+        "provider": "gstack.review",
+        "state": "CERTIFIED"
+      },
+      {
+        "flow": "s4 final evidence closure and owner handover record",
+        "route": "NATIVE",
+        "provider": null,
+        "state": null
+      },
+      {
+        "flow": "s4 final unrelated quarterly tax filing",
+        "route": "NATIVE",
+        "provider": null,
+        "state": null
+      }
+    ],
+    "negative_control": {
+      "flow": "s4 final unrelated quarterly tax filing",
+      "route": "NATIVE",
+      "provider": null,
+      "ok": true
+    },
+    "verdict": "ROUTE_CHECK_RECORDED"
+  },
+  "source_inventory": [
+    {
+      "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\S4 FINAL｜PR #18＋私人 Plugin＋階段結案指揮薄.md",
+      "bytes": 21567,
+      "sha256": "ea6e6e6bf3d802fd1c395ae42eb2cd2b1f5ff47c7ca40db06e5c4d82cad3590e"
+    },
+    {
+      "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\PIPD-LS-SP｜S4 最終獨立驗收報告：PR #18、Preview.4、私人 ZIP 與階段性結案.md",
+      "bytes": 41945,
+      "sha256": "f1061a7e67df78d10150122ddfd887bb5f339fe647401706c80eac890df27645"
+    },
+    {
+      "path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\AGENTS.md",
+      "bytes": 14055,
+      "sha256": "7f7246d34be112bb465b48dadaef6163e466e16e5e705fc58acee04b3809a613"
+    },
+    {
+      "path": "C:\\Projects\\Agent_Workspace\\_handover\\S4-FINAL-PR18-CLOSEOUT-20261016\\PLAN_CORE_GOAL_AND_SPEC.md",
+      "bytes": 6622,
+      "sha256": "5f9d35fb6ac8948cf05b6fe274cad7cda778b5cf74d0fcaa7f7af166f749caec"
+    },
+    {
+      "path": "C:\\Projects\\Agent_Workspace\\_handover\\S4-FINAL-PR18-CLOSEOUT-20261016\\TASK_CHECKLIST.md",
+      "bytes": 4279,
+      "sha256": "47737e99e965b5861843e937d825e4d383d34168f6f338a84e5428bee41cce81"
+    },
+    {
+      "path": "C:\\Projects\\Agent_Workspace\\_handover\\S4-FINAL-PR18-CLOSEOUT-20261016\\DETECTION_CHECKLIST.md",
+      "bytes": 4576,
+      "sha256": "857a0bc4c7e7817e4102207f1fc66e55575487e0071573f4801f4cf65d82d7ba"
+    },
+    {
+      "path": "C:\\Projects\\Agent_Workspace\\_handover\\S4-FINAL-PR18-CLOSEOUT-20261016\\OROCHI_FACTORY_ORDER.v1.json",
+      "bytes": 3520,
+      "sha256": "267ae84aa309a76d61b484fbbf355a59395ae15eaea576288863ce29186a04fe"
+    },
+    {
+      "path": "C:\\Projects\\Agent_Workspace\\_handover\\S4-FINAL-PR18-CLOSEOUT-20261016\\contract\\s4final_contract.json",
+      "bytes": 68394,
+      "sha256": "c3db4886f9ec97bc34f72be47ab07b495756858c3fccc9eb2654fbf7cc00de21"
+    },
+    {
+      "path": "C:\\Projects\\Agent_Workspace\\_handover\\S4-FINAL-PR18-CLOSEOUT-20261016\\COMPILED_OUT\\compiler-receipt.json",
+      "bytes": 563,
+      "sha256": "08b17d8b76bba3c7e2404fbad718ec66cf987233b1fa676a29b28e1c8fa3fb48"
+    },
+    {
+      "path": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\Fabric vNext\\Semantic World OS Fabric\\PIPD\\PIPD_LS\\PIPD_LS_canonical_standard.md",
+      "bytes": 209157,
+      "sha256": "6f6aafece90b34e33786647e14fee840f5424893995b3164cbb52953a5c4f14a"
+    },
+    {
+      "path": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\Fabric vNext\\Semantic World OS Fabric\\PIPD\\PIPD-LS-SP_藍圖\\PIPD-LS-SP_藍圖.md",
+      "bytes": 243577,
+      "sha256": "a751a9e91dc6d0b7914b0598519e5d7a0f7adaccb6704e9c7d2aa503f80b0d68"
+    },
+    {
+      "path": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\Fabric vNext\\Semantic World OS Fabric\\PIPD\\PIPD-LS-SP_skeleton.md",
+      "bytes": 16078915,
+      "sha256": "a320d344785da9700aff8f48699b307ef150e0bb89d15735722f2930e46faa0e"
+    },
+    {
+      "path": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\HG-KSEOS\\construction-acceptance-prompt-compiler\\construction-acceptance-prompt-compiler\\references\\prompt-contract.schema.json",
+      "bytes": 25671,
+      "sha256": "cbcc9998cee3ba59f919417aacbc121ab20fc611f1c47c62cafcaa34bbf13612"
+    },
+    {
+      "path": "C:\\Projects\\Agent_Workspace\\PIPD-S4R6-wt\\docs\\install\\README.md",
+      "bytes": 16277,
+      "sha256": "ded5624edec86d7f478ad87c0ad8406732ed63f0d6a407c20dd26a4b7a5d6213"
+    },
+    {
+      "path": "C:\\Projects\\Agent_Workspace\\PIPD-S4R6-wt\\docs\\USER_GUIDE.md",
+      "bytes": 7999,
+      "sha256": "bc8f6fe1504da564e5c8ad9def4cead9d7ad96754c10f798d42b0c73dd56b0c7"
+    },
+    {
+      "path": "C:\\Projects\\Agent_Workspace\\PIPD-S4R6-wt\\docs\\RELEASE_TUPLE.json",
+      "bytes": 7280,
+      "sha256": "c83d569b9f3d0639a4acc527730195b489dda74e7d159b14edb6c82ceae7fc36"
+    },
+    {
+      "path": "C:\\Projects\\Agent_Workspace\\PIPD-S4R6-wt\\docs\\install\\ASSET_READBACK_v0.1.1-preview.4.json",
+      "bytes": 1973,
+      "sha256": "c300687c53ab414edcd54d385083adaf993e2241ca067780152bd49e3a83500b"
+    },
+    {
+      "path": "C:\\Projects\\Agent_Workspace\\PIPD-S4R6-wt\\docs\\install\\PIPD_WEB_FALLBACK.md",
+      "bytes": 42145,
+      "sha256": "c88ddc49cfe5fb59fe1a713fdde4cfd6a06ed54cc5831885130e053ce990c2af"
+    }
+  ],
+  "governing_documents": [
+    {
+      "role": "external_acceptance_report",
+      "path_name": "PIPD-LS-SP｜S4 最終獨立驗收報告：PR #18、Preview.4、私人 ZIP 與階段性結案.md",
+      "sha256": "f1061a7e67df78d10150122ddfd887bb5f339fe647401706c80eac890df27645",
+      "bytes": 41945
+    },
+    {
+      "role": "thin_command_contract",
+      "path_name": "S4 FINAL｜PR #18＋私人 Plugin＋階段結案指揮薄.md",
+      "sha256": "ea6e6e6bf3d802fd1c395ae42eb2cd2b1f5ff47c7ca40db06e5c4d82cad3590e",
+      "bytes": 21567
+    },
+    {
+      "role": "hgk_agents",
+      "path_name": "HG-KSEOS/AGENTS.md",
+      "sha256": "7f7246d34be112bb465b48dadaef6163e466e16e5e705fc58acee04b3809a613"
+    }
+  ],
+  "authority_conflicts": [
+    {
+      "conflict_id": "CFL-S4F-001",
+      "sources": [
+        "SRC-S4F-KP16",
+        "SRC-S4F-KP18"
+      ],
+      "equal_rank": false,
+      "decision": "QUARANTINE",
+      "tt_id": "TT-S4F-ORACLE-DISAGREEMENT",
+      "note": "KP R04 polarity-normalisation history: defer to raw upstream text; record, never rewrite."
+    },
+    {
+      "conflict_id": "CFL-S4F-002",
+      "sources": [
+        "SRC-S4F-REPORT",
+        "SRC-S4F-CONTRACT"
+      ],
+      "equal_rank": true,
+      "decision": "RESOLVED",
+      "tt_id": "TT-S4F-CHECKER-BASIS",
+      "note": "The external report and this round's contract agree; the packet's own checker verdict is maker-side and same-model-axis, and neither replaces Owner ratification."
+    }
+  ],
+  "defects": []
+}

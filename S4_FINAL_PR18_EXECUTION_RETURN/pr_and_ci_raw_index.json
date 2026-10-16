@@ -1,0 +1,133 @@
+{
+  "schema": "S4F-PR-AND-CI-RAW-INDEX/1",
+  "repo": "https://github.com/shw097-team/PIPD-LS-SP",
+  "note": "Denominators are environment-specific and are NOT reconciled: hosted CI, the plugin-verify workflow, the evidence-branch run and the previous-main baseline each keep their own numbers.",
+  "deviations": [
+    {
+      "id": "DEV-S4F-01",
+      "what": "the first build of this script reported pr18_paths_exact as failed",
+      "cause": "the script's own comparison defect: the expected path list was compared unsorted against the API's sorted list; the four paths were identical as a set",
+      "action": "both sides are now sorted and a path-count assertion was added; the readback was re-run",
+      "disclosure": "recorded here rather than silently corrected; no product or release subject was affected"
+    }
+  ],
+  "denominators": {
+    "hosted_ci_pr18": "635 OK / 6 skipped (verified from the raw job log this round)",
+    "hosted_plugin_verify_pr18": "635 OK / 6 skipped AND 54 OK / 1 skipped (verified from the raw job log this round)",
+    "evidence_branch": "633 OK / 6 skipped (verified from the raw job log this round)",
+    "previous_main_baseline": "624 OK / 6 skipped (verified from the raw job log this round)",
+    "candidate_authors_local_windows_run": "635 OK / 4 skipped - a PREVIOUS round's local record; NOT re-executed this round, so it is quoted as history only"
+  },
+  "denominators_are_not_interchangeable": true,
+  "producer": "deterministic script checks/gh_readback_s4f.py",
+  "fallback_note": "The SWARM lane originally assigned to this subject failed with HTTP 429 (provider usage limit) after 121s; this deterministic route replaced it and the failure is recorded rather than hidden.",
+  "jobs": [
+    {
+      "workflow": "ci",
+      "run_id": 38898879088,
+      "job_id": 116965921132,
+      "html_url": "https://github.com/shw097-team/PIPD-LS-SP/actions/runs/38898879088/job/116965921132",
+      "head_sha": "c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20",
+      "expected_head_sha": "c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20",
+      "conclusion": "success",
+      "status": "RAW_OK",
+      "metadata_http": 200,
+      "log_http": 200,
+      "raw_lines": [
+        "2026-10-16T12:13:07.9139836Z Ran 635 tests in 43.711s",
+        "2026-10-16T12:13:07.9150053Z OK (skipped=6)",
+        "2026-10-16T12:13:07.9163619Z    \"evidence\": \"unittest discover: Ran 47 tests, failures 2, errors 1; failing: tests.test_alpha.TestAlpha.test_one, tests.test_s0_contracts.TestS0Contracts.test_two, tests.test_beta.TestBeta.test_three\"",
+        "2026-10-16T12:13:07.9180826Z    \"evidence\": \"unittest discover: Ran 47 tests, failures 0, errors 0\"",
+        "2026-10-16T12:13:14.1600469Z Ran 108 tests in 6.146s",
+        "2026-10-16T12:13:20.1743980Z installed-wheel contract registry: mode=INSTALLED families=19 path=/home/runner/work/_temp/wheelvenv/lib/python3.11/site-packages/pipd_ls_sp/schemas",
+        "2026-10-16T12:13:20.2733670Z Ran 18 tests in 0.037s",
+        "2026-10-16T12:13:20.2772405Z \u001b[36;1mecho \"MUTATION_REFUSED_AS_EXPECTED\"\u001b[0m",
+        "2026-10-16T12:13:20.3936181Z MUTATION_REFUSED_AS_EXPECTED"
+      ]
+    },
+    {
+      "workflow": "public-plugin-verify",
+      "run_id": 38898878925,
+      "job_id": 116965921077,
+      "html_url": "https://github.com/shw097-team/PIPD-LS-SP/actions/runs/38898878925/job/116965921077",
+      "head_sha": "c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20",
+      "expected_head_sha": "c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20",
+      "conclusion": "success",
+      "status": "RAW_OK",
+      "metadata_http": 200,
+      "log_http": 200,
+      "raw_lines": [
+        "2026-10-16T12:12:16.4019027Z \u001b[36;1m    echo \"GATE_SELF_TEST_FAILED: ${planted} would have been ACCEPTED\" >&2\u001b[0m",
+        "2026-10-16T12:12:16.4022967Z \u001b[36;1m    */../*) echo \"GATE_SELF_TEST_OK: ${planted} is refused as a traversal path\" ;;\u001b[0m",
+        "2026-10-16T12:12:16.4023882Z \u001b[36;1m    *) echo \"GATE_SELF_TEST_FAILED: ${planted} would have been accepted\" >&2; exit 1 ;;\u001b[0m",
+        "2026-10-16T12:12:16.4025547Z \u001b[36;1mecho \"GATE_SELF_TEST_OK: planted frozen-path violations and unlisted src/** are all refused\"\u001b[0m",
+        "2026-10-16T12:12:16.4028346Z \u001b[36;1m    echo \"GATE_SELF_TEST_FAILED: ${planted} would have been REFUSED\" >&2\u001b[0m",
+        "2026-10-16T12:12:16.4032979Z \u001b[36;1m    echo \"GATE_SELF_TEST_FAILED: product path ${planted} would have been EXCLUDED\" >&2\u001b[0m",
+        "2026-10-16T12:12:16.4035985Z \u001b[36;1m  echo \"GATE_SELF_TEST_FAILED: the declared exclusion does not match the scaffolding tree\" >&2\u001b[0m",
+        "2026-10-16T12:12:16.4036994Z \u001b[36;1mecho \"GATE_SELF_TEST_OK: the declared exclusion matches scaffolding only and no product path\"\u001b[0m",
+        "2026-10-16T12:12:16.4037626Z \u001b[36;1mecho \"GATE_SELF_TEST_OK: planted ${STAGE} artefacts are all allowed\"\u001b[0m",
+        "2026-10-16T12:12:16.5913332Z GATE_SELF_TEST_OK: .hgk/rounds/S4R3-20261013-ci-truthfulness-and-stageb-writeset/../evil.sh is refused as a traversal path",
+        "2026-10-16T12:12:16.5914770Z GATE_SELF_TEST_OK: docs/install/../../src/pipd_ls_sp/validate.py is refused as a traversal path",
+        "2026-10-16T12:12:16.5916072Z GATE_SELF_TEST_OK: planted frozen-path violations and unlisted src/** are all refused",
+        "2026-10-16T12:12:16.6414015Z GATE_SELF_TEST_OK: the declared exclusion matches scaffolding only and no product path",
+        "2026-10-16T12:12:16.6414947Z GATE_SELF_TEST_OK: planted stage-c artefacts are all allowed",
+        "2026-10-16T12:12:17.9565270Z Ran 54 tests in 0.873s",
+        "2026-10-16T12:12:17.9565502Z OK (skipped=1)",
+        "2026-10-16T12:13:22.0029212Z Ran 635 tests in 57.722s",
+        "2026-10-16T12:13:22.0029583Z OK (skipped=6)",
+        "2026-10-16T12:13:22.0045137Z    \"evidence\": \"unittest discover: Ran 47 tests, failures 2, errors 1; failing: tests.test_alpha.TestAlpha.test_one, tests.test_s0_contracts.TestS0Contracts.test_two, tests.test_beta.TestBeta.test_three\"",
+        "2026-10-16T12:13:22.0065792Z    \"evidence\": \"unittest discover: Ran 47 tests, failures 0, errors 0\"",
+        "2026-10-16T12:13:22.0515540Z \u001b[36;1m  echo \"RESTORE_FAILED: the mutated pack document was not restored\" >&2\u001b[0m",
+        "2026-10-16T12:13:22.0526760Z \u001b[36;1mecho \"MUTATION_REFUSED_ON_IDENTITY_BINDING\"\u001b[0m",
+        "2026-10-16T12:13:22.1708507Z Ran 18 tests in 0.053s",
+        "2026-10-16T12:13:22.3339966Z MUTATION_REFUSED_ON_IDENTITY_BINDING"
+      ]
+    },
+    {
+      "workflow": "evidence-branch",
+      "run_id": 38905191463,
+      "job_id": 116987166906,
+      "html_url": "https://github.com/shw097-team/PIPD-LS-SP/actions/runs/38905191463/job/116987166906",
+      "head_sha": "71e70f747c30bcd42d407fd045261a9669345ddb",
+      "expected_head_sha": "71e70f747c30bcd42d407fd045261a9669345ddb",
+      "conclusion": "success",
+      "status": "RAW_OK",
+      "metadata_http": 200,
+      "log_http": 200,
+      "raw_lines": [
+        "2026-10-16T13:07:03.8951207Z Ran 633 tests in 45.848s",
+        "2026-10-16T13:07:03.8957073Z OK (skipped=6)",
+        "2026-10-16T13:07:03.8967782Z    \"evidence\": \"unittest discover: Ran 47 tests, failures 2, errors 1; failing: tests.test_alpha.TestAlpha.test_one, tests.test_s0_contracts.TestS0Contracts.test_two, tests.test_beta.TestBeta.test_three\"",
+        "2026-10-16T13:07:03.8979140Z    \"evidence\": \"unittest discover: Ran 47 tests, failures 0, errors 0\"",
+        "2026-10-16T13:07:10.2991011Z Ran 108 tests in 6.298s",
+        "2026-10-16T13:07:16.9322888Z installed-wheel contract registry: mode=INSTALLED families=19 path=/home/runner/work/_temp/wheelvenv/lib/python3.11/site-packages/pipd_ls_sp/schemas",
+        "2026-10-16T13:07:17.0868993Z Ran 18 tests in 0.069s",
+        "2026-10-16T13:07:17.0907867Z \u001b[36;1mecho \"MUTATION_REFUSED_AS_EXPECTED\"\u001b[0m",
+        "2026-10-16T13:07:17.2681339Z MUTATION_REFUSED_AS_EXPECTED"
+      ]
+    },
+    {
+      "workflow": "previous-main-baseline",
+      "run_id": 38851411137,
+      "job_id": 116813210402,
+      "html_url": "https://github.com/shw097-team/PIPD-LS-SP/actions/runs/38851411137/job/116813210402",
+      "head_sha": "d3bd5456afbff21a8c8837994a49f57be3e1b97e",
+      "expected_head_sha": null,
+      "conclusion": "success",
+      "status": "RAW_OK",
+      "metadata_http": 200,
+      "log_http": 200,
+      "raw_lines": [
+        "2026-10-16T04:36:39.1559174Z Ran 624 tests in 56.313s",
+        "2026-10-16T04:36:39.1559531Z OK (skipped=6)",
+        "2026-10-16T04:36:39.1575949Z    \"evidence\": \"unittest discover: Ran 47 tests, failures 2, errors 1; failing: tests.test_alpha.TestAlpha.test_one, tests.test_s0_contracts.TestS0Contracts.test_two, tests.test_beta.TestBeta.test_three\"",
+        "2026-10-16T04:36:39.1598812Z    \"evidence\": \"unittest discover: Ran 47 tests, failures 0, errors 0\"",
+        "2026-10-16T04:36:46.8387177Z Ran 108 tests in 7.559s",
+        "2026-10-16T04:36:54.6555262Z installed-wheel contract registry: mode=INSTALLED families=19 path=/home/runner/work/_temp/wheelvenv/lib/python3.11/site-packages/pipd_ls_sp/schemas",
+        "2026-10-16T04:36:54.7887242Z Ran 18 tests in 0.052s",
+        "2026-10-16T04:36:54.7933950Z \u001b[36;1mecho \"MUTATION_REFUSED_AS_EXPECTED\"\u001b[0m",
+        "2026-10-16T04:36:54.9474282Z MUTATION_REFUSED_AS_EXPECTED"
+      ]
+    }
+  ]
+}
