@@ -179,6 +179,12 @@ Pin the **immutable** identity, never a moving branch tip:
   `docs/RELEASE_TUPLE.json` (`published_asset_sha256`), with a `.sha256` sidecar next to the ZIP.
 - Inside an unpacked pack, `MANIFEST.sha256` lists every member's sha256 (LF-normalised text bytes
   hash as stored). `tools/build_web_fallback.py` recomputes it and refuses on any mismatch.
+- **Served-document provenance drift.** The `v0.1.1-preview.4` release serves a `PIPD_WEB_FALLBACK.md`
+  whose sha256 is `c88ddc49cfe5fb59fe1a713fdde4cfd6a06ed54cc5831885130e053ce990c2af` (the same bytes as
+  the committed file above), and that served copy's own header declares the **earlier**
+  `release_id: v0.1.1-preview.3` / `release_commit: cbf69756...` provenance. This is a real drift in
+  an immutable release. That document is a frozen asset of `v0.1.1-preview.4`, so it can only be
+  corrected by a future release; no in-place repair of the release asset is possible here.
 
 ### Updating a plugin you already installed
 
