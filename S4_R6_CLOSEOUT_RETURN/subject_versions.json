@@ -20,14 +20,29 @@
     "served_zip_sha256": "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75",
     "served_zip_matches_frozen": true,
     "sha256sums_served_sha256": "0f76502670038ae35bd4f772dc23223f6b47241c3acee2f918d106eaabffe689",
-    "sha256sums_lists_zip": true
+    "sha256sums_lists_zip": true,
+    "reverified_by": "an independent VERIFY_SECURITY dispatch on 2026-10-16 re-downloaded the served ZIP (HTTP 200, 68357 bytes) and recomputed its sha256; the digest matches both this value and the served SHA256SUMS"
   },
   "candidate": {
     "branch": "fix/s4r6-closeout-doc-identity-and-update-route-20261016",
-    "commit": "552bbde073806e254f84e95039f05c9767608aa1",
-    "tree": "a95579bf8c1bc77550d1044d12b2de7ed2028ae5",
+    "commit": "127ec1ca97c71d0437f5b149a6e7d540d0cb3bba",
+    "tree": "62eef9d8059d307ae373de63519a37551fa14854",
     "base": "d3bd5456afbff21a8c8837994a49f57be3e1b97e",
-    "published": false
+    "published": false,
+    "commits": [
+      "552bbde073806e254f84e95039f05c9767608aa1  install-doc release-identity pin and the same-plugin_id update route",
+      "9c74dd9  guard the install docs' release identity and in-page links",
+      "127ec1c  amend the stage-c arm: docs/USER_GUIDE.md is inside this round's grant"
+    ],
+    "superseded_commits": [
+      "3e1bc6d429a5e0ca4c6551808340db5ff872ccde  the evidence packet placed on the product branch - WITHDRAWN from the product branch because the stage-c write-set gate refuses a round's own receipts; preserved on the evidence branch instead",
+      "5defc64f1177a1d6f32502c5479c65cf9a001858  the same guard commit before the packet was withdrawn; independently verified by VERIFY_SECURITY; preserved on the evidence branch"
+    ],
+    "note": "the product branch carries the product change only. The round's evidence packet lives on the branch r6-closeout-evidence-20261016, because the governed product write set must not include the round's own receipts."
+  },
+  "evidence_branch": {
+    "branch": "r6-closeout-evidence-20261016",
+    "commit_at_withdrawal": "5defc64f1177a1d6f32502c5479c65cf9a001858"
   },
   "expected_constants": {
     "main": "d3bd5456afbff21a8c8837994a49f57be3e1b97e",
@@ -37,5 +52,10 @@
   },
   "tag_object_matches_frozen": true,
   "tag_target_matches_frozen": true,
-  "main_commits_after_tag": "11"
+  "main_commits_after_tag": "11",
+  "release_tuple_untouched_by_this_round": {
+    "tag": "v0.1.1-preview.4",
+    "changed": false,
+    "new_release_created": false
+  }
 }

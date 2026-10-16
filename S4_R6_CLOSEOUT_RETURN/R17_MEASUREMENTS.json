@@ -1,0 +1,40 @@
+{
+  "schema": "PIPD-S4-R6-CLOSEOUT-RETURN/r17-measurements/1",
+  "round": "PIPD-S4-R6-CLOSEOUT-20261016 / FAR-R17",
+  "note": "every number here is bound to a re-runnable command; the orchestrator's own runs and the independent checker's runs are labelled separately and are NOT presented as each other",
+  "orchestrator_measurements": {
+    "guard_suite_on_candidate": {"command": "python -m unittest tests.test_r6_doc_identity_guard -v", "result": "Ran 9 tests ... OK", "composition": "5 real-document checks + 4 paired mutations, 0 skipped"},
+    "guard_on_pre_repair_tree_d3bd545": {"command": "same file placed in a worktree of d3bd545", "result": "FAILED (failures=6)", "reading": "4 real-document checks catch the historical defect; 2 mutation cases refuse because their fixture base differs - the healthy fixture-freshness behaviour"},
+    "affected_suite": {"command": "python -m unittest tests.test_s4r2m_docs_route tests.test_r5r3_install_route_identity tests.test_s4ext_release_provenance tests.test_r6_doc_identity_guard", "result": "Ran 44 tests in 1.327s - OK", "exit": 0},
+    "whole_suite_final_head": {"command": "python -m unittest discover -s tests -t .", "result": "Ran 633 tests in 174.073s - OK (skipped=4)", "exit": 0, "post_state": "git status --porcelain empty"},
+    "write_set_classifier_final_head": {"command": "python R17_check_write_set.py <worktree> HEAD", "result": "stage=stage-c base=f4021ae... -> changed=27 -> RESULT: PASS", "exit": 0},
+    "write_set_classifier_main": {"command": "same, head=d3bd545", "result": "changed=25 -> RESULT: PASS", "reading": "the arm describes origin/main as well; this round exceeds it by exactly one product file"},
+    "arm_self_test_simulation": {"result": "SELF_TEST: PASS (4 refused plants refused, 9 allowed plants accepted)", "exit": 0},
+    "red_gate_reproduction": {"command": "same classifier, head=5defc64 (before the repair)", "result": "FAIL (22 outside, 0 frozen): 21 packet paths + docs/USER_GUIDE.md", "exit": 1},
+    "served_release_bytes": {"zip_bytes": 68357, "zip_sha256": "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75", "sha256sums_sha256": "0f76502670038ae35bd4f772dc23223f6b47241c3acee2f918d106eaabffe689", "result": "recomputed from downloaded bytes; 56 ZIP members, 8 SKILL.md, single root, no traversal, no MCP/apps/hooks"}
+  },
+  "independent_checker_measurements": {
+    "dispatch": "VERIFY_SECURITY, arm pinned to openai-codex/gpt-6.1-sol at rank 2, sandbox danger-full-access with --guard-subject",
+    "receipt": {"ok": true, "used_rank": 2, "used_transport_model": "gpt-6.1-sol", "used_seconds": 1451.44, "usage_receipt_ok": true, "nonce_ok": true},
+    "subject_verified": "5defc64f1177a1d6f32502c5479c65cf9a001858 (tree df8e6b3c...)",
+    "checker_id": "PIPD-S4-R6-CLOSEOUT-20261016-FAR-R17-VERIFY_SECURITY-5defc64f",
+    "verdict": "PARTIAL",
+    "claims": {
+      "C1_identity_and_scope": "PASS",
+      "C2_guard_present_and_green": "PASS",
+      "C3_independent_mutation_probes": "PASS - the checker wrote its OWN four defect-class probes and each was rejected by the candidate guard",
+      "C4_regression": "PARTIAL - affected 44 OK; whole suite could not be certified green because two pre-existing tests write inside the guarded root",
+      "C5_served_zip": "PASS - independently downloaded, 68357 bytes, digest matches, 56 members, 8 SKILL.md, no traversal",
+      "C6_served_fallback_provenance": "PASS - the served document's own header declares preview.3 and it is byte-equal to the repo copy; the drift is confirmed",
+      "C7_note_bounds": "PASS - a list bullet inside the existing Hashes section, requires a future release, rejects in-place repair"
+    },
+    "capability_gap_closure": "the previous dispatch's two NOT_RUNs were sandbox limits; this dispatch fetched over the network and used scratch, so both are discharged by real measurement",
+    "adversarial_findings": [
+      "tests/test_tooling_executes.py:52 compiles repository-local bytecode and tests/test_tqaep_design_positive.py:59 rewrites repository fixtures - both unchanged from the base, so they are not candidate-introduced",
+      "tests/test_s0_contracts.py:73 requests repository-local temporary directories",
+      "procedural caveat: preliminary attempts inherited the system TMPDIR; strict scratch-only compliance for the WHOLE turn is not claimed"
+    ]
+  },
+  "denominator_warning": "The independent checker saw 626 tests under a different interpreter and boundary; the orchestrator saw 633 on the final head; the R6 report's CI saw 624 with 6 skipped. These are three different environments and must not be substituted for one another.",
+  "red_gate_readback": "the hosted `verify` conclusion on the repaired head is a separate measurement, read back from the pull request after the push and reported as such"
+}
