@@ -1,17 +1,17 @@
 {
   "schema": "PIPD-S4-R6-CLOSEOUT-RETURN/checker-verdict/1",
-  "subject_commit": "552bbde073806e254f84e95039f05c9767608aa1",
-  "subject_tree": "a95579bf8c1bc77550d1044d12b2de7ed2028ae5",
+  "subject_commit": "c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20",
+  "subject_tree": "b8718e59a935dc1cbfb2462c9e552e423b5b74b1",
   "maker": {
     "lane": "EXECUTE",
     "model": "opencode-go/deepseek-v4.1-flash"
   },
   "checker": {
     "lane": "VERIFY_SECURITY",
-    "model": "openai-codex/gpt-6.1-sol (transport model gpt-6.1-sol, OpenAI OAuth)"
+    "model": "opencode-go/deepseek-v4.1-flash (R18 despatch); the two R17 despatches below were openai-codex/gpt-6.1-sol and are retained as history, not as the governing independence basis"
   },
-  "maker_id_equals_checker_id": false,
-  "independence_basis": "different model axis, not merely a different lane name",
+  "maker_id_equals_checker_id": true,
+  "independence_basis": "SAME MODEL AXIS, by owner order 2026-10-16 (HG-KSEOS registry SOD006-C3, OWNER_ORDERED_IN_FORCE): maker (EXECUTE) and checker (VERIFY_SECURITY) are both opencode-go/deepseek-v4.1-flash. The earlier string in this file ('different model axis, not merely a different lane name') is SUPERSEDED, was never attested by any checker output, and must not be read as model-axis independence. What remains is process-, lane- and evidence-path independence plus the no-self-acceptance rule.",
   "despatches": [
     {
       "dispatch_receipt": "verify_turn1",
@@ -40,6 +40,37 @@
       "checker_id": "independent-verify-security-PIPD-S4-R6-20261016-552bbde",
       "verdict": "PARTIAL",
       "verdict_text_sha256": "061da76a78613f7d43c928ee279e42f735b5d03c23d33f2ce7d7f9adf27c390a"
+    },
+    {
+      "round": "R18",
+      "lane": "VERIFY_SECURITY",
+      "used_rank": 1,
+      "required_arm": "opencode-go/deepseek-v4.1-flash",
+      "used_transport_model": "opencode-go/deepseek-v4.1-flash",
+      "receipt_ok": true,
+      "usage_receipt_ok": true,
+      "used_seconds": 563.66,
+      "sandbox": "read-only",
+      "verdict": "PARTIAL",
+      "dispatch_receipt": "far-r18/lane/verify_deepseek/verify_turn.json",
+      "verdict_text": "far-r18/lane/verify_deepseek/VERDICT_DEEPSEEK.txt",
+      "confirmed": [
+        "C1 the dead outgoing link is repaired and every relative link resolves at the head",
+        "C2 the guard is falsifiable: it reports the defect on the pre-repair text and nothing on the repaired file",
+        "C3 write-set classifier: 27 paths, 0 outside; control origin/main 25 paths, 0 outside",
+        "C4 evidence manifest 63/63 byte-identical, recomputed from the committed blobs"
+      ],
+      "findings": [
+        "C5 stale canonical binding (bound 552bbde, the pre-repair tree) - repaired by this revision",
+        "C5 dispatch receipts and the digest-referenced verdict texts were not shipped - repaired by this revision",
+        "C6 the handover named stale tips (127ec1c / 0b50d3e) and a stale guard count (Ran 9) - repaired by this revision"
+      ],
+      "qualification_limits": [
+        "read-only sandbox with no writable scratch: the literal `python -m unittest tests.test_r6_doc_identity_guard -v` could not run; the 11 methods were executed through an in-memory tempfile shim (emulation, not the literal invocation)",
+        "network blocked: served release/fallback asset digests were NOT re-derived (UNVERIFIED there)",
+        "whole suite and hosted CI were deliberately outside its contract",
+        "the runtime exposed no distinct backend identity for its own turn"
+      ]
     }
   ],
   "verdict": "PARTIAL",
@@ -47,7 +78,25 @@
   "qualification_limits": [
     "The checker's sandbox denied network access (WinError 10013), so it could not fetch the served release ZIP; that item is its NOT_RUN, while the maker's own fresh HTTPS recomputation is recorded in diff_and_tests/release_readback.json and is re-runnable by anyone.",
     "The checker's sandbox had no usable temporary storage, so its pytest invocation failed before collecting tests; its verdict is therefore PARTIAL rather than PASS.",
-    "First dispatch receipt is non-green (ERR_NO_ARM_EMITTED_NONCE) because the maker's brief did not ask the arm to echo the nonce; the second dispatch (corrected brief) is recorded alongside so both are visible."
+    "First dispatch receipt is non-green (ERR_NO_ARM_EMITTED_NONCE) because the maker's brief did not ask the arm to echo the nonce; the second dispatch (corrected brief) is recorded alongside so both are visible.",
+    "R18 despatch (opencode-go/deepseek-v4.1-flash) ran read-only without writable scratch: see its own qualification_limits; its C2/C4 results are emulation-and-blob based, not literal-command based.",
+    "The C5 finding it raised was TRUE of the packet as shipped at 338227c and is repaired in this revision. The repair is the maker acting on a checker finding; the checker did not and could not accept its own repair."
   ],
-  "claim_ceiling": "Read-only independent inspection of the frozen candidate. Establishes: the scoped document claims and the changed-path set at that commit. Does NOT establish: served-asset integrity (checker-side), test execution (checker-side), host UI behaviour, HOST_QUALIFIED, S4_FULL_PASS or production."
+  "claim_ceiling": "Binds the R18 product head to the independent despatch's adjudication of C1-C4 (confirmed) and C5/C6 (found, then repaired). It is NOT an acceptance of the round, NOT model-axis independence (see independence_basis), and NOT whole-suite / hosted-CI / host-qualification evidence.",
+  "subject_history": [
+    {
+      "commit": "552bbde073806e254f84e95039f05c9767608aa1",
+      "role": "superseded per-round candidate (pre-repair tree - what the shipped R17 packet bound)"
+    },
+    {
+      "commit": "127ec1ca97c71d0437f5b149a6e7d540d0cb3bba",
+      "tree": "62eef9d8059d307ae373de63519a37551fa14854",
+      "role": "R17 product head (write-set-gate amendment only)"
+    },
+    {
+      "commit": "c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20",
+      "tree": "b8718e59a935dc1cbfb2462c9e552e423b5b74b1",
+      "role": "R18 product head (guard strengthened with the outgoing-link check; docs/install/README.md:151 dead link repaired)"
+    }
+  ]
 }

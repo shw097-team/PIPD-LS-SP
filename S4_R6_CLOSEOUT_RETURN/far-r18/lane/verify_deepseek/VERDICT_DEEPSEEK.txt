@@ -1,0 +1,138 @@
+I have everything I need. Let me record the final environment fact and assemble the verdict.
+
+The sandbox here is strictly read-only: `C:\Users\...\Temp`, `C:\Projects\...\Temp`, and every scratch path I probed returned `UnauthorizedAccessException`, and `tempfile.gettempdir()` finds no usable directory. I therefore ran every check read-only (git object reads via `git cat-file`/`git show`, `python -` over stdin) and ran the c17aa76 guard module with an in-memory `tempfile`/`Path.read_text`/`Path.write_text` shim rather than touching disk.
+
+---
+
+# VERDICT: `PARTIAL`
+
+The **product fix at `c17aa76` is real, load-bearing, and correctly bounded** (C1, C2, C3 all confirm). The **packet is not bound to that head**: the canonical `checker_verdict.json` binds the *superseded* `552bbde`, and the shipped packet/MANIFEST is the pre-repair state. One packet field is not recomputable from what the branch ships. Detail below. Every claim in the brief was treated as unproven until tested.
+
+## Subject topology (established first; the brief's framing hides this)
+
+```
+c17aa76 ← parent 127ec1c ← 9c74dd9 ← 552bbde ← d3bd545   (product branch; tip c17aa76)
+338227c = 338227c ← 0b50d3e ← 5defc64 ← 3e1bc6d ← 552bbde  (evidence branch; tip 338227c)
+git merge-base c17aa76 338227c  ->  552bbde073806e254f84e95039f05c9767608aa1
+```
+
+`338227c` is **not** an ancestor of `c17aa76`; they diverged after `552bbde`. The evidence branch is a linear chain whose payload (packet + guard + verdicts) was built at `552bbde`/`5defc64` and later copied to `338227c` without rebase. This matters for C4/C5.
+
+---
+
+## C1 — dead outgoing link repaired; all relative links resolve — **CONFIRMED**
+
+Own resolver (no repo helper) over `git show c17aa76:docs/install/README.md`:
+
+```
+](RELEASE_TUPLE.json) present: False
+](../RELEASE_TUPLE.json) present: True   (both occurrences, incl. the sentence "...its identities live in the `v0.1.1-preview.4` entry of [`docs/RELEASE_TUPLE.json`](../RELEASE_TUPLE.json) in this tree")
+relative links resolved against c17aa76:
+  ../RELEASE_TUPLE.json        -> docs/RELEASE_TUPLE.json            exists=True
+  ../../tools/build_web_fallback.py -> tools/build_web_fallback.py   exists=True
+  PIPD_AGENT_INSTALL_PROMPT.md -> docs/install/...                   exists=True
+  PIPD_WEB_FALLBACK.md / .sha256 -> docs/install/...                 exists=True
+  ../../.github/workflows/public-plugin-verify.yml -> ...            exists=True
+MISSING: []   (every relative link resolves)
+```
+
+## C2 — guard is falsifiable and load-bearing — **CONFIRMED**
+
+Read the module at `c17aa76` (11 `def test_`: 6 real-document checks + 5 mutation cases), then ran all of them (in-memory temp shim, read-only):
+
+```
+Ran 11 tests ... OK   (SUMMARY ran=11 failures=0 errors=0)
+```
+`python -m unittest tests.test_r6_doc_identity_guard -v` — see qualification limits below for why the literal command could not run here.
+
+Falsification from history (author's word not used):
+
+```
+check_outgoing_links_resolve(PRE-repair 127ec1c:docs/install/README.md)
+ -> ["docs/install/README.md: link target 'RELEASE_TUPLE.json' resolves to
+     docs/install/RELEASE_TUPLE.json, which does not exist at HEAD"]
+check_outgoing_links_resolve(REPAIRED c17aa76:docs/install/README.md)
+ -> []
+```
+
+The check reports the defect on the pre-repair text and nothing on the repaired file. Note: `c17aa76` adds the 11th/12th test methods (outgoing-link check) that `127ec1c`/`338227c` lack (9 methods there).
+
+## C3 — governed write-set gate — **CONFIRMED (product + control)**
+
+Stage-c `ALLOWED`/`DENIED` and `STAGE_C_BASE_SHA` extracted from `.github/workflows/public-plugin-verify.yml` at `c17aa76` (not retyped):
+
+```
+ALLOWED=^(src/pipd_ls_sp/|schemas/|tests/|fixtures/|pyproject\.toml$|tools/build_dist\.py$|dist/|README\.md$|docs/install/|docs/USER_GUIDE\.md$|docs/RELEASE_TUPLE\.json$|PREVIEW_NOTES_v0\.1\.1-preview\.4\.md$|\.github/workflows/public-plugin-verify\.yml$)
+DENIED=^(skills/|packaging/public-plugin/)   EXCLUDED_PREFIXES=^\.hgk/
+BASE=f4021aeff9c016cfb14f17e68a0c570ed4e825c5   (ancestor of c17aa76: True)
+```
+
+Classification of `git diff --name-only f4021ae...c17aa76`:
+
+```
+changed=27  frozen=0  outside=0   -> PASS   (0 paths outside the set)
+control f4021ae...d3bd545: changed=25 frozen=0 outside=0 -> PASS
+```
+
+The 27 paths are ordinary closeout paths; the only path `c17aa76` adds over main is `tests/test_r6_doc_identity_guard.py`. Both ranges clean.
+
+## C4 — evidence-branch manifest — **CONFIRMED (63/63)**
+
+Recomputed sha256 of every `SHA256SUMS` entry from the committed blobs at `338227c`:
+
+```
+manifest entries: 63
+63/63 byte-identical
+files in packet tree: 64;  in tree not in manifest: ['SHA256SUMS'] (self-reference, expected)
+```
+
+Two load-bearing files checked specifically (both present, both match):
+
+```
+S4_R6_CLOSEOUT_RETURN/checker_verdict.json          f494427b0e08de80da80bba080631b5f06a6acee18c02e9242d24f82f5c7d521  match
+far-r17/lane/verify_final/verdict_final.txt          b70b88ee45bdf222cf9825497270cae21fedcbc48a413f599701e1043befe582  match
+```
+(`checker_verdict.json` = the canonical binding; `verdict_final.txt` = the checker's final verdict text. Either missing/mismatched would void the packet.)
+
+## C5 — canonical verdict binding — **PARTIAL (findings)**
+
+`S4_R6_CLOSEOUT_RETURN/checker_verdict.json`:
+
+```
+subject_commit: 552bbde073806e254f84e95039f05c9767608aa1   (NOT c17aa76)
+subject_tree:   a95579bf8c1bc77550d1044d12b2de7ed2028ae5
+```
+
+1. **Binds the wrong head.** The packet's canonical verdict binds `552bbde` — the superseded per-round candidate that the round's own `subject_versions.json` lists as superseded by `127ec1c` → `c17aa76`. It does **not** bind the product head `c17aa76` that C1/C2/C3 adjudicate. The packet ships the *pre-repair* state (evidence `docs/install/README.md` still carries the dead link; evidence guard lacks the outgoing-link check).
+2. **Dispatch history preserved, but only partly shipped.** Two dispatches are recorded (`verify_turn1` non-green `ERR_NO_ARM_EMITTED_NONCE`; `verify_turn2` green). Both are retained rather than rewritten — but the receipt files themselves (`verify_turn1.json`, `verify_turn2.json`, plus `attempts.ndjson`) are **not in the shipped packet**; only `far-r17/lane/verify/verify_turn.json` and `verify_final/verify_turn.json` are. `git grep 'verify_turn1' 338227c` returns nothing.
+3. **Recorded verdict-text digests ARE recomputable** (against the handover staging copy of the exact texts, after trailing-newline normalization):
+
+```
+b1e7e67ce81be717d9cb100c31c26117704940e8fd70625adb9a7feb6d150fd7 = sha256(staged lane/verify/verdict_text_run1.txt.strip())  [turn1]
+061da76a78613f7d43c928ee279e42f735b5d03c23d33f2ce7d7f9adf27c390a = sha256(staged lane/verify/verdict_text_run2.txt.strip())  [turn2]
+```
+   The raw-byte digests differ (`e1a2ebf2…`, `596149cd…`); normalization is required, and the two source texts the digests refer to are not shipped in the packet (only shipped in `_handover/`).
+4. **Field asserting more than the shipped files show:** `"independence_basis": "different model axis, not merely a different lane name"`, `"checker.model": "openai-codex/gpt-6.1-sol"`, and `"maker_id_equals_checker_id": false`. The shipped checker text itself disclaims this — `verdict_final.txt` records `model: Not exposed by this runtime; no specific model identity asserted`, and `verdict_escalated.txt` says `backend identity not independently attested`. The shipped files cannot show a model axis.
+
+## C6 — adversarial miss-check on the handover's own claims — **mixed**
+
+The handover (`EXTERNAL_ENGINEERING_HANDOVER.md` at `338227c`) names stale tips. Three load-bearing claims:
+
+- **Branch model** (table: product change = `127ec1c`, evidence = `0b50d3e`). Product branch tip is actually `c17aa76`, evidence tip is `338227c` (`git rev-parse origin/fix/… -> c17aa761b26…`, `r6-closeout-evidence-20261016 -> 338227c78a…`) → **REFUTED as-written**; its own `git rev-parse <branch>` locator returns halves-sha the doc does not name.
+- **Write-set-gate allowance over the product candidate.** Classifying `f4021ae...c17aa76` → `changed=27, outside=0` → the *product candidate is inside the arm*. But the handover's quoted stage-c `ALLOWED` string **is not the string c17aa76's workflow carries** (`c17aa76` includes the `docs/USER_GUIDE\.md$` alternative; the packet's copy does not) → claim **CONFIRMED for the head, REFUTED as the doc is worded (stale arm text)**.
+- **Test command and expected output** (`python -m unittest tests.test_r6_doc_identity_guard -v` → `Ran 9 tests … OK`). Independently reproduced both the *input* (c17aa76 guard = 11 `def test_`) and the *effect* (`Ran 11 tests … OK`) → the shipped expectation `Ran 9` is **REFUTED for c17aa76**; it matches only the stale 9-method artifact.
+
+- **`git rev-list --count cc6c193..origin/main` → 11** and **`origin/main → d3bd545`**: **CONFIRMED**.
+
+---
+
+## qualification_limits
+
+- **Model-axis independence is ABSENT, by owner order.** My arm is `opencode-go/deepseek-v4.1-flash` — the *same model identity* as the maker (`registry SOD006-C3`, `OWNER_ORDERED_IN_FORCE`). No model-axis separation is claimed. What remains is process-, lane- and evidence-path independence plus the no-self-acceptance rule. Runtime did not expose a distinct backend identity for this turn either.
+- **The literal command `python -m unittest tests.test_r6_doc_identity_guard -v` cannot pass under this sandbox.** `tempfile.gettempdir()` finds no usable directory (`FileNotFoundError: No usable temporary directory found in [...]`), so the guard's mutation cases error (observed: `Ran 9 tests … FAILED (errors=4)`; the 6 real-document checks and the falsification still ran clean). I executed all 11 methods faithfully against `c17aa76` via an in-memory temp shim, but that is an emulation, not the literal invocation. I could not create a scratch directory anywhere (`UnauthorizedAccessException`).
+- **The packet's own `sha256` for the guard's shipped copy is unverifiable from `c17aa76`**: `4d1def6…` in the round staging is described as the c17aa76 file, but `c17aa76:TESTS/...` hashes to `9eb9ec1…`; the `4d1def6…` value is not present on the evidence branch.
+- **I did not re-run the full suite** (out of contract) and **did not** use hosted CI as evidence; the c17aa76 check-readback JSONs (`r18/github_readback/checkruns_c17aa76.json`) were verified only for digest integrity, not their truth.
+- **Network is blocked**, so I could not re-derive the served release ZIP/fallback digests; the served-asset claims in the packet are **UNVERIFIED** here.
+- **The live lane/registry semantics and the private-host UAT** are outside this repository and were not exercised; the "different model axis" and "provider" fields in `verify_turn.json` are the lane's own assertions.
+
+HGK_LANE_NONCE_OK

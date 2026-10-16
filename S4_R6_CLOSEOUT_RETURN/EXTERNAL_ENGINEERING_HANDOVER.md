@@ -209,6 +209,7 @@ Measured results (three different environments; do **not** substitute one for an
 |---|---|---|
 | repository recon | `python -m unittest discover -s tests -t .` | `Ran 633 tests in 180.325s` — `OK (skipped=4)`, exit 0 |
 | round R17 (final head) | same | `Ran 633 tests in 174.073s` — `OK (skipped=4)`, exit 0 |
+| round R18 (final head `c17aa76`) | same | `Ran 635 tests in 202.6s` - `OK (skipped=4)`, exit 0 |
 | independent checker | different interpreter/boundary | 626 tests (not green — see caveat below) |
 | R6 report CI | CI boundary | 624 tests, 6 skipped |
 
@@ -226,7 +227,7 @@ python -m unittest tests.test_s4r2m_docs_route tests.test_r5r3_install_route_ide
   tests.test_s4ext_release_provenance tests.test_r6_doc_identity_guard
 ```
 
-Expected: `Ran 9 tests ... OK` for the guard; `Ran 44 tests ... OK` for the affected set.
+Expected: `Ran 11 tests ... OK` for the guard (11 = 6 real-document checks + 5 mutation cases at the R18 head; the same command on the pre-repair `127ec1c` reports `Ran 9 tests ... OK`, i.e. the earlier figure is the pre-repair artifact, not the head's); `Ran 44 tests ... OK` for the affected set.
 *(R17_MEASUREMENTS.json orchestrator_measurements)*
 
 **A wheel** is produced two ways. CI route: build one wheel, install it in a fresh venv, change out of
@@ -354,3 +355,21 @@ Rollback pointers: delete the candidate branch or the evidence branch only under
 (the evidence branch is the only home of the packet); reset the worktree with
 `git -C C:/Projects/Agent_Workspace/PIPD-S4R6-wt reset --hard d3bd5456afbff21a8c8837994a49f57be3e1b97e`.
 *(SESSION_CLOSEOUT_AND_HANDOVER.md §1; owner_closeout_and_tt.md §4)*
+
+---
+
+## R18 ADDENDUM (supersedes the tips named above)
+
+Added by the R18 round so that a reader does not act on the superseded heads named earlier in this document.
+
+| what | ref | sha | note |
+|---|---|---|---|
+| product head | `origin/fix/s4r6-closeout-doc-identity-and-update-route-20261016` | `c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20` | supersedes `127ec1c` named above; adds the outgoing-link guard and repairs the dead link |
+| evidence head | `r6-closeout-evidence-20261016` | `338227c78a121db9847dff2574918bdcb2bfbdc2` | supersedes `0b50d3e` named above |
+
+- The guard test count is **11** at `c17aa76` (the `Ran 9 tests` figure elsewhere in this document is the pre-repair artifact).
+- The independent R18 despatch (`opencode-go/deepseek-v4.1-flash`, the registry's default VERIFY arm - no longer the GPT arm)
+  returned **PARTIAL**: C1-C4 confirmed, C5/C6 raised as findings and repaired in this revision.
+  See `checker_verdict.json` and `far-r18/lane/verify_deepseek/VERDICT_DEEPSEEK.txt`.
+- **Model-axis independence does NOT exist in this round, by owner order** (registry `SOD006-C3`): maker and checker are the
+  same model. Any statement elsewhere in this document implying a different model axis is superseded. See `R18_LANE_REBIND.md`.
