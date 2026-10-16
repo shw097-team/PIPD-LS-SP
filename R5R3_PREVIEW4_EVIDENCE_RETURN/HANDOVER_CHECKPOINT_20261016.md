@@ -13,7 +13,7 @@ preview.4. Nothing merged, no tag created, no release created, no host install c
 | compiler base (stage-c) | `f4021aeff9c016cfb14f17e68a0c570ed4e825c5` |
 | product branch | `fix/r5r3-preview4-identity-and-route` @ `4cbb22fc9be3c9b91840aacef90da754d3d7414d` |
 | pull request | #16, open, **draft**, `mergeable_state=clean`, NOT merged |
-| evidence branch | `r5r3-evidence-return-20261016` @ `d4c4b0df76b2f8b9eaf2b52bded1c7c933cf2ef1` |
+| evidence branch | `r5r3-evidence-return-20261016` (head advances with each evidence commit; integrity is bound by `PACK_INDEX.json` + the git object, not by a recorded tip sha) |
 | tag under study | `v0.1.1-preview.4` object `0618d73c725da0d8c3280f99ef369d13741b5197` → commit `cc6c1930765160697e7e51d6e37735b9220a30db`, tree `7d277a0afaff28b6841836cea3a31ffd0b214d94` |
 | published | 2026-10-14, 7 assets, 6 `SHA256SUMS` entries |
 
