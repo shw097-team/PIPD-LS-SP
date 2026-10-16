@@ -5,10 +5,15 @@ this page or points at it. There are **two install routes and only two** — **W
 and they have different ceilings. Pick one, read its ceiling, and do not read a green build (or a
 copied file) as anything more than what the [states table](#states-that-are-not-the-same) below says.
 
-Version pin for everything on this page: release **`v0.1.1-preview.4`**, release-tag target and
-build-source commit **`cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`**. The authority for these facts is
-[`docs/RELEASE_TUPLE.json`](../RELEASE_TUPLE.json); read it before you rely on any digest quoted
-below.
+Version pin for everything on this page: release **`v0.1.1-preview.4`**; its annotated tag object
+`0618d73c725da0d8c3280f99ef369d13741b5197` dereferences to release-tag target
+**`cc6c1930765160697e7e51d6e37735b9220a30db`** (tree `7d277a0afaff28b6841836cea3a31ffd0b214d94`).
+`cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a` is the **`v0.1.1-preview.3`** target and is *not* a
+preview.4 identity. The preview.4 entry's `build_source_commit` is
+`4754d92cc98c0c02b59bf9700d08c0b7bf452e3d`, and its own `build_source_scope` limits that field to the
+wheel `pipd_ls_sp-0.1.1a4-py3-none-any.whl` only — it is **not** a claim about the plugin ZIP. The
+authority for these facts is [`docs/RELEASE_TUPLE.json`](../RELEASE_TUPLE.json); read it before you
+rely on any digest quoted below.
 
 ---
 
@@ -46,14 +51,18 @@ files** in total.
 ## The Web fallback document and its `DOC_MOUNT_ONLY` ceiling
 
 `PIPD_WEB_FALLBACK.md` is one markdown document built from a *frozen mount pack* — a directory that
-carries its own `MANIFEST.sha256`, e.g. the checked-in
-[`dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.4/`](../../dist/mount/) pack. Build it with
-the tool's own CLI:
+carries its own `MANIFEST.sha256`. **`v0.1.1-preview.4` ships no mount pack** (its `RELEASE_TUPLE`
+entry sets `pack_dir`/`zip` to `null` on purpose), so there is no preview.4 pack to build from. The
+committed document's own header reads `release_id: v0.1.1-preview.3` and
+`release_commit: cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a`, which is the last release that ships a
+pack. The command below is therefore the **legacy preview.3 example**, matching the committed
+document's own header:
 
 ```bash
+# legacy preview.3 example — preview.4 ships no mount pack
 python tools/build_web_fallback.py \
-  --mount-pack dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.4 \
-  --release-id v0.1.1-preview.4 \
+  --mount-pack dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3 \
+  --release-id v0.1.1-preview.3 \
   --release-commit cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a \
   --out PIPD_WEB_FALLBACK.md
 ```
@@ -139,7 +148,7 @@ Pin the **immutable** identity, never a moving branch tip:
   dereferences to target commit `cc6c1930765160697e7e51d6e37735b9220a30db`, tree
   `7d277a0afaff28b6841836cea3a31ffd0b214d94`. The release carries **no** `RELEASE_TUPLE_*.json` asset;
   its identities live in the `v0.1.1-preview.4` entry of
-  [`docs/RELEASE_TUPLE.json`](RELEASE_TUPLE.json) in this tree, and the digests a downloader verifies
+  [`docs/RELEASE_TUPLE.json`](../RELEASE_TUPLE.json) in this tree, and the digests a downloader verifies
   against are the release's own `SHA256SUMS` asset. Both are independently re-derivable:
   `git rev-parse <tag>`, `git rev-parse <tag>^{commit}`, `git rev-parse <tag>^{tree}`, and
   `sha256sum <downloaded asset>` against `SHA256SUMS`. The earlier releases' entries stay as history —
@@ -155,15 +164,53 @@ Pin the **immutable** identity, never a moving branch tip:
   front page (`README.md`). Verify the bytes you downloaded against that digest before installing;
   this page does not replace the sidecar.
 - Private skills-only plugin ZIP `pipd-ls-sp-public-skills.zip`: the **ChatGPT Web private route**
-  (import a ZIP you own, eight skills, no MCP/Apps/Hooks). Its digest is recorded in the release's
-  `SHA256SUMS` asset; the ZIP carries a single plugin root, one manifest and exactly the eight
+  (import a ZIP you own, eight skills, no MCP/Apps/Hooks). Download it from
+  <https://github.com/shw097-team/PIPD-LS-SP/releases/tag/v0.1.1-preview.4>; the release's own
+  `SHA256SUMS` asset records its digest, which is
+  `545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75` (68,357 bytes) — verify the
+  bytes you downloaded against it before uploading, and treat `SHA256SUMS` (not this page) as the
+  sidecar of record. The ZIP carries a single plugin root, one manifest and exactly the eight
   existing skills. Uploading it needs an account/workspace that actually offers the upload option —
   without that permission the ceiling stays `NOT_SUPPORTED_FOR_ACCOUNT` and the Web fallback document
-  below is the route to use.
+  below is the route to use. **If you already installed this plugin under the same `plugin_id`, do
+  not press Add again — see
+  [Updating a plugin you already installed](#updating-a-plugin-you-already-installed).**
 - Mount pack ZIP `PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip`: digest recorded in
   `docs/RELEASE_TUPLE.json` (`published_asset_sha256`), with a `.sha256` sidecar next to the ZIP.
 - Inside an unpacked pack, `MANIFEST.sha256` lists every member's sha256 (LF-normalised text bytes
   hash as stored). `tools/build_web_fallback.py` recomputes it and refuses on any mismatch.
+- **Served-document provenance drift.** The `v0.1.1-preview.4` release serves a `PIPD_WEB_FALLBACK.md`
+  whose sha256 is `c88ddc49cfe5fb59fe1a713fdde4cfd6a06ed54cc5831885130e053ce990c2af` (the same bytes as
+  the committed file above), and that served copy's own header declares the **earlier**
+  `release_id: v0.1.1-preview.3` / `release_commit: cbf69756...` provenance. This is a real drift in
+  an immutable release. That document is a frozen asset of `v0.1.1-preview.4`, so it can only be
+  corrected by a future release; no in-place repair of the release asset is possible here.
+
+### Updating a plugin you already installed
+
+This is the route for a plugin you installed earlier under the **same `plugin_id`**. Adding a second
+package under an id you already have is what a host refuses, and that refusal is about the id already
+being present — **it is not evidence that the ZIP is damaged.**
+
+1. **Identify first.** On the ChatGPT plugins page, check whether the plugin is already listed as
+   installed, and note its `plugin_id` (and the display name). Compare it with the `plugin_id` in the
+   ZIP's root `plugin.json` before you upload anything.
+2. **Same id → Update.** If the id matches, use the plugin's own **Manage → Update** flow, or
+   **Upload new version** if your host offers that option, and point it at the freshly downloaded
+   ZIP. Do not use Add.
+3. **If no Update/Upload-new-version option exists** for that host/account, update by replacement:
+   back up anything you stored in the plugin first, then **uninstall the old plugin yourself** and
+   add the newly downloaded ZIP once. This is a consent step you take, not something a tool should
+   do for you.
+4. **A different id is a different plugin.** If you (or anyone) re-package the same skills under a
+   **new** `plugin_id`, the result is a **derived candidate**, not the published release asset. The
+   release asset `pipd-ls-sp-public-skills.zip` keeps its own digest above; a renamed rebuild must
+   never be presented as that asset.
+5. **Rollback.** Keep the previous ZIP (and its digest) before you update. To roll back, uninstall
+   the new plugin and re-add the previous ZIP; nothing outside the plugin itself changes.
+
+If your account or workspace has no upload/update option at all, the ceiling is
+`NOT_SUPPORTED_FOR_ACCOUNT` and the Web fallback document in this page is the route to use.
 
 ### Uninstall / rollback
 

@@ -8,10 +8,15 @@ this guide links there rather than copying it.
 Three ceilings apply to everything below, and no result here can lift them:
 
 - `DOC_MOUNT_ONLY` — the Web route is a document drop. It installs nothing and executes nothing.
-- `pipd validate PASS` is **not** a full trace qualification for the **published** `v0.1.1-preview.3`
-  wheel: that wheel still carries the known Trace false-PASS defect (`FAIL_CHALLENGE`, product
-  scope). The source repair exists in the candidate branch; the published wheel does not inherit it.
-- `S4_FULL_PASS` is **NOT GRANTED**. Merge and release are `HOLD`.
+- `pipd validate PASS` is **not** a full trace qualification for a **published** wheel. The
+  `v0.1.1-preview.3` wheel carries the known Trace false-PASS defect (`FAIL_CHALLENGE`, product
+  scope) and the source repair lives on `main`. Whether the current `v0.1.1-preview.4` wheel
+  (`pipd_ls_sp-0.1.1a4`) inherits that repair is **not established by this guide**: check the tag
+  your wheel was built from, and do not read a `validate PASS` as anything more than its own scope.
+- **`S4_FULL_PASS` is `NOT_GRANTED`.** `v0.1.1-preview.4` **was published on 2026-10-14** and the
+  routes below are usable against it; the earlier `Merge and release HOLD` wording described the
+  preview.3-era state and no longer applies. Full S4 qualification, `HOST_QUALIFIED` and production
+  remain separately **`NOT_GRANTED`**.
 
 ## 0. Which task are you here for?
 
@@ -35,6 +40,10 @@ Three ceilings apply to everything below, and no result here can lift them:
 4. If a task needs a source the document does not contain, the correct outcome is a **typed NACK**
    naming the missing source — not an invention. `DOC_MOUNT_ONLY` means the document cannot write to
    your repository, cannot run the CLI and cannot be a substitute for an installed plugin.
+
+Installing the **private Skills-only plugin ZIP** instead, and updating one you already installed
+under the same `plugin_id`, are both covered in exactly one place:
+[`docs/install/README.md`](install/README.md) — see *Updating a plugin you already installed* there.
 
 **Plus vs Free:** both can attach a document; that is the whole of what is verified here. Nothing in
 this repository claims that either tier can install, discover or execute the plugin from a public
@@ -79,9 +88,11 @@ Two things to keep straight:
 - **`version` is a string, and `"1"` is legal.** If a document uses a bare `"1"`, convert it to a
   string rather than "fixing" it to a semver — a wrong-type value is refused, and that refusal is
   the feature working.
-- **A `validate PASS` on the published wheel is not a trace qualification** (see the ceilings above).
-  Full negative coverage (wrong type, orphan link, wrong hash, missing source) is what the candidate
-  branch's `tests/test_s4ext_trace_closure.py` exercises; the published wheel predates it.
+- **A `validate PASS` on a published wheel is not a trace qualification** (see the ceilings above).
+  Full negative coverage (wrong type, orphan link, wrong hash, missing source) is what
+  `tests/test_s4ext_trace_closure.py` exercises on the `main` line; which of that coverage your wheel
+  actually carries depends on the tag it was built from. Do not round a `validate PASS` up to a trace
+  qualification.
 
 Every verb takes `--json` and writes machine-readable output. Prefer `--json` in scripts: the human
 form is for reading, not for parsing.
