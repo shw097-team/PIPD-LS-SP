@@ -1,0 +1,62 @@
+{
+  "run_id": "FAR-20261016-019-s4r6-external-handover",
+  "round": "PIPD-S4R6-R18-EXTERNAL-HANDOVER-20261016",
+  "extends": ["FAR-20261016-016-pipd-s4r6-closeout-learning", "FAR-20261016-017-s4r6-residual-closure"],
+  "verdict": "PARTIAL_CLOSURE_WITH_PRODUCT_REPAIR",
+  "verdict_one_line": "The round's remaining work was found to contain one real product defect (a dead documented route) plus four closure-relevant documentation gaps; all five were repaired or produced, four further options were rejected as over-engineering, and everything else is owner-gated, credential-gated or recorded as partial with its reason.",
+  "basis": {
+    "audit_rows": 115,
+    "audit_source": "r18/AUDIT_REQUIREMENTS.tsv (read-only child, 661s, gpt-6.1-sol)",
+    "audit_counts": {"DONE": 45, "PARTIAL": 44, "OWNER_GATE": 12, "NOT_APPLICABLE": 7, "NOT_DONE": 7},
+    "ruling_rows": 120,
+    "ruling_source": "r18/REQUIREMENTS_RULING.tsv",
+    "ruling_counts": {
+      "EXECUTED_R18": 10,
+      "ALREADY_SATISFIED": 45,
+      "OWNER_GATE": 12,
+      "NOT_APPLICABLE": 7,
+      "RECORDED_PARTIAL_UNCLOSED": 37,
+      "DEFERRED_TICKET": 5,
+      "REJECTED_OVER_ENGINEERING": 4
+    }
+  },
+  "executed": [
+    {"id": "A1", "what": "Repair the dead outgoing link on the install page", "artifact": "product commit c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20 (docs/install/README.md)", "evidence": "r18/diff_and_tests/"},
+    {"id": "A2", "what": "Strengthen the doc-identity guard: outgoing relative links must resolve at HEAD, with a paired mutation", "artifact": "tests/test_r6_doc_identity_guard.py (check 6, mutation 6)", "evidence": "guard 11/11 OK; check 6 reports the defect on the pre-repair text, [] after"},
+    {"id": "A3", "what": "Back-fill TASK_CHECKLIST.md and DETECTION_CHECKLIST.md", "artifact": "packet TASK_CHECKLIST.md, DETECTION_CHECKLIST.md", "evidence": "residual '[ ]' = 0"},
+    {"id": "A4", "what": "External engineering entry point", "artifact": "packet EXTERNAL_ENGINEERING_HANDOVER.md (22,718 B) + ROUND_STATE.json (13,105 B)", "evidence": "EXECUTE lane, rank 1, opencode-go/deepseek-v4.1-flash, 527s, nonce echoed, usage receipt ok"},
+    {"id": "A5", "what": "SOURCE_INDEX covering every declared source and the whole KnowledgePack", "artifact": "r18/SOURCE_INDEX.json", "evidence": "48 entries; 16/16 contract sources; 20/20 KnowledgePack; 2 explicit SOURCE_GAP"},
+    {"id": "A6", "what": "Named DEV and OPS execution-control-package reference editions", "artifact": "r18/ECP_DEV.md, r18/ECP_OPS.md", "evidence": "produced this round"},
+    {"id": "A7", "what": "Re-bind the packet's checker verdict to the final verified candidate, preserving dispatch history", "artifact": "packet checker_verdict.json", "evidence": "final verdict PASS on C1-C6 for 127ec1c; 4 dispatches retained"},
+    {"id": "A8", "what": "Reconcile the local and published packet manifests", "artifact": "packet SHA256SUMS", "evidence": "28/28, local == published on set and hash; CRLF copy normalised after proving content identical"}
+  ],
+  "rejected_over_engineering": [
+    {"option": "Put the round's evidence packet inside the product branch's write set", "why": "it would relax a validator in order to pass, and destroy the gate's ability to catch a later round doing the same"},
+    {"option": "Add a new CI stage arm instead of one named path", "why": "one product path was outside the allowlist; the gate's own amendment rule prescribes one named path with the planted-path self-test updated in the same commit"},
+    {"option": "Rewrite the evidence packet to close PACK-01..08", "why": "the residual is field completeness, not a defect a rewrite fixes, and a rewrite invalidates every recorded digest"},
+    {"option": "Re-order the VERIFY_SECURITY pool so rank-1 is not the writer's model", "why": "the order is owner order (SOD006-C3, in force); a round must not edit the registry it measures. Separation was obtained by pinning the arm instead"}
+  ],
+  "deferred_tickets": [
+    {"id": "TT-R18-01", "what": "Mechanical negative tests for 'a ninth skill' and 'a cross-root modification'", "owner_action": "schedule as new coverage"},
+    {"id": "TT-R18-02", "what": "An ExecutionBinding scoped to the product worktree, and a task spec that does not declare network=false while a branch push is authorised", "owner_action": "control-plane admission change"},
+    {"id": "TT-R18-03", "what": "Freeze the historical raw CI logs (624/6, 108 focused)", "owner_action": "supply a credential with actions:read on job logs, or accept the SOURCE_GAP"},
+    {"id": "TT-R18-04", "what": "ResourceWarning (unclosed file) in tools/build_s4_spec_del_adjudication.py", "owner_action": "repair inside a round whose write set includes tools/"}
+  ],
+  "owner_gates_untouched": [
+    "merge PR #17", "merge PR #18", "ratify TEMP_CLOSED as the formal round closeout",
+    "private-host UPDATE smoke (needs a human account)", "a new tag or preview release", "public directory publication (OUT_OF_SCOPE)",
+    "whether to change the lane pool ordering"
+  ],
+  "claim_ceiling": {
+    "granted": ["candidate product repair at c17aa76 with its guard", "the round's own documentation gaps closed", "an evidence packet whose manifest verifies against itself and against the published branch"],
+    "not_granted": ["DONE — S4_FULL_PASS", "HOST_QUALIFIED", "PRODUCTION", "PUBLIC_DIRECTORY", "that the audit's ALREADY_SATISFIED rows were re-verified this round", "that a lane warning (INCONCLUSIVE credential posture) is a pass"]
+  },
+  "denominators": {
+    "635": "R18 whole-suite, maker-side (OK (skipped=4), 202.634s)",
+    "633": "R17 whole-suite, maker-side",
+    "626": "within the independent checker's boundary",
+    "624": "the governing report's CI figure"
+  },
+  "next_legal_action": "Owner: merge PR #18 (which now also carries the link repair) or leave it open; open TT-R18-01..04; decide whether to spend a credential on TT-R18-03. Nothing in this round blocks any of those.",
+  "self_binding": "git-blob"
+}

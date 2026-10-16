@@ -1,0 +1,49 @@
+{
+  "run_id": "FAR-20261016-019-s4r6-external-handover",
+  "round": "PIPD-S4R6-R18-EXTERNAL-HANDOVER-20261016",
+  "governance": ["FABRIC", "HG-KSEOS"],
+  "self_research": {
+    "question": "Given that the previous round closed with a green candidate and an independent PASS, what is the highest-necessity work still legible to a fresh reader of the evidence?",
+    "method": "Independent read-only audit of every requirement row in the two governing documents (115 rows) by a child in a fresh context, plus a second child that collected repository facts for an outside reader; both produced evidence-located artefacts rather than prose.",
+    "outcome": "The audit converted 'looks finished' into a countable state: 45 done, 44 partial, 12 owner-gated, 7 not applicable, 7 not done. One of the seven not-done rows was a real product defect."
+  },
+  "self_learning": {
+    "new_rules": 12,
+    "rule_source": "r18/far_r18/LEARNING.md",
+    "highest_value_rule": "A check whose coverage is narrower than the requirement it implements manufactures confidence; enumerate the shapes a requirement implies before writing the check.",
+    "second": "Do not repair a manifest by recomputing over the files you can see: regenerate it over a declared path set and verify membership, because self-verification happily confirms a truncated manifest."
+  },
+  "self_iteration": {
+    "what_changed_in_the_process": [
+      "The plan documents' back-fill became a terminal, named task instead of an afterthought.",
+      "The write-set classifier now runs locally against the exact commit before any push, not after a red hosted check.",
+      "A manifest recompute is validated by set membership against a declared source of truth, not by self-verification.",
+      "A verdict artefact carries subject_history so a re-bind cannot erase a prior binding."
+    ],
+    "board_shape": "board pipd-s4r6-r18-external-handover-20261016 with 8 cards; the last card is the round's own self-check"
+  },
+  "self_evolution": {
+    "skills_updated": [
+      {
+        "skill": "remote-repo-publication",
+        "change": "Added the lesson that a packet manifest must be regenerated over a declared path set and checked for membership, and that local and published manifests are compared as sets first, then per-path hashes, then byte length.",
+        "why_reusable": "Any round that ships a manifest and also keeps a working copy will hit this."
+      },
+      {
+        "skill": "hgk-kanban-and-lane-routing",
+        "change": "Added that a lane receipt can return ok:true while carrying WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE, which the receipt itself says is not a pass, and that such a warning belongs in the round's findings with its own ID.",
+        "why_reusable": "Every future lane dispatch can carry this warning."
+      }
+    ],
+    "memory_updates": [
+      "Recorded that a guard's coverage can be narrower than its stated requirement and that enumerating link kinds prevents a green-but-blind check.",
+      "Recorded the readback discipline: reproduce the hosted write-set gate locally against the exact commit before pushing."
+    ],
+    "not_learned": [
+      "The control-plane gap (no product-scoped ExecutionBinding) is filed, not absorbed: it needs the control plane's own admission change.",
+      "The credential limit on historical CI logs is filed, not worked around."
+    ]
+  },
+  "claim_ceiling": "This delta describes what this round changed in its own procedure and in two skill files. It is not an independent audit of those changes, and it does not attest that the new rules are complete.",
+  "self_binding": "git-blob"
+}

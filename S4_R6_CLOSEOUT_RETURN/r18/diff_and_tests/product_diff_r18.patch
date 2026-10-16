@@ -1,0 +1,102 @@
+diff --git a/docs/install/README.md b/docs/install/README.md
+index d817552..84069a0 100644
+--- a/docs/install/README.md
++++ b/docs/install/README.md
+@@ -148,7 +148,7 @@ Pin the **immutable** identity, never a moving branch tip:
+   dereferences to target commit `cc6c1930765160697e7e51d6e37735b9220a30db`, tree
+   `7d277a0afaff28b6841836cea3a31ffd0b214d94`. The release carries **no** `RELEASE_TUPLE_*.json` asset;
+   its identities live in the `v0.1.1-preview.4` entry of
+-  [`docs/RELEASE_TUPLE.json`](RELEASE_TUPLE.json) in this tree, and the digests a downloader verifies
++  [`docs/RELEASE_TUPLE.json`](../RELEASE_TUPLE.json) in this tree, and the digests a downloader verifies
+   against are the release's own `SHA256SUMS` asset. Both are independently re-derivable:
+   `git rev-parse <tag>`, `git rev-parse <tag>^{commit}`, `git rev-parse <tag>^{tree}`, and
+   `sha256sum <downloaded asset>` against `SHA256SUMS`. The earlier releases' entries stay as history —
+diff --git a/tests/test_r6_doc_identity_guard.py b/tests/test_r6_doc_identity_guard.py
+index 08da099..c81b0c2 100644
+--- a/tests/test_r6_doc_identity_guard.py
++++ b/tests/test_r6_doc_identity_guard.py
+@@ -6,7 +6,8 @@ provenance (``release_commit: cbf69756...``) -- a real, frozen provenance drift
+ release. Around that fact the install page pins a generation and points a reader at a mount pack,
+ and both pages carry in-page anchor links; nothing in the tree checked, as a single check, that the
+ prose never mixes two releases, that every build example names one generation whose pack really
+-exists, that no phantom ``dist/mount/`` directory is cited, that every in-page anchor resolves, and
++exists, that no phantom ``dist/mount/`` directory is cited, that every in-page anchor resolves, that
++every outgoing relative link resolves to a file that is really there, and
+ that the user guide's ``S4_FULL_PASS`` ceiling stays honest.
+ 
+ The mutation cases exist so this guard is falsifiable -- a guard that cannot fail is not evidence.
+@@ -23,6 +24,7 @@ Only the tag names are hard-coded. Pure stdlib + ``unittest``; no network.
+ from __future__ import annotations
+ 
+ import json
++import os
+ import re
+ import subprocess
+ import sys
+@@ -235,6 +237,33 @@ def check_anchors_resolve(text: str, rel: str) -> list[str]:
+     return problems
+ 
+ 
++def check_outgoing_links_resolve(text: str, rel: str, repo_root: Path) -> list[str]:
++    """6. Every relative markdown link target must resolve to something present at HEAD.
++
++    The defect being guarded: the install page told a reader that the release's identities live in
++    ``docs/RELEASE_TUPLE.json`` and linked it as ``](RELEASE_TUPLE.json)`` -- which, relative to
++    ``docs/install/``, is ``docs/install/RELEASE_TUPLE.json``, a path that does not exist. The
++    documented route pointed at nothing, and the in-page anchor check (4) could not see it because
++    an anchor and an outgoing path are different link kinds. External URLs, in-page anchors and
++    absolute paths are out of scope here; a target that escapes the repository root is a problem.
++    """
++    problems: list[str] = []
++    base = os.path.dirname(rel)
++    for m in re.finditer(r"\]\(([^)\s]+)\)", text):
++        target = m.group(1).split("#", 1)[0]
++        if not target or target.startswith(("http://", "https://", "mailto:", "/", "<")):
++            continue
++        resolved = os.path.normpath(os.path.join(base, target)).replace("\\", "/")
++        if resolved.startswith(".."):
++            problems.append(f"{rel}: link target {target!r} escapes the repository root")
++            continue
++        if not _exists_at_head(repo_root, resolved):
++            problems.append(
++                f"{rel}: link target {target!r} resolves to {resolved}, which does not exist at HEAD"
++            )
++    return problems
++
++
+ def check_user_guide_ceilings(text: str) -> list[str]:
+     """5. The user guide keeps ``S4_FULL_PASS`` as ``NOT_GRANTED`` and no longer carries the
+     preview.3-era ``Merge and release are HOLD`` wording."""
+@@ -271,6 +300,12 @@ class RealDocumentsPassTests(unittest.TestCase):
+     def test_5_user_guide_ceilings_stay_honest(self) -> None:
+         self.assertEqual(check_user_guide_ceilings(read_text(USER_GUIDE)), [])
+ 
++    def test_6_outgoing_links_resolve(self) -> None:
++        self.assertEqual(
++            check_outgoing_links_resolve(read_text(INSTALL), INSTALL_REL, ROOT), [])
++        self.assertEqual(
++            check_outgoing_links_resolve(read_text(USER_GUIDE), USER_GUIDE_REL, ROOT), [])
++
+ 
+ class MutationsAreCaughtTests(unittest.TestCase):
+     """Each check is falsifiable: a mutated copy in a temp dir must make its check FAIL."""
+@@ -326,6 +361,16 @@ class MutationsAreCaughtTests(unittest.TestCase):
+             original, mutated, lambda t: check_anchors_resolve(t, INSTALL_REL))
+         self.assertTrue(problems, "the anchor check accepted a dangling #states-that-are-not-the-same")
+ 
++    def test_mutation_6_unresolvable_outgoing_link_is_caught(self) -> None:
++        """Re-break the outgoing link exactly as it was found in the tree: a target written as if it
++        resolved from the repository root when it actually resolves from ``docs/install/``."""
++        original = read_text(INSTALL)
++        mutated = original.replace("](../RELEASE_TUPLE.json)", "](RELEASE_TUPLE.json)", 1)
++        self.assertNotEqual(mutated, original, "the mutation fixture no longer matches the document")
++        problems = self._mutate(
++            original, mutated, lambda t: check_outgoing_links_resolve(t, INSTALL_REL, ROOT))
++        self.assertTrue(problems, "the outgoing-link check accepted a target that resolves to nothing")
++
+ 
+ if __name__ == "__main__":
+     unittest.main(verbosity=2)
+ docs/install/README.md              |  2 +-
+ tests/test_r6_doc_identity_guard.py | 47 ++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 47 insertions(+), 2 deletions(-)

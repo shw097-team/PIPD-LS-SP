@@ -1,0 +1,185 @@
+{
+  "round": "PIPD-S4-R6-CLOSEOUT-20261016 / R18 (work order WO-TS-R18-05)",
+  "generated_from": [
+    "C:/Projects/Agent_Workspace/_handover/PIPD-S4-R6-CLOSEOUT-20261016/r18/REPO_RECON.md",
+    "C:/Projects/Agent_Workspace/_handover/PIPD-S4-R6-CLOSEOUT-20261016/S4_R6_CLOSEOUT_RETURN/R17_RED_GATE_DIAGNOSIS.md",
+    "C:/Projects/Agent_Workspace/_handover/PIPD-S4-R6-CLOSEOUT-20261016/S4_R6_CLOSEOUT_RETURN/R17_MEASUREMENTS.json",
+    "C:/Projects/Agent_Workspace/_handover/PIPD-S4-R6-CLOSEOUT-20261016/far-r17/SESSION_CLOSEOUT_AND_HANDOVER.md",
+    "C:/Projects/Agent_Workspace/_handover/PIPD-S4-R6-CLOSEOUT-20261016/S4_R6_CLOSEOUT_RETURN/owner_closeout_and_tt.md",
+    "C:/Projects/Agent_Workspace/_handover/PIPD-S4-R6-CLOSEOUT-20261016/S4_R6_CLOSEOUT_RETURN/checker_verdict.json",
+    "C:/Projects/Agent_Workspace/_handover/PIPD-S4-R6-CLOSEOUT-20261016/S4_R6_CLOSEOUT_RETURN/release_and_plugin_scope.json",
+    "C:/Projects/Agent_Workspace/_handover/PIPD-S4-R6-CLOSEOUT-20261016/S4_R6_CLOSEOUT_RETURN/DEFECT_DOSSIER.md",
+    "command: git -C C:/Projects/Agent_Workspace/PIPD-S4R6-wt rev-parse origin/main origin/fix/s4r6-closeout-doc-identity-and-update-route-20261016 r6-closeout-evidence-20261016",
+    "command: git -C C:/Projects/Agent_Workspace/PIPD-S4R6-wt rev-parse v0.1.1-preview.4 v0.1.1-preview.4^{} cc6c1930765160697e7e51d6e37735b9220a30db^{tree}",
+    "command: git -C C:/Projects/Agent_Workspace/PIPD-S4R6-wt cat-file -p v0.1.1-preview.4",
+    "command: git -C C:/Projects/Agent_Workspace/PIPD-S4R6-wt rev-list --count cc6c1930765160697e7e51d6e37735b9220a30db..origin/main",
+    "command: git -C C:/Projects/Agent_Workspace/PIPD-S4R6-wt diff --name-only f4021aeff9c016cfb14f17e68a0c570ed4e825c5...origin/fix/s4r6-closeout-doc-identity-and-update-route-20261016",
+    "command: python S4_R6_CLOSEOUT_RETURN/R17_check_write_set.py C:/Projects/Agent_Workspace/PIPD-S4R6-wt HEAD",
+    "command: git -C C:/Projects/Agent_Workspace/PIPD-S4R6-wt show origin/fix/s4r6-closeout-doc-identity-and-update-route-20261016:.github/workflows/public-plugin-verify.yml",
+    "command: python -c \"import json;d=json.load(open('C:/Projects/Agent_Workspace/HG-KSEOS/config/lane-route-slots.candidate.json',encoding='utf-8'));... ordered_pool ...\""
+  ],
+  "subjects": [
+    {
+      "branch": "origin/main",
+      "commit": "d3bd5456afbff21a8c8837994a49f57be3e1b97e",
+      "tree": null,
+      "role": "product integration line; not released; carries 11 commits after tag v0.1.1-preview.4"
+    },
+    {
+      "branch": "origin/fix/s4r6-closeout-doc-identity-and-update-route-20261016",
+      "commit": "127ec1ca97c71d0437f5b149a6e7d540d0cb3bba",
+      "tree": "62eef9d8059d307ae373de63519a37551fa14854",
+      "role": "the round's product change (PR #18 candidate); not merged, not released"
+    },
+    {
+      "branch": "r6-closeout-evidence-20261016",
+      "commit": "0b50d3edc3c31feff6b674d34e2e3e833aaa7687",
+      "tree": null,
+      "role": "the round's evidence/receipts (outside the governed product write set); also carries the withdrawn packet commit 5defc64f1177a1d6f32502c5479c65cf9a001858"
+    },
+    {
+      "branch": "v0.1.1-preview.4 (tag target)",
+      "commit": "cc6c1930765160697e7e51d6e37735b9220a30db",
+      "tree": "7d277a0afaff28b6841836cea3a31ffd0b214d94",
+      "role": "frozen published release subject"
+    }
+  ],
+  "immutables": {
+    "release_tag": "v0.1.1-preview.4",
+    "tag_object": "0618d73c725da0d8c3280f99ef369d13741b5197",
+    "tag_target": "cc6c1930765160697e7e51d6e37735b9220a30db",
+    "asset_count": 7,
+    "unchanged": true,
+    "how_checked": "Read-only git reads at the moment of writing: git rev-parse v0.1.1-preview.4 returns tag object 0618d73c725da0d8c3280f99ef369d13741b5197; git cat-file -p v0.1.1-preview.4 shows 'object cc6c1930765160697e7e51d6e37735b9220a30db' with tag name v0.1.1-preview.4; the target tree dereferences to 7d277a0afaff28b6841836cea3a31ffd0b214d94. The asset count (7) is taken from the round artifacts release_and_plugin_scope.json and owner_closeout_and_tt.md, which record assets: 7 / 7/7 metadata match; the tag was not moved and no asset was replaced this round (tag_moved_by_this_round: false, assets_replaced_by_this_round: false), and the round caused no release mutation.",
+    "locator": "git -C C:/Projects/Agent_Workspace/PIPD-S4R6-wt rev-parse v0.1.1-preview.4 v0.1.1-preview.4^{} cc6c1930765160697e7e51d6e37735b9220a30db^{tree} ; release_and_plugin_scope.json:2-9 ; owner_closeout_and_tt.md:13"
+  },
+  "gates": [
+    {
+      "name": "governed write-set gate (public-plugin-verify.yml / job verify)",
+      "observed_state": "CONFIGURED as stage-c; declares PASS on the product candidate and FAIL on a branch carrying round artifacts",
+      "locator": "origin/fix/s4r6-closeout-doc-identity-and-update-route-20261016:.github/workflows/public-plugin-verify.yml STAGE/ALLOWED/DENIED/plants at lines 122,131,191-194,205; local repro python S4_R6_CLOSEOUT_RETURN/R17_check_write_set.py <repo> [<head>]"
+    },
+    {
+      "name": "write-set classifier vs product candidate 127ec1c",
+      "observed_state": "PASS (27 changed paths, 0 outside, 0 frozen) per R17_RED_GATE_DIAGNOSIS.md §4; the 27 paths are confirmed this session with git diff --name-only f4021ae...origin/fix/s4r6-...",
+      "locator": "R17_RED_GATE_DIAGNOSIS.md:§4 table row 1; command: git diff --name-only f4021aeff9c016cfb14f17e68a0c570ed4e825c5...origin/fix/s4r6-closeout-doc-identity-and-update-route-20261016"
+    },
+    {
+      "name": "write-set classifier vs this evidence branch HEAD (measured this session)",
+      "observed_state": "FAIL (48 outside, 0 frozen) at changed=74 — the round's receipts do not belong in the product write set",
+      "locator": "command: python S4_R6_CLOSEOUT_RETURN/R17_check_write_set.py C:/Projects/Agent_Workspace/PIPD-S4R6-wt HEAD (exit 1)"
+    },
+    {
+      "name": "write-set classifier vs origin/main",
+      "observed_state": "PASS (25 changed paths) — the stage-c arm describes main as well; this round exceeds it by exactly one product file",
+      "locator": "R17_RED_GATE_DIAGNOSIS.md:§3; R17_MEASUREMENTS.json orchestrator_measurements.write_set_classifier_main; command: git diff --name-only f4021aeff9c016cfb14f17e68a0c570ed4e825c5...origin/main"
+    },
+    {
+      "name": "stage-c planted-path self-test",
+      "observed_state": "PASS (4 refused plants still refused, 9 allowed plants still accepted)",
+      "locator": "R17_RED_GATE_DIAGNOSIS.md:§4 row 2; R17_MEASUREMENTS.json arm_self_test_simulation"
+    },
+    {
+      "name": "hosted CI: offline-gate (ci.yml)",
+      "observed_state": "success (test suite; no path filter)",
+      "locator": "SESSION_CLOSEOUT_AND_HANDOVER.md:§2 'Hosted CI on the candidate'"
+    },
+    {
+      "name": "hosted CI: verify (public-plugin-verify.yml)",
+      "observed_state": "success on the repaired head 127ec1c after the amendment; the arm was previously failure on the pre-repair head (5defc64), reproduced locally",
+      "locator": "SESSION_CLOSEOUT_AND_HANDOVER.md:§2; R17_RED_GATE_DIAGNOSIS.md:§1,§2"
+    },
+    {
+      "name": "full unittest suite (orchestrator, final head)",
+      "observed_state": "Ran 633 tests in 174.073s — OK (skipped=4), exit 0",
+      "locator": "R17_MEASUREMENTS.json orchestrator_measurements.whole_suite_final_head; REPO_RECON.md:§3 shows an independent run Ran 633 in 180.325s OK (skipped=4) on the recon head"
+    },
+    {
+      "name": "independent checker verdict (VERIFY_SECURITY, gpt-6.1-sol rank 2)",
+      "observed_state": "PARTIAL (C3 mutation probes PASS; C4 regression PARTIAL because two pre-existing tests write inside the guarded root)",
+      "locator": "checker_verdict.json:41; R17_MEASUREMENTS.json independent_checker_measurements"
+    },
+    {
+      "name": "maker/checker separation of duties (lane model)",
+      "observed_state": "VERIFY_SECURITY rank 1 equals EXECUTE rank 1 (opencode-go/deepseek-v4.1-flash); declared sod_invariants.declared_conflicts[SOD006-C3] status OWNER_ORDERED_IN_FORCE; an unpinned VERIFY dispatch loses model-axis SoD",
+      "locator": "config/lane-route-slots.candidate.json selection_semantics + lanes[]; config/lane-routing-registry.yaml:37,401-455; DEFECT_DOSSIER.md Question 2"
+    },
+    {
+      "name": "release immutability",
+      "observed_state": "UNCHANGED_THIS_ROUND (tag not moved, 0 assets replaced)",
+      "locator": "release_and_plugin_scope.json:2-9,82; owner_closeout_and_tt.md:13,§4"
+    },
+    {
+      "name": "stage-close ratification",
+      "observed_state": "PENDING_ACTUAL_SIGNATURE / TEMP_CLOSED recommended only (engineering recommendation, not signed)",
+      "locator": "owner_closeout_and_tt.md:11,50; SESSION_CLOSEOUT_AND_HANDOVER.md:§3 O-3"
+    }
+  ],
+  "tickets": [
+    {
+      "id": "TT-R6-DOC-ONEPASS",
+      "what": "two-document minimal erratum + same-ID UPDATE route guard",
+      "owner_action": "merge PR #18 (owner press) once green"
+    },
+    {
+      "id": "TT-R6-PRIVATE-UPDATE-SMOKE",
+      "what": "one human-account UPDATE + 1 POS + 1 missing-source NACK, saving UI/time/host/ZIP hash",
+      "owner_action": "run on a human account whose plugin page offers Update"
+    },
+    {
+      "id": "TT-R6-NEXT-PREVIEW-IF-NEEDED",
+      "what": "expose post-tag main capabilities via a NEW tag/wheel/ZIP/fallback/SHA256SUMS",
+      "owner_action": "authorize a new release (never edit preview.4)"
+    },
+    {
+      "id": "TT-R6-HOST-SCOPED-UAT",
+      "what": "per-claimed-host minimal POS/NEG/nontrigger/security raw evidence",
+      "owner_action": "schedule host-scoped UAT"
+    },
+    {
+      "id": "TT-R6-HGK-CNV",
+      "what": "PR #14/#15, CNV spec and Model SoD",
+      "owner_action": "route to the external Project Owner"
+    },
+    {
+      "id": "TT-R6-OD-A",
+      "what": "KP11-R04/KP12-R04/KP16-R04 MUST NOT normalization-table ambiguity (ORACLE_DISAGREEMENT)",
+      "owner_action": "obtain an upstream Oracle ruling and update the table"
+    },
+    {
+      "id": "TT-R6-OD-B",
+      "what": "served preview.4 PIPD_WEB_FALLBACK.md header still declares v0.1.1-preview.3 (frozen asset)",
+      "owner_action": "rebuild the document in a future release; never replace the .4 asset in place"
+    },
+    {
+      "id": "TT-R17-01",
+      "what": "VERIFY_SECURITY pool ranks the writer's model (deepseek-v4.1-flash) first",
+      "owner_action": "issue a new owner order to reorder the pool (SOD006-C3 is OWNER_ORDERED_IN_FORCE; a measuring round may not apply it)"
+    },
+    {
+      "id": "TT-R17-02",
+      "what": "checker's prior NOT_RUNs were a sandbox capability limit",
+      "owner_action": "decide whether ordinary checker dispatches should fetch by default (lane-default policy); the per-round gap is closed"
+    },
+    {
+      "id": "TT-R17-03",
+      "what": "tests/test_tooling_executes.py:52 and tests/test_tqaep_design_positive.py:59 write inside the repository",
+      "owner_action": "decide whether to make those tests scratch-isolated so a no-write checker boundary can certify the whole suite"
+    },
+    {
+      "id": "TT-R17-04",
+      "what": "UL-01: canonical dispatcher lacks the R10 nonce / per-turn-receipt repairs",
+      "owner_action": "approve a dispatcher repair"
+    }
+  ],
+  "prohibitions": [
+    "Never edit a published release asset or its tag in place; v0.1.1-preview.4 and its 7 assets are immutable.",
+    "No public directory publication: PUBLIC_PLUGIN_DIRECTORY = OUT_OF_SCOPE (owner decision, not a defect).",
+    "No agent self-ratification of a stage close: OWNER_FINAL_RATIFICATION = PENDING_ACTUAL_SIGNATURE.",
+    "No claim of full-pass / host-qualified / production: S4_FULL_PASS, HOST_QUALIFIED and PRODUCTION are all NOT_GRANTED.",
+    "Do not put a round's own evidence/receipts inside the governed product write set; the packet lives on its own branch."
+  ],
+  "claim_ceiling": "This state document attests the identity of the subjects it names (branch tips, the release tag object/target/tree), the observed gate outcomes (write-set classifier results, suite result, checker PARTIAL), the open tickets and prohibitions, all re-derived from read-only git reads and the round's on-disk artifacts at the time of writing. It does NOT attest: that the candidate is merged or released; that the whole suite is green under a no-write checker boundary; served-asset integrity checker-side; host UI behaviour; or S4_FULL_PASS, HOST_QUALIFIED, PRODUCTION, or public-directory publication (all NOT_GRANTED or OUT_OF_SCOPE). The asset count (7) is carried from the round's artifacts and was not independently re-counted over the network in this write; the tag-object/target/tree identities were re-read from git.",
+  "self_binding": "git-blob",
+  "self_binding_note": "A document cannot carry its own hash. The integrity binding of this file is the git blob object that carries it: the commit that adds this path is the authority, and a reader should bind to `git rev-parse <commit>:S4_R6_CLOSEOUT_RETURN/ROUND_STATE.json`. self_binding is the literal string \"git-blob\" precisely because the binding is the git object, not a digest written into the file."
+}
