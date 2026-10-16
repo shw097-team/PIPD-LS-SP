@@ -1,0 +1,85 @@
+{
+  "far_verdict_zh": {
+    "head_on_answer": "否——依現有證據，「ZIP 相關規格不符合 GPT 外掛程式建立的要求」不能成立為這次拒收的原因；但今日仍不能指認出真正原因（UNATTRIBUTED），需依 discrimination_order 執行判別後才能定案。",
+    "spec_surface_violation_refuted": {
+      "claim": "spec-surface violation（格式/規格不符）被逐 byte 證據駁斥（信心：高，本輪本機重算）。",
+      "evidence_basis": "cand-A-preview4-served.zip (sha256 545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75, 68,357 B) 與 cand-B-r5y-known-good.zip (2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199, 68,355 B) 在本輪 host_smoke/ 本機重算：56 成員同名同尺寸、同順序、同 zip 中繼資料（compress_type/date_time/flag/external_attr/create_system 全同）；內容僅 2 個 provenance 成員不同（RELEASE_RECEIPT.json、SOURCE_TO_PLUGIN_MAPPING.json，僅 source_commit/source_tree/mapping_sha256 欄位值）。plugin.json 逐 byte 相同（sha256 9ba0eace19e9…，plugin_id=pipd-ls-sp-public-skills、version=0.1.1 兩者皆同）。B 是同一帳號在 R5Y 已 ACCEPT＋安裝＋調用過的封存檔，因此主機顯然接受過這套規格面；「規格不符」無法同時解釋同規格曾通過。"
+    },
+    "surviving_hypotheses_ranked": [
+      {"id": "H2", "name": "plugin_id+version 與已安裝外掛衝突", "support": "同一帳號已装同一 plugin_id＋同一 version（R5Y install，Plugin_5ba168f715b8819190ccbe33a4a926b0）；重新上傳同識別封存檔被 host 拒收是常見且合理的平台行為", "confidence": "中——最佳殘存假設，未經 probe 證實"},
+      {"id": "H1", "name": "暫時性 host 故障", "support": "主機僅回「無法新增外掛程式。請再試一次。」（逐字、無規則 id／欄位／per-file 原因）；迄今對 A 只送出過一次", "confidence": "低至中——一次在允許範圍內的重試即可淘汰或確認"},
+      {"id": "H3", "name": "對 2 個 provenance 欄位的未公開規則", "support": "A 與 B 的全部差異就是這兩個檔的 source_commit/source_tree/mapping_sha256", "confidence": "低——外掛 host 沒有理由認得我們 repo 的 commit 識別"},
+      {"id": "H4", "name": "root wrapper folder 布局", "confidence": "已駁斥——A 與 B 的 ZIP 布局完全相同（可比對成員與中繼資料），B 曾被接受；布局不可能是二者之間的判別因素"}
+    ],
+    "what_evidence_does_not_support": "不支持任何已歸因結論：本輪未執行任何 probe；「帳號現仍安裝 R5Y 外掛」此一 H2 前提來自 R5Y 證據，今日未重新讀取（modal 阻擋背景清單掃描，僅見新增對話框與拒收文字）；帳號/平台整體是否仍接受任何上傳，未知。"
+  },
+  "discrimination_order": {
+    "precondition_every_probe": "每次上傳前離線複核該檔 sha256（host_smoke/CANDIDATES.json 對照）＋ zipfile.testzip() 乾淨；每>());
+          continue;
+        }
+        "onboardingSkill_missing_note": "RESEARCH_INPUT 的 H2 已由 P2 ACCEPT 部分反駁（同識別重傳被接受）；若 P2 REJECT 則 H2 存活，交由 P3 分離。",
+    "probes": [
+      {
+        "probe_id": "P1-TRANSIENT-RETRY-A",
+        "artifact": "host_smoke/cand-A-preview4-served.zip (sha256 545e359a…, 68,357 B；檔名已在現存「新增外掛程式」對話框中)",
+        "exact_ui_step": "對話框仍載有 cand-A-preview4-served.zip；離線複核 digest 後按一次「新增外掛程式」，逐字讀取結果。若視窗已不在，走 R5Y 路徑：chatgpt.com/plugins → 「新增」展開 → 「上傳外掛程式封存檔」→ 「選擇檔案」→ 原生對話框 UIA set 檔名＋「開啟(O)」→ 送出 → 讀逐字結果。",
+        "if_accept_proves": "H1 (transient) 即為解釋；結案，不做任何封裝變更。",
+        "if_reject_proves": "H1 淘汰（A 累計 2 次被拒，達重試上限）；進 P2。",
+        "cost": "1 次同意的上傳（檔案已在對話框，接近零額外操作）",
+        "stop_rule": "ACCEPT 即停。A 全輪最多被送出 2 次（原始 1 次＋此重試），不得第三次。"
+      },
+      {
+        "probe_id": "P2-KNOWN-GOOD-B",
+        "artifact": "host_smoke/cand-B-r5y-known-good.zip (sha256 2f9ae010…, 68,355 B)",
+        "exact_ui_step": "同 R5Y 路徑上傳 cand-B；上傳前離線複核 digest。",
+        "if_accept_proves": "帳號/平台側「拒收一切」淘汰、上傳通道正常；同識別重傳本身不被拒（B 即已安裝外掛的 id/version），H2 大幅削弱；在「host 驗證規則自 R5Y 未變」的前提下，A 的拒收由消去法鎖定在僅有的差異——2 個 provenance 成員的內容（H3 由低升級）。",
+        "if_reject_proves": "H2 或帳號/平台側存活；進 P3。",
+        "cost": "1 次同意的上傳",
+        "stop_rule": "ACCEPT 即停（且不得對 A 送出第三次；即便 A 已兩拒，改以本 probe 的 ACCEPT 為判別基礎）。"
+      },
+      {
+        "probe_id": "P3-MINIMAL-DISTINCT-ID-D",
+        "artifact": "host_smoke/cand-D-variant-b-minimal.zip (sha256 af1a4ab3…, 548 B；plugin_id=pipd-smoke-minimal, version=0.1.0, 2 成員)",
+        "exact_ui_step": "同路徑上傳 cand-D。",
+        "if_accept_proves": "與 P2 的 REJECT 合讀：平台上傳正常；被拒的兩個封存檔共同點是宣告 pipd-ls-sp-public-skills，H2（已安裝同識別衝突）成為最佳歸因（注意 D 同時也改了成員集與 extensions 區塊，歸因非 100%，於紀錄中明載）。",
+        "if_reject_proves": "帳號/平台目前拒收一切上傳；任何封裝變更皆無效益，結論＝平台側，交 owner（聯繫 OpenAI 支援或暫緩），不進一步改包。",
+        "cost": "1 次同意的上傳",
+        "stop_rule": "任何結果即停（除非進入 P4 條件分支）。"
+      },
+      {
+        "probe_id": "P4-CONDITIONAL-ROOT-LAYOUT-C",
+        "artifact": "host_smoke/cand-C-variant-a-root-manifest.zip (sha256 d52501c2…, 65,764 B；plugin.json 在 ZIP 根、成員 56、識別與 A 相同)",
+        "run_only_if": "僅在 P2=REJECT 且 P3=ACCEPT 的分支，且 owner 在同一同意範圍內另行點頭；目的＝分離「root 布局」與「識別衝突」。其他分支不執行（A/B 布局相同、B 曾被接受，布局已被駁斥為 A 的拒收原因）。",
+        "exact_ui_step": "同路徑上傳 cand-C。",
+        "if_accept_proves": "root 布局不受拒；結合 P2/P3 進一步支持「同識別衝突」而非布局。",
+        "if_reject_proves": "C 相對 D 同時改了布局與識別，無法分離二者——紀錄「本 prepared probe 不足以分離」，停；不得再設計新變體（避免過度工程）。",
+        "cost": "1 次同意的上傳",
+        "stop_rule": "任何結果即停；C 全輪只跑一次。"
+      }
+    ],
+    "global_stop": "任一 ACCEPT 即停；全程逐字擷取 host 回應（HOST_UPLOAD_REJECTION 同格式），РУН 不做第二次送出的重試循環；同意被拒或逾時＝NOT_ATTEMPTED_CONSENT_WITHHELD，不重試。"
+  },
+  "decision_zh": {
+    "best_engineering_decision": "不重建、不改欄位——先判別，後最小變更。released v0.1.1-preview.4 的 plugin ZIP 已驗證為 byte-exact 可重現（cc6c193 兩次建置 68,357 B / 545e359a…），且其整個規格面與 host 曾接受的 B 相同；此刻任何「為符合規格而重建」都是無證據的變更（過度工程，且違反不重寫 immutable 資產）。',
+    "artifact_to_rebuild": "現在：無。",
+    "fields_to_change_now": "現在：無（source_commit/source_tree/mapping_sha256 除外皆無變更根據；這些在 H3 的 prior 為低，不預先更動）。",
+    "conditional_minimum_changes_after_probes": [
+      {"if": "P1 ACCEPT (H1)", "then": "零變更；在驗收報告記『transient，結案』。"},
+      {"if": "P2 ACCEPT 且 P1 REJECT (H3 升級)", "then": "candidate 級變更：上傳用 candidate 不帶（或以 B 的 host-neutral 值帶）RELEASE_RECEIPT.json / SOURCE_TO_PLUGIN_MAPPING.json；released asset 不動；先以 owner 同意的一個 candidate 上傳確認，不通過不重複。"},
+      {"if": "P2 REJECT 且 P3 ACCEPT (H2)", "then": "最小封裝變更＝新增 candidate 只改 plugin.json 的 version（如 0.1.2），不改 plugin_id，經現有 deterministic packager 重打包；或零封裝變更路線＝owner 先在帳號移除 R5Y 安裝再原檔重傳。二者擇一，均不改 released asset。"},
+      {"if": "P3 REJECT (帳號/平台側)", "then": "零封裝變更；交 owner 聯繫 OpenAI 支援；一切封裝修改停止。"}
+    ],
+    "why_minimum_sufficient": "每一分支的變更都只動一個成因軸（識別軸＝version；provenance 軸＝2 檔；暫時軸＝無），不引入框架、不發新 release、不重寫既有 asset；與 PIPD-LS-SP 的 deterministic packaging（zip_mtime 1980、DEFLATE 9、mode 0644）與 PIPD-PKG 契約一致並以 candidate-only 呈報。",
+    "acceptable_report_writing_now": "驗收報告此刻只能寫：「spec-surface violation 已被逐 byte 證據駁斥；拒收原因待判別（判別計畫如上）；無任何 probe 已執行」。不得記任何 probe 結果或歸因。"
+  },
+  "what_would_change_my_mind": [
+    {"id": "F1", "falsifier": "P1 REJECT（digest 複核通過）且 P2 ACCEPT", "effect": "H3 升級為主要成因假設：決策改為 candidate 不帶／中和那 2 個 provenance 成員。"},
+    {"id": "F2", "falsifier": "host 在 R5Y（2026-10-14）之後更新了上傳驗證規則（新 schema 版本、新成員上限等文件或行為）", "effect": "「byte-identity 對已接受檔」推論的前提失效（今日規格可能拒收 R5Y 時合格的位元組）；必須改以新規格重推導；P2 的 REJECT 即直接測此前提。"},
+    {"id": "F3", "falsifier": "主機改回顯示結構化錯誤（命名檔案／欄位／rule id）", "effect": "丟棄以消去法為基礎的本計畫，直接以被指名項目重新規劃。"},
+    {"id": "F4", "falsifier": "讀取帳號外掛清單發現 R5Y 外掛（Plugin_5ba168f715b8819190ccbe33a4a926b0）已不在帳上", "effect": "H2 失去前提（已無同識別已安裝者）；帳號/平台側與 H3 重新排序，決策不先於讀取此清單。"},
+    {"id": "F5", "falsifier": "任一 probe 的離線 digest 與 CANDIDATES.json 不符，或同意被拒/逾時", "effect": "該 probe 的判別力歸零；此輪不得以該 probe 之結果作任何歸因。"}
+  ],
+  "pkg_contract_note": "PIPD-PKG 契約加一條規則（最小，非框架）：『Pre-upload identity check — packaging 一個 host-upload candidate 時，必須在同一紀錄中寫入目標帳號已在裝的 (plugin_id, version) 集合；若 candidate 的 (plugin_id, version) 與其中一組完全相同且 manifest 未明示重灌意圖（reinstall_intended 標記＋owner 同意 ref），packaging FAIL-CLOSED：不產出 ZIP。』單此一條即可把這一類失敗（同識別重傳被 host 拒收）變成 packaging 階段可預防的事件，而非 host 上傳時才發現。",
+  "claim_ceiling": "FILE_LEVEL_EVIDENCE_ONLY. 本 JSON 是 PLAN 判別計畫，不是 probe 結果：拒收原因今日仍 UNATTRIBUTED；對 H2/H3 的表述是先驗排序，非已證結論。byte-identity 的駁斥力依賴一個未經今日檢驗的前提（host 驗證規則自 R5Y 未改變；P2 直接測它）；「R5Y 外掛仍在帳上」未於今日讀取（modal 阻擋背景掃描）。資料瑕疵待修正：FAR_R5R3_ZIPSPEC/RESEARCH_INPUT.json 所記 B 的 sha256 段（…0f0d3d0d…）與本輪本機檔案、host_smoke/CANDIDATES.json、R5Y checkpoint 三者一致的 2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199 不符，疑為記錄抄寫漂移——本機 artifact 為準，於下一個可寫入輪次修正該記錄（本輪不寫檔）。本 JSON 未接觸任何 host、未執行任何上傳、未修改任何帳號或 repo 狀態；全部判定均 LOCAL / CANDIDATE-ONLY。"
+}
+EXIT=0

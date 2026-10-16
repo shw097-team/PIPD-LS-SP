@@ -1,0 +1,111 @@
+{
+  "schema": "PIPD/FAR-RESEARCH-INPUT/1",
+  "round": "R5R3-20261016-preview4-closeout",
+  "question_zh": "FDA 建立 GPT 私人外掛程式時，上傳 ZIP 後 GPT 回應「無法新增外掛程式。請再試一次。」，是否是 ZIP 的相關規格不符合 GPT 外掛程式建立的要求？",
+  "observed": {
+    "surface": "ChatGPT plugins dialog (personal plugin / 新增外掛程式), live account 鬼人馬 Plus",
+    "verbatim_host_response": "無法新增外掛程式。請再試一次。",
+    "captured_file": "host_smoke/HOST_UPLOAD_REJECTION_R5R3.json",
+    "artifact_uploaded": {
+      "name": "cand-A-preview4-served.zip",
+      "sha256": "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75",
+      "bytes": 68357,
+      "provenance": "release v0.1.1-preview.4 asset, byte-reproducible from tag cc6c193"
+    }
+  },
+  "reference_acceptance": {
+    "artifact": "cand-B-r5y-known-good.zip",
+    "sha256": "2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199",
+    "bytes": 68355,
+    "digest_correction": "CORRECTED 2026-10-16: an earlier revision of this record carried a wrong tail for B's sha256. Re-derived from the local bytes and cross-checked against host_smoke/CANDIDATES.json and the R5Y checkpoint; the local artifact is authoritative. The defect was caught by the PLAN lane's own claim ceiling.",
+    "status": "ACCEPTED + installed + invoked on the same account in the R5Y round (the only verified live install)",
+    "note": "sha256 above is the value recorded in prior rounds; B is present locally as the R5Y-served archive"
+  },
+  "member_level_diff_A_vs_B": {
+    "members_A": 56,
+    "members_B": 56,
+    "names_identical": true,
+    "sizes_identical": true,
+    "members_only_in_A": [],
+    "members_only_in_B": [],
+    "differing_members": [
+      "pipd-ls-sp-public-skills/RELEASE_RECEIPT.json (815 B both)",
+      "pipd-ls-sp-public-skills/SOURCE_TO_PLUGIN_MAPPING.json (19413 B both)"
+    ],
+    "field_level_differences": {
+      "RELEASE_RECEIPT.json": {
+        "mapping_sha256": "derived (hashes the mapping file)",
+        "source_commit": "A=cc6c1930765160697e7e51d6e37735b9220a30db  B=062d84ae3e951d02b2ba6bb732359b18799d2864",
+        "source_tree": "A=7d277a0afaff28b6841836cea3a31ffd0b214d94  B=f642e2b7900b0369f6925948d3a43aba0575016c"
+      },
+      "SOURCE_TO_PLUGIN_MAPPING.json": {
+        "entries": "IDENTICAL in A and B (all 48 entries, byte for byte)",
+        "source_commit": "same pair as above",
+        "source_tree": "same pair as above"
+      }
+    },
+    "identical_with_identical_hashes": [
+      "pipd-ls-sp-public-skills/plugin.json (2739 B, sha256 9ba0eace19e9...)",
+      "pipd-ls-sp-public-skills/plugin.release.json (989 B)",
+      "pipd-ls-sp-public-skills/plugin.schema.json (3239 B)",
+      "pipd-ls-sp-public-skills/vendor-plugin.schema.json (1805 B)",
+      "pipd-ls-sp-public-skills/derivations.json (5096 B)",
+      "pipd-ls-sp-public-skills/assets/icon-128.png (21311 B)",
+      "all 8 skills/<id>/SKILL.md",
+      "all 8 skills/<id>/references/*, schemas/*, tests/*"
+    ],
+    "decisive_consequence": "The whole plugin-spec surface (manifest, skills, icon, schemas) of the rejected archive is BYTE-IDENTICAL to an archive the same host ACCEPTED. A format/spec violation therefore cannot be the discriminator on that surface."
+  },
+  "identity_collision_facts": {
+    "plugin_id_A": "pipd-ls-sp-public-skills",
+    "plugin_id_B": "pipd-ls-sp-public-skills",
+    "version_A": "0.1.1",
+    "version_B": "0.1.1",
+    "note": "plugin.json is byte-identical, so the rejected preview.4 archive declares the SAME plugin_id and SAME version as the archive already accepted for this account in R5Y"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "name": "transient host failure",
+      "support": "the surface text is a generic retry prompt; no field, rule id or per-file reason was disclosed",
+      "test": "retry the same artifact once",
+      "cost": "one upload"
+    },
+    {
+      "id": "H2",
+      "name": "plugin_id+version collision with an already-installed plugin",
+      "support": "same account already accepted+installed the same plugin_id at the same version; identical plugin.json",
+      "test": "upload a variant whose plugin_id/version is distinct; observe acceptance",
+      "cost": "one upload"
+    },
+    {
+      "id": "H3",
+      "name": "undocumented rule on the two provenance fields",
+      "support": "the only byte differences are source_commit/source_tree",
+      "test": "swap only those fields in an otherwise identical archive; observe",
+      "cost": "one upload",
+      "prior": "low — a plugin host has no knowledge of our repository"
+    },
+    {
+      "id": "H4",
+      "name": "archive layout (root wrapper folder)",
+      "support": "variant C keeps the same content with the wrapper folder removed",
+      "test": "upload variant C",
+      "cost": "one upload"
+    }
+  ],
+  "available_probes": {
+    "A": "cand-A-preview4-served.zip (545e359a..., 68357 B) — rejected once",
+    "B": "cand-B-r5y-known-good.zip (R5Y archive) — known accepted",
+    "C": "cand-C-variant-a-root-manifest.zip (65764 B) — members at ZIP root, same content",
+    "D": "cand-D-variant-b-minimal.zip (548 B) — plugin.json 288 B + skills/probe/SKILL.md 151 B"
+  },
+  "constraints": [
+    "one artifact per attempt; record the verbatim host response every time",
+    "no retry storm: at most one retry per hypothesis test",
+    "every probe must be preceded by an offline digest check of the file to be uploaded",
+    "owner gates NEW_RELEASE / PUBLIC_DIRECTORY / PRODUCTION remain NOT_GRANTED; this round is a private-host install diagnosis",
+    "evidence must be reproducible from the captured texts and the local artifacts"
+  ],
+  "claim_ceiling": "FILE_LEVEL_EVIDENCE_ONLY: the diff and the captured host text are verified; the CAUSE is NOT YET ATTRIBUTED until a probe discrimination is executed"
+}

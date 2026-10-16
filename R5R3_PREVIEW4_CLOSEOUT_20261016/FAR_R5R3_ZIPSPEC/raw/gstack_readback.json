@@ -1,0 +1,370 @@
+{
+ "schema": "R5R3-20261016/gstack-named-method-readback/1",
+ "claim_ceiling": "configuration/registration readback; not proof any role RAN",
+ "registry": {
+  "epoch": 19,
+  "status": "CANDIDATE",
+  "schema": "HGK-LANE-ROUTING-REGISTRY/1"
+ },
+ "routes": {
+  "PLAN": {
+   "top_level_route": {
+    "lane": "PLAN",
+    "role_group": "PLAN",
+    "lanes": [
+     "ARCH",
+     "HARD WORK",
+     "THREAT",
+     "EFFECT PLANNING",
+     "RESEARCH",
+     "SYNTHESIS",
+     "EVOLUTION"
+    ],
+    "engine": "hermes",
+    "provider": "opencode-go",
+    "model": "glm-5.3-flash",
+    "canonical_identity": "glm-5.3-flash",
+    "auth": "env_ref:OPENCODE_GO_API_KEY",
+    "oauth": false,
+    "reasoning_effort": "medium",
+    "selection_authority": "owner-order-20261015-plan-model-rebind-glm",
+    "arms": [
+     {
+      "arm": "primary",
+      "provider": "opencode-go",
+      "model": "glm-5.3-flash",
+      "canonical_identity": "glm-5.3-flash",
+      "auth": "env_ref:OPENCODE_GO_API_KEY",
+      "oauth": false,
+      "reasoning_effort": "medium",
+      "default": true
+     },
+     {
+      "arm": "fallback1",
+      "provider": "opencode-go",
+      "model": "deepseek-v4.1-flash",
+      "canonical_identity": "deepseek-v4.1-flash",
+      "auth": "env_ref:OPENCODE_GO_API_KEY",
+      "oauth": false,
+      "default": false,
+      "automatic_selection": true
+     },
+     {
+      "arm": "non_default_operator_selectable",
+      "provider": "openai-codex",
+      "model": "gpt-6.1-sol",
+      "canonical_identity": "gpt-6.1-sol",
+      "auth": "openai_oauth",
+      "oauth": true,
+      "reasoning_effort": "medium",
+      "default": false,
+      "automatic_selection": false,
+      "usable_now": "QUOTA_429_2026-10-15",
+      "note": "prior revision-18 default arm; retained, never auto-selected"
+     }
+    ],
+    "fallbacks": [
+     {
+      "provider": "opencode-go",
+      "model": "deepseek-v4.1-flash",
+      "canonical_identity": "deepseek-v4.1-flash",
+      "auth": "env_ref:OPENCODE_GO_API_KEY",
+      "oauth": false
+     },
+     {
+      "provider": "openai-codex",
+      "model": "gpt-6.1-sol",
+      "canonical_identity": "gpt-6.1-sol",
+      "auth": "openai_oauth",
+      "oauth": true
+     }
+    ],
+    "admission_status": "UNPROVEN"
+   },
+   "arms": [
+    "opencode-go/glm-5.3-flash",
+    "opencode-go/deepseek-v4.1-flash",
+    "openai-codex/gpt-6.1-sol"
+   ],
+   "effort": "medium",
+   "engine": "hermes"
+  },
+  "EXECUTE": {
+   "top_level_route": {
+    "lane": "EXECUTE",
+    "role_group": "EXECUTE",
+    "lanes": [
+     "BULK BUILD",
+     "BULK SECURITY TEST",
+     "REPAIR",
+     "BULK CODE",
+     "HARNESS",
+     "EVAL CODE",
+     "BULK TRANSFORM"
+    ],
+    "engine": "codex-cli",
+    "provider": "opencode-go",
+    "model": "deepseek-v4.1-flash",
+    "canonical_identity": "deepseek-v4.1-flash",
+    "auth": "env_ref:OPENCODE_GO_API_KEY",
+    "oauth": false,
+    "selection_authority": "owner-order-20261015-lane-model-chain-rebind",
+    "arms": [
+     {
+      "arm": "fallback1_operator_selectable",
+      "provider": "openai-codex",
+      "model": "gpt-6-luna",
+      "canonical_identity": "gpt-6-luna",
+      "engine": "codex-cli",
+      "transport": "codex-native-oauth",
+      "auth": "openai_oauth",
+      "oauth": true,
+      "automatic_selection": false,
+      "default": false,
+      "admission_status": "UNPROVEN",
+      "note_preexisting": "HTTP_400_UNSUPPORTED_ON_CURRENT_CLI_ACCOUNT backend probe; UNPROVEN admission"
+     },
+     {
+      "arm": "fallback2_auto",
+      "provider": "nvidia",
+      "model": "deepseek-ai/deepseek-v4.1-flash",
+      "canonical_identity": "deepseek-v4.1-flash",
+      "engine": "codex-cli",
+      "auth": "env_ref:NVIDIA_API_KEY",
+      "oauth": false,
+      "default": false,
+      "automatic_selection": true,
+      "note_preexisting": "nvidia provider namespace not loaded into running relay; needs owner-approved relay restart"
+     }
+    ],
+    "fallbacks": [
+     {
+      "provider": "openai-codex",
+      "model": "gpt-6-luna",
+      "canonical_identity": "gpt-6-luna",
+      "auth": "openai_oauth",
+      "oauth": true
+     },
+     {
+      "provider": "nvidia",
+      "model": "deepseek-ai/deepseek-v4.1-flash",
+      "canonical_identity": "deepseek-v4.1-flash",
+      "auth": "env_ref:NVIDIA_API_KEY",
+      "oauth": false
+     }
+    ],
+    "admission_status": "UNPROVEN"
+   },
+   "arms": [
+    "openai-codex/gpt-6-luna",
+    "nvidia/deepseek-ai/deepseek-v4.1-flash"
+   ],
+   "effort": null,
+   "engine": "codex-cli"
+  },
+  "VERIFY_SECURITY": {
+   "top_level_route": {
+    "lane": "VERIFY_SECURITY",
+    "role_group": "VERIFY_SECURITY",
+    "lanes": [
+     "ACCEPTANCE",
+     "SECURITY REVIEW",
+     "VERIFY"
+    ],
+    "engine": "hermes",
+    "provider": "openai-codex",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "medium",
+    "canonical_identity": "gpt-6.1-sol",
+    "auth": "openai_oauth",
+    "oauth": true,
+    "selection_authority": "owner-order-20261015-lane-model-chain-rebind",
+    "selected_arm": "A",
+    "selected_arm_identity": "gpt-6.1-sol",
+    "arms": [
+     {
+      "arm": "A",
+      "model": "gpt-6.1-sol",
+      "provider": "openai-codex",
+      "canonical_identity": "gpt-6.1-sol",
+      "auth": "openai_oauth",
+      "oauth": true,
+      "reasoning_effort": "medium",
+      "co_equal": false,
+      "role": "primary",
+      "default": true
+     },
+     {
+      "arm": "B",
+      "model": "glm-5.3-flash",
+      "provider": "opencode-go",
+      "canonical_identity": "glm-5.3-flash",
+      "auth": "env_ref:OPENCODE_GO_API_KEY",
+      "oauth": false,
+      "reasoning_effort": "medium",
+      "co_equal": false,
+      "role": "fallback1_operator_selectable",
+      "default": false,
+      "automatic_selection": true
+     },
+     {
+      "arm": "C",
+      "model": "deepseek-v4.1-flash",
+      "provider": "opencode-go",
+      "canonical_identity": "deepseek-v4.1-flash",
+      "auth": "env_ref:OPENCODE_GO_API_KEY",
+      "oauth": false,
+      "co_equal": false,
+      "role": "fallback2_operator_selectable",
+      "default": false,
+      "automatic_selection": true
+     }
+    ],
+    "fallbacks": [
+     {
+      "provider": "opencode-go",
+      "model": "glm-5.3-flash",
+      "canonical_identity": "glm-5.3-flash",
+      "auth": "env_ref:OPENCODE_GO_API_KEY",
+      "oauth": false
+     },
+     {
+      "provider": "opencode-go",
+      "model": "deepseek-v4.1-flash",
+      "canonical_identity": "deepseek-v4.1-flash",
+      "auth": "env_ref:OPENCODE_GO_API_KEY",
+      "oauth": false
+     }
+    ],
+    "admission_status": "UNPROVEN"
+   },
+   "arms": [
+    "openai-codex/gpt-6.1-sol",
+    "opencode-go/glm-5.3-flash",
+    "opencode-go/deepseek-v4.1-flash"
+   ],
+   "effort": "medium",
+   "engine": "hermes"
+  }
+ },
+ "sod_execute_vs_verify": [
+  true,
+  "SOD_OK deepseek-v4.1-flash != gpt-6.1-sol"
+ ],
+ "sod_plan_vs_verify": [
+  true,
+  "SOD_OK glm-5.3-flash != gpt-6.1-sol"
+ ],
+ "drift": [
+  {
+   "code": "DRIFT_VALUE",
+   "id": "hermes-codex-lane",
+   "path": "config/hermes-codex-lane.json",
+   "pointer": "/codex_sha256",
+   "expected": "D13914CED6C7AF174D8D638DB938284231227312104B06A25E9608C632A7DAEC",
+   "actual": "e98c516f1c8935789aabe9122ee7e05ec4c3efd1ba6acf179242e031c495b99e",
+   "severity": "error"
+  }
+ ],
+ "drift_is_clean": false,
+ "named_methods_snapshot_keys": [
+  "gstack.cso",
+  "gstack.office-hours",
+  "gstack.plan-eng-review",
+  "gstack.qa",
+  "gstack.retro",
+  "gstack.review",
+  "gstack.ship",
+  "openspec",
+  "spec_kit"
+ ],
+ "named_methods_total": 0,
+ "role_map_file": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\HGK\\HGK_GSTACK_ROLE_MAP.yaml",
+ "role_map_roles": [
+  "autoplan",
+  "benchmark",
+  "canary",
+  "codex",
+  "cso",
+  "design-consultation",
+  "devex-review",
+  "document-*",
+  "investigate",
+  "office-hours",
+  "plan-ceo-review",
+  "plan-design-review",
+  "plan-devex-review",
+  "plan-eng-review",
+  "qa",
+  "qa-only",
+  "retro",
+  "review",
+  "ship"
+ ],
+ "named_methods_selected": {},
+ "named_methods_native_or_unmapped": [
+  "autoplan",
+  "benchmark",
+  "canary",
+  "codex",
+  "cso",
+  "design-consultation",
+  "devex-review",
+  "document-*",
+  "investigate",
+  "office-hours",
+  "plan-ceo-review",
+  "plan-design-review",
+  "plan-devex-review",
+  "plan-eng-review",
+  "qa",
+  "qa-only",
+  "retro",
+  "review",
+  "ship"
+ ],
+ "named_methods_error_roles": [],
+ "gap_classes": {
+  "DECLARED_NOT_SELECTED": [],
+  "MAP_ROLE_ABSENT": [
+   "autoplan",
+   "benchmark",
+   "canary",
+   "codex",
+   "cso",
+   "design-consultation",
+   "devex-review",
+   "document-*",
+   "investigate",
+   "office-hours",
+   "plan-ceo-review",
+   "plan-design-review",
+   "plan-devex-review",
+   "plan-eng-review",
+   "qa",
+   "qa-only",
+   "retro",
+   "review",
+   "ship"
+  ],
+  "SELECTED_NOT_IN_MAP": []
+ },
+ "activation_invariants": {
+  "canonical_flow_named_method_without_runtime_or_certified_substitute": 0,
+  "active_named_method_missing_identity": 0,
+  "active_named_method_missing_pin": 0,
+  "active_named_method_missing_install": 0,
+  "active_named_method_missing_binding": 0,
+  "active_named_method_missing_doctor": 0,
+  "active_named_method_missing_pilot": 0,
+  "active_named_method_missing_independent_cert": 0,
+  "active_named_method_silent_fallback": 0,
+  "named_method_fake_invocation": 0,
+  "named_method_silent_fallback": 0,
+  "dual_spec_owner": 0,
+  "second_orchestrator": 0,
+  "release_authority_escape": 0
+ },
+ "activation_invariants_all_zero": true,
+ "selected_over_total": "0/19"
+}

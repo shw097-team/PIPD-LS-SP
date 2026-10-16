@@ -1,0 +1,44 @@
+{
+ "schema": "R5R3/HOST-UPLOAD-REJECTION/1",
+ "captured_utc": "2026-10-16T06:20:42+00:00",
+ "surface": {
+  "window_handle": "0x1540102",
+  "window_class": "Chrome_WidgetWin_1",
+  "window_title": "外掛程式 | ChatGPT - Google Chrome",
+  "url": "chatgpt.com/plugins",
+  "account": "鬼人馬 / Plus (same account that accepted the R5Y archive)"
+ },
+ "artifact": {
+  "candidate": "cand-A-preview4-served.zip",
+  "path": "C:\\Projects\\Agent_Workspace\\_handover\\R5R3-20261016-preview4-closeout\\host_smoke\\cand-A-preview4-served.zip",
+  "sha256": "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75",
+  "bytes": 68357,
+  "provenance": "release v0.1.1-preview.4 asset; byte-reproducible from tag cc6c193"
+ },
+ "host_response": {
+  "message_verbatim": "無法新增外掛程式。請再試一次。",
+  "all_error_nodes": [
+   {
+    "control_type": "Text",
+    "text": "無法新增外掛程式。請再試一次。",
+    "rect": [
+     1404,
+     1354,
+     1865,
+     1394
+    ]
+   }
+  ],
+  "diagnostic": "generic failure text; the surface disclosed no schema field, no rule id and no per-file reason"
+ },
+ "method": {
+  "delivery": "UIA (pywinauto) expand/invoke for menu+modal; native common file dialog filled by UIA ValuePattern set_edit_text, submitted with a trusted ENTER (SendInput) on the modal",
+  "note": "background UIA invoke cannot open the file picker (Chrome withholds user activation); a trusted click/ENTER was required for that one control only"
+ },
+ "limitations": [
+  "single attempt per artifact; no retry performed after the generic failure",
+  "no server-side reason available to the run; only the generic surface text",
+  "upload result is a page-level string, not a structured error object"
+ ],
+ "claim_ceiling": "HOST_REJECTED_PREVIEW4_ARCHIVE_ON_LIVE_ACCOUNT (observed, verbatim) — cause not yet attributed; no claim that the archive is spec-compliant or non-compliant"
+}

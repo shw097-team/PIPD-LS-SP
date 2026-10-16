@@ -1,0 +1,42 @@
+{
+  "schema": "R5R3/PROBE-VERDICT/1",
+  "probe": "P2-KNOWN-GOOD-B",
+  "artifact": "host_smoke/cand-B-r5y-known-good.zip",
+  "artifact_sha256": "2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199",
+  "artifact_bytes": 68355,
+  "machine_verdict_in_raw_file": "HOST_REJECTED",
+  "human_adjudicated_verdict": "HOST_ACCEPTED",
+  "why_the_machine_verdict_is_wrong": {
+    "cause": "probe regex defect",
+    "detail": "the runner classified any node whose text contains 無法 as a failure; at t=3s a transient node reading exactly '無法取得' was captured with no surrounding context. That rule is over-broad and fired on a node that is not the refusal message.",
+    "disclosure": "the raw probe file keeps the unedited machine verdict; this file is the adjudication"
+  },
+  "acceptance_evidence": {
+    "criterion_source": "R5Y's own recorded success signature: PIPD/PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/09_ui_fda/PRIVATE_PLUGIN_INSTALL.json step 6 = \"窗題轉為『PIPD-LS-SP Public Skills | ChatGPT 外掛程式』，URL chatgpt.com/plugins/Plugin_5ba168f715b8819190ccbe33a4a926b0\"",
+    "observed": [
+      "the upload modal CLOSED at t=3s (with A it stayed open and printed 無法新增外掛程式。請再試一次。)",
+      "window title became 'PIPD-LS-SP Public Skills | ChatGPT 外掛程式' — the R5Y success signature",
+      "the page is the plugin detail page for the same plugin id, showing 你的雲端外掛程式, 由 鬼人馬 提供, 技能 8, 在對話中試用, 管理",
+      "all 8 skill entries are listed (pipd-assurance-tqaep, pipd-authority-source, pipd-execution-contract, …)"
+    ],
+    "contrast_with_A": "two submissions of A left the modal open with the refusal text; the control artifact B closed the modal and advanced the page — the two outcomes are distinguishable on this surface",
+    "unexplained": "the transient node '無法取得' seen once at t=3s is NOT explained by this record; it is recorded as observed, with unknown meaning, and is not used as evidence either way"
+  },
+  "consequence_for_the_cause_set": {
+    "H1_transient": "ELIMINATED (A refused twice: original + P1)",
+    "H4_layout": "ELIMINATED (A and B have identical layout; B accepted)",
+    "H2_identity_collision_as_originally_stated": "ELIMINATED IN ITS ORIGINAL FORM — a same-identity re-upload was accepted",
+    "H2prime_refined_identity_content_conflict": "OPEN — B's bytes are identical to the already-installed artifact, so B's acceptance is equally consistent with a host rule of the form 'same (plugin_id, version) with DIFFERENT content is refused'. P2 alone cannot separate this from H3.",
+    "H3_provenance_field_rule": "OPEN — the only byte-level difference between A and B lies in RELEASE_RECEIPT.json / SOURCE_TO_PLUGIN_MAPPING.json (mapping_sha256, source_commit, source_tree)"
+  },
+  "next_probe_required": {
+    "id": "P3-VERSION-AXIS",
+    "artifact": "cand-E-preview4-version-bumped.zip",
+    "design": "A's 56 members byte-for-byte, with ONLY the declared version changed (plugin.json + RELEASE_RECEIPT.json, 0.1.1 -> 0.1.2). Identity axis moves; provenance bytes are preserved unchanged.",
+    "if_accept_proves": "an identity/content conflict was the cause (H2'), and the minimum sufficient remedy is a version bump at the packaging source",
+    "if_reject_proves": "the two provenance members' bytes carry the cause (H3), and the remedy must act on those files",
+    "why_not_the_plans_P3_D": "D changes identity AND content AND member set at once, so it cannot separate the two live causes; the plan's own falsifier F1/H2' family motivates a probe that moves exactly one axis",
+    "stop_rule": "one upload; any result closes the attribution"
+  },
+  "claim_ceiling": "UI-observed acceptance on a live account, adjudicated against the round's own historical success signature. No API acknowledgement, no server-side confirmation object, and the transient '無法取得' node remains unexplained."
+}

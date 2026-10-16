@@ -1,0 +1,67 @@
+{
+ "schema": "R5R3/SELFCHECK/1",
+ "invariants": [
+  {
+   "id": "I1",
+   "ok": true,
+   "detail": "4/4 candidate digests re-derived",
+   "evidence": "host_smoke/CANDIDATES.json"
+  },
+  {
+   "id": "I2",
+   "ok": true,
+   "detail": "members A=56 B=56; names_eq=True meta_eq=True size_eq=True order_eq=True; differing=['pipd-ls-sp-public-skills/RELEASE_RECEIPT.json', 'pipd-ls-sp-public-skills/SOURCE_TO_PLUGIN_MAPPING.json']",
+   "evidence": "raw/zip_member_diff.log"
+  },
+  {
+   "id": "I2b",
+   "ok": true,
+   "detail": "plugin.json byte-identical in A and B (sha 9ba0eace19e9)",
+   "evidence": ""
+  },
+  {
+   "id": "I3",
+   "ok": true,
+   "detail": "E differs from A in ['pipd-ls-sp-public-skills/RELEASE_RECEIPT.json', 'pipd-ls-sp-public-skills/plugin.json']; metadata_eq=True; version 0.1.1->0.1.2; receipt edited=True",
+   "evidence": "FAR_R5R3_ZIPSPEC/CANDIDATE_E_MANIFEST.json"
+  },
+  {
+   "id": "I4",
+   "ok": true,
+   "detail": "F differs from A in ['pipd-ls-sp-public-skills/plugin.json']; provenance members preserved=True",
+   "evidence": "FAR_R5R3_ZIPSPEC/CANDIDATE_F_MANIFEST.json"
+  },
+  {
+   "id": "I5",
+   "ok": true,
+   "detail": "5/5 probe records bind the artifact they actually uploaded",
+   "evidence": "FAR_R5R3_ZIPSPEC/probe_P*.json"
+  },
+  {
+   "id": "I6",
+   "ok": true,
+   "detail": "raw machine verdict preserved=True; adjudication recorded=True",
+   "evidence": "FAR_R5R3_ZIPSPEC/VERDICT_P2.json"
+  },
+  {
+   "id": "I7",
+   "ok": true,
+   "detail": "gates referenced as NOT_GRANTED=True; probe manifests self-labelled=True",
+   "evidence": "FAR_R5R3_ZIPSPEC/ENGINEERING_DECISION.md"
+  },
+  {
+   "id": "I8",
+   "ok": true,
+   "detail": "artifacts present (6/6); docs carrying a claim ceiling: 3/3",
+   "evidence": "FAR_R5R3_ZIPSPEC/"
+  },
+  {
+   "id": "I9",
+   "ok": true,
+   "detail": "per-artifact outcomes recorded=True; the version axis is explicitly excluded=True",
+   "evidence": "FAR_R5R3_ZIPSPEC/FAR_VERDICT.md"
+  }
+ ],
+ "verdict": "GATE_PASS",
+ "claim_ceiling": "machine gate over LOCAL artifacts only: it re-derives the byte-level and record-level invariants of this round from files on disk. It cannot observe the host, cannot re-run the uploads, and is NOT an acceptance, an approval, or an owner gate."
+}
