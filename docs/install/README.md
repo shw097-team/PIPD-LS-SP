@@ -1,9 +1,10 @@
 # PIPD-LS-SP — install (single source of truth)
 
 This page is the **install SSOT**: every other page that mentions installing PIPD-LS-SP either is
-this page or points at it. There are **two install routes and only two** — **Web** and **Agent** —
-and they have different ceilings. Pick one, read its ceiling, and do not read a green build (or a
-copied file) as anything more than what the [states table](#states-that-are-not-the-same) below says.
+this page or points at it. There are **three install routes** — **Web**, **Agent**, and the **private
+plugin ZIP** — and they have different ceilings. Pick one, read its ceiling, and do not read a green
+build (or a copied file) as anything more than what the
+[states table](#states-that-are-not-the-same) below says.
 
 Version pin for everything on this page: release **`v0.1.1-preview.4`**; its annotated tag object
 `0618d73c725da0d8c3280f99ef369d13741b5197` dereferences to release-tag target
@@ -45,6 +46,30 @@ The eight skills the route installs are the eight `skills/pipd-*` packs — `pip
 `pipd-authority-source`, `pipd-profile-tailor`, `pipd-pi-compile`, `pipd-pd-bind`,
 `pipd-execution-contract`, `pipd-assurance-tqaep`, `pipd-package-project` — six files each, **48
 files** in total.
+
+---
+
+## Route 3 — Private plugin ZIP (ChatGPT, your own account)
+
+This route installs the eight skills as a **private ChatGPT plugin on your own account**. It needs no
+shell and no directory listing: you download one ZIP from the immutable release and add it through the
+ChatGPT plugin UI.
+
+**The artefact.** `pipd-ls-sp-public-skills.zip` — **68,357 bytes**, sha256
+`545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75`, **56 entries**, **8 `SKILL.md`**,
+one plugin root `pipd-ls-sp-public-skills/` and one `plugin.json`:
+
+`https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-preview.4/pipd-ls-sp-public-skills.zip`
+
+**The four UI steps.** In ChatGPT: create a plugin → upload that ZIP → install it on your own account →
+smoke it with one `@pipd-route-intake` call. **If a plugin with the same `plugin_id` is already
+installed, do not add a second one** — follow
+[Updating a plugin you already installed](#updating-a-plugin-you-already-installed) instead.
+
+**Its ceiling.** `FORMAT_PASS / ONE_ACCOUNT_PARTIAL`: creation, installation and one skill call were
+observed, but **on the owner's own account only**. That is not a portal review and not a listing — the
+directory listing is a *different, conditional* route, see
+[The Directory route](#the-directory-route-conditional-not-available-today).
 
 ---
 
@@ -138,7 +163,7 @@ today either.
 
 ## Advanced and recovery
 
-Everything below is subordinate to the two routes above. It is not an alternative route.
+Everything below is subordinate to the three routes above. It is not an alternative route.
 
 ### Version pin
 
