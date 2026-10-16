@@ -24,7 +24,7 @@
 | # | 任務 | 對應 | 狀態 | 證據 ID |
 |---|---|---|---|---|
 | T-06 | `docs/install/README.md` 版號／source commit 混寫勘誤（由實際 mount-pack release provenance 推 pin，不硬填 main） | CK-04 / F-R6-01 | [x] | candidate `552bbde`；`diff_and_tests/candidate_diff.patch` |
-| T-07 | `docs/USER_GUIDE.md` 舊 `Merge/release HOLD`、舊 wheel 宣稱之 2–4 句更新；明寫 `.4` 已發布、Full S4 未授予 | CK-05 / F-R6-02 | [x] | 同上；產品分支現況 `127ec1c` |
+| T-07 | `docs/USER_GUIDE.md` 舊 `Merge/release HOLD`、舊 wheel 宣稱之 2–4 句更新；明寫 `.4` 已發布、Full S4 未授予 | CK-05 / F-R6-02 | [x] | 同上；產品分支現況 `127ec1c` |（`127ec1c` = R17 頭，已為歷史；現行頭見 CURRENT_SUBJECTS.md）
 | T-08 | 安裝 SSOT 補「同 plugin_id 已安裝 → Update／Upload new version；否則備份→同意→卸載→重加；新 ID 為衍生候選非原 ZIP」 | CK-08 / F-R6-03 | [x] | `docs/install/README.md`（產品分支）；`findings_to_task_and_ck.tsv` |
 | T-09 | PR #17 一檔 readback 初核（不併 #14/#15） | CK-07 / F-R6-06 | [o] | `findings_to_task_and_ck.tsv`：複驗完成（1 檔 `+14/−0`、non-draft、`mergeable clean`、checks 綠）；**合併屬 OWNER GATE** |
 | T-10 | `git diff --check` 乾淨；改動僅限 WorkOrder 批准路徑 | CK-12 | [x] | `diff --check` 空輸出；`R17_MEASUREMENTS.json`；寫入集分類器 `R17_check_write_set.py` → `PASS` |
@@ -43,8 +43,8 @@
 | # | 任務 | 對應 | 狀態 | 證據 ID |
 |---|---|---|---|---|
 | T-15 | HGK typed 准入：`allowed_paths`、`network=GitHub`、`effect=branch_push`、`secret_read=指定檔一次性` | CK-01/12 | [~] | PARTIAL：`ADMISSION_OK`、5 WorkOrders 已達成；**但無精確作用域之 ExecutionBinding，且 taskspec 記 `network=false` 而本回合確有 branch push** → 稽核列 `HGK-BINDING`；列 `TT-R18-02`（控制平面項，不在本回合寫入權限內） |
-| T-16 | 建隔離修補分支、commit、push（PAT 唯讀讀檔；不回顯）；驗 `origin == shw097-team/PIPD-LS-SP` | CK-12 | [x] | `far-r17/publish/`；產品分支遠端 = `127ec1c`；PAT 全程僅經 askpass 包裝器，未入 argv/URL/log |
-| T-17 | 遠端 readback remote SHA／PR URL | CK-12 | [x] | PR #18 @ `127ec1c`（4 檔 `+419/−22`、open／非 draft／`mergeable clean`、`verify` + `offline-gate` 綠） |
+| T-16 | 建隔離修補分支、commit、push（PAT 唯讀讀檔；不回顯）；驗 `origin == shw097-team/PIPD-LS-SP` | CK-12 | [x] | `far-r17/publish/`；產品分支遠端 = `127ec1c`；PAT 全程僅經 askpass 包裝器，未入 argv/URL/log |（`127ec1c` = R17 頭，已為歷史；現行頭見 CURRENT_SUBJECTS.md）
+| T-17 | 遠端 readback remote SHA／PR URL | CK-12 | [x] | PR #18 @ `127ec1c`（4 檔 `+419/−22`、open／非 draft／`mergeable clean`、`verify` + `offline-gate` 綠） |（`127ec1c` = R17 頭，已為歷史；現行頭見 CURRENT_SUBJECTS.md）
 | T-17b | **（R18 追加）** 新增 `OPS_ECP` 具名引用版（稽核列 `ECP-OPS` 原判 NOT_DONE） | — | [x] | `r18/ECP_OPS.md` |
 
 ## G4 TQAEP / 獨立檢測

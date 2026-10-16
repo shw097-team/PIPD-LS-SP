@@ -10,7 +10,7 @@
 | 角色 | 分支 | commit | tree |
 |---|---|---|---|
 | 產品候選（本回合產物） | `fix/s4r6-closeout-doc-identity-and-update-route-20261016` | `c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20` (見 CURRENT_SUBJECTS.md；`127ec1c` 為 R17 頭，已為歷史) | `62eef9d8059d307ae373de63519a37551fa14854` |
-| 回合證據 | `r6-closeout-evidence-20261016` | `0b50d3e` | — |
+| 回合證據 | `r6-closeout-evidence-20261016` | **分支尖端 - 以 `git ls-remote` 解析，勿硬編**（`0b50d3e` 為已淘汰舊尖端；見 CURRENT_SUBJECTS.md） | — |
 | 已發布（不可動） | tag `v0.1.1-preview.4` | tag object `0618d73c…` → commit `cc6c1930…` | — |
 | 主線（未動） | `main` | `d3bd5456afbff21a8c8837994a49f57be3e1b97e` | `bc8dfc21…` |
 

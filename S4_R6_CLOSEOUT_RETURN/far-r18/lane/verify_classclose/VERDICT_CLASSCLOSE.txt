@@ -1,0 +1,118 @@
+All evidence verified from committed blobs. Here is my verdict.
+
+```
+CHECKER_VERDICT
+checker_lane: VERIFY_SECURITY
+checker_model: deepseek-v4.1-flash (this runtime) — SAME model arm as the maker (opencode-go/deepseek-v4.1-flash per registry SOD006-C3); no model-axis independence
+subject_evidence_tip: 695efb6e59c0b88b84e245011abf55c2785cfe10
+
+claim_results:
+
+E1 — Class B (false model-axis independence): REFUTED as stated / PARTIAL as closure
+  The maker's position ("the ONLY remaining occurrences of a 'different model axis' claim are inside
+  the lane receipts far-r17/lane/** and far-r18/lane/**, where the words are the checker's own quoted
+  findings") is FALSE. A surviving Class-B claim sits OUTSIDE the receipt paths:
+    - RESIDUAL_UNIVERSE.tsv:12 (row OD-06, "measured live" cell): "…(lane-distinct per check_sod, but no
+      model-axis independence); R6 round itself achieved axis independence via gpt-6.1-sol rank-2 — the
+      standing order still binds writer=checker". This asserts the R6 round DID achieve axis independence
+      and directly contradicts CURRENT_SUBJECTS.md §"Model-axis independence does NOT exist".
+  Everything else conforms: CK_STATUS.tsv:15 (CK-14), RESIDUAL_UNIVERSE.tsv:9 (OD-03),
+  checker_verdict.json:14/85, ROUND_STATE.json:193, EXTERNAL_ENGINEERING_HANDOVER.md:374-375 all now
+  state axis independence does NOT exist. DEFECT_DOSSIER.md:146 is anti-claim (correct); :156 states
+  "restores maker/checker model-axis separation" but is explicitly fenced as a documented, NON-applied
+  owner-only candidate — treated as borderline, not a live claim.
+  CURRENT_SUBJECTS.md itself is correct on E1 (states independence does NOT exist) and contradicts
+  nothing on this axis — EXCEPT it names the evidence head as d2f6102 (its own parent), not the tip
+  695efb6, so the "single authority for what is current" is itself stale on the evidence head.
+  Receipt-path occurrences (far-r18/lane/verify_deepseek/VERDICT_DEEPSEEK.txt:115/131/136, run.txt:16,
+  verify_turn.json:119, *.attempts.ndjson:1) are legitimately the checker's own quoted findings.
+
+E2 — Class A (superseded head read as current): PARTIAL
+  Files OUTSIDE the lane receipts naming 127ec1ca97c71d0437f5b149a6e7d540d0cb3bba or
+  0b50d3edc3c31feff6b674d34e2e3e833aaa7687, and the CURRENT/HISTORY judgement applied:
+    - CURRENT_SUBJECTS.md:14-15 — HISTORY (explicit superseded list). NOT a defect.
+    - checker_verdict.json:92 — inside subject_history[] (explicit history). NOT a defect.
+    - R18_REQUIREMENTS_RULING.tsv / R18_AUDIT_REQUIREMENTS.tsv `git diff d3bd545..127ec1c…` locators —
+      hash-chain/history command form. NOT a defect.
+    - R18_AUDIT_REQUIREMENTS.tsv:2, r18/hgk_admission_r18.py:147 — corrected with "(AS-OF …; current heads
+      are …)" footnotes. NOT a defect.
+    - R18_REPO_RECON.md:3/149/447/608/625 — raw recon probe output + narrative written at recon time; line 3
+      and 149 read as CURRENT ("HEAD 127ec1ca…"). Arguable; raw-probe framing mitigates but a reader acts
+      on line 3. PARTIAL.
+    - EXTERNAL_ENGINEERING_HANDOVER.md:37/56/57 — §1 State + §2 branch table present 127ec1ca/0b50d3ed as
+      CURRENT; a later §"product head" at :367-368 explicitly supersedes them. PARTIAL (early narrative not
+      rewritten, only superseded downstream).
+    - R18_ECP_DEV.md:12 — subject table presents 127ec1ca as "產品候選（本回合產物）" CURRENT; no c17aa76
+      anywhere in the file. DEFECT.
+    - subject_versions.json:28 — "candidate.commit = 127ec1ca…" presented as CURRENT candidate, while
+      checker_verdict.json:3 binds subject_commit to c17aa76 → packet internally inconsistent. DEFECT.
+    - ROUND_STATE.json:30/36 — subjects[] rows still label 127ec1c "product change" and 0b50d3e "evidence";
+      the appended current_subjects block (≈:186) points at c17aa76/d2f6102 but the array rows themselves
+      were not updated. PARTIAL.
+  Judgement rule applied: a bare occurrence inside an explicit history list / superseded list / hash-chain
+  receipt (git-diff locator, subject_history[], CURRENT_SUBJECTS superseded section) is NOT a defect; a bare
+  occurrence in actionable narrative (a State paragraph or subject table a reader would act on) IS a defect.
+
+E3 — Receipt integrity: CONFIRMED (digest + tail verbatim), with one sub-claim not establishable in-packet
+  - far-r17/lane/verify/verdict_text_run1.txt: committed blob 8556 bytes; sha256(raw)=b71220a1… (matches
+    SHA256SUMS:66), sha256(strip())=b1e7e67ce81be717d9cb100c31c26117704940e8fd70625adb9a7feb6d150fd7 =
+    the recorded verdict_text_sha256 (checker_verdict.json:28), whose definition is
+    "sha256(staged …strip())" per VERDICT_DEEPSEEK.txt:111. RECOMPUTES.
+  - verdict_text_run2.txt: 8335 bytes; sha256(raw)=d7f8912d… (matches SHA256SUMS:67),
+    sha256(strip())=061da76a78613f7d43c928ee279e42f735b5d03c23d33f2ce7d7f9adf27c390a = recorded
+    (checker_verdict.json:42), per :112. RECOMPUTES.
+  - far-r18/lane/verify_deepseek/VERDICT_DEEPSEEK.txt: 10914 bytes, sha256=4620e752… (matches its
+    SHA256SUMS row), ends exactly with HGK_LANE_NONCE_OK. The recorded 400-char stdout_tail in
+    verify_turn.json attempts[0] contains the verdict's terminal passage VERBATIM — after NDJSON unescaping
+    the tail reads "…the \"different model axis\" and \"provider\" fields in `verify_turn.json` are the
+    lane's own assertions.\n\nHGK_LANE_NONCE_OK"}} — byte-identical text, i.e. a capture, not a paraphrase.
+  - CAVEAT / UNVERIFIABLE in-packet: full-body verbatim equality cannot be established from the packet. The
+    full agent stdout (recorded stdout_bytes=389092, stdout_sha256=3db0e9eb…) lives OUTSIDE the packet
+    (…_handover/…/logs/attempt-12588-1792153737-1-stdout.txt); the packet carries only the 400-char tail.
+    So "verbatim, untouched, LF-normalised" is CONFIRMED for the tail and for both R17 digests, and
+    PARTIAL for the whole-message claim.
+
+E4 — Manifest at the tip: CONFIRMED
+  SHA256SUMS at 695efb6: 74 rows; recomputed against the committed blobs → 74 matches, 0 mismatches, 0
+  manifest entries absent from the tree. Tree files absent from the manifest = exactly 1, SHA256SUMS
+  itself. Contradicts nothing; maker's assertion (74 rows, 0 mismatches, only SHA256SUMS absent from
+  itself) is exact.
+
+adversarial_findings:
+  1. RESIDUAL_UNIVERSE.tsv:12 (OD-06) — live "R6 round itself achieved axis independence via gpt-6.1-sol
+     rank-2" survives OUTSIDE the lane receipts, directly contradicting CURRENT_SUBJECTS.md and the Class-B
+     repair. Strongest finding; the class-level sweep did NOT close Class B.
+  2. The Class-A sweep left R18_ECP_DEV.md:12 and subject_versions.json:28 (and the un-rewritten
+     ROUND_STATE.json subjects[] rows / EXTERNAL_ENGINEERING_HANDOVER.md §1-§2 narrative) presenting
+     127ec1ca / 0b50d3e as CURRENT. subject_versions.json:28 additionally contradicts
+     checker_verdict.json:3 (subject_commit=c17aa76) inside the same packet.
+  3. CURRENT_SUBJECTS.md — the file declaring itself "the single authority for what is current" — names the
+     evidence head as d2f6102 (its own parent), not the shipped tip 695efb6. Minor self-staleness in the
+     authority artifact itself.
+
+qualification_limits:
+  - My arm is deepseek-v4.1-flash — the SAME model identity as the maker (opencode-go/deepseek-v4.1-flash,
+    registry SOD006-C3, OWNER_ORDERED_IN_FORCE). There is NO model-axis independence for this verification;
+    what remains is process-, lane- and evidence-path independence plus the no-self-acceptance rule.
+  - This is a read-only read of committed blobs at the tip; it did not exercise the live registry, the
+    private-host UAT, or any host.
+  - Full-message byte-verbatim equality for VERDICT_DEEPSEEK.txt is not establishable from the packet
+    (source stdout lives outside it); my E3 confirmation covers the tail and the two R17 digests only.
+  - CURRENT/HISTORY calls in E2 involve judgement; my rule is stated above and I named the files I judged
+    borderline.
+
+checker_id: PIPD-S4-R6-CLOSEOUT-20261016-R18-CLASSCLOSE-695efb6e59c0b88b84e245011abf55c2785cfe10
+
+verdict: PARTIAL
+
+claim_ceiling: This establishes, at evidence tip 695efb6, that (a) Class B is NOT fully closed — a
+surviving model-axis-independence claim exists at RESIDUAL_UNIVERSE.tsv:12 outside the lane receipts;
+(b) Class A is only partially closed — several non-receipt files still present superseded heads as current;
+(c) the two R17 verdict digests recompute and the R18 verdict tail is a verbatim capture; (d) the 74-row
+manifest is internally consistent. It does NOT establish whole-message byte-equality of the R18 receipt,
+does NOT verify the live registry or any host, does NOT adjudicate the product diff, and does NOT raise the
+round's ceiling: S4_FULL_PASS / HOST_QUALIFIED / PRODUCTION remain NOT_GRANTED, private-host UAT NOT_RUN,
+merge/tag/release = OWNER GATE only.
+
+HGK_LANE_NONCE_OK
+```

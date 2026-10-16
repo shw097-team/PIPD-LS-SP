@@ -365,7 +365,7 @@ Added by the R18 round so that a reader does not act on the superseded heads nam
 | what | ref | sha | note |
 |---|---|---|---|
 | product head | `origin/fix/s4r6-closeout-doc-identity-and-update-route-20261016` | `c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20` | supersedes `127ec1c` named above; adds the outgoing-link guard and repairs the dead link |
-| evidence head | `r6-closeout-evidence-20261016` | `338227c78a121db9847dff2574918bdcb2bfbdc2` | supersedes `0b50d3e` named above |
+| evidence head | `r6-closeout-evidence-20261016` | the branch TIP - resolve it (`git ls-remote`); this addendum's own commit is necessarily behind it. `338227c` and `0b50d3e` are both superseded tips | this addendum supersedes the stale tips named above |
 
 - The guard test count is **11** at `c17aa76` (the `Ran 9 tests` figure elsewhere in this document is the pre-repair artifact).
 - The independent R18 despatch (`opencode-go/deepseek-v4.1-flash`, the registry's default VERIFY arm - no longer the GPT arm)

@@ -1,0 +1,35 @@
+I have everything I need. Independent recomputation at the tip reproduces the maker's manifest claim exactly, and I've resolved the two open Class A candidates.
+
+CHECKER_VERDICT
+
+checker_lane: VERIFY_SECURITY
+
+checker_model: not exposed by this runtime
+
+subject_evidence_tip: e51a0a6eca475c86d477356468a285612c51f5f3
+
+claim_results:
+
+- **C1 — CONFIRMED.** All four maker claims hold at the tip blob. (a) `CURRENT_SUBJECTS.md` lines 28–36 carry the reading note defining "independent" as process/lane/evidence-path only, plus a section at lines 19–26 stating model-axis independence does NOT exist; (b) the OD-06 row in `RESIDUAL_UNIVERSE.tsv` is annotated as the R6/R17 rank-2 pin being history; (c) `ROUND_STATE.json` line 106 marks the gpt-6.1-sol checker entry `[R17 HISTORY ...]`; (d) remaining raw occurrences are either assertions of the absence (`DEFECT_DOSSIER.md`, `EXTERNAL_ENGINEERING_HANDOVER.md`, `R18_LANE_REBIND.md`) or verbatim lane receipts under `far-r17|r18/lane/**` — both judgements the brief excludes. Judgement applied: "asserts-the-absence" and "history receipt" → not defects.
+- **C2 — PARTIAL.** No superseded head is presented as current in a *product-head* narrative, but one unmarked evidence-branch instance survives: `S4_R6_CLOSEOUT_RETURN/R18_ECP_DEV.md:13` names the evidence branch's commit as `0b50d3e` with no as-of prefix and no supersession marker, in a §1 "Subjects" table that the document explicitly tells a developer to read "before touching even one line." Keeping the product row's historic `c17aa76…` tree value is not itself a defect, because tree hash `62eef9d8…` legitimately identifies the content that head produced; the defect is the unmarked, superseded *evidence* commit. Judgements applied elsewhere: explicit superseded lists (`CURRENT_SUBJECTS.md:12–16`), `subject_history` arrays (`ROUND_STATE.json`, `checker_verdict.json`, `subject_versions.json`), as-of records (`R17_RED_GATE_DIAGNOSIS.md`, `R18_REPO_RECON.md`, both R18 TSV AS-OF rows), and hash-chain/raw-output blocks are history, not defects. `TASK_CHECKLIST.md:27,46,47` name `127ec1c` but sit inside a `STATUS_AS_OF: 2026-10-16（R18 回填）` back-fill table whose header points to `CURRENT_SUBJECTS.md`; judgement: as-of back-fill = history (logged as an adversarial finding, not a residual).
+- **C3 — CONFIRMED.** `CURRENT_SUBJECTS.md` no longer hard-codes the evidence tip; the evidence-head row (line 9) instructs the reader to resolve it via `git ls-remote origin r6-closeout-evidence-20261016` and explains why hard-coding is self-defeating. The product head it names is `c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20` (line 8), matching the brief.
+- **C4 — CONFIRMED.** Independent recomputation of sha256 over committed tip blobs: 74 manifest rows, 74 matches, 0 mismatches, and the only tree file absent from the manifest is `SHA256SUMS` itself (75 tree files − 74 listed = 1). Exactly the maker's assertion.
+
+residual: `S4_R6_CLOSEOUT_RETURN/R18_ECP_DEV.md:13` — evidence-branch row names superseded `0b50d3e` with no as-of/history marker, in an actionable reference table. Class A survives by this single instance. Class B: closed (no surviving instance).
+
+adversarial_findings:
+
+1. `TASK_CHECKLIST.md:27` ("產品分支現況 `127ec1c`"), `:46` ("產品分支遠端 = `127ec1c`"), `:47` ("PR #18 @ `127ec1c`") name the superseded product head without an inline marker. Judged history (as-of back-fill under a dated header deferring to `CURRENT_SUBJECTS.md`), but a reader scanning the table could act on them; worth a one-line hedge.
+2. `EXTERNAL_ENGINEERING_HANDOVER.md` R18 ADDENDUM names evidence tip `338227c…`, itself already behind the actual tip `e51a0a6…`. Presented as a superseding as-of note, so not a Class A defect, but it is a second-order staleness the same class removed elsewhere.
+3. `R18_ECP_DEV.md` §1 keeps tree `62eef9d8…` next to advanced commit `c17aa76…`; correct as content identity, but a reader could misread the pairing as current branch tree — mitigation: same row already points to `CURRENT_SUBJECTS.md`.
+4. The v3 commit message states "`R18_ECP_DEV.md` row updated" (singular); only the product row was changed, which is exactly how the evidence-row residual survived — the sweep's own claim is narrower than the fix layout implies.
+
+qualification_limits: My served arm is the **same model identity as the maker** (`opencode-go/deepseek-v4.1-flash`, owner order `SOD006-C3`); this is a self-acceptance-adjacent check, so every finding is derived from committed blobs, not from a distinct model axis. Verification is blob-level only (`git show <tip>:<path>`) — no network, no remote write, no repository modification; I did not fetch, and `origin` state was not re-resolved. Class-B token set and structure-aware marker logic were not re-implemented by me; I read the resulting artifacts, so a token/phrase I did not enumerate is unverified. Manifest recomputation covers the packet root only.
+
+checker_id: PIPD-S4-R6-CLOSEOUT-20261016-R18-FINALCLASS-e51a0a6eca475c86d477356468a285612c51f5f3
+
+verdict: PARTIAL
+
+claim_ceiling: This confirms the maker's four stated claims against committed blobs at the tip and closes Class B. It does NOT establish served-asset integrity, host UI behavior, a whole-suite green under the no-write boundary, nor `S4_FULL_PASS` / `HOST_QUALIFIED` / `PRODUCTION`. It does not certify that no further instance of either class exists under a token set broader than the one I inspected; Class A remains open on the single residual `R18_ECP_DEV.md:13`.
+
+HGK_LANE_NONCE_OK
