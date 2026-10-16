@@ -36,7 +36,7 @@ Read these before writing, and derive every fact from them rather than from this
    — the write-set gate failure this round's predecessor hit, why the evidence lives on its own branch,
    and the amendment rule including the planted-path self-test requirement.
 3. `C:/Projects/Agent_Workspace/_handover/PIPD-S4-R6-CLOSEOUT-20261016/S4_R6_CLOSEOUT_RETURN/R17_MEASUREMENTS.json`
-   — the measured numbers (test counts, digests, the independent checker's verdict and its ceiling).
+   — the measured numbers (test counts, digests, the checker's verdict (a checker separated by process/lane/evidence path only - the model is identical, see CURRENT_SUBJECTS.md) and its ceiling).
 4. `C:/Projects/Agent_Workspace/_handover/PIPD-S4-R6-CLOSEOUT-20261016/far-r17/SESSION_CLOSEOUT_AND_HANDOVER.md`
    — the round's checkpoint: branch tips, open tickets, owner decisions in one-action form, rollback
    pointers, and the disclosed side effects.

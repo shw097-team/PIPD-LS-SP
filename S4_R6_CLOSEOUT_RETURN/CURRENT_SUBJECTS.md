@@ -6,7 +6,7 @@ current *when they were written*. This file is the single authority for what is 
 | role | ref | current sha |
 |---|---|---|
 | product head (PR #18) | `origin/fix/s4r6-closeout-doc-identity-and-update-route-20261016` | `c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20` |
-| evidence head (this packet's branch) | `r6-closeout-evidence-20261016` | `d2f61020706aa379698f251c145e45cf842a83ef` |
+| evidence head (this packet's branch) | `r6-closeout-evidence-20261016` | the branch TIP - resolve it, never trust a hard-coded value: `git ls-remote origin r6-closeout-evidence-20261016`. Hard-coding the tip is self-defeating because committing this file changes it. |
 | release base | `origin/main` | `d3bd5456afbff21a8c8837994a49f57be3e1b97e` (untouched) |
 
 Superseded heads appearing anywhere in this packet are **history, not current**:
@@ -24,3 +24,13 @@ statement. What this round does have: process-, lane- and evidence-path independ
 
 Round-relative truths that do not change with the head: `S4_FULL_PASS` / `HOST_QUALIFIED` / `PRODUCTION` =
 NOT_GRANTED; private-host UAT = NOT_RUN; merge/tag/release = OWNER GATE only.
+
+## Reading note: what "independent" means in this packet
+
+Everywhere in this packet, "independent checker" / "independent verification" means a checker separated by
+**process, lane and evidence path** from the maker - never by model. The model is identical by owner order
+(`SOD006-C3`). A line calling the checker "independent" while describing a different *interpreter, boundary,
+frozen copy or scratch space* is accurate; a line calling it independent in the sense of a different *model*
+is false. Occurrences of a superseded head inside an as-of record, a history list, a hash-chain receipt or a
+raw command output block are history, not a current claim: the operative files are the ones a reader would act
+on, and those name `c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20`.

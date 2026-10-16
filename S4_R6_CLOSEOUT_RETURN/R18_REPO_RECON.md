@@ -1,6 +1,6 @@
 # PIPD-LS-SP repository reconnaissance
 
-- Subject checkout: `C:/Projects/Agent_Workspace/PIPD-S4R6-wt`; HEAD `127ec1ca97c71d0437f5b149a6e7d540d0cb3bba`; branch `fix/s4r6-closeout-doc-identity-and-update-route-20261016`. *(output: inventory probe, head and branch; exact invocation and raw output in §8)*
+- Subject checkout: `C:/Projects/Agent_Workspace/PIPD-S4R6-wt`; HEAD `127ec1ca97c71d0437f5b149a6e7d540d0cb3bba` **as-of the recon** (the round's current product head is `c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20` - see CURRENT_SUBJECTS.md); branch `fix/s4r6-closeout-doc-identity-and-update-route-20261016`. *(output: inventory probe, head and branch; exact invocation and raw output in §8)*
 - Read-only reconnaissance; only the requested external `REPO_RECON.md` is authored. Build and publication commands below are quoted, NOT executed; the explicitly requested full unittest suite is executed. *(command: suite invocation in §3; output: inventory probe in §8)*
 
 ## 1. Top-level tree at HEAD

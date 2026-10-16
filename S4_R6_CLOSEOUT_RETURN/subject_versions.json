@@ -5,7 +5,9 @@
     "ref": "refs/heads/main",
     "commit": "d3bd5456afbff21a8c8837994a49f57be3e1b97e",
     "is_published_to_preview4": false,
-    "note": "main carries 11 commits after the preview.4 tag; none of them is published"
+    "note": "main carries 11 commits after the preview.4 tag; none of them is published",
+    "current": false,
+    "superseded_by": "c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20"
   },
   "preview4": {
     "tag": "v0.1.1-preview.4",
@@ -38,7 +40,9 @@
       "3e1bc6d429a5e0ca4c6551808340db5ff872ccde  the evidence packet placed on the product branch - WITHDRAWN from the product branch because the stage-c write-set gate refuses a round's own receipts; preserved on the evidence branch instead",
       "5defc64f1177a1d6f32502c5479c65cf9a001858  the same guard commit before the packet was withdrawn; independently verified by VERIFY_SECURITY; preserved on the evidence branch"
     ],
-    "note": "the product branch carries the product change only. The round's evidence packet lives on the branch r6-closeout-evidence-20261016, because the governed product write set must not include the round's own receipts."
+    "note": "the product branch carries the product change only. The round's evidence packet lives on the branch r6-closeout-evidence-20261016, because the governed product write set must not include the round's own receipts.",
+    "current": false,
+    "superseded_by": "c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20"
   },
   "evidence_branch": {
     "branch": "r6-closeout-evidence-20261016",
@@ -57,5 +61,10 @@
     "tag": "v0.1.1-preview.4",
     "changed": false,
     "new_release_created": false
+  },
+  "current_subjects": {
+    "product_head": "c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20",
+    "evidence_head": "tip of r6-closeout-evidence-20261016 (resolve with git ls-remote)",
+    "model_axis_independence": "NONE - owner order 2026-10-16, registry SOD006-C3"
   }
 }

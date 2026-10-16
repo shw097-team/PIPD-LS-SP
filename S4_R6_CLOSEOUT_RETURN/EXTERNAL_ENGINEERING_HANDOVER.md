@@ -34,7 +34,7 @@ State:
 - `origin/main` is `d3bd5456afbff21a8c8837994a49f57be3e1b97e`; it carries **11 commits after the
   preview.4 tag** that are NOT released. *(see §2 table)*
 - The **candidate** for this round adds the closeout product change at commit
-  `127ec1ca97c71d0437f5b149a6e7d540d0cb3bba` on pull request **#18**. It is **not merged, not
+  `c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20` on pull request **#18** (superseded head `127ec1c` - see the R18 ADDENDUM at the end of this file). It is **not merged, not
   released, and not host-qualified**.
 - **Claim ceiling.** Nothing in this repository's current state attests `S4_FULL_PASS`,
   `HOST_QUALIFIED`, `PRODUCTION` or public-plugin-directory publication. All four are
@@ -53,8 +53,8 @@ git -C <repo> rev-list --count cc6c1930765160697e7e51d6e37735b9220a30db..origin/
 | role | branch / ref | commit (tip) | tree | what it carries |
 |---|---|---|---|---|
 | product integration line | `origin/main` | `d3bd5456afbff21a8c8837994a49f57be3e1b97e` | — | frozen subjects; 11 unreleased commits after tag |
-| product change (the round's candidate) | `origin/fix/s4r6-closeout-doc-identity-and-update-route-20261016` | `127ec1ca97c71d0437f5b149a6e7d540d0cb3bba` | `62eef9d8059d307ae373de63519a37551fa14854` | the reviewer-facing product diff for PR #18 |
-| round evidence | `r6-closeout-evidence-20261016` | `0b50d3edc3c31feff6b674d34e2e3e833aaa7687` | — | this round's receipts/packet (outside the product write set) |
+| product change (the round's candidate) | `origin/fix/s4r6-closeout-doc-identity-and-update-route-20261016` | `c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20` | `b8718e59a935dc1cbfb2462c9e552e423b5b74b1` | the reviewer-facing product diff for PR #18 (row updated by the R18 addendum) |
+| round evidence | `r6-closeout-evidence-20261016` | the branch TIP of `r6-closeout-evidence-20261016` (`git ls-remote`; `0b50d3e` is a superseded tip) | — | this round's receipts/packet (outside the product write set) |
 
 **Why two branches and not one.** The product branch is judged by a *governed product write set* that
 positively enumerates the paths a product change may touch. A round's own receipts are deliberately
