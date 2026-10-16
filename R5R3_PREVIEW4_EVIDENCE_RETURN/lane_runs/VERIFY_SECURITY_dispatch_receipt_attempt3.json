@@ -1,0 +1,154 @@
+{
+  "schema": "HGK-LANE-RESOLUTION/1",
+  "lane": "VERIFY_SECURITY",
+  "role": "checker",
+  "role_binding_source": null,
+  "engine": "codex-cli",
+  "codex_executable": "C:/Users/user/AppData/Local/OpenAI/Codex/bin/9614f1d9b40d9c4f/codex.exe",
+  "codex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+  "relay_base": "http://127.0.0.1:10101/v1",
+  "codex_home_is_declared_lane_home": true,
+  "human_home_transport_acknowledged": false,
+  "skipped_arms": [
+    {
+      "rank": 4,
+      "arm": "nvidia/deepseek-ai/deepseek-v4.1-flash",
+      "reason": "UNREACHABLE_MEASURED_20261011"
+    }
+  ],
+  "transport": "opencodex relay via per-invocation -c openai_base_url (no config mutation)",
+  "transport_target": "http://127.0.0.1:10101/v1",
+  "front_door_port": null,
+  "front_door_note": "the lane-scoped pool door (10103 VERIFY_SECURITY / 10105 EXECUTE) carries the hop and ledgers every decision; the sealed single-model 10100 door is unchanged and unused; None here means direct to the relay on 10101",
+  "sandbox": "danger-full-access",
+  "sandbox_by_role_default": "read-only",
+  "sandbox_escalation_authorised": true,
+  "cwd": "C:/Projects/Agent_Workspace/_handover/R5R3-20261016-preview4-closeout",
+  "side_effect_note": "danger-full-access has NO sandbox root: any absolute path is writable, so a read-only subject must be a frozen copy checked afterwards by digest",
+  "receipt_binding": "usage rows appended after this attempt started (byte offset bound)",
+  "pool": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\config\\lane-route-slots.candidate.json",
+  "candidates_considered": [
+    1
+  ],
+  "mode": "forced_rank",
+  "unguarded_escalation_acknowledged": false,
+  "inject_429_first": false,
+  "identity_gate": {
+    "state": "enforced",
+    "lane_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+    "relay_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes",
+    "arms": [
+      {
+        "rank": 1,
+        "provider": "openai-codex",
+        "model": "gpt-6.1-sol",
+        "requirement": "relay_pool",
+        "ok": true,
+        "detail": "non-empty refreshable credential present in codex-accounts.json"
+      }
+    ],
+    "degraded": false,
+    "required_arm": "openai-codex/gpt-6.1-sol"
+  },
+  "authorization": {
+    "checked": false
+  },
+  "subject_mutation": {
+    "files_before": 2010,
+    "files_after": 2010,
+    "added": [],
+    "removed": [],
+    "changed": [],
+    "mutated": false,
+    "mutated_known": true,
+    "inconclusive": false,
+    "verdict": "CLEAN",
+    "rule": "removed/changed => verdict void; added is recorded, not fatal; an empty side => INCONCLUSIVE (never a clean verdict from nothing)",
+    "guard_roots": [
+      "C:/Projects/wt-r5r3"
+    ],
+    "subject_digest_sha256_before": "bad02797468f75d3e90f1914f37aab86b1852663eb6da42b8e156114b6e490a5",
+    "subject_digest_sha256_after": "bad02797468f75d3e90f1914f37aab86b1852663eb6da42b8e156114b6e490a5"
+  },
+  "attempt_log_dir": "C:\\Projects\\Agent_Workspace\\_handover\\R5R3-20261016-preview4-closeout\\lane_runs\\R5R3-20261016-preview4-closeout\\VERIFY_SECURITY\\attempt-3-20261016T042823Z",
+  "output_dir_policy": {
+    "mode": "derived",
+    "derived": "C:\\Projects\\Agent_Workspace\\_handover\\R5R3-20261016-preview4-closeout\\lane_runs\\R5R3-20261016-preview4-closeout\\VERIFY_SECURITY\\attempt-3-20261016T042823Z",
+    "attempt_number": 3,
+    "attempt_marker": "C:\\Projects\\Agent_Workspace\\_handover\\R5R3-20261016-preview4-closeout\\lane_runs\\R5R3-20261016-preview4-closeout\\VERIFY_SECURITY\\attempt-3-20261016T042823Z\\attempt.marker.json"
+  },
+  "repair_precondition": {
+    "checked": false
+  },
+  "remote_write_precheck": {
+    "mode": "DETECTION_ONLY",
+    "ran": true,
+    "brief": "brief_checker_ws_c.md",
+    "markers": [],
+    "publication_wo": null,
+    "would_refuse": false
+  },
+  "attempts": [
+    {
+      "rank": 1,
+      "provider": "openai-codex",
+      "model": "gpt-6.1-sol",
+      "transport_model": "gpt-6.1-sol",
+      "sandbox": "danger-full-access",
+      "reasoning_effort": "medium",
+      "exit": 0,
+      "timed_out": false,
+      "seconds": 268.83,
+      "nonce_present": false,
+      "nonce_present_raw_stdout": true,
+      "nonce_source": "item.completed/agent_message",
+      "usage_rows_after_offset": 46,
+      "usage_offset": 26462653,
+      "usage_provider": "openai-p6a1fe3",
+      "usage_model": "gpt-6.1-sol",
+      "usage_status": 200,
+      "usage_receipt_ok": true,
+      "usage_receipt_reason": "",
+      "usage_ledger_rewritten": false,
+      "usage_rows_shape_invalid": 0,
+      "usage_rows_undecodable": 0,
+      "carrier_lines_undecodable": 0,
+      "carrier_lines_surrogate": 0,
+      "credential_posture": {
+        "verdict": "INCONCLUSIVE",
+        "decision": "WARN_CONTINUE",
+        "reason": "helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN",
+        "prompt_capable_helper": null,
+        "origin": null,
+        "git_terminal_prompt": "0"
+      },
+      "attempt_log_dir": "C:\\Projects\\Agent_Workspace\\_handover\\R5R3-20261016-preview4-closeout\\lane_runs\\R5R3-20261016-preview4-closeout\\VERIFY_SECURITY\\attempt-3-20261016T042823Z",
+      "stdout_byte_exact": true,
+      "stdout_path": "C:\\Projects\\Agent_Workspace\\_handover\\R5R3-20261016-preview4-closeout\\lane_runs\\R5R3-20261016-preview4-closeout\\VERIFY_SECURITY\\attempt-3-20261016T042823Z\\attempt-7960-1792124903-1-stdout.txt",
+      "stdout_bytes": 321686,
+      "stdout_sha256": "1077ccd6805ce94dae382a144ffb4a351896363411da7c912ad90b4b42391265",
+      "stderr_byte_exact": true,
+      "stderr_path": "C:\\Projects\\Agent_Workspace\\_handover\\R5R3-20261016-preview4-closeout\\lane_runs\\R5R3-20261016-preview4-closeout\\VERIFY_SECURITY\\attempt-3-20261016T042823Z\\attempt-7960-1792124903-1-stderr.txt",
+      "stderr_bytes": 220,
+      "stderr_sha256": "c68fc30a79f9703c5cb21cffd1d2e7be77be77de86ec577ac3df01cd1b613599",
+      "stdout_tail": "e-head equality and live PR state/body; fresh-clone 43/43 verification; seventh asset compared against SHA256SUMS; absolute absence of external merge/tag/release/private-host-install actions.\\n\\nNONCE:\\nLANE-NONCE-R5R3B-ZQ4K7WP2\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":932874,\"cached_input_tokens\":866816,\"cache_write_input_tokens\":0,\"output_tokens\":9808,\"reasoning_output_tokens\":2189}}\n",
+      "stderr_tail": "Reading additional input from stdin...\n2026-10-16T04:28:23.873053Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10101/v1/responses\n"
+    }
+  ],
+  "used_rank": null,
+  "used_transport_model": null,
+  "used_seconds": null,
+  "generated_utc": "2026-10-16T04:32:54.176629+00:00",
+  "claim_ceiling": "a pass here proves the Codex-CLI lane served this turn through the relay with a matching usage receipt; it is not an acceptance of any subject",
+  "ok": false,
+  "completion_evidence": {
+    "checked": false
+  },
+  "usage_receipt_ok": true,
+  "usage_rows_shape_invalid": 0,
+  "usage_rows_undecodable": 0,
+  "code": "ERR_NO_ARM_EMITTED_NONCE",
+  "nonce_absent_arms": [
+    "openai-codex/gpt-6.1-sol"
+  ]
+}
