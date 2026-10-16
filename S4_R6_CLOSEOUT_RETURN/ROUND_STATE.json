@@ -181,5 +181,15 @@
   ],
   "claim_ceiling": "This state document attests the identity of the subjects it names (branch tips, the release tag object/target/tree), the observed gate outcomes (write-set classifier results, suite result, checker PARTIAL), the open tickets and prohibitions, all re-derived from read-only git reads and the round's on-disk artifacts at the time of writing. It does NOT attest: that the candidate is merged or released; that the whole suite is green under a no-write checker boundary; served-asset integrity checker-side; host UI behaviour; or S4_FULL_PASS, HOST_QUALIFIED, PRODUCTION, or public-directory publication (all NOT_GRANTED or OUT_OF_SCOPE). The asset count (7) is carried from the round's artifacts and was not independently re-counted over the network in this write; the tag-object/target/tree identities were re-read from git.",
   "self_binding": "git-blob",
-  "self_binding_note": "A document cannot carry its own hash. The integrity binding of this file is the git blob object that carries it: the commit that adds this path is the authority, and a reader should bind to `git rev-parse <commit>:S4_R6_CLOSEOUT_RETURN/ROUND_STATE.json`. self_binding is the literal string \"git-blob\" precisely because the binding is the git object, not a digest written into the file."
+  "self_binding_note": "A document cannot carry its own hash. The integrity binding of this file is the git blob object that carries it: the commit that adds this path is the authority, and a reader should bind to `git rev-parse <commit>:S4_R6_CLOSEOUT_RETURN/ROUND_STATE.json`. self_binding is the literal string \"git-blob\" precisely because the binding is the git object, not a digest written into the file.",
+  "current_subjects": {
+    "product_head": "c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20",
+    "evidence_head": "d2f61020706aa379698f251c145e45cf842a83ef",
+    "superseded": {
+      "127ec1c": "R17 product head",
+      "0b50d3e": "earlier evidence tip",
+      "552bbde": "first per-round candidate"
+    },
+    "note": "authoritative; see CURRENT_SUBJECTS.md. Model-axis independence does NOT exist (SOD006-C3 owner order)."
+  }
 }

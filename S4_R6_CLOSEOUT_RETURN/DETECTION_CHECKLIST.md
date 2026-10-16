@@ -1,5 +1,8 @@
 # PIPD S4 R6 — 檢測清單（Detection Checklist, `CK-01..CK-14`）
 
+> **Heads:** see `CURRENT_SUBJECTS.md` for the authoritative current product/evidence heads. Rows below name the head they were verified at.
+
+
 > **STATUS_AS_OF: 2026-10-16（R18 回填）。** 本表原於立案時建立，狀態／檢查者／candidate 欄在執行期間未回填。
 > 由 R18 獨立稽核（`r18/AUDIT_REQUIREMENTS.tsv`，列 `CHECKLIST-CURRENTNESS`）確認為**要求級缺陷**並於此關閉。
 > 每一列需：`source locator + expected/actual + evidence ID + checker + candidate SHA`。

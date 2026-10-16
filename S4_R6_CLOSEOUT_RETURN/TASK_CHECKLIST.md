@@ -1,5 +1,8 @@
 # PIPD S4 R6 — 任務執行清單（Task Execution Checklist）
 
+> **Heads:** see `CURRENT_SUBJECTS.md` for the authoritative current product/evidence heads.
+
+
 > **STATUS_AS_OF: 2026-10-16（R18 回填）。** 本表原於立案時建立，狀態欄在 R6/R17 執行期間未回填，
 > 造成「計畫說未開始、證據說已完成」的矛盾。R18 的獨立稽核（`r18/AUDIT_REQUIREMENTS.tsv`，
 > 列 `CHECKLIST-CURRENTNESS`）確認為**要求級缺陷**，於此關閉：本次只**填入實際到達的狀態與證據**，

@@ -144,7 +144,7 @@ def main() -> int:
         lc.transition(PROJECT_ID, to_state, trigger=trig,
                       evidence_refs=["MAND:PIPD-S4R6-R18-EXTERNAL-HANDOVER-20261016",
                                      "FAR:FAR-20261016-017-s4r6-residual-closure",
-                                     "PRODUCT:127ec1ca97c71d0437f5b149a6e7d540d0cb3bba"])
+                                     "PRODUCT:127ec1ca97c71d0437f5b149a6e7d540d0cb3bba (as-of admission; the round's head is c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20)"])
         rep["steps"].append({"step": "transition", "to": to_state, "result": "OK"})
     if lc.status(PROJECT_ID)["state"] == "DESIGN_READY":
         pl = lc.plan(PROJECT_ID)

@@ -30,7 +30,7 @@ EXECUTED = {
     "ECP-DEV": ("evidence", "r18/ECP_DEV.md -- named DEV execution-control-package reference edition"),
     "ECP-OPS": ("evidence", "r18/ECP_OPS.md -- named OPS execution-control-package reference edition"),
     "PACK-07": ("evidence", "S4_R6_CLOSEOUT_RETURN/checker_verdict.json re-bound to the FINAL candidate "
-                            "127ec1c with the full dispatch history (4 dispatches) preserved; verdict PASS"),
+                            "c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20 with the full dispatch history preserved; adjudication on record PARTIAL (C1-C4 confirmed, C5/C6 repaired)"),
     "EVIDENCE-HASH-INTEGRITY": ("evidence",
                                 "local packet manifest recomputed recursively (28 entries) and verified "
                                 "byte-identical to the published evidence-branch manifest; the one CRLF "
