@@ -1,0 +1,102 @@
+{
+  "far_route": {
+    "task_class": "RESEARCH_LITERATURE_REPO",
+    "decision": "NATIVE_WITH_SELECTED_ARIS",
+    "reason_code": "FAR_ROUTE_NATIVE_ARIS"
+  },
+  "chosen_plan": [
+    {
+      "id": "D1",
+      "action": "R6 verification: readback of main (d3bd5456) / PR #16 diff to confirm whether the TT-02 stage-c allowlist amendment landed; record verdict with commit evidence only.",
+      "why": "Resolves a binary open question with zero writes; PR #16 is already merged so this is a pure evidence readback.",
+      "friction": "LOW",
+      "feasibility": "HIGH",
+      "necessity": "HIGH",
+      "owner_gate_needed": false
+    },
+    {
+      "id": "D2",
+      "action": "R4 closeout: run ONE live re-measure of config/hermes-codex-lane.json codex_sha256 against the actual binary via the GSTACK named-method readback, append the measurement to the TT-03 ticket, and rule the DRIFT_VALUE already-repaired or surface-misattributed.",
+      "why": "Hard fact states the re-measure MATCHES; one bounded measurement closes it. Repeated re-verification loops would be over-engineering.",
+      "friction": "LOW",
+      "feasibility": "HIGH",
+      "necessity": "HIGH",
+      "owner_gate_needed": false
+    },
+    {
+      "id": "D3",
+      "action": "R8 evidence pass: exercise and capture round-governance surfaces for this closeout — KANBAN board states, SWARM graph, GSTACK named-method readback, and a local OPENSPEC change record documenting the closeout decisions.",
+      "why": "Governance surfaces are local, reversible, and required for the round to close with verifiable evidence; no host contact involved.",
+      "friction": "LOW",
+      "feasibility": "HIGH",
+      "necessity": "MED",
+      "owner_gate_needed": false
+    },
+    {
+      "id": "D4",
+      "action": "R5 fix: adopt the durable local credential mechanism (askpass wrapper config) in place of the per-invocation workaround, verified by a push dry-run/permission check — no write push, no remote mutation.",
+      "why": "The per-invocation workaround is a known recurring failure source; the durable fix is a local, reversible config change.",
+      "friction": "LOW",
+      "feasibility": "HIGH",
+      "necessity": "MED",
+      "owner_gate_needed": false
+    },
+    {
+      "id": "D5",
+      "action": "R7 runbook: generalise the proven R5Y private-plugin upload procedure into a reusable local runbook (member list, checksums, refusal-vs-success criteria for the 2 diagnostic variants).",
+      "why": "Directly enables R1/R3 without any host action; a local doc is fully reversible.",
+      "friction": "LOW",
+      "feasibility": "HIGH",
+      "necessity": "MED",
+      "owner_gate_needed": false
+    },
+    {
+      "id": "D6",
+      "action": "R1/R2/R3 owner package: assemble the OWNER-READY consent request — (a) consented retry import of the published v0.1.1-preview.4 ZIP on the private host, (b) same consent covering the 2 prepared diagnostic ZIP variants, (c) a separate NEW_RELEASE decision for a successor carrying 749dc32, contingent on (a) failing again.",
+      "why": "All three remain blocked solely on owner gates (PRIVATE_HOST_INSTALL / NEW_RELEASE not granted); the correct action is a complete, decision-ready package, not unsanctioned action or a premature successor.",
+      "friction": "LOW",
+      "feasibility": "HIGH",
+      "necessity": "HIGH",
+      "owner_gate_needed": true
+    }
+  ],
+  "rejected_alternatives": [
+    {
+      "alt": "Cut successor release v0.1.1-preview.5 now to carry repair commit 749dc32 (R2)",
+      "why_rejected": "NEW_RELEASE gate NOT_GRANTED and 'never propose cutting a release'; the repairs matter to the published surface only if the consented import retry fails — so the successor is contingent on D6 outcome, not an immediate action."
+    },
+    {
+      "alt": "Re-tagging / force-pushing a rebuilt v0.1.1-preview.4 asset",
+      "why_rejected": "Force-push is prohibited under all conditions and would destroy the deterministic byte-exactness evidence (two independent builds reproduce sha256 545e359a5ca6abc7...); the published product is proven correct by construction."
+    },
+    {
+      "alt": "Agent-attempted private-host import of the published ZIP or the 2 diagnostic variants",
+      "why_rejected": "PRIVATE_HOST_INSTALL gate NOT_GRANTED and the 2026-10-14 refusals mark this as owner-decision territory; R3 explicitly requires consented upload."
+    },
+    {
+      "alt": "Re-open H1/H2 manifest-location/field investigation of plugin.json and SKILL.md",
+      "why_rejected": "Excluded by hard fact 3: all 56 shared members byte-identical against the successfully installed R5Y ZIP; re-investigating closed causes is over-engineering."
+    },
+    {
+      "alt": "Deep root-cause campaign against the host refusal (H3) without owner-supplied logs",
+      "why_rejected": "The host gave no error code and its internal state is unreachable without owner engagement; the correct lever is the D6 consent package, not speculative local work."
+    },
+    {
+      "alt": "Build new hardening/CI around provenance metadata (RELEASE_RECEIPT.json / SOURCE_TO_PLUGIN_MAPPING.json)",
+      "why_rejected": "Those 2 members are the only differing ones and R5Y installed fine without this round's values; adding tooling around an unproven hypothesis is exactly the over-engineering the constraint forbids."
+    }
+  ],
+  "residual_rulings": {
+    "R1": "OWNER-READY",
+    "R2": "OWNER-READY",
+    "R3": "OWNER-READY",
+    "R4": "EXECUTE-NOW",
+    "R5": "EXECUTE-NOW",
+    "R6": "EXECUTE-NOW",
+    "R7": "EXECUTE-NOW",
+    "R8": "EXECUTE-NOW"
+  },
+  "non_over_engineering_check": "PASS — 6 bounded items, all local and reversible (readbacks, one config change, two local docs, one consent package). No release cut, no force-push, no ungranted install, no new tooling/CI. R4 is closed by one measurement because the drift already measured MATCHES; R2 is deferred behind an owner gate contingent on R1; nothing is built for hypotheses the byte-diff already excluded (H1/H2).",
+  "claim_ceiling": "PLAN-lane analysis only, candidate-level: every EXECUTE-NOW ruling and D1-D6 is a recommendation whose verdict must come from EXECUTE readback evidence, not from this JSON. This plan asserts no outcome for the private-host import, no confirmation of the R4 drift disposition, and no confirmation of R6 landing — those remain CAUSE_UNRESOLVED / open until measured. Owner gates remain NOT_GRANTED and nothing here treats them as granted; no host contacted, no files written, no git writes performed."
+}
+EXIT=0

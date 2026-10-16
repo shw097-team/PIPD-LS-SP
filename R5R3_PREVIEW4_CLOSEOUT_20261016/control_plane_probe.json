@@ -1,0 +1,173 @@
+{
+ "schema": "R5R3/CONTROL-PLANE-PROBE/1",
+ "registry": {
+  "epoch": 21,
+  "status": "CANDIDATE",
+  "source_of_routes": {
+   "path": "config/model-lane-assignment.json",
+   "revision": 21,
+   "sha256": "e7be2dea36874f169e0cddc61ecb77102402218a2e05136878a097462e7664df"
+  }
+ },
+ "routes": {
+  "PLAN": {
+   "model": "gpt-6.1-sol",
+   "provider": "openai-codex",
+   "effort": "medium",
+   "fallbacks": [
+    {
+     "provider": "opencode-go",
+     "model": "glm-5.3-flash",
+     "canonical_identity": "glm-5.3-flash",
+     "auth": "env_ref:OPENCODE_GO_API_KEY",
+     "oauth": false
+    },
+    {
+     "provider": "opencode-go",
+     "model": "deepseek-v4.1-flash",
+     "canonical_identity": "deepseek-v4.1-flash",
+     "auth": "env_ref:OPENCODE_GO_API_KEY",
+     "oauth": false
+    }
+   ],
+   "arms": [
+    {
+     "rank": "primary",
+     "model": "gpt-6.1-sol",
+     "provider": "openai-codex",
+     "default": true
+    },
+    {
+     "rank": "fallback1",
+     "model": "glm-5.3-flash",
+     "provider": "opencode-go",
+     "default": false
+    },
+    {
+     "rank": "fallback2",
+     "model": "deepseek-v4.1-flash",
+     "provider": "opencode-go",
+     "default": false
+    }
+   ]
+  },
+  "EXECUTE": {
+   "model": "deepseek-v4.1-flash",
+   "provider": "opencode-go",
+   "effort": null,
+   "fallbacks": [
+    {
+     "provider": "openai-codex",
+     "model": "gpt-6-luna",
+     "canonical_identity": "gpt-6-luna",
+     "auth": "openai_oauth",
+     "oauth": true
+    },
+    {
+     "provider": "nvidia",
+     "model": "deepseek-ai/deepseek-v4.1-flash",
+     "canonical_identity": "deepseek-v4.1-flash",
+     "auth": "env_ref:NVIDIA_API_KEY",
+     "oauth": false
+    }
+   ],
+   "arms": [
+    {
+     "rank": "fallback1_operator_selectable",
+     "model": "gpt-6-luna",
+     "provider": "openai-codex",
+     "default": false
+    },
+    {
+     "rank": "fallback2_auto",
+     "model": "deepseek-ai/deepseek-v4.1-flash",
+     "provider": "nvidia",
+     "default": false
+    }
+   ]
+  },
+  "VERIFY_SECURITY": {
+   "model": "gpt-6.1-sol",
+   "provider": "openai-codex",
+   "effort": "medium",
+   "fallbacks": [
+    {
+     "provider": "opencode-go",
+     "model": "glm-5.3-flash",
+     "canonical_identity": "glm-5.3-flash",
+     "auth": "env_ref:OPENCODE_GO_API_KEY",
+     "oauth": false
+    },
+    {
+     "provider": "opencode-go",
+     "model": "deepseek-v4.1-flash",
+     "canonical_identity": "deepseek-v4.1-flash",
+     "auth": "env_ref:OPENCODE_GO_API_KEY",
+     "oauth": false
+    }
+   ],
+   "arms": [
+    {
+     "rank": "A",
+     "model": "gpt-6.1-sol",
+     "provider": "openai-codex",
+     "default": true
+    },
+    {
+     "rank": "B",
+     "model": "glm-5.3-flash",
+     "provider": "opencode-go",
+     "default": false
+    },
+    {
+     "rank": "C",
+     "model": "deepseek-v4.1-flash",
+     "provider": "opencode-go",
+     "default": false
+    }
+   ]
+  }
+ },
+ "sod": {
+  "maker_exe_vs_checker": [
+   true,
+   "SOD_OK deepseek-v4.1-flash != gpt-6.1-sol"
+  ],
+  "planner_vs_checker": [
+   false,
+   "SOD_VIOLATION maker_model=gpt-6.1-sol == checker_model=gpt-6.1-sol"
+  ],
+  "planner_vs_maker": [
+   true,
+   "SOD_OK gpt-6.1-sol != deepseek-v4.1-flash"
+  ],
+  "observed_models": {
+   "EXECUTE": "deepseek-v4.1-flash",
+   "VERIFY_SECURITY": "gpt-6.1-sol",
+   "PLAN": "gpt-6.1-sol"
+  }
+ },
+ "drift": {
+  "row_count": 0,
+  "rows": []
+ },
+ "named_methods": {
+  "snapshot_rows": 9,
+  "activation_invariants": {
+   "canonical_flow_named_method_without_runtime_or_certified_substitute": 0,
+   "active_named_method_missing_identity": 0,
+   "active_named_method_missing_pin": 0,
+   "active_named_method_missing_install": 0,
+   "active_named_method_missing_binding": 0,
+   "active_named_method_missing_doctor": 0,
+   "active_named_method_missing_pilot": 0,
+   "active_named_method_missing_independent_cert": 0,
+   "active_named_method_silent_fallback": 0,
+   "named_method_fake_invocation": 0,
+   "named_method_silent_fallback": 0,
+   "dual_spec_owner": 0,
+   "second_orchestrator": 0,
+   "release_authority_escape": 0
+  }
+ }
+}

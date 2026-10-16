@@ -1,0 +1,104 @@
+{
+ "schema": "R5R3/ZIP-REPRO/1",
+ "frozen_source_commit": "cc6c1930765160697e7e51d6e37735b9220a30db",
+ "published_asset_sha256": "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75",
+ "subject": "C:/Projects/wt-r5r3-preview4-build",
+ "steps": [
+  {
+   "cmd": [
+    "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+    "tools/freeze_public_plugin_source.py",
+    "--repo-root",
+    ".",
+    "--out",
+    "C:\\Projects\\Agent_Workspace\\_handover\\R5R3-20261016-preview4-closeout\\raw\\zip_repro\\ledger.json"
+   ],
+   "rc": 0,
+   "stdout_tail": "s/pipd-route-intake/schemas/input.schema.json\": \"94912409dd6e63714b972840d00ac0ccfa0e830db2d39145dc48c6650a90e5b1\",\n    \"skills/pipd-route-intake/schemas/output.schema.json\": \"a06fc26fccc6546901e98ef5809727ad98101f8ecefc6759af69afa1b8805732\",\n    \"skills/pipd-route-intake/tests/cases.yaml\": \"d2c08609461c9b1ed5cf9d099f1aec1945bf2dc5ebcf20a24d4b3e5ee5d24f2c\"\n  },\n  \"ledger_version\": \"PIPD-PUBLIC-PLUGIN-SOURCE-LEDGER/1\",\n  \"repo\": \"https://github.com/shw097-team/PIPD-LS-SP.git\",\n  \"skills\": [\n    \"pipd-assurance-tqaep\",\n    \"pipd-authority-source\",\n    \"pipd-execution-contract\",\n    \"pipd-package-project\",\n    \"pipd-pd-bind\",\n    \"pipd-pi-compile\",\n    \"pipd-profile-tailor\",\n    \"pipd-route-intake\"\n  ],\n  \"total_canonical_bytes\": 146511,\n  \"tree\": \"7d277a0afaff28b6841836cea3a31ffd0b214d94\"\n}\n",
+   "stderr_tail": ""
+  },
+  {
+   "cmd": [
+    "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+    "tools/build_public_plugin.py",
+    "--ledger",
+    "C:\\Projects\\Agent_Workspace\\_handover\\R5R3-20261016-preview4-closeout\\raw\\zip_repro\\ledger.json",
+    "--source-commit",
+    "cc6c1930765160697e7e51d6e37735b9220a30db",
+    "--packaging-root",
+    "packaging/public-plugin",
+    "--out-dir",
+    "C:\\Projects\\Agent_Workspace\\_handover\\R5R3-20261016-preview4-closeout\\raw\\zip_repro\\a",
+    "--generate-icons"
+   ],
+   "rc": 0,
+   "stdout_tail": "BUILT C:\\Projects\\Agent_Workspace\\_handover\\R5R3-20261016-preview4-closeout\\raw\\zip_repro\\a\\pipd-ls-sp-public-skills.zip sha256=545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75 members=56 claim_ceiling=LOCAL_PACKAGER_PASS_ONLY official_portal_verification=NOT_EXECUTED\n",
+   "stderr_tail": ""
+  },
+  {
+   "cmd": [
+    "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe",
+    "tools/build_public_plugin.py",
+    "--ledger",
+    "C:\\Projects\\Agent_Workspace\\_handover\\R5R3-20261016-preview4-closeout\\raw\\zip_repro\\ledger.json",
+    "--source-commit",
+    "cc6c1930765160697e7e51d6e37735b9220a30db",
+    "--packaging-root",
+    "packaging/public-plugin",
+    "--out-dir",
+    "C:\\Projects\\Agent_Workspace\\_handover\\R5R3-20261016-preview4-closeout\\raw\\zip_repro\\b",
+    "--generate-icons"
+   ],
+   "rc": 0,
+   "stdout_tail": "BUILT C:\\Projects\\Agent_Workspace\\_handover\\R5R3-20261016-preview4-closeout\\raw\\zip_repro\\b\\pipd-ls-sp-public-skills.zip sha256=545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75 members=56 claim_ceiling=LOCAL_PACKAGER_PASS_ONLY official_portal_verification=NOT_EXECUTED\n",
+   "stderr_tail": ""
+  }
+ ],
+ "builds": {
+  "a": {
+   "path": "C:/Projects/Agent_Workspace/_handover/R5R3-20261016-preview4-closeout/raw/zip_repro/a/pipd-ls-sp-public-skills.zip",
+   "bytes": 68357,
+   "sha256": "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75",
+   "entries": 56,
+   "roots": [
+    "pipd-ls-sp-public-skills"
+   ],
+   "skill_md": [
+    "pipd-ls-sp-public-skills/skills/pipd-assurance-tqaep/SKILL.md",
+    "pipd-ls-sp-public-skills/skills/pipd-authority-source/SKILL.md",
+    "pipd-ls-sp-public-skills/skills/pipd-execution-contract/SKILL.md",
+    "pipd-ls-sp-public-skills/skills/pipd-package-project/SKILL.md",
+    "pipd-ls-sp-public-skills/skills/pipd-pd-bind/SKILL.md",
+    "pipd-ls-sp-public-skills/skills/pipd-pi-compile/SKILL.md",
+    "pipd-ls-sp-public-skills/skills/pipd-profile-tailor/SKILL.md",
+    "pipd-ls-sp-public-skills/skills/pipd-route-intake/SKILL.md"
+   ],
+   "crc_ok": true
+  },
+  "b": {
+   "path": "C:/Projects/Agent_Workspace/_handover/R5R3-20261016-preview4-closeout/raw/zip_repro/b/pipd-ls-sp-public-skills.zip",
+   "bytes": 68357,
+   "sha256": "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75",
+   "entries": 56,
+   "roots": [
+    "pipd-ls-sp-public-skills"
+   ],
+   "skill_md": [
+    "pipd-ls-sp-public-skills/skills/pipd-assurance-tqaep/SKILL.md",
+    "pipd-ls-sp-public-skills/skills/pipd-authority-source/SKILL.md",
+    "pipd-ls-sp-public-skills/skills/pipd-execution-contract/SKILL.md",
+    "pipd-ls-sp-public-skills/skills/pipd-package-project/SKILL.md",
+    "pipd-ls-sp-public-skills/skills/pipd-pd-bind/SKILL.md",
+    "pipd-ls-sp-public-skills/skills/pipd-pi-compile/SKILL.md",
+    "pipd-ls-sp-public-skills/skills/pipd-profile-tailor/SKILL.md",
+    "pipd-ls-sp-public-skills/skills/pipd-route-intake/SKILL.md"
+   ],
+   "crc_ok": true
+  }
+ },
+ "verdict": {
+  "two_builds_identical": true,
+  "reproduces_published_asset": true,
+  "published_sha256": "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75"
+ }
+}
