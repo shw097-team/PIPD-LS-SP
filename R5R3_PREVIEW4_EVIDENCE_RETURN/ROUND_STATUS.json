@@ -21,8 +21,24 @@
  },
  "model_plan_as_run": {
   "plan_orchestrator": "Hermes (this session)",
-  "execute": {"lane": "EXECUTE", "required_arm": "opencode-go/deepseek-v4.1-flash", "served_arm": "opencode-go/deepseek-v4.1-flash", "provider_cli": "CODEX CLI", "attempt": 2, "ok": true},
-  "verify_security": {"lane": "VERIFY_SECURITY", "required_arm": "openai-codex/gpt-6.1-sol", "served_arm": "openai-codex/gpt-6.1-sol", "effort": "medium", "provider_cli": "CODEX CLI", "attempt": 2, "ok": true}
+  "execute": {
+   "lane": "EXECUTE",
+   "required_arm": "opencode-go/deepseek-v4.1-flash",
+   "attempt_1": {"verdict": "FAILED", "code": "ERR_NO_ARM_EMITTED_NONCE", "observed": "rank 1 / provider opencode-go / model deepseek-v4.1-flash, exit 0 after 4.8s, but nonce_present=false", "meaning": "the arm WAS the declared one, yet it did not emit the run nonce, so the receipt could not bind it; not counted as a served arm"},
+   "attempt_2": {"verdict": "OK", "served_arm": "opencode-go/deepseek-v4.1-flash", "rank": 1, "provider": "opencode-go", "model": "deepseek-v4.1-flash", "nonce_present": true, "seconds": 168.05},
+   "provider_cli": "CODEX CLI"},
+  "verify_security": {
+   "lane": "VERIFY_SECURITY",
+   "required_arm": "openai-codex/gpt-6.1-sol",
+   "attempt_1": {"verdict": "FAILED", "code": "ERR_NO_ARM_EMITTED_NONCE", "observed": "rank 1 / provider openai-codex / model gpt-6.1-sol, exit 0 after 10.87s, but nonce_present=false"},
+   "attempt_2": {"verdict": "OK", "served_arm": "openai-codex/gpt-6.1-sol", "rank": 1, "provider": "openai-codex", "model": "gpt-6.1-sol", "nonce_present": true, "seconds": 254.43, "effort": "medium"},
+   "read_only": true,
+   "provider_cli": "CODEX CLI"},
+  "lane_evidence": "every attempt of both lanes travels in the pack (lane_runs/ with stdout, stderr, markers and the per-attempt ndjson rows), so the failed first attempt is visible beside the successful retry",
+  "disclosed_lane_warnings": [
+   {"warning": "WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE", "detail": "the credential-posture detector could not reach a verdict on all four attempts (helper_resolution_reset=PASS, helper_non_interactive=UNKNOWN). The dispatcher continued by design; INCONCLUSIVE is NOT a pass.", "affected": "both lanes, both attempts"},
+   {"warning": "relay websocket 426", "detail": "codex_api::endpoint::responses_websocket: HTTP 426 Upgrade Required on ws://127.0.0.1:10101/v1/responses; the JSON path served the turn"}
+  ]
  },
  "subject": {
   "repo": "shw097-team/PIPD-LS-SP",
