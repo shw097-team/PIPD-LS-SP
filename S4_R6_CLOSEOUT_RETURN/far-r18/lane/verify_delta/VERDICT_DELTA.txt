@@ -1,0 +1,64 @@
+I have everything needed. Here is the delta verdict.
+
+## What I measured (from committed blobs at tip `d2f6102`)
+
+**D1 — Canonical binding: CONFIRMED.**
+`git show d2f6102:.../checker_verdict.json` has `subject_commit: c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20`, `subject_tree: b8718e59a935dc1cbfb2462c9e552e423b5b74b1`. I independently derived that tree: `git cat-file -p c17aa76` prints `tree b8718e59a935dc1cbfb2462c9e552e423b5b74b1`. The file no longer asserts a second model axis; it now carries `"independence_basis": "SAME MODEL AXIS, by owner order ... SOD006-C3"`, `"maker_id_equals_checker_id": true`, and explicitly supersedes the old `'different model axis'` string. Within *this file*, REFUTED-for-the-old-claim and CONFIRMED-for-the-repair.
+
+**D2 — Shipped receipts: CONFIRMED.**
+All requested blobs exist at the tip (sizes measured via `git cat-file -s`): `far-r17/lane/verify/verdict_text_run1.txt` 8556 B, `verdict_text_run2.txt` 8335 B; the three `far-r17/lane/*/*.attempts.ndjson` (execute 2468, verify 2442, verify_final 2463); and the full `far-r18/lane/verify_deepseek/` set (`verify_turn.json` 6127, `verify_turn.json.attempts.ndjson` 2594, `run.txt` 1452, `VERDICT_DEEPSEEK.txt` 10914).
+The two recorded digests recompute from the shipped copies under exactly one normalization — strip a single trailing LF:
+- `verdict_text_run1.txt`: raw `b71220a1…`; `sha256(raw.strip())` = `b1e7e67ce81be717d9cb100c31c26117704940e8fd70625adb9a7feb6d150fd7` ✓ (recorded value)
+- `verdict_text_run2.txt`: raw `d7f8912d…`; `sha256(raw.strip())` = `061da76a78613f7d43c928ee279e42f735b5d03c23d33f2ce7d7f9adf27c390a` ✓
+
+Normalization applied: trailing-newline strip only; no CRLF or unicode-unescape transform. Each file is a single JSON-escaped line (0 real newlines), so raw-byte digests differ and stripping is genuinely load-bearing.
+
+**D3 — Handover currentness: CONFIRMED.**
+No superseded head is presented as current. Body §1:36–37 and §2:56–57 still name `127ec1c`/`0b50d3e`, but the R18 addendum at :361–368 labels them superseded:
+> `| product head | ... | c17aa761b26… | supersedes 127ec1c named above ...`  `| evidence head | ... | 338227c78a… | supersedes 0b50d3e named above |`
+Guard count is corrected: §5:230 gives `Ran 11 tests ... OK` and explains "the same command on the pre-repair `127ec1c` reports `Ran 9 tests`". I confirmed the count is order-dependent: `def test_` count is 11 at `c17aa76` and 9 at `127ec1c`. Rendered interpretation of §1:36–37 is guarded by §1's own "R18 ADDENDUM (supersedes the tips named above)" pointer at :361.
+
+**D4 — Manifest: CONFIRMED, matches the maker's assertion.**
+Recomputed every `SHA256SUMS` row from committed blobs at the tip: **73 rows, 73 matches, 0 mismatches**; tree has 74 files, the only file absent from the manifest is `SHA256SUMS` itself.
+
+## Falsification duty — surviving instances: I found them
+
+The repair closed its three *named* findings, but it did NOT sweep the packet, and the packet still contains places a reader could be misled.
+
+1. Model-axis independence still asserted as current:
+- `RESIDUAL_UNIVERSE.tsv:9` (OD-03) cites `checker_verdict.json (verdict=PARTIAL, maker != checker, model-axis independent)` — directly contradicted by the repaired `checker_verdict.json`.
+- `CK_STATUS.tsv:15` (CK-14): `checker verdict obtained from a different model axis (PARTIAL)` — same stale string.
+2. Superseded candidate still presented as current, in non-handover files:
+- `ROUND_STATE.json:30,36` name product=`127ec1c…` and evidence=`0b50d3e…` as the round's refs; `:89` "success on the repaired head 127ec1c" as current.
+- `TASK_CHECKLIST.md:24,43,44` name the product branch as `127ec1c` (T-17: "PR #18 @ 127ec1c").
+- `subject_versions.json` still frames `127ec1c` as the `candidate.commit` (not a false claim per se, but no currentness pointer to `c17aa76`).
+- `r18/FAR_R18_VERDICT.json:30` (A7): "final verdict PASS on C1-C6 for 127ec1c" — the real final was `c17aa76`, verdict PARTIAL.
+- `r18/hgk_admission_r18.py:147` embeds `PRODUCT:127ec1c…` as the transition evidence_ref.
+
+What I *measured*: the sha256/byte recomputations, the `def test_` counts, the tree derivation, the manifest. What I merely *read*: the semantic currentness of the stale strings above and the descriptive labels in `VERDICT_DEEPSEEK.txt`.
+
+---
+
+CHECKER_VERDICT
+checker_lane: VERIFY_SECURITY
+checker_model: opencode-go/deepseek-v4.1-flash (asserted by this runtime's own agent configuration; no independent backend identity is attested per turn — same model identity as the maker)
+subject_evidence_tip: d2f61020706aa379698f251c145e45cf842a83ef
+subject_product_head: c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20
+claim_results:
+- D1 CONFIRMED — shipped `checker_verdict.json` binds `subject_commit=c17aa76…` / `subject_tree=b8718e59…` (tree independently derived from `git cat-file -p c17aa76`); within the file no different model axis survives (explicit "SAME MODEL AXIS … SUPERSEDED" text).
+- D2 CONFIRMED — all named receipts present at the tip; both digests recompute from the shipped copies under trailing-newline-strip normalization (`b1e7e67c…` from run1, `061da76a…` from run2). Normalization: single trailing LF strip only.
+- D3 CONFIRMED — no superseded head presented as CURRENT; `127ec1c`/`0b50d3e` are retained only as history and are explicitly marked superseded by the addendum (:361–368). Guard count corrected: `Ran 11 tests` at the head (11 vs 9 `def test_` verified).
+- D4 CONFIRMED — 73 rows, 73 matches, 0 mismatches over committed blobs; only `SHA256SUMS` absent from itself.
+adversarial_findings:
+- Model-axis independence still asserted in shipped packet: `RESIDUAL_UNIVERSE.tsv:9` (OD-03) and `CK_STATUS.tsv:15` (CK-14) both call the checker receipt "model-axis independent" / "different model axis", contradicting the repaired `checker_verdict.json`.
+- Superseded candidate still presented as current: `ROUND_STATE.json:30,36,89`, `TASK_CHECKLIST.md:24,43,44`, `r18/FAR_R18_VERDICT.json:30` (A7), `r18/hgk_admission_r18.py:147` all name `127ec1c`/`0b50d3e` as current rather than as history.
+qualification_limits:
+- My arm is the same model as the maker (opencode-go/deepseek-v4.1-flash, EXECUTE rank 1 = VERIFY_SECURITY rank 1 per SOD006-C3). No model-axis independence exists for this turn either; there is no distinct non-maker checker.
+- Read-only sandbox, no writable scratch: I did not run `python -m unittest`; the guard counts are static `def test_` counts, not executed results.
+- I did not re-fetch the served release ZIP (network restricted); served-asset digests are read, not re-derived.
+- Currentness judgments on the stale strings are semantic reads, not measurements.
+checker_id: PIPD-S4-R6-CLOSEOUT-20261016-R18-DELTA-d2f61020706aa379698f251c145e45cf842a83ef
+verdict: PARTIAL
+claim_ceiling: This delta re-verification establishes that the three named C5/C6 repairs are genuinely closed at tip d2f6102 — the canonical verdict is rebound to c17aa76/b8718e59, the two recorded verdict-text digests recompute from the shipped copies under trailing-LF-strip normalization, the handover no longer presents superseded heads as current and states the guard count as 11, and the manifest is 73/73 with no unlisted file. It does NOT establish model-axis independence (none exists; maker and checker are one arm), does NOT sweep the whole packet (stale "different model axis" and stale-current head claims survive in RESIDUAL_UNIVERSE.tsv, CK_STATUS.tsv, ROUND_STATE.json, TASK_CHECKLIST.md and r18/*), and does NOT establish whole-suite execution, served-asset integrity, hosted CI, host qualification, or round acceptance.
+
+HGK_LANE_NONCE_OK
