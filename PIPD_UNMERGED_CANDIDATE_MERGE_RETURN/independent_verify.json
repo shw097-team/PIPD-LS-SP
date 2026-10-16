@@ -1,0 +1,62 @@
+{
+  "schema": "INDEPENDENT-VERIFY/1",
+  "round": "PIPD-UNMERGED-CANDIDATES-20261016",
+  "methods_differ_from_builder": [
+    "ancestry and diff measured against origin refs fetched separately",
+    "pack digests recomputed from origin-fetched bytes",
+    "live tag and PR readback"
+  ],
+  "1_main_advanced": {
+    "live_remote_main": "dd0d5ce9acba65df74a5ac8dfe6293270edbf82d",
+    "expected": "dd0d5ce9acba65df74a5ac8dfe6293270edbf82d",
+    "verdict": "VERIFIED"
+  },
+  "2_all_three_are_in_main": {
+    "ancestry": {
+      "pr18": true,
+      "pr17": true,
+      "docs": true
+    },
+    "verdict": "VERIFIED"
+  },
+  "3_what_landed": {
+    "files": [
+      ".github/workflows/public-plugin-verify.yml",
+      "README.md",
+      "docs/USER_GUIDE.md",
+      "docs/adr/ADR-0008-repository-state-and-hygiene-inventory.md",
+      "docs/adr/ADR-0009-session-handover-and-next-session-start.md",
+      "docs/install/ASSET_READBACK_v0.1.1-preview.4.json",
+      "docs/install/README.md",
+      "tests/test_r6_doc_identity_guard.py"
+    ],
+    "count": 8,
+    "top_dirs": [
+      ".github",
+      "README.md",
+      "docs",
+      "tests"
+    ],
+    "forbidden": [],
+    "verdict": "VERIFIED"
+  },
+  "4_immutable_anchor": {
+    "live_tag_object": "0618d73c725da0d8c3280f99ef369d13741b5197",
+    "expected": "0618d73c725da0d8c3280f99ef369d13741b5197",
+    "verdict": "VERIFIED"
+  },
+  "5_pack_from_origin_bytes": {
+    "remote_tip": "6c098fd4cf395fd0f7236818aeac6a1b71c53527",
+    "files": 9,
+    "sums": 8,
+    "mismatches": "NONE",
+    "verdict": "VERIFIED"
+  },
+  "6_left_alone_count": {
+    "merged": 3,
+    "unmerged_before": 21,
+    "left_alone": 18,
+    "verdict": "VERIFIED"
+  },
+  "verdict": "INDEPENDENT_VERIFY_PASS"
+}
