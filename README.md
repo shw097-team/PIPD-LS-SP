@@ -70,15 +70,19 @@ python tools/build_public_plugin.py --ledger ledger.json --source-commit 062d84a
   --packaging-root packaging/public-plugin --out-dir out --generate-icons
 ```
 
-This produces `out/pipd-ls-sp-public-skills.zip` — **68,355 bytes**, sha256
-`2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199`, **56 entries**, **8 `SKILL.md`**.
-Two independent builds are byte-identical. A local packager PASS is not portal approval.
+This reproduces the **historical R5Y build**: `out/pipd-ls-sp-public-skills.zip` — **68,355 bytes**,
+sha256 `2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199`, **56 entries**, **8 `SKILL.md`**
+— the bytes frozen at `062d84ae3e951d02b2ba6bb732359b18799d2864` and attached to the R5Y evidence return.
+Those bytes are **superseded as a download**: the artefact a user installs is the `v0.1.1-preview.4`
+release asset `pipd-ls-sp-public-skills.zip` — **68,357 bytes**, sha256
+`545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75`, 56 entries, 8 `SKILL.md`. Two
+independent builds are byte-identical. A local packager PASS is not portal approval.
 
 | Gate | State | What it means |
 |---|---|---|
 | Private plugin route (download ZIP, install on your own account) | **PASS** (owner's own account) | Creation, installation and one `@pipd-route-intake` call observed; evidence in `PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/09_ui_fda/` |
 | Public directory listing | **HOLD** | OpenAI developer identity verification is a human gate; no submit/review/publish was performed |
-| Tag / release | **Pending owner version decision** | No tag and no release was created for the merged candidate |
+| Tag / release | **Superseded by the published preview** | At the R5Y record time no tag had been created for the merged candidate. `v0.1.1-preview.4` (tag object `0618d73c725da0d8c3280f99ef369d13741b5197`, target `cc6c1930765160697e7e51d6e37735b9220a30db`) was published on 2026-10-14 and is the current immutable preview; `main` has since advanced past it, so read the tag's tree — not `main` — for the released bytes |
 
 Truth-ticket status as recorded: **TT-004** (citation defects) **CLOSED**; **TT-005** (lane arm
 binding) **CLOSED**; **TT-001** (PLAN model declaration) closed as a **documented substitute** — the
@@ -136,9 +140,10 @@ single source of truth for both:
 - **Web — a private ChatGPT plugin (added 2026-10-14, verified on one account).** The public Plugin
   Directory route is still closed: on 2026-10-14 `platform.openai.com/plugins` itself answered
   *“You need a verified developer identity before you can create or upload a plugin.”* — an owner
-  identity/KYC step. A **private** plugin does not need it. Download the candidate ZIP
-  `.hgk/rounds/R5Y-20261014-gpt-plugin-publication/04_package/build/build-a/pipd-ls-sp-public-skills.zip`
-  (**68,355 bytes**, sha256 `2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199`, single root `pipd-ls-sp-public-skills/`, 8 ×
+  identity/KYC step. A **private** plugin does not need it. Download the **release asset**
+  `https://github.com/shw097-team/PIPD-LS-SP/releases/download/v0.1.1-preview.4/pipd-ls-sp-public-skills.zip`
+  (**68,357 bytes**, sha256 `545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75` — the digest the
+  release's own `SHA256SUMS` carries; one plugin root `pipd-ls-sp-public-skills/`, one `plugin.json`, 8 ×
   `skills/<name>/SKILL.md`, no MCP/Actions/Hooks) and in ChatGPT do: `chatgpt.com/plugins` →
   **Plugins** → **Add** → **Upload plugin archive** → pick the ZIP → **Add plugin** →
   **Install plugin** → **Set up**. It then appears under *Settings → Plugins → Installed plugins* and
@@ -148,6 +153,12 @@ single source of truth for both:
   account shows the same upload entry (that is an account entitlement, not a package property) and any
   directory listing. If the entry is missing or the ZIP is refused, fall back to the single document
   route above.
+
+  *Superseded artefact, kept only as history:* the R5Y evidence-branch ZIP
+  `.hgk/rounds/R5Y-20261014-gpt-plugin-publication/04_package/build/build-a/pipd-ls-sp-public-skills.zip`
+  (**68,355 bytes**, sha256 `2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199`) is the
+  pre-release build frozen at `062d84ae`. Do not install it: it is not the bytes the release serves, and
+  its digest is in no `SHA256SUMS`.
 - **Agent** — one copy-paste prompt,
   [`docs/install/PIPD_AGENT_INSTALL_PROMPT.md`](docs/install/PIPD_AGENT_INSTALL_PROMPT.md), for the
   four supported hosts (Hermes Agent, Codex Desktop (GUI), Codex CLI, Claude Code). Each host must
