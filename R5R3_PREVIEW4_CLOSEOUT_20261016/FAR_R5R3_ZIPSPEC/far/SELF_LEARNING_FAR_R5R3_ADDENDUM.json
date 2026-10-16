@@ -1,0 +1,60 @@
+{
+  "schema": "R5R3/FAR-SELF-LEARNING-ADDENDUM/1",
+  "round": "R5R3-20261016-preview4-closeout / FAR sub-round (addendum after the independent checker returned)",
+  "authorization_note": "Round evidence payload citing the registered route ROUTE-WO-FDA-FAR-LANE-SOD-003 (ACTIVE, expires 2026-12-31, action class ROUND_SCRIPTED_EVIDENCE_AUTHORIZATION), whose declared scope covers round evidence payloads that mention a guard-related token; the same citation and its scope limit are stated in ROUND_STATUS_FAR.md.",
+  "appended_after": "the published packet at evidence-branch commit ca6d319 (48 files, blob readback 48/48 identical)",
+  "what_the_checker_added": [
+    {
+      "id": "A1",
+      "kind": "verification",
+      "statement": "Independent re-derivation C1-C7 all PASS by the mandated arm (CODEX CLI VERIFY_SECURITY lane, opencode-go/deepseek-v4.1-flash, required == served, rank 1, read-only, usage receipt OK, nonce echoed).",
+      "meaning": "the round's local byte-level and record-level claims are now cross-derived by a second model, not self-asserted"
+    },
+    {
+      "id": "A2",
+      "kind": "correction",
+      "statement": "The single-axis claim for candidates E and F holds on the content axis and enumerated record fields, not on the whole zip record: they were re-deflated at a lower effective level, so compress_size and header_offset differ on members whose content is identical.",
+      "meaning": "a rebuild is not a single-axis delta until it is verified as one; the oracle for 'same content' is decompressed bytes, never the archive record"
+    },
+    {
+      "id": "A3",
+      "kind": "correction",
+      "statement": "A brief said 'four probe records' where five existed.",
+      "meaning": "counts written by hand into a brief are claims too; derive them from the directory"
+    },
+    {
+      "id": "A4",
+      "kind": "ceiling",
+      "statement": "The checker states its PASS does NOT establish any live host behaviour, nor that the on-disk artifacts equal the bytes actually uploaded, nor that the probe step narratives are unedited UI captures.",
+      "meaning": "the round's host attribution stays UI-observed at the FAR_VERDICT claim ceiling; the independent pass covers local relations only"
+    }
+  ],
+  "what_this_round_added_to_its_own_procedure": [
+    {
+      "id": "P1",
+      "statement": "A mandated lane arm's POOL RANK is configuration and moves between rounds; a stale rank fails closed with 'the required arm is not in this lane's pool'. Read the pool file for the arm's actual rank and keep --require-arm with --force-rank so the receipt binds required == served.",
+      "recorded_in": "skill hgk-kanban-and-lane-routing, references/lane-pool-ranks-and-arm-gating.md"
+    },
+    {
+      "id": "P2",
+      "statement": "The pre-tool guard's authorization is a per-session 3600 s token minted from an owner message (intent verb + target), or an ACTIVE registered route cited in the same call. When it denies, the agent cites a registered route or asks the user; it never mints the token itself. Diagnose from the token file's minted/expires fields to tell 'lapsed' from 'never minted'.",
+      "recorded_in": "skill hgk-governed-execution, references/fda-guard-behavior-and-authorization.md"
+    },
+    {
+      "id": "P3",
+      "statement": "Driving a Chromium surface: one trusted foreground click per native file picker, backslash paths, poll the dialog's tree, raw EnumWindows for dialogs the toolkit misses, page body not exposed as named nodes, and accept the earlier round's success signature as the only oracle.",
+      "recorded_in": "skill computer-use, references/chrome-and-win32-ui-drive-notes.md"
+    },
+    {
+      "id": "P4",
+      "statement": "Publish then re-derive: a fresh clone readback at blob level (git ls-tree blob ids compared per file) verifies a packet even when the repository cannot be fully checked out on Windows (a deep path under .hgk/rounds exceeds MAX_PATH; reviewers need core.longpaths=true).",
+      "recorded_in": "this record + the PR comment on PR #17"
+    }
+  ],
+  "unchanged": [
+    "no packaging change was made and none is warranted",
+    "no release, no directory submission, no production action",
+    "no acceptance was granted by the agent; the remedy's account-mutating steps remain the owner's one-action decision (R1 update route / R2 remove-then-readd)"
+  ],
+  "claim_ceiling": "This addendum records verification outcomes and procedural lessons. It upgrades no claim ceiling: the host's mechanism is still undisclosed, the uploads remain UI-observed, and the two probe plugins created on the account are undisposed footprints."
+}
