@@ -142,3 +142,49 @@ The repository is an owner-authorized merged candidate with build-level evidence
 created, the portal was not submitted to, and no independent third party or host has qualified it.
 
 `BUILD_PASS != PORTAL_APPROVED != PUBLISHED != HOST_QUALIFIED != S4_PASS`
+
+---
+
+## Addendum — 2026-10-16: S4 final closeout and this round's handover
+
+State at handover (all read from the remote, none from a self-report):
+
+- `main` = `d3bd5456afbff21a8c8837994a49f57be3e1b97e`. **PR #18** (`c17aa761…`, docs identity truth +
+  update route + guard, 4 files, no `src/`, no `schemas/`) and **PR #17** (`97a01dab…`, one-file
+  release-ZIP readback) are **open**, each carrying `MERGE_APPROVED_SCOPE_ONLY` from the external final
+  review. **Owner merge is the only outstanding act**; no round may merge either.
+- `v0.1.1-preview.4` (tag object `0618d73c`, target `cc6c1930`) is published and **immutable** — its
+  seven assets must never be replaced in place. `preview.5` is `DEFER_UNTIL_DISTRIBUTION_NEEDED`.
+- S4 / Preview-MVP phase: **`TEMP_CLOSED_RECOMMENDED`** — `TEMP_CLOSED` itself needs an owner signature;
+  `S4_FULL_PASS`, four-host qualification and `PRODUCTION` stay **`NOT_GRANTED`**, private-host UAT
+  stays **`NOT_RUN`**, and the public plugin directory stays **`OUT_OF_SCOPE`**.
+- Evidence chain (readable without credentials):
+  `repo-hygiene-evidence-20261016` (this round) → `s4-final-closeout-evidence-20261016`
+  (head `5750c6904ea6a12fde4a7ce56936d516f661c428`) → `r6-evidence-return-20261014` →
+  `r5z-evidence-return-20261014`. Packs: `PIPD_REPO_HYGIENE_AND_HANDOVER_RETURN/`,
+  `S4_FINAL_PR18_EXECUTION_RETURN/`, `PIPD_S4_R6_FAR_AND_ALIGNMENT_RETURN/`.
+- Working tree for the next session: this round used two worktrees — product docs work on
+  `PIPD-REPO-HYGIENE-wt` (branch `docs/repo-state-and-handover-refresh-20261016`, based on
+  `origin/main`) and evidence work on `PIPD-S4R6-wt`. The primary clone `PIPD/` is on the local
+  branch `rescue/r5p-uncommitted-20261016` (see ADR-0008 addendum) and must not be mistaken for a
+  clean starting point.
+
+**Reproducible commands to start the next session**
+
+```bash
+git -C PIPD fetch origin && git -C PIPD rev-parse origin/main          # never trust a cached main
+git -C PIPD worktree list                                              # 17 worktrees as of this handover
+git -C PIPD branch --list 'rescue/*'                                   # the preserved R5P work
+```
+
+**Open truth tickets** (unchanged, not closed by this round): `TT-S4F-ORACLE-DISAGREEMENT`,
+`TT-S4F-EVIDENCE-READBACK`, `TT-S4F-CHECKER-BASIS`, `TT-S4F-HOST-UAT`, `TT-S4F-RELEASE-5`.
+
+**Rollback**: this round's remote effect is a single evidence branch. Delete it, or reset it to
+`5750c6904ea6a12fde4a7ce56936d516f661c428`; `main`, both pull requests, the product branches and the
+`.4` assets are untouched by it. Locally, the only irreversible-looking acts were guarded deletes of
+provably recoverable worktrees and regenerable scratch — both reproducible from `origin`.
+
+**Next session's first decision** is the owner's, not the agent's: merge PR #18 and PR #17, sign
+`TEMP_CLOSED`, and decide whether the primary clone moves back to `main` and takes the unapplied
+`.gitignore` candidate.

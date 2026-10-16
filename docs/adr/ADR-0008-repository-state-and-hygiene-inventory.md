@@ -124,3 +124,26 @@ this round's writes; it is not enumerated below because it is not a worktree.
    written into any file in this round.
 
 `BUILD_PASS != PORTAL_APPROVED != PUBLISHED != HOST_QUALIFIED != S4_PASS`
+
+---
+
+## Addendum — 2026-10-16: local engineering-hygiene inventory and the actions taken
+
+Owner order 2026-10-16 asked for a ruling on repo/local hygiene (round
+`PIPD-REPO-HYGIENE-AND-HANDOVER-20261016`, study `FAR-20261016-021-repo-hygiene-and-handover`). The
+inventory above covers the **repository**; this addendum adds the **local machine** layer that a new
+session actually starts from.
+
+| Item | Measured | Action | Guard / proof |
+|---|---|---|---|
+| `main` tree (remote) | clean — no round directories at the root (`git ls-tree main`) | none | no defect to fix |
+| Local worktrees | 29 (19 clean, 9 dirty) | **12 reclaimed** → 17 remain | reclaimed only when `dirty==0` **and** `HEAD == origin/<branch>`; the worktree in use by the round was excluded by design |
+| Primary clone `PIPD/` | parked on `r5p-post-challenge-repair` (HEAD dated 2026-10-10) with 6 uncommitted tracked files, incl. `src/pipd_ls_sp/{cli,pipeline,validate}.py` (+203/−6) | **rescued**, not discarded: new local branch `rescue/r5p-uncommitted-20261016` @ `39079c0`; original branch left exactly as found; not pushed | tracked modifications afterwards: 0; the 218 untracked files were left in place |
+| Untracked `.hgk/…` in the clone | 211 files, but the prefix still holds **644 tracked** files | **no ignore rule applied** | a rule was to be added only if a single safe prefix was provable; it was not provable, so the candidate is delivered unapplied for the owner |
+| Regenerable scratch | 5 extraction directories under the S4-FINAL round | deleted | reproducible at will via `git archive` |
+| Local `main` ref | `224591431a164ab72a9423cd180e417e8a762403` — 153 commits behind `origin/main` | none (outside this round's writable scope) | owner decision: switch back and fast-forward |
+| Governance spine | one orphaned project `PIPD-REPO-HYGIENE-HANDOVER` (`RUN-BB375102`, `PLAN_READY`, 0 work orders), created when a first admission attempt derived task-spec ids from the segment `HANDOVER`, which was already taken | none — deliberately not deleted | owner decision: prune or keep |
+
+**Rule worth keeping:** a local deletion is only acceptable when the object is *provably recoverable*
+(tip present on `origin`) or *provably regenerable*. Work of unknown intent is rescued to a new branch,
+never removed — `git checkout -- .` and `git clean -fd` have no place in a hygiene pass.

@@ -32,25 +32,39 @@ executed against the published wheel — they are **not** a second installation 
 two disagree, [`docs/install/README.md`](docs/install/README.md) and the [user guide](docs/USER_GUIDE.md)
 win.
 
-## Current state and evidence entry points (2026-10-14)
+## Current state and evidence entry points (2026-10-16)
 
 This front page is an **entry point, not a manual**: it states where things are and what is proven,
 and the manual itself lives in [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md) and
-[`docs/install/README.md`](docs/install/README.md). The repository is in an owner-authorized
-**merged candidate** state, not a release: `main` at merge commit
-the session's merge commits are `b3a27c1f00c90b010feec7b4da5f420d45edec61` (PR #8, 1911 blobs) and
-`fc55591852bc016ae8dc861edf88db0e613b3c6a` (PR #9, 1913 blobs), and `main` may advance past them —
-always re-read `main` before acting. `ci` reports success on the merge commits. That merged state is a candidate; it grants no portal approval, no
-publication and no S4 acceptance.
+[`docs/install/README.md`](docs/install/README.md).
+
+**As of 2026-10-16** `main` is `d3bd5456afbff21a8c8837994a49f57be3e1b97e` and the repository is in an
+owner-authorized **merged candidate** state, not a release. Two pull requests are **open and
+non-blocking**, both carrying `MERGE_APPROVED_SCOPE_ONLY` from the external final review and both
+waiting on an owner merge:
+
+| PR | Branch tip | Scope |
+|---|---|---|
+| #18 | `c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20` | docs identity truth + update route + guard — 4 files, no `src/`, no `schemas/` |
+| #17 | `97a01dab95bc53a08b8c372e3c3b04e69a923d7d` | one-file release-ZIP readback (`docs/install/ASSET_READBACK…json`) |
+
+An owner merge creates a **new** merge commit on `main`; until that happens the tips above are
+candidate branches only, and re-reading `main` before acting remains mandatory.
 
 | Where | What it holds |
 |---|---|
-| Evidence branch `r5z-evidence-return-20261014` (head `6d6af2de2e79` at record time) | The externally readable evidence packs, no credential needed to read them |
+| Evidence branch `repo-hygiene-evidence-20261016` (this round) → `s4-final-closeout-evidence-20261016` (head `5750c6904ea6a12fde4a7ce56936d516f661c428`) → `r6-evidence-return-20261014` → `r5z-evidence-return-20261014` | The externally readable evidence packs, no credential needed to read them. The S4 FINAL closeout pack is `S4_FINAL_PR18_EXECUTION_RETURN/`; the repo-hygiene/handover pack is `PIPD_REPO_HYGIENE_AND_HANDOVER_RETURN/` |
 | `PIPD_S4_R6_FAR_AND_ALIGNMENT_RETURN/` | R6 FAR + Tier-1 pack: `VERIFICATION_PROTOCOL.md`, `UPG_TRACEABILITY_R6.tsv` (**105 rows**), `ZIP_REPRODUCTION.json`, `06_verification/VERDICT_R6_PASS.json`, and `03_execute/` with the candidate ZIP plus its lane receipt |
 | `PIPD_S4_R6_FAR_AND_ALIGNMENT_RETURN/acceptance/` | The **five** governing documents and `GOVERNING_DOCS_MANIFEST.json` (5/5 hash match; one redaction rule, `<REDACTED_CREDENTIAL_LOCATOR>`) |
 | Repository state and hygiene inventory | [`docs/adr/ADR-0008-repository-state-and-hygiene-inventory.md`](docs/adr/ADR-0008-repository-state-and-hygiene-inventory.md) — branches, pull-request dispositions, CI state, hygiene rules |
 | Starting a new session on this repo | [`docs/adr/ADR-0009-session-handover-and-next-session-start.md`](docs/adr/ADR-0009-session-handover-and-next-session-start.md) — state, open owner decisions, reproducible commands, lane dispatch template |
 | `PIPD_S4_R5Z_SESSION_CONFORMANCE_RETURN/`, `PIPD_S4_R5Y_GPT_PLUGIN_EVIDENCE_RETURN/`, `PIPD_S4_R4_EVIDENCE_RETURN/` | The other three return packs: session conformance, the private-plugin UI/functional evidence, and the expanded R4 evidence return |
+
+> **Lane-arm note (2026-10-16).** The rows below are the **historical R6 receipts** and are not
+> edited. On 2026-10-16 the owner re-bound all three lanes (PLAN/Orchestrator, EXECUTE, VERIFY_SECURITY)
+> to `opencode-go/deepseek-v4.1-flash`; the current `VERIFY_SECURITY` arm is **rank 1**, served =
+> required. Because writer and checker then share one arm (`SOD006-C3`), model-level segregation **does
+> not exist** and no round may describe its checks as cross-model independent.
 
 The binding evidence for the R6 work is the **lane receipt**, not a self-report:
 
@@ -92,9 +106,35 @@ receipt-backed measurement, not model-level segregation.
 
 `BUILD_PASS != PORTAL_APPROVED != PUBLISHED != HOST_QUALIFIED != S4_PASS`
 
-## Verification entry point — candidate on `feat/s4post-triple-upgrade-20261013-r3`
+### S4 final review outcome (2026-10-16) — what is granted and what is not
 
-**Current for this round (2026-10-14):** the plugin candidate is
+An independent external review of `main@d3bd5456`, `PR#18@c17aa761b` and
+`v0.1.1-preview.4@cc6c1930` reached these rulings (report `PIPD-LS-SP-S4-EXTERNAL-FINAL-20261016`):
+
+| Item | Ruling |
+|---|---|
+| S4 / Preview-MVP phase | **`TEMP_CLOSED_RECOMMENDED`** — an owner signature is still required before it reads `TEMP_CLOSED` |
+| D1/D2, ClaimCeiling, trace closure | `PASS_SCOPED` |
+| PR #18 / PR #17 | `MERGE_APPROVED_SCOPE_ONLY` (owner merge outstanding) |
+| `v0.1.1-preview.4` | `PUBLISHED_PASS_SCOPED` — **immutable**: its tag, assets and checksums must never be replaced in place |
+| Private ChatGPT plugin ZIP | `FORMAT_PASS / ONE_ACCOUNT_PARTIAL` |
+| `preview.5` / next public release | `DEFER_UNTIL_DISTRIBUTION_NEEDED` |
+| Four-host qualification, `S4_FULL_PASS` | **`NOT_GRANTED`** |
+| Private-host UAT | **`NOT_RUN`** |
+| Production, public plugin directory | **`NOT_GRANTED` / `OUT_OF_SCOPE`** |
+
+The S4 final closeout evidence pack (`S4_FINAL_PR18_EXECUTION_RETURN/`, including a verbatim checker
+verdict that returned `PARTIAL` because the sandbox had no outbound network) is on
+`s4-final-closeout-evidence-20261016`; the repo-hygiene and session-handover pack is on
+`repo-hygiene-evidence-20261016`.
+
+## Verification entry point — historical (superseded 2026-10-16)
+
+> **Superseded.** Everything from here down describes the 2026-10-13/14 candidate round and is kept as
+> history, not as current state; the dated trail lives in
+> [`docs/FRONT_PAGE_HISTORY.md`](docs/FRONT_PAGE_HISTORY.md).
+
+**As recorded on 2026-10-14:** the plugin candidate is
 `feat/s4r5y-plugin-publication-20261014` @ `062d84ae3e951d02b2ba6bb732359b18799d2864` (draft PR #6 →
 `main`): a Skills-only ZIP whose manifest carries the official listing fields, with the private-install
 evidence beside it. The conformance answer to the R4 command prompt and to the 2026-10-13 acceptance
