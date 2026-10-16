@@ -1,0 +1,23 @@
+{
+  "schema": "EVIDENCE/test_gate/1",
+  "G1_full_suite_on_merged_tree": {
+    "command": "PYTHONPATH=src python -m pytest -q",
+    "result": "632 passed, 20 skipped, 62 subtests passed in 189.65s",
+    "failed": 0
+  },
+  "G2_doc_identity_guard": {
+    "before_merge_on_base": "7 failed, 4 passed",
+    "after_merge": "11 passed in 0.83s",
+    "meaning": "merging PR #18 makes the guard green, and the docs candidate does not break it"
+  },
+  "G3_untouched": {
+    "src_and_schemas_diff_vs_main": "EMPTY",
+    "touched_top_dirs": {
+      ".github": 1,
+      "docs": 5,
+      "README.md": 1,
+      "tests": 1
+    }
+  },
+  "denominator_caveat": "632 passed locally vs the hosted CI figure of 635 OK/6 skipped on PR #18's own head; the local run skips 20 tests (environment-dependent), so the two denominators are not interchangeable"
+}
