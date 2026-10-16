@@ -1,0 +1,114 @@
+{
+ "schema": "HGK/ROUND-STATUS/1",
+ "round": "R5R3-20261016-preview4-closeout",
+ "as_of": "2026-10-16",
+ "timezone": "Asia/Taipei (UTC+8)",
+ "control_plane": "HG-KSEOS (sole); Hermes bound as the governed runtime/orchestration plane; Fabric as policy contract",
+ "claim_ceiling": "LOCAL / CANDIDATE_ONLY — S4_PREVIEW_MVP_PHASE_TEMP_CLOSED on the ALREADY-published preview.4; no new tag, no new release, no merge, no host install claimed",
+ "compiler_verdict": {
+  "verdict": "PROMPT_COMPILE_PASS",
+  "stages": {"lint": 0, "activation": 0, "acceptance": 0, "compile": 0},
+  "exit_codes_are_real_process_codes": true,
+  "contract_sha256": "4855e8c116d50ecee1ced235f43f8596df94a5f49af285b58654b4aef232e041",
+  "compiler_sha256": "2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9",
+  "receipt_ceiling": {"independent_claim": "NOT_EVALUATED", "runtime_claim": "NOT_EVALUATED", "production_claim": "NOT_CLAIMED"},
+  "receipts": "R5R3_PREVIEW4_EVIDENCE_RETURN/raw/compiler_receipts.json + raw/compiler_out/"
+ },
+ "hgk_admission": {
+  "state": "TYPED_LANE_ADMISSION_VIA_DISPATCHER + owner command in this session",
+  "workorder_artifact_minted": false,
+  "disclosure": "no separate WorkOrder JSON was minted for this round; admission is carried by the owner's command plus the dispatcher's per-lane typed admission (arm binding enforced, required_arm == served_arm measured on both lanes)"
+ },
+ "model_plan_as_run": {
+  "plan_orchestrator": "Hermes (this session)",
+  "execute": {"lane": "EXECUTE", "required_arm": "opencode-go/deepseek-v4.1-flash", "served_arm": "opencode-go/deepseek-v4.1-flash", "provider_cli": "CODEX CLI", "attempt": 2, "ok": true},
+  "verify_security": {"lane": "VERIFY_SECURITY", "required_arm": "openai-codex/gpt-6.1-sol", "served_arm": "openai-codex/gpt-6.1-sol", "effort": "medium", "provider_cli": "CODEX CLI", "attempt": 2, "ok": true}
+ },
+ "subject": {
+  "repo": "shw097-team/PIPD-LS-SP",
+  "frozen_subject": {"main_commit": "dba4b19456777d3b597fdf71480f6423dd974243", "worktree": "C:/Projects/wt-r5r3 (detached)", "compiler_base": "f4021aeff9c016cfb14f17e68a0c570ed4e825c5"},
+  "branch": "fix/r5r3-preview4-identity-and-route",
+  "branch_head": "4cbb22fc9be3c9b91840aacef90da754d3d7414d",
+  "remote_readback_matches_local": true,
+  "pull_request": {"number": 16, "url": "https://github.com/shw097-team/PIPD-LS-SP/pull/16", "state": "open", "draft": true, "merged": false},
+  "evidence_branch": {"name": "r5r3-evidence-return-20261016", "head": "4df550d3d200dad271fba7dd145c286775384d4b", "contents": "38-file pack + the openspec change record"},
+  "main_unchanged": true,
+  "tags_moved": false,
+  "releases_created": false
+ },
+ "d1_d2_type5": {
+  "state": "ALREADY_REPAIRED_IN_MAIN — delta-only re-verification, no re-implementation",
+  "method": "probe_edges.py re-run against the frozen tree AND against the bytes of the published wheel (--installed)",
+  "cases": 22,
+  "result": "22/22 as expected",
+  "artifacts": ["raw/edge_probe.json", "raw/edge_probe_wheel.json"]
+ },
+ "tests": {
+  "main_baseline": {"ran": 614, "ok": true, "skipped": 4, "exit": 0},
+  "branch_first_run": {"ran": 621, "ok": false, "exit": 1, "cause": "the new test file omitted the src/ bootstrap required by tests/test_tooling_executes.py", "kept_as_evidence": "raw/full_suite_patched.log"},
+  "branch_after_repair": {"ran": 624, "ok": true, "skipped": 4, "exit": 0},
+  "branch_final": {"ran": 624, "ok": true, "skipped": 4, "exit": 0, "log": "raw/full_suite_final.log"},
+  "focused": {"modules": ["tests.test_r5r3_install_route_identity", "tests.test_s4ext_release_provenance", "tests.test_s4r2m_docs_route", "tests.test_evidence_md_guards"], "ran": 35, "ok": true, "exit": 0},
+  "hosted_ci_on_branch_head": [
+   {"workflow": "ci", "run": 38849065820, "conclusion": "success"},
+   {"workflow": "public-plugin-verify", "run": 38849065867, "conclusion": "success"},
+   {"workflow": "ci", "run": 38849061153, "conclusion": "success"}
+  ],
+  "hosted_ci_red_disclosed": {"workflow": "public-plugin-verify", "run": 38848296325, "head": "881a2e91", "conclusion": "failure", "cause": "the round evidence tree and openspec change sat outside the stage-c positive write-set allowlist", "repair": "evidence tree moved to the evidence branch; record placed inside the arm; one file added to the arm as a named amendment"}
+ },
+ "preview4_identity": {
+  "tag": "v0.1.1-preview.4",
+  "tag_object": "0618d73c725da0d8c3280f99ef369d13741b5197",
+  "tag_target_commit": "cc6c1930765160697e7e51d6e37735b9220a30db",
+  "tag_tree": "7d277a0afaff28b6841836cea3a31ffd0b214d94",
+  "released_at": "2026-10-14",
+  "served_assets": 7,
+  "sha256sums_entries": 6,
+  "served_byte_readback": "7/7 agree with the release's own SHA256SUMS; every digest recomputed from downloaded bytes",
+  "tag_behind_main": true,
+  "tag_behind_main_disclosed_in_tree": true,
+  "raw_evidence": "raw/served_assets.json, raw/served/assets/*"
+ },
+ "checklist": {
+  "CK-01": {"state": "PASS", "evidence": "compiler lint/activation/acceptance/compile all rc=0; verdict PROMPT_COMPILE_PASS"},
+  "CK-02": {"state": "PASS", "evidence": "frozen main dba4b19 + tag cc6c193 re-read; PR #11/#12/#13 merged; preview.4 published 2026-10-14; D1/D2/TYPE5 already in main -> delta-only taken"},
+  "CK-03": {"state": "PASS_DELTA_ONLY", "evidence": "D1 edges re-run against frozen tree and published wheel bytes, 22/22"},
+  "CK-04": {"state": "PASS_DELTA_ONLY", "evidence": "D2 domain/version/decimal + true sentence boundaries, same probe"},
+  "CK-05": {"state": "PASS_DELTA_ONLY", "evidence": "five ClaimCeiling shapes + two positives, same probe"},
+  "CK-06": {"state": "PASS", "evidence": "write set confined to README.md, docs/install/**, docs/RELEASE_TUPLE.json, tests/**, .github/workflows/public-plugin-verify.yml; no src/ or schemas/ path touched; local stage-c simulation GATE_BAD=0"},
+  "CK-07": {"state": "PASS", "evidence": "full 624 OK/exit 0, focused 35 OK, wheel clean-install smoke, hosted ci + public-plugin-verify both success on 4cbb22f"},
+  "CK-08": {"state": "PASS", "evidence": "mutation control 4/4 red + tree restored; guard refusal probes; ZIP 8 skills / single root / no traversal; credential never printed (redaction verified in every captured log)"},
+  "CK-09": {"state": "PARTIAL_OWNER_GATED", "evidence": "scoped branch pushed, draft PR #16 opened, remote readback matches; merge NOT granted and NOT performed"},
+  "CK-10": {"state": "PASS_AS_VERIFICATION_ONLY", "evidence": "the existing preview.4 tag's identity re-derived and recorded; NO new tag created this round"},
+  "CK-11": {"state": "PASS", "evidence": "plugin ZIP 545e359a... (68,357 B), one root, one manifest, exactly 8 SKILL.md, CRC ok, no traversal"},
+  "CK-12": {"state": "PASS", "evidence": "7 served assets re-downloaded; each SHA256 compared with SHA256SUMS; all match; now recorded in-tree"},
+  "CK-13": {"state": "PASS", "evidence": "the documented route pointed at a preview.4 entry that did not exist; the entry now exists, carries all 7 identities with a scoped build-source claim, and docs/install/ASSET_READBACK_v0.1.1-preview.4.json carries the served-byte readback"},
+  "CK-14": {"state": "NOT_RUN_OWNER_GATED", "evidence": "private ChatGPT upload/install needs the account owner's entitlement; recorded NOT_SUPPORTED_FOR_ACCOUNT / TEMP_CLOSED, no install claimed"},
+  "CK-15": {"state": "PARTIAL", "evidence": "independent checker (CODEX CLI openai-codex/gpt-6.1-sol) VERIFIED_WITH_FINDINGS; 3 findings repaired and re-verified; Owner ratification NOT granted"}
+ },
+ "independent_checker": {
+  "lane": "VERIFY_SECURITY",
+  "cli": "CODEX CLI",
+  "arm": "openai-codex/gpt-6.1-sol",
+  "read_only": true,
+  "verdict": "VERIFIED_WITH_FINDINGS",
+  "findings": [
+   "incomplete digest coverage plus an accuracy defect in the completeness claim (PIPD_WEB_FALLBACK.md.sha256 missing from the record)",
+   "the guard could still pass with a wrong download-route digest and with an invalid build_source_commit",
+   "build_source_commit over-generalised the wheel's provenance to the plugin ZIP"
+  ],
+  "findings_disposition": "all three repaired in the same round; the record now covers 7/7 assets, the guard binds the digest to the download paragraph and requires the commit to exist in git, and build_source_scope names the artifact the claim is about",
+  "artifact": "R5R3_PREVIEW4_EVIDENCE_RETURN/CHECKER_VERDICT.json"
+ },
+ "open_tickets": [
+  {"id": "TT-R5R3-01", "about": "the repo tracks credential helpers globally; GIT_ASKPASS alone is ignored and a token-based HTTPS push needs credential.helper= + credential.interactive=always + core.askPass per invocation", "state": "recorded as an environment finding"},
+  {"id": "TT-R5R3-02", "about": "the stage-c write-set arm did not include docs/RELEASE_TUPLE.json although the PR filter and the install guide both name it", "state": "amended in this PR, named as an amendment"},
+  {"id": "TT-R5R3-03", "about": "GSTACK named-method readback shows config/hermes-codex-lane.json codex_sha256 differs from the installed executable", "state": "open, HGK tooling projection drift, not a product defect"}
+ ],
+ "rollback": {
+  "product_branch": "abandon fix/r5r3-preview4-identity-and-route; main, tags and published assets are untouched by this round",
+  "evidence_branch": "delete r5r3-evidence-return-20261016",
+  "revert_path": "the branch is unmerged and the round created no tag and no release, so no revert pointer is needed"
+ },
+ "not_granted": ["PUBLIC_DIRECTORY", "S4_FULL_PASS", "PRODUCTION", "MERGE", "NEW_RELEASE", "PRIVATE_HOST_INSTALL"]
+}
