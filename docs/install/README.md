@@ -135,10 +135,15 @@ Everything below is subordinate to the two routes above. It is not an alternativ
 
 Pin the **immutable** identity, never a moving branch tip:
 
-- release id **`v0.1.1-preview.4`**; the release-tag target commit and tree are recorded in the
-  release's own `RELEASE_TUPLE_v0.1.1-preview.4.json` asset, together with every served asset digest
-  (`docs/RELEASE_TUPLE.json` in this tree is the **historical** preview.3 record and is left as-is —
-  the tag's tree is never rewritten).
+- release id **`v0.1.1-preview.4`**; its tag object `0618d73c725da0d8c3280f99ef369d13741b5197`
+  dereferences to target commit `cc6c1930765160697e7e51d6e37735b9220a30db`, tree
+  `7d277a0afaff28b6841836cea3a31ffd0b214d94`. The release carries **no** `RELEASE_TUPLE_*.json` asset;
+  its identities live in the `v0.1.1-preview.4` entry of
+  [`docs/RELEASE_TUPLE.json`](RELEASE_TUPLE.json) in this tree, and the digests a downloader verifies
+  against are the release's own `SHA256SUMS` asset. Both are independently re-derivable:
+  `git rev-parse <tag>`, `git rev-parse <tag>^{commit}`, `git rev-parse <tag>^{tree}`, and
+  `sha256sum <downloaded asset>` against `SHA256SUMS`. The earlier releases' entries stay as history —
+  a tag's tree is never rewritten.
 - **Closed open item:** the previous immutable preview's tag held the pre-correction pack, so a
   rebuild *from that tag's tree* did not reproduce the served asset. `v0.1.1-preview.4` is the new
   immutable preview built from the repaired merged `main`, so the corrected source and the served
