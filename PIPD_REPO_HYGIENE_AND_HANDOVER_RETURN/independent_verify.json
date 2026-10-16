@@ -1,0 +1,91 @@
+{
+  "schema": "INDEPENDENT-VERIFY/1",
+  "round": "PIPD-REPO-HYGIENE-AND-HANDOVER-20261016",
+  "methods_differ_from_builder": [
+    "digests from origin-fetched bytes, not the local worktree",
+    "docs boundary from origin refs, not a local base ref",
+    "identities re-read live, not copied from the pack"
+  ],
+  "1_pack_digests_from_origin_bytes": {
+    "remote_tip": "bbe855ee860977974d52c645919abc0e0a49c928",
+    "files": 9,
+    "declared_in_sha256sums": 8,
+    "mismatches": "NONE",
+    "verdict": "VERIFIED"
+  },
+  "2_docs_boundary_from_origin": {
+    "origin_main": "d3bd5456afbff21a8c8837994a49f57be3e1b97e",
+    "origin_docs_branch": "196456106ece060e00aec37813d070c79ab36c0d",
+    "files": [
+      "README.md",
+      "docs/adr/ADR-0008-repository-state-and-hygiene-inventory.md",
+      "docs/adr/ADR-0009-session-handover-and-next-session-start.md"
+    ],
+    "forbidden_hits": [],
+    "verdict": "VERIFIED"
+  },
+  "3_pack_claim_matches_reality": {
+    "claimed_files": [
+      "README.md",
+      "docs/adr/ADR-0008-repository-state-and-hygiene-inventory.md",
+      "docs/adr/ADR-0009-session-handover-and-next-session-start.md"
+    ],
+    "measured_files": [
+      "README.md",
+      "docs/adr/ADR-0008-repository-state-and-hygiene-inventory.md",
+      "docs/adr/ADR-0009-session-handover-and-next-session-start.md"
+    ],
+    "match": true,
+    "claimed_head": "196456106ece060e00aec37813d070c79ab36c0d",
+    "measured_head": "196456106ece060e00aec37813d070c79ab36c0d",
+    "head_match": true,
+    "verdict": "VERIFIED"
+  },
+  "4_identity_anchors": {
+    "main": {
+      "pack_live": "d3bd5456afbff21a8c8837994a49f57be3e1b97e",
+      "frozen": "d3bd5456afbff21a8c8837994a49f57be3e1b97e",
+      "origin_now": "d3bd5456afbff21a8c8837994a49f57be3e1b97e",
+      "consistent": true
+    },
+    "pr18": {
+      "pack_live": "c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20",
+      "frozen": "c17aa761b26033fc0a2a2aa3df5ad0f61f2e5a20",
+      "origin_now": null,
+      "consistent": true
+    },
+    "pr17": {
+      "pack_live": "97a01dab95bc53a08b8c372e3c3b04e69a923d7d",
+      "frozen": "97a01dab95bc53a08b8c372e3c3b04e69a923d7d",
+      "origin_now": null,
+      "consistent": true
+    },
+    "tag_object": {
+      "pack_live": "0618d73c725da0d8c3280f99ef369d13741b5197",
+      "frozen": "0618d73c725da0d8c3280f99ef369d13741b5197",
+      "origin_now": null,
+      "consistent": true
+    },
+    "verdict": "VERIFIED"
+  },
+  "5_claim_ceiling_in_remote_readme": {
+    "S4_FULL_PASS_hits": [
+      "| Four-host qualification, `S4_FULL_PASS` | **`NOT_GRANTED`** |",
+      "- `PIPD_S4_FULL_PASS` — **NOT GRANTED**. The public release gate is **`FAIL-CLOSED / HOLD`**."
+    ],
+    "NOT_GRANTED_present": true,
+    "TEMP_CLOSED_present": true,
+    "stale_lane_arm_rows": [
+      "| VERIFY_SECURITY | CODEX CLI | `opencode-go/glm-5.3-flash` | 3 | true | `2026-10-14T06:23:25Z` (130.72 s) |",
+      "`opencode-go/glm-5.3-flash`, so the segregation is engine separation (Hermes vs CODEX CLI) with"
+    ],
+    "stale_arm_is_marked_historical": true,
+    "verdict": "VERIFIED"
+  },
+  "6_no_product_byte": {
+    "evidence_branch_src_schema_files": [],
+    "docs_branch_src_schema_files": [],
+    "verdict": "VERIFIED"
+  },
+  "verdict": "INDEPENDENT_VERIFY_PASS"
+}
