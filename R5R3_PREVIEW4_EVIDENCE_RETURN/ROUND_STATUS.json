@@ -4,14 +4,23 @@
  "as_of": "2026-10-16",
  "timezone": "Asia/Taipei (UTC+8)",
  "control_plane": "HG-KSEOS (sole); Hermes bound as the governed runtime/orchestration plane; Fabric as policy contract",
- "claim_ceiling": "LOCAL / CANDIDATE_ONLY — S4_PREVIEW_MVP_PHASE_TEMP_CLOSED on the ALREADY-published preview.4; no new tag, no new release, no merge, no host install claimed",
+ "claim_ceiling": "LOCAL / CANDIDATE_ONLY for every artifact claim; S4_PREVIEW_MVP_PHASE_TEMP_CLOSED on the ALREADY-published preview.4. The merge into main was performed on explicit Owner instruction and is therefore a real external effect, not a claim; NO new tag, NO new release and NO host install were made.",
  "compiler_verdict": {
   "verdict": "PROMPT_COMPILE_PASS",
-  "stages": {"lint": 0, "activation": 0, "acceptance": 0, "compile": 0},
+  "stages": {
+   "lint": 0,
+   "activation": 0,
+   "acceptance": 0,
+   "compile": 0
+  },
   "exit_codes_are_real_process_codes": true,
   "contract_sha256": "4855e8c116d50ecee1ced235f43f8596df94a5f49af285b58654b4aef232e041",
   "compiler_sha256": "2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9",
-  "receipt_ceiling": {"independent_claim": "NOT_EVALUATED", "runtime_claim": "NOT_EVALUATED", "production_claim": "NOT_CLAIMED"},
+  "receipt_ceiling": {
+   "independent_claim": "NOT_EVALUATED",
+   "runtime_claim": "NOT_EVALUATED",
+   "production_claim": "NOT_CLAIMED"
+  },
   "receipts": "R5R3_PREVIEW4_EVIDENCE_RETURN/raw/compiler_receipts.json + raw/compiler_out/"
  },
  "hgk_admission": {
@@ -26,39 +35,105 @@
    "provider_cli": "CODEX CLI",
    "required_arm": "opencode-go/deepseek-v4.1-flash",
    "jobs": [
-    {"job": "brief_probe_execute.md", "receipt": "EXECUTE_dispatch_receipt_attempt1.json", "verdict": "FAILED", "code": "ERR_NO_ARM_EMITTED_NONCE", "seconds": 4.8, "observed": "rank 1 / provider opencode-go / model deepseek-v4.1-flash, payload echoed LANE_ECHO=EXECUTE and PROBE_DONE=R5R3-PROBE-d8e74bea7225, nonce_present=false", "claim": "TRANSPORT_PROBE_ONLY / NOT_BOUND - the payload returned, but the dispatcher could not bind the arm, so this is not a served-arm claim"},
-    {"job": "brief_writer_ws_a.md", "receipt": "EXECUTE_dispatch_receipt_attempt2.json", "verdict": "OK", "served_arm": "opencode-go/deepseek-v4.1-flash", "required_equals_served": true, "rank": 1, "provider": "opencode-go", "model": "deepseek-v4.1-flash", "nonce_present": true, "seconds": 168.05}
+    {
+     "job": "brief_probe_execute.md",
+     "receipt": "EXECUTE_dispatch_receipt_attempt1.json",
+     "verdict": "FAILED",
+     "code": "ERR_NO_ARM_EMITTED_NONCE",
+     "seconds": 4.8,
+     "observed": "rank 1 / provider opencode-go / model deepseek-v4.1-flash, payload echoed LANE_ECHO=EXECUTE and PROBE_DONE=R5R3-PROBE-d8e74bea7225, nonce_present=false",
+     "claim": "TRANSPORT_PROBE_ONLY / NOT_BOUND - the payload returned, but the dispatcher could not bind the arm, so this is not a served-arm claim"
+    },
+    {
+     "job": "brief_writer_ws_a.md",
+     "receipt": "EXECUTE_dispatch_receipt_attempt2.json",
+     "verdict": "OK",
+     "served_arm": "opencode-go/deepseek-v4.1-flash",
+     "required_equals_served": true,
+     "rank": 1,
+     "provider": "opencode-go",
+     "model": "deepseek-v4.1-flash",
+     "nonce_present": true,
+     "seconds": 168.05
+    }
    ],
-   "attribution_note": "the receipt name carries no job key, so attempt1 and attempt2 here are TWO DIFFERENT jobs (probe, then writer), not one job retried; see LANE_RECEIPT_ATTRIBUTION.md"},
+   "attribution_note": "the receipt name carries no job key, so attempt1 and attempt2 here are TWO DIFFERENT jobs (probe, then writer), not one job retried; see LANE_RECEIPT_ATTRIBUTION.md"
+  },
   "verify_security": {
    "lane": "VERIFY_SECURITY",
    "provider_cli": "CODEX CLI",
    "read_only": true,
    "required_arm": "openai-codex/gpt-6.1-sol",
    "jobs": [
-    {"job": "brief_probe_verify.md", "receipt": "VERIFY_SECURITY_dispatch_receipt_attempt1.json", "verdict": "FAILED", "code": "ERR_NO_ARM_EMITTED_NONCE", "seconds": 10.87, "observed": "payload {\"probe_stdout\":\"\",\"lane_echo\":\"VERIFY_SECURITY\"} and the inner probe command reported exit_code 1 / status failed, so the read-only sandbox produced NO transport payload at all", "claim": "NO_TRANSPORT_SIGNAL / NOT_BINDABLE - this lane's only binding evidence is the checker dispatch below; a probe brief that has to write an output file cannot signal from a read-only lane"},
-    {"job": "brief_checker_ws_b.md", "receipt": "VERIFY_SECURITY_dispatch_receipt_attempt2.json", "verdict": "OK", "served_arm": "openai-codex/gpt-6.1-sol", "required_equals_served": true, "rank": 1, "provider": "openai-codex", "model": "gpt-6.1-sol", "nonce_present": true, "seconds": 254.43, "effort": "medium", "checker_verdict": "VERIFIED_WITH_FINDINGS"}
-   ]},
+    {
+     "job": "brief_probe_verify.md",
+     "receipt": "VERIFY_SECURITY_dispatch_receipt_attempt1.json",
+     "verdict": "FAILED",
+     "code": "ERR_NO_ARM_EMITTED_NONCE",
+     "seconds": 10.87,
+     "observed": "payload {\"probe_stdout\":\"\",\"lane_echo\":\"VERIFY_SECURITY\"} and the inner probe command reported exit_code 1 / status failed, so the read-only sandbox produced NO transport payload at all",
+     "claim": "NO_TRANSPORT_SIGNAL / NOT_BINDABLE - this lane's only binding evidence is the checker dispatch below; a probe brief that has to write an output file cannot signal from a read-only lane"
+    },
+    {
+     "job": "brief_checker_ws_b.md",
+     "receipt": "VERIFY_SECURITY_dispatch_receipt_attempt2.json",
+     "verdict": "OK",
+     "served_arm": "openai-codex/gpt-6.1-sol",
+     "required_equals_served": true,
+     "rank": 1,
+     "provider": "openai-codex",
+     "model": "gpt-6.1-sol",
+     "nonce_present": true,
+     "seconds": 254.43,
+     "effort": "medium",
+     "checker_verdict": "VERIFIED_WITH_FINDINGS"
+    }
+   ]
+  },
   "lane_evidence": "every lane artifact travels in the pack: lane_runs/ holds both flat receipts with their ndjson rows AND the unique per-attempt subdirectories (<lane>/attempt-N-<UTC>Z/) with stdout, stderr and markers, plus the four dispatcher logs (raw/probe_execute.log, raw/probe_verify.log, raw/ws_a_execute.log, raw/ws_b_checker.log). The flat receipt names carry no job key, so attribution is documented in LANE_RECEIPT_ATTRIBUTION.md: four jobs ran. The EXECUTE probe returned a payload (PROBE_DONE + LANE_ECHO=EXECUTE) but no nonce; the VERIFY probe returned NO payload at all (probe_stdout empty, inner command exit_code 1 in the read-only sandbox); the writer and the checker dispatches were nonce-bound with required == served. Product-branch state re-verified after this batch: HEAD 4cbb22f == remote head, worktree clean.",
   "harness_notes": [
-   {"note": "piped mutation-control helper raised UnicodeDecodeError while decoding its child's output (0xa1 at byte 796, a cp950 byte in local output); the control's own JSON still parsed and its verdict stands, but the round's helper should force encoding='utf-8', errors='replace' when it reads child output"},
-   {"note": "a background harness reported the product worktree as dirty (4 files) after a mutation-control run; re-verified by hand: local HEAD == remote head == 4cbb22f and the worktree is clean, so the report was taken while the checker repairs were still uncommitted rather than after them"}
+   {
+    "note": "piped mutation-control helper raised UnicodeDecodeError while decoding its child's output (0xa1 at byte 796, a cp950 byte in local output); the control's own JSON still parsed and its verdict stands, but the round's helper should force encoding='utf-8', errors='replace' when it reads child output"
+   },
+   {
+    "note": "a background harness reported the product worktree as dirty (4 files) after a mutation-control run; re-verified by hand: local HEAD == remote head == 4cbb22f and the worktree is clean, so the report was taken while the checker repairs were still uncommitted rather than after them"
+   }
   ],
   "disclosed_lane_warnings": [
-   {"warning": "WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE", "detail": "the credential-posture detector could not reach a verdict on all four attempts (helper_resolution_reset=PASS, helper_non_interactive=UNKNOWN). The dispatcher continued by design; INCONCLUSIVE is NOT a pass.", "affected": "both lanes, both attempts"},
-   {"warning": "relay websocket 426", "detail": "codex_api::endpoint::responses_websocket: HTTP 426 Upgrade Required on ws://127.0.0.1:10101/v1/responses; the JSON path served the turn"}
+   {
+    "warning": "WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE",
+    "detail": "the credential-posture detector could not reach a verdict on all four attempts (helper_resolution_reset=PASS, helper_non_interactive=UNKNOWN). The dispatcher continued by design; INCONCLUSIVE is NOT a pass.",
+    "affected": "both lanes, both attempts"
+   },
+   {
+    "warning": "relay websocket 426",
+    "detail": "codex_api::endpoint::responses_websocket: HTTP 426 Upgrade Required on ws://127.0.0.1:10101/v1/responses; the JSON path served the turn"
+   }
   ]
  },
  "subject": {
   "repo": "shw097-team/PIPD-LS-SP",
-  "frozen_subject": {"main_commit": "dba4b19456777d3b597fdf71480f6423dd974243", "worktree": "C:/Projects/wt-r5r3 (detached)", "compiler_base": "f4021aeff9c016cfb14f17e68a0c570ed4e825c5"},
+  "frozen_subject": {
+   "main_commit": "dba4b19456777d3b597fdf71480f6423dd974243",
+   "worktree": "C:/Projects/wt-r5r3 (detached)",
+   "compiler_base": "f4021aeff9c016cfb14f17e68a0c570ed4e825c5"
+  },
   "branch": "fix/r5r3-preview4-identity-and-route",
   "branch_head": "4cbb22fc9be3c9b91840aacef90da754d3d7414d",
   "remote_readback_matches_local": true,
-  "pull_request": {"number": 16, "url": "https://github.com/shw097-team/PIPD-LS-SP/pull/16", "state": "open", "draft": true, "merged": false},
-  "evidence_branch": {"name": "r5r3-evidence-return-20261016", "contents": "43-file pack + the openspec change record + the entry document and round status",
+  "pull_request": {
+   "number": 16,
+   "url": "https://github.com/shw097-team/PIPD-LS-SP/pull/16",
+   "state": "open",
+   "draft": true,
+   "merged": false
+  },
+  "evidence_branch": {
+   "name": "r5r3-evidence-return-20261016",
+   "contents": "43-file pack + the openspec change record + the entry document and round status",
    "head_advances": true,
-   "binding_note": "the branch head advances with every evidence commit, so it is deliberately NOT recorded as an equal-to-tip value; the pack's integrity is bound by PACK_INDEX.json and by the git object that carries it (43/43 files re-verified in a fresh clone at c785bec54266218137ad9ed961431a6d61fa10e3, the last sha measured during this round)"},
+   "binding_note": "the branch head advances with every evidence commit, so it is deliberately NOT recorded as an equal-to-tip value; the pack's integrity is bound by PACK_INDEX.json and by the git object that carries it (43/43 files re-verified in a fresh clone at c785bec54266218137ad9ed961431a6d61fa10e3, the last sha measured during this round)"
+  },
   "main_unchanged": true,
   "tags_moved": false,
   "releases_created": false
@@ -68,21 +143,82 @@
   "method": "probe_edges.py re-run against the frozen tree AND against the bytes of the published wheel (--installed)",
   "cases": 22,
   "result": "22/22 as expected",
-  "artifacts": ["raw/edge_probe.json", "raw/edge_probe_wheel.json"]
+  "artifacts": [
+   "raw/edge_probe.json",
+   "raw/edge_probe_wheel.json"
+  ]
  },
  "tests": {
-  "main_baseline": {"ran": 614, "ok": true, "skipped": 4, "exit": 0},
-  "branch_first_run": {"ran": 621, "ok": false, "exit": 1, "cause": "the new test file omitted the src/ bootstrap required by tests/test_tooling_executes.py", "kept_as_evidence": "raw/full_suite_patched.log"},
-  "branch_after_repair": {"ran": 624, "ok": true, "skipped": 4, "exit": 0},
-  "branch_intermediate_green": {"ran": 621, "ok": true, "skipped": 4, "exit": 0, "log": "raw/full_suite_patched2.log", "note": "the same 621 tests that were red, after the missing src/ bootstrap was added"},
-  "branch_final": {"ran": 624, "ok": true, "skipped": 4, "exit": 0, "log": "raw/full_suite_final.log"},
-  "focused": {"modules": ["tests.test_r5r3_install_route_identity", "tests.test_s4ext_release_provenance", "tests.test_s4r2m_docs_route", "tests.test_evidence_md_guards"], "ran": 35, "ok": true, "exit": 0},
+  "main_baseline": {
+   "ran": 614,
+   "ok": true,
+   "skipped": 4,
+   "exit": 0
+  },
+  "branch_first_run": {
+   "ran": 621,
+   "ok": false,
+   "exit": 1,
+   "cause": "the new test file omitted the src/ bootstrap required by tests/test_tooling_executes.py",
+   "kept_as_evidence": "raw/full_suite_patched.log"
+  },
+  "branch_after_repair": {
+   "ran": 624,
+   "ok": true,
+   "skipped": 4,
+   "exit": 0
+  },
+  "branch_intermediate_green": {
+   "ran": 621,
+   "ok": true,
+   "skipped": 4,
+   "exit": 0,
+   "log": "raw/full_suite_patched2.log",
+   "note": "the same 621 tests that were red, after the missing src/ bootstrap was added"
+  },
+  "branch_final": {
+   "ran": 624,
+   "ok": true,
+   "skipped": 4,
+   "exit": 0,
+   "log": "raw/full_suite_final.log"
+  },
+  "focused": {
+   "modules": [
+    "tests.test_r5r3_install_route_identity",
+    "tests.test_s4ext_release_provenance",
+    "tests.test_s4r2m_docs_route",
+    "tests.test_evidence_md_guards"
+   ],
+   "ran": 35,
+   "ok": true,
+   "exit": 0
+  },
   "hosted_ci_on_branch_head": [
-   {"workflow": "ci", "run": 38849065820, "conclusion": "success"},
-   {"workflow": "public-plugin-verify", "run": 38849065867, "conclusion": "success"},
-   {"workflow": "ci", "run": 38849061153, "conclusion": "success"}
+   {
+    "workflow": "ci",
+    "run": 38849065820,
+    "conclusion": "success"
+   },
+   {
+    "workflow": "public-plugin-verify",
+    "run": 38849065867,
+    "conclusion": "success"
+   },
+   {
+    "workflow": "ci",
+    "run": 38849061153,
+    "conclusion": "success"
+   }
   ],
-  "hosted_ci_red_disclosed": {"workflow": "public-plugin-verify", "run": 38848296325, "head": "881a2e91", "conclusion": "failure", "cause": "the round evidence tree and openspec change sat outside the stage-c positive write-set allowlist", "repair": "evidence tree moved to the evidence branch; record placed inside the arm; one file added to the arm as a named amendment"}
+  "hosted_ci_red_disclosed": {
+   "workflow": "public-plugin-verify",
+   "run": 38848296325,
+   "head": "881a2e91",
+   "conclusion": "failure",
+   "cause": "the round evidence tree and openspec change sat outside the stage-c positive write-set allowlist",
+   "repair": "evidence tree moved to the evidence branch; record placed inside the arm; one file added to the arm as a named amendment"
+  }
  },
  "preview4_identity": {
   "tag": "v0.1.1-preview.4",
@@ -98,26 +234,127 @@
   "raw_evidence": "raw/served_assets.json, raw/served/assets/*"
  },
  "checklist": {
-  "CK-01": {"state": "PASS", "evidence": "compiler lint/activation/acceptance/compile all rc=0; verdict PROMPT_COMPILE_PASS"},
-  "CK-02": {"state": "PASS", "evidence": "frozen main dba4b19 + tag cc6c193 re-read; PR #11/#12/#13 merged; preview.4 published 2026-10-14; D1/D2/TYPE5 already in main -> delta-only taken"},
-  "CK-03": {"state": "PASS_DELTA_ONLY", "evidence": "D1 edges re-run against frozen tree and published wheel bytes, 22/22"},
-  "CK-04": {"state": "PASS_DELTA_ONLY", "evidence": "D2 domain/version/decimal + true sentence boundaries, same probe"},
-  "CK-05": {"state": "PASS_DELTA_ONLY", "evidence": "five ClaimCeiling shapes + two positives, same probe"},
-  "CK-06": {"state": "PASS", "evidence": "this round's OWN delta is exactly 6 paths (README.md, docs/install/README.md, docs/install/ASSET_READBACK_v0.1.1-preview.4.json, docs/RELEASE_TUPLE.json, tests/test_r5r3_install_route_identity.py, .github/workflows/public-plugin-verify.yml) and it authored NO product change. RANGE SEMANTICS (corrected after independent checker finding 1): the workflow's declared stage-c gate base is f4021ae, which is two merges behind main, so the GOVERNED range f4021ae...HEAD holds 25 paths including 4 inherited product paths (src/pipd_ls_sp/__init__.py, src/pipd_ls_sp/requirements.py, src/pipd_ls_sp/validate.py, schemas/ClaimCeiling.schema.json) that came with PR #12/#13 and that this round did not touch; stage-c classification of all 25 paths returns GATE_BAD=0. The earlier wording of this line asserted 'no src/ or schemas/ path touched' without naming the range, which is not true of the governed range; that wording is corrected here and the checker's rejection is preserved in CHECKER_VERDICT_WS_C.json."},
-  "range_semantics": {
-   "governed_range_gate_base_to_head": {"base": "f4021aeff9c016cfb14f17e68a0c570ed4e825c5", "paths": 25, "classification": "all 25 inside stage-c ALLOWED, 0 inside DENIED"},
-   "inherited_product_paths_in_that_range": ["schemas/ClaimCeiling.schema.json", "src/pipd_ls_sp/__init__.py", "src/pipd_ls_sp/requirements.py", "src/pipd_ls_sp/validate.py"],
-   "round_own_delta_vs_frozen_main": {"base": "dba4b19456777d3b597fdf71480f6423dd974243", "paths": 6, "product_paths": 0}
+  "CK-01": {
+   "state": "PASS",
+   "evidence": "compiler lint/activation/acceptance/compile all rc=0; verdict PROMPT_COMPILE_PASS"
   },
-  "CK-07": {"state": "PASS", "evidence": "full 624 OK/exit 0, focused 35 OK, hosted ci + public-plugin-verify both success on 4cbb22f; and the PUBLISHED wheel (release asset pipd_ls_sp-0.1.1a4-py3-none-any.whl, sha256 3b59a985dc9fc1cd..., 286,978 bytes - fetched from the release, not packed) clean-installs into a fresh venv: install exit 0, import resolves inside the venv, schema_source.mode=INSTALLED (19 families), console script present, doctor exit 0 (raw/wheel_smoke.json)"},
-  "CK-08": {"state": "PASS", "evidence": "mutation control: baseline green, 4/4 mutations red (route-paragraph digest -> zeros, build_source_commit -> not-a-commit, tuple drops PIPD_WEB_FALLBACK.md.sha256, build_source_scope removed), tree restored after each; guard refusal probes; ZIP 8 skills / single root / no traversal; credential never printed (redaction verified in every captured log)"},
-  "CK-09": {"state": "PARTIAL_OWNER_GATED", "evidence": "scoped branch pushed, draft PR #16 opened, remote readback matches; merge NOT granted and NOT performed"},
-  "CK-10": {"state": "PASS_AS_VERIFICATION_ONLY", "evidence": "the existing preview.4 tag's identity re-derived and recorded; NO new tag created this round"},
-  "CK-11": {"state": "PASS", "evidence": "plugin ZIP 545e359a... (68,357 B), one root, one manifest, exactly 8 SKILL.md, CRC ok, no traversal"},
-  "CK-12": {"state": "PASS", "evidence": "7 served assets re-downloaded; each SHA256 compared with SHA256SUMS; all match; now recorded in-tree"},
-  "CK-13": {"state": "PASS", "evidence": "the documented route pointed at a preview.4 entry that did not exist; the entry now exists, carries all 7 identities with a scoped build-source claim, and docs/install/ASSET_READBACK_v0.1.1-preview.4.json carries the served-byte readback"},
-  "CK-14": {"state": "NOT_RUN_OWNER_GATED", "evidence": "private ChatGPT upload/install needs the account owner's entitlement; recorded NOT_SUPPORTED_FOR_ACCOUNT / TEMP_CLOSED, no install claimed"},
-  "CK-15": {"state": "PARTIAL", "evidence": "independent checker (CODEX CLI openai-codex/gpt-6.1-sol) VERIFIED_WITH_FINDINGS; 3 findings repaired and re-verified; Owner ratification NOT granted"}
+  "CK-02": {
+   "state": "PASS",
+   "evidence": "frozen main dba4b19 + tag cc6c193 re-read; PR #11/#12/#13 merged; preview.4 published 2026-10-14; D1/D2/TYPE5 already in main -> delta-only taken"
+  },
+  "CK-03": {
+   "state": "PASS_DELTA_ONLY",
+   "evidence": "D1 edges re-run against frozen tree and published wheel bytes, 22/22"
+  },
+  "CK-04": {
+   "state": "PASS_DELTA_ONLY",
+   "evidence": "D2 domain/version/decimal + true sentence boundaries, same probe"
+  },
+  "CK-05": {
+   "state": "PASS_DELTA_ONLY",
+   "evidence": "five ClaimCeiling shapes + two positives, same probe"
+  },
+  "CK-06": {
+   "state": "PASS",
+   "evidence": "this round's OWN delta is exactly 6 paths (README.md, docs/install/README.md, docs/install/ASSET_READBACK_v0.1.1-preview.4.json, docs/RELEASE_TUPLE.json, tests/test_r5r3_install_route_identity.py, .github/workflows/public-plugin-verify.yml) and it authored NO product change. RANGE SEMANTICS (corrected after independent checker finding 1): the workflow's declared stage-c gate base is f4021ae, which is two merges behind main, so the GOVERNED range f4021ae...HEAD holds 25 paths including 4 inherited product paths (src/pipd_ls_sp/__init__.py, src/pipd_ls_sp/requirements.py, src/pipd_ls_sp/validate.py, schemas/ClaimCeiling.schema.json) that came with PR #12/#13 and that this round did not touch; stage-c classification of all 25 paths returns GATE_BAD=0. The earlier wording of this line asserted 'no src/ or schemas/ path touched' without naming the range, which is not true of the governed range; that wording is corrected here and the checker's rejection is preserved in CHECKER_VERDICT_WS_C.json."
+  },
+  "range_semantics": {
+   "governed_range_gate_base_to_head": {
+    "base": "f4021aeff9c016cfb14f17e68a0c570ed4e825c5",
+    "paths": 25,
+    "classification": "all 25 inside stage-c ALLOWED, 0 inside DENIED"
+   },
+   "inherited_product_paths_in_that_range": [
+    "schemas/ClaimCeiling.schema.json",
+    "src/pipd_ls_sp/__init__.py",
+    "src/pipd_ls_sp/requirements.py",
+    "src/pipd_ls_sp/validate.py"
+   ],
+   "round_own_delta_vs_frozen_main": {
+    "base": "dba4b19456777d3b597fdf71480f6423dd974243",
+    "paths": 6,
+    "product_paths": 0
+   }
+  },
+  "CK-07": {
+   "state": "PASS",
+   "evidence": "full 624 OK/exit 0, focused 35 OK, hosted ci + public-plugin-verify both success on 4cbb22f; and the PUBLISHED wheel (release asset pipd_ls_sp-0.1.1a4-py3-none-any.whl, sha256 3b59a985dc9fc1cd..., 286,978 bytes - fetched from the release, not packed) clean-installs into a fresh venv: install exit 0, import resolves inside the venv, schema_source.mode=INSTALLED (19 families), console script present, doctor exit 0 (raw/wheel_smoke.json)"
+  },
+  "CK-08": {
+   "state": "PASS",
+   "evidence": "mutation control: baseline green, 4/4 mutations red (route-paragraph digest -> zeros, build_source_commit -> not-a-commit, tuple drops PIPD_WEB_FALLBACK.md.sha256, build_source_scope removed), tree restored after each; guard refusal probes; ZIP 8 skills / single root / no traversal; credential never printed (redaction verified in every captured log)"
+  },
+  "merge": {
+   "authorization": "explicit Repo Owner instruction in this session ('merge PR #16', with the independent pass to run first); this is the SEPARATE_HUMAN_RELEASE_APPROVAL the machine header requires for a merge, and the Owner is the authority who granted it",
+   "pr": {
+    "number": 16,
+    "url": "https://github.com/shw097-team/PIPD-LS-SP/pull/16",
+    "state": "closed",
+    "merged": true
+   },
+   "method": "merge commit (both parents preserved: dba4b19 = previous main, 4cbb22f = the branch head)",
+   "merge_commit": "d3bd5456afbff21a8c8837994a49f57be3e1b97e",
+   "merge_commit_tree": "bc8dfc21e912312d5224eb94e5dbf223c99ab933",
+   "new_main": "d3bd5456afbff21a8c8837994a49f57be3e1b97e",
+   "previous_main": "dba4b19456777d3b597fdf71480f6423dd974243",
+   "merge_delta_paths": 6,
+   "post_merge_gates": {
+    "full_suite_on_merged_main": {
+     "ran": 624,
+     "ok": true,
+     "skipped": 4,
+     "exit": 0,
+     "log": "raw/full_suite_postmerge.log",
+     "worktree": "C:/Projects/wt-r5r3-postmerge"
+    },
+    "stage_c_write_set_classification": {
+     "paths": 25,
+     "outside_allowed": 0,
+     "inside_denied": 0,
+     "gate_bad": 0
+    },
+    "hosted_check_on_merge_commit": {
+     "name": "offline-gate",
+     "status": "completed",
+     "conclusion": "success"
+    }
+   },
+   "not_created_by_this_merge": [
+    "tag",
+    "release",
+    "release asset",
+    "public directory listing"
+   ],
+   "release_implication": "the published v0.1.1-preview.4 tag still points at cc6c193 and its assets are unchanged; main now carries the identity record that describes them, so the documented route and the published bytes agree. A NEW release remains a separate Owner approval and was NOT requested."
+  },
+  "CK-09": {
+   "state": "MERGED_OWNER_AUTHORIZED",
+   "evidence": "branch pushed with remote readback, PR #16 opened and then merged as d3bd5456 on explicit Owner instruction after the independent checker pass; merge commit has both parents; remote main readback equals the local merge commit"
+  },
+  "CK-10": {
+   "state": "PASS_AS_VERIFICATION_ONLY",
+   "evidence": "the existing preview.4 tag's identity re-derived and recorded; NO new tag created this round"
+  },
+  "CK-11": {
+   "state": "PASS",
+   "evidence": "plugin ZIP 545e359a... (68,357 B), one root, one manifest, exactly 8 SKILL.md, CRC ok, no traversal"
+  },
+  "CK-12": {
+   "state": "PASS",
+   "evidence": "7 served assets re-downloaded; each SHA256 compared with SHA256SUMS; all match; now recorded in-tree"
+  },
+  "CK-13": {
+   "state": "PASS",
+   "evidence": "the documented route pointed at a preview.4 entry that did not exist; the entry now exists, carries all 7 identities with a scoped build-source claim, and docs/install/ASSET_READBACK_v0.1.1-preview.4.json carries the served-byte readback"
+  },
+  "CK-14": {
+   "state": "NOT_RUN_OWNER_GATED",
+   "evidence": "private ChatGPT upload/install needs the account owner's entitlement; recorded NOT_SUPPORTED_FOR_ACCOUNT / TEMP_CLOSED, no install claimed"
+  },
+  "CK-15": {
+   "state": "PASS_WITH_REJECTION_RECORDED",
+   "evidence": "two independent checker dispatches. WS-B (openai-codex/gpt-6.1-sol) on the earlier commit returned VERIFIED_WITH_FINDINGS and its 3 findings were repaired. WS-C on the frozen head 4cbb22f returned REJECTED with GATE_BAD_COUNT 0 while every technical check PASSED (write set 0 outside ALLOWED and 0 inside DENIED; tag object, commit and tree each MATCH; coverage 6 of 6 SHA256SUMS names; build-source scope limited to the wheel; install route bound to the served digest). Its single finding was that CK-06 asserted 'no src/ or schemas/ path touched' without naming the range, which is not true of the governed range f4021ae...HEAD; that wording is repaired here (CK-06 plus range_semantics) and the verbatim verdict is kept in CHECKER_VERDICT_WS_C.json. Disclosed limitation: WS-C read a 43-file revision of the pack out of the product repo's earlier object history, while the current pack is larger, so its pack-size remark describes that older revision. Its arm binding is TOOL-UNBOUND (the dispatcher returned ERR_NO_ARM_EMITTED_NONCE although the declared arm ran about 269s and its own message echoed the nonce), so the verdict must be read from the lane's own stdout, which travels in the pack."
+  }
  },
  "independent_checker": {
   "lane": "VERIFY_SECURITY",
@@ -134,14 +371,32 @@
   "artifact": "R5R3_PREVIEW4_EVIDENCE_RETURN/CHECKER_VERDICT.json"
  },
  "open_tickets": [
-  {"id": "TT-R5R3-01", "about": "the repo tracks credential helpers globally; GIT_ASKPASS alone is ignored and a token-based HTTPS push needs credential.helper= + credential.interactive=always + core.askPass per invocation", "state": "recorded as an environment finding"},
-  {"id": "TT-R5R3-02", "about": "the stage-c write-set arm did not include docs/RELEASE_TUPLE.json although the PR filter and the install guide both name it", "state": "amended in this PR, named as an amendment"},
-  {"id": "TT-R5R3-03", "about": "GSTACK named-method readback shows config/hermes-codex-lane.json codex_sha256 differs from the installed executable", "state": "open, HGK tooling projection drift, not a product defect"}
+  {
+   "id": "TT-R5R3-01",
+   "about": "the repo tracks credential helpers globally; GIT_ASKPASS alone is ignored and a token-based HTTPS push needs credential.helper= + credential.interactive=always + core.askPass per invocation",
+   "state": "recorded as an environment finding"
+  },
+  {
+   "id": "TT-R5R3-02",
+   "about": "the stage-c write-set arm did not include docs/RELEASE_TUPLE.json although the PR filter and the install guide both name it",
+   "state": "amended in this PR, named as an amendment"
+  },
+  {
+   "id": "TT-R5R3-03",
+   "about": "GSTACK named-method readback shows config/hermes-codex-lane.json codex_sha256 differs from the installed executable",
+   "state": "open, HGK tooling projection drift, not a product defect"
+  }
  ],
  "rollback": {
-  "product_branch": "abandon fix/r5r3-preview4-identity-and-route; main, tags and published assets are untouched by this round",
+  "product_branch": "fix/r5r3-preview4-identity-and-route is now MERGED into main; to undo the round, revert the merge commit: git revert -m 1 d3bd5456afbff21a8c8837994a49f57be3e1b97e (owner-authorized action)",
   "evidence_branch": "delete r5r3-evidence-return-20261016",
-  "revert_path": "the branch is unmerged and the round created no tag and no release, so no revert pointer is needed"
+  "revert_path": "revert -m 1 d3bd5456afbff21a8c8837994a49f57be3e1b97e restores dba4b19 content; no tag and no release were created by this round, and the published v0.1.1-preview.4 assets are untouched either way"
  },
- "not_granted": ["PUBLIC_DIRECTORY", "S4_FULL_PASS", "PRODUCTION", "MERGE", "NEW_RELEASE", "PRIVATE_HOST_INSTALL"]
+ "not_granted": [
+  "PUBLIC_DIRECTORY",
+  "S4_FULL_PASS",
+  "PRODUCTION",
+  "NEW_RELEASE",
+  "PRIVATE_HOST_INSTALL"
+ ]
 }
