@@ -4,6 +4,20 @@
  "measured_at": "2026-10-16",
  "what_this_is": "A repository-side verification record, NOT a release asset: every value below was measured by downloading the asset GitHub serves for this release and hashing the bytes locally, then parsing the release's own SHA256SUMS and comparing. It exists so the identity test can cross-check the documented tuple against the served bytes without trusting a maker sidecar.",
  "method": "per-asset HTTPS download -> sha256 -> compare against the parsed SHA256SUMS entries",
+ "reproducibility": {
+  "measured_at": "2026-10-16",
+  "what_this_is": "The plugin ZIP this release serves was rebuilt from its frozen source commit and compared byte-for-byte. The served bytes are the deterministic output of the recorded commit, so a reviewer can reproduce them without trusting a maker sidecar.",
+  "source_commit": "cc6c1930765160697e7e51d6e37735b9220a30db",
+  "recipe": [
+   "tools/freeze_public_plugin_source.py --repo-root . --out <out>/ledger.json",
+   "tools/build_public_plugin.py --ledger <out>/ledger.json --source-commit <commit> --packaging-root packaging/public-plugin --out-dir <out> --generate-icons"
+  ],
+  "builds_agreeing": 2,
+  "rebuilt_bytes": 68357,
+  "rebuilt_sha256": "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75",
+  "matches_served_asset": true,
+  "claim_ceiling": "a local rebuild from the same source: it proves provenance and determinism of the served bytes, not host acceptance and not that the release carries later commits."
+ },
  "sha256sums_entries": [
   "PIPD_WEB_FALLBACK.md",
   "PIPD_WEB_FALLBACK.md.sha256",
