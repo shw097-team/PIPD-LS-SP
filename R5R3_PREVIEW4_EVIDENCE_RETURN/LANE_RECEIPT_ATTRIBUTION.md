@@ -13,10 +13,16 @@ numbering, so read attribution from the payload markers and the timestamped subd
 Per-attempt subdirectories are unique (`<lane>/attempt-<N>-<UTC timestamp>Z/`), so no artifact was lost: the
 subdirectory names disambiguate what the flat receipt names cannot.
 
-Only the writer and the checker dispatches are nonce-bound (`ok: true`). The probe payloads did return their
-echoes — `LANE_ECHO=EXECUTE` plus the per-attempt row (`rank 1`, `provider opencode-go`, `model
-deepseek-v4.1-flash`) — but a served-arm claim must not be built on that: the dispatcher itself returned
-`ERR_NO_ARM_EMITTED_NONCE`, so this round records the probes as `TRANSPORT_PROBE_ONLY / NOT_BOUND`.
+Only the writer and the checker dispatches are nonce-bound (`ok: true`). For the two probes, the two lanes behaved
+differently and the difference is the point:
+
+- the EXECUTE probe DID return a payload (`LANE_ECHO=EXECUTE`, `PROBE_DONE=R5R3-PROBE-d8e74bea7225`) plus the
+  per-attempt row (`rank 1`, `provider opencode-go`, `model deepseek-v4.1-flash`) — but the dispatcher returned
+  `ERR_NO_ARM_EMITTED_NONCE`, so it is recorded `TRANSPORT_PROBE_ONLY / NOT_BOUND`;
+- the VERIFY probe returned **no payload at all**: `{"probe_stdout":"","lane_echo":"VERIFY_SECURITY"}` and its
+  inner probe command reported `exit_code 1 / status failed`. A brief that has to write an output file cannot
+  signal from a read-only lane, so this probe carries `NO_TRANSPORT_SIGNAL / NOT_BINDABLE` — and the lane's only
+  binding evidence is the checker dispatch.
 
 Tool defect recorded (not a product defect): the receipt name omits the job, which invited a mis-attribution
 during the round and would invite one for any reader. A job key or a prompt hash in the name would fix it.
