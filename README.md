@@ -158,7 +158,7 @@ single source of truth for both:
   `.hgk/rounds/R5Y-20261014-gpt-plugin-publication/04_package/build/build-a/pipd-ls-sp-public-skills.zip`
   (**68,355 bytes**, sha256 `2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199`) is the
   pre-release build frozen at `062d84ae`. Do not install it: it is not the bytes the release serves, and
-  its digest is in no `SHA256SUMS`.
+  its digest appears in no `SHA256SUMS` asset of `v0.1.1-preview.4`.
 - **Agent** — one copy-paste prompt,
   [`docs/install/PIPD_AGENT_INSTALL_PROMPT.md`](docs/install/PIPD_AGENT_INSTALL_PROMPT.md), for the
   four supported hosts (Hermes Agent, Codex Desktop (GUI), Codex CLI, Claude Code). Each host must

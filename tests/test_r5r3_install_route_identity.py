@@ -26,6 +26,7 @@ HEX64 = re.compile(r"\b[0-9a-f]{64}\b")
 SERVED_ZIP = "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75"
 SUPERSEDED_ZIP = "2f9ae010a6eba90787037a93a17e77f50bbc29dea5628f6fbe3e0f278fd2d199"
 TAG = "v0.1.1-preview.4"
+SERVED_RECORD_REL = "R5R3_PREVIEW4_EVIDENCE_RETURN/raw/served_assets.json"
 DISCLOSURE = ("superseded", "historical", "history", "do not install")
 
 
@@ -44,6 +45,20 @@ class InstallRouteNamesTheServedAssetTests(unittest.TestCase):
     def _paragraphs(self) -> list[str]:
         text = (ROOT / "README.md").read_text(encoding="utf-8")
         return [p for p in re.split(r"\n\s*\n", text) if p.strip()]
+
+    def test_the_download_route_paragraph_carries_the_served_digest_itself(self) -> None:
+        """The digest must be bound to the download it belongs to, not merely present in the file.
+
+        An earlier revision of this guard only asserted that the served digest appeared somewhere in
+        README.md. A mutation that changed the digest inside the download paragraph still passed,
+        because the correct digest survived elsewhere in the file. The binding is what matters.
+        """
+        for index, para in enumerate(self._paragraphs()):
+            if f"releases/download/{TAG}/pipd-ls-sp-public-skills.zip" in para:
+                self.assertIn(SERVED_ZIP, para,
+                              f"README.md paragraph {index} names the download but not its served digest")
+                return
+        self.fail("README.md names no download route for the plugin ZIP")
 
     def test_superseded_digest_is_only_disclosed_as_superseded(self) -> None:
         """A paragraph that names the superseded ZIP must say it is superseded.
@@ -80,9 +95,38 @@ class TupleRecordsThePreview4IdentityTests(unittest.TestCase):
         self.assertEqual(git("rev-parse", TAG), entry["tag_object"])
         self.assertEqual(git("rev-parse", f"{TAG}^{{commit}}"), entry["release_tag_target"])
         self.assertEqual(git("rev-parse", f"{TAG}^{{tree}}"), entry["tree"])
-        self.assertIn("build_source_commit", entry)
         self.assertNotEqual(entry["build_source_commit"], entry["release_tag_target"],
                             "the build source and the tag target are separate facts")
+
+    def test_build_source_commit_exists_and_its_scope_is_stated(self) -> None:
+        """A build-source claim must name a commit that is really in this repository, and say which
+        artifact it is about. An earlier revision only checked presence and inequality, so a value
+        like ``not-a-commit`` passed; and an unscoped claim silently turned wheel provenance into
+        plugin-ZIP provenance."""
+        entry = self.entry()
+        sha = entry["build_source_commit"]
+        self.assertRegex(sha, r"^[0-9a-f]{40}$", "build_source_commit must be a full commit sha")
+        out = subprocess.run(["git", "-C", str(ROOT).replace("\\", "/"), "rev-parse",
+                              "--verify", "--quiet", f"{sha}^{{commit}}"],
+                             capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, f"build_source_commit {sha} is not a commit in this repo")
+        self.assertIn("build_source_scope", entry,
+                      "a release that builds more than one artifact must scope its build-source claim")
+
+    def test_every_tuple_digest_matches_the_retained_served_bytes(self) -> None:
+        """Cross-check the recorded identities against the served-byte readback that ships beside
+        them, and require the tuple to be COMPLETE against the release's own checksum list."""
+        record = json.loads((ROOT / SERVED_RECORD_REL).read_text(encoding="utf-8"))
+        served = record["assets"]
+        entry = self.entry()
+        self.assertEqual(set(entry["served_assets"]), set(served),
+                         "the tuple must list every served asset of this release, and no other name")
+        for name, meta in entry["served_assets"].items():
+            self.assertEqual(meta["sha256"], served[name]["sha256"], name)
+            self.assertEqual(meta["bytes"], served[name]["size"], name)
+        listed_in_sums = set(record["sha256sums"]["rows"])
+        self.assertEqual(sorted(listed_in_sums - set(entry["served_assets"])), [],
+                         "an entry of the release's SHA256SUMS is missing from the tuple")
 
     def test_served_asset_digests_are_recorded(self) -> None:
         entry = self.entry()

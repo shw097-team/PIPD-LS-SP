@@ -16,8 +16,10 @@
       the R5Y-time "no tag and no release was created" gate row replaced by the published identity.
 - [x] `docs/install/README.md`: version-pin bullet names the real tag object/target/tree and the real
       identity sources; the non-existent `RELEASE_TUPLE_v0.1.1-preview.4.json` asset is no longer named.
-- [x] `docs/RELEASE_TUPLE.json`: `v0.1.1-preview.4` entry with tag facts, build source commit and all six
-      served asset digests; `pack_dir`/`zip` null on purpose (the release ships no mount pack).
+- [x] `docs/RELEASE_TUPLE.json`: `v0.1.1-preview.4` entry with tag facts, a **scoped** build-source claim,
+      all **seven** served asset identities (`sha256sums_coverage`: 6/6 of the release's own checksum
+      entries are represented, the seventh record being `SHA256SUMS` itself), and `pack_dir`/`zip` null on
+      purpose (the release ships no mount pack).
 - [x] `tests/test_r5r3_install_route_identity.py`: derived guard (git re-derivation + digest checks).
 - [x] Guard proven non-vacuous: the mutation control `mutation_control_route_rule.py` shows the
       per-paragraph rule fires when the superseded digest is placed in the route paragraph and that the
