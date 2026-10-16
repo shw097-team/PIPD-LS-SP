@@ -71,6 +71,53 @@
         "whole suite and hosted CI were deliberately outside its contract",
         "the runtime exposed no distinct backend identity for its own turn"
       ]
+    },
+    {
+      "round": "R18",
+      "lane": "VERIFY_SECURITY",
+      "used_rank": 1,
+      "required_arm": "opencode-go/deepseek-v4.1-flash",
+      "used_transport_model": "opencode-go/deepseek-v4.1-flash",
+      "receipt_ok": true,
+      "usage_receipt_ok": true,
+      "used_seconds": 423.12,
+      "sandbox": "read-only",
+      "verdict": "PARTIAL",
+      "dispatch_receipt": "far-r18/lane/verify_classclose/verify_turn.json",
+      "verdict_text": "far-r18/lane/verify_classclose/VERDICT_CLASSCLOSE.txt",
+      "confirmed": [
+        "E3 receipt integrity: both recorded verdict-text digests recompute from the committed blobs; the shipped deepseek verdict tail is byte-identical to its own receipt (a capture, not a paraphrase)",
+        "E4 manifest: 74 rows, 0 mismatches over committed blobs"
+      ],
+      "findings": [
+        "E1 REFUTED: OD-06 asserted the R6/R17 round 'achieved axis independence' - the class sweep had used too narrow a token set (first of two incompleteness findings against the maker)",
+        "E2 PARTIAL: R18_ECP_DEV.md, subject_versions.json, ROUND_STATE.json and the handover narrative still read the superseded heads as current",
+        "CURRENT_SUBJECTS.md was itself stale about the tip of the branch it lives in"
+      ]
+    },
+    {
+      "round": "R18",
+      "lane": "VERIFY_SECURITY",
+      "used_rank": 1,
+      "required_arm": "opencode-go/deepseek-v4.1-flash",
+      "used_transport_model": "opencode-go/deepseek-v4.1-flash",
+      "receipt_ok": true,
+      "usage_receipt_ok": true,
+      "used_seconds": 328.7,
+      "sandbox": "read-only",
+      "verdict": "PARTIAL",
+      "dispatch_receipt": "far-r18/lane/verify_final_class/verify_turn.json",
+      "verdict_text": "far-r18/lane/verify_final_class/VERDICT_FINALCLASS.txt",
+      "confirmed": [
+        "C1 CONFIRMED: class B closed - no place a reader would act on asserts model-axis independence",
+        "C3 CONFIRMED: the authority file no longer hard-codes its own branch tip",
+        "C4 CONFIRMED: 74 rows, 74 matches, 0 mismatches; only SHA256SUMS absent from itself"
+      ],
+      "findings": [
+        "C2 PARTIAL: ONE residual survived - R18_ECP_DEV.md:13 named the superseded evidence tip in the table the document tells a developer to read before touching a line",
+        "adversarial: the v3 commit message claimed 'R18_ECP_DEV.md row updated' (singular) while only the product row had changed - the maker's own claim was narrower than its fix implied",
+        "adversarial: this addendum itself named an evidence tip already behind the tip"
+      ]
     }
   ],
   "verdict": "PARTIAL",
@@ -82,7 +129,7 @@
     "R18 despatch (opencode-go/deepseek-v4.1-flash) ran read-only without writable scratch: see its own qualification_limits; its C2/C4 results are emulation-and-blob based, not literal-command based.",
     "The C5 finding it raised was TRUE of the packet as shipped at 338227c and is repaired in this revision. The repair is the maker acting on a checker finding; the checker did not and could not accept its own repair."
   ],
-  "claim_ceiling": "Binds the R18 product head to the independent despatch's adjudication of C1-C4 (confirmed) and C5/C6 (found, then repaired). It is NOT an acceptance of the round, NOT model-axis independence (see independence_basis), and NOT whole-suite / hosted-CI / host-qualification evidence.",
+  "claim_ceiling": "Binds the R18 product head to the independent despatch chain's adjudication: C1-C4 confirmed, C5/C6 found and repaired, class B closed, class A reduced to one residual which was then fixed UNVERIFIED. It is NOT an acceptance of the round, NOT model-axis independence (maker and checker are the same model arm by owner order), and NOT whole-suite / hosted-CI / host-qualification evidence.",
   "subject_history": [
     {
       "commit": "552bbde073806e254f84e95039f05c9767608aa1",
@@ -98,5 +145,6 @@
       "tree": "b8718e59a935dc1cbfb2462c9e552e423b5b74b1",
       "role": "R18 product head (guard strengthened with the outgoing-link check; docs/install/README.md:151 dead link repaired)"
     }
-  ]
+  ],
+  "verification_history_note": "Four R18 despatches of VERIFY_SECURITY are recorded: deepseek (C1-C4 confirmed, C5/C6 found), delta (D1-D4 confirmed, same classes surviving elsewhere), classclose (E1 refuted, E2 partial), final class confirmation (C1/C3/C4 confirmed, C2 partial with ONE residual). Class B is closed; class A's single residual (R18_ECP_DEV.md:13) and two recommended hedge markers were fixed after that final verdict and are UNVERIFIED by any checker - no fifth despatch was run, deliberately."
 }
