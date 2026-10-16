@@ -1,0 +1,86 @@
+{
+ "schema": "R5R3/selfcheck/1",
+ "harness": "selfcheck_r5r3.py (re-runnable; guards proven by refusal probes)",
+ "overall": "OK_FOR_ROUND_EVIDENCE",
+ "counts": {
+  "pass": 10,
+  "fail": 0,
+  "inconclusive": 0
+ },
+ "checks": [
+  {
+   "S1_subject_binding": "PASS"
+  },
+  {
+   "S2_d1_d2_type5_on_main": "PASS"
+  },
+  {
+   "S3_released_wheel_edges": "PASS"
+  },
+  {
+   "S4_type5_no_native_exception": "PASS"
+  },
+  {
+   "S5_full_suite": "PASS"
+  },
+  {
+   "S6_wheel_clean_install": "PASS"
+  },
+  {
+   "S7_plugin_zip": "PASS"
+  },
+  {
+   "S8_served_asset_readback": "PASS"
+  },
+  {
+   "S9_guards_refuse": "PASS"
+  },
+  {
+   "S10_negative_control": "PASS"
+  }
+ ],
+ "repairs": [
+  {
+   "requested": true,
+   "failing_checks": [],
+   "repair_surface": "C:\\Projects\\Agent_Workspace\\_handover\\R5R3-20261016-preview4-closeout",
+   "iterations_cap": 3,
+   "outcome": "NO_REPAIR_PERFORMED",
+   "note": "a repair never touches the subject and never synthesises evidence"
+  }
+ ],
+ "gstack_named_method_readback": {
+  "registry_epoch": 19,
+  "drift": [
+   {
+    "code": "DRIFT_VALUE",
+    "id": "hermes-codex-lane",
+    "path": "config/hermes-codex-lane.json",
+    "pointer": "/codex_sha256",
+    "expected": "D13914CED6C7AF174D8D638DB938284231227312104B06A25E9608C632A7DAEC",
+    "actual": "e98c516f1c8935789aabe9122ee7e05ec4c3efd1ba6acf179242e031c495b99e",
+    "severity": "error"
+   }
+  ],
+  "sod_execute_vs_verify": [
+   true,
+   "SOD_OK deepseek-v4.1-flash != gpt-6.1-sol"
+  ],
+  "selected_over_total": "0/19",
+  "activation_invariants_all_zero": true
+ },
+ "kanban": {
+  "board": "r5r3-preview4-closeout-20261016",
+  "root_id": "t_38161c1b",
+  "worker_ids": [
+   "t_7258e03f",
+   "t_67af4ad2",
+   "t_bd29a541",
+   "t_1818a583",
+   "t_87d433f1"
+  ],
+  "verifier_id": "t_faf071f7",
+  "synthesizer_id": "t_896f0d1a"
+ },
+ "far_run": "Fabric/fabric-autonomous-research/runs/FAR-20261016-011-r5r3-preview4-live-subject"
+}

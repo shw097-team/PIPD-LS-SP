@@ -1,0 +1,149 @@
+{
+ "schema": "R5R3-20261016/selfcheck/1",
+ "round": "R5R3-20261016-preview4-closeout",
+ "subject": "dba4b19456777d3b597fdf71480f6423dd974243",
+ "claim_ceiling": "CANDIDATE_ONLY - machine gate over this round's own evidence; NOT an acceptance, NOT an approval, NOT an independent verdict, NOT a Gate PASS",
+ "checks": [
+  {
+   "id": "S1_subject_binding",
+   "verdict": "PASS",
+   "detail": {
+    "origin_main_live": "dba4b19456777d3b597fdf71480f6423dd974243",
+    "expected": "dba4b19456777d3b597fdf71480f6423dd974243",
+    "worktree_head": "6a3a1caf16cee6a232477f584d8008197530aa2b",
+    "served_digests_ok": {
+     "pipd-ls-sp-public-skills.zip": true,
+     "pipd_ls_sp-0.1.1a4-py3-none-any.whl": true,
+     "SHA256SUMS": true
+    }
+   }
+  },
+  {
+   "id": "S2_d1_d2_type5_on_main",
+   "verdict": "PASS",
+   "detail": {
+    "total": 22,
+    "match": 22,
+    "fail": 0,
+    "verdict": "PASS"
+   }
+  },
+  {
+   "id": "S3_released_wheel_edges",
+   "verdict": "PASS",
+   "detail": {
+    "summary": {
+     "total": 22,
+     "match": 21,
+     "fail": 1,
+     "verdict": "FAIL"
+    },
+    "divergence": [
+     "D2-NO-SPACE"
+    ],
+    "note": "D2-NO-SPACE is the R5R2 refinement (PR #13) that landed on main AFTER the tag"
+   }
+  },
+  {
+   "id": "S4_type5_no_native_exception",
+   "verdict": "PASS",
+   "detail": {
+    "T1_allowed_null": null,
+    "T2_forbidden_null": null,
+    "T3_allowed_dict_item": null,
+    "T4_forbidden_dict": null,
+    "T5_unknown_claim": null,
+    "POS_allowed_only": null,
+    "POS_split_lists": null
+   }
+  },
+  {
+   "id": "S5_full_suite",
+   "verdict": "PASS",
+   "detail": {
+    "ran": "614",
+    "tail": [
+     "OK (skipped=4)",
+     "EXIT=0"
+    ],
+    "subject": "dba4b19456777d3b597fdf71480f6423dd974243"
+   }
+  },
+  {
+   "id": "S6_wheel_clean_install",
+   "verdict": "PASS",
+   "detail": {
+    "checks": {
+     "install_exit_0": true,
+     "import_from_venv": true,
+     "doctor_exit_0": true,
+     "console_script_present": true
+    },
+    "doctor": "{\n \"families\": 19,\n \"findings\": [],\n \"schema_source\": {\n  \"mode\": \"INSTALLED\",\n  \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_handover\\\\R5R3-20261016-preview4-closeout\\\\raw\\\\wheelsmoke\\\\venv\\\\Lib\\\\site-pa"
+   }
+  },
+  {
+   "id": "S7_plugin_zip",
+   "verdict": "PASS",
+   "detail": {
+    "roots": [
+     "pipd-ls-sp-public-skills"
+    ],
+    "skill_md": 8,
+    "entries": 56,
+    "traversal": [],
+    "forbidden": [],
+    "crc_ok": true
+   }
+  },
+  {
+   "id": "S8_served_asset_readback",
+   "verdict": "PASS",
+   "detail": {
+    "entries": 6,
+    "recomputed": {
+     "PIPD_WEB_FALLBACK.md": true,
+     "PIPD_WEB_FALLBACK.md.sha256": true,
+     "PREVIEW_NOTES_v0.1.1-preview.4.md": true,
+     "pipd-ls-sp-public-skills.zip": true,
+     "pipd-ls-sp-v0.1.1-preview.4-source.zip": true,
+     "pipd_ls_sp-0.1.1a4-py3-none-any.whl": true
+    }
+   }
+  },
+  {
+   "id": "S9_guards_refuse",
+   "verdict": "PASS",
+   "detail": {
+    "outside_round_root_refused": true,
+    "git_write_verb_refused": true,
+    "git_read_verb_allowed": true
+   }
+  },
+  {
+   "id": "S10_negative_control",
+   "verdict": "PASS",
+   "detail": {
+    "mutated_entry": "PIPD_WEB_FALLBACK.md",
+    "detector_fired": true,
+    "note": "a harness that cannot go red on a mutated digest proves nothing"
+   }
+  }
+ ],
+ "repairs": [
+  {
+   "requested": true,
+   "failing_checks": [],
+   "repair_surface": "C:\\Projects\\Agent_Workspace\\_handover\\R5R3-20261016-preview4-closeout",
+   "iterations_cap": 3,
+   "outcome": "NO_REPAIR_PERFORMED",
+   "note": "a repair never touches the subject and never synthesises evidence"
+  }
+ ],
+ "overall": "OK_FOR_ROUND_EVIDENCE",
+ "counts": {
+  "pass": 10,
+  "fail": 0,
+  "inconclusive": 0
+ }
+}
