@@ -129,11 +129,28 @@ def run(args: argparse.Namespace) -> dict:
             same = (json.dumps(pipeline.strip_sidecar(out), sort_keys=True)
                     == json.dumps(pipeline.strip_sidecar(again), sort_keys=True))
             out = dict(out)
+            # B1 REPAIR (owner-authorized S1, 2026-10-27): recording out["subject_id"] here is a self-reference
+            # (the final subject is the hash of a body that contains this field), so the recorded
+            # value provably disagrees with the artifact. Pin the pre-replay body digest instead.
+            _pre = {k: v for k, v in out.items()
+                    if k not in ("subject_id", "version", "content_hash", "schema_version",
+                                 "trace", "_profile_meta")}
             out["replay"] = {"iterations": 2, "identity_equal": same,
-                             "subject_id": out["subject_id"],
+                             "body_digest_without_replay": pipeline.sha256_text(
+                                 pipeline.canonical_json(_pre)),
                              "replay_verdict": "PASS" if same else "FAIL"}
         if getattr(args, "explain", False):
             out = dict(out); out.update(_explain("compile-pi", out))
+        # CANDIDATE REPAIR: explain/replay used to be attached AFTER sealing, so the body digest a
+        # validator computes differed from the declared content_hash (checker C11). Re-seal the final
+        # body so the identity covers what the artifact actually carries.
+        out = pipeline._seal(out, "PI")
+        # The trace was built against the pre-replay identity; after re-sealing, every trace parent
+        # must point at the identity the artifact actually carries (checker C2: 27 stale parents).
+        for _t in (out.get("trace") or []):
+            if isinstance(_t, dict) and _t.get("from_type") == "PI-PKG":
+                _t["from_id"] = out["subject_id"]
+                _t["from_hash"] = out["content_hash"]
         return out
     if cmd == "bind-pd":
         pi = _read_json(args.pi, "PI package")
@@ -151,6 +168,11 @@ def run(args: argparse.Namespace) -> dict:
         if getattr(args, "explain", False):
             out = dict(out); out.update(_explain("compile-ecp", out,
                                                  {"idempotency": out.get("idempotency", {})}))
+            # B1 REPAIR (owner-authorized S1, 2026-10-27): explain used to be attached AFTER sealing, so the
+            # record body changed while content_hash did not -> validate reported a body/identity
+            # mismatch and a checker could not tell a sidecar from tampering. Re-seal so the hash
+            # covers the explanation, and the ECP schema declares `explain` accordingly.
+            out = pipeline._seal(out, "ECP")
         return out
     if cmd == "compile-tqaep":
         out = pipeline.compile_tqaep(_read_json(args.pi, "PI package"),

@@ -25,6 +25,20 @@
   ],
   "properties": {
     "effect_intent": {},
+    "effect_class": {
+      "type": "string",
+      "description": "Effect classification of the granted permission. The field is normative (SBL KB DOC-04 L884 TaskNode@1 carries effect_class; DOC-05 L1327 makes unique(effect_class,...) depend on it), but the VALUE SET is deliberately not frozen here.",
+      "x-s0-vocabulary": {
+        "status": "CANDIDATE_VOCABULARY_PENDING_OWNER",
+        "source": "PKG_02_DOC_B1_PD (delivered book set); 0 hits in SBL KB DOC-00..13",
+        "values": ["READ_ONLY_PROBE", "REPOSITORY_WRITE", "HOST_OPERATIONS", "USER_DATA_EFFECT"],
+        "to_close": "Owner ratifies the value set, then collapse to enum and update registry.json required_fields; see FAR_HARD_BLOCKERS_20261027.md B-3"
+      }
+    },
+    "effect_class_distribution": {"type": "object"},
+    "nonce": {"type": "object"},
+    "replay": {"type": "object"},
+    "explain": {"type": "object"},
     "permission": {},
     "retries": {},
     "idempotency": {},

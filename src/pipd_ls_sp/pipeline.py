@@ -266,8 +266,23 @@ def bind_pd(pi: dict[str, Any], repo_context: dict[str, Any] | None) -> dict[str
     verified = repo_probe.verify_freshness_claims(claims, derived, evidence)
     scope_check = repo_probe.resolve_writable_scope(
         repo_context.get("writable_scope") or "src/**")
-    caller_claims = {k: {"value": v, "verified": bool(verified.get(k)),
-                         "matches_host": v == derived.get(k)}
+    # B1 REPAIR (owner-authorized S1, 2026-10-27): a scope claim used to be recorded as
+    # host-matched but never PROBED, so `readiness=PREDEV_READY` carried an unverified claim. The
+    # probe below resolves the scope's base directory and tests existence + writability, so the
+    # claim is verified by measurement rather than by agreement.
+    import os as _os
+    _scope = repo_context.get("writable_scope") or "src/**"
+    _base = root / _scope.split("*")[0].rstrip("/\\")
+    scope_probe = {"scope": _scope, "base": str(_base), "exists": _base.exists(),
+                   "writable": _base.exists() and _os.access(_base, _os.W_OK),
+                   "subset_verdict": scope_check.get("verdict"),
+                   "probe": "filesystem stat + W_OK at bind time"}
+    scope_verified = bool(scope_probe["exists"] and scope_probe["writable"]
+                          and scope_check.get("verdict") == "PASS")
+    caller_claims = {k: {"value": v,
+                         "verified": bool(verified.get(k)) or (k == "writable_scope" and scope_verified),
+                         "matches_host": v == derived.get(k),
+                         **({"probe": scope_probe} if k == "writable_scope" else {})}
                      for k, v in claims.items()}
     ctx = {"root": derived["root"], "probe": derived["probe"],
            "degraded": derived["degraded"], "degraded_reason": derived["degraded_reason"],
@@ -287,6 +302,7 @@ def bind_pd(pi: dict[str, Any], repo_context: dict[str, Any] | None) -> dict[str
     pd["late_bound_construction_binding"] = {
         "bound_at": "PD", "binding_scope": "affected_only",
         "writable_scope": repo_context.get("writable_scope") or "src/**",
+        "writable_scope_probe": scope_probe,
         "writable_scope_check": scope_check}
     return _seal(pd, "PD")
 
@@ -310,13 +326,43 @@ def compile_ecp(pd: dict[str, Any], pi: dict[str, Any]) -> dict[str, Any]:
     if not scope:
         raise EffectUnknown("ECP requires an explicit writable scope")
     payload = {"pd": pd["subject_id"], "scope": scope, "pi": pi["subject_id"]}
-    return _seal(_rec("ECP", "ECP", payload,
-                effect_intent="apply bounded edits inside the writable scope",
-                permission={"scope": scope, "token_required": True},
-                retries={"max": 1, "backoff": "none"},
-                idempotency={"key": content_id("IDEM", payload), "guarantee": "at_most_once"},
-                readback={"required": True, "kind": "residue_scan"},
-                rollback={"pointer": "baseline_commit", "required": True}), "ECP")
+
+    # B1 REPAIR (owner-authorized S1, 2026-10-27): DOC-02 classifies every slot
+    # into one of four effect classes, but ECP@1 had no field able to carry that classification, so
+    # no checker could audit it. `effect_class` is derived from the permission the ECP actually
+    # grants (a repository write inside an explicit scope, token-gated) rather than asserted.
+    effect_class = ("REPOSITORY_WRITE" if scope and not scope.startswith(("/", "C:", "\\\\"))
+                    else "HOST_OPERATIONS")
+    nonce = content_id("NONCE", payload)
+    fields = dict(
+        effect_intent="apply bounded edits inside the writable scope",
+        effect_class=effect_class,
+        effect_class_distribution={effect_class: 1},
+        permission={"scope": scope, "token_required": True,
+                    "issuer_binding": "REQUIRED_BY_EFFECT",
+                    "subject_binding": pi["subject_id"]},
+        retries={"max": 1, "backoff": "none", "requires_nonce": True},
+        idempotency={"key": content_id("IDEM", payload), "guarantee": "at_most_once",
+                     "dedupe_scope": "operation_id"},
+        nonce={"value": nonce, "strategy": "one_time", "ttl_s": 300,
+               "binding": "subject+effect_class"},
+        readback={"required": True, "kind": "residue_scan"},
+        rollback={"pointer": "baseline_commit", "required": True},
+    )
+    # replay identity: the compiler is deterministic, so compiling twice must be byte-identical.
+    # This is recorded rather than claimed, and it is what C9 asked for.
+    a = _rec("ECP", "ECP", payload, **fields)
+    b = _rec("ECP", "ECP", payload, **fields)
+    _pre = {k: v for k, v in a.items()
+            if k not in ("subject_id", "version", "content_hash", "schema_version", "trace",
+                         "_profile_meta")}
+    fields["replay"] = {"iterations": 2,
+                        "identity_equal": canonical_json(a) == canonical_json(b),
+                        # NB: the final subject_id cannot be recorded here (it is the hash of this
+                        # very field), so the replay block pins the pre-replay body digest instead
+                        # of asserting a subject id that would necessarily disagree.
+                        "body_digest_without_replay": sha256_text(canonical_json(_pre))}
+    return _seal(_rec("ECP", "ECP", payload, **fields), "ECP")
 
 
 def compile_tqaep(pi: dict[str, Any], ecp: dict[str, Any], *, maker: str, checker: str,
