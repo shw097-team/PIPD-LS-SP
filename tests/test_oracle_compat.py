@@ -3,13 +3,16 @@ import copy
 import hashlib
 import json
 import re
+import sys
 import unittest
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'src'))
 
 from pipd_ls_sp import pipeline
 from pipd_ls_sp.oracle_compat import CandidateRefusal
 
-ROOT = Path(__file__).resolve().parents[1]
 P4 = ROOT / 'skills/pipd-pi-compile'
 SCHEMA_BYTES = (P4 / 'schemas/output.schema.json').read_bytes()
 SCHEMA = json.loads(SCHEMA_BYTES)
