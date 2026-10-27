@@ -307,6 +307,46 @@ def bind_pd(pi: dict[str, Any], repo_context: dict[str, Any] | None) -> dict[str
     return _seal(pd, "PD")
 
 
+# ---------------------------------------------- per-slot ConstructionContract@1
+# FAR-4 option C (owner-authorized 2026-10-27): a PD slot gets its own sealed
+# ConstructionContract so an oracle binds a hash-bearing subject instead of the
+# author-side projection. PD-PKG@1 keeps its DOC-02 L9019 meaning (PI+RepoContext binding)
+# and is NOT extended with slot enumeration.
+_SLOT_ROLLBACK = {
+    "READ_ONLY_PROBE": "none required (observation only)",
+    "REPOSITORY_WRITE": "git revert to the baseline commit named by the contract",
+    "HOST_OPERATIONS": "follow the OPS rollback reference recorded by the permit",
+    "USER_DATA_EFFECT": "owner-bound rollback; git revert does not restore user data",
+}
+_SLOT_CHANGE = {
+    "READ_ONLY_PROBE": "no filesystem mutation; observation recorded",
+    "REPOSITORY_WRITE": "files inside writable_scope change; nothing outside",
+    "HOST_OPERATIONS": "host operation executes under permit; repository unchanged",
+    "USER_DATA_EFFECT": "user data changes only within the consented boundary and is reversible",
+}
+
+
+def compile_slot_contract(pd: dict[str, Any], slot: dict[str, Any]) -> dict[str, Any]:
+    """One ConstructionContract@1 per PD slot (strictly schema-conformant, no extra keys).
+
+    Provenance travels in a sidecar because the contract declares
+    `additionalProperties: false` -- adding a `slot_source` key to the record would fail
+    schema validation, and widening the schema is exactly the trade FAR-4 rejects.
+    """
+    sid = slot["slot_id"]
+    ec = slot.get("effect_class") or "READ_ONLY_PROBE"
+    route = slot.get("route") or slot.get("protected_output_route") or slot.get("operation") or "UNKNOWN"
+    scope = [route] if isinstance(route, str) else list(route)
+    cc = _rec("ConstructionContract", "CC", {"pd": pd["subject_id"], "slot": sid},
+              subject=sid,
+              writable_scope=scope,
+              expected_changes=[_SLOT_CHANGE.get(ec, "bounded change inside writable_scope")],
+              tests=[f"TQAEP:{sid}:{k}" for k in ("POS", "NEG", "EDGE", "SEC")],
+              rollback=_SLOT_ROLLBACK.get(ec, "restore the pre-contract state"),
+              evidence_expectations=[f"EVD:{sid}:{k}" for k in ("POS", "NEG", "EDGE", "SEC")])
+    return _seal(cc, "CC")
+
+
 # ---------------------------------------------------------------- ECP / TQAEP
 def compile_construction_contract(pd: dict[str, Any]) -> dict[str, Any]:
     scope = pd["late_bound_construction_binding"]["writable_scope"]

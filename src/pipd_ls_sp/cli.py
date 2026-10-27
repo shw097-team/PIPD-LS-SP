@@ -12,7 +12,7 @@ from . import __version__, pipeline, profiles, registry, validate, workspace
 from .errors import PipdError
 
 COMMANDS = ("init", "intake", "profile", "compile-pi", "bind-pd", "compile-ecp",
-            "compile-tqaep", "validate", "doctor", "project", "export", "diff", "repair")
+            "compile-tqaep", "compile-cc", "validate", "doctor", "project", "export", "diff", "repair")
 FAILURE_CODES = {
     "init": "INIT_CONFLICT/PROFILE_STALE",
     "intake": "INTAKE_INVALID/AUTHORITY_UNKNOWN",
@@ -21,6 +21,7 @@ FAILURE_CODES = {
     "bind-pd": "REPO_CONTEXT_MISSING/STALE_PROVIDER",
     "compile-ecp": "ECP_PERMISSION/EFFECT_UNKNOWN",
     "compile-tqaep": "TQ_TRACE/TQ_ORACLE/TQ_SOD",
+    "compile-cc": "CC_SCOPE/CC_SCHEMA",
     "validate": "VALIDATION_FAIL",
     "doctor": "TOOL_DRIFT/HOST_UNSUPPORTED/COLLISION/RESIDUE/SEMVER",
     "project": "PROJECTION_LOSS/ADAPTER_FAIL/UNSAFE_DESTINATION",
@@ -60,6 +61,9 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--checker", default="GLM-5.3-FLASH-AO-LANE")
     s.add_argument("--checker-receipt", dest="checker_receipt", default="")
     s.add_argument("--explain", action="store_true")
+    s = sub.add_parser("compile-cc"); s.add_argument("--pd", type=Path, required=True)
+    s.add_argument("--slots", type=Path, required=True)
+    s.add_argument("--out", type=Path, required=True)
     s = sub.add_parser("validate"); s.add_argument("--bundle", type=Path, required=True)
     s.add_argument("--explain", action="store_true")
     sub.add_parser("doctor")
@@ -183,6 +187,25 @@ def run(args: argparse.Namespace) -> dict:
             out = dict(out); out.update(_explain("compile-tqaep", out,
                                                  {"sod": (out.get("acceptance") or [{}])[0]}))
         return out
+    if cmd == "compile-cc":
+        # FAR-4 option C: one sealed ConstructionContract per PD slot. PD-PKG@1 is not
+        # extended with slot enumeration (DOC-02 L9019 keeps it a PI+RepoContext binding).
+        pd_rec = _read_json(args.pd, "PD package")
+        slots_rec = _read_json(args.slots, "slot projection")
+        slots = slots_rec.get("slots") or []
+        if not slots:
+            _fail("CC_SCOPE", "slot projection carries no slots")
+        args.out.mkdir(parents=True, exist_ok=True)
+        written = []
+        for slot in slots:
+            cc = pipeline.compile_slot_contract(pd_rec, slot)
+            f = args.out / f"CC-{slot['slot_id']}.json"
+            f.write_text(json.dumps(cc, ensure_ascii=False, indent=1), encoding="utf-8")
+            written.append({"slot_id": slot["slot_id"], "subject_id": cc["subject_id"],
+                            "content_hash": cc["content_hash"]})
+        return {"verdict": "PASS", "built": len(written), "out": str(args.out),
+                "contracts": written}
+
     if cmd == "validate":
         bundle = _read_json(args.bundle, "validation bundle")
         # R7-0 wiring: derive a deterministic frozen context from an embedded PI package when the
