@@ -16,6 +16,7 @@ from .profiles import compute_profile
 from . import repo_context as repo_probe
 from . import requirements as req_compile
 from .util import canonical_json, content_id, sha256_text  # noqa: F401
+from .validate import HASH_EXCLUDED_FIELDS, NON_RECORD_SIDECARS  # noqa: F401  single definition, by identity
 
 CLAIM_LADDER = ["PROMPT_COMPILE_PASS", "HGK_ADMITTED", "RUNTIME_READY", "LOCAL_QUALIFIED",
                 "INDEPENDENT_PASS", "PUBLICATION_APPROVED", "RELEASED", "PRODUCTION_VERIFIED"]
@@ -191,7 +192,7 @@ def _seal(rec: dict[str, Any], prefix: str) -> dict[str, Any]:
     """
     # `trace` is a derived relation, not body content: it carries the parent hash, so it cannot be
     # inside the hash it references. The validator excludes exactly the same key set.
-    body = {k: v for k, v in rec.items() if k not in ("subject_id", "version", "content_hash", "schema_version", "trace", "_profile_meta")}
+    body = {k: v for k, v in rec.items() if k not in HASH_EXCLUDED_FIELDS}
     digest = sha256_text(canonical_json(body))
     rec["subject_id"] = f"{prefix}-{digest[:16]}"
     rec["content_hash"] = digest
