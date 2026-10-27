@@ -35,6 +35,24 @@ TQAEP_DESIGN_CEILING = "TQAEP_DESIGNED"
 TQAEP_INDEPENDENT_PROOF_REQUIRES = "S5_LIVE_RUNTIME_CHECKER"
 
 
+def propose_oracle_compatibility(pi_bytes: bytes, legacy_schema: dict, *,
+                                subject_id: str, subject_hash: str,
+                                canonical_source_sha256: str,
+                                expected_source_sha256: str) -> dict:
+    """Produce a separate unsigned DOC-07/legacy-DOC-03 compatibility record.
+
+    This is an explicit adapter API, never a compiler PASS or native ratification.
+    The P4 legacy schema is pinned by the adapter; caller relaxation is refused.
+    No PI/schema bytes, REQ enums or installed consumer contracts are changed.
+    The expected source hash must come from the actual Owner's frozen manifest.
+    """
+    from .oracle_compat import propose
+    return propose(pi_bytes, legacy_schema, subject_id=subject_id,
+                   subject_hash=subject_hash, canonical_owner='PIPD_LS_DOC-07',
+                   canonical_source_sha256=canonical_source_sha256,
+                   expected_source_sha256=expected_source_sha256)
+
+
 def _rec(kind: str, prefix: str, payload: Any, **fields: Any) -> dict[str, Any]:
     """Build a schema-conformant record whose identity is derived from its own body.
 
