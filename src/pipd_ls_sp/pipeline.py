@@ -326,7 +326,18 @@ _SLOT_CHANGE = {
 }
 
 
-def compile_slot_contract(pd: dict[str, Any], slot: dict[str, Any]) -> dict[str, Any]:
+def _rollback_ref(pd: dict[str, Any], effect_class: str) -> str:
+    """Machine-checkable rollback reference (FAR-5 decision 2)."""
+    if effect_class == "READ_ONLY_PROBE":
+        return "none:read_only"
+    if effect_class == "USER_DATA_EFFECT":
+        return "owner-bound:user_consent_snapshot"
+    head = ((pd.get("RepoContext") or {}).get("head") or "").strip()
+    return f"git:commit:{head}" if head else "git:commit:UNRESOLVED"
+
+
+def compile_slot_contract(pd: dict[str, Any], slot: dict[str, Any],
+                           evidence_expectation_ids: list[str] | None = None) -> dict[str, Any]:
     """One ConstructionContract@1 per PD slot (strictly schema-conformant, no extra keys).
 
     Provenance travels in a sidecar because the contract declares
@@ -342,8 +353,11 @@ def compile_slot_contract(pd: dict[str, Any], slot: dict[str, Any]) -> dict[str,
               writable_scope=scope,
               expected_changes=[_SLOT_CHANGE.get(ec, "bounded change inside writable_scope")],
               tests=[f"TQAEP:{sid}:{k}" for k in ("POS", "NEG", "EDGE", "SEC")],
-              rollback=_SLOT_ROLLBACK.get(ec, "restore the pre-contract state"),
-              evidence_expectations=[f"EVD:{sid}:{k}" for k in ("POS", "NEG", "EDGE", "SEC")])
+              # DOC-00 L573/L587: a contract without a resolvable rollback is an ECP_REJECT, so the
+              # rollback is a `git:<kind>:<ref>` string the checker can resolve, not prose.
+              rollback=_rollback_ref(pd, ec),
+              evidence_expectations=(evidence_expectation_ids
+                                     or [f"EVD:{sid}:{k}" for k in ("POS", "NEG", "EDGE", "SEC")]))
     return _seal(cc, "CC")
 
 
