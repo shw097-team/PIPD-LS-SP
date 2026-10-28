@@ -253,6 +253,12 @@ sub-options:
 Copy-paste, from a shell. Requires **Python >= 3.11** and `curl`. The installable identity is the
 **immutable** tag `v0.1.1-preview.4`; `main` is rolling, so pin the tag rather than the branch.
 
+Windows caveat (measured 2026-10-23): step 3's `python -m venv` extracts setuptools' longest
+test-data path, which sits 130 characters below your current directory, and Windows without Long
+Path support refuses paths longer than about 260 — so a current directory deeper than about **129
+characters** fails with `WinError 206` before any of this repository's code runs (reproduced at a
+140-character cwd; the fix is a shallower directory or Long Path support, not a different command).
+
 ### bash / POSIX
 
 ```bash
@@ -489,15 +495,28 @@ build on this:
 3. **The SPEC/DEL denominator stays `28 evidenced / 10 active gaps / 19 deferred` of 57 rows.**
    `EVIDENCED != PASS`; not every applicable row has been individually audited.
 4. **`RELEASE_MANIFEST@1` (`DEL-018`)** — was `FAIL` / `EVIDENCE_GAP` on the release line and was
-   **closed** for the published subject by regenerating the projection; that closure ships in
-   `v0.1.0-preview.2`. **On this branch it is `PASS`.** After the repaired lineage was merged here the
-   tree briefly had `253` product paths with one — `docs/FRONT_PAGE_HISTORY.md` — carrying no
-   release-evidence disposition, because the **evidence manifest's seal was stale by four rounds**
-   (bound to the R5R execute commit `9667783`) and had never enumerated a file that only ever existed
-   on this branch's line. Re-sealing the evidence manifest from the current tree and rebuilding the
-   projection resolved both: `--verify` exits `0`, the manifest carries `1085` entries, and
-   `--check --current` now exits `0` with `253/253` covered and `0` violations, the file correctly
-   disposed `NOT_PUBLISHED`. No tag moved, no release asset changed, no validator edited.
+   **closed for the published subject** by regenerating the projection; that closure ships in
+   `v0.1.0-preview.2`. On `main` it was repaired again at `f541c396` (2026-10-11): a re-seal carried
+   the manifest to `1085` entries, `tools/build_evidence_manifest.py --verify` exited `0`, and
+   `tools/build_publication_manifest.py --check --current` exited `0` with `253/253` product paths
+   covered and `docs/FRONT_PAGE_HISTORY.md` disposed `NOT_PUBLISHED`. **That is a historical
+   measurement, not the current state.** Re-measured 2026-10-23 at `e95942a`: the manifest still
+   carries `1085` entries, but its seal is still bound to `f541c396` (tree `1e11ae1a`), so
+   `build_evidence_manifest.py --verify` now exits `3` (`REFUSED_STALE_OR_FOREIGN_MANIFEST`) and
+   `build_publication_manifest.py --check --current` now exits `1` — the tree has grown to `327`
+   product paths, `253` covered and `74` not (for example `tools/verify_evidence_digests.py` and
+   `dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip`). `build_publication_manifest.py
+   --check` without `--current` exits `0` with `0` violations **only where the local ref
+   `r5-s4-candidate` exists**; that ref is local-only and was never published, so a fresh clone
+   exits `1` with `cannot resolve ref 'r5-s4-candidate'` (pass `--commit
+   5094939606ba9331ed768743eb5b806ad159e639` to reproduce both results above — the `0`-violation
+   check and the `327/253/74` coverage figure, since both commands resolve that same ref; the
+   local-ref precondition is recorded open in `R7_CLOSURE_REPORT.md`). What lapsed is **seal
+   freshness and current-tree coverage**, not the published-subject projection. Closing it means
+   giving the post-`f541c396` paths release-evidence dispositions and re-sealing — a
+   **release-evidence decision**, not a docs edit. Re-derive both numbers yourself with the two
+   commands above; this page states a measurement with its commit and date, never a promise about
+   the next commit.
 5. **Native Windows symlink / junction / reparse behaviour is not certified** beyond the tested
    scope (`TT-R5P-01`, `TT-R5P-06`).
 6. **`v0.1.0-preview.1` carries two defects**, both reproduced against its published bytes:
