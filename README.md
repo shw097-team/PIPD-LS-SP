@@ -533,3 +533,17 @@ The round-by-round record stays in the tree: `docs/ROUND_DISCLOSURE.md`,
 `docs/ROUND3_DISCLOSURE.md`, `docs/S0_CONTRACT_SPEC.md`, and the per-round receipts and registers
 under `.hgk/`. **Nothing was deleted to make this page read better — the history is moved, not
 removed.**
+
+
+## B1 closure 2026-10-28
+
+`b1_closure_20261028/` is the evidence index for the FHS-MSC B1 bootstrap-repair round (PKG_00~08) on the PIPD side.
+
+- `b1_closure_20261028/EVIDENCE_INDEX.md` — question → file#line → the command that reproduces it
+- `b1_closure_20261028/MANIFEST.json` — per-file bytes + sha256 (the packet is verifiable offline)
+- `b1_closure_20261028/HANDOVER.md` — ten-point orientation for an external reviewer
+
+Claim ceiling (measured, not asserted): `mission_complete true` under `b1_closure_20261028/evidence/GATES.json`
+means the gate conjunction passed, no residual blocker remained, and every blocking declaration was
+owner-ruled. It does **not** mean release (`release: NOT_RUN`), promotion, or third-party acceptance.
+Databases, raw lane output, the owner key envelope and credentials are excluded by design.
