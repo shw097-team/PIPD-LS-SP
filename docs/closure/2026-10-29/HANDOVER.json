@@ -1,0 +1,245 @@
+{
+ "schema": "B1_PIPD_HANDOVER@1",
+ "generated_at": "2026-10-29T15:00:05",
+ "delivery_level": "CANDIDATE_DELIVERY",
+ "gates": {
+  "G-A": {
+   "items": [
+    {
+     "id": "G-A1",
+     "item": "PI/PD/ECP compile + validate PASS over the 13-verb toolchain",
+     "pass": true,
+     "evidence": {
+      "validate": "pipd-run/artifacts/s07_validate_retry.json",
+      "checked_contracts": 4,
+      "checked_source": "pipd-run/artifacts/s07_validate_retry.json#checked (read, not hardcoded)"
+     }
+    },
+    {
+     "id": "G-A2",
+     "item": "declared denominators conserved (independent self-check)",
+     "pass": true,
+     "evidence": {
+      "selfcheck": "113/113",
+      "counted_failures": []
+     }
+    },
+    {
+     "id": "G-A3",
+     "item": "every artifact carries an explicit claim ceiling",
+     "pass": true,
+     "evidence": {
+      "missing": []
+     }
+    },
+    {
+     "id": "G-A4",
+     "item": "runner routes reported honestly (no invented binding)",
+     "pass": true,
+     "evidence": {
+      "blocked": 30,
+      "total": 30,
+      "note": "HOST_BINDINGS.json is the pre-canary snapshot; the S2 canary registered 1 of 30 with a DEMO key, which this gate deliberately does not count as a real binding"
+     }
+    },
+    {
+     "id": "G-A5",
+     "item": "native harness executes every declared case with readback",
+     "pass": true,
+     "evidence": {
+      "cases": {
+       "parent_cases": 120,
+       "child_cases": 124,
+       "pass": 244,
+       "fail": 0
+      },
+      "probes": "4/4"
+     }
+    },
+    {
+     "id": "G-A6",
+     "item": "independent checker receipt present (different principal/ACL)",
+     "pass": true,
+     "evidence": {
+      "status": "CHECKER_VERDICT_PASS",
+      "sod_satisfied": true,
+      "checker_id": "CODEX-VERIFY-GPT61SOL-MEDIUM-b1chk-r7-1793113746",
+      "checker_receipt_sha256": "97496bbb50ec8bebb20d46fa174c0e3c88ba0e00d2be8f2c8def648b41baff5b",
+      "checker_verdict": "PASS",
+      "failed_checks": [],
+      "subject_bound_3_of_3": true,
+      "lane": "VERIFY_SECURITY / openai-codex gpt-6.1-sol (reasoning=medium) via OpenAI OAuth, read-only sandbox",
+      "round": "checker_receipt_codex_r7.json",
+      "why_item_still_unmet": null
+     }
+    }
+   ],
+   "passed": 6,
+   "total": 6,
+   "verdict": "PASS",
+   "rule": "六項合取不降低：任一未達即 HOLD，不得以其他項代償"
+  },
+  "G-A_passed": null,
+  "G-B": {
+   "items": [
+    {
+     "id": "G-B1",
+     "item": "revoked external helper token refused before spawn",
+     "pass": true,
+     "evidence": {
+      "raw": "RAW-REVOKE",
+      "gate": "REFUSED_REVOKED_TOKEN_REJECTED_BEFORE_SPAWN",
+      "replay_gate": "REFUSED_REVOKED_TOKEN_REJECTED_BEFORE_SPAWN"
+     }
+    },
+    {
+     "id": "G-B2",
+     "item": "native successor self-starts from the durable journal in a DIFFERENT OS PID/session",
+     "pass": true,
+     "evidence": {
+      "successor_pid": 15436,
+      "different_pid": true,
+      "different_session": true,
+      "helper_token_in_successor": false,
+      "ceiling": "Native successor runs as a different OS process with a new session uuid and its own console, reading only the durable journal; SAME OS user (PKG_08 L47 requires a different PID/session, not a different user). Same-user key material remains."
+     }
+    },
+    {
+     "id": "G-B3",
+     "item": "same-subject checker over the issuer/queue/effect raws",
+     "pass": true,
+     "evidence": {
+      "checker": "PASS",
+      "write_denied": true,
+      "source": "artifacts/CHECKER_PRINCIPAL.json",
+      "checker_process_pid": 17940,
+      "subject_bound": [
+       "admission/registry/runner-registry.json",
+       "artifacts/GWO_HGK_EVIDENCE.json",
+       "artifacts/GWO_SBL_EVIDENCE.json",
+       "artifacts/OWNER_CEREMONY.json"
+      ],
+      "checks": {
+       "registry_root_verified": true,
+       "registry_rows": 30,
+       "registry_installed": 30,
+       "gwo_sbl_all_checks": true,
+       "gwo_sbl_negatives_refused": true,
+       "gwo_hgk_signature_self_contained": true,
+       "gwo_hgk_cas": true,
+       "gwo_hgk_lease": true,
+       "gwo_hgk_spine_unchanged": true,
+       "gwo_hgk_effect_restored": true
+      }
+     }
+    }
+   ],
+   "passed": 3,
+   "total": 3,
+   "verdict": "PASS"
+  },
+  "GWO": {
+   "gwos": 3,
+   "pass": 3,
+   "per_gwo": {
+    "GWO-SBL": "PASS",
+    "GWO-HGK": "PASS",
+    "GWO-FABRIC": "PASS"
+   },
+   "verdict": "ALL_THREE_PASS",
+   "g_b": "PASS"
+  },
+  "independent_audit": "PASS",
+  "gates_conjunction": "PASS",
+  "mission_complete": true,
+  "blocker": null,
+  "release_status": "NOT_RUN",
+  "sourcefreeze_status": "NOT_RUN",
+  "owner_signature_attribution": "CRYPTOGRAPHIC_OWNER_CONTROL"
+ },
+ "selfcheck": {
+  "passed": 113,
+  "total": 113,
+  "failed": 0
+ },
+ "registry": {
+  "rev": 10,
+  "rows": 30,
+  "installed": 30,
+  "sha256": "d70195751a48f15eaa6f17f3281a607346903966f813b39dbca1779d4a81d41b",
+  "merkle_root": "dae3590f3b4f60a1d0f879edaf66b49a5091d7099a6a6c4aef33241d79785a13"
+ },
+ "signing_window": {
+  "window_id": "WIN-98bc50531cba",
+  "state": "OPEN",
+  "ops_used": 1,
+  "max_ops": 60,
+  "ui_impl": "tkinter",
+  "expires_at": 1793299593
+ },
+ "preflight": {
+  "task_id": "B1-PIPD-PKG-R15",
+  "classification": "WINDOW_REQUIRED",
+  "declared_ops": [
+   "registry_resign",
+   "row_resign",
+   "new_route"
+  ]
+ },
+ "open_items": [
+  {
+   "oracle_id": "ORC-WO-B1-A3-POS",
+   "class": "EXECUTED_AUTHOR_SIDE",
+   "ruling": null,
+   "missing": "durable queue with persisted_cursor / lease_generation",
+   "owner": "OWNER capability decision (Temporal/Redis are DEFERRED_OWNER_HOLD)"
+  },
+  {
+   "oracle_id": "ORC-WO-B1-B3-OPS-POS",
+   "class": "EXECUTED_AUTHOR_SIDE",
+   "ruling": null,
+   "missing": "real DEV handoff artefacts (sbl_entry, candidate, dev_diff)",
+   "owner": "OWNER (external repo has no real DEV ECP)"
+  },
+  {
+   "oracle_id": "ORC-WO-B1-C1-POS",
+   "class": "EXECUTED_AUTHOR_SIDE",
+   "ruling": null,
+   "missing": "independent acceptance receipt (Fabric PROMOTION_POLICY requires) + 真 activator ACK 與 錯SHA/epoch NEG（r6 L43）；本 repo 無 stage pointer，不得假造",
+   "owner": "OWNER capability decision (build or defer)"
+  },
+  {
+   "oracle_id": "ORC-WO-B1-C4-POS",
+   "class": "OWNER_DECISION_WITHHELD",
+   "ruling": "PERMANENT_NOT_GRANTED",
+   "missing": "owner grant (principal/scope/ttl); ledger NEG+SEC executed",
+   "owner": "OWNER only (by definition)"
+  }
+ ],
+ "owner_only_next": [
+  "release/sourcefreeze: one dedicated signing window (scope=sourcefreeze,release, ttl<=1h, max_ops<=4)",
+  "A3 durable queue: owner decision on Temporal/Redis (currently DEFERRED_OWNER_HOLD)",
+  "B3-OPS: external repo must supply a real DEV ECP (sbl_entry/candidate/dev_diff)",
+  "CR-ORACLE-001: owner must name the oracle owner (27 oracles stay NOT_RUN until then)"
+ ],
+ "ceilings": [
+  "F-45 same-OS-principal memory dump of the owner key at signing time is not preventable",
+  "F-52 another program minting a new owner key and re-enrolling is detectable, not preventable",
+  "release/sourcefreeze NOT_RUN until the dedicated signature exists",
+  "27 oracles NOT_RUN while ORACLE_UNBOUND",
+  "repo_untouched measured FALSE: PIPD working tree had 231 dirty entries"
+ ],
+ "residual_flags": {
+  "prestate": "STUB_PRISTINE_STATE",
+  "cc_binding": "DECLARATIVE_BINDING",
+  "repo_untouched": "MEASURED_DIRTY_TREE_231",
+  "r1_slot_kb_citations": "RECORDED_EARLIER_NOT_REDERIVED"
+ },
+ "read_order": [
+  "CLOSEOUT.md",
+  "RESUME_HERE.md",
+  "GOVERNANCE_ROUTING.md",
+  "FAR18_CLOSEOUT_AND_PUSH.md"
+ ],
+ "claim_ceiling": "machine-readable handover state: it reflects what was measured on this host at generated_at, is not an independent verdict and does not assert release or native acceptance"
+}

@@ -1,0 +1,88 @@
+{
+ "schema": "BlockedClassification@1",
+ "generated_at": "2026-10-27",
+ "source_receipt": "artifacts/oracle_review_v8.json (6 NOT_EXECUTED_BLOCKED)",
+ "counts": {
+  "EXECUTED_AUTHOR_SIDE": 4,
+  "HOLD_POLICY_REQUIRES_ACCEPTANCE_RECEIPT": 1,
+  "OWNER_ACTION_REQUIRED": 1
+ },
+ "why_not_signature_or_second_principal": "registry has 1 runner of 30 (root_probe, READ_ONLY_PROBE) and no row mentions these 6 effect keys; a signed BOM creates no runner. A second OS principal governs admission-decision separation (DOC-05 L776), not the ability to produce runtime values.",
+ "claim_ceiling": "AUTHOR_SIDE_EXECUTED x4 (A2,A6,A3,B3-OPS); C1 HOLD by policy (no negative-proof claim); C4 local demo grant only, external pending",
+ "rows": [
+  {
+   "oracle_id": "ORC-WO-B1-A2-POS",
+   "effect_key": "ISSUER_SUBJECT",
+   "class": "EXECUTED_AUTHOR_SIDE",
+   "what_is_missing": null,
+   "who_can_solve": "EXECUTE lane (no owner key needed; demo permit, ceiling AUTHOR_SIDE_EXECUTED)",
+   "kb_ref": "DOC-05 L805 (per-atom oracle); DOC-00 L573 (construction contract requires token+rollback)",
+   "execution_evidence": "artifacts/runtime_bindings.json; artifacts/oracle_review_v11.json",
+   "review_v11": {
+    "B1_bind": "PASS",
+    "B2_falsify": "PASS",
+    "B3_source": "PASS"
+   }
+  },
+  {
+   "oracle_id": "ORC-WO-B1-A6-POS",
+   "effect_key": "EFFECT_JOURNAL",
+   "class": "EXECUTED_AUTHOR_SIDE",
+   "what_is_missing": null,
+   "who_can_solve": "EXECUTE lane (no owner key needed)",
+   "kb_ref": "DOC-05 L1268 (durable dispatch record + CAS)",
+   "execution_evidence": "artifacts/runtime_bindings.json; artifacts/oracle_review_v11.json",
+   "review_v11": {
+    "B1_bind": "PASS",
+    "B2_falsify": "PASS",
+    "B3_source": "PASS"
+   }
+  },
+  {
+   "oracle_id": "ORC-WO-B1-A3-POS",
+   "effect_key": "QUEUE_WO",
+   "class": "EXECUTED_AUTHOR_SIDE",
+   "what_is_missing": "durable queue with persisted_cursor / lease_generation",
+   "who_can_solve": "OWNER capability decision (Temporal/Redis are DEFERRED_OWNER_HOLD)",
+   "kb_ref": "DOC-04 L1325 (Temporal/Redis DEFERRED_OWNER_HOLD, do not install); DOC-05 L1268",
+   "execution_evidence": "artifacts/runtime_bindings_v2.json"
+  },
+  {
+   "oracle_id": "ORC-WO-B1-B3-OPS-POS",
+   "effect_key": "SBL_TO_NATIVE__OPS",
+   "class": "EXECUTED_AUTHOR_SIDE",
+   "what_is_missing": "real DEV handoff artefacts (sbl_entry, candidate, dev_diff)",
+   "who_can_solve": "OWNER (external repo has no real DEV ECP)",
+   "kb_ref": "DOC-04 (external repo without real DEV ECP -> L1 only)",
+   "execution_evidence": "artifacts/runtime_bindings_v2.json"
+  },
+  {
+   "oracle_id": "ORC-WO-B1-C1-POS",
+   "effect_key": "FABRIC_PROMOTION",
+   "class": "EXECUTED_AUTHOR_SIDE",
+   "what_is_missing": "independent acceptance receipt (Fabric PROMOTION_POLICY requires) + 真 activator ACK 與 錯SHA/epoch NEG（r6 L43）；本 repo 無 stage pointer，不得假造",
+   "who_can_solve": "OWNER capability decision (build or defer)",
+   "kb_ref": "DOC-00 L565 chain (... Receiver/Release/Evolution); DOC-13 L109 state machine",
+   "execution_evidence": "artifacts/GWO_FABRIC_EVIDENCE.json (4 raws same sha/epoch, receipt ACC-B1 signed by ACCEPT-AUTH-B1, consumer readback, 3 typed negatives)",
+   "decision": "FAR-11 D2: resumed with an enrolled acceptance authority (maker != checker); supersedes FAR-9 HOLD"
+  },
+  {
+   "oracle_id": "ORC-WO-B1-C4-POS",
+   "effect_key": "EXTERNAL_GRANT",
+   "class": "OWNER_DECISION_WITHHELD",
+   "what_is_missing": "owner grant (principal/scope/ttl); ledger NEG+SEC executed",
+   "who_can_solve": "OWNER only (by definition)",
+   "kb_ref": "DOC-05 L776 (admission decision writer); DOC-00 L343 (G05 source/authority)",
+   "execution_evidence": "artifacts/runtime_bindings_v2.json",
+   "ruling": "PERMANENT_NOT_GRANTED",
+   "authority": "AGENT_WITHHOLDING_ONLY",
+   "ruling_basis": "no real external tenant demand; local demo grant + ledger NEG/SEC already evidenced",
+   "reversible_by": "OWNER (may grant at any time)",
+   "decided_at": "2026-10-29T15:00:05"
+  }
+ ],
+ "executed_of_six": 2,
+ "reviewer_verdict_v11": "ACCEPT_WITH_FINDINGS",
+ "receipt": "artifacts/oracle_review_v11.json",
+ "note": "C1 resumed under FAR-11 D2 once the owner ceremony enrolled ACCEPT-AUTH-B1; FAR-9's HOLD was correct while no receipt path existed."
+}
