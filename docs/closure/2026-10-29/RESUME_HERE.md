@@ -4,7 +4,7 @@
 
 > **結案狀態（2026-10-29）**：`CLOSEOUT.md`＋`artifacts/HANDOVER.json` 已產出並上推
 > `PIPD-LS-SP@b1/closure-20261029`（`fc55ecc`，`docs/closure/2026-10-29/`，未動 main、未 force）。
-> `release/sourcefreeze = NOT_RUN`：需**專用**簽章（現役窗口 scope 不含 release，FAR-18 §2 乙案）。
+> `release/sourcefreeze = SIGNED`（專用窗口 `WIN-ce63de72d674`，2/4 ops，已關閉）；本地啟用 `artifacts/ACTIVE.json`。
 
 ## 1. 先讀（依序，3 檔）
 

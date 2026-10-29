@@ -1,0 +1,21 @@
+{
+ "schema": "LOCAL_ACTIVATION@1",
+ "activated_at": "2026-10-29T15:08:46",
+ "candidate": "C:\\Projects\\Agent_Workspace\\var\\B1-PIPD-PKG-20261027",
+ "delivery_level": "LOCAL_ACTIVE",
+ "preconditions": {
+  "sourcefreeze": "SIGNED",
+  "release": "SIGNED",
+  "gates_conjunction": "PASS",
+  "mission_complete": true,
+  "selfcheck": 110
+ },
+ "digests": {
+  "sourcefreeze_manifest": "f387f8c254f485be994af7e03c699e04a4c83c0816b9b900b4cebbc0b307a3b5",
+  "release_receipt": "82ece5c3a13e07aedf351003f73cb8fd132e1037e59522ab83485f85cf4c202e",
+  "registry": "d70195751a48f15eaa6f17f3281a607346903966f813b39dbca1779d4a81d41b"
+ },
+ "activation_scope": "this host only: the candidate directory is the active working set for the B1 PIPD-LS tooling; nothing is published as released and no external tenant is served",
+ "claim_ceiling": "owner-signed local activation of a candidate; NOT external acceptance, NOT a native-bundle proof, and it does not widen any signing scope",
+ "rollback": "delete artifacts/ACTIVE.json; the candidate directory is unchanged by activation"
+}

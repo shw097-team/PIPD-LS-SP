@@ -3,7 +3,7 @@
 - 日期：2026-10-29（Asia/Taipei）
 - 工作區：`C:\Projects\Agent_Workspace\var\B1-PIPD-PKG-20261027`
 - 治理文件：`知識庫/…/FHS-MSC_PIPD-LS-PKG_SKELETON_SPINE_REPAIRED_2026-10-29_r2-revision2`（與 `var/R18-…/subject` 逐檔 sha 相同）
-- **交付等級：候選交付（CANDIDATE DELIVERY）**。`release` 與 `sourcefreeze` **未簽**，不得稱為已釋出。
+- **交付等級：本地啟用（LOCAL_ACTIVE）**。`sourcefreeze` 與 `release` 已由 owner 以**專用窗口**簽章（`WIN-ce63de72d674`，scope `sourcefreeze,release`，TTL 1h，2/4 ops）；仍**不是**對外釋出、也不是 native 驗收。
 
 ## 1. 已交付且本地可驗
 
@@ -25,7 +25,7 @@
 
 | # | 項目 | 現況 | 前置條件 | 可動作者 |
 |---|---|---|---|---|
-| 1 | `release` / `sourcefreeze` | **`NOT_RUN`** | 需**專用授權**（`04:137`「Release 仍需專門授權」）；本輪窗口 scope 不含 release | OWNER（一次口令） |
+| 1 | `release` / `sourcefreeze` | **`SIGNED`**（owner 專用窗口，`owner_freeze.py`） | 已完成；對外釋出仍未做 | OWNER（已簽） |
 | 2 | `ORC-WO-B1-A3-POS` | `EXECUTED_AUTHOR_SIDE`；缺 `persisted_cursor／lease_generation` | Temporal/Redis 屬 `DEFERRED_OWNER_HOLD`（`04:1325`） | OWNER 基礎設施決策 |
 | 3 | `ORC-WO-B1-B3-OPS-POS` | `EXECUTED_AUTHOR_SIDE`；缺外部 repo 真 DEV ECP 三件 | 需外部 repo 提供真實 DEV ECP | OWNER |
 | 4 | `ORC-WO-B1-C4-POS` | 本輪裁決 **永久 `NOT_GRANTED`**（只收回、不擴張）；local demo grant 與 ledger NEG/SEC 證據保留 | — | 已由 agent 落檔 |
@@ -46,5 +46,6 @@
 | `PKG_00~08` 的本地工程與證據 | **DELIVERED_AND_LOCALLY_VERIFIED** |
 | 獨立稽核 | **PASS**（四輪收斂，稽核者為獨立車道） |
 | Native E2E（真 native bundle） | **NOT_CLAIMED**（無外部 DEV ECP／無 native source） |
-| Release／SourceFreeze | **NOT_RUN**（待專用簽章） |
+| Release／SourceFreeze | **SIGNED**（本地啟用授權；非對外釋出） |
 | 外部驗收 | **NOT_CLAIMED** |
+| 本地啟用 | **ACTIVE**（`artifacts/ACTIVE.json`，rollback = 刪除該檔） |

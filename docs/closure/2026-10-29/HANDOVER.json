@@ -1,7 +1,7 @@
 {
  "schema": "B1_PIPD_HANDOVER@1",
- "generated_at": "2026-10-29T15:00:05",
- "delivery_level": "CANDIDATE_DELIVERY",
+ "generated_at": "2026-10-29T15:09:32",
+ "delivery_level": "LOCAL_ACTIVE",
  "gates": {
   "G-A": {
    "items": [
@@ -153,8 +153,8 @@
   "gates_conjunction": "PASS",
   "mission_complete": true,
   "blocker": null,
-  "release_status": "NOT_RUN",
-  "sourcefreeze_status": "NOT_RUN",
+  "release_status": "SIGNED",
+  "sourcefreeze_status": "SIGNED",
   "owner_signature_attribution": "CRYPTOGRAPHIC_OWNER_CONTROL"
  },
  "selfcheck": {
@@ -207,17 +207,9 @@
    "ruling": null,
    "missing": "independent acceptance receipt (Fabric PROMOTION_POLICY requires) + 真 activator ACK 與 錯SHA/epoch NEG（r6 L43）；本 repo 無 stage pointer，不得假造",
    "owner": "OWNER capability decision (build or defer)"
-  },
-  {
-   "oracle_id": "ORC-WO-B1-C4-POS",
-   "class": "OWNER_DECISION_WITHHELD",
-   "ruling": "PERMANENT_NOT_GRANTED",
-   "missing": "owner grant (principal/scope/ttl); ledger NEG+SEC executed",
-   "owner": "OWNER only (by definition)"
   }
  ],
  "owner_only_next": [
-  "release/sourcefreeze: one dedicated signing window (scope=sourcefreeze,release, ttl<=1h, max_ops<=4)",
   "A3 durable queue: owner decision on Temporal/Redis (currently DEFERRED_OWNER_HOLD)",
   "B3-OPS: external repo must supply a real DEV ECP (sbl_entry/candidate/dev_diff)",
   "CR-ORACLE-001: owner must name the oracle owner (27 oracles stay NOT_RUN until then)"
@@ -251,5 +243,29 @@
   "main_touched": false,
   "closure_bundle_commit": "fc55ecc9d7b462a9dd7ece56f7f932f9b9b71209",
   "tip_note": "branch tip advances with doc-only commits; verify with: git ls-remote origin refs/heads/b1/closure-20261029"
+ },
+ "activation": {
+  "schema": "LOCAL_ACTIVATION@1",
+  "activated_at": "2026-10-29T15:08:46",
+  "delivery_level": "LOCAL_ACTIVE",
+  "activation_scope": "this host only: the candidate directory is the active working set for the B1 PIPD-LS tooling; nothing is published as released and no external tenant is served",
+  "rollback": "delete artifacts/ACTIVE.json; the candidate directory is unchanged by activation",
+  "digests": {
+   "sourcefreeze_manifest": "f387f8c254f485be994af7e03c699e04a4c83c0816b9b900b4cebbc0b307a3b5",
+   "release_receipt": "82ece5c3a13e07aedf351003f73cb8fd132e1037e59522ab83485f85cf4c202e",
+   "registry": "d70195751a48f15eaa6f17f3281a607346903966f813b39dbca1779d4a81d41b"
+  }
+ },
+ "signed_documents": {
+  "sourcefreeze_manifest": {
+   "path": "artifacts/SOURCEFREEZE_MANIFEST.json",
+   "sha256": "f387f8c254f485be994af7e03c699e04a4c83c0816b9b900b4cebbc0b307a3b5",
+   "window_id": "WIN-ce63de72d674"
+  },
+  "release_receipt": {
+   "path": "artifacts/RELEASE_RECEIPT.json",
+   "sha256": "82ece5c3a13e07aedf351003f73cb8fd132e1037e59522ab83485f85cf4c202e",
+   "window_id": "WIN-ce63de72d674"
+  }
  }
 }

@@ -1,0 +1,186 @@
+{
+ "schema": "SOURCEFREEZE_MANIFEST@1",
+ "task_id": "CLOSEOUT-20261029",
+ "created_at": "2026-10-29T15:08:08",
+ "subject": {
+  "subject_path": "C:\\Projects\\Agent_Workspace\\var\\R18-FHS-SKELETON-SPINE-20261029\\subject",
+  "file_count": 85,
+  "aggregate_sha256": "b4b12ae49500122898c78da24e6c50828ff35fe07b088f6fb9dcaa67a7fac2a9",
+  "manifest_sha256": "1964c220ce74c1761fff7113a238ae41560fa5c087220f41966a404a4d82e057"
+ },
+ "registry": {
+  "path": "admission/registry/runner-registry.json",
+  "sha256": "d70195751a48f15eaa6f17f3281a607346903966f813b39dbca1779d4a81d41b",
+  "rev": 10,
+  "rows": 30,
+  "installed": 30,
+  "merkle_root": "dae3590f3b4f60a1d0f879edaf66b49a5091d7099a6a6c4aef33241d79785a13"
+ },
+ "evidence": {
+  "GATES.json": "9c0c83abb4d0e7bd5bd12c2f3c5bdc5381bf1773adc54d9fce5bf8775b8a5567",
+  "SELFCHECK.json": "8fa390d514fb336acb857e62f5faf89eaa0f54101f27e4ae987fccbdcc927191",
+  "INDEPENDENT_AUDIT.json": "156eb39df4fb41ef4d901264d3ccb44358d186fadcbb9eae948c444b48a13e4f",
+  "GWO_SBL_EVIDENCE.json": "b451fae04b17b3aef3b5e23baa59c2b5f9c93cdb20c0d8a0667d0dd92b90d4a3",
+  "GWO_HGK_EVIDENCE.json": "3b0882e7f6f530a08fc1278c6c69cfe4cb7395c6538613aae074c22fce6f4c40",
+  "GWO_FABRIC_EVIDENCE.json": "c5092b019a8d419335e7b199d677bbd19c415174045e84aa6e9d7ab70f56a038",
+  "G_B_EVIDENCE.json": "69b0f9ed669cea44e076c9113d24812b85b5c059b67b77ca3878ad3e7692d760",
+  "CHECKER_PRINCIPAL.json": "39dfa131ac45d3e24be4b1a107bd857295b36287d182a3b9fefd96cab88354da",
+  "HANDOVER.json": "13058bbbac3c00c9578507c522ec200856bf82da073dcba4f0f2d724bd3387b7",
+  "TASK_PREAUTH.json": "56f5ed228c643cd74451ad78b0f88023d235d76fb4fe531e4fb17135820870ba"
+ },
+ "gates": {
+  "G-A": {
+   "items": [
+    {
+     "id": "G-A1",
+     "item": "PI/PD/ECP compile + validate PASS over the 13-verb toolchain",
+     "pass": true,
+     "evidence": {
+      "validate": "pipd-run/artifacts/s07_validate_retry.json",
+      "checked_contracts": 4,
+      "checked_source": "pipd-run/artifacts/s07_validate_retry.json#checked (read, not hardcoded)"
+     }
+    },
+    {
+     "id": "G-A2",
+     "item": "declared denominators conserved (independent self-check)",
+     "pass": true,
+     "evidence": {
+      "selfcheck": "113/113",
+      "counted_failures": []
+     }
+    },
+    {
+     "id": "G-A3",
+     "item": "every artifact carries an explicit claim ceiling",
+     "pass": true,
+     "evidence": {
+      "missing": []
+     }
+    },
+    {
+     "id": "G-A4",
+     "item": "runner routes reported honestly (no invented binding)",
+     "pass": true,
+     "evidence": {
+      "blocked": 30,
+      "total": 30,
+      "note": "HOST_BINDINGS.json is the pre-canary snapshot; the S2 canary registered 1 of 30 with a DEMO key, which this gate deliberately does not count as a real binding"
+     }
+    },
+    {
+     "id": "G-A5",
+     "item": "native harness executes every declared case with readback",
+     "pass": true,
+     "evidence": {
+      "cases": {
+       "parent_cases": 120,
+       "child_cases": 124,
+       "pass": 244,
+       "fail": 0
+      },
+      "probes": "4/4"
+     }
+    },
+    {
+     "id": "G-A6",
+     "item": "independent checker receipt present (different principal/ACL)",
+     "pass": true,
+     "evidence": {
+      "status": "CHECKER_VERDICT_PASS",
+      "sod_satisfied": true,
+      "checker_id": "CODEX-VERIFY-GPT61SOL-MEDIUM-b1chk-r7-1793113746",
+      "checker_receipt_sha256": "97496bbb50ec8bebb20d46fa174c0e3c88ba0e00d2be8f2c8def648b41baff5b",
+      "checker_verdict": "PASS",
+      "failed_checks": [],
+      "subject_bound_3_of_3": true,
+      "lane": "VERIFY_SECURITY / openai-codex gpt-6.1-sol (reasoning=medium) via OpenAI OAuth, read-only sandbox",
+      "round": "checker_receipt_codex_r7.json",
+      "why_item_still_unmet": null
+     }
+    }
+   ],
+   "passed": 6,
+   "total": 6,
+   "verdict": "PASS",
+   "rule": "六項合取不降低：任一未達即 HOLD，不得以其他項代償"
+  },
+  "G-B": {
+   "items": [
+    {
+     "id": "G-B1",
+     "item": "revoked external helper token refused before spawn",
+     "pass": true,
+     "evidence": {
+      "raw": "RAW-REVOKE",
+      "gate": "REFUSED_REVOKED_TOKEN_REJECTED_BEFORE_SPAWN",
+      "replay_gate": "REFUSED_REVOKED_TOKEN_REJECTED_BEFORE_SPAWN"
+     }
+    },
+    {
+     "id": "G-B2",
+     "item": "native successor self-starts from the durable journal in a DIFFERENT OS PID/session",
+     "pass": true,
+     "evidence": {
+      "successor_pid": 15436,
+      "different_pid": true,
+      "different_session": true,
+      "helper_token_in_successor": false,
+      "ceiling": "Native successor runs as a different OS process with a new session uuid and its own console, reading only the durable journal; SAME OS user (PKG_08 L47 requires a different PID/session, not a different user). Same-user key material remains."
+     }
+    },
+    {
+     "id": "G-B3",
+     "item": "same-subject checker over the issuer/queue/effect raws",
+     "pass": true,
+     "evidence": {
+      "checker": "PASS",
+      "write_denied": true,
+      "source": "artifacts/CHECKER_PRINCIPAL.json",
+      "checker_process_pid": 17940,
+      "subject_bound": [
+       "admission/registry/runner-registry.json",
+       "artifacts/GWO_HGK_EVIDENCE.json",
+       "artifacts/GWO_SBL_EVIDENCE.json",
+       "artifacts/OWNER_CEREMONY.json"
+      ],
+      "checks": {
+       "registry_root_verified": true,
+       "registry_rows": 30,
+       "registry_installed": 30,
+       "gwo_sbl_all_checks": true,
+       "gwo_sbl_negatives_refused": true,
+       "gwo_hgk_signature_self_contained": true,
+       "gwo_hgk_cas": true,
+       "gwo_hgk_lease": true,
+       "gwo_hgk_spine_unchanged": true,
+       "gwo_hgk_effect_restored": true
+      }
+     }
+    }
+   ],
+   "passed": 3,
+   "total": 3,
+   "verdict": "PASS"
+  },
+  "GWO": {
+   "gwos": 3,
+   "pass": 3,
+   "per_gwo": {
+    "GWO-SBL": "PASS",
+    "GWO-HGK": "PASS",
+    "GWO-FABRIC": "PASS"
+   },
+   "verdict": "ALL_THREE_PASS",
+   "g_b": "PASS"
+  },
+  "independent_audit": "PASS",
+  "gates_conjunction": "PASS",
+  "mission_complete": true
+ },
+ "claim_ceiling": "freezes the DIGESTS the owner was shown; it does not by itself prove native acceptance, does not cover external tenants and does not widen the signing scope",
+ "signature_hex": "4ef282b53e316414a9b2c0fbe4855d84e9bbbacbdfb62e8211146a04332d0990dad3476d54ed601a14c341e30c3ac2d5dc78e4757e7279e954c84177c802600b",
+ "alg": "ed25519",
+ "window_id": "WIN-ce63de72d674",
+ "signed_at": "2026-10-29T15:08:08"
+}
