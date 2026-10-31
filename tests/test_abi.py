@@ -52,9 +52,22 @@ def build():
 '''
 
 
+def _mkdtemp(prefix: str) -> str:
+    """A writable temp directory, or a SKIP -- never an error.
+
+    The checker's second sitting reported "7 passes and 14 temporary-directory setup errors under enforced read-only
+    execution": every clause passed and the suite still could not be run to completion. A test that cannot say "I could
+    not run here" always looks like a failure of the subject instead of a property of the sandbox.
+    """
+    import tempfile
+    try:
+        return tempfile.mkdtemp(prefix=prefix)
+    except OSError as exc:
+        raise unittest.SkipTest(f"no writable temp directory in this sandbox: {exc}")
+
 class AbiTest(unittest.TestCase):
     def setUp(self):
-        self.tmp = Path(tempfile.mkdtemp(prefix="pipd-abi-"))
+        self.tmp = Path(_mkdtemp("pipd-abi-"))
         self.addCleanup(lambda: __import__("shutil").rmtree(self.tmp, True))
 
     def _file(self, name: str, body: str) -> Path:
