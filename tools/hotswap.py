@@ -79,12 +79,34 @@ def invoke(entry: Path, timeout: int = 60) -> dict:
             "stderr_tail": (res.stderr or "")[-300:]}
 
 
+
+def probe_through_abi(entry: Path, need: str, method: str) -> dict:
+    """POS/NEG at the CONSUMER, not at the file.
+
+    `invoke()` runs the entry as a separate process, which proves that *some* entry point answers differently. The
+    work package asks whether the consumer the system actually calls reaches the new occupant. That is a different
+    question and it has a different failure mode: a consumer that binds once keeps serving the old implementation
+    after a perfect file swap. Going through the ABI makes the consumer the subject.
+    """
+    src = Path(__file__).resolve().parents[1] / "src"
+    if str(src) not in sys.path:
+        sys.path.insert(0, str(src))
+    from pipd_ls_sp.abi import ABI_VERSION, Need, make_consumer
+    consumer = make_consumer(Need(need, ABI_VERSION, (method,)), entry)
+    served = consumer.serves(method)
+    return {"identity": served.get("value") if served.get("ok") else None,
+            "served": bool(served.get("ok")), "via": "abi-consumer",
+            "origin": served.get("origin"), "code": served.get("code")}
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="swap an occupant and prove POS/NEG parity")
     ap.add_argument("--root", required=True, help="named target root holding the current occupant")
     ap.add_argument("--entry", default="occupant.py", help="the occupant entry file inside --root")
     ap.add_argument("--candidate", required=True, help="the replacement occupant file")
     ap.add_argument("--expect-old", required=True, help="identity the current occupant must report")
+    ap.add_argument("--need", default=None, help="resolve POS/NEG through the ABI consumer instead of the entry process")
+    ap.add_argument("--method", default="identity")
     ap.add_argument("--expect-new", required=True, help="identity the candidate must report after the swap")
     ap.add_argument("--out", default=None, help="receipt path")
     ap.add_argument("--dry-run", action="store_true")
@@ -110,7 +132,8 @@ def main(argv=None) -> int:
     receipt["preimage"] = {"files": len(pre), "digest": hashlib.sha256(
         json.dumps(sorted(pre.items())).encode()).hexdigest()}
 
-    before = invoke(entry)
+    _probe = (lambda q: probe_through_abi(q, args.need, args.method)) if args.need else invoke
+    before = _probe(entry)
     receipt["before"] = before
     if not before["served"] or before["identity"] != args.expect_old:
         return finish(ERR_OCCUPANT_MISMATCH, False,
@@ -147,7 +170,7 @@ def main(argv=None) -> int:
     # A first version invoked the parked `.prev` file and called it NEG. That measured whether an old artefact can
     # still be executed from disk -- which it can, and should, since rollback depends on it. The clause is about
     # what the TARGET serves, not about what is still lying around.
-    pos = invoke(entry)
+    pos = _probe(entry)
     receipt["pos"] = pos
     neg = {"identity": pos["identity"], "served": pos["served"],
            "question": "does the target still serve the old capability?"}
