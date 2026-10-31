@@ -82,6 +82,10 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--root", dest="sub_root", type=Path, default=None)
     s.add_argument("--allow-root", dest="allow_root", type=Path, action="append", default=[])
     s.add_argument("--allow-replace", dest="allow_replace", action="store_true")
+    # The delivery names 三 SP (LITE / STANDARD / ASSURED). A bundle that is not told which SP it is cannot be
+    # installed as one, so the profile is a first-class export dimension and its assurance floor is enforced.
+    s.add_argument("--profile", choices=["LITE", "STANDARD", "ASSURED"], default=None)
+    s.add_argument("--provider-off", dest="provider_off", action="store_true")
     s = sub.add_parser("diff"); s.add_argument("--a", type=Path, required=True)
     s.add_argument("--b", type=Path, required=True)
     s.add_argument("--explain", action="store_true")
@@ -282,19 +286,22 @@ def run(args: argparse.Namespace) -> dict:
         target = resolve_output_destination(root, args.out, authorized_roots=authorized,
                                             allow_replace=allow_replace)
 
+        prof = getattr(args, "profile", None)
+        poff = bool(getattr(args, "provider_off", False))
         if getattr(args, "dry_run", False):
-            p = _export_plan(root)
+            p = _export_plan(root, profile=prof, provider_off_required=poff)
             archive_name = f"{(target.name or 'export')}.tar.gz"
             return {"verdict": "PASS", "dry_run": True, "mode": "DRY_RUN",
                     "target": str(target), "file_count": p["file_count"],
                     "manifest_sha256": p["manifest_sha256"],
                     "would_write": sorted([archive_name, "export_manifest.json", "SHA256SUMS"]),
+                    "profile": (p.get("profile") or {}).get("profile"),
                     "wrote_nothing": True,
                     "destination_safety": {"safe": True, "code": None,
                                            "resolved": str(target), "reason": ""}}
 
         return write_bundle(root, target, authorized_roots=authorized,
-                            allow_replace=allow_replace)
+                            allow_replace=allow_replace, profile=prof, provider_off_required=poff)
     if cmd == "diff":
         out = workspace.semantic_diff(_read_json(args.a, "artefact A"),
                                       _read_json(args.b, "artefact B"))

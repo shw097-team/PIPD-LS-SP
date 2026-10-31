@@ -25,6 +25,7 @@ from pathlib import Path
 from typing import Any
 
 from . import projection
+from .errors import ProfileVeto
 from .errors import (ExportMemberUnsafe, ExportSecretFound,
                      ExportVerificationFailed)
 from .util import canonical_json, sha256_bytes, sha256_file, sha256_text, utc_now
@@ -124,13 +125,64 @@ def _sums_lines(rows: list[dict[str, Any]], archive: dict[str, Any]) -> str:
     return "".join(f"{sha}  {rel}\n" for rel, sha in entries)
 
 
-def plan(root: Path, include: list[str] | None = None) -> dict[str, Any]:
-    """The read-only plan for a bundle: file count, manifest digest, archive name."""
+ASSURANCE_FILE = "ASSURANCE.json"
+
+
+def declared_assurance(root: Path) -> dict[str, Any]:
+    """What this tree CLAIMS to evidence, from ASSURANCE.json at its root.
+
+    Absent file means "declares nothing", which is not an error: LITE needs no declaration because the packager
+    itself is the deterministic validator (it recomputes every member digest and re-opens the archive).
+    """
+    p = Path(root) / ASSURANCE_FILE
+    if not p.is_file():
+        return {"present": False, "capabilities": [], "evidence": {}}
+    try:
+        data = json.loads(p.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        raise ProfileVeto(f"{ASSURANCE_FILE} is not readable JSON: {exc}")
+    caps = [str(c) for c in (data.get("capabilities") or [])]
+    return {"present": True, "capabilities": caps, "evidence": data.get("evidence") or {}}
+
+
+def enforce_profile(root: Path, requested: str, *, provider_off_required: bool = False) -> dict[str, Any]:
+    """Resolve the profile AND refuse to label a bundle with assurance it does not evidence.
+
+    A ``--profile ASSURED`` that only rewrote a manifest field would produce three bundles with three names and
+    one capability -- a label without a load, which is the failure this project keeps finding elsewhere.  So the
+    requested profile's assurance floor is checked against what the tree actually declares, and a shortfall is a
+    veto, not a warning.
+    """
+    from .profiles import PROFILES, compute_profile
+
+    prof = compute_profile(requested, provider_off_required=provider_off_required)
+    declared = declared_assurance(root)
+    required = list(PROFILES[prof["profile"]]["assurance"])
+    # deterministic_validator is the packager itself; everything else must be evidenced by the tree.
+    missing = [c for c in required
+               if c != "deterministic_validator" and c not in declared["capabilities"]]
+    if missing:
+        raise ProfileVeto(
+            f"profile {prof['profile']} requires assurance {missing} that this tree does not declare in "
+            f"{ASSURANCE_FILE}; refusing to label the bundle with a capability it does not evidence")
+    prof["assurance_required"] = required
+    prof["assurance_declared"] = declared["capabilities"]
+    prof["assurance_declaration_present"] = declared["present"]
+    prof["assurance_evidence"] = {c: declared["evidence"].get(c) for c in required}
+    return prof
+
+
+def plan(root: Path, include: list[str] | None = None, *, profile: str | None = None,
+         provider_off_required: bool = False) -> dict[str, Any]:
+    """The read-only plan for a bundle: file count, manifest digest, archive name, and profile."""
     root = Path(root)
     members = collect_source_files(root, include)
     rows = file_rows(members)
-    return {"file_count": len(rows), "manifest_sha256": manifest_files_digest(rows),
-            "files": rows, "source_root": str(root.resolve(strict=False))}
+    out: dict[str, Any] = {"file_count": len(rows), "manifest_sha256": manifest_files_digest(rows),
+                           "files": rows, "source_root": str(root.resolve(strict=False))}
+    if profile:
+        out["profile"] = enforce_profile(root, profile, provider_off_required=provider_off_required)
+    return out
 
 
 def _verify_members(archive_bytes: bytes, rows: list[dict[str, Any]]) -> None:
@@ -160,7 +212,8 @@ def _verify_members(archive_bytes: bytes, rows: list[dict[str, Any]]) -> None:
 
 
 def write_bundle(root: Path, target: Path, *, include: list[str] | None = None,
-                 authorized_roots=None, allow_replace=None) -> dict[str, Any]:
+                 authorized_roots=None, allow_replace=None, profile: str | None = None,
+                 provider_off_required: bool = False) -> dict[str, Any]:
     """Build, verify, stage and atomically publish a portable export bundle.
 
     ``target`` MUST already have been resolved by
@@ -170,6 +223,10 @@ def write_bundle(root: Path, target: Path, *, include: list[str] | None = None,
     """
     root = Path(root)
     target = Path(target)
+
+    # 0. Profile resolution happens BEFORE anything is built, so an unevidenced assurance claim costs no work and
+    #    leaves nothing on disk.
+    profile_block = enforce_profile(root, profile, provider_off_required=provider_off_required) if profile else None
 
     # 1. Member set + traversal safety (raises before any disk write).
     members = collect_source_files(root, include)
@@ -200,6 +257,8 @@ def write_bundle(root: Path, target: Path, *, include: list[str] | None = None,
                     "sha256": sha256_bytes(archive_bytes)},
         "files": rows,
     }
+    if profile_block is not None:
+        manifest["profile"] = profile_block
     digest = manifest_files_digest(rows)
     manifest_text = json.dumps(manifest, ensure_ascii=False, indent=1, sort_keys=True) + "\n"
     sums_text = _sums_lines(rows, manifest["archive"])
@@ -239,6 +298,9 @@ def write_bundle(root: Path, target: Path, *, include: list[str] | None = None,
         "archive": manifest["archive"],
         "file_count": len(rows),
         "manifest_sha256": digest,
+        "profile": (profile_block or {}).get("profile"),
+        "requested_profile": (profile_block or {}).get("requested_profile"),
+        "escalated": (profile_block or {}).get("escalated"),
         "secret_scan": scan["verdict"],
         "wrote": sorted([archive_name, MANIFEST_NAME, SUMS_NAME]),
         "destination": {

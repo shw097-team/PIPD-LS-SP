@@ -1,0 +1,16 @@
+{
+ "schema": "PIPD-ASSURANCE-DECLARATION/1",
+ "declared_at": "2026-10-31",
+ "capabilities": [
+  "deterministic_validator",
+  "negative_security"
+ ],
+ "evidence": {
+  "deterministic_validator": "src/pipd_ls_sp/export_bundle.py:_verify_members (re-opens the archive and recomputes every member digest) + tests/test_export_profile.py",
+  "negative_security": "tests/test_hotswap.py (wrong expectation refused before any move, broken candidate refused AND rolled back) + tests/test_export_profile.py (unevidenced profile refused, nothing written)"
+ },
+ "not_declared": {
+  "adversarial": "no adversarial suite exists in this tree; ASSURED must be refused until one does",
+  "independent_checker": "no external checker receipt is bound to this tree; ASSURED must be refused until one is"
+ }
+}
