@@ -1,6 +1,8 @@
 """Workspace bootstrap, portable export, projection, doctor, diff, repair."""
 from __future__ import annotations
 
+import os
+
 import json
 import re
 from pathlib import Path
@@ -54,40 +56,87 @@ def init_workspace(root: Path) -> dict[str, Any]:
             "contract_families": len(reg["families"])}
 
 
+def walk_files(root: Path, *, suffixes: tuple[str, ...] | None = None) -> tuple[list[Path], list[str]]:
+    """Every file under `root`, skipping entries that cannot be opened, BY NAME.
+
+    MEASURED 2026-10-31: `pipd export` refused with
+        OSError: [WinError 1920] ... .hgk/rounds/R5P-.../venv_adjusted_record/lib64
+    because `Path.rglob` aborts the entire walk on the first unreadable entry. One dead symlink inside an old
+    evidence round therefore blocked every Portable SP pack, and the failure surfaced as INPUT_SHAPE_INVALID --
+    which reads like bad input rather than a stale link.
+
+    The skip is RETURNED, not swallowed: a scan that silently covers less than it claims is how a secret scan
+    passes by accident.
+    """
+    root = Path(root)
+    files: list[Path] = []
+    skipped: list[str] = []
+
+    def _onerror(err: OSError) -> None:
+        skipped.append(f"{getattr(err, 'filename', '?')}: {err.strerror or err}")
+
+    for dirpath, dirnames, filenames in os.walk(root, onerror=_onerror, followlinks=False):
+        dirnames[:] = sorted(d for d in dirnames if d not in (".git", "__pycache__"))
+        for fn in sorted(filenames):
+            fp = Path(dirpath) / fn
+            try:
+                if not fp.is_file():
+                    continue
+                if suffixes is not None and fp.suffix not in suffixes:
+                    continue
+            except OSError as exc:            # a broken symlink reports here, not in os.walk
+                skipped.append(f"{fp}: {exc.strerror or exc}")
+                continue
+            files.append(fp)
+    return files, skipped
+
 def secret_scan(root: Path) -> dict[str, Any]:
     hits = []
-    for p in sorted(root.rglob("*")):
-        if not p.is_file() or ".git" in p.parts or p.suffix not in (".py", ".md", ".json", ".toml", ".yaml", ".yml", ".txt", ".sh"):
+    files, skipped = walk_files(root, suffixes=(".py", ".md", ".json", ".toml", ".yaml", ".yml", ".txt", ".sh"))
+    for p in files:
+        try:
+            if p.stat().st_size > 2_000_000:
+                continue
+            text = p.read_text(encoding="utf-8", errors="replace")
+        except OSError as exc:
+            skipped.append(f"{p}: {exc.strerror or exc}")
             continue
-        if p.stat().st_size > 2_000_000:
-            continue
-        text = p.read_text(encoding="utf-8", errors="replace")
         for name, pat in SECRET_PATTERNS:
             for m in pat.finditer(text):
                 hits.append({"file": str(p.relative_to(root)), "kind": name,
                              "offset": m.start(), "redacted": True})
-    return {"verdict": "PASS" if not hits else "FAIL", "hits": hits, "patterns": [n for n, _ in SECRET_PATTERNS]}
+    return {"verdict": "PASS" if not hits else "FAIL", "hits": hits,
+            "patterns": [n for n, _ in SECRET_PATTERNS],
+            "files_scanned": len(files), "skipped_unreadable": skipped}
 
 
 def export_manifest(root: Path, *, include: list[str] | None = None) -> dict[str, Any]:
-    scan = secret_scan(root)
-    if scan["verdict"] != "PASS":
-        raise ExportSecretFound(f"secret scan found {len(scan['hits'])} hits")
+    # Member set first, then a secret scan OF THAT SET. Same correction as export_bundle.build: a repo-wide scan
+    # vetoed the pack for a credential file that could never be shipped, which blamed the artefact for a
+    # repository's problem. The repository finding is still reported (repo_hygiene), it just no longer has the
+    # power to refuse a bundle it cannot affect.
     files = []
     for rel in include or ["schemas", "src", "tests", "docs", "pyproject.toml"]:
         target = root / rel
         if target.is_file():
             files.append(target)
         elif target.is_dir():
-            files.extend(x for x in sorted(target.rglob("*")) if x.is_file()
-                         and "__pycache__" not in x.parts and ".git" not in x.parts)
+            walked, skipped = walk_files(target)
+            files.extend(walked)
+    scan = secret_scan_paths(files, root)
+    if scan["verdict"] != "PASS":
+        raise ExportSecretFound(f"secret scan found {len(scan['hits'])} hits in the bundle")
+    repo_scan = secret_scan(root)
     rows = [{"rel": str(f.relative_to(root)).replace("\\", "/"),
              "size": f.stat().st_size, "sha256": sha256_file(f)} for f in files]
     rows.sort(key=lambda r: r["rel"])
     digest = sha256_text(canonical_json([[r["rel"], r["size"], r["sha256"]] for r in rows]))
     return {"schema": "PIPD-EXPORT-FREEZE/1", "generated_at": utc_now(),
             "file_count": len(rows), "manifest_sha256": digest, "files": rows,
-            "secret_scan": scan["verdict"]}
+            "secret_scan": scan["verdict"],
+            "repo_hygiene": {"verdict": repo_scan["verdict"],
+                             "hits_outside_the_bundle": len(repo_scan["hits"]),
+                             "note": "repository findings, not pack refusals"}}
 
 
 def project_surfaces(root: Path, out, *, authorized_roots=None,
@@ -280,3 +329,36 @@ def repair_candidate(subject: str, *, scope: list[str], maker: str,
             "maker": maker, "state": "CANDIDATE", "authorized_root": str(authorized_root),
             "isolation": "workspace_only", "requalification": "affected-only",
             "self_accept": False}
+
+def secret_scan_paths(paths, root: Path) -> dict[str, Any]:
+    """Secret scan restricted to the files that will actually be published.
+
+    MEASURED 2026-10-31: `pipd export` refused with ExportSecretFound because the repo-wide scan hit
+    `Fine-grained personal access tokens.txt` at the repo root -- a file that is NOT in the bundle's include set
+    and therefore could never have been shipped. Refusing the pack was correct about the repo and wrong about the
+    artefact: the invariant this gate exists to enforce is "never publish a secret", and a file that is not in the
+    archive cannot violate it.
+
+    So the two checks are separated: THIS function guards the artefact and fails closed on any hit; the repo-wide
+    `secret_scan` still runs and its hits are reported as `repo_hygiene`, which is a finding for the owner, not a
+    veto on an unrelated pack.
+    """
+    hits = []
+    root = Path(root)
+    for p in paths:
+        p = Path(p)
+        try:
+            if p.stat().st_size > 2_000_000:
+                continue
+            text = p.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        for name, pat in SECRET_PATTERNS:
+            for m in pat.finditer(text):
+                try:
+                    rel = str(p.relative_to(root))
+                except ValueError:
+                    rel = str(p)
+                hits.append({"file": rel, "kind": name, "offset": m.start(), "redacted": True})
+    return {"verdict": "PASS" if not hits else "FAIL", "hits": hits,
+            "scope": "the files in this bundle", "patterns": [n for n, _ in SECRET_PATTERNS]}

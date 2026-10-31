@@ -13,6 +13,8 @@ projector.  The destination is resolved by the caller with the existing
 """
 from __future__ import annotations
 
+import sys
+
 import gzip
 import io
 import json
@@ -26,7 +28,7 @@ from . import projection
 from .errors import (ExportMemberUnsafe, ExportSecretFound,
                      ExportVerificationFailed)
 from .util import canonical_json, sha256_bytes, sha256_file, sha256_text, utc_now
-from .workspace import secret_scan
+from .workspace import secret_scan, secret_scan_paths
 
 BUNDLE_SCHEMA = "PIPD-EXPORT-BUNDLE/1"
 MANIFEST_NAME = "export_manifest.json"
@@ -169,13 +171,22 @@ def write_bundle(root: Path, target: Path, *, include: list[str] | None = None,
     root = Path(root)
     target = Path(target)
 
-    # 1. Secrets: on any hit, write NOTHING anywhere and refuse typed.
-    scan = secret_scan(root)
-    if scan["verdict"] != "PASS":
-        raise ExportSecretFound(f"secret scan found {len(scan['hits'])} hits")
-
-    # 2. Member set + traversal safety (raises before any disk write).
+    # 1. Member set + traversal safety (raises before any disk write).
     members = collect_source_files(root, include)
+
+    # 2. Secrets: scan THE FILES THAT WILL SHIP, and fail closed on any hit. A repo-wide scan is also run, but its
+    #    hits are reported as repo_hygiene instead of vetoing the pack -- measured 2026-10-31: a credential file at
+    #    the repo root that is not in the include set blocked every Portable SP export, which blamed the artefact
+    #    for a repository's problem.
+    scan = secret_scan_paths([p for _rel, p in members], root)
+    if scan["verdict"] != "PASS":
+        raise ExportSecretFound(f"secret scan found {len(scan['hits'])} hits in the bundle")
+    repo_scan = secret_scan(root)
+    if repo_scan["verdict"] != "PASS":
+        print(json.dumps({"warn": "REPO_HYGIENE_SECRETS_OUTSIDE_THE_BUNDLE",
+                          "hits": len(repo_scan["hits"]),
+                          "note": "these files are not in the archive; they are a repository finding, not a pack "
+                                  "refusal"}, ensure_ascii=False), file=sys.stderr)
     rows = file_rows(members)
     archive_name = _canonical_archive_name(target)
 
