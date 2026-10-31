@@ -216,6 +216,11 @@ def _verify_members(archive_bytes: bytes, rows: list[dict[str, Any]]) -> None:
     missing = sorted(set(expected) - seen)
     if missing:
         raise ExportVerificationFailed(f"archive is missing manifest members {missing}")
+    # An archive may not carry a member the manifest never promised. Checking only that promised members are present
+    # lets anything extra ride along unverified -- the smuggled-member attack, found by tests/test_adversarial.py.
+    extra = sorted(seen - set(expected))
+    if extra:
+        raise ExportVerificationFailed(f"archive carries members the manifest does not promise: {extra}")
 
 
 # Artifact depth is a MEMBER-SET decision, not a label. profiles.py declares L1_SCHEMA_CONTRACT /

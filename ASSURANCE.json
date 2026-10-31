@@ -1,16 +1,18 @@
 {
  "schema": "PIPD-ASSURANCE-DECLARATION/1",
- "declared_at": "2026-10-31",
+ "declared_at": "2026-11-01",
  "capabilities": [
   "deterministic_validator",
-  "negative_security"
+  "negative_security",
+  "adversarial"
  ],
  "evidence": {
   "deterministic_validator": "src/pipd_ls_sp/export_bundle.py:_verify_members (re-opens the archive and recomputes every member digest) + tests/test_export_profile.py",
-  "negative_security": "tests/test_hotswap.py (wrong expectation refused before any move, broken candidate refused AND rolled back) + tests/test_export_profile.py (unevidenced profile refused, nothing written)"
+  "negative_security": "tests/test_hotswap.py (wrong expectation refused before any move, broken candidate refused AND rolled back) + tests/test_export_profile.py (unevidenced profile refused, nothing written)",
+  "adversarial": "tests/test_adversarial.py -- 7 attacks, all refused: path traversal (ExportMemberUnsafe), absolute include yielding no absolute member, a smuggled archive member (which FAILED on first run and found a real defect: _verify_members checked only that promised members were present, so anything extra rode along unverified -- now refused), a tampered member digest, an unknown depth, an occupant claiming a newer contract, and an occupant missing a required method"
  },
  "not_declared": {
-  "adversarial": "no adversarial suite exists in this tree; ASSURED must be refused until one does",
   "independent_checker": "no external checker receipt is bound to this tree; ASSURED must be refused until one is"
- }
+ },
+ "history": "2026-11-01: `adversarial` moved from not_declared to declared. The earlier note said 'no adversarial suite exists in this tree'; that was true when written and was not a property of the tree -- the suite took one file, and it immediately found a smuggled-member hole."
 }
