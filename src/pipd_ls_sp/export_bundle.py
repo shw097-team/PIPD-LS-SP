@@ -26,6 +26,7 @@ from typing import Any
 
 from . import projection
 from .errors import ProfileVeto
+from .profiles import compute_profile
 from .errors import (ExportMemberUnsafe, ExportSecretFound,
                      ExportVerificationFailed)
 from .util import canonical_json, sha256_bytes, sha256_file, sha256_text, utc_now
@@ -177,11 +178,17 @@ def plan(root: Path, include: list[str] | None = None, *, profile: str | None = 
     """The read-only plan for a bundle: file count, manifest digest, archive name, and profile."""
     root = Path(root)
     members = collect_source_files(root, include)
+    block = None
+    if profile:
+        block = enforce_profile(root, profile, provider_off_required=provider_off_required)
+        # The plan must count what the bundle will actually ship, or `pipd export --dry-run --profile lite` promises
+        # 79 files and then writes a smaller archive.
+        members = apply_depth(members, block["artifact_depth"])
     rows = file_rows(members)
     out: dict[str, Any] = {"file_count": len(rows), "manifest_sha256": manifest_files_digest(rows),
                            "files": rows, "source_root": str(root.resolve(strict=False))}
-    if profile:
-        out["profile"] = enforce_profile(root, profile, provider_off_required=provider_off_required)
+    if block is not None:
+        out["profile"] = block
     return out
 
 
@@ -211,6 +218,39 @@ def _verify_members(archive_bytes: bytes, rows: list[dict[str, Any]]) -> None:
         raise ExportVerificationFailed(f"archive is missing manifest members {missing}")
 
 
+# Artifact depth is a MEMBER-SET decision, not a label. profiles.py declares L1_SCHEMA_CONTRACT /
+# L3_INTEGRATION_RUNTIME / L4_FAILURE_RECOVERY, but until this table existed every profile shipped the same 79 files
+# with the same archive digest -- so `--profile lite` and `--profile standard` were the same bundle wearing two names.
+# Measured 2026-10-31: both produced archive a6b3c8b3bbdf. That is the defect WP-FHS-11 was blocked on.
+DEPTH_PREFIXES: dict[str, tuple[str, ...]] = {
+    # The contract itself: the package modules a consumer imports, plus the declaration that says what it may claim.
+    "L1_SCHEMA_CONTRACT": ("src/", "ASSURANCE.json", "pyproject.toml"),
+    # Adding the proof that the package integrates: tests and the tools that exercise it.
+    "L3_INTEGRATION_RUNTIME": ("src/", "tests/", "tools/", "ASSURANCE.json", "pyproject.toml"),
+    # Adding what an operator needs to run and recover it.
+    "L4_FAILURE_RECOVERY": ("",),
+}
+
+
+def apply_depth(members: list, depth: str) -> list:
+    """Narrow the member set to what the profile's artifact depth actually is.
+
+    Unknown depth raises rather than silently shipping everything: a typo in a profile name must not degrade into a
+    full bundle that then carries a narrower label.
+    """
+    if depth not in DEPTH_PREFIXES:
+        raise ValueError(f"unknown artifact_depth {depth!r}; known: {sorted(DEPTH_PREFIXES)}")
+    prefixes = DEPTH_PREFIXES[depth]
+    if "" in prefixes:
+        return list(members)
+    out = []
+    for rel, path in members:
+        r = str(rel).replace("\\", "/")
+        if any(r == pref or r.startswith(pref) for pref in prefixes):
+            out.append((rel, path))
+    return out
+
+
 def write_bundle(root: Path, target: Path, *, include: list[str] | None = None,
                  authorized_roots=None, allow_replace=None, profile: str | None = None,
                  provider_off_required: bool = False) -> dict[str, Any]:
@@ -228,8 +268,11 @@ def write_bundle(root: Path, target: Path, *, include: list[str] | None = None,
     #    leaves nothing on disk.
     profile_block = enforce_profile(root, profile, provider_off_required=provider_off_required) if profile else None
 
-    # 1. Member set + traversal safety (raises before any disk write).
+    # 1. Member set + traversal safety (raises before any disk write). The profile narrows the set here, before the
+    #    secret scan, so a narrower bundle is also scanned on exactly what it will ship.
     members = collect_source_files(root, include)
+    if profile_block is not None:
+        members = apply_depth(members, profile_block["artifact_depth"])
 
     # 2. Secrets: scan THE FILES THAT WILL SHIP, and fail closed on any hit. A repo-wide scan is also run, but its
     #    hits are reported as repo_hygiene instead of vetoing the pack -- measured 2026-10-31: a credential file at
