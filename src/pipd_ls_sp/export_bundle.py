@@ -221,6 +221,16 @@ def _verify_members(archive_bytes: bytes, rows: list[dict[str, Any]]) -> None:
     extra = sorted(seen - set(expected))
     if extra:
         raise ExportVerificationFailed(f"archive carries members the manifest does not promise: {extra}")
+    # A member may not be anything other than a regular file. Measured by the independent checker (VERIFY_SECURITY,
+    # gpt-6.1-sol, nonce PIPD-AO-E167D692): an unlisted REGULAR file was refused, but unlisted symlink, directory and
+    # hardlink members were accepted. A symlink member is an escape and a hardlink is an alias; neither belongs in a
+    # portable bundle, listed or not.
+    with tarfile.open(fileobj=io.BytesIO(archive_bytes), mode="r:gz") as tf:
+        for member in tf.getmembers():
+            if not member.isfile():
+                raise ExportVerificationFailed(
+                    f"archive member {member.name!r} is not a regular file "
+                    f"(type={member.type!r}); only regular files may ship")
 
 
 # Artifact depth is a MEMBER-SET decision, not a label. profiles.py declares L1_SCHEMA_CONTRACT /

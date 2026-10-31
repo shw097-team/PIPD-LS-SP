@@ -111,5 +111,33 @@ class ContractYouDoNotImplement(unittest.TestCase):
             reg.resolve(need)
 
 
+class NonRegularMember(unittest.TestCase):
+    def test_an_unlisted_symlink_member_is_refused(self):
+        """Found by the independent checker (VERIFY_SECURITY, gpt-6.1-sol, PIPD-AO-E167D692): my first hardening
+        refused an unlisted REGULAR file but accepted an unlisted SYMLINK. A symlink member is an escape."""
+        import hashlib
+        buf = io.BytesIO()
+        with tarfile.open(fileobj=buf, mode="w:gz") as tf:
+            data = b"a"
+            info = tarfile.TarInfo("a.txt"); info.size = len(data); tf.addfile(info, io.BytesIO(data))
+            link = tarfile.TarInfo("escape"); link.type = tarfile.SYMTYPE; link.linkname = "C:/Windows/win.ini"
+            tf.addfile(link)
+        rows = [{"rel": "a.txt", "sha256": hashlib.sha256(b"a").hexdigest(), "size": 1}]
+        with self.assertRaises(ExportVerificationFailed):
+            _verify_members(buf.getvalue(), rows)
+
+    def test_a_directory_member_is_refused(self):
+        import hashlib
+        buf = io.BytesIO()
+        with tarfile.open(fileobj=buf, mode="w:gz") as tf:
+            data = b"a"
+            info = tarfile.TarInfo("a.txt"); info.size = len(data); tf.addfile(info, io.BytesIO(data))
+            d = tarfile.TarInfo("adir/"); d.type = tarfile.DIRTYPE
+            tf.addfile(d)
+        rows = [{"rel": "a.txt", "sha256": hashlib.sha256(b"a").hexdigest(), "size": 1}]
+        with self.assertRaises(ExportVerificationFailed):
+            _verify_members(buf.getvalue(), rows)
+
+
 if __name__ == "__main__":
     unittest.main()
