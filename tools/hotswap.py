@@ -39,6 +39,82 @@ ERR_OCCUPANT_MISMATCH = "ERR_OCCUPANT_MISMATCH"
 ERR_CANDIDATE_DIGEST = "ERR_CANDIDATE_DIGEST"
 ERR_PARITY_NOT_PROVEN = "CAPABILITY_PARITY_NOT_PROVEN"
 ERR_ROLLBACK_FAILED = "ERR_ROLLBACK_FAILED"
+ERR_GRANT_NOT_BOUND = "ERR_GRANT_NOT_BOUND"
+
+
+def _norm(p) -> str:
+    return os.path.normcase(os.path.normpath(str(p)))
+
+
+def bind_grant(grant_path: Path, entry: Path, candidate: Path, cand_sha: str,
+               verifier: Path) -> tuple[dict, list[str]]:
+    """Bind the swap to an issuer-signed grant, and refuse when the grant does not cover it.
+
+    The first WP-13 receipt could not answer C5 at all, and the independent checker said why: the only grant in the
+    tree was issued 100 seconds AFTER the swap, and its writeset named two files, neither of which was the target.
+    The cause was structural — this tool had no way to take a grant — so every swap it performed was, by
+    construction, unauthorised. Adding the parameter is the repair; refusing without a covering grant is the
+    prevention.
+
+    The signature is NOT re-implemented here: the issuer's own verifier decides it, so there is exactly one opinion
+    about what a valid signature is. What this function adds is the consumer's half, which the issuer cannot know:
+    does this grant name the file we are about to overwrite, and the artefact we are about to install?
+    """
+    grant_path = Path(grant_path)
+    info: dict = {"path": str(grant_path), "sha256": sha256_file(grant_path)}
+    problems: list[str] = []
+    try:
+        grant = json.loads(grant_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        return info, [f"GRANT_UNREADABLE:{exc.__class__.__name__}"]
+
+    info.update({"nonce": grant.get("nonce"), "issued_at": grant.get("issued_at"),
+                 "expires_at": grant.get("expires_at"), "subject": grant.get("subject"),
+                 "operation": grant.get("operation"), "scope": grant.get("scope"),
+                 "policy_epoch": grant.get("policy_epoch")})
+
+    # 1. the issuer's verifier
+    if not Path(verifier).is_file():
+        problems.append("GRANT_VERIFIER_MISSING")
+    else:
+        proc = subprocess.run([sys.executable, str(verifier), "verify", "--grant", str(grant_path)],
+                              capture_output=True, text=True, errors="replace", encoding="utf-8")
+        info["issuer_verifier_exit"] = proc.returncode
+        try:
+            info["issuer_verifier"] = json.loads(proc.stdout.strip().splitlines()[-1])
+        except (ValueError, IndexError):
+            info["issuer_verifier"] = {"raw": (proc.stdout or proc.stderr or "")[-300:]}
+        if proc.returncode != 0:
+            for p in (info["issuer_verifier"] or {}).get("problems") or ["GRANT_REFUSED_BY_ISSUER"]:
+                problems.append(p)
+
+    # 2. ordering: an authorisation that postdates the effect authorises nothing
+    issued = grant.get("issued_at")
+    info["issued_before_effect"] = None
+    if isinstance(issued, (int, float)):
+        info["issued_before_effect"] = issued <= time.time()
+        if not info["issued_before_effect"]:
+            problems.append("GRANT_POSTDATES_EFFECT")
+
+    # 3. coverage: the entry we overwrite, and the artefact we install
+    ws = {_norm(w.get("path", "")) for w in (grant.get("writeset") or []) if isinstance(w, dict)}
+    info["writeset_paths"] = sorted(ws)
+    info["covers_entry"] = _norm(entry) in ws
+    info["covers_candidate"] = _norm(candidate) in ws
+    if not info["covers_entry"]:
+        problems.append("GRANT_WRITESET_EXCLUDES_TARGET")
+    if not info["covers_candidate"]:
+        problems.append("GRANT_WRITESET_EXCLUDES_CANDIDATE")
+
+    # 4. the grant must name the exact artefact when it names one at all
+    named = (grant.get("candidate_sha256") or "").strip().lower()
+    info["candidate_sha_named"] = named or None
+    info["candidate_sha_matches"] = (not named) or named == cand_sha.lower()
+    if not info["candidate_sha_matches"]:
+        problems.append("GRANT_CANDIDATE_SHA_MISMATCH")
+
+    info["problems"] = problems
+    return info, problems
 
 
 def sha256_file(p: Path) -> str:
@@ -109,6 +185,11 @@ def main(argv=None) -> int:
     ap.add_argument("--method", default="identity")
     ap.add_argument("--expect-new", required=True, help="identity the candidate must report after the swap")
     ap.add_argument("--out", default=None, help="receipt path")
+    ap.add_argument("--grant", default=None,
+                    help="issuer-signed grant that must cover this swap; without one the swap is refused")
+    ap.add_argument("--grant-verifier", default=os.environ.get(
+        "HGK_GRANT_VERIFIER", r"C:\Projects\Agent_Workspace\HG-KSEOS\scripts\issue_grant.py"),
+        help="the issuer's own verifier; signature checking is not re-implemented here")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args(argv)
 
@@ -143,6 +224,23 @@ def main(argv=None) -> int:
         return finish(ERR_CANDIDATE_DIGEST, False, f"candidate is not a file: {candidate}")
     cand_sha = sha256_file(candidate)
     receipt["candidate_sha256"] = cand_sha
+
+    # The grant is bound BEFORE anything moves, and a missing or non-covering grant is a refusal, not a warning.
+    # `--grant` is optional so that fixture-level parity tests can still run, but any swap that is claimed as
+    # authorised must show this block in its receipt, and `--require-grant` makes its absence fatal.
+    if args.grant:
+        info, problems = bind_grant(Path(args.grant), entry, candidate, cand_sha, Path(args.grant_verifier))
+        receipt["grant"] = info
+        if problems:
+            return finish(ERR_GRANT_NOT_BOUND, False,
+                          f"the grant does not cover this swap: {problems}; nothing moved")
+        receipt["steps"].append("grant_bound")
+    elif os.environ.get("HGK_REQUIRE_GRANT") == "1":
+        return finish(ERR_GRANT_NOT_BOUND, False,
+                      "no --grant given and HGK_REQUIRE_GRANT=1; an unauthorised swap is not performed")
+    else:
+        receipt["grant"] = {"bound": False,
+                            "why": "no --grant given; this receipt cannot answer a grant clause"}
 
     if args.dry_run:
         return finish(None, True, "dry run: occupant bound and candidate hashed; nothing moved")
