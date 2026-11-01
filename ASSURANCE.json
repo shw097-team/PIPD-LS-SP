@@ -4,12 +4,14 @@
  "capabilities": [
   "deterministic_validator",
   "negative_security",
-  "adversarial"
+  "adversarial",
+  "independent_checker"
  ],
  "evidence": {
   "deterministic_validator": "src/pipd_ls_sp/export_bundle.py:_verify_members (re-opens the archive and recomputes every member digest) + tests/test_export_profile.py",
   "negative_security": "tests/test_hotswap.py (wrong expectation refused before any move, broken candidate refused AND rolled back) + tests/test_export_profile.py (unevidenced profile refused, nothing written)",
-  "adversarial": "tests/test_adversarial.py -- 7 attacks, all refused: path traversal (ExportMemberUnsafe), absolute include yielding no absolute member, a smuggled archive member (which FAILED on first run and found a real defect: _verify_members checked only that promised members were present, so anything extra rode along unverified -- now refused), a tampered member digest, an unknown depth, an occupant claiming a newer contract, and an occupant missing a required method"
+  "adversarial": "tests/test_adversarial.py -- 7 attacks, all refused: path traversal (ExportMemberUnsafe), absolute include yielding no absolute member, a smuggled archive member (which FAILED on first run and found a real defect: _verify_members checked only that promised members were present, so anything extra rode along unverified -- now refused), a tampered member digest, an unknown depth, an occupant claiming a newer contract, and an occupant missing a required method",
+  "independent_checker": "VERIFY_SECURITY lane, gpt-6.1-sol rank 1, nonce PIPD-AO3-6CDAD257, usage receipt ok, over committed tree: 5/5 clauses PASS. Receipt HG-KSEOS/ops/session-20261031/FHS-ALLPASS-20261031/WP-FHS-11/ao/AO_SITTING_3.json. Caveat recorded there: 14 tests skipped for lack of writable temp in the checker's read-only sandbox; the checker verified the five clauses by supplemental read-only probes and states the skipped file-based ABI tests remain unverified. Not self-attestation: the verdict came from a process distinct from the maker."
  },
  "not_declared": {
   "independent_checker": "no external checker receipt is bound to this tree; ASSURED must be refused until one is"
