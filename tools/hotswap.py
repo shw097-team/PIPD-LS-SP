@@ -47,7 +47,7 @@ def _norm(p) -> str:
 
 
 def bind_grant(grant_path: Path, entry: Path, candidate: Path, cand_sha: str,
-               verifier: Path) -> tuple[dict, list[str]]:
+               verifier: Path, started_epoch: float | None = None) -> tuple[dict, list[str]]:
     """Bind the swap to an issuer-signed grant, and refuse when the grant does not cover it.
 
     The first WP-13 receipt could not answer C5 at all, and the independent checker said why: the only grant in the
@@ -92,7 +92,12 @@ def bind_grant(grant_path: Path, entry: Path, candidate: Path, cand_sha: str,
     issued = grant.get("issued_at")
     info["issued_before_effect"] = None
     if isinstance(issued, (int, float)):
-        info["issued_before_effect"] = issued <= time.time()
+        # compared with receipt.started_at when we have it, not with bind time (AO F4: a grant
+        # issued after the run started but before this call used to pass)
+        reference = float(started_epoch) if isinstance(started_epoch, (int, float)) else time.time()
+        info["ordering_reference"] = ("receipt.started_at"
+                                      if isinstance(started_epoch, (int, float)) else "bind_time")
+        info["issued_before_effect"] = issued <= reference
         if not info["issued_before_effect"]:
             problems.append("GRANT_POSTDATES_EFFECT")
 
@@ -106,6 +111,42 @@ def bind_grant(grant_path: Path, entry: Path, candidate: Path, cand_sha: str,
     if not info["covers_candidate"]:
         problems.append("GRANT_WRITESET_EXCLUDES_CANDIDATE")
 
+    # 3b. the writeset's declared preimages must match the bytes actually on disk (AO F3: the tool
+    # never read writeset preimages, so a stale or wrong preimage still bound)
+    declared = {_norm(w.get("path", "")): (w.get("preimage") or "").strip().lower()
+                for w in (grant.get("writeset") or []) if isinstance(w, dict)}
+    info["preimage_checks"] = {}
+    for label, path_obj in (("entry", entry), ("candidate", candidate)):
+        want = declared.get(_norm(path_obj))
+        if not want:
+            continue
+        got = hashlib.sha256(Path(path_obj).read_bytes()).hexdigest()
+        info["preimage_checks"][label] = {"declared": want, "actual": got, "ok": got == want}
+        if got != want:
+            problems.append(f"GRANT_PREIMAGE_MISMATCH_{label.upper()}")
+
+    # 3c. the grant's operation must belong to THIS effect class.
+    DEV_OPERATIONS = {"install_occupant", "repo_write", "repo_patch"}
+    op = (grant.get("operation") or "").strip()
+    info["operation"] = op
+    if op and op not in DEV_OPERATIONS:
+        problems.append("GRANT_EFFECT_MISMATCH")
+
+    # 3d. a receipt is single-use: burned against this exact (entry, candidate) pair.
+    ledger = Path(os.environ.get("HGK_CONSUMED_LEDGER", str(Path.home() / ".hgk-consumed.jsonl")))
+    key = {"nonce": grant.get("nonce"), "entry": _norm(entry), "candidate": _norm(candidate)}
+    info["receipt_key"] = key
+    if ledger.exists():
+        for line in ledger.read_text(encoding="utf-8").splitlines():
+            try:
+                prior = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if prior.get("nonce") == key["nonce"] and prior.get("entry") == key["entry"]:
+                problems.append("GRANT_ALREADY_CONSUMED")
+                info["consumed_by"] = prior
+                break
+
     # 4. the grant must name the exact artefact when it names one at all
     named = (grant.get("candidate_sha256") or "").strip().lower()
     info["candidate_sha_named"] = named or None
@@ -114,6 +155,8 @@ def bind_grant(grant_path: Path, entry: Path, candidate: Path, cand_sha: str,
         problems.append("GRANT_CANDIDATE_SHA_MISMATCH")
 
     info["problems"] = problems
+    if not problems:
+        _consume(grant, entry, candidate)
     return info, problems
 
 
@@ -175,6 +218,16 @@ def probe_through_abi(entry: Path, need: str, method: str) -> dict:
             "origin": served.get("origin"), "code": served.get("code")}
 
 
+
+def _consume(grant: dict, entry, candidate) -> None:
+    """Burn the receipt so a second bind of the same grant on the same target cannot pass."""
+    ledger = Path(os.environ.get("HGK_CONSUMED_LEDGER", str(Path.home() / ".hgk-consumed.jsonl")))
+    row = {"nonce": grant.get("nonce"), "entry": _norm(entry), "candidate": _norm(candidate),
+           "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    with ledger.open("a", encoding="utf-8") as fh:
+        fh.write(json.dumps(row, ensure_ascii=False) + "\n")
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="swap an occupant and prove POS/NEG parity")
     ap.add_argument("--root", required=True, help="named target root holding the current occupant")
@@ -196,8 +249,10 @@ def main(argv=None) -> int:
     root = Path(args.root).resolve()
     entry = root / args.entry
     candidate = Path(args.candidate).resolve()
+    started_epoch = time.time()
     receipt: dict = {"schema": SCHEMA, "root": str(root), "entry": str(entry), "candidate": str(candidate),
-                     "started_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "steps": []}
+                     "started_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+                     "started_at_epoch": started_epoch, "steps": []}
 
     def finish(code: str | None, ok: bool, why: str) -> int:
         receipt.update({"code": None if ok else code, "ok": ok, "why": why,
@@ -229,7 +284,8 @@ def main(argv=None) -> int:
     # `--grant` is optional so that fixture-level parity tests can still run, but any swap that is claimed as
     # authorised must show this block in its receipt, and `--require-grant` makes its absence fatal.
     if args.grant:
-        info, problems = bind_grant(Path(args.grant), entry, candidate, cand_sha, Path(args.grant_verifier))
+        info, problems = bind_grant(Path(args.grant), entry, candidate, cand_sha,
+                                    Path(args.grant_verifier), started_epoch=started_epoch)
         receipt["grant"] = info
         if problems:
             return finish(ERR_GRANT_NOT_BOUND, False,
@@ -270,14 +326,16 @@ def main(argv=None) -> int:
     # what the TARGET serves, not about what is still lying around.
     pos = _probe(entry)
     receipt["pos"] = pos
-    neg = {"identity": pos["identity"], "served": pos["served"],
+    # NEG reports the fact the question asks for, instead of copying POS["served"] (AO F2)
+    neg = {"identity_after": pos["identity"],
+           "serves_old": bool(pos["served"] and pos["identity"] == args.expect_old),
            "question": "does the target still serve the old capability?"}
     receipt["neg"] = neg
     receipt["control"] = {"identity": before["identity"], "served": before["served"],
                           "question": "did the target serve the old capability BEFORE the swap? (control)"}
 
     pos_ok = pos["served"] and pos["identity"] == args.expect_new
-    neg_ok = pos["identity"] != args.expect_old
+    neg_ok = not neg["serves_old"]
     if pos_ok and neg_ok:
         prev.unlink()
         receipt["rollback"] = "not needed"
