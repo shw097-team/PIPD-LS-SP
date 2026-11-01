@@ -1,0 +1,45 @@
+{
+ "schema": "FHS.WP12.PERMIT_SIGNED/1",
+ "signed_utc": "2026-11-01T05:55:43Z",
+ "permit": {
+  "schema": "HGK.PERMIT/1",
+  "permit_id": "PERMIT-WP12-HOST-20261101-01",
+  "issued_at": "2026-11-01T05:55:43Z",
+  "work_package": "WP-FHS-12",
+  "title": "W18 Normal Mode — retire the stale PATH forwarder",
+  "delegation_id": "R21-CANON-c0542636",
+  "delegation_not_after": "2026-11-14T00:00:00+00:00",
+  "subject_package": "FHS-MSC_PIPD-LS-PKG_SKELETON_SPINE_REPAIRED_2026-10-29_r2-revision3",
+  "effect_class": "HOST_OPERATIONS",
+  "scope": {
+   "writeset": [
+    {
+     "path": "D:\\Hermes-Recovery\\live22\\bin\\hermes.cmd",
+     "preimage_sha256": "a9d680b00f163669b7edd9c002df6eda8e34267d6765249fc0b031ce610a487c",
+     "preimage_bytes": 1550,
+     "postimage_kind": "echo-off shim that execs %~dp0hermes.exe with the same arguments",
+     "postimage_sha256": "d5c83a8f469ba1d55ddeb9859ba6f6394b6c22288bebe9a7688e4d629495d68b"
+    }
+   ],
+   "backup": "D:\\Hermes-Recovery\\live22\\bin\\hermes.cmd.wp12-backup",
+   "rollback": "restore the byte-identical backup; --rollback verifies the restored sha equals the preimage",
+   "outside_writeset": "none: no PATH edit, no registry edit, no other file in D:\\Hermes-Recovery is touched"
+  },
+  "why": "PATH resolves to this .cmd; it fails 2/2 deterministically (rc=1, stdout 0 B, stderr 3249 B, ModuleNotFoundError: pm.environments), while the sibling zipapp hermes and hermes.exe answer rc=0 with byte-identical 178 B stdout and the product CLI answers the same bytes. The forwarder points at an incomplete tree and a 3.14 interpreter; it is retired, not repaired in place.",
+  "postconditions": [
+   "hermes.cmd --version rc=0 and stdout sha256 8b67e84be4f9de55 (same bytes as the product CLI)",
+   "hermes.cmd --print-runtime-command rc=0",
+   "backup exists and its sha256 equals the preimage"
+  ],
+  "maker_principal": "HERMES-R21-EXECUTE-LANE",
+  "checker_principal": "SBL-ACCEPTANCE-CHALLENGE-SP (independent, read-only re-sit)",
+  "claim_ceiling": "HOST_INSTALL_OF_ONE_FORWARDER: not a WP acceptance, not a native PASS, not a release"
+ },
+ "payload_sha256": "31041e58e1b8a95659757b58f9a4422a758a77ae41090d24cc8af6724ddef235",
+ "signature_hex": "b5c9ada319566535b4e7f38baa50c53df346b444d282b4a503e0fea7cbc1ae971384db4ab7db11130fd6cb5fead989b62382fbabfbecb40cee16690e3a50360a",
+ "window_id": "WIN-91b01b7cd918",
+ "ops_used": 1,
+ "owner_public_hex": "d42c654cd1afba803ef78bee501aa3e2a3d33ff1305c52f914d3ff27bb9be379",
+ "signature_verifies": true,
+ "verified_with_field": "owner_public_hex"
+}

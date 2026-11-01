@@ -1,0 +1,90 @@
+{
+ "schema": "FHS.R21.S5.B5_PROBE/1",
+ "generated_utc": "2026-11-01T08:15:30Z",
+ "edge": "EDGE-WO-B1-B5-DEV",
+ "pd": "PD-16",
+ "domain": "THREE_SP",
+ "question": "are three separate host-issued SP identities obtainable on this host right now?",
+ "binaries": {
+  "probe": "shutil.which over candidate names",
+  "rows": [
+   {
+    "binary": "tpm-sp",
+    "found": false,
+    "path": null,
+    "sha256": null
+   },
+   {
+    "binary": "commander-sp",
+    "found": false,
+    "path": null,
+    "sha256": null
+   },
+   {
+    "binary": "challenge-sp",
+    "found": false,
+    "path": null,
+    "sha256": null
+   },
+   {
+    "binary": "sp-host",
+    "found": false,
+    "path": null,
+    "sha256": null
+   },
+   {
+    "binary": "pipd-sp",
+    "found": false,
+    "path": null,
+    "sha256": null
+   },
+   {
+    "binary": "hgk-sp",
+    "found": false,
+    "path": null,
+    "sha256": null
+   }
+  ],
+  "found_any": false
+ },
+ "receipts": {
+  "probe": "json scan for objects carrying command+exit_code (or cmd+rc) AND an SP role name",
+  "files_mentioning_sp": null,
+  "invocation_receipts": [],
+  "count": 0
+ },
+ "role_skills": {
+  "probe": "skill dir + SKILL.md sha",
+  "rows": [
+   {
+    "role": "TPM-SP",
+    "skill_dir_exists": true,
+    "skill_md_exists": true,
+    "sha256": "e944c44d3494243c627968b29a190de05fd676948e61e07013288d39d7898cb9",
+    "bytes": 1861,
+    "kind": "BRIEF_NOT_IDENTITY"
+   },
+   {
+    "role": "Commander-SP",
+    "skill_dir_exists": true,
+    "skill_md_exists": true,
+    "sha256": "0cade2597f2c0fc54d8a8d4dde39c6b96e359a4b6f3bb072e7ac9a4b4c5ba6d1",
+    "bytes": 1871,
+    "kind": "BRIEF_NOT_IDENTITY"
+   },
+   {
+    "role": "Challenge-SP",
+    "skill_dir_exists": true,
+    "skill_md_exists": true,
+    "sha256": "858d385d54b68bc7037cc4ceea321c8696ca6d1e4f1f8ddd3ede03c45ffdae64",
+    "bytes": 2213,
+    "kind": "BRIEF_NOT_IDENTITY"
+   }
+  ]
+ },
+ "verdict": "SP_HOST_LOAD_UNPROVEN",
+ "pos_met": false,
+ "why": "no executable can issue an SP identity and no receipt carries a host invocation for any of the three roles; the three role skills are briefs (documents), not host-issued identities",
+ "unblock": "run each role on a real host that issues an identity, and record command + exit + output sha for the invocation; ZIP-only delivery does not count per the body",
+ "claim_ceiling": "author-side surface probe only; nothing here is an SP identity and no PASS is claimed"
+}

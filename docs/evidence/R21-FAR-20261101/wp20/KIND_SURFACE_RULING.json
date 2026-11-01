@@ -1,0 +1,152 @@
+{
+ "schema": "FHS.R21.WP20.KIND_SURFACE_RULING/1",
+ "generated_utc": "2026-11-01T07:33:59Z",
+ "probe": {
+  "verbs": 69,
+  "root_help_sha256": "c72cb354ff90c30ba34805377ffeca58451f2ec1a435aca730610877fbfb7177",
+  "file": "kind_surface_probe/KIND_SURFACE_PROBE.json",
+  "file_sha256": "ee286449ba6e152ca9807c5d83a2c8208d9085b366c76e11de98177440ac42cc"
+ },
+ "counts": {
+  "install_surface": 4,
+  "surface_no_installer": 1,
+  "no_surface": 3
+ },
+ "denominator_ruling": {
+  "blocker_said": "the other seven Kinds",
+  "scope_file_said": "5 measured",
+  "ruling": "both withdrawn. Measured on this host: 3 kinds have no surface at all, 1 has a loadable surface without an installer, 4 have a host install surface.",
+  "authority": "owner-delegated R21 blanket authorisation, exercised with measurement attached",
+  "consequence": "WP-FHS-20 is scoped to the four kinds with an install surface; SIMPLE_AGENT needs its own cells on the Claude Code host; the three surface-less kinds take NO_HOST_SURFACE as an accepted cell state with this probe as the release condition"
+ },
+ "kinds": {
+  "AGENT_SKILL": {
+   "disposition": "INSTALL_SURFACE_MEASURED",
+   "evidence": [
+    {
+     "verb": "skills",
+     "rc": 0,
+     "help_sha256": "92063796456f3b2029abd1f395c5370412987835e69f1c6bdf0985a0d731393a",
+     "quote": "{trust,untrust,browse,search,install,inspect,list,check,update,audit,uninstall,reset,list-modified,diff,opt-out,opt-in,repair-official,publish,snapshot,tap,config} ...",
+     "why": "`hermes skills` advertises an install verb"
+    }
+   ]
+  },
+  "PROFILE": {
+   "disposition": "INSTALL_SURFACE_MEASURED",
+   "evidence": [
+    {
+     "verb": "profile create",
+     "rc": 0,
+     "help_sha256": "fa9c98c9f390108e5456b2fd4cea50b9dcc293bb5d21abd6466a3538c0343b0c",
+     "quote": "hermes profile create <name>",
+     "why": "12 cells created and deleted profiles in a throwaway home (CELL_RESULTS_V3_1.json)"
+    }
+   ]
+  },
+  "PLUGIN": {
+   "disposition": "INSTALL_SURFACE_MEASURED",
+   "evidence": [
+    {
+     "verb": "plugins",
+     "rc": 0,
+     "help_sha256": "8063f0eca98aff6708d53073faffe75d064a981938b13b12ebd3bc156cb47875",
+     "quote": "{install,search,browse,validate,update,adopt,trust-update-url,check-updates,check,remove,rm,uninstall,list,ls,enable,disable,capabilities,doctor,pack,show,info} ...",
+     "why": "`hermes plugins` installs plugin bundles"
+    },
+    {
+     "verb": "plugins validate (real plugin inside the cell home)",
+     "rc": 0,
+     "help_sha256": "4c7f512ed2770cc31bd2353027a375905e90d6b95647d912e59eaa6e74bba10f",
+     "quote": "disk-cleanup copied into home-base/plugins validates rc=0",
+     "why": "install / list / remove discrimination demonstrated"
+    }
+   ]
+  },
+  "CLI_TOOL": {
+   "disposition": "INSTALL_SURFACE_MEASURED",
+   "evidence": [
+    {
+     "verb": "lsp",
+     "rc": 0,
+     "help_sha256": "4c2905dd7b8627efac675ee0e6217dac9f3a7099cd53fce231a3b663c3e139cd",
+     "quote": "install             Install a server binary",
+     "why": "language-server binaries install by recipe"
+    },
+    {
+     "verb": "computer-use",
+     "rc": 0,
+     "help_sha256": "3a4d22fb639b88e57aaec380162f01f5268cedaa382b5f2f82c0d3bb695710f3",
+     "quote": "Install or check the cua-driver binary used by the `computer_use` toolset.",
+     "why": "cua-driver binary install is a first-class verb"
+    },
+    {
+     "verb": "mcp",
+     "rc": 0,
+     "help_sha256": "01ec95ead7a7c73bb8c0043b56388e958ed8ef09e5ac260aff378bab6a615bf6",
+     "quote": "{add,remove,rm,list,ls,test,configure,config,login,reauth,picker,catalog,install} ...",
+     "why": "MCP server install surface"
+    }
+   ],
+   "correction": "my earlier CLI_TOOL=NO_SURFACE was wrong: the host carries three literal binary/package installers"
+  },
+  "SIMPLE_AGENT": {
+   "disposition": "SURFACE_EXISTS_NO_INSTALL_VERB",
+   "evidence": [
+    {
+     "verb": "dir C:/Users/user/.claude/agents",
+     "rc": 0,
+     "help_sha256": null,
+     "quote": "ocx-gpt-5-4-mini.md, ocx-gpt-5-5.md, ocx-gpt-5-6-luna.md, ocx-gpt-5-6-sol.md, ocx-gpt-5-6-terra.md",
+     "why": "a loadable surface exists on the Claude Code host"
+    },
+    {
+     "verb": "pets",
+     "rc": 0,
+     "help_sha256": "e31c0266ac4ba6605dcbaa55373f95d21f99ba6bc5937dbc87a1b91e13e962c1",
+     "quote": "install             Install a pet from the gallery",
+     "why": "NOT a simple-agent surface: petdex sprites are cosmetics; recorded so the count cannot be inflated"
+    }
+   ],
+   "note": "no install verb for agent definitions was found on either host; placement is by file"
+  },
+  "AGENT_OS": {
+   "disposition": "NO_SURFACE_MEASURED",
+   "evidence": [
+    {
+     "verb": "acp",
+     "rc": 0,
+     "help_sha256": "a86af3b7c59ad2f4435ca7859792ce55e9412a2f944d84522a1aff2d5d9bb89c",
+     "quote": "Start Hermes Agent in ACP mode for editor integration (VS Code, Zed,",
+     "why": "ACP is an editor protocol, not an agent-os package installer"
+    }
+   ],
+   "note": "69 verbs probed; none installs an operating runtime"
+  },
+  "AI_SYSTEM": {
+   "disposition": "NO_SURFACE_MEASURED",
+   "evidence": [
+    {
+     "verb": "chat",
+     "rc": 0,
+     "help_sha256": "6fb4a3e0e5ee846a9733b9cc966ebe59ff86cb5db269c11276b2246ac14a9cb4",
+     "quote": "--pass-session-id     Include the session ID in the agent's system prompt",
+     "why": "'system prompt' appears only as a per-session config flag, never as an installable unit"
+    }
+   ],
+   "note": "no verb packages a system prompt as a unit"
+  },
+  "GENIE/GENIE.md": {
+   "disposition": "NO_SURFACE_MEASURED",
+   "evidence": [
+    {
+     "verb": "find + 69 help probes",
+     "rc": 0,
+     "help_sha256": null,
+     "quote": "0 hits for GENIE*.md outside HG-KSEOS design docs; 0 verbs mention genie",
+     "why": "absent by two independent measurements"
+    }
+   ]
+  }
+ }
+}

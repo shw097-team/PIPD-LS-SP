@@ -1,0 +1,446 @@
+{
+ "schema": "FHS.R21.FAR_TT_RECONCILE/1",
+ "generated_utc": "2026-11-01T06:09:50Z",
+ "scope": "FAR-028..056 (29) + TT-01..20 (20) = 49 ids",
+ "enum": [
+  "VERIFIED_FIXED",
+  "SUPERSEDED",
+  "OPEN_AFFECTED",
+  "HISTORICAL_NOFIT"
+ ],
+ "provenance": {
+  "far_rows": "deleg_4c51e80d (independent subagent, read-only Fabric run dirs), 29/29 with file#line",
+  "far_spot_check": [
+   "Fabric/fabric-autonomous-research/runs/FAR-20261031-054-RUNTIME-IDENTITY-AND-MAXPATH/lane_output/verify.md#L5 -> 'FAIL — delivered work is incomplete'",
+   "Fabric/fabric-autonomous-research/runs/FAR-20261031-036-FHS-MSC-HOST-SURFACES/ResearchSynthesis.md#L15 -> two real defects fixed"
+  ],
+  "tt_rows": "author-built from R20 records; no rename performed; TT-20 has no record",
+  "cited_far_files_exist": true
+ },
+ "denominator_findings": [
+  "TT: prompt says TT-01..20 (20); R20 wrote TT-R20-1..19 only. TT-20 = NO_RECORD.",
+  "FAR: 29 ids all resolve to a run dir or report line."
+ ],
+ "counts": {
+  "far_total": 29,
+  "tt_total": 20,
+  "far_SUPERSEDED": 14,
+  "far_VERIFIED_FIXED": 4,
+  "far_HISTORICAL_NOFIT": 6,
+  "far_OPEN_AFFECTED": 5,
+  "tt_OPEN_AFFECTED": 13,
+  "tt_VERIFIED_FIXED": 7
+ },
+ "far": [
+  {
+   "id": "FAR-028",
+   "title": "console-window-cpu-root-cause (run slug; run carries no synthesis H1)",
+   "classification": "SUPERSEDED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-040-WINDOW-FIX-WITHDRAWN/ResearchSynthesis.md#L69",
+   "reason": "Its 'F1/F4/F5 already applied' fix claim was withdrawn: FAR-040 measured CREATE_NO_WINDOW as hiding only one layer, with the real window sites two levels deeper."
+  },
+  {
+   "id": "FAR-029",
+   "title": "relay-round-delta-and-f3-promotion (run slug; run carries no synthesis H1)",
+   "classification": "SUPERSEDED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-040-WINDOW-FIX-WITHDRAWN/ResearchSynthesis.md#L35",
+   "reason": "F3 was promoted to a blocking gate on console_window_events_delta==0 readings; FAR-040 shows the probe's positive control never fired (PROBE_BLIND), so the promotion criterion was never actually measured."
+  },
+  {
+   "id": "FAR-030",
+   "title": "fhs-22wp-state-and-issuer-boundary (run slug; run carries no synthesis H1)",
+   "classification": "SUPERSEDED",
+   "evidence": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/FHS/FHS-MSC/FHS-MSC_PIPD-LS-PKG/FAR-REPORT-20261031-ALL-PASS/ClaimLedger.tsv#L5",
+   "reason": "Its 2 DONE / 12 PARTIAL / 7 PARKED / 1 HOLD table is not the standing state: four mutually inconsistent scoreboards exist for the same 22 packages, and later rounds read 16/3/3 then 18/4."
+  },
+  {
+   "id": "FAR-031",
+   "title": "未完成項目盤點、ALL-PASS 路徑、工程裁決與授權建議",
+   "classification": "SUPERSEDED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-031-FHS-MSC-ALL-PASS/PROVENANCE.json#L4",
+   "reason": "Published status withdrawn at marking time: PROVENANCE.json records PROVENANCE_MISSING / INVALID_RESEARCH (no lane receipts). Content retained only as candidate material, so its ALL-PASS path is not an acceptance."
+  },
+  {
+   "id": "FAR-032",
+   "title": "fhs-msc-allpass-execution (run slug; run carries no synthesis H1)",
+   "classification": "SUPERSEDED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-032-FHS-MSC-ALLPASS-EXECUTION/PROVENANCE.json#L4",
+   "reason": "Status withdrawn: PROVENANCE_MISSING / INVALID_RESEARCH. The run kept a ROUND_RECEIPT but no per-lane receipts, so its execution-round conclusions are candidate-only."
+  },
+  {
+   "id": "FAR-033",
+   "title": "八項殘留的裁決、授權與可執行方案",
+   "classification": "SUPERSEDED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-035-FHS-MSC-REVERSE-CORRECTION/ResearchSynthesis.md#L12",
+   "reason": "Its headline finding that the four named services 'do not exist as programs on this machine' was refuted as a misreading by FAR-035; 3 of its 9 items were closed earlier in FAR-034."
+  },
+  {
+   "id": "FAR-034",
+   "title": "本輪執行：七項裁決落地、WP-17 由 FAIL 轉 PASS",
+   "classification": "SUPERSEDED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-035-FHS-MSC-REVERSE-CORRECTION/ResearchSynthesis.md#L1",
+   "reason": "Core claim (four packages' records absent) refuted by FAR-035 as three misreads. Only its R-4 nonce_contract and R-9 guard-subject code changes survive; the 18/4 scoreboard also moved on."
+  },
+  {
+   "id": "FAR-035",
+   "title": "反向修正：四份「缺席」有三份是誤讀",
+   "classification": "SUPERSEDED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-036-FHS-MSC-HOST-SURFACES/ResearchSynthesis.md#L17",
+   "reason": "The correction stands but its four-host table was replaced by FAR-036's measured surfaces (Hermes skills/, Codex ~/.codex/skills, Claude ~/.claude/agents, ChatGPT no local runner)."
+  },
+  {
+   "id": "FAR-036",
+   "title": "從「找不到」到「表面不同」：四包殘留的工作量與可達路徑",
+   "classification": "VERIFIED_FIXED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-036-FHS-MSC-HOST-SURFACES/ResearchSynthesis.md#L15",
+   "reason": "Packager repair landed and was re-measured in the same round: dead symlink no longer aborts rglob, secret-scan scope fixed, archive 6062c729 with 77/77 members re-verified 0 mismatch. No later round withdraws it."
+  },
+  {
+   "id": "FAR-037",
+   "title": "暫停不合規的裁決，以及三個「我以為不行」其實可行",
+   "classification": "HISTORICAL_NOFIT",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-037-FHS-MSC-COMPLIANCE-AND-CLEAN-EVIDENCE/ResearchSynthesis.md#L19",
+   "reason": "Compliance/process round: it withdrew its own earlier Codex-cell PASS as contaminated evidence and changed the stop policy. Touches the research process, not the package's defect surface."
+  },
+  {
+   "id": "FAR-038",
+   "title": "為什麼一直違規停下：把「不要停」改成一台狀態機",
+   "classification": "SUPERSEDED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-040-WINDOW-FIX-WITHDRAWN/ResearchSynthesis.md#L11",
+   "reason": "Its remedy (resume the continuation supervisor every 3m) produced the window storm and was applied at the wrong site per FAR-040; the supervisor was left paused."
+  },
+  {
+   "id": "FAR-039",
+   "title": "視窗風暴根因：父行程藏起來，子行程各開新視窗",
+   "classification": "SUPERSEDED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-040-WINDOW-FIX-WITHDRAWN/ResearchSynthesis.md#L14",
+   "reason": "Diagnosis accepted in part only: FAR-040 located the actual visible windows at continuation_driver spawn/chained tick and hgk-lane-dispatch.py:841, two layers below what FAR-039 fixed."
+  },
+  {
+   "id": "FAR-040",
+   "title": "撤回「已修好」：修錯站點，量測是瞎的",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-040-WINDOW-FIX-WITHDRAWN/ResearchSynthesis.md#L81",
+   "reason": "Still open and unverified: positive control never fired (PROBE_BLIND), window_watch.py not fixed, supervisor paused. §5 declares package impact nil, so it blocks unattended re-arm, not the 22 WPs.",
+   "unblock": "Fix window_watch.py (drop the suspect filter, log every new window with its parent chain), fire a positive control from the owner-observed event, then re-arm the supervisor."
+  },
+  {
+   "id": "FAR-041",
+   "title": "三個「做不到」：一個讀錯、一個查錯、一個沒去量",
+   "classification": "SUPERSEDED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-043-STRUCTURAL-FACTS-REFUTED/ResearchSynthesis.md#L15",
+   "reason": "Two of its three 'impossible' verdicts were refuted within the corpus: the 192-cell denominator was restored (D-A withdrawn) and WP-12 was re-cast as RUNTIME_PATH_UNRESOLVED, not a frozen release."
+  },
+  {
+   "id": "FAR-042",
+   "title": "剩下的三格：規格缺口、五次未定位、它的影子",
+   "classification": "SUPERSEDED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-043-STRUCTURAL-FACTS-REFUTED/ResearchSynthesis.md#L24",
+   "reason": "Its 'structural fact' that ASSURED can never exist was refuted by a single adversarial file; its 168 NO_HOST_SURFACE cells were re-read as a specification gap, not workload."
+  },
+  {
+   "id": "FAR-043",
+   "title": "兩件「結構性事實」，一件被一個檔案推翻",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-043-STRUCTURAL-FACTS-REFUTED/ResearchSynthesis.md#L20",
+   "reason": "Item ① was refuted by its own adversarial suite (and a real _verify_members hole fixed), but the round itself states item ② — the Hermes runtime entry — is still open; that is the live RUNTIME_PATH blocker.",
+   "unblock": "Pin HERMES_HOME/path conditions and re-run the Hermes entry probe with a captured positive control; feed the result into the FAR-054/056 A/B/C comparison."
+  },
+  {
+   "id": "FAR-044",
+   "title": "三個 FAIL 交叉比對：一個量測抖動，兩個把路徑當能力",
+   "classification": "SUPERSEDED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-044-THREE-FAILS-CROSSCHECK/ResearchSynthesis.md#L12",
+   "reason": "All three FAIL readings it re-read were replaced: WP-11 was measurement jitter, WP-12's criterion was wrong (tested -z, gateway takes another route), WP-20's runner already existed as the EXECUTE arm."
+  },
+  {
+   "id": "FAR-045",
+   "title": "有沒有照車道跑？九篇 FAR，--lane PLAN 出現零次",
+   "classification": "VERIFIED_FIXED",
+   "evidence": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/FHS/FHS-MSC/FHS-MSC_PIPD-LS-PKG/薄PROMPT/FHS-MSC_PIPD-LS-PKG 四庫 FAR／TT 全域根因與工程修復鑑定報告.md#L84",
+   "reason": "Gate repair is stated as landed: after the fix round_close_gate derives the required lane set from the mandate and emits named NO_LANE_RECEIPT:PLAN/:EXECUTE/:VERIFY_SECURITY refusals."
+  },
+  {
+   "id": "FAR-046",
+   "title": "三條車道都能跑，所以問題不在車道",
+   "classification": "HISTORICAL_NOFIT",
+   "evidence": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/FHS/FHS-MSC/FHS-MSC_PIPD-LS-PKG/薄PROMPT/FHS-MSC_PIPD-LS-PKG 四庫 FAR／TT 全域根因與工程修復鑑定報告.md#L90",
+   "reason": "Capability measurement, no repair and no package defect: PLAN, EXECUTE and VERIFY_SECURITY each served. Later confirmed end-to-end by FAR-052's three-receipt PUBLISHED run."
+  },
+  {
+   "id": "FAR-047",
+   "title": "把「合規」做成最短路徑：成本梯度量測與修正",
+   "classification": "VERIFIED_FIXED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-047-COMPLIANCE-COST-INVERSION/ResearchSynthesis.md#L15",
+   "reason": "Three failure codes each re-rooted and fixed: transport pinned per provider (no chatgpt.com OAuth upstream for opencode-go), nonce-echo added to both brief templates, whole timeout passed with EXECUTE at 600 s."
+  },
+  {
+   "id": "FAR-048",
+   "title": "FAR 全量盤點：20 篇研究，0 篇可發布",
+   "classification": "HISTORICAL_NOFIT",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-048-FAR-CORPUS-INVENTORY/ResearchSynthesis.md#L10",
+   "reason": "Corpus accounting only: 20 FAR studies, 0 PUBLISHABLE, 17 with no lane receipt at all. It measures the research pipeline, not the package; it is cited as basis for the SUPERSEDED rows."
+  },
+  {
+   "id": "FAR-049",
+   "title": "execute-receipt-probe (run slug; run carries no synthesis H1)",
+   "classification": "HISTORICAL_NOFIT",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-049-EXECUTE-RECEIPT-PROBE/STATE.json#L4",
+   "reason": "Single-lane capability probe: one EXECUTE dispatch ok=true in 44.58 s, nonce and usage receipt ok. Claims no package defect and delivers no repair."
+  },
+  {
+   "id": "FAR-050",
+   "title": "first-routed-study (run slug; run carries no synthesis H1)",
+   "classification": "SUPERSEDED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-050-FIRST-ROUTED-STUDY/CORRECTION.json#L7",
+   "reason": "Its own CORRECTION.json withdraws the size hypothesis: FAR-049 ran EXECUTE before PLAN with no plan output, so 049 and 050 never tested the same thing."
+  },
+  {
+   "id": "FAR-051",
+   "title": "EXECUTE 能建置：14.18 秒、有收據、檔案真的出現",
+   "classification": "HISTORICAL_NOFIT",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-051-EXECUTE-CAN-BUILD/ResearchSynthesis.md#L14",
+   "reason": "Capability demonstration: EXECUTE built a 92-byte file in 14.18 s, ok=true, nonce and usage ok, artefact executed. Blocks nothing and repairs nothing in the package."
+  },
+  {
+   "id": "FAR-052",
+   "title": "第一個走完三車道的 FAR：63 秒",
+   "classification": "VERIFIED_FIXED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-052-FIRST-ALL-LANES/PUBLICATION.json#L4",
+   "reason": "Pipeline repair landed and was published: far_round.py wrapped the three lanes into one ~63 s operation with all three receipts ok, state PUBLISHED by owner at 2026-11-01T10:02:06+0800."
+  },
+  {
+   "id": "FAR-053",
+   "title": "O-1 不是 graft，是「兩個不同的樹」",
+   "classification": "HISTORICAL_NOFIT",
+   "evidence": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/FHS/FHS-MSC/FHS-MSC_PIPD-LS-PKG/薄PROMPT/FHS-MSC_PIPD-LS-PKG 四庫 FAR／TT 全域根因與工程修復鑑定報告.md#L436",
+   "reason": "Withdrew the earlier --allow-unrelated-histories graft advice after measuring only 230 shared paths, and downgraded the credential item to hygiene (never committed, gitignored). Repo adoption is outside this package's surface."
+  },
+  {
+   "id": "FAR-054",
+   "title": "runtime-identity-and-maxpath (run slug; run carries no synthesis H1)",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-054-RUNTIME-IDENTITY-AND-MAXPATH/lane_output/verify.md#L5",
+   "reason": "Independent VERIFY FAIL: the delivered work package was overwritten by later output (1,879 B read back vs the 9,678 B / 1f8b5b17 digest recorded), leaving only a self-linking summary. Report#L115 concurs.",
+   "unblock": "Re-dispatch EXECUTE writing to a distinct output path, preserve the 9,678 B work package, and re-run VERIFY against the preserved bytes."
+  },
+  {
+   "id": "FAR-055",
+   "title": "runtime-identity-repaired (run slug; run carries no synthesis H1)",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-055-RUNTIME-IDENTITY-REPAIRED/lane_output/verify_reply.md#L4",
+   "reason": "VERIFY FAIL: WORKPACKAGE.md is a prospective work specification — lines 9-63 restate the candidates and defer the decision. No repair selected, no A/B/C comparison applied. Report#L116 concurs.",
+   "unblock": "Require a selected repair, an applied A/B/C comparison and candidate-specific falsifiers before re-running VERIFY."
+  },
+  {
+   "id": "FAR-056",
+   "title": "runtime-decision (run slug; run carries no synthesis H1)",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "Fabric/fabric-autonomous-research/runs/FAR-20261031-056-RUNTIME-DECISION/lane_output/verify_reply.md#L6",
+   "reason": "VERIFY FAIL: recommends A, but the successful product-entry probe's conditions (HERMES_HOME, selected venv) were not preserved and B was not excluded. Report#L117 concurs; WP12 v2 is LOCAL_PASS_PENDING_INDEPENDENT_RESIT.",
+   "unblock": "Re-run the product-entry probe preserving HERMES_HOME/venv/path conditions, exclude B by measurement, then take WP12 to an independent resit."
+  }
+ ],
+ "tt": [
+  {
+   "id": "TT-01",
+   "record": "TT-R20-1",
+   "status_in_record": "OPEN",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "_handover/R20-FHS-20261029/FAR_R20_20261029.md#L166",
+   "reason": "18/18 stage 列為 ABSENT，無機器工件承載 output contract 實例；量測非缺陷宣告，仍未關閉。",
+   "unblock": "產出可被 reader 消費的 stage 工件後重跑 oracle。",
+   "title": ""
+  },
+  {
+   "id": "TT-02",
+   "record": "TT-R20-2",
+   "status_in_record": "OPEN",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "_handover/R20-FHS-20261029/FAR_R20_20261029.md#L167",
+   "reason": "46 個 HOLD cell（CALIBRATION 11／HUMAN_DECISION 11／HUMAN_JUDGE 11／TWO_VERSION 8／PERFORMANCE 5）逐 cell 仍未取得 required_reader。",
+   "unblock": "逐 cell 綁 required_reader 並取得對應 reader 收據。",
+   "title": ""
+  },
+  {
+   "id": "TT-03",
+   "record": "TT-R20-3",
+   "status_in_record": "OPEN",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "_handover/R20-FHS-20261029/FAR_R20_20261029.md#L168",
+   "reason": "車道獨立性僅 process-only；三車道同為 deepseek（R15），不得主張模型多樣性。",
+   "unblock": "接入第二家 provider 的 arm 後重測車道獨立性。",
+   "title": ""
+  },
+  {
+   "id": "TT-04",
+   "record": "TT-R20-4",
+   "status_in_record": "MITIGATED",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "_handover/R20-FHS-20261029/FAR_R20_20261029.md#L169",
+   "reason": "r2 原始報告作廢後歷史引用仍可能引到 2789/0；以 VOID_R2_REPORT.md 與 PR body 標註緩解，未根除。",
+   "unblock": "在歷史引用處加註 void 指標，或由 owner 決定是否回收舊引用。",
+   "title": ""
+  },
+  {
+   "id": "TT-05",
+   "record": "TT-R20-5",
+   "status_in_record": "OPEN",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "_handover/R20-FHS-20261029/FAR_R20_20261029.md#L170",
+   "reason": "repo main 未合併、owner／外部驗收 NOT_RUN；本輪維持候選不動 main。",
+   "unblock": "由 owner 決定是否合併；agent 不得自行 fast-forward。",
+   "title": ""
+  },
+  {
+   "id": "TT-06",
+   "record": "TT-R20-6",
+   "status_in_record": "OPEN（政策）",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "_handover/R20-FHS-20261029/FAR_R20_20261029.md#L171",
+   "reason": "指派檔只列 3 個主 arm、未列 fallback；strict 選路設為預設會廢掉文件化後備鏈，屬政策決定。",
+   "unblock": "owner 決定：指派檔列合法 fallback，或把 --require-assigned-arms 設為預設。",
+   "title": ""
+  },
+  {
+   "id": "TT-07",
+   "record": "TT-R20-7",
+   "status_in_record": "OPEN",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "_handover/R20-FHS-20261029/FAR_R20_20261029.md#L172",
+   "reason": "--codex-executable 指向不存在檔案會拋未捕捉 FileNotFoundError（既有缺陷）。",
+   "unblock": "改為 typed refusal（ERR_CODEX_EXECUTABLE_MISSING）並加負測。",
+   "title": ""
+  },
+  {
+   "id": "TT-08",
+   "record": "TT-R20-8",
+   "status_in_record": "OPEN",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "_handover/R20-FHS-20261029/FAR_R20_20261029.md#L175",
+   "reason": "worktree 有 2 個 collection error（test_native_boundaries.py、test_r6_artifact_scope.py，皆 import test_native_admission）。",
+   "unblock": "修掉 import 路徑後重跑；與本輪改動無關但阻礙全綠宣稱。",
+   "title": ""
+  },
+  {
+   "id": "TT-09",
+   "record": "TT-R20-9",
+   "status_in_record": "OPEN（未綁修補收據）",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "_handover/R20-FHS-20261029/FAR_R20_20261029.md#L174",
+   "reason": "pass3–5 的 nonce_present_raw_stdout=false 與其自身 byte-exact stdout 矛盾；closure 改 p7 比對基線 id 集，但無收據把 TT-R20-9 綁到該修補。",
+   "unblock": "重發 p7 收據並在其 subject 明確綁 TT-R20-9。",
+   "title": ""
+  },
+  {
+   "id": "TT-10",
+   "record": "TT-R20-10",
+   "status_in_record": "OPEN",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "_handover/R20-FHS-20261029/FAR_R20_20261029.md#L173",
+   "reason": "主機 config/model-lane-assignment.json 在回合中由 rev 35/epoch 34 走到 rev 36/epoch 36，P3 收據記 rev 35。",
+   "unblock": "以 drift 欄位回填或固定指派檔；不得以文件改寫掩蓋。",
+   "title": ""
+  },
+  {
+   "id": "TT-11",
+   "record": "TT-R20-11",
+   "status_in_record": "FIXED（A8）",
+   "classification": "VERIFIED_FIXED",
+   "evidence": "_handover/R20-FHS-20261029/FAR_CLOSURE_AND_PROMOTION_20261029.md#L112",
+   "reason": "--require-arm 只在呼叫後否決；A8 後選路在 spawn 前以 alias 等價過濾（實測 candidates_before 4→1）。",
+   "unblock": "",
+   "title": ""
+  },
+  {
+   "id": "TT-12",
+   "record": "TT-R20-12",
+   "status_in_record": "REPAIRED",
+   "classification": "VERIFIED_FIXED",
+   "evidence": "var/R20-FHS-20261029/CLOSURE_ROUND_REPORT.md#L26",
+   "reason": "lane pin 指向主機升級刪除的 codex.exe，每次 dispatch 死於 ERR_LANE_PIN_IDENTITY_INVALID；已改 pin 0ab0e7a8f3779036。",
+   "unblock": "",
+   "title": ""
+  },
+  {
+   "id": "TT-13",
+   "record": "TT-R20-13",
+   "status_in_record": "FIXED",
+   "classification": "VERIFIED_FIXED",
+   "evidence": "var/R20-FHS-20261029/CLOSURE_ROUND_REPORT.md#L30",
+   "reason": "_producer 在 run_attempt() 內綁定卻在 main() 讀，spawn 前拒絕路徑全部 NameError，61 個綠測轉紅；改為 main() 一次綁定。",
+   "unblock": "",
+   "title": ""
+  },
+  {
+   "id": "TT-14",
+   "record": "TT-R20-14",
+   "status_in_record": "FIXED",
+   "classification": "VERIFIED_FIXED",
+   "evidence": "var/R20-FHS-20261029/CLOSURE_ROUND_REPORT.md#L32",
+   "reason": "closure 收據斷言了工具內部的區域變數 identity_changed，列紅而工具綠；已改為讀工具輸出。",
+   "unblock": "",
+   "title": ""
+  },
+  {
+   "id": "TT-15",
+   "record": "TT-R20-15",
+   "status_in_record": "OPEN",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "var/R20-FHS-20261029/CLOSURE_ROUND_REPORT.md#L42",
+   "reason": "2 筆 lineage 刪除未在 subset 重放（owner 決定），仍開。",
+   "unblock": "owner 決定是否重放 lineage 刪除。",
+   "title": ""
+  },
+  {
+   "id": "TT-16",
+   "record": "TT-R20-16",
+   "status_in_record": "OPEN",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "var/R20-FHS-20261029/CLOSURE_ROUND_REPORT.md#L42",
+   "reason": "repo-wide 74 個既存紅測（6086908 同 id 集、0 新增、14 轉綠），仍開。",
+   "unblock": "另開回合根因處理 74 紅測，或明示接受為既存基線。",
+   "title": ""
+  },
+  {
+   "id": "TT-17",
+   "record": "TT-R20-17",
+   "status_in_record": "FIXED",
+   "classification": "VERIFIED_FIXED",
+   "evidence": "var/R20-FHS-20261029/CLOSURE_ROUND_REPORT.md#L34",
+   "reason": "A8 後 verdict 用 != 比對 served/required 而選路用 alias 等價，導致正確 arm 在 210.09s 後被拒；已改 arm_served_equivalent() 並宣告 alias 對。",
+   "unblock": "",
+   "title": ""
+  },
+  {
+   "id": "TT-18",
+   "record": "TT-R20-18",
+   "status_in_record": "FIXED",
+   "classification": "VERIFIED_FIXED",
+   "evidence": "var/R20-FHS-20261029/CLOSURE_ROUND_REPORT.md#L39",
+   "reason": "primary excludes fallbacks 測試被判為 tautology（對污染 mutant 同樣通過）；已改為 runtime invariant。",
+   "unblock": "",
+   "title": ""
+  },
+  {
+   "id": "TT-19",
+   "record": "TT-R20-19",
+   "status_in_record": "FIXED",
+   "classification": "VERIFIED_FIXED",
+   "evidence": "var/R20-FHS-20261029/CLOSURE_ROUND_REPORT.md#L39",
+   "reason": "與 TT-R20-18 同一 tautology 條目，已一併改為 runtime invariant。",
+   "unblock": "",
+   "title": ""
+  },
+  {
+   "id": "TT-20",
+   "record": "TT-R20-20",
+   "status_in_record": "NO_RECORD",
+   "classification": "OPEN_AFFECTED",
+   "evidence": "NO_RECORD",
+   "reason": "分母不符：R20 只留下 TT-R20-1..19（19 筆），任何檔案都沒有 TT-R20-20 的列；prompt 卻以 TT-01～20（20 筆）計。",
+   "unblock": "owner 確認第 20 筆是否存在；否則以 19 為分母修正 prompt／handoff，不得自行補一筆。",
+   "title": ""
+  }
+ ]
+}

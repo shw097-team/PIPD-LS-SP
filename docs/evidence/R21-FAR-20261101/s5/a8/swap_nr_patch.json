@@ -1,0 +1,67 @@
+{
+ "schema": "PIPD-HOTSWAP-RECEIPT/1",
+ "root": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\fixture_nr_patch",
+ "entry": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\fixture_nr_patch\\occupant.py",
+ "candidate": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\fixture_nr_patch\\candidate.py",
+ "started_at": "2026-11-01T15:55:36+0800",
+ "started_at_epoch": 1793519736.721954,
+ "steps": [],
+ "preimage": {
+  "files": 2,
+  "digest": "265452ebefd4474199dc256113052f1b658226ba0101e225ab6084f16838031a"
+ },
+ "before": {
+  "identity": "cap-attest-v1",
+  "served": true,
+  "via": "abi-consumer",
+  "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\fixture_nr_patch\\occupant.py",
+  "code": null
+ },
+ "candidate_sha256": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+ "grant": {
+  "path": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\grant_nr_patch.json",
+  "sha256": "88250b4054c6ef0a3b09af4d0327fa1d67b8509438bee2cd87630d2b040f8aec",
+  "nonce": "A8-NR-patch-1793519736",
+  "issued_at": 1793519736,
+  "expires_at": 1793520636,
+  "subject": "WP-FHS-13",
+  "operation": "install_occupant",
+  "scope": "A8 NEG2 patch",
+  "policy_epoch": "40",
+  "issuer_verifier_exit": 0,
+  "issuer_verifier": {
+   "grant": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\grant_nr_patch.json",
+   "verdict": "GRANT_VALID",
+   "problems": []
+  },
+  "issued_before_effect": true,
+  "ordering_reference": "receipt.started_at",
+  "writeset_paths": [
+   "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\s5\\a8\\fixture_nr_patch\\candidate.py",
+   "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\s5\\a8\\fixture_nr_patch\\occupant.py"
+  ],
+  "covers_entry": true,
+  "covers_candidate": true,
+  "preimage_checks": {
+   "entry": {
+    "declared": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "actual": "b5b0a75cce90522c5b9b774c00c00711f1c7b19536b7e2ed6dbfb3ba015e8dba",
+    "ok": false
+   },
+   "candidate": {
+    "declared": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+    "actual": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+    "ok": true
+   }
+  },
+  "candidate_sha_named": null,
+  "candidate_sha_matches": true,
+  "problems": [
+   "GRANT_PREIMAGE_MISMATCH_ENTRY"
+  ]
+ },
+ "code": "ERR_GRANT_NOT_BOUND",
+ "ok": false,
+ "why": "the grant does not cover this swap: ['GRANT_PREIMAGE_MISMATCH_ENTRY']; nothing moved",
+ "finished_at": "2026-11-01T15:55:36+0800"
+}

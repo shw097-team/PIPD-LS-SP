@@ -1,0 +1,275 @@
+{
+ "schema": "FHS.R21.WP_DAG_SAMPLING/1",
+ "generated_utc": "2026-11-01T06:41:21Z",
+ "source": "HG-KSEOS/var/shared-spine/hg-kseos.db work_queue (read-only mode=ro)",
+ "totals": {
+  "wps": 22,
+  "PASS": 19,
+  "FAIL": 3
+ },
+ "classification_all": {
+  "NO_EVIDENCE_REOPEN": 16,
+  "EVIDENCE_REF_CITED": 5,
+  "ARTIFACT_DIR_FOUND_NO_REF": 1
+ },
+ "classification_pass_only": {
+  "NO_EVIDENCE_REOPEN": 16,
+  "EVIDENCE_REF_CITED": 3
+ },
+ "roots_checked": [
+  "HG-KSEOS\\ops\\session-20261031\\FHS-ALLPASS-20261031",
+  "HG-KSEOS\\fhs_msc_handoff_20261030"
+ ],
+ "finding": "19 rows are PASS but only 3 carry an evidence_ref and only 5 WPs have any per-WP artifact dir on disk; 16 PASS rows therefore cannot be re-verified from the spine and must be re-opened or back-filled with a pointer to a real receipt before any 'PASS' is cited.",
+ "rows": [
+  {
+   "wp_id": "WP-FHS-00",
+   "title": "Source/Host Discovery",
+   "state": "PASS",
+   "effect_class": "SOURCE_READ",
+   "evidence_ref": "",
+   "artifact_dirs": [],
+   "classification": "NO_EVIDENCE_REOPEN",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-01",
+   "title": "Authority/Oracle/Profile",
+   "state": "PASS",
+   "effect_class": "SOURCE_READ",
+   "evidence_ref": "",
+   "artifact_dirs": [],
+   "classification": "NO_EVIDENCE_REOPEN",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-02",
+   "title": "Fabric Policy Consumer",
+   "state": "PASS",
+   "effect_class": "HOST_OP",
+   "evidence_ref": "",
+   "artifact_dirs": [],
+   "classification": "NO_EVIDENCE_REOPEN",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-03",
+   "title": "HGK Registry/Issuer",
+   "state": "PASS",
+   "effect_class": "HOST_OP",
+   "evidence_ref": "",
+   "artifact_dirs": [],
+   "classification": "NO_EVIDENCE_REOPEN",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-04",
+   "title": "Hermes Durable Runtime",
+   "state": "PASS",
+   "effect_class": "HOST_OP",
+   "evidence_ref": "",
+   "artifact_dirs": [],
+   "classification": "NO_EVIDENCE_REOPEN",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-05",
+   "title": "PIPD Native Compiler",
+   "state": "PASS",
+   "effect_class": "LOCAL_DRAFT_WRITE",
+   "evidence_ref": "",
+   "artifact_dirs": [],
+   "classification": "NO_EVIDENCE_REOPEN",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-06",
+   "title": "Legal First Reversible Slice",
+   "state": "PASS",
+   "effect_class": "REPO_WRITE",
+   "evidence_ref": "",
+   "artifact_dirs": [],
+   "classification": "NO_EVIDENCE_REOPEN",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-07",
+   "title": "Native PLAN Commander A/B/C",
+   "state": "PASS",
+   "effect_class": "LOCAL_DRAFT_WRITE",
+   "evidence_ref": "",
+   "artifact_dirs": [],
+   "classification": "NO_EVIDENCE_REOPEN",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-08",
+   "title": "FHS Execute Worker",
+   "state": "PASS",
+   "effect_class": "HOST_OP",
+   "evidence_ref": "",
+   "artifact_dirs": [],
+   "classification": "NO_EVIDENCE_REOPEN",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-09",
+   "title": "Challenge/Protected AO",
+   "state": "PASS",
+   "effect_class": "SOURCE_READ",
+   "evidence_ref": "",
+   "artifact_dirs": [],
+   "classification": "NO_EVIDENCE_REOPEN",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-10",
+   "title": "B1 3 GWO & G-A/G-B",
+   "state": "PASS",
+   "effect_class": "HOST_OP",
+   "evidence_ref": "EV-WP-FHS-10-GATES",
+   "artifact_dirs": [],
+   "classification": "EVIDENCE_REF_CITED",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-11",
+   "title": "Portable Host Dogfood",
+   "state": "PASS",
+   "effect_class": "HOST_OP",
+   "evidence_ref": "ops/session-20261031/FHS-ALLPASS-20261031/WP-FHS-11/NINE_CELL_TABLE.json; AO sitting 3 nonce AO-WP-FHS-11-74EF001B served openai-codex/gpt-6.1-sol rank 1, 5/5 clauses PASS",
+   "artifact_dirs": [
+    {
+     "path": "HG-KSEOS\\ops\\session-20261031\\FHS-ALLPASS-20261031\\WP-FHS-11",
+     "files": 64
+    }
+   ],
+   "classification": "EVIDENCE_REF_CITED",
+   "updated_at": "2026-11-01T04:33:15+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-12",
+   "title": "W18 Normal Mode",
+   "state": "FAIL",
+   "effect_class": "HOST_OP",
+   "evidence_ref": "",
+   "artifact_dirs": [
+    {
+     "path": "HG-KSEOS\\ops\\session-20261031\\FHS-ALLPASS-20261031\\WP-FHS-12",
+     "files": 27
+    }
+   ],
+   "classification": "ARTIFACT_DIR_FOUND_NO_REF",
+   "updated_at": "2026-11-01T12:33:27+0800"
+  },
+  {
+   "wp_id": "WP-FHS-13",
+   "title": "CAP On-Demand + HotSwap",
+   "state": "FAIL",
+   "effect_class": "HOST_OP",
+   "evidence_ref": "var/FHS-ALLPASS-20261031/wp13/ACCEPTANCE_WP13.json",
+   "artifact_dirs": [
+    {
+     "path": "HG-KSEOS\\ops\\session-20261031\\FHS-ALLPASS-20261031\\WP-FHS-13",
+     "files": 16
+    }
+   ],
+   "classification": "EVIDENCE_REF_CITED",
+   "updated_at": "2026-11-01T12:33:27+0800"
+  },
+  {
+   "wp_id": "WP-FHS-14",
+   "title": "Release/Retire Candidate",
+   "state": "PASS",
+   "effect_class": "RELEASE",
+   "evidence_ref": "",
+   "artifact_dirs": [],
+   "classification": "NO_EVIDENCE_REOPEN",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-15",
+   "title": "TPM Corpus & SPEC 18Stage",
+   "state": "PASS",
+   "effect_class": "",
+   "evidence_ref": "",
+   "artifact_dirs": [],
+   "classification": "NO_EVIDENCE_REOPEN",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-16",
+   "title": "Donor/Method Slot Translation",
+   "state": "PASS",
+   "effect_class": "LOCAL_DRAFT_WRITE",
+   "evidence_ref": "",
+   "artifact_dirs": [],
+   "classification": "NO_EVIDENCE_REOPEN",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-17",
+   "title": "CAP-BOOT Native Occupants",
+   "state": "PASS",
+   "effect_class": "HOST_OP",
+   "evidence_ref": "OWNER-RULING:production Ed25519 grant via issue_grant.py replaces the conformance seam the officer refused",
+   "artifact_dirs": [
+    {
+     "path": "HG-KSEOS\\ops\\session-20261031\\FHS-ALLPASS-20261031\\WP-FHS-17-tools",
+     "files": 6
+    },
+    {
+     "path": "HG-KSEOS\\fhs_msc_handoff_20261030\\WP-FHS-17",
+     "files": 481
+    }
+   ],
+   "classification": "EVIDENCE_REF_CITED",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-18",
+   "title": "FAR Bounded Repair & Incident",
+   "state": "PASS",
+   "effect_class": "REPO_WRITE",
+   "evidence_ref": "",
+   "artifact_dirs": [],
+   "classification": "NO_EVIDENCE_REOPEN",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-19",
+   "title": "CI/Supply Chain & Requal",
+   "state": "PASS",
+   "effect_class": "SOURCE_READ",
+   "evidence_ref": "",
+   "artifact_dirs": [],
+   "classification": "NO_EVIDENCE_REOPEN",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  },
+  {
+   "wp_id": "WP-FHS-20",
+   "title": "CLI/Agent/Host Kind Matrix",
+   "state": "FAIL",
+   "effect_class": "HOST_OP",
+   "evidence_ref": "C:\\wg\\queue\\WP-FHS-20\\output\\officer\\verdict.json",
+   "artifact_dirs": [
+    {
+     "path": "HG-KSEOS\\ops\\session-20261031\\FHS-ALLPASS-20261031\\WP-FHS-20",
+     "files": 2
+    }
+   ],
+   "classification": "EVIDENCE_REF_CITED",
+   "updated_at": "2026-11-01T12:33:27+0800"
+  },
+  {
+   "wp_id": "WP-FHS-21",
+   "title": "Challenge 96/H4/SEAM Coverage",
+   "state": "PASS",
+   "effect_class": "SOURCE_READ",
+   "evidence_ref": "",
+   "artifact_dirs": [],
+   "classification": "NO_EVIDENCE_REOPEN",
+   "updated_at": "2026-11-01T03:06:37+00:00"
+  }
+ ]
+}

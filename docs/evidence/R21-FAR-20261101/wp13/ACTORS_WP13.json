@@ -1,0 +1,94 @@
+{
+ "schema": "FHS.R21.WP13.ACTORS/1",
+ "generated_utc": "2026-11-01T06:21:02Z",
+ "subject": "WP-FHS-13 C2-C5 (ABI fixture, covering grant)",
+ "roles": {
+  "writer": {
+   "what": "fixture occupant v1 + candidate v2 + the runner that sequences grant-then-effect",
+   "artifacts": {
+    "tools/wp13_c5_run.py": "c20d9811cc24a2a7a9ee88b045f33ac3836439112b84edc5f9e9d17fcae3e27e",
+    "fixture occupant v1": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+    "candidate v2": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a"
+   },
+   "principal": "HERMES-R21-EXECUTE-LANE (model lane, not a human)"
+  },
+  "executor": {
+   "what": "ran issue_grant.py and hotswap.py",
+   "commands": [
+    [
+     "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+     "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\\issue_grant.py",
+     "issue",
+     "--principal",
+     "owner",
+     "--operation",
+     "install_occupant",
+     "--writeset",
+     "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\writeset_covering.json",
+     "--ttl",
+     "900",
+     "--epoch",
+     "40",
+     "--scope",
+     "WP-FHS-13 C5: install occupant through the ABI consumer under a covering writeset",
+     "--nonce",
+     "WP13-R21-1793514042",
+     "--subject",
+     "WP-FHS-13",
+     "--candidate-sha",
+     "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+     "--out",
+     "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\grant_covering.json"
+    ],
+    [
+     "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+     "C:\\Projects\\Agent_Workspace\\PIPD\\tools\\hotswap.py",
+     "--root",
+     "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\fixture-covering",
+     "--entry",
+     "occupant.py",
+     "--candidate",
+     "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\fixture-covering\\candidate.py",
+     "--expect-old",
+     "cap-attest-v1",
+     "--expect-new",
+     "cap-attest-v2",
+     "--need",
+     "cap.attest",
+     "--method",
+     "identity",
+     "--grant",
+     "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\grant_covering.json",
+     "--grant-verifier",
+     "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\\issue_grant.py",
+     "--out",
+     "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\HOTSWAP_ABI_GRANT_BOUND.json"
+    ]
+   ],
+   "rc": [
+    0,
+    0
+   ],
+   "pid": "same-process child of the R21 session shell",
+   "started_utc": "2026-11-01T06:20:42Z"
+  },
+  "issuer": {
+   "what": "signed the covering grant",
+   "key_id": "see grant.key_id",
+   "verifier": "HG-KSEOS/scripts/issue_grant.py verify (exit 0)",
+   "grant_sha256": "2e99a8b682892f7dc8913d1c1d431b5e1346b99de3ef91af548160c3932ac3a9"
+  },
+  "checker": {
+   "what": "independent C5 re-sit",
+   "principal": "pending: separate read-only AO subagent",
+   "must_not_be": "the writer or executor"
+  }
+ },
+ "independence_note": "writer and executor are the same lane by design (maker). The claim ceiling therefore stays author-side until a distinct checker returns a receipt; the AO's earlier objection that no identity fields existed is addressed here explicitly rather than left implicit.",
+ "tool_shas": {
+  "PIPD/tools/hotswap.py": "f9468f406ac2137080133c66073fb328847b359b966a930402304b7023353a14",
+  "PIPD/src/pipd_ls_sp/abi.py": "901f2a1e506de65bde72df996d540cabe302910c858fc938a926fc633563b213",
+  "HG-KSEOS/scripts/issue_grant.py": "08d6e985d46facfb75fce0b56b6b5884975d22ab25d28632a3b964700acb9e77"
+ },
+ "claim_ceiling": "AUTHOR_SIDE_LOCAL (C2-C5 measured locally, pending independent re-sit)"
+}

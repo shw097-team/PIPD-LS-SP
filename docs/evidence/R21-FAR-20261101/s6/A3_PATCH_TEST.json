@@ -1,0 +1,70 @@
+{
+ "schema": "FHS.R21.S6.A3_PATCH_TEST/1",
+ "generated_utc": "2026-11-01T07:49:13Z",
+ "canonical_untouched": {
+  "path": "HG-KSEOS/scripts/work_queue.py",
+  "sha256": "2155987dab6e3b19da6ab52105daf22627cd8cf49ca7ae487a363dbe14fff2b1"
+ },
+ "patch": {
+  "file": "s6/patch/work_queue.settle.patch",
+  "bytes": 1663,
+  "sha256": "7713a2f6e6f1343f733401ae942ae26cac83e92aa2329300ff05dcb0e4a11c7f",
+  "patched_copy_sha256": "b96efcfc47964b5632286ccea701ef347586453766769bcf003cf066819abf43"
+ },
+ "pre_state": {
+  "ref": "s6/A3_CASES.json",
+  "duplicate_claim": "FAIL_DUPLICATE_ACCEPTED"
+ },
+ "tests": {
+  "T1_first_settle_accepted": {
+   "expect": "rc=0",
+   "got": {
+    "rc": 0,
+    "settled": "WP-FHS-91",
+    "state": "PASS",
+    "evidence": "A3-PATCH-evidence-1"
+   },
+   "verdict": "PASS"
+  },
+  "T2_second_settle_refused": {
+   "expect": "rc=7 ERR_ALREADY_SETTLED",
+   "got": {
+    "rc": 7,
+    "error": "ERR_ALREADY_SETTLED",
+    "wp": "WP-FHS-91",
+    "state": "PASS",
+    "detail": "terminal PASS may not be overwritten; use unsettle with a named reason"
+   },
+   "verdict": "PASS"
+  },
+  "T3_overwrite_with_fail_refused": {
+   "expect": "rc=7 ERR_ALREADY_SETTLED",
+   "got": {
+    "rc": 7,
+    "error": "ERR_ALREADY_SETTLED",
+    "wp": "WP-FHS-91",
+    "state": "PASS",
+    "detail": "terminal PASS may not be overwritten; use unsettle with a named reason"
+   },
+   "verdict": "PASS"
+  },
+  "T4_evidenceless_pass_refused": {
+   "expect": "rc=8 ERR_EVIDENCE_REQUIRED",
+   "got": {
+    "rc": 8,
+    "error": "ERR_EVIDENCE_REQUIRED",
+    "wp": "WP-FHS-92",
+    "verdict": "PASS",
+    "detail": "PASS/BLOCKED must name the artefact that proves it"
+   },
+   "verdict": "PASS"
+  }
+ },
+ "summary": {
+  "T1_first_settle_accepted": "PASS",
+  "T2_second_settle_refused": "PASS",
+  "T3_overwrite_with_fail_refused": "PASS",
+  "T4_evidenceless_pass_refused": "PASS"
+ },
+ "claim_ceiling": "candidate patch proven on a copy against a scratch DB; the canonical queue tool still accepts duplicate claims and evidenceless PASSes until an authorised change lands"
+}

@@ -1,0 +1,29 @@
+--- a/HG-KSEOS/scripts/work_queue.py
++++ b/HG-KSEOS/scripts/work_queue.py
+@@ -177,10 +177,24 @@
+     A settled FAIL stays visible as NEEDS_RULING; it is not a PASS and it is not silently dropped.
+     """
+     con = connect()
+-    cur = con.execute("SELECT state FROM work_queue WHERE wp_id=?", (args.wp,))
+-    if cur.fetchone() is None:
++    cur = con.execute("SELECT state, evidence_ref FROM work_queue WHERE wp_id=?", (args.wp,))
++    row = cur.fetchone()
++    if row is None:
+         print(json.dumps({"error": "UNKNOWN_WP", "wp": args.wp}))
+         return 2
++    prior_state, prior_evidence = row
++    # A3: a second settle of an already-terminal item is a duplicate claim, not a correction.
++    if prior_state == "PASS":
++        print(json.dumps({"error": "ERR_ALREADY_SETTLED", "wp": args.wp, "state": prior_state,
++                          "detail": "terminal PASS may not be overwritten; use unsettle with a named reason"}))
++        return 7
++    if prior_evidence and getattr(args, "evidence", None) == prior_evidence:
++        print(json.dumps({"error": "ERR_DUPLICATE_CLAIM", "wp": args.wp, "evidence": prior_evidence}))
++        return 7
++    if getattr(args, "verdict", None) in ("PASS", "BLOCKED") and not (getattr(args, "evidence", "") or "").strip():
++        print(json.dumps({"error": "ERR_EVIDENCE_REQUIRED", "wp": args.wp, "verdict": args.verdict,
++                          "detail": "PASS/BLOCKED must name the artefact that proves it"}))
++        return 8
+     con.execute("UPDATE work_queue SET state=?, evidence_ref=?, updated_at=? WHERE wp_id=?",
+                 (args.verdict, args.evidence, now(), args.wp))
+     con.commit()

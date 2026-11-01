@@ -1,0 +1,106 @@
+{
+ "schema": "FHS.R21.S5.B4_CASES/1",
+ "generated_utc": "2026-11-01T08:10:54Z",
+ "edge": "EDGE-WO-B1-B4-DEV",
+ "pd": "PD-14",
+ "domain": "ECP_SELECTOR",
+ "tools": {
+  "canonical_sha256": "f9468f406ac2137080133c66073fb328847b359b966a930402304b7023353a14",
+  "candidate_b3_sha256": "4b5fe035f90f1f4eecab2f9d067a1487bdcb586e341310e2b10d35a45d602eaa",
+  "candidate_selector_sha256": "03b08c73cd530a648f0c97a72844d1f16a136e501aa0addc47a4f6f240da5f10",
+  "selector_patch": "s5/patch/hotswap.selector.patch",
+  "selector_patch_sha256": "e2a8fa289efe5ecc85a4b24cb467fab050ab4ba8550963789bc1cdee97f0c6d7"
+ },
+ "results": {
+  "canonical": {
+   "first": {
+    "rc": 0,
+    "ok": true,
+    "code": null,
+    "problems": [],
+    "identity_after": "cap-attest-v2"
+   },
+   "second_same_subject": {
+    "rc": 0,
+    "ok": true,
+    "code": null,
+    "problems": [],
+    "identity_after": "cap-attest-v2"
+   },
+   "unknown_class": {
+    "rc": 0,
+    "ok": true,
+    "code": null,
+    "problems": [],
+    "identity_after": "cap-attest-v2"
+   }
+  },
+  "candidate_b3": {
+   "first": {
+    "rc": 0,
+    "ok": true,
+    "code": null,
+    "problems": [],
+    "identity_after": "cap-attest-v2"
+   },
+   "second_same_subject": {
+    "rc": 0,
+    "ok": true,
+    "code": null,
+    "problems": [],
+    "identity_after": "cap-attest-v2"
+   },
+   "unknown_class": {
+    "rc": 1,
+    "ok": false,
+    "code": "ERR_GRANT_NOT_BOUND",
+    "problems": [
+     "GRANT_EFFECT_MISMATCH"
+    ],
+    "identity_after": "cap-attest-v1"
+   }
+  },
+  "candidate_selector": {
+   "first": {
+    "rc": 0,
+    "ok": true,
+    "code": null,
+    "problems": [],
+    "identity_after": "cap-attest-v2"
+   },
+   "second_same_subject": {
+    "rc": 1,
+    "ok": false,
+    "code": "ERR_GRANT_NOT_BOUND",
+    "problems": [
+     "ECP_MULTIPLE_ACTIVE"
+    ],
+    "identity_after": "cap-attest-v1"
+   },
+   "unknown_class": {
+    "rc": 1,
+    "ok": false,
+    "code": "ERR_GRANT_NOT_BOUND",
+    "problems": [
+     "GRANT_EFFECT_MISMATCH"
+    ],
+    "identity_after": "cap-attest-v1"
+   }
+  }
+ },
+ "summary": {
+  "canonical": {
+   "POS_one_active_ecp": "FAIL_SECOND_ECP_ACCEPTED",
+   "NEG_unknown_class": "FAIL_UNKNOWN_CLASS_ACCEPTED"
+  },
+  "candidate_b3": {
+   "POS_one_active_ecp": "FAIL_SECOND_ECP_ACCEPTED",
+   "NEG_unknown_class": "PASS"
+  },
+  "candidate_selector": {
+   "POS_one_active_ecp": "PASS",
+   "NEG_unknown_class": "PASS"
+  }
+ },
+ "claim_ceiling": "unknown-class handling is enforceable by the candidate; one-live-ECP-per-subject needs the selector candidate. Nothing here is accepted: all three tools are copies and the canonical file is unmodified."
+}

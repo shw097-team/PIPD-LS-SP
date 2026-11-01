@@ -1,0 +1,76 @@
+{
+ "schema": "PIPD-HOTSWAP-RECEIPT/1",
+ "root": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\fixture_rollback",
+ "entry": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\fixture_rollback\\occupant.py",
+ "candidate": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\fixture_rollback\\candidate.py",
+ "started_at": "2026-11-01T15:54:16+0800",
+ "steps": [
+  "grant_bound",
+  "swapped"
+ ],
+ "preimage": {
+  "files": 2,
+  "digest": "f015678b6563649aff4cd6f96110ab407767e8b9101ab064a6df38861ed78b24"
+ },
+ "before": {
+  "identity": "cap-attest-v1",
+  "served": true,
+  "via": "abi-consumer",
+  "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\fixture_rollback\\occupant.py",
+  "code": null
+ },
+ "candidate_sha256": "11dc908ae83d1d6843eea94fd935104b05bac8aec24d6ef14c339a968f6fe132",
+ "grant": {
+  "path": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\grant_rollback.json",
+  "sha256": "3d1019017aa36ce59a76b6a9c4925a49a683a62fc91325828cae96f4bdbe2b97",
+  "nonce": "A8-ROLL-1793519656",
+  "issued_at": 1793519656,
+  "expires_at": 1793520556,
+  "subject": "WP-FHS-13",
+  "operation": "install_occupant",
+  "scope": "EDGE-WO-B1-A8 hotpath probe",
+  "policy_epoch": "40",
+  "issuer_verifier_exit": 0,
+  "issuer_verifier": {
+   "grant": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\grant_rollback.json",
+   "verdict": "GRANT_VALID",
+   "problems": []
+  },
+  "issued_before_effect": true,
+  "writeset_paths": [
+   "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\s5\\a8\\fixture_rollback\\candidate.py",
+   "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\s5\\a8\\fixture_rollback\\occupant.py"
+  ],
+  "covers_entry": true,
+  "covers_candidate": true,
+  "candidate_sha_named": null,
+  "candidate_sha_matches": true,
+  "problems": []
+ },
+ "pos": {
+  "identity": "cap-attest-WRONG",
+  "served": true,
+  "via": "abi-consumer",
+  "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\fixture_rollback\\occupant.py",
+  "code": null
+ },
+ "neg": {
+  "identity": "cap-attest-WRONG",
+  "served": true,
+  "question": "does the target still serve the old capability?"
+ },
+ "control": {
+  "identity": "cap-attest-v1",
+  "served": true,
+  "question": "did the target serve the old capability BEFORE the swap? (control)"
+ },
+ "rollback": {
+  "restored": true,
+  "preimage_files": 2,
+  "after_files": 2
+ },
+ "code": "CAPABILITY_PARITY_NOT_PROVEN",
+ "ok": false,
+ "why": "parity not proven (pos_ok=False, neg_ok=True); preimage restored",
+ "finished_at": "2026-11-01T15:54:16+0800"
+}

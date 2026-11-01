@@ -1,0 +1,249 @@
+{
+ "schema": "FHS.R21.WP20.PLUGIN_PROBE/2",
+ "generated_utc": "2026-11-01T09:37:40Z",
+ "binary": "D:\\Hermes-Recovery\\live22\\bin\\hermes.exe",
+ "binary_sha256": "c02538dd297474191546684681344c0ad859580a635047e577947b8bebd559e8",
+ "fixture": {
+  "source": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\plugins\\disk-cleanup",
+  "name": "disk-cleanup",
+  "copied_sha256_of_manifest": null
+ },
+ "steps": [
+  {
+   "tag": "A_list_empty",
+   "argv": [
+    "D:\\Hermes-Recovery\\live22\\bin\\hermes.exe",
+    "plugins",
+    "list"
+   ],
+   "hermes_home": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\plugin_probe\\home_empty",
+   "rc": 0,
+   "ms": 105768,
+   "bytes": 106238,
+   "sha256": "6fefec6697229249841e791fa569229c94a1631ae91ea69868fc2470546f34ba",
+   "out_file": "var/FHS-R21-FAR-TT-20261101/wp20/stdout/_plugin2/A_list_empty.out",
+   "err_tail": [
+    "  → Installing Python dependencies…",
+    "  ✓ Installing Python dependencies"
+   ],
+   "timed_out": false
+  },
+  {
+   "tag": "B_list_copied",
+   "argv": [
+    "D:\\Hermes-Recovery\\live22\\bin\\hermes.exe",
+    "plugins",
+    "list"
+   ],
+   "hermes_home": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\plugin_probe\\home_copied",
+   "rc": 0,
+   "ms": 48814,
+   "bytes": 106330,
+   "sha256": "33ea8969c563e9b655cea8d6d065c9b3800fa46df2810592ce5c5a2c8e2e0346",
+   "out_file": "var/FHS-R21-FAR-TT-20261101/wp20/stdout/_plugin2/B_list_copied.out",
+   "err_tail": [
+    "  → Installing Python dependencies…",
+    "  ✓ Installing Python dependencies"
+   ],
+   "timed_out": false
+  },
+  {
+   "tag": "B_validate_copied",
+   "argv": [
+    "D:\\Hermes-Recovery\\live22\\bin\\hermes.exe",
+    "plugins",
+    "validate",
+    "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\plugin_probe\\home_copied\\plugins\\disk-cleanup",
+    "--json"
+   ],
+   "hermes_home": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\plugin_probe\\home_copied",
+   "rc": 0,
+   "ms": 3942,
+   "bytes": 1750,
+   "sha256": "0a2fc58f24a3131eb36a509ac14aa62aee2ffcce34d676825d2994c8381415f0",
+   "out_file": "var/FHS-R21-FAR-TT-20261101/wp20/stdout/_plugin2/B_validate_copied.out",
+   "err_tail": [],
+   "timed_out": false
+  },
+  {
+   "tag": "C_remove_no_record",
+   "argv": [
+    "D:\\Hermes-Recovery\\live22\\bin\\hermes.exe",
+    "plugins",
+    "remove",
+    "disk-cleanup"
+   ],
+   "hermes_home": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\plugin_probe\\home_copied",
+   "rc": 0,
+   "ms": 3700,
+   "bytes": 135,
+   "sha256": "a41638e8b888036590a8b99b101da3679f1b6af6fbdd75c468aca13d0efd8ea2",
+   "out_file": "var/FHS-R21-FAR-TT-20261101/wp20/stdout/_plugin2/C_remove_no_record.out",
+   "err_tail": [],
+   "timed_out": false
+  },
+  {
+   "tag": "C_list_after_remove",
+   "argv": [
+    "D:\\Hermes-Recovery\\live22\\bin\\hermes.exe",
+    "plugins",
+    "list"
+   ],
+   "hermes_home": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\plugin_probe\\home_copied",
+   "rc": 0,
+   "ms": 3822,
+   "bytes": 106238,
+   "sha256": "6fefec6697229249841e791fa569229c94a1631ae91ea69868fc2470546f34ba",
+   "out_file": "var/FHS-R21-FAR-TT-20261101/wp20/stdout/_plugin2/C_list_after_remove.out",
+   "err_tail": [],
+   "timed_out": false
+  },
+  {
+   "tag": "D_install_catalog",
+   "argv": [
+    "D:\\Hermes-Recovery\\live22\\bin\\hermes.exe",
+    "plugins",
+    "install",
+    "disk-cleanup",
+    "--no-deps"
+   ],
+   "hermes_home": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\plugin_probe\\home_install",
+   "rc": 1,
+   "ms": 48264,
+   "bytes": 150,
+   "sha256": "5a10e89d26d03dda14f93d9d07420f821eba725e51a4fde40bb0014717f1b925",
+   "out_file": "var/FHS-R21-FAR-TT-20261101/wp20/stdout/_plugin2/D_install_catalog.out",
+   "err_tail": [
+    "  → Installing Python dependencies…",
+    "  ✓ Installing Python dependencies"
+   ],
+   "timed_out": false
+  },
+  {
+   "tag": "D_list_after_install",
+   "argv": [
+    "D:\\Hermes-Recovery\\live22\\bin\\hermes.exe",
+    "plugins",
+    "list"
+   ],
+   "hermes_home": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\plugin_probe\\home_install",
+   "rc": 0,
+   "ms": 3705,
+   "bytes": 106238,
+   "sha256": "6fefec6697229249841e791fa569229c94a1631ae91ea69868fc2470546f34ba",
+   "out_file": "var/FHS-R21-FAR-TT-20261101/wp20/stdout/_plugin2/D_list_after_install.out",
+   "err_tail": [],
+   "timed_out": false
+  }
+ ],
+ "questions": {
+  "does_list_see_a_copied_directory": true,
+  "is_the_copied_plugin_loadable": true,
+  "does_remove_work_without_an_install_record": true,
+  "does_catalog_install_work_on_this_host": false,
+  "does_the_name_appear_after_install": true
+ },
+ "claim_ceiling": "author-side local probe in throwaway HERMES_HOME directories; no PASS is claimed for the plugin cell until a list delta is observed on a real install",
+ "validate_detail": [
+  {
+   "name": "manifest",
+   "ok": true,
+   "detail": "plugin.yaml parses"
+  },
+  {
+   "name": "manifest fields",
+   "ok": true,
+   "detail": "name, version, description present"
+  },
+  {
+   "name": "requires_hermes",
+   "ok": true,
+   "detail": "not declared"
+  },
+  {
+   "name": "config schema",
+   "ok": true,
+   "detail": "not declared"
+  },
+  {
+   "name": "requires_env",
+   "ok": true,
+   "detail": "all entries UPPER_SNAKE"
+  },
+  {
+   "name": "oauth",
+   "ok": true,
+   "detail": "not declared"
+  },
+  {
+   "name": "loadable",
+   "ok": true,
+   "detail": "entry: __init__.py"
+  },
+  {
+   "name": "python dependencies",
+   "ok": true,
+   "detail": "none declared"
+  },
+  {
+   "name": "capability probe",
+   "ok": true,
+   "detail": "register() ran in isolation"
+  },
+  {
+   "name": "declared tools",
+   "ok": true,
+   "detail": "matches registrations"
+  },
+  {
+   "name": "declared hooks",
+   "ok": true,
+   "detail": "matches registrations"
+  },
+  {
+   "name": "declared middleware",
+   "ok": true,
+   "detail": "matches registrations"
+  },
+  {
+   "name": "built-in tool collisions",
+   "ok": true,
+   "detail": "no tools to check"
+  },
+  {
+   "name": "security scan",
+   "ok": true,
+   "detail": "safe"
+  },
+  {
+   "name": "no core override",
+   "ok": true,
+   "detail": "no runtime rebinds of Hermes core"
+  }
+ ],
+ "corrections": {
+  "generated_utc": "2026-11-01T09:38:17Z",
+  "why": "the first pass tested 'name appears in list' by substring, but the empty home ALREADY lists disk-cleanup as bundled — that test could never fail. Replaced with a delta test.",
+  "fixed_questions": {
+   "does_list_see_a_copied_directory": true,
+   "is_the_copied_plugin_loadable": true,
+   "does_remove_restore_the_baseline_list": true,
+   "does_catalog_install_work_on_this_host": false,
+   "install_block_reason": "'disk-cleanup' is not in the Helm... (see raw): plugin is bundled, not a catalog entry; the real install path needs a catalog name or git URL"
+  },
+  "list_delta_lines": [
+   "-│ disk-cleanup        │ not enabled │ 2.0.0   │ Auto-track and      │ bundled │",
+   "+│ disk-cleanup        │ not enabled │ 2.0.0   │ Auto-track and      │ user    │",
+   "+│                     │             │         │ provenance: manual  │         │"
+  ],
+  "shas": {
+   "A_empty": "6fefec6697229249841e791fa569229c94a1631ae91ea69868fc2470546f34ba",
+   "B_copied": "33ea8969c563e9b655cea8d6d065c9b3800fa46df2810592ce5c5a2c8e2e0346",
+   "C_after_remove": "6fefec6697229249841e791fa569229c94a1631ae91ea69868fc2470546f34ba"
+  },
+  "disposition": {
+   "F6_install_leg": "PARTIAL_MEASURED — a real loadable plugin copied into an isolated home IS discriminated by `plugins list` (source column bundled->user + provenance line) and `plugins remove` restores the baseline byte-for-byte; the catalog install verb was refused because the plugin is bundled, so 'install' itself is NOT_EXERCISED_BY_CATALOG",
+   "what_is_still_missing": "an install through `hermes plugins install <catalog-name|git-url|owner/repo>` on this host (needs network + dependency bootstrap)"
+  }
+ }
+}

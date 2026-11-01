@@ -1,0 +1,50 @@
+{
+ "schema": "FHS.R21.S6.A2_PATCH_TEST/1",
+ "generated_utc": "2026-11-01T07:44:47Z",
+ "canonical_untouched": {
+  "path": "HG-KSEOS/scripts/issue_grant.py",
+  "sha256": "08d6e985d46facfb75fce0b56b6b5884975d22ab25d28632a3b964700acb9e77",
+  "note": "candidate only; the canonical tool was not edited"
+ },
+ "patch": {
+  "file": "s6/patch/issue_grant.nonce.patch",
+  "bytes": 1815,
+  "sha256": "f3e9b89608593760e9843b46b79e364552baa8e4f4a8953a8d1138b4daa4648c",
+  "patched_copy": "s6/patch/issue_grant.py",
+  "patched_copy_sha256": "029d4c5c07fbb6e69a2899fc1890ddb07d3c7323be139a7ccee9b3cc5e97a7b7"
+ },
+ "tests": {
+  "T1_first_issue_accepted": {
+   "expect": "rc=0",
+   "rc": 0,
+   "stdout": "{\"issued\": \"C:\\\\Projects\\\\Agent_Workspace\\\\var\\\\FHS-R21-FAR-TT-20261101\\\\s6\\\\post_grant_1.json\", \"key_id\": \"135455ca00280c39\", \"nonce\": \"A2-POST-1793519086\", \"expires_at\": 1793519686, \"signature_alg\": \"Ed25519\", \"owner_authorization_sha256\": \"dd03f7b0b80531880ed897e4e831b2ab7bc4e59ec3cc8f10efd523ce3",
+   "stdout_sha": "2e8e07dcd2467afe482fc9a07076c2bf90c979e8ad00d645cc7491877d489e7e",
+   "verdict": "PASS"
+  },
+  "T2_replay_refused": {
+   "expect": "rc=6 NONCE_ALREADY_SPENT",
+   "rc": 6,
+   "stdout": "{\"refused\": \"NONCE_ALREADY_SPENT\", \"nonce\": \"A2-POST-1793519086\"}",
+   "stdout_sha": "b19fe29263349b9560107c00fe67cc3db74ba7bddfb7ba7d9446dece4a7e2413",
+   "verdict": "PASS"
+  },
+  "T3_first_grant_still_valid": {
+   "expect": "rc=0 GRANT_VALID",
+   "rc": 0,
+   "stdout": "{\"grant\": \"C:\\\\Projects\\\\Agent_Workspace\\\\var\\\\FHS-R21-FAR-TT-20261101\\\\s6\\\\post_grant_1.json\", \"verdict\": \"GRANT_VALID\", \"problems\": []}",
+   "stdout_sha": "ad94b85d3effd04a6d71bce4ded6cd18371aaa2d93499e99ab19af5bcc0177d7",
+   "verdict": "PASS"
+  }
+ },
+ "pre_state": {
+  "ref": "s6/A2_CASES.json",
+  "replay": "FAIL_REPLAY_ACCEPTED",
+  "note": "measured before the patch existed"
+ },
+ "claim_ceiling": "candidate patch proven against a copy: replay refused at issue time. Not accepted: the canonical HG-KSEOS tool still accepts replays until an owner-authorised change lands.",
+ "summary": {
+  "T1_first_issue_accepted": "PASS",
+  "T2_replay_refused": "PASS",
+  "T3_first_grant_still_valid": "PASS"
+ }
+}

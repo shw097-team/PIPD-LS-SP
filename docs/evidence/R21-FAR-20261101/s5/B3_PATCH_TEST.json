@@ -1,0 +1,79 @@
+{
+ "schema": "FHS.R21.S5.B3_PATCH_TEST/1",
+ "generated_utc": "2026-11-01T08:02:33Z",
+ "canonical_untouched": {
+  "path": "PIPD/tools/hotswap.py",
+  "sha256": "f9468f406ac2137080133c66073fb328847b359b966a930402304b7023353a14"
+ },
+ "base": {
+  "path": "var/FHS-R21-FAR-TT-20261101/patches/PIPD/tools/hotswap.py",
+  "sha256": "bbc36dab59c1aac162b738ffe3f8a0358b553ae466a9da1e0ab52ee25a7c466b",
+  "note": "the WP-13 preimage candidate; this patch extends it"
+ },
+ "patch": {
+  "file": "s5/patch/hotswap.b3.patch",
+  "bytes": 6868,
+  "sha256": "04b52449685189551f6c5501e63d4bad3f3632f21e438ac16aaa7a7805382ab8",
+  "patched_copy_sha256": "4b5fe035f90f1f4eecab2f9d067a1487bdcb586e341310e2b10d35a45d602eaa"
+ },
+ "pre_state": {
+  "ref": "s5/B3_CASES.json",
+  "shared_receipt": "FAIL_SHARED_RECEIPT_ACCEPTED",
+  "mixed_effect": "FAIL_MIXED_EFFECT_ACCEPTED"
+ },
+ "tests": {
+  "T1_first_use_bound": {
+   "expect": "ok",
+   "got": {
+    "rc": 0,
+    "ok": true,
+    "code": null,
+    "problems": []
+   },
+   "verdict": "PASS"
+  },
+  "T2_second_use_refused": {
+   "expect": "GRANT_ALREADY_CONSUMED",
+   "got": {
+    "rc": 1,
+    "ok": false,
+    "code": "ERR_GRANT_NOT_BOUND",
+    "problems": [
+     "GRANT_ALREADY_CONSUMED"
+    ]
+   },
+   "verdict": "PASS"
+  },
+  "T3_host_effect_refused": {
+   "expect": "GRANT_EFFECT_MISMATCH",
+   "got": {
+    "rc": 1,
+    "ok": false,
+    "code": "ERR_GRANT_NOT_BOUND",
+    "problems": [
+     "GRANT_EFFECT_MISMATCH"
+    ]
+   },
+   "verdict": "PASS"
+  },
+  "T4_stale_preimage_refused": {
+   "expect": "GRANT_PREIMAGE_MISMATCH_ENTRY",
+   "got": {
+    "rc": 1,
+    "ok": false,
+    "code": "ERR_GRANT_NOT_BOUND",
+    "problems": [
+     "GRANT_PREIMAGE_MISMATCH_ENTRY"
+    ]
+   },
+   "verdict": "PASS"
+  }
+ },
+ "summary": {
+  "T1_first_use_bound": "PASS",
+  "T2_second_use_refused": "PASS",
+  "T3_host_effect_refused": "PASS",
+  "T4_stale_preimage_refused": "PASS"
+ },
+ "claim_ceiling": "candidate only, proven on copies; canonical hotswap.py still accepts reuse and foreign effects until an authorised change lands"
+}

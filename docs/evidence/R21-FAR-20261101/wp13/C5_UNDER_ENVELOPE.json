@@ -1,0 +1,64 @@
+{
+ "schema": "FHS.R21.WP13.C5_ENVELOPE/1",
+ "generated_utc": "2026-11-01T06:58:34Z",
+ "grant": {
+  "path": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\grant_envelope_v2.json",
+  "sha256": "294e915b8f42bdd19ea827f1ec4ece7a2999b8cc270f86baaf49c79babb3033b",
+  "nonce": "WP13-ENV2-1793516314",
+  "issuer_verifier_rc": 0,
+  "issuer_verifier": "{\"grant\": \"C:\\\\Projects\\\\Agent_Workspace\\\\var\\\\FHS-R21-FAR-TT-20261101\\\\wp13\\\\grant_envelope_v2.json\", \"verdict\": \"GRANT_VALID\", \"problems\": []}"
+ },
+ "envelope": {
+  "path": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\GRANT_ENVELOPE_SIDECAR.json",
+  "sha256": "3d769aeeba5a020f060d544bf61a15bfaac5c2939dde31aadc22cd714b8938ae",
+  "window_id": "WIN-91b01b7cd918",
+  "ops_used": 3,
+  "signed_payload_sha256": "ff46c56bcaecf9830eee55b71a76c9161c4890709a25740ac2002f7c1cfbeb53",
+  "owner_signature_verified": true,
+  "signed_at": "2026-11-01T06:58:34Z"
+ },
+ "effect": {
+  "swap_rc": 0,
+  "receipt": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\HOTSWAP_UNDER_ENVELOPE.json",
+  "receipt_sha256": "a59e71612cf952bc7a81b5cd8993bf8824286e42892ad40b78216fcdb4d34f68",
+  "ok": true,
+  "steps": [
+   "grant_bound",
+   "swapped"
+  ],
+  "pos": {
+   "identity": "cap-attest-v2",
+   "served": true,
+   "via": "abi-consumer",
+   "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\fixture-envelope\\occupant.py",
+   "code": null
+  },
+  "neg": {
+   "identity": "cap-attest-v2",
+   "served": true,
+   "question": "does the target still serve the old capability?"
+  },
+  "control": {
+   "identity": "cap-attest-v1",
+   "served": true,
+   "question": "did the target serve the old capability BEFORE the swap? (control)"
+  },
+  "grant_binding": {
+   "issued_before_effect": true,
+   "covers_entry": true,
+   "covers_candidate": true,
+   "candidate_sha_matches": true,
+   "issuer_verifier_exit": 0,
+   "problems": []
+  },
+  "started_epoch": 1793516314
+ },
+ "claims": {
+  "artefact_signed_by_issuer_key": true,
+  "authorisation_signed_by_owner_envelope": true,
+  "envelope_names_this_grant_by_sha": true,
+  "swap_bound_that_grant": true,
+  "issuer_is_owner_under_single_owner_governance": true
+ },
+ "claim_ceiling": "OWNER_ENVELOPE_AUTHORIZED_LOCAL (single owner & issuer; still not an external acceptance)"
+}

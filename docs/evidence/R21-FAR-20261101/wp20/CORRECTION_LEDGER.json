@@ -1,0 +1,107 @@
+{
+ "schema": "FHS.R21.WP20.CORRECTION/1",
+ "generated_utc": "2026-11-01T09:30:38Z",
+ "trigger": "AO deleg_0361E484 returned PARTIAL with 8 new findings; four re-measured by me",
+ "verified_by_me": [
+  {
+   "id": "N1",
+   "verdict": "CONFIRMED",
+   "evidence": "pl_list_before.out and pl_list_after.out both sha256 0b8391377785a90e…; the sha cited in CELL_RESULTS_V3_1.json (9d1c54ec0d9eab29…) exists only inside that JSON"
+  },
+  {
+   "id": "N3",
+   "verdict": "CONFIRMED_WITH_CORRECTED_NUMBERS",
+   "evidence": "root_help parses 68 commands; old probe listed 69; unprobed: browser, codex-runtime, migrate, profile; probed-not-a-command: branches, firewall, schemas, server, settings"
+  },
+  {
+   "id": "N4",
+   "verdict": "CONFIRMED",
+   "evidence": "gateway_help.txt line 16 'install  Install gateway as a systemd/launchd background'; gateway is in install_capable_verbs (18)"
+  },
+  {
+   "id": "F11",
+   "verdict": "CONFIRMED",
+   "evidence": "AO_64257A4D_ABSORPTION.md enumerates F1..F10 only; no artefact states an eleventh finding"
+  }
+ ],
+ "ao_reported_unverified": [
+  "N2",
+  "N5",
+  "N6",
+  "N7",
+  "N8",
+  "F4",
+  "F5",
+  "F6"
+ ],
+ "withdrawn_claims": [
+  "PLUGIN install/list/remove discrimination (plugin_real_install block) — cited shas unretained, before/after byte-identical, fixture fails its own loadable check",
+  "'69 verbs probed' denominator",
+  "AGENT_OS / AI_SYSTEM / GENIE 'NO_SURFACE'",
+  "SIMPLE_AGENT classification",
+  "'all 11 AO findings absorbed' — only 10 have text"
+ ],
+ "replacement_evidence": {
+  "ao_return": {
+   "path": "var/FHS-R21-FAR-TT-20261101/wp20/AO_0361E484_RETURN.md",
+   "sha256": "a95a39e7a99e7cc45d2839f5ffb08130736e5893c1fd8aaa6dedcb8a3d4e8d57",
+   "bytes": 5808
+  },
+  "probe_v2": {
+   "path": "var/FHS-R21-FAR-TT-20261101/wp20/kind_surface_probe/KIND_SURFACE_PROBE_V2.json",
+   "sha256": "08a6b8d2fd3033808616ea8d78b16f80d1d271122def8b050bf95afc1b1062a2",
+   "bytes": 20595
+  },
+  "ruling_v2_1": {
+   "path": "var/FHS-R21-FAR-TT-20261101/wp20/KIND_SURFACE_RULING_V2_1.json",
+   "sha256": "1c8332637ef84ca4623f2e5c525d9712716ab33f67c1970578851fc024956831",
+   "bytes": 7273
+  },
+  "ruling_v1": {
+   "path": "var/FHS-R21-FAR-TT-20261101/wp20/KIND_SURFACE_RULING.json",
+   "sha256": "c0f85cd01a7f8b1997c47295a72c4351ee5e665cb37512a17ad8c18e9a28e380",
+   "bytes": 5787
+  },
+  "cells_v31": {
+   "path": "var/FHS-R21-FAR-TT-20261101/wp20/CELL_RESULTS_V3_1.json",
+   "sha256": "904966220b93bf7e95abf0fa875ca09ffa31a7616ac8424c4a6871d6e0f0a86e",
+   "bytes": 37700
+  }
+ },
+ "ruling_v2_1_summary": {
+  "AGENT_SKILL": "MEASURED_INSTALL_VERB",
+  "PROFILE": "MEASURED_INSTALL_VERB",
+  "PLUGIN": "MEASURED_INSTALL_VERB",
+  "CLI_TOOL": "MEASURED_INSTALL_VERB",
+  "SIMPLE_AGENT": "UNCLASSIFIED",
+  "AGENT_OS": "OS_SERVICE_INSTALLER_FOUND",
+  "AI_SYSTEM": "MEASURED_SURFACE_NO_INSTALL",
+  "GENIE/GENIE.md": "NO_VERB_EVIDENCE_IN_HELP"
+ },
+ "open_repairs": [
+  "record alias residue: C:/Users/user/.local/bin/wp20smoke.bat points at a deleted profile",
+  "classify or explicitly UNCLASSIFY SIMPLE_AGENT with the five opencodex subagent files named",
+  "state and absorb the eleventh AO finding or record it as never-stated",
+  "exercise hermes plugins install <catalog|git|owner-repo> on a host with network + dependency bootstrap"
+ ],
+ "claim_ceiling": "author-side local measurement; the two AO findings I did not re-measure stay UNVERIFIED and are not counted as defects or as cleared",
+ "s3d_plugin_rerun": {
+  "doc": "var/FHS-R21-FAR-TT-20261101/wp20/S3D_PLUGIN_RERUN.md",
+  "doc_sha256": "bdfe7932bd40e21efe4fa82e8e0f95e8428f04c32b2a6433a315bceea050ce42",
+  "probe": "var/FHS-R21-FAR-TT-20261101/wp20/PLUGIN_PROBE_V2.json",
+  "probe_sha256": "f01efb109aaff0695a43fd951406be6ff87273686ddd5e8fb3aa5d547392bf27",
+  "measured": {
+   "list_discriminates_user_copy": true,
+   "fixture_loadable": true,
+   "remove_restores_baseline": true,
+   "catalog_install_exercised": false
+  },
+  "list_shas": {
+   "empty": "6fefec6697229249841e791fa569229c94a1631ae91ea69868fc2470546f34ba",
+   "copied": "33ea8969c563e9b655cea8d6d065c9b3800fa46df2810592ce5c5a2c8e2e0346",
+   "after_remove": "6fefec6697229249841e791fa569229c94a1631ae91ea69868fc2470546f34ba"
+  },
+  "disposition": "F6 PARTIAL_MEASURED: list+remove measured; install NOT_EXERCISED (bundled plugin is not a catalog entry)"
+ },
+ "updated_utc": "2026-11-01T09:38:47Z"
+}

@@ -1,0 +1,306 @@
+{
+ "schema": "FHS.R21.S5_S7.INVENTORY/1",
+ "generated_utc": "2026-11-01T07:37:28Z",
+ "body_dir": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\Fabric vNext\\Semantic World OS Fabric\\FHS\\FHS-MSC\\FHS-MSC_PIPD-LS-PKG\\FHS-MSC_PIPD-LS-PKG_2026-10-30_HANDOFF-PATCH-v1\\01_FHS-MSC_PIPD-LS-PKG_BODY",
+ "anchors": {
+  "00_INDEX_AND_DECISION.md": {
+   "bytes": 8236,
+   "sha256": "cb4727d5b0c190aba40559f72b6989964659923eed6c27504ab62acfdc3b2635"
+  },
+  "02_PIPD_LIFECYCLE_AND_TPM.md": {
+   "bytes": 73292,
+   "sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2"
+  },
+  "03_ARCHITECTURE_ABI_AND_EFFECT.md": {
+   "bytes": 12144,
+   "sha256": "58628861e63956ae31b1ac17404c093533226688f975f5fa11b9b82adecd1284"
+  },
+  "10A_B1_TQAEP_120_124_38.md": {
+   "bytes": 572218,
+   "sha256": "39ffde0115cdf894806a4d3bf270046b68f8786956507480db47b2a154a8c4e1"
+  },
+  "10B_B1_PI27_PD31.md": {
+   "bytes": 44264,
+   "sha256": "7c33e2472a6510a6c15b5b8eee2fca6dd9e4865c7ad3beb8c19d1e4618886f64"
+  },
+  "11_WORKPACKAGES_AND_DAG.md": {
+   "bytes": 46467,
+   "sha256": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811"
+  }
+ },
+ "ecp_transitions": [
+  {
+   "line": 65,
+   "text": "| E3 `PD→DEV` | 原 PD＋preimage、exact files、Tests、Rollback→原 `pipd compile-ecp`/原 DEV Construction Owner→DEV ECP/ConstructionContract | POS 原 DEV Writer＋Original HGK Admission 才可 Repo Write；缺 WriteSet/Permit 禁 Apply；回原 pre"
+  },
+  {
+   "line": 66,
+   "text": "| E4 `PD→OPS/Host/User/Remote` | 原 PD＋HostTarget/PolicyEpoch/Effect/Compensation→原 `pipd compile-ecp`/OPS Writer→OPS ECP Proposal | POS 同 Host/Scope/Issuer；不能把 DEV Grant 轉成 Host/Remote Permit；UNKNOWN 經原 Receiver Reconcil"
+  },
+  {
+   "line": 67,
+   "text": "| E5 `PD→PlannedTQAEP` | PD＋每 Atom 原 Oracle/ACC POS+NEG/CaseID→原 `pipd compile-tqaep`／DOC07→PlannedTQAEP | POS 原 Case/Oracle 可定位；未跑/同 Maker 並非 Checker PASS；回補受影 Case 而非重建全部 |"
+  }
+ ],
+ "pd_slots": [
+  {
+   "id": "PD-01",
+   "first_line": 23,
+   "effect_class": "OBS",
+   "atoms": [
+    "A1"
+   ]
+  },
+  {
+   "id": "PD-02",
+   "first_line": 35,
+   "effect_class": null,
+   "atoms": [
+    "A2"
+   ]
+  },
+  {
+   "id": "PD-03",
+   "first_line": 47,
+   "effect_class": null,
+   "atoms": [
+    "A3"
+   ]
+  },
+  {
+   "id": "PD-04",
+   "first_line": 59,
+   "effect_class": null,
+   "atoms": [
+    "A4"
+   ]
+  },
+  {
+   "id": "PD-05",
+   "first_line": 71,
+   "effect_class": "OBS",
+   "atoms": [
+    "A5"
+   ]
+  },
+  {
+   "id": "PD-06",
+   "first_line": 83,
+   "effect_class": null,
+   "atoms": [
+    "A6"
+   ]
+  },
+  {
+   "id": "PD-07",
+   "first_line": 95,
+   "effect_class": "OBS",
+   "atoms": [
+    "A7"
+   ]
+  },
+  {
+   "id": "PD-08",
+   "first_line": 107,
+   "effect_class": null,
+   "atoms": [
+    "A8"
+   ]
+  },
+  {
+   "id": "PD-09",
+   "first_line": 119,
+   "effect_class": null,
+   "atoms": [
+    "A9"
+   ]
+  },
+  {
+   "id": "PD-10",
+   "first_line": 131,
+   "effect_class": "OBS",
+   "atoms": []
+  },
+  {
+   "id": "PD-11",
+   "first_line": 143,
+   "effect_class": "OBS",
+   "atoms": []
+  },
+  {
+   "id": "PD-12",
+   "first_line": 155,
+   "effect_class": "DEV",
+   "atoms": []
+  },
+  {
+   "id": "PD-13",
+   "first_line": 167,
+   "effect_class": "OPS",
+   "atoms": []
+  },
+  {
+   "id": "PD-14",
+   "first_line": 179,
+   "effect_class": "DEV",
+   "atoms": []
+  },
+  {
+   "id": "PD-15",
+   "first_line": 191,
+   "effect_class": "OPS",
+   "atoms": []
+  },
+  {
+   "id": "PD-16",
+   "first_line": 203,
+   "effect_class": "DEV",
+   "atoms": []
+  },
+  {
+   "id": "PD-17",
+   "first_line": 215,
+   "effect_class": "OPS",
+   "atoms": []
+  },
+  {
+   "id": "PD-18",
+   "first_line": 227,
+   "effect_class": "USER",
+   "atoms": []
+  },
+  {
+   "id": "PD-19",
+   "first_line": 239,
+   "effect_class": "OBS",
+   "atoms": []
+  },
+  {
+   "id": "PD-20",
+   "first_line": 251,
+   "effect_class": "OBS",
+   "atoms": []
+  },
+  {
+   "id": "PD-21",
+   "first_line": 263,
+   "effect_class": "OBS",
+   "atoms": []
+  },
+  {
+   "id": "PD-22",
+   "first_line": 275,
+   "effect_class": null,
+   "atoms": []
+  },
+  {
+   "id": "PD-23",
+   "first_line": 287,
+   "effect_class": null,
+   "atoms": []
+  },
+  {
+   "id": "PD-24",
+   "first_line": 299,
+   "effect_class": "OPS",
+   "atoms": []
+  },
+  {
+   "id": "PD-25",
+   "first_line": 311,
+   "effect_class": "USER",
+   "atoms": []
+  },
+  {
+   "id": "PD-26",
+   "first_line": 323,
+   "effect_class": null,
+   "atoms": []
+  },
+  {
+   "id": "PD-27",
+   "first_line": 335,
+   "effect_class": null,
+   "atoms": []
+  },
+  {
+   "id": "PD-28",
+   "first_line": 347,
+   "effect_class": null,
+   "atoms": []
+  },
+  {
+   "id": "PD-29",
+   "first_line": 359,
+   "effect_class": "OBS",
+   "atoms": []
+  },
+  {
+   "id": "PD-30",
+   "first_line": 371,
+   "effect_class": null,
+   "atoms": []
+  },
+  {
+   "id": "PD-31",
+   "first_line": 383,
+   "effect_class": "OBS",
+   "atoms": []
+  }
+ ],
+ "pd_slot_count": 31,
+ "tqaep": {
+  "registry_header_line": 6050,
+  "cases_named": 282,
+  "with_case_sha": 282,
+  "families": [
+   "01",
+   "02",
+   "03",
+   "04",
+   "05",
+   "06",
+   "07",
+   "08",
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9",
+   "B1",
+   "B2",
+   "B3"
+  ],
+  "first_three": [
+   {
+    "case": "TQ-B1-A1-POS",
+    "case_sha256": "5fec5d0386d7dc6717097961e37fa00710d57431c14a15d4671893cd9bf6c176",
+    "line": 6053
+   },
+   {
+    "case": "TQ-B1-A1-NEG",
+    "case_sha256": "c93f01ac4fee145ec908b5cd8bddb623b006005dee03b62c366864a9d0a9c858",
+    "line": 6060
+   },
+   {
+    "case": "TQ-B1-A1-EDGE",
+    "case_sha256": "3588261d8f20952827b45bf47eec8d195ea31a9ec628df2e07c21f663ca6c425",
+    "line": 6067
+   }
+  ]
+ },
+ "ops_32_denominator": {
+  "status": "NOT_LOCATED",
+  "evidence": [],
+  "candidates": [
+   "31 PD slots split OBS/DEV/OPS/USER (10B_B1_PI27_PD31.md#L16)",
+   "31 B1 Edge + 282 Case (12_VERIFICATION_AND_DELIVERY.md#L117)",
+   "27 B1 atoms x effect classes"
+  ],
+  "rule": "the contract's '32 sub-contracts' is not stated by any body document I read; the OPS subset must be derived per PD slot, not assumed"
+ }
+}

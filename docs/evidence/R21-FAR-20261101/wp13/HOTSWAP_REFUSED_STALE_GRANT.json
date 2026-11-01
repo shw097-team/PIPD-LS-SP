@@ -1,0 +1,57 @@
+{
+ "schema": "PIPD-HOTSWAP-RECEIPT/1",
+ "root": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\fixture-stale",
+ "entry": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\fixture-stale\\occupant.py",
+ "candidate": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\fixture-stale\\candidate.py",
+ "started_at": "2026-11-01T14:20:43+0800",
+ "steps": [],
+ "preimage": {
+  "files": 2,
+  "digest": "265452ebefd4474199dc256113052f1b658226ba0101e225ab6084f16838031a"
+ },
+ "before": {
+  "identity": "cap-attest-v1",
+  "served": true,
+  "via": "abi-consumer",
+  "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\fixture-stale\\occupant.py",
+  "code": null
+ },
+ "candidate_sha256": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+ "grant": {
+  "path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\issuer-probe\\grant.json",
+  "sha256": "ff53e32b60ee43de659d59599948e28b83de6fc59f10259a27a687b991bbd8ac",
+  "nonce": "PROBE-WP13-A1",
+  "issued_at": 1793463680,
+  "expires_at": 1793467280,
+  "subject": "WP-FHS-13",
+  "operation": "REPOSITORY_WRITE",
+  "scope": "WP-FHS-13 CAP On-Demand + HotSwap: bounded WriteSet only",
+  "policy_epoch": "40",
+  "issuer_verifier_exit": 3,
+  "issuer_verifier": {
+   "grant": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\issuer-probe\\grant.json",
+   "verdict": "GRANT_REFUSED",
+   "problems": [
+    "GRANT_EXPIRED"
+   ]
+  },
+  "issued_before_effect": true,
+  "writeset_paths": [
+   "c:\\projects\\agent_workspace\\pipd\\src\\pipd_ls_sp\\abi.py",
+   "c:\\projects\\agent_workspace\\pipd\\tools\\hotswap.py"
+  ],
+  "covers_entry": false,
+  "covers_candidate": false,
+  "candidate_sha_named": null,
+  "candidate_sha_matches": true,
+  "problems": [
+   "GRANT_EXPIRED",
+   "GRANT_WRITESET_EXCLUDES_TARGET",
+   "GRANT_WRITESET_EXCLUDES_CANDIDATE"
+  ]
+ },
+ "code": "ERR_GRANT_NOT_BOUND",
+ "ok": false,
+ "why": "the grant does not cover this swap: ['GRANT_EXPIRED', 'GRANT_WRITESET_EXCLUDES_TARGET', 'GRANT_WRITESET_EXCLUDES_CANDIDATE']; nothing moved",
+ "finished_at": "2026-11-01T14:20:43+0800"
+}

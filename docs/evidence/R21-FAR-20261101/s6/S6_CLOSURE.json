@@ -1,0 +1,261 @@
+{
+ "schema": "FHS.R21.S6.CLOSURE/1",
+ "generated_utc": "2026-11-01T07:50:46Z",
+ "denominator": {
+  "body_edges": 31,
+  "ops_edges_derived": 14,
+  "contract_claim": 32,
+  "note": "the body declares 31 edges, 14 with HOST_OP effect; 'OPS ECP 32' is not stated anywhere"
+ },
+ "state_counts": {
+  "EXECUTED_DEFECT_FOUND_PATCHED_CANDIDATE": 2,
+  "PARTIAL_NO_RECEIVER_IMPLEMENTATION": 1,
+  "PARK_NO_IMPLEMENTATION": 11
+ },
+ "cases_executed": 11,
+ "defects_found": [
+  {
+   "edge": "EDGE-WO-B1-A2",
+   "defect": "issue_grant accepts a replayed nonce (GRANT_VALID on the second grant)",
+   "raw": "s6/A2_CASES.json",
+   "patch": "s6/patch/issue_grant.nonce.patch",
+   "tests": {
+    "T1_first_issue_accepted": "PASS",
+    "T2_replay_refused": "PASS",
+    "T3_first_grant_still_valid": "PASS"
+   }
+  },
+  {
+   "edge": "EDGE-WO-B1-A3",
+   "defect": "work_queue.cmd_settle overwrites a settled row (duplicate claim) and records PASS with an empty evidence_ref",
+   "raw": "s6/A3_CASES.json",
+   "patch": "s6/patch/work_queue.settle.patch",
+   "tests": {
+    "T1_first_settle_accepted": "PASS",
+    "T2_second_settle_refused": "PASS",
+    "T3_overwrite_with_fail_refused": "PASS",
+    "T4_evidenceless_pass_refused": "PASS"
+   }
+  }
+ ],
+ "rows": [
+  {
+   "edge": "EDGE-WO-B1-A2",
+   "pd": "PD-02",
+   "domain": "ISSUER_SUBJECT",
+   "line": 33,
+   "tqaep": [
+    "TQ-B1-A2-POS",
+    "TQ-B1-A2-NEG",
+    "TQ-B1-A2-EDGE",
+    "TQ-B1-A2-SEC"
+   ],
+   "state": "EXECUTED_DEFECT_FOUND_PATCHED_CANDIDATE",
+   "evidence": "s6/patch/issue_grant.nonce.patch",
+   "unblock": null
+  },
+  {
+   "edge": "EDGE-WO-B1-A3",
+   "pd": "PD-03",
+   "domain": "QUEUE_WO",
+   "line": 45,
+   "tqaep": [
+    "TQ-B1-A3-POS",
+    "TQ-B1-A3-NEG",
+    "TQ-B1-A3-EDGE",
+    "TQ-B1-A3-SEC"
+   ],
+   "state": "EXECUTED_DEFECT_FOUND_PATCHED_CANDIDATE",
+   "evidence": "s6/patch/work_queue.settle.patch",
+   "unblock": null
+  },
+  {
+   "edge": "EDGE-WO-B1-A4",
+   "pd": "PD-04",
+   "domain": "RECEIVER_ABI",
+   "line": 57,
+   "tqaep": [
+    "TQ-B1-A4-POS",
+    "TQ-B1-A4-NEG",
+    "TQ-B1-A4-EDGE",
+    "TQ-B1-A4-SEC"
+   ],
+   "state": "PARTIAL_NO_RECEIVER_IMPLEMENTATION",
+   "evidence": "s6/A4 via patches/tests/RESULTS.json",
+   "unblock": null
+  },
+  {
+   "edge": "EDGE-WO-B1-A6",
+   "pd": "PD-06",
+   "domain": "EFFECT_JOURNAL",
+   "line": 81,
+   "tqaep": [
+    "TQ-B1-A6-POS",
+    "TQ-B1-A6-NEG",
+    "TQ-B1-A6-EDGE",
+    "TQ-B1-A6-SEC"
+   ],
+   "state": "PARK_NO_IMPLEMENTATION",
+   "evidence": "HG-KSEOS/scripts/cred/ADMISSION_RECEIPT.md",
+   "unblock": "a signed EFFECT_JOURNAL host receiver plus its edge oracle; then POS/NEG over 4 named cases (TQ-B1-A6-POS, TQ-B1-A6-NEG...)"
+  },
+  {
+   "edge": "EDGE-WO-B1-A9",
+   "pd": "PD-09",
+   "domain": "NATIVE_CONTINUATION",
+   "line": 117,
+   "tqaep": [
+    "TQ-B1-A9-POS",
+    "TQ-B1-A9-NEG",
+    "TQ-B1-A9-EDGE",
+    "TQ-B1-A9-SEC"
+   ],
+   "state": "PARK_NO_IMPLEMENTATION",
+   "evidence": "HG-KSEOS/scripts/continuation_driver.py",
+   "unblock": "a signed NATIVE_CONTINUATION host receiver plus its edge oracle; then POS/NEG over 4 named cases (TQ-B1-A9-POS, TQ-B1-A9-NEG...)"
+  },
+  {
+   "edge": "EDGE-WO-B1-B3-OPS",
+   "pd": "PD-13",
+   "domain": "SBL_TO_NATIVE",
+   "line": 165,
+   "tqaep": [
+    "TQ-B1-B3-POS",
+    "TQ-B1-B3-NEG",
+    "TQ-B1-B3-EDGE",
+    "TQ-B1-B3-SEC"
+   ],
+   "state": "PARK_NO_IMPLEMENTATION",
+   "evidence": "HG-KSEOS/scripts/acceptance_rebind.py",
+   "unblock": "a signed SBL_TO_NATIVE host receiver plus its edge oracle; then POS/NEG over 4 named cases (TQ-B1-B3-POS, TQ-B1-B3-NEG...)"
+  },
+  {
+   "edge": "EDGE-WO-B1-B4-OPS",
+   "pd": "PD-15",
+   "domain": "ECP_SELECTOR",
+   "line": 189,
+   "tqaep": [
+    "TQ-B1-B4-POS",
+    "TQ-B1-B4-NEG",
+    "TQ-B1-B4-EDGE",
+    "TQ-B1-B4-SEC"
+   ],
+   "state": "PARK_NO_IMPLEMENTATION",
+   "evidence": "PIPD/src/pipd_ls_sp/cli.py",
+   "unblock": "a signed ECP_SELECTOR host receiver plus its edge oracle; then POS/NEG over 4 named cases (TQ-B1-B4-POS, TQ-B1-B4-NEG...)"
+  },
+  {
+   "edge": "EDGE-WO-B1-B5-OPS",
+   "pd": "PD-17",
+   "domain": "THREE_SP",
+   "line": 213,
+   "tqaep": [
+    "TQ-B1-B5-POS",
+    "TQ-B1-B5-NEG",
+    "TQ-B1-B5-EDGE",
+    "TQ-B1-B5-SEC"
+   ],
+   "state": "PARK_NO_IMPLEMENTATION",
+   "evidence": "PIPD/src/pipd_ls_sp/abi.py",
+   "unblock": "a signed THREE_SP host receiver plus its edge oracle; then POS/NEG over 4 named cases (TQ-B1-B5-POS, TQ-B1-B5-NEG...)"
+  },
+  {
+   "edge": "EDGE-WO-B1-C1",
+   "pd": "PD-22",
+   "domain": "FABRIC_PROMOTION",
+   "line": 273,
+   "tqaep": [
+    "TQ-B1-C1-POS",
+    "TQ-B1-C1-NEG",
+    "TQ-B1-C1-EDGE",
+    "TQ-B1-C1-SEC"
+   ],
+   "state": "PARK_NO_IMPLEMENTATION",
+   "evidence": "PIPD/src/pipd_ls_sp/pipeline.py",
+   "unblock": "a signed FABRIC_PROMOTION host receiver plus its edge oracle; then POS/NEG over 4 named cases (TQ-B1-C1-POS, TQ-B1-C1-NEG...)"
+  },
+  {
+   "edge": "EDGE-WO-B1-C2",
+   "pd": "PD-23",
+   "domain": "HGK_GWO",
+   "line": 285,
+   "tqaep": [
+    "TQ-B1-C2-POS",
+    "TQ-B1-C2-NEG",
+    "TQ-B1-C2-EDGE",
+    "TQ-B1-C2-SEC"
+   ],
+   "state": "PARK_NO_IMPLEMENTATION",
+   "evidence": "PIPD/tools/hgk_admission_driver.py",
+   "unblock": "a signed HGK_GWO host receiver plus its edge oracle; then POS/NEG over 4 named cases (TQ-B1-C2-POS, TQ-B1-C2-NEG...)"
+  },
+  {
+   "edge": "EDGE-WO-B1-C3-OPS",
+   "pd": "PD-24",
+   "domain": "SBL_GWO",
+   "line": 297,
+   "tqaep": [
+    "TQ-B1-C3-POS",
+    "TQ-B1-C3-NEG",
+    "TQ-B1-C3-EDGE",
+    "TQ-B1-C3-SEC"
+   ],
+   "state": "PARK_NO_IMPLEMENTATION",
+   "evidence": "HG-KSEOS/scripts/acceptance_rebind.py",
+   "unblock": "a signed SBL_GWO host receiver plus its edge oracle; then POS/NEG over 4 named cases (TQ-B1-C3-POS, TQ-B1-C3-NEG...)"
+  },
+  {
+   "edge": "EDGE-WO-B1-C4",
+   "pd": "PD-26",
+   "domain": "EXTERNAL_GRANT",
+   "line": 321,
+   "tqaep": [
+    "TQ-B1-C4-POS",
+    "TQ-B1-C4-NEG",
+    "TQ-B1-C4-EDGE",
+    "TQ-B1-C4-SEC"
+   ],
+   "state": "PARK_NO_IMPLEMENTATION",
+   "evidence": "PIPD/src/pipd_ls_sp/workspace.py",
+   "unblock": "a signed EXTERNAL_GRANT host receiver plus its edge oracle; then POS/NEG over 4 named cases (TQ-B1-C4-POS, TQ-B1-C4-NEG...)"
+  },
+  {
+   "edge": "EDGE-WO-B1-C6",
+   "pd": "PD-28",
+   "domain": "REVOKE_RACE",
+   "line": 345,
+   "tqaep": [
+    "TQ-B1-C6-POS",
+    "TQ-B1-C6-NEG",
+    "TQ-B1-C6-EDGE",
+    "TQ-B1-C6-SEC"
+   ],
+   "state": "PARK_NO_IMPLEMENTATION",
+   "evidence": "PIPD/tools/knowledge_ready_probe.py",
+   "unblock": "a signed REVOKE_RACE host receiver plus its edge oracle; then POS/NEG over 4 named cases (TQ-B1-C6-POS, TQ-B1-C6-NEG...)"
+  },
+  {
+   "edge": "EDGE-WO-B1-C8",
+   "pd": "PD-30",
+   "domain": "NATIVE_SUCCESSOR",
+   "line": 369,
+   "tqaep": [
+    "TQ-B1-C8-POS",
+    "TQ-B1-C8-NEG",
+    "TQ-B1-C8-EDGE",
+    "TQ-B1-C8-SEC"
+   ],
+   "state": "PARK_NO_IMPLEMENTATION",
+   "evidence": null,
+   "unblock": "a signed NATIVE_SUCCESSOR host receiver plus its edge oracle; then POS/NEG over 4 named cases (TQ-B1-C8-POS, TQ-B1-C8-NEG...)"
+  }
+ ],
+ "artefact_sha256": {
+  "var/FHS-R21-FAR-TT-20261101/s6/A2_CASES.json": "a74efe4c6d8ba80544bec1e51b5377013b12a33efe6e1e5c9f401df3d341c7d9",
+  "var/FHS-R21-FAR-TT-20261101/s6/A2_PATCH_TEST.json": "7dec9a45a67a0c3ec4261c03c644a4987cb9aea6d3093c9fc1ea5cd3b0300dd7",
+  "var/FHS-R21-FAR-TT-20261101/s6/A3_CASES.json": "9608f42d35619e01020eef980a82b2bfd695eb0fd33628efabbd77c974450668",
+  "var/FHS-R21-FAR-TT-20261101/s6/A3_PATCH_TEST.json": "29f278947d2176f95df2f83e25251893be65411d496605e357735755a450f058",
+  "var/FHS-R21-FAR-TT-20261101/ledgers/S6_OPS_EDGE_PLAN.json": "476390d8845008cbd899b13d43472d3db8fc579dc5216cd6466ad67bd46f5441"
+ },
+ "claim_ceiling": "2 of 14 OPS edges were executed against their own POS/NEG and both failed a NEG, each fixed by a candidate patch on a copy; 1 is partial (no receiver implementation); 11 are parked with named unblock conditions. No OPS edge is accepted end-to-end and the canonical tools were not modified."
+}

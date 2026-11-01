@@ -1,0 +1,114 @@
+{
+ "schema": "SESSION_STATE/2",
+ "round_id": "R21-FAR-20261101",
+ "state": "CLOSED_AND_HANDED_OVER",
+ "closed_utc": "2026-11-01T11:22:06Z",
+ "owner_window": {
+  "window_id": "WIN-759646a93af5",
+  "state": "OPEN",
+  "scope": [
+   "permit_sign",
+   "admission_bundle_sign",
+   "registry_row_sign",
+   "merkle_root_sign"
+  ],
+  "effect_class_ceiling": "REPOSITORY_WRITE",
+  "ops_used": 3,
+  "max_ops": 120,
+  "expires_at": 1793558964
+ },
+ "lanes": {
+  "PLAN": "afb9aff07adb3f1bfc9b5a0ccf7af1df028ae392f94494e6edcfffa3b4519283",
+  "EXECUTE": "e2aff632388906d86d3437d47d1d7954446076db44c4979afd92a812797adff8",
+  "VERIFY": "ebfbf1aab91964dcd2afc76cc30693f369cddd8ae6fbcbd64631b9fe56162275"
+ },
+ "artifacts": {
+  "research_synthesis": "5cd0574e5f5a1160582b60f411b190a918964a92a42327c3599fb47d08b299ff",
+  "gap_ledger": "fef081965c6fd6ce58ea260c5296257b0d3b4ca0904a572c1c14e00a059d2054",
+  "token_attribution": "af65a97fb95bf29467e3b8cad31559d1d136f650c963b4733294e5f61bd5aba6",
+  "wp_evidence_audit": "56ee722a3ccb74b209aa231b104b21c2a7ad9fb41958d116b78a2329a5230f1c",
+  "d7_patch": "62dde7794c8235857a0e6dc9e7dae0c1fc44c17982c5a97206a0aea17d245bce",
+  "d7_test": "55e4423f5d832f09028d186b61228ef319ddf53722c99144f224e13fe13faf5e",
+  "ruling_d4": "062f5d4430f21675765192acc6ed84834590598573a01db12251a5465217c3ca",
+  "ruling_d4_sig": "31e55fd62ada2d0e40f4539015861790528efb319a874714048cfa1d33c2c73e",
+  "ruling_d3d5w2": "5c601d37066d66686ab86f3c4012206ad1b511c497e456029fd0792c9838c886",
+  "ruling_d3d5w2_sig": "de6768e82ece1a91f1f526ce95adfebe0eb964e61a542666c1301ef6a9443c01",
+  "layer_audit": "33c271d7e12abbe1e8b8c21d7856855aaee0ceaed1282297f1e6f3d540428d10"
+ },
+ "publish": {
+  "repo": "shw097-team/PIPD-LS-SP",
+  "branch": "candidate/r21-far-20261101",
+  "pr": 22,
+  "pr_url": "https://github.com/shw097-team/PIPD-LS-SP/pull/22",
+  "merged": false
+ },
+ "counts": {
+  "queue_rows": 22,
+  "queue_pass": 19,
+  "queue_fail": 3,
+  "supported_pass": 3,
+  "unsupported_pass": 16,
+  "ops_edges_measured": 31,
+  "wp20_cells": 192
+ },
+ "open_items": [
+  {
+   "id": "W3b",
+   "what": "selector patch rebase",
+   "kind": "TECHNICAL",
+   "blocked_by": "bind_grant signature collision"
+  },
+  {
+   "id": "W4",
+   "what": "WP-13 five findings",
+   "kind": "TECHNICAL"
+  },
+  {
+   "id": "W5",
+   "what": "WP-12 recovery entry",
+   "kind": "HOST"
+  },
+  {
+   "id": "W6",
+   "what": "S6 two repairs reproduction",
+   "kind": "TECHNICAL"
+  },
+  {
+   "id": "W8",
+   "what": "WP-20 F11/SIMPLE_AGENT/plugin install",
+   "kind": "NETWORK|TECHNICAL"
+  },
+  {
+   "id": "W10",
+   "what": "TQAEP 282 mapping",
+   "kind": "TECHNICAL"
+  },
+  {
+   "id": "W11",
+   "what": "three SP offices",
+   "kind": "ISSUER_SEMANTICS",
+   "note": "envelope judged insufficient by VERIFY"
+  },
+  {
+   "id": "M3",
+   "what": "D7 fix merge decision",
+   "kind": "OWNER"
+  },
+  {
+   "id": "M4",
+   "what": "hotswap repair merge decision",
+   "kind": "OWNER"
+  },
+  {
+   "id": "M6",
+   "what": "home for owner rulings",
+   "kind": "OWNER"
+  }
+ ],
+ "resume": [
+  "python var/FHS-R21-FAR-TT-20261101/tools/far_build_gap_ledger.py",
+  "python var/FHS-R21-FAR-TT-20261101/tools/w7_evidence_audit_v2.py",
+  "PYTHONPATH=C:/Projects/Agent_Workspace/HG-KSEOS/src python var/FHS-R21-FAR-TT-20261101/tools/test_d7_semantics.py"
+ ],
+ "claim_ceiling": "candidate evidence; no independent acceptance, no main integration, no release"
+}

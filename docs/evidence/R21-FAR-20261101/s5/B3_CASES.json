@@ -1,0 +1,124 @@
+{
+ "schema": "FHS.R21.S5.B3_CASES/2",
+ "generated_utc": "2026-11-01T07:58:17Z",
+ "edge": "EDGE-WO-B1-B3-DEV",
+ "pd": "PD-12",
+ "domain": "SBL_TO_NATIVE",
+ "tools": {
+  "hotswap.py": "f9468f406ac2137080133c66073fb328847b359b966a930402304b7023353a14",
+  "issue_grant.py": "08d6e985d46facfb75fce0b56b6b5884975d22ab25d28632a3b964700acb9e77"
+ },
+ "supersedes": "v1, whose NEG_shared and NEG_mixed 'PASS' verdicts were coverage refusals (GRANT_WRITESET_EXCLUDES_TARGET/CANDIDATE), not the behaviours under test",
+ "cases": {
+  "TQ-B1-B3-POS": {
+   "dev_grant": {
+    "path": "v2_grant_dev.json",
+    "sha256": "b4289b3df21e31761fdc62cf04773921795aa4bb38d49e2615b2eb21531b6bb7",
+    "operation": "install_occupant",
+    "writeset": "ws_v2_grant_dev.json"
+   },
+   "swap": {
+    "rc": 0,
+    "ok": true,
+    "code": null,
+    "problems": [],
+    "coverage": {
+     "covers_entry": true,
+     "covers_candidate": true
+    },
+    "identity_after": "cap-attest-v2"
+   },
+   "verdict": "PASS"
+  },
+  "TQ-B1-B3-NEG_shared_receipt": {
+   "grant": {
+    "path": "v2_grant_shared.json",
+    "sha256": "5f2ba533bb0f65fb1247ead91607bae29a6a94653247dff77493d476cfee1cd6",
+    "operation": "install_occupant",
+    "writeset": "ws_v2_grant_shared.json"
+   },
+   "first_use": {
+    "rc": 0,
+    "ok": true,
+    "code": null,
+    "problems": [],
+    "coverage": {
+     "covers_entry": true,
+     "covers_candidate": true
+    },
+    "identity_after": "cap-attest-v2"
+   },
+   "second_use": {
+    "rc": 0,
+    "ok": true,
+    "code": null,
+    "problems": [],
+    "coverage": {
+     "covers_entry": true,
+     "covers_candidate": true
+    },
+    "identity_after": "cap-attest-v2"
+   },
+   "verdict": "FAIL_SHARED_RECEIPT_ACCEPTED",
+   "why": "a correct PASS needs the refusal to come with coverage satisfied, i.e. not a path artefact"
+  },
+  "TQ-B1-B3-NEG_mixed_effect": {
+   "grant": {
+    "path": "v2_grant_mixed.json",
+    "sha256": "769a0513717e3fbbf90076ee15383e805aa2e45f8f0c973cffa71b671b52d3ff",
+    "operation": "host_operation",
+    "writeset": "ws_v2_grant_mixed.json"
+   },
+   "swap": {
+    "rc": 0,
+    "ok": true,
+    "code": null,
+    "problems": [],
+    "coverage": {
+     "covers_entry": true,
+     "covers_candidate": true
+    },
+    "identity_after": "cap-attest-v2"
+   },
+   "verdict": "FAIL_MIXED_EFFECT_ACCEPTED",
+   "why": "the grant covers the paths, so any refusal is about the effect class, not coverage"
+  },
+  "TQ-B1-B3-NEG_second_issuer": {
+   "basis_grant": {
+    "path": "v2_grant_issuer.json",
+    "sha256": "5ac386f6b2addd6fe798785e03cee0dbfb75189ba3bc73f62f1fcce9b4b965a8",
+    "operation": "install_occupant",
+    "writeset": "ws_v2_grant_issuer.json"
+   },
+   "forged_grant": {
+    "path": "v2_grant_second_issuer.json",
+    "sha256": "3b7a800bff27e9d4b65198a2bd3c8c3f77f2b5577419cf3edf232bef24ea47f8"
+   },
+   "verifier": {
+    "rc": 3,
+    "stdout": "{\"grant\": \"C:\\\\Projects\\\\Agent_Workspace\\\\var\\\\FHS-R21-FAR-TT-20261101\\\\s5\\\\b3\\\\v2_grant_second_issuer.json\", \"verdict\": \"GRANT_REFUSED\", \"problems\": [\"GRANT_KEY_UNKNOWN\", \"GRANT_SIGNATURE_INVALID\"]}"
+   },
+   "swap": {
+    "rc": 1,
+    "ok": false,
+    "code": "ERR_GRANT_NOT_BOUND",
+    "problems": [
+     "GRANT_KEY_UNKNOWN",
+     "GRANT_SIGNATURE_INVALID"
+    ],
+    "coverage": {
+     "covers_entry": true,
+     "covers_candidate": true
+    },
+    "identity_after": "cap-attest-v1"
+   },
+   "verdict": "PASS"
+  }
+ },
+ "summary": {
+  "TQ-B1-B3-POS": "PASS",
+  "TQ-B1-B3-NEG_shared_receipt": "FAIL_SHARED_RECEIPT_ACCEPTED",
+  "TQ-B1-B3-NEG_mixed_effect": "FAIL_MIXED_EFFECT_ACCEPTED",
+  "TQ-B1-B3-NEG_second_issuer": "PASS"
+ }
+}

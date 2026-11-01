@@ -1,0 +1,247 @@
+{
+ "schema": "FHS.R21.WP20.KIND_RULING/2.1",
+ "generated_utc": "2026-11-01T09:30:06Z",
+ "supersedes": [
+  "wp20/KIND_SURFACE_RULING.json (hand-written 69-verb list)",
+  "KIND_SURFACE_RULING_V2.json (v2 matched any help text, not the owning verb)"
+ ],
+ "ao_return": "wp20/AO_0361E484_RETURN.md",
+ "denominator": {
+  "source": "root_help.txt parsed",
+  "verbs": 68,
+  "probe": "wp20/kind_surface_probe/KIND_SURFACE_PROBE_V2.json",
+  "probe_sha256": "08a6b8d2fd3033808616ea8d78b16f80d1d271122def8b050bf95afc1b1062a2",
+  "anomaly": "verb 'hermes' returned rc=2 (root help lists itself)"
+ },
+ "kinds": {
+  "AGENT_SKILL": {
+   "disposition": "MEASURED_INSTALL_VERB",
+   "owning_verbs_present": [
+    {
+     "verb": "skills",
+     "rc": 0,
+     "help_sha256": "4fc20db2f5b00bb9f941f151520cbc6dd246308f17e3f50248a7bca42b405eee"
+    },
+    {
+     "verb": "bundles",
+     "rc": 0,
+     "help_sha256": "5b5872d36747567cae2e79ca6dca2e0a16dd0b3a2c87af2c825333ca6097a80d"
+    }
+   ],
+   "evidence": [
+    {
+     "verb": "skills",
+     "rc": 0,
+     "help_sha256": "4fc20db2f5b00bb9f941f151520cbc6dd246308f17e3f50248a7bca42b405eee",
+     "line": "{trust,untrust,browse,search,install,inspect,list,check,update,audit,uninstall,reset,list-modified,diff,opt-out,opt-in,repair-official,publish,snapshot,tap,config} ...",
+     "matched": [
+      "install"
+     ]
+    },
+    {
+     "verb": "bundles",
+     "rc": 0,
+     "help_sha256": "5b5872d36747567cae2e79ca6dca2e0a16dd0b3a2c87af2c825333ca6097a80d",
+     "line": "usage: hermes bundles [-h] {list,show,create,delete,reload} ...",
+     "matched": [
+      "create"
+     ]
+    }
+   ]
+  },
+  "PROFILE": {
+   "disposition": "MEASURED_INSTALL_VERB",
+   "owning_verbs_present": [
+    {
+     "verb": "profile",
+     "rc": 0,
+     "help_sha256": "c6549e4d01ae8a695e61f2d1a3a9f18400d140f29a21b999abbe3fe2ceec3048"
+    }
+   ],
+   "evidence": [
+    {
+     "verb": "profile",
+     "rc": 0,
+     "help_sha256": "c6549e4d01ae8a695e61f2d1a3a9f18400d140f29a21b999abbe3fe2ceec3048",
+     "line": "{list,use,create,delete,describe,show,alias,rename,purge-identity,migrate-identity,export,import,install,update,info} ...",
+     "matched": [
+      "create"
+     ]
+    }
+   ]
+  },
+  "PLUGIN": {
+   "disposition": "MEASURED_INSTALL_VERB",
+   "owning_verbs_present": [
+    {
+     "verb": "plugins",
+     "rc": 0,
+     "help_sha256": "751e08afe8aaf6108391b9d18cb2f53eb8b0077447d879d496ab809966812761"
+    }
+   ],
+   "evidence": [
+    {
+     "verb": "plugins",
+     "rc": 0,
+     "help_sha256": "751e08afe8aaf6108391b9d18cb2f53eb8b0077447d879d496ab809966812761",
+     "line": "{install,search,browse,validate,update,adopt,trust-update-url,check-updates,check,remove,rm,uninstall,list,ls,enable,disable,capabilities,doctor,pack,show,info} ...",
+     "matched": [
+      "install"
+     ]
+    }
+   ]
+  },
+  "CLI_TOOL": {
+   "disposition": "MEASURED_INSTALL_VERB",
+   "owning_verbs_present": [
+    {
+     "verb": "tools",
+     "rc": 0,
+     "help_sha256": "0c1e66614887eba39d38ff7f5ca86ed67dde44da0363f9144c7eee0875f692d4"
+    },
+    {
+     "verb": "lsp",
+     "rc": 0,
+     "help_sha256": "6493a202edab3de7d8457bb648d14ed2b7ff498f39b4ddea7f54514c6d492500"
+    },
+    {
+     "verb": "mcp",
+     "rc": 0,
+     "help_sha256": "4e0b8ff760f187207642e74b3761fa98439073584c1c6b7c151cd2c085e52c94"
+    },
+    {
+     "verb": "computer-use",
+     "rc": 0,
+     "help_sha256": "bf41ab3692bed2fc070b77d286628b789e22586fb2aa9c43fbf469945a3bbe72"
+    }
+   ],
+   "evidence": [
+    {
+     "verb": "tools",
+     "rc": 0,
+     "help_sha256": "0c1e66614887eba39d38ff7f5ca86ed67dde44da0363f9144c7eee0875f692d4",
+     "line": "usage: hermes tools [-h] [--summary] {list,disable,enable,post-setup} ...",
+     "matched": [
+      "setup"
+     ]
+    },
+    {
+     "verb": "lsp",
+     "rc": 0,
+     "help_sha256": "6493a202edab3de7d8457bb648d14ed2b7ff498f39b4ddea7f54514c6d492500",
+     "line": "usage: hermes lsp [-h] {status,list,install,install-all,restart,which} ...",
+     "matched": [
+      "install"
+     ]
+    },
+    {
+     "verb": "mcp",
+     "rc": 0,
+     "help_sha256": "4e0b8ff760f187207642e74b3761fa98439073584c1c6b7c151cd2c085e52c94",
+     "line": "{add,remove,rm,list,ls,test,configure,config,login,reauth,picker,catalog,install} ...",
+     "matched": [
+      "install"
+     ]
+    },
+    {
+     "verb": "computer-use",
+     "rc": 0,
+     "help_sha256": "bf41ab3692bed2fc070b77d286628b789e22586fb2aa9c43fbf469945a3bbe72",
+     "line": "usage: hermes computer-use [-h] {install,status,doctor,permissions,screen} ...",
+     "matched": [
+      "install"
+     ]
+    }
+   ]
+  },
+  "SIMPLE_AGENT": {
+   "disposition": "UNCLASSIFIED",
+   "owning_verbs_present": [],
+   "evidence": []
+  },
+  "AGENT_OS": {
+   "disposition": "OS_SERVICE_INSTALLER_FOUND",
+   "owning_verbs_present": [
+    {
+     "verb": "gateway",
+     "rc": 0,
+     "help_sha256": "9a581453104c46391fc60d787ed7e5a1ad26f72974ed61df65229ad702cc71c3"
+    },
+    {
+     "verb": "update",
+     "rc": 0,
+     "help_sha256": "d06db37523801261f30b9ad989381cc61d8016a63e6de1d50fae6aab301227bf"
+    }
+   ],
+   "evidence": [
+    {
+     "verb": "gateway",
+     "rc": 0,
+     "help_sha256": "9a581453104c46391fc60d787ed7e5a1ad26f72974ed61df65229ad702cc71c3",
+     "line": "{run,ensure,start,stop,restart,status,install,uninstall,list,setup,migrate-legacy,migrate,enroll} ...",
+     "matched": [
+      "install",
+      "setup"
+     ]
+    },
+    {
+     "verb": "update",
+     "rc": 0,
+     "help_sha256": "d06db37523801261f30b9ad989381cc61d8016a63e6de1d50fae6aab301227bf",
+     "line": "[--force-venv] [--set-channel CHANNEL] [--install-id]",
+     "matched": [
+      "install"
+     ]
+    }
+   ]
+  },
+  "AI_SYSTEM": {
+   "disposition": "MEASURED_SURFACE_NO_INSTALL",
+   "owning_verbs_present": [
+    {
+     "verb": "model",
+     "rc": 0,
+     "help_sha256": "da24b33cbdaf19091c459c483fdcc3ce351d0148bd1ef1bbb2b9d637575f70d6"
+    },
+    {
+     "verb": "moa",
+     "rc": 0,
+     "help_sha256": "a34464016adc01c3b6c15f65c9a33c54a0a51ad9ea8bec143ea6befa77e43e91"
+    },
+    {
+     "verb": "proxy",
+     "rc": 0,
+     "help_sha256": "9056cf33db77c207b17e2c7c0a6783b1b4b48501868239c2616d56adc89110fa"
+    },
+    {
+     "verb": "fallback",
+     "rc": 0,
+     "help_sha256": "692387be062b99dbfb378458adf9981f8d6bfadacb15327b12b2c0231399288b"
+    }
+   ],
+   "evidence": []
+  },
+  "GENIE/GENIE.md": {
+   "disposition": "NO_VERB_EVIDENCE_IN_HELP",
+   "owning_verbs_present": [],
+   "evidence": []
+  }
+ },
+ "summary": {
+  "AGENT_SKILL": "MEASURED_INSTALL_VERB",
+  "PROFILE": "MEASURED_INSTALL_VERB",
+  "PLUGIN": "MEASURED_INSTALL_VERB",
+  "CLI_TOOL": "MEASURED_INSTALL_VERB",
+  "SIMPLE_AGENT": "UNCLASSIFIED",
+  "AGENT_OS": "OS_SERVICE_INSTALLER_FOUND",
+  "AI_SYSTEM": "MEASURED_SURFACE_NO_INSTALL",
+  "GENIE/GENIE.md": "NO_VERB_EVIDENCE_IN_HELP"
+ },
+ "withdrawn": [
+  "the 69-verb denominator",
+  "AGENT_OS / AI_SYSTEM / GENIE 'NO_SURFACE' (not measurable from help text)",
+  "SIMPLE_AGENT classification",
+  "v2's loose evidence rows (kanban->PROFILE, acp->AI_SYSTEM)"
+ ],
+ "claim_ceiling": "author-side help-surface scan. MEASURED_INSTALL_VERB means the owning command's help advertises an install-like verb -- not that installing works. OS_SERVICE_INSTALLER_FOUND means an OS service installer is advertised, not that an agent OS runtime exists."
+}

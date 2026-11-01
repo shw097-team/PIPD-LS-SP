@@ -1,0 +1,175 @@
+{
+ "schema": "FHS.R21.WP13.C5_RUN/1",
+ "generated_utc": "2026-11-01T06:20:42Z",
+ "issue_grant": {
+  "cmd": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+   "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\\issue_grant.py",
+   "issue",
+   "--principal",
+   "owner",
+   "--operation",
+   "install_occupant",
+   "--writeset",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\writeset_covering.json",
+   "--ttl",
+   "900",
+   "--epoch",
+   "40",
+   "--scope",
+   "WP-FHS-13 C5: install occupant through the ABI consumer under a covering writeset",
+   "--nonce",
+   "WP13-R21-1793514042",
+   "--subject",
+   "WP-FHS-13",
+   "--candidate-sha",
+   "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+   "--out",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\grant_covering.json"
+  ],
+  "rc": 0,
+  "ms": 216.6,
+  "stdout": "{\"issued\": \"C:\\\\Projects\\\\Agent_Workspace\\\\var\\\\FHS-R21-FAR-TT-20261101\\\\wp13\\\\grant_covering.json\", \"key_id\": \"135455ca00280c39\", \"nonce\": \"WP13-R21-1793514042\", \"expires_at\": 1793514942, \"signature_alg\": \"Ed25519\", \"owner_authorization_sha256\": \"dd03f7b0b80531880ed897e4e831b2ab7bc4e59ec3cc8f10efd523ce3ea11bdf\"}\n",
+  "stderr": ""
+ },
+ "grant_issued_at_unix": 1793514042,
+ "hotswap_covering": {
+  "cmd": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+   "C:\\Projects\\Agent_Workspace\\PIPD\\tools\\hotswap.py",
+   "--root",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\fixture-covering",
+   "--entry",
+   "occupant.py",
+   "--candidate",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\fixture-covering\\candidate.py",
+   "--expect-old",
+   "cap-attest-v1",
+   "--expect-new",
+   "cap-attest-v2",
+   "--need",
+   "cap.attest",
+   "--method",
+   "identity",
+   "--grant",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\grant_covering.json",
+   "--grant-verifier",
+   "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\\issue_grant.py",
+   "--out",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\HOTSWAP_ABI_GRANT_BOUND.json"
+  ],
+  "rc": 0,
+  "ms": 395.7,
+  "stdout": "{\"ok\": true, \"code\": null, \"why\": \"POS: new occupant serves as cap-attest-v2; NEG: the old occupant no longer serves cap-attest-v1\", \"pos\": {\"identity\": \"cap-attest-v2\", \"served\": true, \"via\": \"abi-consumer\", \"origin\": \"C:\\\\Projects\\\\Agent_Workspace\\\\var\\\\FHS-R21-FAR-TT-20261101\\\\wp13\\\\fixture-covering\\\\occupant.py\", \"code\": null}, \"neg\": {\"identity\": \"cap-attest-v2\", \"served\": true, \"question\": \"does the target still serve the old capability?\"}}\n",
+  "stderr": ""
+ },
+ "hotswap_stale_grant": {
+  "cmd": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+   "C:\\Projects\\Agent_Workspace\\PIPD\\tools\\hotswap.py",
+   "--root",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\fixture-stale",
+   "--entry",
+   "occupant.py",
+   "--candidate",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\fixture-stale\\candidate.py",
+   "--expect-old",
+   "cap-attest-v1",
+   "--expect-new",
+   "cap-attest-v2",
+   "--need",
+   "cap.attest",
+   "--method",
+   "identity",
+   "--grant",
+   "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\issuer-probe\\grant.json",
+   "--grant-verifier",
+   "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\\issue_grant.py",
+   "--out",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\HOTSWAP_REFUSED_STALE_GRANT.json"
+  ],
+  "rc": 1,
+  "ms": 330.6,
+  "stdout": "{\"ok\": false, \"code\": \"ERR_GRANT_NOT_BOUND\", \"why\": \"the grant does not cover this swap: ['GRANT_EXPIRED', 'GRANT_WRITESET_EXCLUDES_TARGET', 'GRANT_WRITESET_EXCLUDES_CANDIDATE']; nothing moved\"}\n",
+  "stderr": ""
+ },
+ "artifacts": {
+  "grant": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\grant_covering.json",
+  "grant_sha256": "2e99a8b682892f7dc8913d1c1d431b5e1346b99de3ef91af548160c3932ac3a9",
+  "receipt_covering": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\HOTSWAP_ABI_GRANT_BOUND.json",
+  "receipt_stale": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\HOTSWAP_REFUSED_STALE_GRANT.json",
+  "fixture_covering": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\fixture-covering",
+  "fixture_stale": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\fixture-stale"
+ },
+ "covering": {
+  "ok": true,
+  "steps": [
+   "grant_bound",
+   "swapped"
+  ],
+  "before": {
+   "identity": "cap-attest-v1",
+   "served": true,
+   "via": "abi-consumer",
+   "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\fixture-covering\\occupant.py",
+   "code": null
+  },
+  "pos": {
+   "identity": "cap-attest-v2",
+   "served": true,
+   "via": "abi-consumer",
+   "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\fixture-covering\\occupant.py",
+   "code": null
+  },
+  "neg": {
+   "identity": "cap-attest-v2",
+   "served": true,
+   "question": "does the target still serve the old capability?"
+  },
+  "control": {
+   "identity": "cap-attest-v1",
+   "served": true,
+   "question": "did the target serve the old capability BEFORE the swap? (control)"
+  },
+  "code": null,
+  "why": "POS: new occupant serves as cap-attest-v2; NEG: the old occupant no longer serves cap-attest-v1",
+  "grant": {
+   "nonce": "WP13-R21-1793514042",
+   "issued_before_effect": true,
+   "covers_entry": true,
+   "covers_candidate": true,
+   "candidate_sha_matches": true,
+   "issuer_verifier_exit": 0,
+   "problems": []
+  }
+ },
+ "stale": {
+  "ok": false,
+  "steps": [],
+  "before": {
+   "identity": "cap-attest-v1",
+   "served": true,
+   "via": "abi-consumer",
+   "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp13\\fixture-stale\\occupant.py",
+   "code": null
+  },
+  "pos": null,
+  "neg": null,
+  "control": null,
+  "code": "ERR_GRANT_NOT_BOUND",
+  "why": "the grant does not cover this swap: ['GRANT_EXPIRED', 'GRANT_WRITESET_EXCLUDES_TARGET', 'GRANT_WRITESET_EXCLUDES_CANDIDATE']; nothing moved",
+  "grant": {
+   "nonce": "PROBE-WP13-A1",
+   "issued_before_effect": true,
+   "covers_entry": false,
+   "covers_candidate": false,
+   "candidate_sha_matches": true,
+   "issuer_verifier_exit": 3,
+   "problems": [
+    "GRANT_EXPIRED",
+    "GRANT_WRITESET_EXCLUDES_TARGET",
+    "GRANT_WRITESET_EXCLUDES_CANDIDATE"
+   ]
+  }
+ }
+}

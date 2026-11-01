@@ -1,0 +1,72 @@
+{
+ "schema": "PIPD-HOTSWAP-RECEIPT/1",
+ "root": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\fixture",
+ "entry": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\fixture\\occupant.py",
+ "candidate": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\fixture\\candidate.py",
+ "started_at": "2026-11-01T15:54:15+0800",
+ "steps": [
+  "grant_bound",
+  "swapped"
+ ],
+ "preimage": {
+  "files": 2,
+  "digest": "265452ebefd4474199dc256113052f1b658226ba0101e225ab6084f16838031a"
+ },
+ "before": {
+  "identity": "cap-attest-v1",
+  "served": true,
+  "via": "abi-consumer",
+  "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\fixture\\occupant.py",
+  "code": null
+ },
+ "candidate_sha256": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+ "grant": {
+  "path": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\grant_good.json",
+  "sha256": "f93fa8413cfa218bcdc0527f2fa6b46d92d1c768f97863bb667e652b4cb23d9a",
+  "nonce": "A8-POS-1793519655",
+  "issued_at": 1793519655,
+  "expires_at": 1793520555,
+  "subject": "WP-FHS-13",
+  "operation": "install_occupant",
+  "scope": "EDGE-WO-B1-A8 hotpath probe",
+  "policy_epoch": "40",
+  "issuer_verifier_exit": 0,
+  "issuer_verifier": {
+   "grant": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\grant_good.json",
+   "verdict": "GRANT_VALID",
+   "problems": []
+  },
+  "issued_before_effect": true,
+  "writeset_paths": [
+   "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\s5\\a8\\fixture\\candidate.py",
+   "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\s5\\a8\\fixture\\occupant.py"
+  ],
+  "covers_entry": true,
+  "covers_candidate": true,
+  "candidate_sha_named": null,
+  "candidate_sha_matches": true,
+  "problems": []
+ },
+ "pos": {
+  "identity": "cap-attest-v2",
+  "served": true,
+  "via": "abi-consumer",
+  "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\a8\\fixture\\occupant.py",
+  "code": null
+ },
+ "neg": {
+  "identity": "cap-attest-v2",
+  "served": true,
+  "question": "does the target still serve the old capability?"
+ },
+ "control": {
+  "identity": "cap-attest-v1",
+  "served": true,
+  "question": "did the target serve the old capability BEFORE the swap? (control)"
+ },
+ "rollback": "not needed",
+ "code": null,
+ "ok": true,
+ "why": "POS: new occupant serves as cap-attest-v2; NEG: the old occupant no longer serves cap-attest-v1",
+ "finished_at": "2026-11-01T15:54:16+0800"
+}

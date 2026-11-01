@@ -1,0 +1,57 @@
+{
+ "schema": "FHS.R21.WP20.KIND_SCOPE/1",
+ "generated_utc": "2026-11-01T06:48:38Z",
+ "kinds": 8,
+ "cells_per_kind": {
+  "CLI_TOOL": 24,
+  "AGENT_SKILL": 24,
+  "SIMPLE_AGENT": 24,
+  "PLUGIN": 24,
+  "PROFILE": 24,
+  "AGENT_OS": 24,
+  "AI_SYSTEM": 24,
+  "GENIE/GENIE.md": 24
+ },
+ "surface_status": {
+  "AGENT_SKILL": "present: Hermes skills/, ~/.codex/skills, ~/.claude/agents; 18 cells already PASS with negatives",
+  "PROFILE": "present: hermes profile create/list/show/delete; 6 cells measured today",
+  "PLUGIN": "present: hermes plugins list/validate/capabilities; 6 cells measured today",
+  "CLI_TOOL": "NOT MEASURED: 'no tool loader' was read off `hermes --help`; no per-kind probe was run",
+  "SIMPLE_AGENT": "PRESENT on Claude Code: C:/Users/user/.claude/agents holds 5 agent definitions (ocx-gpt-5-4-mini.md, ocx-gpt-5-5.md, ocx-gpt-5-6-luna.md, ocx-gpt-5-6-sol.md, ocx-gpt-5-6-terra.md). My earlier 'no surface' claim was an inference from the hermes CLI and is withdrawn.",
+  "AI_SYSTEM": "NOT MEASURED: same — the absence is an inference, not a measurement",
+  "AGENT_OS": "NOT MEASURED: same — the absence is an inference, not a measurement",
+  "GENIE/GENIE.md": "no GENIE.md agent package on any host: find across C:/Projects/Agent_Workspace, ~/.codex, ~/.claude returns only HG-KSEOS design docs (GENIE_VNEXT_*.md), which are not installable artefacts"
+ },
+ "dispositions": {
+  "AGENT_SKILL": "INSTALL_SURFACE_MEASURED",
+  "PROFILE": "INSTALL_SURFACE_MEASURED",
+  "PLUGIN": "INSTALL_SURFACE_MEASURED",
+  "CLI_TOOL": "INSTALL_SURFACE_MEASURED",
+  "SIMPLE_AGENT": "SURFACE_EXISTS_NO_INSTALL_VERB",
+  "AGENT_OS": "NO_SURFACE_MEASURED",
+  "AI_SYSTEM": "NO_SURFACE_MEASURED",
+  "GENIE/GENIE.md": "NO_SURFACE_MEASURED"
+ },
+ "no_surface_kinds": [
+  "AGENT_OS",
+  "AI_SYSTEM",
+  "GENIE/GENIE.md"
+ ],
+ "denominator_note": "the blocker says '7 Kinds that have no install surface'; measured here, only 5 kinds lack one (AGENT_OS, AI_SYSTEM, CLI_TOOL, GENIE/GENIE.md, SIMPLE_AGENT) because PROFILE and PLUGIN do have surfaces and were the 12 cells. The '7' is consistent only if PROFILE and PLUGIN were counted inside it before they were exercised; I record the measured 5 and leave the denominator for the receiver rather than silently adopting either number.",
+ "no_unblock_claim": "no kind was re-labelled to make a cell pass; absent objects stay absent",
+ "correction": {
+  "by": "independent AO deleg_64257a4d (PARTIAL)",
+  "absorbed": [
+   "SIMPLE_AGENT does have a surface (~/.claude/agents, 5 definitions) -> reclassified SURFACE_EXISTS_NOT_EXERCISED",
+   "absence claims for CLI_TOOL/AI_SYSTEM/AGENT_OS were assertions from `hermes --help`, not measurements -> downgraded to NOT_MEASURED",
+   "GENIE absence is measured (find over three roots) and stands"
+  ],
+  "when": "2026-11-01T07:12:27Z"
+ },
+ "next_probe": {
+  "CLI_TOOL": "install a console-script wheel into a throwaway venv, prove entrypoint/--help/--json/nonzero/uninstall",
+  "SIMPLE_AGENT": "exercise one ~/.claude/agents definition via the Claude Code loader and record POS/NEG",
+  "AI_SYSTEM/AGENT_OS": "needs a host packaging surface; if none is found by probe, record NOFIT_MEASURED with the probe as evidence"
+ },
+ "superseded_by": "KIND_SURFACE_RULING.json"
+}

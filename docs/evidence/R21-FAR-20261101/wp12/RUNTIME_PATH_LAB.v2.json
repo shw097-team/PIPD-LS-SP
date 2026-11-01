@@ -1,0 +1,247 @@
+{
+ "schema": "HGK-WP12-RUNTIME-PATH-LAB/2",
+ "supersedes": "RUNTIME_PATH_LAB.json (v1, verdict PASS)",
+ "measured_at": "2026-11-01T06:02:17Z",
+ "blocker_under_test": "RUNTIME_PATH_UNRESOLVED + AO clause 2 (PATH entry vs entry under test)",
+ "v1_kept_for_audit": true,
+ "v1_defects_found": [
+  "v1 c_recovery_negative actually ran the PRODUCT venv .CMD, not the recovery entry (fields mislabelled).",
+  "v1 d_injected_control's recovery run exited 2 with a provider-configuration message in a clean env (no HERMES_HOME/key); provider absence is not a path/ABI failure.",
+  "v1 recorded no named error for the failing entry (error=null), so the mechanism stayed unattributed."
+ ],
+ "a_path_arithmetic": [
+  {
+   "openai_package": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\installs\\3b763fa5cf79ba4a\\environments\\37e51176b4164db5b4a5f8af5558c52d\\venv\\Lib\\site-packages\\openai",
+   "py_modules": 1048,
+   "modules_over_max_path": 10,
+   "examples_over": [
+    {
+     "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\installs\\3b763fa5cf79ba4a\\environments\\37e51176b4164db5b4a5f8af5558c52d\\venv\\Lib\\site-packages\\openai\\types\\beta\\realtime\\conversation_item_input_audio_transcription_completed_event.py",
+     "len": 272
+    },
+    {
+     "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\installs\\3b763fa5cf79ba4a\\environments\\37e51176b4164db5b4a5f8af5558c52d\\venv\\Lib\\site-packages\\openai\\types\\beta\\realtime\\conversation_item_input_audio_transcription_delta_event.py",
+     "len": 268
+    },
+    {
+     "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\installs\\3b763fa5cf79ba4a\\environments\\37e51176b4164db5b4a5f8af5558c52d\\venv\\Lib\\site-packages\\openai\\types\\beta\\realtime\\conversation_item_input_audio_transcription_failed_event.py",
+     "len": 269
+    },
+    {
+     "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\installs\\3b763fa5cf79ba4a\\environments\\37e51176b4164db5b4a5f8af5558c52d\\venv\\Lib\\site-packages\\openai\\types\\realtime\\conversation_item_input_audio_transcription_completed_event.py",
+     "len": 267
+    },
+    {
+     "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\installs\\3b763fa5cf79ba4a\\environments\\37e51176b4164db5b4a5f8af5558c52d\\venv\\Lib\\site-packages\\openai\\types\\realtime\\conversation_item_input_audio_transcription_delta_event.py",
+     "len": 263
+    }
+   ],
+   "target_module": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\installs\\3b763fa5cf79ba4a\\environments\\37e51176b4164db5b4a5f8af5558c52d\\venv\\Lib\\site-packages\\openai\\types\\responses\\response_computer_tool_call_output_screenshot_param.py",
+   "target_module_len": 260,
+   "exists_via_plain_open": false,
+   "readable_via_win32_prefix": true
+  }
+ ],
+ "b_canonical_positive": {
+  "cmd": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\.hermes-runtime\\python\\cpython-3.11.17-windows-x86_64-none\\python.exe",
+   "-m",
+   "hermes_cli.main",
+   "-z",
+   "Reply with exactly this one line and nothing else: NONCE-ECHO: WP12-RUNTIME-8F391DBC",
+   "--usage-file",
+   "C:\\Users\\user\\AppData\\Local\\Temp\\wp12-WP12-RUNTIME-8F391DBC\\usage.json"
+  ],
+  "cwd": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent",
+  "pid": 2060,
+  "exit": 0,
+  "timed_out": false,
+  "started_at": "2026-11-01T12:27:56",
+  "ended_at": "2026-11-01T12:28:38",
+  "duration_s": 42.3,
+  "stdout": "NONCE-ECHO: WP12-RUNTIME-8F391DBC",
+  "stderr_tail": "",
+  "nonce_present": true,
+  "served_model": "deepseek-v4.1-flash",
+  "served_provider": "opencode-go",
+  "completed": true,
+  "session_id": "20261101_122806_caecb3",
+  "api_calls": 1
+ },
+ "c_recovery_negative_v2": {
+  "before_repair": {
+   "runs": [
+    {
+     "cmd": [
+      "D:\\Hermes-Recovery\\live22\\bin\\hermes.cmd",
+      "--version"
+     ],
+     "rc": 1,
+     "ms": 404.2,
+     "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "stdout_bytes": 0,
+     "stderr_sha256": "51fdc4401a5c6048391fe667297e2fece4125d75efeeb87e376f3e0e329b6f97",
+     "stderr_bytes": 3249,
+     "stdout_head": "",
+     "stderr_tail": "ModuleNotFoundError: No module named 'pm.environments'"
+    },
+    {
+     "cmd": [
+      "D:\\Hermes-Recovery\\live22\\bin\\hermes.cmd",
+      "--print-runtime-command"
+     ],
+     "rc": 1,
+     "ms": 391.2,
+     "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "stdout_bytes": 0,
+     "stderr_sha256": "c569ee14ef476c8a27f1ecd0f72ecbde38e8aa3285443b5635a34e7e09d2e33e",
+     "stderr_bytes": 3065,
+     "stdout_head": "",
+     "stderr_tail": "ModuleNotFoundError: No module named 'hermes_cli._launchers'"
+    }
+   ],
+   "named_error": "ModuleNotFoundError: No module named 'pm.environments' (and 'hermes_cli._launchers' on --print-runtime-command)",
+   "determinism": "2/2 identical rc=1, stdout 0 B, stderr 3249 B / 3065 B",
+   "cause": "the shim hardcoded C:\\Users\\user\\AppData\\Local\\hermes\\hermes-agent (a tree whose pm\\ holds only __pycache__) plus python 3.14.7"
+  },
+  "after_repair": {
+   "runs": [
+    {
+     "cmd": [
+      "D:\\Hermes-Recovery\\live22\\bin\\hermes.cmd",
+      "--version"
+     ],
+     "rc": 0,
+     "ms": 1189.6,
+     "stdout_sha256": "8b67e84be4f9de555f44fc3713c3b2d11d43fc156c1aece9c86cbd1d2daf5c10",
+     "stdout_bytes": 178,
+     "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "stderr_bytes": 0,
+     "stdout_head": "Hermes Agent v0.22.5 (2026.9.24) · stable · local bf0203a794a0\r\nInstall directory: D:\\Hermes-Recovery\\h22\r\nInstall method: git\r\nPython: 3.14.9\r\nOpenAI SDK: 2.24",
+     "stderr_tail": ""
+    },
+    {
+     "cmd": [
+      "D:\\Hermes-Recovery\\live22\\bin\\hermes.cmd",
+      "--print-runtime-command"
+     ],
+     "rc": 0,
+     "ms": 164.8,
+     "stdout_sha256": "15a03d986f895b0d31a88fc1ad448986cd8eed9e52ea5b1a34155ca557edc11f",
+     "stdout_bytes": 567,
+     "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "stderr_bytes": 0,
+     "stdout_head": "[\"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\hermes\\\\tools\\\\python-3.14.9+20261021-win32-x64\\\\python.exe\", \"-I\", \"-c\", \"import os, sys, runpy; os.environ.pop('PYTHONHOME'",
+     "stderr_tail": ""
+    }
+   ],
+   "postconditions": {
+    "version_rc_zero": true,
+    "version_stdout_equals_full_product_sha": true,
+    "print_runtime_command_rc_zero": true,
+    "negative_control_was_failing": true,
+    "backup_is_preimage": true
+   },
+   "repair": "retire the stale shim: hermes.cmd now execs %~dp0hermes.exe, backup kept byte-identical"
+  },
+  "permit": {
+   "permit_id": "PERMIT-WP12-HOST-20261101-01",
+   "payload_sha256": "31041e58e1b8a95659757b58f9a4422a758a77ae41090d24cc8af6724ddef235",
+   "window_id": "WIN-91b01b7cd918",
+   "signature_verifies": true,
+   "effect_class": "HOST_OPERATIONS",
+   "delegation_id": "R21-CANON-c0542636"
+  }
+ },
+ "d_entry_equivalence": {
+  "version_probe": {
+   "A product venv hermes.cmd": {
+    "rc": 0,
+    "out_b": 178,
+    "out_sha": "8b67e84be4f9de555f44fc3713c3b2d11d43fc156c1aece9c86cbd1d2daf5c10"
+   },
+   "X D: hermes.exe": {
+    "rc": 0,
+    "out_b": 178,
+    "out_sha": "8b67e84be4f9de555f44fc3713c3b2d11d43fc156c1aece9c86cbd1d2daf5c10"
+   },
+   "E D: hermes(extless)": {
+    "rc": 0,
+    "out_b": 178,
+    "out_sha": "8b67e84be4f9de555f44fc3713c3b2d11d43fc156c1aece9c86cbd1d2daf5c10"
+   },
+   "P D: hermes.cmd (repaired)": {
+    "rc": 0,
+    "out_b": 178,
+    "out_sha": "8b67e84be4f9de555f44fc3713c3b2d11d43fc156c1aece9c86cbd1d2daf5c10"
+   },
+   "P --print-runtime-command": {
+    "rc": 0,
+    "out_b": 567,
+    "out_sha": "15a03d986f895b0d31a88fc1ad448986cd8eed9e52ea5b1a34155ca557edc11f"
+   }
+  },
+  "all_four_byte_identical": true,
+  "help_probe": {
+   "A product --help": {
+    "rc": 0,
+    "out_b": 14229,
+    "out_sha": "7f01c925f5cf3d08a9183874ef565ebdc850fc346cbd9f9fedb79c69c40392b0"
+   },
+   "X exe --help": {
+    "rc": 0,
+    "out_b": 14305,
+    "out_sha": "a305cb8f6143170c6c0cf2a1b284043525426242888800ab36d27d1c5433245f"
+   },
+   "E extless --help": {
+    "rc": 0,
+    "out_b": 14305,
+    "out_sha": "a305cb8f6143170c6c0cf2a1b284043525426242888800ab36d27d1c5433245f"
+   },
+   "P cmd --help": {
+    "rc": 0,
+    "out_b": 14305,
+    "out_sha": "a305cb8f6143170c6c0cf2a1b284043525426242888800ab36d27d1c5433245f"
+   }
+  },
+  "status_probe": {
+   "A product status": {
+    "rc": 0,
+    "out_b": 741,
+    "out_sha": "13a52c0e997d8ae91bdc044831ad92e6f27d4fb89cad48a274e115125fc11dd2"
+   },
+   "B recovery status": {
+    "rc": 0,
+    "out_b": 741,
+    "out_sha": "dc948e1d3ce3c60c64122ec2ff809c62b994d8d9cd0ede78e611af2bdf22fa65"
+   }
+  },
+  "note": "version and status are byte-identical across all four entries; --help differs (14229 B product vs 14305 B recovery): same CLI surface, different build strings"
+ },
+ "e_runtime_identity": {
+  "product": {
+   "interpreter": "cpython-3.11.17 (.hermes-runtime)",
+   "entry": "...\\hermes-agent\\venv\\Scripts\\hermes.cmd"
+  },
+  "recovery": {
+   "interpreter": "C:\\Users\\user\\AppData\\Local\\hermes\\tools\\python-3.14.9+202****1021-win32-x64\\python.exe",
+   "sys_path0": "D:\\Hermes-Recovery\\h22",
+   "module": "hermes_cli.main",
+   "isolated": true
+  },
+  "both_serve_identical_cli": true
+ },
+ "checks": {
+  "negative_control_failing_named": true,
+  "repair_postconditions_all_true": true,
+  "entry_equivalence_proven": true,
+  "recovery_serves_import_heavy_command": true,
+  "permit_signature_verifies": true,
+  "no_path_or_registry_edit": true,
+  "backup_present": true
+ },
+ "verdict": "LOCAL_PASS_PENDING_INDEPENDENT_RESIT",
+ "verdict_why": "The PATH entry and the entry under test are now the same object and answer byte-identically (178 B version, 741 B status, rc=0). The earlier 'recovery entry fails' observation decomposes into (i) a stale hand-written shim with a named import error, retired here under a signed HOST_OPERATIONS permit, and (ii) provider absence in the clean-env probe, a configuration fact and not a path/ABI failure. The ten openai modules at or past 260 characters remain a latent condition in the product install and were NOT the observed cause.",
+ "claim_ceiling": "AUTHOR_SIDE_LOCAL — an independent AO must re-sit clause 2 before any WP-12 acceptance",
+ "next": "AO clause-2 re-sit by a different principal, read-only, against these raw files"
+}

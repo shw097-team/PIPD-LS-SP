@@ -1,0 +1,85 @@
+{
+ "schema": "FHS.R21.S6.A2_CASES/1",
+ "generated_utc": "2026-11-01T07:44:05Z",
+ "edge": "EDGE-WO-B1-A2",
+ "pd": "PD-02",
+ "domain": "ISSUER_SUBJECT",
+ "tool": {
+  "path": "HG-KSEOS/scripts/issue_grant.py",
+  "sha256": "08d6e985d46facfb75fce0b56b6b5884975d22ab25d28632a3b964700acb9e77"
+ },
+ "nonce": "A2-POS-1793519044",
+ "cases": {
+  "TQ-B1-A2-POS": {
+   "claim": "signed grant with exact subject/scope/candidate is accepted",
+   "issue": {
+    "cmd": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\\issue_grant.py issue --principal owner --operation install_occupant --writeset C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s6\\a2_writeset.json --ttl 600 --epoch 40 --scope EDGE-WO-B1-A2 subject/scope/nonce probe --nonce A2-POS-1793519044 --subject WP-FHS-13 --out C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s6\\grant_a2_pos.json --candidate-sha b1b45ab9568c19101c4ab9d586c53af403dd5bdabbbf4c3cf15a7671e129bd82",
+    "rc": 0,
+    "stdout_sha": "5aa7c61dd73fcd1dfe6ace1a611dcee502f88c773c260d5ac9f6b7414bf23e29",
+    "stderr_tail": "",
+    "out_exists": true,
+    "grant_sha": "fb21e2b9d93cc702aefe7c31e4ffb156203f0ef96648ae6bd462fcf99fb3a353"
+   },
+   "verify": {
+    "cmd": "issue_grant.py verify --grant grant_a2_pos.json",
+    "rc": 0,
+    "stdout": "{\"grant\": \"C:\\\\Projects\\\\Agent_Workspace\\\\var\\\\FHS-R21-FAR-TT-20261101\\\\s6\\\\grant_a2_pos.json\", \"verdict\": \"GRANT_VALID\", \"problems\": []}",
+    "stdout_sha": "09af1e37a54b4d3d9bbc1beeba26476823051a51c7f4df447d510cbc245df1c0"
+   },
+   "verdict": "PASS"
+  },
+  "TQ-B1-A2-NEG_replay": {
+   "claim": "a replayed nonce must be refused (PERMIT_SUBJECT_NONCE_REPLAY)",
+   "issue": {
+    "cmd": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\\issue_grant.py issue --principal owner --operation install_occupant --writeset C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s6\\a2_writeset.json --ttl 600 --epoch 40 --scope EDGE-WO-B1-A2 subject/scope/nonce probe --nonce A2-POS-1793519044 --subject WP-FHS-13 --out C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s6\\grant_a2_replay.json --candidate-sha b1b45ab9568c19101c4ab9d586c53af403dd5bdabbbf4c3cf15a7671e129bd82",
+    "rc": 0,
+    "stdout_sha": "3e95d163911fbf094f38a0e7049a491aaa7d8125f4d8687bbbadd001aeefab41",
+    "stderr_tail": "",
+    "out_exists": true,
+    "grant_sha": "fb21e2b9d93cc702aefe7c31e4ffb156203f0ef96648ae6bd462fcf99fb3a353"
+   },
+   "verify": {
+    "cmd": "issue_grant.py verify --grant grant_a2_replay.json",
+    "rc": 0,
+    "stdout": "{\"grant\": \"C:\\\\Projects\\\\Agent_Workspace\\\\var\\\\FHS-R21-FAR-TT-20261101\\\\s6\\\\grant_a2_replay.json\", \"verdict\": \"GRANT_VALID\", \"problems\": []}",
+    "stdout_sha": "8f0f6cd65048ce86225246e1d51ed03d1437b6aaf2452489cafd468b37cb4cfd"
+   },
+   "verdict": "FAIL_REPLAY_ACCEPTED"
+  },
+  "TQ-B1-A2-NEG_signature": {
+   "claim": "a tampered signature is refused",
+   "verify": {
+    "cmd": "issue_grant.py verify --grant grant_a2_tampered.json",
+    "rc": 3,
+    "stdout": "{\"grant\": \"C:\\\\Projects\\\\Agent_Workspace\\\\var\\\\FHS-R21-FAR-TT-20261101\\\\s6\\\\grant_a2_tampered.json\", \"verdict\": \"GRANT_REFUSED\", \"problems\": [\"GRANT_SIGNATURE_INVALID\"]}",
+    "stdout_sha": "a50651194cf39b965dd55fd128d9e1057c69712ebe5c1f80e33564a31b17dfd6"
+   },
+   "verdict": "PASS"
+  },
+  "TQ-B1-A2-NEG_ttl": {
+   "claim": "an expired grant is refused",
+   "issue": {
+    "cmd": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\\issue_grant.py issue --principal owner --operation install_occupant --writeset C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s6\\a2_writeset.json --ttl -5 --epoch 40 --scope EDGE-WO-B1-A2 subject/scope/nonce probe --nonce A2-EXP-1793519044 --subject WP-FHS-13 --out C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s6\\grant_a2_expired.json --candidate-sha b1b45ab9568c19101c4ab9d586c53af403dd5bdabbbf4c3cf15a7671e129bd82",
+    "rc": 0,
+    "stdout_sha": "a3667c0f0fff6b90c48b327c7fef3f71dc2ecf9547d3a0169bd13a74538b26f1",
+    "stderr_tail": "",
+    "out_exists": true,
+    "grant_sha": "3d1bcf802b56b213a4042e004c119535e3f0f000de4f788c710ca25f192528c5"
+   },
+   "verify": {
+    "cmd": "issue_grant.py verify --grant grant_a2_expired.json",
+    "rc": 3,
+    "stdout": "{\"grant\": \"C:\\\\Projects\\\\Agent_Workspace\\\\var\\\\FHS-R21-FAR-TT-20261101\\\\s6\\\\grant_a2_expired.json\", \"verdict\": \"GRANT_REFUSED\", \"problems\": [\"GRANT_EXPIRED\"]}",
+    "stdout_sha": "a14e7de0c2f67c33aace2e67a2c86ad1fc2a4ac333a02e594de69fd84be247d4"
+   },
+   "verdict": "PASS"
+  }
+ },
+ "summary": {
+  "TQ-B1-A2-POS": "PASS",
+  "TQ-B1-A2-NEG_replay": "FAIL_REPLAY_ACCEPTED",
+  "TQ-B1-A2-NEG_signature": "PASS",
+  "TQ-B1-A2-NEG_ttl": "PASS"
+ },
+ "finding": "cmd_issue appends to config/issuer/nonce-ledger.jsonl without checking it, so the same nonce mints a second grant that verify() accepts: TQ-B1-A2-NEG_replay fails against the body's own NEG."
+}

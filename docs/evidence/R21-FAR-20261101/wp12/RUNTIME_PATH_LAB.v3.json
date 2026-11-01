@@ -1,0 +1,65 @@
+{
+ "schema": "HGK-WP12-RUNTIME-PATH-LAB/3",
+ "supersedes": [
+  "RUNTIME_PATH_LAB.json (v1)",
+  "RUNTIME_PATH_LAB.v2.json (two hardcoded checks)"
+ ],
+ "measured_at": "2026-11-01T06:24:27Z",
+ "independent_resit": {
+  "by": "deleg_70888a64 (separate read-only AO subagent, distinct principal)",
+  "verdict": "PARTIAL",
+  "high_findings_absorbed": [
+   "WP12-RS-06 status sha not an identity oracle / not identical in a clean env",
+   "WP12-RS-07 product venv entry pins HERMES_HOME, so 'four identical' is env-conditional",
+   "WP12-RS-08 --version gains a 22-byte suffix when git is on PATH"
+  ],
+  "medium_absorbed": [
+   "WP12-RS-09 two v2 checks were hardcoded True",
+   "WP12-RS-11 v1 lab ran in a contaminated PATH"
+  ],
+  "reproduced_by_ao": [
+   "WP12-RS-01/02 (preimage fails 3/3 with the named import errors)",
+   "WP12-RS-03 (postimage recomputed byte-identical)",
+   "WP12-RS-04 (permit signature valid over the canonical body)",
+   "WP12-RS-10 (v1 controls mislabelled)",
+   "WP12-RS-12 (PATH entry == entry under test in a user-PATH shell)"
+  ]
+ },
+ "verdict": "PASS_AT_NARROWED_CEILING",
+ "claim_ceiling": "PATH_ENTRY_EQUIVALENCE_VERSION_AND_DISPATCH + HOST_INSTALL_OF_ONE_FORWARDER",
+ "checks": {
+  "preimage_negative_control_named": true,
+  "preimage_second_failure_named": true,
+  "preimage_rc_one_and_empty_stdout": true,
+  "postimage_recomputed_from_source_matches_disk": true,
+  "backup_equals_preimage_live": true,
+  "postimage_sha_matches_receipt_live": true,
+  "path_entry_equals_entry_under_test": true,
+  "extless_equals_exe": true,
+  "four_entries_identical_in_clean_env": false,
+  "four_entries_identical_only_when_HERMES_HOME_pinned": true,
+  "version_bytes_are_git_conditional": true,
+  "v1_controls_were_mislabelled": true
+ },
+ "checks_note": "every entry above is computed from ENTRY_EQUIVALENCE_MATRIX.json, the repair receipts, or a live sha256 of the target/backup; none is a literal",
+ "not_proven": [
+  "no PATH or registry value was edited: registry values carry no mtime and no pre-change export exists",
+  "no collateral change outside D:\\Hermes-Recovery\\live22 and the hermes-agent tree (no whole-host baseline)",
+  "signing-key provenance/enrolment (the signature verifies over the recorded key; who holds the private key was not examined)",
+  "cmd.exe quoting behaviour of %* for arguments needing redirection/quoting (only 4 probes exercised)",
+  "any functional model turn through the repaired entry (read-only lane, no provider call)"
+ ],
+ "narrowed_claims": {
+  "survives": [
+   "the PATH entry (D:\\Hermes-Recovery\\live22\\bin\\hermes.cmd) and the entry under test are the same object: byte-identical stdout and rc on --version, status and --print-runtime-command in all 12 env combinations measured",
+   "the stale forwarder's failure is deterministic and named, reproducible from the retained backup (AO reproduced 3/3 from a scratch copy)",
+   "the single-file write was permitted, is reversible (byte-identical backup) and its postimage is recomputed byte-identical from the source shim"
+  ],
+  "retired": [
+   "'all four entries are byte-identical' - false in a clean env (A serves status 741 B vs 658 B) because the product venv forwarder pins HERMES_HOME",
+   "'status ... 741 B same sha' - status output tracks live gateway/job state and is not a durable identity oracle"
+  ]
+ },
+ "matrix_file": "var/FHS-R21-FAR-TT-20261101/wp12/ENTRY_EQUIVALENCE_MATRIX.json",
+ "next": "WP-FHS-12 can move from FAIL only at this narrowed ceiling; a native PASS would need the functional turn and the registry baseline, neither available read-only"
+}

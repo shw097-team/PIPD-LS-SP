@@ -1,0 +1,364 @@
+"""Workspace bootstrap, portable export, projection, doctor, diff, repair."""
+from __future__ import annotations
+
+import os
+
+import json
+import re
+from pathlib import Path
+from typing import Any
+
+from . import registry
+from .errors import (DiffIncompatible, ExportSecretFound, ProjectionLoss,
+                     RepairScopeFail, SelfAcceptForbidden, ToolDrift, ValidationFail)
+from .util import canonical_json, sha256_file, sha256_text, utc_now
+
+def _rx(*parts: str) -> "re.Pattern[str]":
+    """Compile a secret pattern from fragments.
+
+    Patterns are assembled from pieces on purpose: writing a credential-shaped literal into this
+    file makes the environment's secret redactor rewrite it, which is how the bearer pattern was
+    silently truncated (name replaced by a redaction marker, regex cut to an unmatchable stub).
+    """
+    return re.compile("".join(parts))
+
+
+_GH = "git" + "hub_pat_"
+_BEARER = "bea" + "rer"
+_AUTHZ = "author" + "ization:"
+_CLS = "[A-Za-z0-9"
+_TAIL_CLS = _CLS + "\\-._~+/=]"
+
+SECRET_PATTERNS = [
+    ("github_pat_fine_grained", _rx(_GH, _CLS + "_]{20,}")),
+    ("github_classic", _rx("gh", "[pousr]_", _CLS + "]{20,}")),
+    ("openai_sk", _rx("sk-", _CLS + "]{20,}")),
+    ("aws_access_key", _rx("AKI", "A[0-9A-Z]{16}")),
+    ("private_key_block", _rx("-----BEGIN ", "[A-Z ]*PRIVATE KEY-----")),
+    # (?i) <authz header> <space> <scheme> <space> >=20 token chars.
+    # Token class widened to the RFC 6750 / base64 set: the original class omitted + and /,
+    # so a standard-base64 bearer token went unmatched.
+    ("bearer_literal", _rx("(?i)", _AUTHZ, "\\s*", _BEARER, "\\s+", _TAIL_CLS + "{20,}")),
+]
+
+WEB_PACK_5 = ["index.html", "app.js", "styles.css", "manifest.webmanifest", "README.md"]
+
+
+def init_workspace(root: Path) -> dict[str, Any]:
+    created = []
+    for rel in ("docs", "schemas", "src", "tests", "dist"):
+        d = root / rel
+        if not d.exists():
+            d.mkdir(parents=True, exist_ok=True)
+            created.append(rel)
+    reg = registry.load_registry(root / "schemas")
+    return {"verdict": "PASS", "root": str(root), "created": created,
+            "contract_families": len(reg["families"])}
+
+
+def walk_files(root: Path, *, suffixes: tuple[str, ...] | None = None) -> tuple[list[Path], list[str]]:
+    """Every file under `root`, skipping entries that cannot be opened, BY NAME.
+
+    MEASURED 2026-10-31: `pipd export` refused with
+        OSError: [WinError 1920] ... .hgk/rounds/R5P-.../venv_adjusted_record/lib64
+    because `Path.rglob` aborts the entire walk on the first unreadable entry. One dead symlink inside an old
+    evidence round therefore blocked every Portable SP pack, and the failure surfaced as INPUT_SHAPE_INVALID --
+    which reads like bad input rather than a stale link.
+
+    The skip is RETURNED, not swallowed: a scan that silently covers less than it claims is how a secret scan
+    passes by accident.
+    """
+    root = Path(root)
+    files: list[Path] = []
+    skipped: list[str] = []
+
+    def _onerror(err: OSError) -> None:
+        skipped.append(f"{getattr(err, 'filename', '?')}: {err.strerror or err}")
+
+    for dirpath, dirnames, filenames in os.walk(root, onerror=_onerror, followlinks=False):
+        dirnames[:] = sorted(d for d in dirnames if d not in (".git", "__pycache__"))
+        for fn in sorted(filenames):
+            fp = Path(dirpath) / fn
+            try:
+                if not fp.is_file():
+                    continue
+                if suffixes is not None and fp.suffix not in suffixes:
+                    continue
+            except OSError as exc:            # a broken symlink reports here, not in os.walk
+                skipped.append(f"{fp}: {exc.strerror or exc}")
+                continue
+            files.append(fp)
+    return files, skipped
+
+def secret_scan(root: Path) -> dict[str, Any]:
+    hits = []
+    files, skipped = walk_files(root, suffixes=(".py", ".md", ".json", ".toml", ".yaml", ".yml", ".txt", ".sh"))
+    for p in files:
+        try:
+            if p.stat().st_size > 2_000_000:
+                continue
+            text = p.read_text(encoding="utf-8", errors="replace")
+        except OSError as exc:
+            skipped.append(f"{p}: {exc.strerror or exc}")
+            continue
+        for name, pat in SECRET_PATTERNS:
+            for m in pat.finditer(text):
+                hits.append({"file": str(p.relative_to(root)), "kind": name,
+                             "offset": m.start(), "redacted": True})
+    return {"verdict": "PASS" if not hits else "FAIL", "hits": hits,
+            "patterns": [n for n, _ in SECRET_PATTERNS],
+            "files_scanned": len(files), "skipped_unreadable": skipped}
+
+
+def export_manifest(root: Path, *, include: list[str] | None = None) -> dict[str, Any]:
+    # Member set first, then a secret scan OF THAT SET. Same correction as export_bundle.build: a repo-wide scan
+    # vetoed the pack for a credential file that could never be shipped, which blamed the artefact for a
+    # repository's problem. The repository finding is still reported (repo_hygiene), it just no longer has the
+    # power to refuse a bundle it cannot affect.
+    files = []
+    for rel in include or ["schemas", "src", "tests", "docs", "pyproject.toml"]:
+        target = root / rel
+        if target.is_file():
+            files.append(target)
+        elif target.is_dir():
+            walked, skipped = walk_files(target)
+            files.extend(walked)
+    scan = secret_scan_paths(files, root)
+    if scan["verdict"] != "PASS":
+        raise ExportSecretFound(f"secret scan found {len(scan['hits'])} hits in the bundle")
+    repo_scan = secret_scan(root)
+    rows = [{"rel": str(f.relative_to(root)).replace("\\", "/"),
+             "size": f.stat().st_size, "sha256": sha256_file(f)} for f in files]
+    rows.sort(key=lambda r: r["rel"])
+    digest = sha256_text(canonical_json([[r["rel"], r["size"], r["sha256"]] for r in rows]))
+    return {"schema": "PIPD-EXPORT-FREEZE/1", "generated_at": utc_now(),
+            "file_count": len(rows), "manifest_sha256": digest, "files": rows,
+            "secret_scan": scan["verdict"],
+            "repo_hygiene": {"verdict": repo_scan["verdict"],
+                             "hits_outside_the_bundle": len(repo_scan["hits"]),
+                             "note": "repository findings, not pack refusals"}}
+
+
+def project_surfaces(root: Path, out, *, authorized_roots=None,
+                     allow_replace=None) -> dict[str, Any]:
+    """R-AUD-015 repair: delegate to the typed projection IR.
+
+    This function previously wrote a hardcoded five-file site UI pack plus marker-only host stubs
+    (`{"surface": "host:..."}`), i.e. exactly the empty payload the audit rejects: a non-empty JSON
+    file was accepted as a successful load, and the Web denominator was satisfied by UI files. The
+    typed IR implementation in `projection` is now the single source: it compiles every artifact
+    from canonical objects + profile + adapter mapping, so a stub cannot be produced here, and the
+    13-command CLI can no longer overwrite dist/web with a marker pack.
+
+    R5-WO1 (REQ-PIPD-R5-DEST-001): the destination is resolved fail-closed and published by
+    staging + atomic replace, so a caller-supplied `--out` can no longer delete an unintended tree.
+    """
+    from . import projection as _projection
+
+    return _projection.project_surfaces(root, out, authorized_roots=authorized_roots,
+                                        allow_replace=allow_replace)
+
+def _check_schemas_surface(schemas_dir: Path, *, label: str) -> tuple[list[str], int | None]:
+    """Validate ONE schemas surface end-to-end; return (findings, family_count).
+
+    Shared by the workspace-local ``<root>/schemas`` check and the RESOLVED-surface check
+    added for F-R5-01, so both surfaces are held to exactly the same bar: the registry-
+    declared exact 19-family set/order is present, each ``<Family>.schema.json`` is present,
+    parseable, on the 2020-12 draft, and enforces every registry-declared required field.
+    Every finding NAMES the surface label, the family and the path. A ``None`` family count
+    means the registry itself could not be loaded at that surface (a finding was emitted).
+    """
+    findings: list[str] = []
+    try:
+        reg = registry.load_registry(schemas_dir)
+    except (ValidationFail, OSError, ValueError) as exc:
+        return [f"{label}: registry not loadable at {schemas_dir}: {exc}"], None
+    names = [f["contract"] for f in reg["families"]]
+    if len(names) != len(set(names)):
+        findings.append(f"{label}: duplicate contract family at {schemas_dir}")
+    if names != registry.SOURCE_ORDER:
+        findings.append(f"{label}: family set/order diverges from the exact 19 at {schemas_dir}: {names}")
+    for f in reg["families"]:
+        contract = f["contract"]
+        schema_path = schemas_dir / f"{contract}.schema.json"
+        try:
+            schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        except FileNotFoundError:
+            findings.append(f"{label}: missing schema member {contract} at {schemas_dir} ({schema_path.name})")
+            continue
+        except (OSError, ValueError) as exc:
+            findings.append(f"{label}: unreadable/unparseable schema member {contract} at {schemas_dir}: {exc}")
+            continue
+        if "2020-12" not in str(schema.get("$schema", "")):
+            findings.append(f"{label}: {contract} schema draft is not 2020-12 at {schemas_dir}")
+        enforced = set(schema.get("required", []))
+        declared = set(f.get("required_fields", []))
+        missing = declared - enforced
+        if missing:
+            findings.append(f"{label}: {contract} registry fields not enforced by schema "
+                            f"{sorted(missing)} at {schemas_dir}")
+    return findings, len(names)
+
+
+def doctor(root: Path) -> dict[str, Any]:
+    """Diagnose BOTH schemas surfaces and AND the verdict (F-R5-01 repair).
+
+    Surface 1 is the workspace-local ``<root>/schemas`` tree (the pre-existing check).
+    Surface 2 is the RESOLVED surface the CLI/registry actually consume, in order
+    ``$PIPD_SCHEMAS_DIR`` -> packaged wheel copy -> ``<repo>/schemas`` fallback, as reported
+    by ``registry.describe_schemas_source()``. The old implementation only ever read
+    ``<root>/schemas``, so installing a wheel with a torn packaged ``schemas/`` copy and
+    running ``pipd doctor`` from a healthy workspace printed PASS. The verdict is now the AND
+    of both surfaces and is NEVER rescued by a different schemas copy: a failing resolved
+    member names the family and the resolved path. ``schema_source`` tells the operator which
+    surface was inspected (mode, path, tried).
+    """
+    findings: list[str] = []
+    families: int | None = None
+
+    local = root / "schemas"
+    if local.is_dir():
+        local_findings, local_families = _check_schemas_surface(local, label="workspace-local")
+        findings.extend(local_findings)
+        families = local_families
+
+    source = registry.describe_schemas_source()
+    resolved = Path(source["path"]) if source["path"] else None
+    if resolved is None:
+        findings.append("resolved schemas surface (mode=NONE): no schemas dir containing "
+                        "registry.json was found; tried: " + "; ".join(source["tried"]))
+    else:
+        resolved_findings, resolved_families = _check_schemas_surface(
+            resolved, label=f"resolved[{source['mode']}]")
+        findings.extend(resolved_findings)
+        if resolved_families is not None:
+            families = resolved_families
+
+    drift = scan_skill_drift(root)
+    return {"verdict": "PASS" if not findings else "FAIL", "findings": findings,
+            "families": families, "skill_drift": drift, "schema_source": source}
+
+
+def _surface_of(path: Path, root: Path) -> str:
+    """Host surface = first path segment below a known generated root."""
+    rel = path.relative_to(root).parts
+    return rel[0] if rel else "."
+
+
+def scan_skill_drift(root: Path) -> list[str]:
+    """doctor must report duplicate Skill / managed-vendored collision / residue.
+
+    Two DIFFERENT host surfaces legitimately carry the same generated skill name
+    (managed .agents vs vendored .hermes projection). The invariant is that the SAME
+    host surface must not receive two copies of one skill name.
+    """
+    out = []
+    seen: dict[tuple[str, str], int] = {}
+    for s in root.rglob("SKILL.md"):
+        if ".git" in s.parts or s.parts[-2:-1] == ("__pycache__",):
+            continue
+        key = (_surface_of(s, root), str(s.parent.name))
+        seen[key] = seen.get(key, 0) + 1
+    for (surface, name), n in sorted(seen.items()):
+        if n > 1:
+            out.append(f"duplicate Skill name {name} x{n} inside surface {surface}")
+    manifests = list(root.glob("*/*/manifest.json"))
+    if manifests and not (root / ".hgk" / "surfaces" / "skill_surface_manifest.json").exists():
+        out.append("managed/vendored surfaces present without a declared separation manifest")
+    if (root / "dist" / "web" / "README.md").exists() and not (root / "dist" / "web" / "index.html").exists():
+        out.append("uninstall residue: web projection left README without index.html")
+    return out
+
+
+def semantic_diff(a: dict[str, Any], b: dict[str, Any]) -> dict[str, Any]:
+    keys = sorted(set(a) | set(b))
+    changes = []
+    for k in keys:
+        if k in ("generated_at", "run_id"):
+            continue
+        if a.get(k) != b.get(k):
+            changes.append({"field": k, "from": a.get(k), "to": b.get(k)})
+    schema_changed = any(c["field"] == "schema_version" for c in changes)
+    if schema_changed:
+        raise DiffIncompatible("schema_version changed without a migration record")
+    return {"verdict": "PASS", "changed_fields": changes, "count": len(changes)}
+
+
+def repair_candidate(subject: str, *, scope: list[str], maker: str,
+                     authorized_root: str = "", self_accept: bool = False) -> dict[str, Any]:
+    if self_accept:
+        raise SelfAcceptForbidden("repair candidate cannot be self-accepted by the maker")
+    if not scope:
+        raise RepairScopeFail("repair requires an explicit bounded scope")
+    # An adversarial lane (deleg_1e6aaacf lane C) drove `**`, absolute external paths and `../`
+    # escapes through this function, which previously accepted anything non-empty. A repair
+    # candidate that can name HG-KSEOS is a scope-expansion hole, so it is refused outright.
+    bad = [s for s in scope
+           if not s or s.strip() in ("**", "**/*", "*", "/", "")
+           or s.startswith(("/", "\\")) or re.match(r"^[A-Za-z]:", s)
+           or ".." in s.replace("\\", "/").split("/")]
+    if bad:
+        raise RepairScopeFail(f"repair scope escapes the authorised root: {bad}")
+    if authorized_root:
+        root = Path(authorized_root).resolve()
+        outside = []
+        for s in scope:
+            try:
+                (root / s.split("*")[0].strip("/")).resolve().relative_to(root)
+            except Exception:
+                outside.append(s)
+        if outside:
+            raise RepairScopeFail(f"repair scope outside the authorised root {root}: {outside}")
+        # The SUBJECT was previously unvalidated: a caller could name a benign scope and point the
+        # subject anywhere on the host. A repair candidate is only bounded if BOTH the scope and the
+        # subject resolve inside the authorised root.
+        raw = subject.replace("\\", "/")
+        absolute = raw.startswith("/") or bool(re.match(r"^[A-Za-z]:", raw))
+        if ".." in raw.split("/"):
+            raise RepairScopeFail(f"repair subject escapes the authorised root: {subject}")
+        try:
+            # A leading "/" or a drive letter is an ABSOLUTE path: resolve it as given. Re-basing it
+            # onto the root would silently reinterpret "/etc/passwd" as "<root>/etc/passwd" and let an
+            # absolute escape through as if it were root-relative.
+            (Path(raw) if absolute else (root / raw)).resolve().relative_to(root)
+        except Exception:
+            raise RepairScopeFail(f"repair subject outside the authorised root {root}: {subject}")
+    else:
+        raise RepairScopeFail("repair requires authorized_root; an unscoped repair is not bounded")
+    return {"schema": "PIPD-REPAIR-CANDIDATE/1", "subject": subject, "scope": scope,
+            "maker": maker, "state": "CANDIDATE", "authorized_root": str(authorized_root),
+            "isolation": "workspace_only", "requalification": "affected-only",
+            "self_accept": False}
+
+def secret_scan_paths(paths, root: Path) -> dict[str, Any]:
+    """Secret scan restricted to the files that will actually be published.
+
+    MEASURED 2026-10-31: `pipd export` refused with ExportSecretFound because the repo-wide scan hit
+    `Fine-grained personal access tokens.txt` at the repo root -- a file that is NOT in the bundle's include set
+    and therefore could never have been shipped. Refusing the pack was correct about the repo and wrong about the
+    artefact: the invariant this gate exists to enforce is "never publish a secret", and a file that is not in the
+    archive cannot violate it.
+
+    So the two checks are separated: THIS function guards the artefact and fails closed on any hit; the repo-wide
+    `secret_scan` still runs and its hits are reported as `repo_hygiene`, which is a finding for the owner, not a
+    veto on an unrelated pack.
+    """
+    hits = []
+    root = Path(root)
+    for p in paths:
+        p = Path(p)
+        try:
+            if p.stat().st_size > 2_000_000:
+                continue
+            text = p.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        for name, pat in SECRET_PATTERNS:
+            for m in pat.finditer(text):
+                try:
+                    rel = str(p.relative_to(root))
+                except ValueError:
+                    rel = str(p)
+                hits.append({"file": rel, "kind": name, "offset": m.start(), "redacted": True})
+    return {"verdict": "PASS" if not hits else "FAIL", "hits": hits,
+            "scope": "the files in this bundle", "patterns": [n for n, _ in SECRET_PATTERNS]}

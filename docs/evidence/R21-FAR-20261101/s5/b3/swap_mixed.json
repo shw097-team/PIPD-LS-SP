@@ -1,0 +1,54 @@
+{
+ "schema": "PIPD-HOTSWAP-RECEIPT/1",
+ "root": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\b3\\fixture_mixed",
+ "entry": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\b3\\fixture_mixed\\occupant.py",
+ "candidate": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\b3\\fixture_mixed\\candidate.py",
+ "started_at": "2026-11-01T15:56:47+0800",
+ "steps": [],
+ "preimage": {
+  "files": 2,
+  "digest": "265452ebefd4474199dc256113052f1b658226ba0101e225ab6084f16838031a"
+ },
+ "before": {
+  "identity": "cap-attest-v1",
+  "served": true,
+  "via": "abi-consumer",
+  "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\b3\\fixture_mixed\\occupant.py",
+  "code": null
+ },
+ "candidate_sha256": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+ "grant": {
+  "path": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\b3\\grant_ops.json",
+  "sha256": "7b12902d648cf312ba9e0d6b7019ce6445e5e1c1c5e9f82e09dc27f84cd67c24",
+  "nonce": "B3-OPS-1793519806",
+  "issued_at": 1793519807,
+  "expires_at": 1793520707,
+  "subject": "WP-FHS-13",
+  "operation": "host_operation",
+  "scope": "EDGE-WO-B1-B3-DEV host_operation",
+  "policy_epoch": "40",
+  "issuer_verifier_exit": 0,
+  "issuer_verifier": {
+   "grant": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\b3\\grant_ops.json",
+   "verdict": "GRANT_VALID",
+   "problems": []
+  },
+  "issued_before_effect": true,
+  "writeset_paths": [
+   "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\s5\\b3\\fixture_pos\\candidate.py",
+   "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\s5\\b3\\fixture_pos\\occupant.py"
+  ],
+  "covers_entry": false,
+  "covers_candidate": false,
+  "candidate_sha_named": null,
+  "candidate_sha_matches": true,
+  "problems": [
+   "GRANT_WRITESET_EXCLUDES_TARGET",
+   "GRANT_WRITESET_EXCLUDES_CANDIDATE"
+  ]
+ },
+ "code": "ERR_GRANT_NOT_BOUND",
+ "ok": false,
+ "why": "the grant does not cover this swap: ['GRANT_WRITESET_EXCLUDES_TARGET', 'GRANT_WRITESET_EXCLUDES_CANDIDATE']; nothing moved",
+ "finished_at": "2026-11-01T15:56:47+0800"
+}

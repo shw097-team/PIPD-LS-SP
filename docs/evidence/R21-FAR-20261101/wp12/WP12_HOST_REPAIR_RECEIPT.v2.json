@@ -1,0 +1,115 @@
+{
+ "schema": "FHS.WP12.HOST_REPAIR_RECEIPT/2",
+ "supersedes": "WP12_HOST_REPAIR_RECEIPT.json",
+ "generated_utc": "2026-11-01T06:01:21Z",
+ "why_v2": "v1 compared the version stdout against a 16-hex truncated constant (8b67e84be4f9de55) and therefore reported version_stdout_matches_product=false. That constant was wrong, not the repair: the four entries are byte-identical on the full sha. Corrected here against an independent measurement (ENTRY_EQUIVALENCE_AFTER_REPAIR.json), with the v1 value left untouched for audit.",
+ "target": "D:\\Hermes-Recovery\\live22\\bin\\hermes.cmd",
+ "preimage_sha256": "a9d680b00f163669b7edd9c002df6eda8e34267d6765249fc0b031ce610a487c",
+ "preimage_bytes": 1550,
+ "postimage_sha256": "d5c83a8f469ba1d55ddeb9859ba6f6394b6c22288bebe9a7688e4d629495d68b",
+ "backup": "D:\\Hermes-Recovery\\live22\\bin\\hermes.cmd.wp12-backup",
+ "backup_sha256": "a9d680b00f163669b7edd9c002df6eda8e34267d6765249fc0b031ce610a487c",
+ "backup_is_preimage": true,
+ "negative_control": [
+  {
+   "cmd": [
+    "D:\\Hermes-Recovery\\live22\\bin\\hermes.cmd",
+    "--version"
+   ],
+   "rc": 1,
+   "ms": 404.2,
+   "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stdout_bytes": 0,
+   "stderr_sha256": "51fdc4401a5c6048391fe667297e2fece4125d75efeeb87e376f3e0e329b6f97",
+   "stderr_bytes": 3249,
+   "stdout_head": "",
+   "stderr_tail": "ModuleNotFoundError: No module named 'pm.environments'"
+  },
+  {
+   "cmd": [
+    "D:\\Hermes-Recovery\\live22\\bin\\hermes.cmd",
+    "--print-runtime-command"
+   ],
+   "rc": 1,
+   "ms": 391.2,
+   "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stdout_bytes": 0,
+   "stderr_sha256": "c569ee14ef476c8a27f1ecd0f72ecbde38e8aa3285443b5635a34e7e09d2e33e",
+   "stderr_bytes": 3065,
+   "stdout_head": "",
+   "stderr_tail": "ModuleNotFoundError: No module named 'hermes_cli._launchers'"
+  }
+ ],
+ "after_runs": [
+  {
+   "cmd": [
+    "D:\\Hermes-Recovery\\live22\\bin\\hermes.cmd",
+    "--version"
+   ],
+   "rc": 0,
+   "ms": 1189.6,
+   "stdout_sha256": "8b67e84be4f9de555f44fc3713c3b2d11d43fc156c1aece9c86cbd1d2daf5c10",
+   "stdout_bytes": 178,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stderr_bytes": 0,
+   "stdout_head": "Hermes Agent v0.22.5 (2026.9.24) · stable · local bf0203a794a0\r\nInstall directory: D:\\Hermes-Recovery\\h22\r\nInstall method: git\r\nPython: 3.14.9\r\nOpenAI SDK: 2.24",
+   "stderr_tail": ""
+  },
+  {
+   "cmd": [
+    "D:\\Hermes-Recovery\\live22\\bin\\hermes.cmd",
+    "--print-runtime-command"
+   ],
+   "rc": 0,
+   "ms": 164.8,
+   "stdout_sha256": "15a03d986f895b0d31a88fc1ad448986cd8eed9e52ea5b1a34155ca557edc11f",
+   "stdout_bytes": 567,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stderr_bytes": 0,
+   "stdout_head": "[\"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\hermes\\\\tools\\\\python-3.14.9+20261021-win32-x64\\\\python.exe\", \"-I\", \"-c\", \"import os, sys, runpy; os.environ.pop('PYTHONHOME'",
+   "stderr_tail": ""
+  }
+ ],
+ "independent_measurement": {
+  "distinct_stdout_sha256": [
+   "8b67e84be4f9de555f44fc3713c3b2d11d43fc156c1aece9c86cbd1d2daf5c10"
+  ],
+  "all_byte_identical": true,
+  "entries": {
+   "A product venv hermes.cmd": {
+    "rc": 0,
+    "out_b": 178,
+    "out_sha": "8b67e84be4f9de555f44fc3713c3b2d11d43fc156c1aece9c86cbd1d2daf5c10"
+   },
+   "X D: hermes.exe": {
+    "rc": 0,
+    "out_b": 178,
+    "out_sha": "8b67e84be4f9de555f44fc3713c3b2d11d43fc156c1aece9c86cbd1d2daf5c10"
+   },
+   "E D: hermes(extless)": {
+    "rc": 0,
+    "out_b": 178,
+    "out_sha": "8b67e84be4f9de555f44fc3713c3b2d11d43fc156c1aece9c86cbd1d2daf5c10"
+   },
+   "P D: hermes.cmd (repaired)": {
+    "rc": 0,
+    "out_b": 178,
+    "out_sha": "8b67e84be4f9de555f44fc3713c3b2d11d43fc156c1aece9c86cbd1d2daf5c10"
+   },
+   "P --print-runtime-command": {
+    "rc": 0,
+    "out_b": 567,
+    "out_sha": "15a03d986f895b0d31a88fc1ad448986cd8eed9e52ea5b1a34155ca557edc11f"
+   }
+  }
+ },
+ "postconditions": {
+  "version_rc_zero": true,
+  "version_stdout_equals_full_product_sha": true,
+  "print_runtime_command_rc_zero": true,
+  "negative_control_was_failing": true,
+  "backup_is_preimage": true
+ },
+ "claim_ceiling": "HOST_INSTALL_OF_ONE_FORWARDER — not a WP acceptance, not native PASS, not a release",
+ "all_postconditions": true
+}

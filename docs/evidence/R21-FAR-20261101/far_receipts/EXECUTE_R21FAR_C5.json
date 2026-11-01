@@ -1,0 +1,50 @@
+{
+ "schema": "HGK_LANE_RECEIPT/1",
+ "lane": "EXECUTE",
+ "round_id": "R21-FAR-20261101",
+ "dispatch_form": "DIRECT_CODEX_EXEC_SEALED_HOME",
+ "not_a_dispatcher_receipt": true,
+ "why_not_dispatcher": "scripts/hgk-lane-dispatch.py --lane EXECUTE hung past its own --timeout (704 s, no attempt log, no receipt) on two attempts; killed. The direct sealed-home recipe ran the same brief.",
+ "required_arm": "opencode-go/deepseek-v4.1-flash",
+ "served_arm": "opencode-go/deepseek-v4.1-flash",
+ "served_arm_evidence": "run log line 'model: opencode-go/deepseek-v4.1-flash' ('provider: openai' is the sealed home's openai_base_url -> front door 10100)",
+ "identity_source": "codex-run-log",
+ "codex_home": "C:/Users/user/AppData/Local/HG-KSEOS/codex-hermes",
+ "relay": "http://127.0.0.1:10100/v1 (front door, pinned opencode-go/deepseek-v4.1-flash)",
+ "sandbox": "danger-full-access",
+ "nonce": "EXECUTE-R21FAR-1793529500",
+ "nonce_present": true,
+ "exit_code": 0,
+ "used_tokens": 12728,
+ "attempts": [
+  {
+   "n": 1,
+   "sandbox": "workspace-write",
+   "result": "SETUP_REJECTED_READ_ONLY_POLICY",
+   "note": "codex child reported: command rejected before execution by the read-only sandbox policy; no JSON produced"
+  },
+  {
+   "n": 2,
+   "sandbox": "danger-full-access",
+   "result": "RAN",
+   "exit_code": 0
+  }
+ ],
+ "job": "re-run tools/s5_c5_cases.py",
+ "verdicts": {
+  "POS_allowlist_and_rollback": "PASS",
+  "POS_regression_independent": "PASS",
+  "NEG_allowlist_escape": "PASS",
+  "NEG_checker_edits_diff": "DETECTABLE_NOT_PREVENTED"
+ },
+ "c5_json": "var/FHS-R21-FAR-TT-20261101/s5/C5_CASES.json",
+ "c5_json_sha256": "d8130a54e411043b87d59775fa77199b82674fa73e1c48bbbd83f026b251fe2c",
+ "c5_json_sha256_claimed_by_lane": "d8130a54e411043b87d59775fa77199b82674fa73e1c48bbbd83f026b251fe2c",
+ "c5_sha_match": true,
+ "run_log": "var/FHS-R21-FAR-TT-20261101/far/EXECUTE_R21FAR_C5_RUN.log",
+ "run_log_sha256": "b29ffbbf5db94d326aff65eaed5c9023160ae56945b7f28e5e3024c409c3288d",
+ "ceiling": "lane-executed measurement; not an acceptance, not a promotion",
+ "generated_utc": "2026-11-01T10:36:47Z",
+ "ok": true,
+ "ok_means": "the brief ran to completion with exit 0 and emitted the nonce; it does NOT mean the lane gate (dispatcher) passed"
+}

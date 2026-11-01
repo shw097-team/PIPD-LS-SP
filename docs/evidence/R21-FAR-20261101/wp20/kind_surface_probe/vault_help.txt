@@ -1,0 +1,18 @@
+usage: hermes vault [-h] {add,list,rm,sources} ...
+
+Store login credentials in a locally encrypted vault. The agent sees handles
+and login identifiers (metadata); passwords are injected server-side by
+browser_vault on the exact origin they were saved for and never enter the
+conversation.
+
+positional arguments:
+  {add,list,rm,sources}
+    add                 Save a login, card or address ahead of time (optional:
+                        the agent asks you on the page when it needs one)
+    list                List vault items (metadata only, never values)
+    rm                  Remove a vault item by handle
+    sources             Show detected password managers (1Password,
+                        Bitwarden); they are on automatically
+
+options:
+  -h, --help            show this help message and exit

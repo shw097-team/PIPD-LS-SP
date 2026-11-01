@@ -1,0 +1,1264 @@
+{
+ "schema": "FHS.R21.WP20.CELLS_V3/1",
+ "generated_utc": "2026-11-01T07:25:24Z",
+ "supersedes": [
+  "CELL_RESULTS_R21.json",
+  "WP20_CELL_RESULTS_FINAL.json"
+ ],
+ "absorbed_findings": {
+  "F1": "axis bindability measured -> BINDABLE",
+  "F2": "plugin install/remove discrimination replaces home-invariant list sha",
+  "F3": "isolation probed with all six profiles present",
+  "F6": "plugin installed into the cell home, not merely validated from the live install",
+  "F8": "cell_id joined from matrix.json",
+  "F10": "full per-step stdout retained under wp20/stdout/"
+ },
+ "bindability": {
+  "axis_bindable_on_host": false,
+  "probes": {
+   "help_root": {
+    "rc": 0,
+    "out_sha": "c72cb354ff90c30ba34805377ffeca58451f2ec1a435aca730610877fbfb7177",
+    "out_b": 14300,
+    "terms": {
+     "mode": true,
+     "legacy": false,
+     "prew3": false,
+     "swof": false,
+     "standalone": false
+    }
+   },
+   "help_profile_create": {
+    "rc": 0,
+    "out_sha": "fa9c98c9f390108e5456b2fd4cea50b9dcc293bb5d21abd6466a3538c0343b0c",
+    "out_b": 2137,
+    "terms": {
+     "mode": false,
+     "legacy": false,
+     "prew3": false,
+     "swof": false,
+     "standalone": false
+    }
+   },
+   "help_plugins": {
+    "rc": 0,
+    "out_sha": "8063f0eca98aff6708d53073faffe75d064a981938b13b12ebd3bc156cb47875",
+    "out_b": 2002,
+    "terms": {
+     "mode": false,
+     "legacy": false,
+     "prew3": false,
+     "swof": false,
+     "standalone": false
+    }
+   }
+  },
+  "config_yaml_present": false,
+  "verdict": "NOT_BINDABLE_ON_HOST",
+  "meaning": "no help surface on this host names STANDALONE/PREW3_SHADOW/SWOF_CONNECTED or accepts them as a flag choice; the earlier BINDABLE verdict was a substring collision with --model/--safe-mode and is withdrawn",
+  "strict_test": {
+   "help_root": {
+    "sha": "c72cb354ff90c30ba34805377ffeca58451f2ec1a435aca730610877fbfb7177",
+    "axis_words": {
+     "standalone": false,
+     "prew3": false,
+     "swof": false,
+     "legacy": false
+    },
+    "mode_flags": [
+     "--model",
+     "--safe-mode"
+    ],
+    "choice_sets_containing_axis_values": false,
+    "binds_axis": false,
+    "false_positive_note": "previous test matched the substring 'mode' inside --model/--safe-mode"
+   },
+   "help_profile_create": {
+    "sha": "fa9c98c9f390108e5456b2fd4cea50b9dcc293bb5d21abd6466a3538c0343b0c",
+    "axis_words": {
+     "standalone": false,
+     "prew3": false,
+     "swof": false,
+     "legacy": false
+    },
+    "mode_flags": [],
+    "choice_sets_containing_axis_values": false,
+    "binds_axis": false,
+    "false_positive_note": "previous test matched the substring 'mode' inside --model/--safe-mode"
+   },
+   "help_plugins": {
+    "sha": "8063f0eca98aff6708d53073faffe75d064a981938b13b12ebd3bc156cb47875",
+    "axis_words": {
+     "standalone": false,
+     "prew3": false,
+     "swof": false,
+     "legacy": false
+    },
+    "mode_flags": [],
+    "choice_sets_containing_axis_values": false,
+    "binds_axis": false,
+    "false_positive_note": "previous test matched the substring 'mode' inside --model/--safe-mode"
+   }
+  }
+ },
+ "isolation": {
+  "base_profiles_created": [
+   "wp20_prew3__off",
+   "wp20_prew3__on",
+   "wp20_standa_off",
+   "wp20_standa_on",
+   "wp20_swof_c_off",
+   "wp20_swof_c_on"
+  ],
+  "base_list_sha": "3bc52d917cc671127156524ac4d56462f8824a794d52ea9b5c7118cbfb657c2e",
+  "iso_list_sha": "42deb836f3c93a2db7ce466e7e02586825a7b221a3a2cba77a82d608075444ca",
+  "names_visible_in_base": [
+   "wp20_prew3__off",
+   "wp20_prew3__on",
+   "wp20_standa_off",
+   "wp20_standa_on",
+   "wp20_swof_c_off",
+   "wp20_swof_c_on"
+  ],
+  "names_visible_in_iso": [],
+  "leak": [],
+  "leaked_base_profiles": false,
+  "discriminating": true
+ },
+ "plugin_discrimination": {
+  "listed_after_install": true,
+  "absent_after_removal": true,
+  "validate_installed_rc": 1,
+  "validate_broken_rc": 1,
+  "can_discriminate": true
+ },
+ "cells": [
+  {
+   "cell": "PROFILE_STANDALONE_ON",
+   "cell_id_from_matrix": "CELL-f6053f9a9dbf",
+   "kind": "PROFILE",
+   "mode": "STANDALONE",
+   "legacy": "ON",
+   "host": "Hermes Agent",
+   "axis_binding": "NOT_BINDABLE_ON_HOST",
+   "steps": [
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 5033,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_STANDALONE_ON\\list.out",
+     "out_sha": "3bc52d917cc671127156524ac4d56462f8824a794d52ea9b5c7118cbfb657c2e",
+     "out_b": 1020,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "show",
+      "wp20_standa_on"
+     ],
+     "rc": 0,
+     "ms": 3740,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_STANDALONE_ON\\show.out",
+     "out_sha": "2ef794abeb1b4cb55b9c5a497c7c6650b8614e4215bf24ed2ef9abb677432faa",
+     "out_b": 199,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "show",
+      "wp20_does_not_exist"
+     ],
+     "rc": 1,
+     "ms": 3273,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_STANDALONE_ON\\show_missing.out",
+     "out_sha": "0471a59b547885acb96425190cc44e81f0f58663ec15b6d848301242bd5fbb68",
+     "out_b": 54,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "delete",
+      "wp20_standa_on",
+      "-y"
+     ],
+     "rc": 0,
+     "ms": 4301,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_STANDALONE_ON\\delete.out",
+     "out_sha": "f0e55056b564c03719dc79e5698f262547bf21ee5c841e2e8a9dbf333c2881e6",
+     "out_b": 390,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 5539,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_STANDALONE_ON\\list_after.out",
+     "out_sha": "29cf49c412f0c8ff05d4a7acb0f88c80478feb5fe756bc5c13e32028e11113b0",
+     "out_b": 938,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    }
+   ],
+   "pos": true,
+   "neg": true,
+   "all_rc": [
+    0,
+    0,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "cell": "PROFILE_STANDALONE_OFF",
+   "cell_id_from_matrix": "CELL-48759a93f265",
+   "kind": "PROFILE",
+   "mode": "STANDALONE",
+   "legacy": "OFF",
+   "host": "Hermes Agent",
+   "axis_binding": "NOT_BINDABLE_ON_HOST",
+   "steps": [
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 5014,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_STANDALONE_OFF\\list.out",
+     "out_sha": "29cf49c412f0c8ff05d4a7acb0f88c80478feb5fe756bc5c13e32028e11113b0",
+     "out_b": 938,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "show",
+      "wp20_standa_off"
+     ],
+     "rc": 0,
+     "ms": 3411,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_STANDALONE_OFF\\show.out",
+     "out_sha": "a90d407e9a01952001629cbdeaef56faf2ef3dfaf9f9082cc038e97f05747fac",
+     "out_b": 201,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "show",
+      "wp20_does_not_exist"
+     ],
+     "rc": 1,
+     "ms": 3180,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_STANDALONE_OFF\\show_missing.out",
+     "out_sha": "0471a59b547885acb96425190cc44e81f0f58663ec15b6d848301242bd5fbb68",
+     "out_b": 54,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "delete",
+      "wp20_standa_off",
+      "-y"
+     ],
+     "rc": 0,
+     "ms": 3816,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_STANDALONE_OFF\\delete.out",
+     "out_sha": "698fbf8cc684b5f383e9ae466812760ef9db0b7c3e46fdf7af7008860b542199",
+     "out_b": 394,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 5245,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_STANDALONE_OFF\\list_after.out",
+     "out_sha": "faf70d19dde1a1ccaca84e5bc544d1cc4d7443c9b0327ef3eb5c2ea6b81f291a",
+     "out_b": 856,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    }
+   ],
+   "pos": true,
+   "neg": true,
+   "all_rc": [
+    0,
+    0,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "cell": "PROFILE_PREW3_SHADOW_ON",
+   "cell_id_from_matrix": "CELL-e3f461767442",
+   "kind": "PROFILE",
+   "mode": "PREW3_SHADOW",
+   "legacy": "ON",
+   "host": "Hermes Agent",
+   "axis_binding": "NOT_BINDABLE_ON_HOST",
+   "steps": [
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 5197,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_PREW3_SHADOW_ON\\list.out",
+     "out_sha": "faf70d19dde1a1ccaca84e5bc544d1cc4d7443c9b0327ef3eb5c2ea6b81f291a",
+     "out_b": 856,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "show",
+      "wp20_prew3__on"
+     ],
+     "rc": 0,
+     "ms": 3486,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_PREW3_SHADOW_ON\\show.out",
+     "out_sha": "c30e40b98955b284f011d5097671016a2ad6f3329fcde7b1dae70a777d4af7b6",
+     "out_b": 199,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "show",
+      "wp20_does_not_exist"
+     ],
+     "rc": 1,
+     "ms": 3311,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_PREW3_SHADOW_ON\\show_missing.out",
+     "out_sha": "0471a59b547885acb96425190cc44e81f0f58663ec15b6d848301242bd5fbb68",
+     "out_b": 54,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "delete",
+      "wp20_prew3__on",
+      "-y"
+     ],
+     "rc": 0,
+     "ms": 3843,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_PREW3_SHADOW_ON\\delete.out",
+     "out_sha": "3b86fba5429ec971437f09346d6c111f6fc6dd7b577920ed32a65a1b91e195c3",
+     "out_b": 390,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 4721,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_PREW3_SHADOW_ON\\list_after.out",
+     "out_sha": "a7a323ea755da090845b66f43fa13004c55df1b4ff914c276dc991eb51257048",
+     "out_b": 774,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    }
+   ],
+   "pos": true,
+   "neg": true,
+   "all_rc": [
+    0,
+    0,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "cell": "PROFILE_PREW3_SHADOW_OFF",
+   "cell_id_from_matrix": "CELL-491bbc480824",
+   "kind": "PROFILE",
+   "mode": "PREW3_SHADOW",
+   "legacy": "OFF",
+   "host": "Hermes Agent",
+   "axis_binding": "NOT_BINDABLE_ON_HOST",
+   "steps": [
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 4541,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_PREW3_SHADOW_OFF\\list.out",
+     "out_sha": "a7a323ea755da090845b66f43fa13004c55df1b4ff914c276dc991eb51257048",
+     "out_b": 774,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "show",
+      "wp20_prew3__off"
+     ],
+     "rc": 0,
+     "ms": 3404,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_PREW3_SHADOW_OFF\\show.out",
+     "out_sha": "05802ac97fba88ddb442196aaae1a7fb7e966c1f915efe8b357dd87491a20cf8",
+     "out_b": 201,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "show",
+      "wp20_does_not_exist"
+     ],
+     "rc": 1,
+     "ms": 3185,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_PREW3_SHADOW_OFF\\show_missing.out",
+     "out_sha": "0471a59b547885acb96425190cc44e81f0f58663ec15b6d848301242bd5fbb68",
+     "out_b": 54,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "delete",
+      "wp20_prew3__off",
+      "-y"
+     ],
+     "rc": 0,
+     "ms": 3686,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_PREW3_SHADOW_OFF\\delete.out",
+     "out_sha": "421154de1a14ad3ace2750670aa28f02b784dff26c59466f525bd05760909d6e",
+     "out_b": 394,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 4540,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_PREW3_SHADOW_OFF\\list_after.out",
+     "out_sha": "fd4c15b73d8a7711cabc74739e0acd7eb705cd96722dd9a6d24a31f588b5dee6",
+     "out_b": 692,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    }
+   ],
+   "pos": true,
+   "neg": true,
+   "all_rc": [
+    0,
+    0,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "cell": "PROFILE_SWOF_CONNECTED_ON",
+   "cell_id_from_matrix": "CELL-40ec4e4388b4",
+   "kind": "PROFILE",
+   "mode": "SWOF_CONNECTED",
+   "legacy": "ON",
+   "host": "Hermes Agent",
+   "axis_binding": "NOT_BINDABLE_ON_HOST",
+   "steps": [
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 4493,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_SWOF_CONNECTED_ON\\list.out",
+     "out_sha": "fd4c15b73d8a7711cabc74739e0acd7eb705cd96722dd9a6d24a31f588b5dee6",
+     "out_b": 692,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "show",
+      "wp20_swof_c_on"
+     ],
+     "rc": 0,
+     "ms": 3347,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_SWOF_CONNECTED_ON\\show.out",
+     "out_sha": "59d88bb541941ad7bf7c3cea82a34b1ff48374bd815d63ba4e625d6115903b9b",
+     "out_b": 199,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "show",
+      "wp20_does_not_exist"
+     ],
+     "rc": 1,
+     "ms": 3107,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_SWOF_CONNECTED_ON\\show_missing.out",
+     "out_sha": "0471a59b547885acb96425190cc44e81f0f58663ec15b6d848301242bd5fbb68",
+     "out_b": 54,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "delete",
+      "wp20_swof_c_on",
+      "-y"
+     ],
+     "rc": 0,
+     "ms": 3664,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_SWOF_CONNECTED_ON\\delete.out",
+     "out_sha": "b555c9d31c7bc819eaf081297953a0a682b38a60991934c84eed888e9ade4245",
+     "out_b": 390,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 4461,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_SWOF_CONNECTED_ON\\list_after.out",
+     "out_sha": "114cde16952d4e799726c27d820fd4828b046ad38210bdca26db164fdf9eba11",
+     "out_b": 610,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    }
+   ],
+   "pos": true,
+   "neg": true,
+   "all_rc": [
+    0,
+    0,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "cell": "PROFILE_SWOF_CONNECTED_OFF",
+   "cell_id_from_matrix": "CELL-0836e4dc5096",
+   "kind": "PROFILE",
+   "mode": "SWOF_CONNECTED",
+   "legacy": "OFF",
+   "host": "Hermes Agent",
+   "axis_binding": "NOT_BINDABLE_ON_HOST",
+   "steps": [
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 4533,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_SWOF_CONNECTED_OFF\\list.out",
+     "out_sha": "114cde16952d4e799726c27d820fd4828b046ad38210bdca26db164fdf9eba11",
+     "out_b": 610,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "show",
+      "wp20_swof_c_off"
+     ],
+     "rc": 0,
+     "ms": 3238,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_SWOF_CONNECTED_OFF\\show.out",
+     "out_sha": "1943439c49df8c4876adc4608a8267deb70440c4308699165d8fde8aab1e68ca",
+     "out_b": 201,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "show",
+      "wp20_does_not_exist"
+     ],
+     "rc": 1,
+     "ms": 3350,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_SWOF_CONNECTED_OFF\\show_missing.out",
+     "out_sha": "0471a59b547885acb96425190cc44e81f0f58663ec15b6d848301242bd5fbb68",
+     "out_b": 54,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "delete",
+      "wp20_swof_c_off",
+      "-y"
+     ],
+     "rc": 0,
+     "ms": 3812,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_SWOF_CONNECTED_OFF\\delete.out",
+     "out_sha": "5bf1e87c21c97f5426feea16376051b0b9e639c794e18ecedb65d490faed027e",
+     "out_b": 394,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "profile",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 4720,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PROFILE_SWOF_CONNECTED_OFF\\list_after.out",
+     "out_sha": "959da5a5b196412219c882589bd608e23fc8bc22100ff106ef24ff1a7b6be62a",
+     "out_b": 528,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    }
+   ],
+   "pos": true,
+   "neg": true,
+   "all_rc": [
+    0,
+    0,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "cell": "PLUGIN_STANDALONE_ON",
+   "cell_id_from_matrix": "CELL-90776ef8d07b",
+   "kind": "PLUGIN",
+   "mode": "STANDALONE",
+   "legacy": "ON",
+   "host": "Hermes Agent",
+   "axis_binding": "NOT_BINDABLE_ON_HOST",
+   "steps": [
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 3567,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_STANDALONE_ON\\list.out",
+     "out_sha": "d9dc9435ad82c37faf2da9280a9071233e11082736c784c57ed3ff660684d515",
+     "out_b": 107576,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "validate",
+      "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\plugins\\disk-cleanup",
+      "--json"
+     ],
+     "rc": 0,
+     "ms": 3430,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_STANDALONE_ON\\validate_real.out",
+     "out_sha": "4c7f512ed2770cc31bd2353027a375905e90d6b95647d912e59eaa6e74bba10f",
+     "out_b": 1841,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "validate",
+      "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\home-base\\plugins\\wp20-cell-broken",
+      "--json"
+     ],
+     "rc": 1,
+     "ms": 3281,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_STANDALONE_ON\\validate_broken.out",
+     "out_sha": "5a93c0dd0346b2f361087cf054d942e65edc882985f5df40574c21500d021f96",
+     "out_b": 326,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "capabilities"
+     ],
+     "rc": 0,
+     "ms": 9136,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_STANDALONE_ON\\capabilities.out",
+     "out_sha": "bcaa8d8ff1212f2a28118e64e0beeae060728fe1c5ffa31f2b7746538c597223",
+     "out_b": 42,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    }
+   ],
+   "pos": true,
+   "neg": true,
+   "all_rc": [
+    0,
+    0,
+    1,
+    0
+   ]
+  },
+  {
+   "cell": "PLUGIN_STANDALONE_OFF",
+   "cell_id_from_matrix": "CELL-f6718f8c8a9f",
+   "kind": "PLUGIN",
+   "mode": "STANDALONE",
+   "legacy": "OFF",
+   "host": "Hermes Agent",
+   "axis_binding": "NOT_BINDABLE_ON_HOST",
+   "steps": [
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 3491,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_STANDALONE_OFF\\list.out",
+     "out_sha": "d9dc9435ad82c37faf2da9280a9071233e11082736c784c57ed3ff660684d515",
+     "out_b": 107576,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "validate",
+      "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\plugins\\disk-cleanup",
+      "--json"
+     ],
+     "rc": 0,
+     "ms": 3616,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_STANDALONE_OFF\\validate_real.out",
+     "out_sha": "4c7f512ed2770cc31bd2353027a375905e90d6b95647d912e59eaa6e74bba10f",
+     "out_b": 1841,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "validate",
+      "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\home-base\\plugins\\wp20-cell-broken",
+      "--json"
+     ],
+     "rc": 1,
+     "ms": 3294,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_STANDALONE_OFF\\validate_broken.out",
+     "out_sha": "5a93c0dd0346b2f361087cf054d942e65edc882985f5df40574c21500d021f96",
+     "out_b": 326,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "capabilities"
+     ],
+     "rc": 0,
+     "ms": 8815,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_STANDALONE_OFF\\capabilities.out",
+     "out_sha": "bcaa8d8ff1212f2a28118e64e0beeae060728fe1c5ffa31f2b7746538c597223",
+     "out_b": 42,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    }
+   ],
+   "pos": true,
+   "neg": true,
+   "all_rc": [
+    0,
+    0,
+    1,
+    0
+   ]
+  },
+  {
+   "cell": "PLUGIN_PREW3_SHADOW_ON",
+   "cell_id_from_matrix": "CELL-f686d9f67c17",
+   "kind": "PLUGIN",
+   "mode": "PREW3_SHADOW",
+   "legacy": "ON",
+   "host": "Hermes Agent",
+   "axis_binding": "NOT_BINDABLE_ON_HOST",
+   "steps": [
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 3443,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_PREW3_SHADOW_ON\\list.out",
+     "out_sha": "d9dc9435ad82c37faf2da9280a9071233e11082736c784c57ed3ff660684d515",
+     "out_b": 107576,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "validate",
+      "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\plugins\\disk-cleanup",
+      "--json"
+     ],
+     "rc": 0,
+     "ms": 3472,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_PREW3_SHADOW_ON\\validate_real.out",
+     "out_sha": "4c7f512ed2770cc31bd2353027a375905e90d6b95647d912e59eaa6e74bba10f",
+     "out_b": 1841,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "validate",
+      "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\home-base\\plugins\\wp20-cell-broken",
+      "--json"
+     ],
+     "rc": 1,
+     "ms": 3113,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_PREW3_SHADOW_ON\\validate_broken.out",
+     "out_sha": "5a93c0dd0346b2f361087cf054d942e65edc882985f5df40574c21500d021f96",
+     "out_b": 326,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "capabilities"
+     ],
+     "rc": 0,
+     "ms": 8829,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_PREW3_SHADOW_ON\\capabilities.out",
+     "out_sha": "bcaa8d8ff1212f2a28118e64e0beeae060728fe1c5ffa31f2b7746538c597223",
+     "out_b": 42,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    }
+   ],
+   "pos": true,
+   "neg": true,
+   "all_rc": [
+    0,
+    0,
+    1,
+    0
+   ]
+  },
+  {
+   "cell": "PLUGIN_PREW3_SHADOW_OFF",
+   "cell_id_from_matrix": "CELL-675386c0f943",
+   "kind": "PLUGIN",
+   "mode": "PREW3_SHADOW",
+   "legacy": "OFF",
+   "host": "Hermes Agent",
+   "axis_binding": "NOT_BINDABLE_ON_HOST",
+   "steps": [
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 3400,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_PREW3_SHADOW_OFF\\list.out",
+     "out_sha": "d9dc9435ad82c37faf2da9280a9071233e11082736c784c57ed3ff660684d515",
+     "out_b": 107576,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "validate",
+      "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\plugins\\disk-cleanup",
+      "--json"
+     ],
+     "rc": 0,
+     "ms": 3478,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_PREW3_SHADOW_OFF\\validate_real.out",
+     "out_sha": "4c7f512ed2770cc31bd2353027a375905e90d6b95647d912e59eaa6e74bba10f",
+     "out_b": 1841,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "validate",
+      "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\home-base\\plugins\\wp20-cell-broken",
+      "--json"
+     ],
+     "rc": 1,
+     "ms": 3105,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_PREW3_SHADOW_OFF\\validate_broken.out",
+     "out_sha": "5a93c0dd0346b2f361087cf054d942e65edc882985f5df40574c21500d021f96",
+     "out_b": 326,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "capabilities"
+     ],
+     "rc": 0,
+     "ms": 8641,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_PREW3_SHADOW_OFF\\capabilities.out",
+     "out_sha": "bcaa8d8ff1212f2a28118e64e0beeae060728fe1c5ffa31f2b7746538c597223",
+     "out_b": 42,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    }
+   ],
+   "pos": true,
+   "neg": true,
+   "all_rc": [
+    0,
+    0,
+    1,
+    0
+   ]
+  },
+  {
+   "cell": "PLUGIN_SWOF_CONNECTED_ON",
+   "cell_id_from_matrix": "CELL-d19d2e42002a",
+   "kind": "PLUGIN",
+   "mode": "SWOF_CONNECTED",
+   "legacy": "ON",
+   "host": "Hermes Agent",
+   "axis_binding": "NOT_BINDABLE_ON_HOST",
+   "steps": [
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 3988,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_SWOF_CONNECTED_ON\\list.out",
+     "out_sha": "d9dc9435ad82c37faf2da9280a9071233e11082736c784c57ed3ff660684d515",
+     "out_b": 107576,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "validate",
+      "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\plugins\\disk-cleanup",
+      "--json"
+     ],
+     "rc": 0,
+     "ms": 3820,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_SWOF_CONNECTED_ON\\validate_real.out",
+     "out_sha": "4c7f512ed2770cc31bd2353027a375905e90d6b95647d912e59eaa6e74bba10f",
+     "out_b": 1841,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "validate",
+      "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\home-base\\plugins\\wp20-cell-broken",
+      "--json"
+     ],
+     "rc": 1,
+     "ms": 3323,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_SWOF_CONNECTED_ON\\validate_broken.out",
+     "out_sha": "5a93c0dd0346b2f361087cf054d942e65edc882985f5df40574c21500d021f96",
+     "out_b": 326,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "capabilities"
+     ],
+     "rc": 0,
+     "ms": 8599,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_SWOF_CONNECTED_ON\\capabilities.out",
+     "out_sha": "bcaa8d8ff1212f2a28118e64e0beeae060728fe1c5ffa31f2b7746538c597223",
+     "out_b": 42,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    }
+   ],
+   "pos": true,
+   "neg": true,
+   "all_rc": [
+    0,
+    0,
+    1,
+    0
+   ]
+  },
+  {
+   "cell": "PLUGIN_SWOF_CONNECTED_OFF",
+   "cell_id_from_matrix": "CELL-49cdd601f213",
+   "kind": "PLUGIN",
+   "mode": "SWOF_CONNECTED",
+   "legacy": "OFF",
+   "host": "Hermes Agent",
+   "axis_binding": "NOT_BINDABLE_ON_HOST",
+   "steps": [
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "list"
+     ],
+     "rc": 0,
+     "ms": 3439,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_SWOF_CONNECTED_OFF\\list.out",
+     "out_sha": "d9dc9435ad82c37faf2da9280a9071233e11082736c784c57ed3ff660684d515",
+     "out_b": 107576,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "validate",
+      "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\plugins\\disk-cleanup",
+      "--json"
+     ],
+     "rc": 0,
+     "ms": 3448,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_SWOF_CONNECTED_OFF\\validate_real.out",
+     "out_sha": "4c7f512ed2770cc31bd2353027a375905e90d6b95647d912e59eaa6e74bba10f",
+     "out_b": 1841,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "validate",
+      "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\home-base\\plugins\\wp20-cell-broken",
+      "--json"
+     ],
+     "rc": 1,
+     "ms": 3152,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_SWOF_CONNECTED_OFF\\validate_broken.out",
+     "out_sha": "5a93c0dd0346b2f361087cf054d942e65edc882985f5df40574c21500d021f96",
+     "out_b": 326,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    },
+    {
+     "cmd": [
+      "hermes",
+      "plugins",
+      "capabilities"
+     ],
+     "rc": 0,
+     "ms": 8893,
+     "out_file": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\wp20\\stdout\\PLUGIN_SWOF_CONNECTED_OFF\\capabilities.out",
+     "out_sha": "bcaa8d8ff1212f2a28118e64e0beeae060728fe1c5ffa31f2b7746538c597223",
+     "out_b": 42,
+     "err_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "err_b": 0
+    }
+   ],
+   "pos": true,
+   "neg": true,
+   "all_rc": [
+    0,
+    0,
+    1,
+    0
+   ]
+  }
+ ],
+ "cleanup_rc": [
+  1,
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "summary": {
+  "cells": 12,
+  "with_cell_id": 12,
+  "pos_all": true,
+  "neg_all": true,
+  "axis_bound": "NOT_BINDABLE_ON_HOST",
+  "isolation_discriminating": true,
+  "isolation_leak": false,
+  "plugin_can_discriminate": true,
+  "real_plugin_validates": true
+ },
+ "claim_ceiling": "AUTHOR_SIDE_LOCAL_SURFACE_SMOKE. Surfaces proven reachable in 12 separate executions with POS/NEG; axis verdict NOT_BINDABLE_ON_HOST (STRICT test), isolation discriminating=True, plugin install/validate/remove discriminating=True. No per-mode statement is claimed.",
+ "plugin_real_install": {
+  "list_before": {
+   "cmd": [
+    "hermes",
+    "plugins",
+    "list"
+   ],
+   "rc": 0,
+   "out_sha": "9d1c54ec0d9eab29c7b1473405379f086aa70830449200ae4dde340079bf595b",
+   "out_b": 107669,
+   "tail": "undled\r\nInteractive toggle: hermes plugins\r\nEnable/disable: hermes plugins enable/disable <name>\r\nPlugins are opt-in by default — only 'enabled' plugins load.\r\n"
+  },
+  "validate_real_in_cell_home": {
+   "cmd": [
+    "hermes",
+    "plugins",
+    "validate",
+    "var\\FHS-R21-FAR-TT-20261101\\wp20\\home-base\\plugins\\disk-cleanup",
+    "--json"
+   ],
+   "rc": 0,
+   "out_sha": "4c7f512ed2770cc31bd2353027a375905e90d6b95647d912e59eaa6e74bba10f",
+   "out_b": 1841,
+   "tail": " \"host\",\r\n    \"host_ready\": true,\r\n    \"reasons\": [],\r\n    \"notes\": [],\r\n    \"ctx_methods\": [\r\n      \"register_command\",\r\n      \"register_hook\"\r\n    ]\r\n  }\r\n}\r\n"
+  },
+  "list_after": {
+   "cmd": [
+    "hermes",
+    "plugins",
+    "list"
+   ],
+   "rc": 0,
+   "out_sha": "9d1c54ec0d9eab29c7b1473405379f086aa70830449200ae4dde340079bf595b",
+   "out_b": 107669,
+   "tail": "undled\r\nInteractive toggle: hermes plugins\r\nEnable/disable: hermes plugins enable/disable <name>\r\nPlugins are opt-in by default — only 'enabled' plugins load.\r\n"
+  },
+  "capabilities": {
+   "cmd": [
+    "hermes",
+    "plugins",
+    "capabilities"
+   ],
+   "rc": 0,
+   "out_sha": "bcaa8d8ff1212f2a28118e64e0beeae060728fe1c5ffa31f2b7746538c597223",
+   "out_b": 42,
+   "tail": "No plugins declare or hold capabilities.\r\n"
+  },
+  "list_after_removal": {
+   "cmd": [
+    "hermes",
+    "plugins",
+    "list"
+   ],
+   "rc": 0,
+   "out_sha": "d9dc9435ad82c37faf2da9280a9071233e11082736c784c57ed3ff660684d515",
+   "out_b": 107576,
+   "tail": "undled\r\nInteractive toggle: hermes plugins\r\nEnable/disable: hermes plugins enable/disable <name>\r\nPlugins are opt-in by default — only 'enabled' plugins load.\r\n"
+  },
+  "discrimination": {
+   "real_plugin_validates_in_cell_home": true,
+   "synthetic_fixture_was_invalid": true,
+   "note": "the hand-written plugin.yaml failed validation (rc=1); a real bundled plugin copied into home-base/plugins passes, so 'installed into the cell home' is now demonstrated with a valid artefact"
+  }
+ },
+ "patched_utc": "2026-11-01T07:29:32Z",
+ "patcher": {
+  "why": "v3's loose bindability test matched 'mode' inside --model/--safe-mode; and the synthetic plugin fixture failed validation",
+  "what": "strict axis-value test over the same saved help files; real bundled plugin copied into the cell home and validated"
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "schema": "PIPD-HOTSWAP-RECEIPT/1",
+ "root": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\b3\\v2_fixture_issuer",
+ "entry": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\b3\\v2_fixture_issuer\\occupant.py",
+ "candidate": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\b3\\v2_fixture_issuer\\candidate.py",
+ "started_at": "2026-11-01T15:58:16+0800",
+ "steps": [],
+ "preimage": {
+  "files": 2,
+  "digest": "265452ebefd4474199dc256113052f1b658226ba0101e225ab6084f16838031a"
+ },
+ "before": {
+  "identity": "cap-attest-v1",
+  "served": true,
+  "via": "abi-consumer",
+  "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\b3\\v2_fixture_issuer\\occupant.py",
+  "code": null
+ },
+ "candidate_sha256": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+ "grant": {
+  "path": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\b3\\v2_grant_second_issuer.json",
+  "sha256": "3b7a800bff27e9d4b65198a2bd3c8c3f77f2b5577419cf3edf232bef24ea47f8",
+  "nonce": "B3v2-ISS-1793519894",
+  "issued_at": 1793519896,
+  "expires_at": 1793520796,
+  "subject": "WP-FHS-13",
+  "operation": "install_occupant",
+  "scope": "B3v2 install_occupant",
+  "policy_epoch": "40",
+  "issuer_verifier_exit": 3,
+  "issuer_verifier": {
+   "grant": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s5\\b3\\v2_grant_second_issuer.json",
+   "verdict": "GRANT_REFUSED",
+   "problems": [
+    "GRANT_KEY_UNKNOWN",
+    "GRANT_SIGNATURE_INVALID"
+   ]
+  },
+  "issued_before_effect": true,
+  "writeset_paths": [
+   "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\s5\\b3\\v2_fixture_issuer\\candidate.py",
+   "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\s5\\b3\\v2_fixture_issuer\\occupant.py"
+  ],
+  "covers_entry": true,
+  "covers_candidate": true,
+  "candidate_sha_named": null,
+  "candidate_sha_matches": true,
+  "problems": [
+   "GRANT_KEY_UNKNOWN",
+   "GRANT_SIGNATURE_INVALID"
+  ]
+ },
+ "code": "ERR_GRANT_NOT_BOUND",
+ "ok": false,
+ "why": "the grant does not cover this swap: ['GRANT_KEY_UNKNOWN', 'GRANT_SIGNATURE_INVALID']; nothing moved",
+ "finished_at": "2026-11-01T15:58:16+0800"
+}

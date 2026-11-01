@@ -1,0 +1,125 @@
+{
+ "schema": "FHS.R21.S6.A3_CASES/1",
+ "generated_utc": "2026-11-01T07:47:59Z",
+ "edge": "EDGE-WO-B1-A3",
+ "pd": "PD-03",
+ "domain": "QUEUE_WO",
+ "tool": {
+  "path": "HG-KSEOS/scripts/work_queue.py",
+  "sha256": "2155987dab6e3b19da6ab52105daf22627cd8cf49ca7ae487a363dbe14fff2b1"
+ },
+ "db": {
+  "live": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\shared-spine\\hg-kseos.db",
+  "live_rows": 22,
+  "copy": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\s6\\queue_copy.db",
+  "copy_sha256": "5280fbf5cd5ac3f8ae7f8008f3bf4500cc8aa10b645e990d42661fbed8bd28f0",
+  "copy_rows": 22,
+  "rows_match": true,
+  "note": "all mutation happened in the copy; the live spine was opened read-only"
+ },
+ "cases": {
+  "TQ-B1-A3-POS_scan": {
+   "claim": "next returns a runnable item while settled failures stay parked",
+   "rc": 0,
+   "result": {
+    "wp": "WP-FHS-90",
+    "title": "A3 synthetic runnable row",
+    "effect_class": "HOST_OP",
+    "settled_failures": [
+     "WP-FHS-11",
+     "WP-FHS-13",
+     "WP-FHS-20"
+    ],
+    "phase": "NO_BRIEF",
+    "queue_dir": "C:\\wg\\queue\\WP-FHS-90",
+    "remaining_fail": [
+     "WP-FHS-11",
+     "WP-FHS-12",
+     "WP-FHS-13",
+     "WP-FHS-20"
+    ]
+   },
+   "verdict": "PASS",
+   "injected_synthetic_row": true,
+   "first_scan": "QUEUE_DRAINED on the live 22 rows"
+  },
+  "TQ-B1-A3-POS_independent_advance": {
+   "claim": "after parking one item, the scan advances to a different runnable item",
+   "settled": {
+    "settled": "WP-FHS-90",
+    "state": "FAIL",
+    "evidence": "A3-POS-settled-1"
+   },
+   "next_after": {
+    "wp": null,
+    "verdict": "QUEUE_DRAINED",
+    "remaining_fail": [
+     "WP-FHS-11",
+     "WP-FHS-12",
+     "WP-FHS-13",
+     "WP-FHS-20",
+     "WP-FHS-90"
+    ]
+   },
+   "verdict": "NOT_EXERCISABLE_QUEUE_DRAINED",
+   "why": "after parking the only injected row the copy has no second runnable item; the live 22 rows are 19 PASS + 3 settled FAIL, so independent advance cannot be exercised without inventing a second workload"
+  },
+  "TQ-B1-A3-NEG_duplicate_claim": {
+   "claim": "a second settle of the same item must be refused (LOST_LEASE_OR_DUPLICATE_CLAIM)",
+   "first": {
+    "rc": 0,
+    "settled": "WP-FHS-90",
+    "state": "PASS",
+    "evidence": "A3-NEG-dup-claim"
+   },
+   "second": {
+    "rc": 0,
+    "settled": "WP-FHS-90",
+    "state": "PASS",
+    "evidence": "A3-NEG-dup-claim-2"
+   },
+   "row_after": [
+    "PASS",
+    "A3-NEG-dup-claim-2"
+   ],
+   "verdict": "FAIL_DUPLICATE_ACCEPTED"
+  },
+  "TQ-B1-A3-EDGE_generation_cas": {
+   "claim": "CAS generation single holder",
+   "measured": {
+    "columns": [
+     "wp_id",
+     "title",
+     "depends_on",
+     "effect_class",
+     "state",
+     "evidence_ref",
+     "updated_at",
+     "blocker_code",
+     "blocker_cause",
+     "blocker_unblock",
+     "blocked_at"
+    ],
+    "has_generation": false,
+    "has_lease": false
+   },
+   "verdict": "NOT_IMPLEMENTED"
+  },
+  "TQ-B1-A3-EDGE_bounded_k": {
+   "claim": "scan at most K blocked cards",
+   "measured": "cmd_next takes no K argument and returns exactly one item",
+   "verdict": "NOT_IMPLEMENTED"
+  }
+ },
+ "summary": {
+  "TQ-B1-A3-POS_scan": "PASS",
+  "TQ-B1-A3-POS_independent_advance": "NOT_EXERCISABLE_QUEUE_DRAINED",
+  "TQ-B1-A3-NEG_duplicate_claim": "FAIL_DUPLICATE_ACCEPTED",
+  "TQ-B1-A3-EDGE_generation_cas": "NOT_IMPLEMENTED",
+  "TQ-B1-A3-EDGE_bounded_k": "NOT_IMPLEMENTED"
+ },
+ "findings": [
+  "A3-NEG duplicate claim accepted: cmd_settle overwrites a settled row (see A3_PATCH_TEST.json pre_state)",
+  "A3-POS partial: bounded-K and generation CAS are absent from the schema (no lease/generation column)"
+ ]
+}

@@ -1,0 +1,705 @@
+{
+ "schema": "FHS.R21.S6.OPS_EDGE_PLAN/1",
+ "generated_utc": "2026-11-01T07:41:35Z",
+ "derived_from": {
+  "ledger": "S6_EDGE_EFFECT_LEDGER.json",
+  "body": "10B_B1_PI27_PD31.md#10.1"
+ },
+ "row_count": 14,
+ "dispositions": {
+  "CANDIDATE_ARTEFACT_BY_NAME": 5,
+  "NO_CANDIDATE": 1,
+  "COINCIDENCE_ONLY": 8
+ },
+ "exercised_rows": 3,
+ "rows": [
+  {
+   "edge": "EDGE-WO-B1-A2",
+   "pd": "PD-02",
+   "atom": "B1-A2",
+   "domain": "ISSUER_SUBJECT",
+   "line": 33,
+   "acceptance_pos": "Token signature/principal/nonce/subject/TTL checked native-side before spawn；本域判準：issuer-signed exact subject/scope checked before spawn; nonce consumed once。",
+   "negative": "`wrong issuer or replayed nonce -> PERMIT_SUBJECT_NONCE_REPLAY`。NEG 細分碼 `PERMIT_SUBJECT_NONCE_REPLAY` → canonical `PERMIT_SUBJECT_NONCE_REPLAY`；EDGE 僅在本域引入適用 drift（不強制 READ_ONLY 具有 lease 或 TODO 有 Git HEAD）；SEC 以同域 token/host/alias 攻擊為反例。",
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。",
+   "exit_resume": "原scope preimage/Host/User補償；UNKNOWN先reconcile，Scope/Epoch fresh再准入；NATIVE_NOT_RUN。",
+   "tqaep": [
+    "TQ-B1-A2-POS",
+    "TQ-B1-A2-NEG",
+    "TQ-B1-A2-EDGE",
+    "TQ-B1-A2-SEC"
+   ],
+   "search_terms": [
+    "issuer",
+    "principal",
+    "nonce"
+   ],
+   "artefacts_found": [
+    {
+     "path": "HG-KSEOS/scripts/issue_grant.py",
+     "bytes": 13210,
+     "sha256": "08d6e985d46facfb75fce0b56b6b5884975d22ab25d28632a3b964700acb9e77",
+     "matched_by": "content"
+    },
+    {
+     "path": "HG-KSEOS/scripts/occupant_install.py",
+     "bytes": 19073,
+     "sha256": "702587dafb718f703584c989d757b7ab3777a1fff85fa841acc94d8a696677ec",
+     "matched_by": "content"
+    },
+    {
+     "path": "HG-KSEOS/scripts/wp13_grant_bound_swap.py",
+     "bytes": 5255,
+     "sha256": "a2a225096ac6b14c7523fd4c24fb813f29eb7719fa6217b88b2683f095aa791f",
+     "matched_by": "content"
+    }
+   ],
+   "disposition": "COINCIDENCE_ONLY",
+   "ex_evidence": {
+    "level": "EXERCISED_THIS_ROUND",
+    "artefact": "HG-KSEOS/scripts/issue_grant.py",
+    "raw": "var/FHS-R21-FAR-TT-20261101/wp13/C5_UNDER_ENVELOPE.json",
+    "what": "grant issued with principal=owner, nonce, ttl=1800, subject=WP-FHS-13; owner-envelope signature over the verifier payload; issuer verifier rc=0; swap bound that grant"
+   },
+   "unblock": "ISSUER_SUBJECT: generic mechanism exercised this round via HG-KSEOS/scripts/issue_grant.py (raw: var/FHS-R21-FAR-TT-20261101/wp13/C5_UNDER_ENVELOPE.json). Still missing for THIS edge: a signed per-domain host registry + the edge-specific oracle, then POS/NEG over its 4 named cases."
+  },
+  {
+   "edge": "EDGE-WO-B1-A3",
+   "pd": "PD-03",
+   "atom": "B1-A3",
+   "domain": "QUEUE_WO",
+   "line": 45,
+   "acceptance_pos": "Scan at most K blocked cards, B/C independent advance; CAS generation single holder；本域判準：blocked A parked; independent B/C progressed within bounded K; generation CAS unique。",
+   "negative": "`duplicate claim, starved B/C or stale generation -> LOST_LEASE_OR_DUPLICATE_CLAIM`。NEG 細分碼 `LOST_LEASE_OR_DUPLICATE_CLAIM` → canonical `LOST_LEASE_OR_DUPLICATE_CLAIM`；EDGE 僅在本域引入適用 drift（不強制 READ_ONLY 具有 lease 或 TODO 有 Git HEAD）；SEC 以同域 token/host/alias 攻擊為反例。",
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。",
+   "exit_resume": "原scope preimage/Host/User補償；UNKNOWN先reconcile，Scope/Epoch fresh再准入；NATIVE_NOT_RUN。",
+   "tqaep": [
+    "TQ-B1-A3-POS",
+    "TQ-B1-A3-NEG",
+    "TQ-B1-A3-EDGE",
+    "TQ-B1-A3-SEC"
+   ],
+   "search_terms": [
+    "queue",
+    "workorder",
+    "work_order"
+   ],
+   "artefacts_found": [
+    {
+     "path": "HG-KSEOS/scripts/work_queue.py",
+     "bytes": 14018,
+     "sha256": "2155987dab6e3b19da6ab52105daf22627cd8cf49ca7ae487a363dbe14fff2b1",
+     "matched_by": "filename"
+    },
+    {
+     "path": "HG-KSEOS/scripts/work_queue_block.py",
+     "bytes": 4536,
+     "sha256": "69148b0534c1dae74b5987ea893c2c3bd3c5490b2d4ef759b650e05dab789e1f",
+     "matched_by": "filename"
+    }
+   ],
+   "disposition": "CANDIDATE_ARTEFACT_BY_NAME",
+   "ex_evidence": {
+    "level": "FILE_QUERIED",
+    "artefact": "HG-KSEOS/scripts/work_queue.py",
+    "raw": "HG-KSEOS/var/shared-spine/hg-kseos.db (work_queue, read-only 19 PASS / 3 FAIL)",
+    "what": "the queue the spine actually reads; queried this round, not exercised against this edge"
+   },
+   "unblock": "QUEUE_WO: generic mechanism exercised this round via HG-KSEOS/scripts/work_queue.py (raw: HG-KSEOS/var/shared-spine/hg-kseos.db (work_queue, read-only 19 PASS / 3 FAIL)). Still missing for THIS edge: a signed per-domain host registry + the edge-specific oracle, then POS/NEG over its 4 named cases."
+  },
+  {
+   "edge": "EDGE-WO-B1-A4",
+   "pd": "PD-04",
+   "atom": "B1-A4",
+   "domain": "RECEIVER_ABI",
+   "line": 57,
+   "acceptance_pos": "Ack contains issuer and host identity; mocked ACK rejected；本域判準：true receiver ACK signed for exact subject; mock ACK never qualifies。",
+   "negative": "`mocked ACK/wrong ABI/absent native event -> RECEIVER_NOT_LIVE`。NEG 細分碼 `LIVE_RECEIVER_NOT_VERIFIED` → canonical `RECEIVER_NOT_LIVE`；EDGE 僅在本域引入適用 drift（不強制 READ_ONLY 具有 lease 或 TODO 有 Git HEAD）；SEC 以同域 token/host/alias 攻擊為反例。",
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。",
+   "exit_resume": "原scope preimage/Host/User補償；UNKNOWN先reconcile，Scope/Epoch fresh再准入；NATIVE_NOT_RUN。",
+   "tqaep": [
+    "TQ-B1-A4-POS",
+    "TQ-B1-A4-NEG",
+    "TQ-B1-A4-EDGE",
+    "TQ-B1-A4-SEC"
+   ],
+   "search_terms": [
+    "abi",
+    "receiver"
+   ],
+   "artefacts_found": [
+    {
+     "path": "PIPD/src/pipd_ls_sp/abi.py",
+     "bytes": 6009,
+     "sha256": "901f2a1e506de65bde72df996d540cabe302910c858fc938a926fc633563b213",
+     "matched_by": "filename"
+    }
+   ],
+   "disposition": "CANDIDATE_ARTEFACT_BY_NAME",
+   "ex_evidence": {
+    "level": "EXERCISED_THIS_ROUND",
+    "artefact": "PIPD/src/pipd_ls_sp/abi.py",
+    "raw": "var/FHS-R21-FAR-TT-20261101/patches/tests/RESULTS.json",
+    "what": "T1 proves the ABI version gate rejects a mismatched Need (ERR_ABI_VERSION_MISMATCH) after the candidate patch; pre-patch the gate was unreachable"
+   },
+   "unblock": "RECEIVER_ABI: generic mechanism exercised this round via PIPD/src/pipd_ls_sp/abi.py (raw: var/FHS-R21-FAR-TT-20261101/patches/tests/RESULTS.json). Still missing for THIS edge: a signed per-domain host registry + the edge-specific oracle, then POS/NEG over its 4 named cases."
+  },
+  {
+   "edge": "EDGE-WO-B1-A6",
+   "pd": "PD-06",
+   "atom": "B1-A6",
+   "domain": "EFFECT_JOURNAL",
+   "line": 81,
+   "acceptance_pos": "UNKNOWN_EFFECT cannot retry until world-state reconciled；本域判準：at-most-once effect; UNKNOWN_EFFECT reconciled before any next claim。",
+   "negative": "`duplicate operation or retry-on-timeout -> UNKNOWN_EFFECT_REPLAY`。NEG 細分碼 `DUPLICATE_OR_UNKNOWN_EFFECT` → canonical `UNKNOWN_EFFECT_REPLAY`；EDGE 僅在本域引入適用 drift（不強制 READ_ONLY 具有 lease 或 TODO 有 Git HEAD）；SEC 以同域 token/host/alias 攻擊為反例。",
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。",
+   "exit_resume": "原scope preimage/Host/User補償；UNKNOWN先reconcile，Scope/Epoch fresh再准入；NATIVE_NOT_RUN。",
+   "tqaep": [
+    "TQ-B1-A6-POS",
+    "TQ-B1-A6-NEG",
+    "TQ-B1-A6-EDGE",
+    "TQ-B1-A6-SEC"
+   ],
+   "search_terms": [
+    "journal",
+    "effect_log",
+    "receipt"
+   ],
+   "artefacts_found": [
+    {
+     "path": "HG-KSEOS/scripts/cred/ADMISSION_RECEIPT.md",
+     "bytes": 4663,
+     "sha256": "610999c8c91c4a66ec9a55a013a508b801f6f29316907269f827c6c3f6631519",
+     "matched_by": "filename"
+    }
+   ],
+   "disposition": "CANDIDATE_ARTEFACT_BY_NAME",
+   "ex_evidence": null,
+   "unblock": "bind EFFECT_JOURNAL to HG-KSEOS/scripts/cred/ADMISSION_RECEIPT.md (sha 610999c8c91c) and prove POS/NEG with 4 named cases"
+  },
+  {
+   "edge": "EDGE-WO-B1-A9",
+   "pd": "PD-09",
+   "atom": "B1-A9",
+   "domain": "NATIVE_CONTINUATION",
+   "line": 117,
+   "acceptance_pos": "Resume after external token revoked, initiated by native source；本域判準：native successor advances after external revoke with new session and no external trigger。",
+   "negative": "`external actor still triggering -> EXTERNAL_TRIGGER_STILL_REQUIRED`。NEG 細分碼 `EXTERNAL_REENTRY_OR_NONNATIVE_SUCCESSOR` → canonical `EXTERNAL_TRIGGER_STILL_REQUIRED`；EDGE 僅在本域引入適用 drift（不強制 READ_ONLY 具有 lease 或 TODO 有 Git HEAD）；SEC 以同域 token/host/alias 攻擊為反例。",
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。",
+   "exit_resume": "原scope preimage/Host/User補償；UNKNOWN先reconcile，Scope/Epoch fresh再准入；NATIVE_NOT_RUN。",
+   "tqaep": [
+    "TQ-B1-A9-POS",
+    "TQ-B1-A9-NEG",
+    "TQ-B1-A9-EDGE",
+    "TQ-B1-A9-SEC"
+   ],
+   "search_terms": [
+    "continuation",
+    "resume",
+    "checkpoint"
+   ],
+   "artefacts_found": [
+    {
+     "path": "HG-KSEOS/scripts/continuation_driver.py",
+     "bytes": 45659,
+     "sha256": "945c0f39f5ee5c25f9992c9e4696ead9935389bed43bdbff08136983aee47287",
+     "matched_by": "filename"
+    },
+    {
+     "path": "HG-KSEOS/scripts/round_continuation_gate.py",
+     "bytes": 9806,
+     "sha256": "48b559f24fe48435dd07250160e43809dc96634fcdeb9eeefcbdffefb60e2639",
+     "matched_by": "filename"
+    }
+   ],
+   "disposition": "CANDIDATE_ARTEFACT_BY_NAME",
+   "ex_evidence": null,
+   "unblock": "bind NATIVE_CONTINUATION to HG-KSEOS/scripts/continuation_driver.py (sha 945c0f39f5ee) and prove POS/NEG with 4 named cases"
+  },
+  {
+   "edge": "EDGE-WO-B1-B3-OPS",
+   "pd": "PD-13",
+   "atom": "B1-B3",
+   "domain": "SBL_TO_NATIVE",
+   "line": 165,
+   "acceptance_pos": "DEV file patch != OPS native admission; two WO, two ECP where affected；本域判準：DEV/OPS different WOs, separate source diff and real native ACK。",
+   "negative": "`second issuer or shared receipt -> SECOND_ISSUER_OR_MIXED_EFFECT`。NEG 細分碼 `HANDOFF_ABI_OR_MOCK_ACK` → canonical `SECOND_ISSUER_OR_MIXED_EFFECT`；EDGE 僅在本域引入適用 drift（不強制 READ_ONLY 具有 lease 或 TODO 有 Git HEAD）；SEC 以同域 token/host/alias 攻擊為反例。",
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。",
+   "exit_resume": "原scope preimage/Host/User補償；UNKNOWN先reconcile，Scope/Epoch fresh再准入；NATIVE_NOT_RUN。",
+   "tqaep": [
+    "TQ-B1-B3-POS",
+    "TQ-B1-B3-NEG",
+    "TQ-B1-B3-EDGE",
+    "TQ-B1-B3-SEC"
+   ],
+   "search_terms": [
+    "sbl"
+   ],
+   "artefacts_found": [
+    {
+     "path": "HG-KSEOS/scripts/acceptance_rebind.py",
+     "bytes": 7832,
+     "sha256": "191e28ab5ca90f072f934f8b63be05b390e567a9e57432248e32a3112db764d7",
+     "matched_by": "content"
+    },
+    {
+     "path": "HG-KSEOS/scripts/continuation_driver.py",
+     "bytes": 45659,
+     "sha256": "945c0f39f5ee5c25f9992c9e4696ead9935389bed43bdbff08136983aee47287",
+     "matched_by": "content"
+    },
+    {
+     "path": "HG-KSEOS/scripts/f0_trace.py",
+     "bytes": 9032,
+     "sha256": "6255480d9123dc73240a1ba875588262b6386bff64cabe23fc3dcfa06f789324",
+     "matched_by": "content"
+    },
+    {
+     "path": "HG-KSEOS/scripts/hgk-lane-dispatch.py",
+     "bytes": 207037,
+     "sha256": "524cfd8352df6c1085121d66c4c7d2ba3d7b023aea7e6eca9ded87a53f5c9071",
+     "matched_by": "content"
+    },
+    {
+     "path": "HG-KSEOS/scripts/hgk_sp_identity.py",
+     "bytes": 18902,
+     "sha256": "9d65e7ac5ab166f461b4d54a021adb1f864d18aa815cdf47640fa06ec054973d",
+     "matched_by": "content"
+    },
+    {
+     "path": "HG-KSEOS/scripts/host_matrix.py",
+     "bytes": 15869,
+     "sha256": "d2c028df6abb675405be7dfbf88d13a0ee77dd8d43c7e8158f17cc5c65a70aa4",
+     "matched_by": "content"
+    }
+   ],
+   "disposition": "COINCIDENCE_ONLY",
+   "ex_evidence": null,
+   "unblock": "SBL_TO_NATIVE: the only files containing all of ['sbl'] are HG-KSEOS/scripts/acceptance_rebind.py; that is a word coincidence, not an implementation, so the row stays unbound"
+  },
+  {
+   "edge": "EDGE-WO-B1-B4-OPS",
+   "pd": "PD-15",
+   "atom": "B1-B4",
+   "domain": "ECP_SELECTOR",
+   "line": 189,
+   "acceptance_pos": "Ambiguous/multiple ECP gets NACK before dispatch；本域判準：one active ECP per WO; split iff distinct effects。",
+   "negative": "`two active ECPs/unknown class -> ECP_MULTIPLE_OR_CLASS_UNKNOWN`。NEG 細分碼 `ECP_DOUBLE_ACTIVE_OR_CLASS_MISMATCH` → canonical `ECP_MULTIPLE_OR_CLASS_UNKNOWN`；EDGE 僅在本域引入適用 drift（不強制 READ_ONLY 具有 lease 或 TODO 有 Git HEAD）；SEC 以同域 token/host/alias 攻擊為反例。",
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。",
+   "exit_resume": "原scope preimage/Host/User補償；UNKNOWN先reconcile，Scope/Epoch fresh再准入；NATIVE_NOT_RUN。",
+   "tqaep": [
+    "TQ-B1-B4-POS",
+    "TQ-B1-B4-NEG",
+    "TQ-B1-B4-EDGE",
+    "TQ-B1-B4-SEC"
+   ],
+   "search_terms": [
+    "ecp"
+   ],
+   "artefacts_found": [
+    {
+     "path": "PIPD/src/pipd_ls_sp/cli.py",
+     "bytes": 21844,
+     "sha256": "0fcdf51ea30355ab6f2153bf50fb8d8494cc2f766c6e223ed08fdbd7c4c500f0",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/src/pipd_ls_sp/errors.py",
+     "bytes": 3183,
+     "sha256": "a8d1058a32523e25b66ce52e27ca94cd0851a1e68fdf31ecc7449da892911215",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/src/pipd_ls_sp/pipeline.py",
+     "bytes": 29986,
+     "sha256": "da689a174a6f0fe5e09e82e1d64d31a49a3872bec7acc79cd9027f1b662bf8ad",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/src/pipd_ls_sp/registry.py",
+     "bytes": 6904,
+     "sha256": "733c003c83d2c5ab4affa2f3eef3f693d1251fb2d487b360f5029df1712aec4a",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/src/pipd_ls_sp/validate.py",
+     "bytes": 18422,
+     "sha256": "5a298eb50685a9e3185c21dd15560d1a77601ee871b58cbc3dba0df7c746e701",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/tools/build_spec_del_crosswalk.py",
+     "bytes": 25503,
+     "sha256": "1f8ea6b4b46da9c1df9cb3392b0d954eb21d929ac6b5145fcb6d4727b1db24e5",
+     "matched_by": "content"
+    }
+   ],
+   "disposition": "COINCIDENCE_ONLY",
+   "ex_evidence": null,
+   "unblock": "ECP_SELECTOR: the only files containing all of ['ecp'] are PIPD/src/pipd_ls_sp/cli.py; that is a word coincidence, not an implementation, so the row stays unbound"
+  },
+  {
+   "edge": "EDGE-WO-B1-B5-OPS",
+   "pd": "PD-17",
+   "atom": "B1-B5",
+   "domain": "THREE_SP",
+   "line": 213,
+   "acceptance_pos": "Three separate true host-issued identities; ZIP-only denied；本域判準：three host identities and isolated permission readbacks; ZIP-only not pass。",
+   "negative": "`missing host invocation -> SP_HOST_LOAD_UNPROVEN`。NEG 細分碼 `SP_ROLE_OR_HOST_NOT_ACTUALLY_LOADED` → canonical `SP_HOST_LOAD_UNPROVEN`；EDGE 僅在本域引入適用 drift（不強制 READ_ONLY 具有 lease 或 TODO 有 Git HEAD）；SEC 以同域 token/host/alias 攻擊為反例。",
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。",
+   "exit_resume": "原scope preimage/Host/User補償；UNKNOWN先reconcile，Scope/Epoch fresh再准入；NATIVE_NOT_RUN。",
+   "tqaep": [
+    "TQ-B1-B5-POS",
+    "TQ-B1-B5-NEG",
+    "TQ-B1-B5-EDGE",
+    "TQ-B1-B5-SEC"
+   ],
+   "search_terms": [
+    "three"
+   ],
+   "artefacts_found": [
+    {
+     "path": "PIPD/src/pipd_ls_sp/abi.py",
+     "bytes": 6009,
+     "sha256": "901f2a1e506de65bde72df996d540cabe302910c858fc938a926fc633563b213",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/src/pipd_ls_sp/export_bundle.py",
+     "bytes": 17876,
+     "sha256": "edb0203eba0d2abeec64c157baef5b50691473986698adfe3446bc3732c29b86",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/src/pipd_ls_sp/profiles.py",
+     "bytes": 2341,
+     "sha256": "2631eac7f6cb2b48dba0ed6628c4d7d7e94b7843ac29353950c2d51172789070",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/src/pipd_ls_sp/projection.py",
+     "bytes": 85317,
+     "sha256": "6a5d026386507adb0be01a594867223236382ab3cd2b2dd378d8a78c6d412d3c",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/tools/host_projection_check.py",
+     "bytes": 3412,
+     "sha256": "ecb2c4743b9bead7ddb9bbeab3faae5d34536cb025cb7747015dc697c8d1c7a6",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/tools/perf_budget.py",
+     "bytes": 34452,
+     "sha256": "82097e63d48dc25f97103dff8f5a4a5ca021cfb29159e03f114be570af2f933c",
+     "matched_by": "content"
+    }
+   ],
+   "disposition": "COINCIDENCE_ONLY",
+   "ex_evidence": null,
+   "unblock": "THREE_SP: the only files containing all of ['three'] are PIPD/src/pipd_ls_sp/abi.py; that is a word coincidence, not an implementation, so the row stays unbound"
+  },
+  {
+   "edge": "EDGE-WO-B1-C1",
+   "pd": "PD-22",
+   "atom": "B1-C1",
+   "domain": "FABRIC_PROMOTION",
+   "line": 273,
+   "acceptance_pos": "Stage/CI only never equals loaded; per-effect token；本域判準：independent stage approval; active and loaded exact digest; consumer projection ACK。",
+   "negative": "`stage mistaken as active or missing consumer -> FABRIC_LOADED_ABSENT`。NEG 細分碼 `FABRIC_REVERSE_PROJECTION_OR_POLICY_EPOCH` → canonical `FABRIC_LOADED_ABSENT`；EDGE 僅在本域引入適用 drift（不強制 READ_ONLY 具有 lease 或 TODO 有 Git HEAD）；SEC 以同域 token/host/alias 攻擊為反例。",
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。",
+   "exit_resume": "原scope preimage/Host/User補償；UNKNOWN先reconcile，Scope/Epoch fresh再准入；NATIVE_NOT_RUN。",
+   "tqaep": [
+    "TQ-B1-C1-POS",
+    "TQ-B1-C1-NEG",
+    "TQ-B1-C1-EDGE",
+    "TQ-B1-C1-SEC"
+   ],
+   "search_terms": [
+    "fabric"
+   ],
+   "artefacts_found": [
+    {
+     "path": "PIPD/src/pipd_ls_sp/pipeline.py",
+     "bytes": 29986,
+     "sha256": "da689a174a6f0fe5e09e82e1d64d31a49a3872bec7acc79cd9027f1b662bf8ad",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/src/pipd_ls_sp/requirements.py",
+     "bytes": 13407,
+     "sha256": "1ac3a64c655d93e02e2511456d08972801a89b788eec635289b51e0e7de88121",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/tools/admit_technologies.py",
+     "bytes": 26559,
+     "sha256": "1173be279cb5e379f639e5503f12aa02561a9f1b1e7670f0b6215749e275d55c",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/tools/build_evidence_md.py",
+     "bytes": 25464,
+     "sha256": "47651876d563e57062fc8503a690cf8b91ea417be04e80e5b53313844cae1090",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/tools/build_spec_del_crosswalk.py",
+     "bytes": 25503,
+     "sha256": "1f8ea6b4b46da9c1df9cb3392b0d954eb21d929ac6b5145fcb6d4727b1db24e5",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/tools/hgk_admission_driver.py",
+     "bytes": 3198,
+     "sha256": "34a69ccdb949f0b6e64695378c23764e2ade08e65e30bc14aeda21b5afa6fe40",
+     "matched_by": "content"
+    }
+   ],
+   "disposition": "COINCIDENCE_ONLY",
+   "ex_evidence": null,
+   "unblock": "FABRIC_PROMOTION: the only files containing all of ['fabric'] are PIPD/src/pipd_ls_sp/pipeline.py; that is a word coincidence, not an implementation, so the row stays unbound"
+  },
+  {
+   "edge": "EDGE-WO-B1-C2",
+   "pd": "PD-23",
+   "atom": "B1-C2",
+   "domain": "HGK_GWO",
+   "line": 285,
+   "acceptance_pos": "Canary native same WO signature; fake mock ignored；本域判準：true SBL entry -> native HGK issuer -> Hermes lease -> reversible observable result。",
+   "negative": "`ghost worker/forged permit -> GWO_HGK_NOT_NATIVE`。NEG 細分碼 `HGK_FORGED_PERMIT_OR_GHOST_WORKER` → canonical `GWO_HGK_NOT_NATIVE`；EDGE 僅在本域引入適用 drift（不強制 READ_ONLY 具有 lease 或 TODO 有 Git HEAD）；SEC 以同域 token/host/alias 攻擊為反例。",
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。",
+   "exit_resume": "原scope preimage/Host/User補償；UNKNOWN先reconcile，Scope/Epoch fresh再准入；NATIVE_NOT_RUN。",
+   "tqaep": [
+    "TQ-B1-C2-POS",
+    "TQ-B1-C2-NEG",
+    "TQ-B1-C2-EDGE",
+    "TQ-B1-C2-SEC"
+   ],
+   "search_terms": [
+    "hgk"
+   ],
+   "artefacts_found": [
+    {
+     "path": "PIPD/tools/hgk_admission_driver.py",
+     "bytes": 3198,
+     "sha256": "34a69ccdb949f0b6e64695378c23764e2ade08e65e30bc14aeda21b5afa6fe40",
+     "matched_by": "filename"
+    },
+    {
+     "path": "HG-KSEOS/scripts/hgk-artifact-gate.py",
+     "bytes": 9224,
+     "sha256": "f2ae2f1828069ae93decd04c04568db45842fd3c18c25fbc46694602db5a27f2",
+     "matched_by": "filename"
+    },
+    {
+     "path": "HG-KSEOS/scripts/hgk-exec-model-frontdoor.py",
+     "bytes": 52335,
+     "sha256": "0bb51fdb189e2a3c1a7373d1fcdcb833e88832aa944c3829392c4cbaee0e57fc",
+     "matched_by": "filename"
+    },
+    {
+     "path": "HG-KSEOS/scripts/hgk-governed-runtime-controller.py",
+     "bytes": 12289,
+     "sha256": "5b744de7c4e30240ae92421c2e7220efa5dfca02d88d85f2264bc921ad849412",
+     "matched_by": "filename"
+    },
+    {
+     "path": "HG-KSEOS/scripts/hgk-lane-dispatch.py",
+     "bytes": 207037,
+     "sha256": "524cfd8352df6c1085121d66c4c7d2ba3d7b023aea7e6eca9ded87a53f5c9071",
+     "matched_by": "filename"
+    },
+    {
+     "path": "HG-KSEOS/scripts/hgk-lane-guard.py",
+     "bytes": 22497,
+     "sha256": "ba16c5815129b126dd80b6499812c540861a91e8986ecf64d62343871e5a59dc",
+     "matched_by": "filename"
+    }
+   ],
+   "disposition": "CANDIDATE_ARTEFACT_BY_NAME",
+   "ex_evidence": null,
+   "unblock": "bind HGK_GWO to PIPD/tools/hgk_admission_driver.py (sha 34a69ccdb949) and prove POS/NEG with 4 named cases"
+  },
+  {
+   "edge": "EDGE-WO-B1-C3-OPS",
+   "pd": "PD-24",
+   "atom": "B1-C3",
+   "domain": "SBL_GWO",
+   "line": 297,
+   "acceptance_pos": "CLI add/delete and install/uninstall are effects; exact data restored；本域判準：separate Host install and USER effects with independent readbacks。",
+   "negative": "`install count used as add success -> GWO_SBL_USER_STATE_UNPROVEN`。NEG 細分碼 `SBL_EMPTY_TEST_OR_NO_USER_OUTCOME` → canonical `GWO_SBL_USER_STATE_UNPROVEN`；EDGE 僅在本域引入適用 drift（不強制 READ_ONLY 具有 lease 或 TODO 有 Git HEAD）；SEC 以同域 token/host/alias 攻擊為反例。",
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。",
+   "exit_resume": "原scope preimage/Host/User補償；UNKNOWN先reconcile，Scope/Epoch fresh再准入；NATIVE_NOT_RUN。",
+   "tqaep": [
+    "TQ-B1-C3-POS",
+    "TQ-B1-C3-NEG",
+    "TQ-B1-C3-EDGE",
+    "TQ-B1-C3-SEC"
+   ],
+   "search_terms": [
+    "sbl"
+   ],
+   "artefacts_found": [
+    {
+     "path": "HG-KSEOS/scripts/acceptance_rebind.py",
+     "bytes": 7832,
+     "sha256": "191e28ab5ca90f072f934f8b63be05b390e567a9e57432248e32a3112db764d7",
+     "matched_by": "content"
+    },
+    {
+     "path": "HG-KSEOS/scripts/continuation_driver.py",
+     "bytes": 45659,
+     "sha256": "945c0f39f5ee5c25f9992c9e4696ead9935389bed43bdbff08136983aee47287",
+     "matched_by": "content"
+    },
+    {
+     "path": "HG-KSEOS/scripts/f0_trace.py",
+     "bytes": 9032,
+     "sha256": "6255480d9123dc73240a1ba875588262b6386bff64cabe23fc3dcfa06f789324",
+     "matched_by": "content"
+    },
+    {
+     "path": "HG-KSEOS/scripts/hgk-lane-dispatch.py",
+     "bytes": 207037,
+     "sha256": "524cfd8352df6c1085121d66c4c7d2ba3d7b023aea7e6eca9ded87a53f5c9071",
+     "matched_by": "content"
+    },
+    {
+     "path": "HG-KSEOS/scripts/hgk_sp_identity.py",
+     "bytes": 18902,
+     "sha256": "9d65e7ac5ab166f461b4d54a021adb1f864d18aa815cdf47640fa06ec054973d",
+     "matched_by": "content"
+    },
+    {
+     "path": "HG-KSEOS/scripts/host_matrix.py",
+     "bytes": 15869,
+     "sha256": "d2c028df6abb675405be7dfbf88d13a0ee77dd8d43c7e8158f17cc5c65a70aa4",
+     "matched_by": "content"
+    }
+   ],
+   "disposition": "COINCIDENCE_ONLY",
+   "ex_evidence": null,
+   "unblock": "SBL_GWO: the only files containing all of ['sbl'] are HG-KSEOS/scripts/acceptance_rebind.py; that is a word coincidence, not an implementation, so the row stays unbound"
+  },
+  {
+   "edge": "EDGE-WO-B1-C4",
+   "pd": "PD-26",
+   "atom": "B1-C4",
+   "domain": "EXTERNAL_GRANT",
+   "line": 321,
+   "acceptance_pos": "No broader GitHub/Windows authority via standing mission；本域判準：bounded external grant and no residual capability on revoke。",
+   "negative": "`scope expansion -> EXTERNAL_SCOPE_ESCAPED`。NEG 細分碼 `EXTERNAL_GRANT_SCOPE_OR_TTL` → canonical `EXTERNAL_SCOPE_ESCAPED`；EDGE 僅在本域引入適用 drift（不強制 READ_ONLY 具有 lease 或 TODO 有 Git HEAD）；SEC 以同域 token/host/alias 攻擊為反例。",
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。",
+   "exit_resume": "原scope preimage/Host/User補償；UNKNOWN先reconcile，Scope/Epoch fresh再准入；NATIVE_NOT_RUN。",
+   "tqaep": [
+    "TQ-B1-C4-POS",
+    "TQ-B1-C4-NEG",
+    "TQ-B1-C4-EDGE",
+    "TQ-B1-C4-SEC"
+   ],
+   "search_terms": [
+    "external"
+   ],
+   "artefacts_found": [
+    {
+     "path": "PIPD/src/pipd_ls_sp/workspace.py",
+     "bytes": 18198,
+     "sha256": "de8f6130000fb87d74b2ebe5bba2ba6f64b8f8d7db01b3cb08bd512a312204f6",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/tools/admit_technologies.py",
+     "bytes": 26559,
+     "sha256": "1173be279cb5e379f639e5503f12aa02561a9f1b1e7670f0b6215749e275d55c",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/tools/build_dist.py",
+     "bytes": 7004,
+     "sha256": "bb6329691bb37dbd54423bbb50d0758f5ce00356dd263136cb4209df6a20c668",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/tools/build_evidence_md.py",
+     "bytes": 25464,
+     "sha256": "47651876d563e57062fc8503a690cf8b91ea417be04e80e5b53313844cae1090",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/tools/build_evidence_md_r2.py",
+     "bytes": 15370,
+     "sha256": "847718cbb0fccca0146e5136248d48cc6a556b7020347a3a0cc16b5c223183ea",
+     "matched_by": "content"
+    },
+    {
+     "path": "PIPD/tools/build_spec_del_crosswalk.py",
+     "bytes": 25503,
+     "sha256": "1f8ea6b4b46da9c1df9cb3392b0d954eb21d929ac6b5145fcb6d4727b1db24e5",
+     "matched_by": "content"
+    }
+   ],
+   "disposition": "COINCIDENCE_ONLY",
+   "ex_evidence": null,
+   "unblock": "EXTERNAL_GRANT: the only files containing all of ['external'] are PIPD/src/pipd_ls_sp/workspace.py; that is a word coincidence, not an implementation, so the row stays unbound"
+  },
+  {
+   "edge": "EDGE-WO-B1-C6",
+   "pd": "PD-28",
+   "atom": "B1-C6",
+   "domain": "REVOKE_RACE",
+   "line": 345,
+   "acceptance_pos": "Unknown effect not erased, previously admitted in-flight reconciled；本域判準：post-revoke use fails before spawn; existing effects reconciled。",
+   "negative": "`reused token after revoke -> REVOKED_TOKEN_REPLAY`。NEG 細分碼 `POST_REVOKE_TOKEN_REPLAY` → canonical `REVOKED_TOKEN_REPLAY`；EDGE 僅在本域引入適用 drift（不強制 READ_ONLY 具有 lease 或 TODO 有 Git HEAD）；SEC 以同域 token/host/alias 攻擊為反例。",
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。",
+   "exit_resume": "原scope preimage/Host/User補償；UNKNOWN先reconcile，Scope/Epoch fresh再准入；NATIVE_NOT_RUN。",
+   "tqaep": [
+    "TQ-B1-C6-POS",
+    "TQ-B1-C6-NEG",
+    "TQ-B1-C6-EDGE",
+    "TQ-B1-C6-SEC"
+   ],
+   "search_terms": [
+    "revoke",
+    "race"
+   ],
+   "artefacts_found": [
+    {
+     "path": "PIPD/tools/knowledge_ready_probe.py",
+     "bytes": 16572,
+     "sha256": "7e5618dbfe370e3407cee24dcc43dd377741814ae53833c54dec671d454cdf78",
+     "matched_by": "content"
+    }
+   ],
+   "disposition": "COINCIDENCE_ONLY",
+   "ex_evidence": null,
+   "unblock": "REVOKE_RACE: the only files containing all of ['revoke', 'race'] are PIPD/tools/knowledge_ready_probe.py; that is a word coincidence, not an implementation, so the row stays unbound"
+  },
+  {
+   "edge": "EDGE-WO-B1-C8",
+   "pd": "PD-30",
+   "atom": "B1-C8",
+   "domain": "NATIVE_SUCCESSOR",
+   "line": 369,
+   "acceptance_pos": "Post-turn continuation must originate in Hermes native source；本域判準：fresh separate session native trigger progresses after external account revoked。",
+   "negative": "`successor still external-triggered -> NATIVE_SUCCESSOR_NOT_PROVEN`。NEG 細分碼 `NATIVE_SUCCESSOR_NOT_AUTONOMOUS` → canonical `NATIVE_SUCCESSOR_NOT_PROVEN`；EDGE 僅在本域引入適用 drift（不強制 READ_ONLY 具有 lease 或 TODO 有 Git HEAD）；SEC 以同域 token/host/alias 攻擊為反例。",
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。",
+   "exit_resume": "原scope preimage/Host/User補償；UNKNOWN先reconcile，Scope/Epoch fresh再准入；NATIVE_NOT_RUN。",
+   "tqaep": [
+    "TQ-B1-C8-POS",
+    "TQ-B1-C8-NEG",
+    "TQ-B1-C8-EDGE",
+    "TQ-B1-C8-SEC"
+   ],
+   "search_terms": [
+    "successor",
+    "handover"
+   ],
+   "artefacts_found": [],
+   "disposition": "NO_CANDIDATE",
+   "ex_evidence": null,
+   "unblock": "needs a NATIVE_SUCCESSOR host receiver; no file name or body in PIPD/src, PIPD/tools, HG-KSEOS/scripts matches ['successor', 'handover']"
+  }
+ ],
+ "claim_ceiling": "per-edge inventory: 2 rows rest on raw from this round (A2 issuer/envelope, A4 ABI gate), 1 on a read-only spine query, 5 on a file-name lead only, 6 on nothing. No OPS edge is executed end-to-end."
+}

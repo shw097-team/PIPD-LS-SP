@@ -1,0 +1,550 @@
+{
+ "schema": "FHS.R21.S6.EDGE_EFFECT_LEDGER/1",
+ "generated_utc": "2026-11-01T07:39:27Z",
+ "source": {
+  "file": "10B_B1_PI27_PD31.md",
+  "edges_found": 31
+ },
+ "effect_counts": {
+  "OBS": 10,
+  "OPS": 14,
+  "DEV": 5,
+  "USER": 2
+ },
+ "ops_denominator": {
+  "derived_ops_edges": 14,
+  "contract_claim": 32,
+  "match": false,
+  "note": "derived from the EDGE sections themselves: every edge whose effect/ECP line names HOST_OPERATIONS is an OPS sub-contract; the contract's 32 is neither confirmed nor borrowed -- this number is what the body actually declares"
+ },
+ "unclassified_edges": [],
+ "edges": [
+  {
+   "edge": "EDGE-OBS-B1-A1",
+   "line": 21,
+   "atom": "B1-A1",
+   "pd": "PD-01",
+   "domain": "ROOT_RAW",
+   "effect_raw": "- effect/ECP：原READ_ONLY_PROBE → Reader投影SOURCE_READ / NA_NO_EFFECT；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OBS",
+   "ecp": null,
+   "tqaep": [
+    "TQ-B1-A1-POS",
+    "TQ-B1-A1-NEG",
+    "TQ-B1-A1-EDGE",
+    "TQ-B1-A1-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-A2",
+   "line": 33,
+   "atom": "B1-A2",
+   "pd": "PD-02",
+   "domain": "ISSUER_SUBJECT",
+   "effect_raw": "- effect/ECP：原HOST_OPERATIONS → Reader投影HOST_OP / OPS ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OPS",
+   "ecp": "OPS ECP",
+   "tqaep": [
+    "TQ-B1-A2-POS",
+    "TQ-B1-A2-NEG",
+    "TQ-B1-A2-EDGE",
+    "TQ-B1-A2-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-A3",
+   "line": 45,
+   "atom": "B1-A3",
+   "pd": "PD-03",
+   "domain": "QUEUE_WO",
+   "effect_raw": "- effect/ECP：原HOST_OPERATIONS → Reader投影HOST_OP / OPS ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OPS",
+   "ecp": "OPS ECP",
+   "tqaep": [
+    "TQ-B1-A3-POS",
+    "TQ-B1-A3-NEG",
+    "TQ-B1-A3-EDGE",
+    "TQ-B1-A3-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-A4",
+   "line": 57,
+   "atom": "B1-A4",
+   "pd": "PD-04",
+   "domain": "RECEIVER_ABI",
+   "effect_raw": "- effect/ECP：原HOST_OPERATIONS → Reader投影HOST_OP / OPS ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OPS",
+   "ecp": "OPS ECP",
+   "tqaep": [
+    "TQ-B1-A4-POS",
+    "TQ-B1-A4-NEG",
+    "TQ-B1-A4-EDGE",
+    "TQ-B1-A4-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-OBS-B1-A5",
+   "line": 69,
+   "atom": "B1-A5",
+   "pd": "PD-05",
+   "domain": "MODEL_LANES",
+   "effect_raw": "- effect/ECP：原READ_ONLY_PROBE → Reader投影SOURCE_READ / NA_NO_EFFECT；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OBS",
+   "ecp": null,
+   "tqaep": [
+    "TQ-B1-A5-POS",
+    "TQ-B1-A5-NEG",
+    "TQ-B1-A5-EDGE",
+    "TQ-B1-A5-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-A6",
+   "line": 81,
+   "atom": "B1-A6",
+   "pd": "PD-06",
+   "domain": "EFFECT_JOURNAL",
+   "effect_raw": "- effect/ECP：原HOST_OPERATIONS → Reader投影HOST_OP / OPS ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OPS",
+   "ecp": "OPS ECP",
+   "tqaep": [
+    "TQ-B1-A6-POS",
+    "TQ-B1-A6-NEG",
+    "TQ-B1-A6-EDGE",
+    "TQ-B1-A6-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-OBS-B1-A7",
+   "line": 93,
+   "atom": "B1-A7",
+   "pd": "PD-07",
+   "domain": "RAW_EVIDENCE",
+   "effect_raw": "- effect/ECP：原READ_ONLY_PROBE → Reader投影SOURCE_READ / NA_NO_EFFECT；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OBS",
+   "ecp": null,
+   "tqaep": [
+    "TQ-B1-A7-POS",
+    "TQ-B1-A7-NEG",
+    "TQ-B1-A7-EDGE",
+    "TQ-B1-A7-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-A8",
+   "line": 105,
+   "atom": "B1-A8",
+   "pd": "PD-08",
+   "domain": "NATIVE_HOTPATH",
+   "effect_raw": "- effect/ECP：原REPOSITORY_WRITE → Reader投影REPO_WRITE / DEV ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "DEV",
+   "ecp": "DEV ECP",
+   "tqaep": [
+    "TQ-B1-A8-POS",
+    "TQ-B1-A8-NEG",
+    "TQ-B1-A8-EDGE",
+    "TQ-B1-A8-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-A9",
+   "line": 117,
+   "atom": "B1-A9",
+   "pd": "PD-09",
+   "domain": "NATIVE_CONTINUATION",
+   "effect_raw": "- effect/ECP：原HOST_OPERATIONS → Reader投影HOST_OP / OPS ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OPS",
+   "ecp": "OPS ECP",
+   "tqaep": [
+    "TQ-B1-A9-POS",
+    "TQ-B1-A9-NEG",
+    "TQ-B1-A9-EDGE",
+    "TQ-B1-A9-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-OBS-B1-B1",
+   "line": 129,
+   "atom": "B1-B1",
+   "pd": "PD-10",
+   "domain": "SOURCE_ATOMS",
+   "effect_raw": "- effect/ECP：原READ_ONLY_PROBE → Reader投影SOURCE_READ / NA_NO_EFFECT；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OBS",
+   "ecp": null,
+   "tqaep": [
+    "TQ-B1-B1-POS",
+    "TQ-B1-B1-NEG",
+    "TQ-B1-B1-EDGE",
+    "TQ-B1-B1-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-OBS-B1-B2",
+   "line": 141,
+   "atom": "B1-B2",
+   "pd": "PD-11",
+   "domain": "REPO_CONTEXT",
+   "effect_raw": "- effect/ECP：原READ_ONLY_PROBE → Reader投影SOURCE_READ / NA_NO_EFFECT；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OBS",
+   "ecp": null,
+   "tqaep": [
+    "TQ-B1-B2-POS",
+    "TQ-B1-B2-NEG",
+    "TQ-B1-B2-EDGE",
+    "TQ-B1-B2-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-B3-DEV",
+   "line": 153,
+   "atom": "B1-B3",
+   "pd": "PD-12",
+   "domain": "SBL_TO_NATIVE",
+   "effect_raw": "- effect/ECP：原REPOSITORY_WRITE → Reader投影REPO_WRITE / DEV ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "DEV",
+   "ecp": "DEV ECP",
+   "tqaep": [
+    "TQ-B1-B3-POS",
+    "TQ-B1-B3-NEG",
+    "TQ-B1-B3-EDGE",
+    "TQ-B1-B3-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-B3-OPS",
+   "line": 165,
+   "atom": "B1-B3",
+   "pd": "PD-13",
+   "domain": "SBL_TO_NATIVE",
+   "effect_raw": "- effect/ECP：原HOST_OPERATIONS → Reader投影HOST_OP / OPS ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OPS",
+   "ecp": "OPS ECP",
+   "tqaep": [
+    "TQ-B1-B3-POS",
+    "TQ-B1-B3-NEG",
+    "TQ-B1-B3-EDGE",
+    "TQ-B1-B3-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-B4-DEV",
+   "line": 177,
+   "atom": "B1-B4",
+   "pd": "PD-14",
+   "domain": "ECP_SELECTOR",
+   "effect_raw": "- effect/ECP：原REPOSITORY_WRITE → Reader投影REPO_WRITE / DEV ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "DEV",
+   "ecp": "DEV ECP",
+   "tqaep": [
+    "TQ-B1-B4-POS",
+    "TQ-B1-B4-NEG",
+    "TQ-B1-B4-EDGE",
+    "TQ-B1-B4-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-B4-OPS",
+   "line": 189,
+   "atom": "B1-B4",
+   "pd": "PD-15",
+   "domain": "ECP_SELECTOR",
+   "effect_raw": "- effect/ECP：原HOST_OPERATIONS → Reader投影HOST_OP / OPS ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OPS",
+   "ecp": "OPS ECP",
+   "tqaep": [
+    "TQ-B1-B4-POS",
+    "TQ-B1-B4-NEG",
+    "TQ-B1-B4-EDGE",
+    "TQ-B1-B4-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-B5-DEV",
+   "line": 201,
+   "atom": "B1-B5",
+   "pd": "PD-16",
+   "domain": "THREE_SP",
+   "effect_raw": "- effect/ECP：原REPOSITORY_WRITE → Reader投影REPO_WRITE / DEV ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "DEV",
+   "ecp": "DEV ECP",
+   "tqaep": [
+    "TQ-B1-B5-POS",
+    "TQ-B1-B5-NEG",
+    "TQ-B1-B5-EDGE",
+    "TQ-B1-B5-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-B5-OPS",
+   "line": 213,
+   "atom": "B1-B5",
+   "pd": "PD-17",
+   "domain": "THREE_SP",
+   "effect_raw": "- effect/ECP：原HOST_OPERATIONS → Reader投影HOST_OP / OPS ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OPS",
+   "ecp": "OPS ECP",
+   "tqaep": [
+    "TQ-B1-B5-POS",
+    "TQ-B1-B5-NEG",
+    "TQ-B1-B5-EDGE",
+    "TQ-B1-B5-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-B6-USER",
+   "line": 225,
+   "atom": "B1-B6",
+   "pd": "PD-18",
+   "domain": "TODO_PERSISTENCE",
+   "effect_raw": "- effect/ECP：原USER_DATA_EFFECT → Reader投影USER_OP / USER OPS ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "USER",
+   "ecp": "OPS ECP",
+   "tqaep": [
+    "TQ-B1-B6-POS",
+    "TQ-B1-B6-NEG",
+    "TQ-B1-B6-EDGE",
+    "TQ-B1-B6-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-OBS-B1-B7",
+   "line": 237,
+   "atom": "B1-B7",
+   "pd": "PD-19",
+   "domain": "NOFIT_ROUTE",
+   "effect_raw": "- effect/ECP：原READ_ONLY_PROBE → Reader投影SOURCE_READ / NA_NO_EFFECT；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OBS",
+   "ecp": null,
+   "tqaep": [
+    "TQ-B1-B7-POS",
+    "TQ-B1-B7-NEG",
+    "TQ-B1-B7-EDGE",
+    "TQ-B1-B7-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-OBS-B1-B8",
+   "line": 249,
+   "atom": "B1-B8",
+   "pd": "PD-20",
+   "domain": "TRACE_GRAPH",
+   "effect_raw": "- effect/ECP：原READ_ONLY_PROBE → Reader投影SOURCE_READ / NA_NO_EFFECT；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OBS",
+   "ecp": null,
+   "tqaep": [
+    "TQ-B1-B8-POS",
+    "TQ-B1-B8-NEG",
+    "TQ-B1-B8-EDGE",
+    "TQ-B1-B8-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-OBS-B1-B9",
+   "line": 261,
+   "atom": "B1-B9",
+   "pd": "PD-21",
+   "domain": "R",
+   "effect_raw": "- effect/ECP：原READ_ONLY_PROBE → Reader投影SOURCE_READ / NA_NO_EFFECT；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OBS",
+   "ecp": null,
+   "tqaep": [
+    "TQ-B1-B9-POS",
+    "TQ-B1-B9-NEG",
+    "TQ-B1-B9-EDGE",
+    "TQ-B1-B9-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-C1",
+   "line": 273,
+   "atom": "B1-C1",
+   "pd": "PD-22",
+   "domain": "FABRIC_PROMOTION",
+   "effect_raw": "- effect/ECP：原HOST_OPERATIONS → Reader投影HOST_OP / OPS ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OPS",
+   "ecp": "OPS ECP",
+   "tqaep": [
+    "TQ-B1-C1-POS",
+    "TQ-B1-C1-NEG",
+    "TQ-B1-C1-EDGE",
+    "TQ-B1-C1-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-C2",
+   "line": 285,
+   "atom": "B1-C2",
+   "pd": "PD-23",
+   "domain": "HGK_GWO",
+   "effect_raw": "- effect/ECP：原HOST_OPERATIONS → Reader投影HOST_OP / OPS ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OPS",
+   "ecp": "OPS ECP",
+   "tqaep": [
+    "TQ-B1-C2-POS",
+    "TQ-B1-C2-NEG",
+    "TQ-B1-C2-EDGE",
+    "TQ-B1-C2-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-C3-OPS",
+   "line": 297,
+   "atom": "B1-C3",
+   "pd": "PD-24",
+   "domain": "SBL_GWO",
+   "effect_raw": "- effect/ECP：原HOST_OPERATIONS → Reader投影HOST_OP / OPS ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OPS",
+   "ecp": "OPS ECP",
+   "tqaep": [
+    "TQ-B1-C3-POS",
+    "TQ-B1-C3-NEG",
+    "TQ-B1-C3-EDGE",
+    "TQ-B1-C3-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-C3-USER",
+   "line": 309,
+   "atom": "B1-C3",
+   "pd": "PD-25",
+   "domain": "SBL_GWO",
+   "effect_raw": "- effect/ECP：原USER_DATA_EFFECT → Reader投影USER_OP / USER OPS ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "USER",
+   "ecp": "OPS ECP",
+   "tqaep": [
+    "TQ-B1-C3-POS",
+    "TQ-B1-C3-NEG",
+    "TQ-B1-C3-EDGE",
+    "TQ-B1-C3-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-C4",
+   "line": 321,
+   "atom": "B1-C4",
+   "pd": "PD-26",
+   "domain": "EXTERNAL_GRANT",
+   "effect_raw": "- effect/ECP：原HOST_OPERATIONS → Reader投影HOST_OP / OPS ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OPS",
+   "ecp": "OPS ECP",
+   "tqaep": [
+    "TQ-B1-C4-POS",
+    "TQ-B1-C4-NEG",
+    "TQ-B1-C4-EDGE",
+    "TQ-B1-C4-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-C5",
+   "line": 333,
+   "atom": "B1-C5",
+   "pd": "PD-27",
+   "domain": "CODEX_MINPATCH",
+   "effect_raw": "- effect/ECP：原REPOSITORY_WRITE → Reader投影REPO_WRITE / DEV ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "DEV",
+   "ecp": "DEV ECP",
+   "tqaep": [
+    "TQ-B1-C5-POS",
+    "TQ-B1-C5-NEG",
+    "TQ-B1-C5-EDGE",
+    "TQ-B1-C5-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-C6",
+   "line": 345,
+   "atom": "B1-C6",
+   "pd": "PD-28",
+   "domain": "REVOKE_RACE",
+   "effect_raw": "- effect/ECP：原HOST_OPERATIONS → Reader投影HOST_OP / OPS ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OPS",
+   "ecp": "OPS ECP",
+   "tqaep": [
+    "TQ-B1-C6-POS",
+    "TQ-B1-C6-NEG",
+    "TQ-B1-C6-EDGE",
+    "TQ-B1-C6-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-OBS-B1-C7",
+   "line": 357,
+   "atom": "B1-C7",
+   "pd": "PD-29",
+   "domain": "FOUR_LAYER_ID",
+   "effect_raw": "- effect/ECP：原READ_ONLY_PROBE → Reader投影SOURCE_READ / NA_NO_EFFECT；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OBS",
+   "ecp": null,
+   "tqaep": [
+    "TQ-B1-C7-POS",
+    "TQ-B1-C7-NEG",
+    "TQ-B1-C7-EDGE",
+    "TQ-B1-C7-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-WO-B1-C8",
+   "line": 369,
+   "atom": "B1-C8",
+   "pd": "PD-30",
+   "domain": "NATIVE_SUCCESSOR",
+   "effect_raw": "- effect/ECP：原HOST_OPERATIONS → Reader投影HOST_OP / OPS ECP；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OPS",
+   "ecp": "OPS ECP",
+   "tqaep": [
+    "TQ-B1-C8-POS",
+    "TQ-B1-C8-NEG",
+    "TQ-B1-C8-EDGE",
+    "TQ-B1-C8-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  },
+  {
+   "edge": "EDGE-OBS-B1-C9",
+   "line": 381,
+   "atom": "B1-C9",
+   "pd": "PD-31",
+   "domain": "TRIPLE_GWO",
+   "effect_raw": "- effect/ECP：原READ_ONLY_PROBE → Reader投影SOURCE_READ / NA_NO_EFFECT；同subject/scope，禁止借DEV grant做OPS。",
+   "effect_class": "OBS",
+   "ecp": null,
+   "tqaep": [
+    "TQ-B1-C9-POS",
+    "TQ-B1-C9-NEG",
+    "TQ-B1-C9-EDGE",
+    "TQ-B1-C9-SEC"
+   ],
+   "first_fail": "SLOT_EFFECT_OR_ORACLE_BIND_HOLD；下一合法動作：讀回本Slot原root/HEAD/Receiver/Oracle，合法讀取補binding，非空才能交原Writer。"
+  }
+ ]
+}

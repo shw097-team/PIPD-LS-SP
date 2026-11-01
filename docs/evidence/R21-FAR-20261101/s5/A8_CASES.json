@@ -1,0 +1,110 @@
+{
+ "schema": "FHS.R21.S5.A8_CASES/2",
+ "generated_utc": "2026-11-01T07:54:18Z",
+ "edge": "EDGE-WO-B1-A8",
+ "pd": "PD-08",
+ "domain": "NATIVE_HOTPATH",
+ "tools": {
+  "hotswap.py": "f9468f406ac2137080133c66073fb328847b359b966a930402304b7023353a14",
+  "issue_grant.py": "08d6e985d46facfb75fce0b56b6b5884975d22ab25d28632a3b964700acb9e77"
+ },
+ "supersedes": "v1 of this probe, whose two NEG 'PASS'es were refusals for the wrong reason (ERR_OCCUPANT_MISMATCH from a stale __pycache__)",
+ "cases": {
+  "TQ-B1-A8-POS": {
+   "grant": {
+    "rc": 0,
+    "exists": true,
+    "sha256": "f93fa8413cfa218bcdc0527f2fa6b46d92d1c768f97863bb667e652b4cb23d9a"
+   },
+   "swap": {
+    "rc": 0,
+    "receipt": "swap_pos.json",
+    "ok": true,
+    "code": null,
+    "why": "POS: new occupant serves as cap-attest-v2; NEG: the old occupant no longer serves cap-attest-v1",
+    "steps": [
+     "grant_bound",
+     "swapped"
+    ],
+    "problems": [],
+    "rollback": "not needed",
+    "stderr_tail": ""
+   },
+   "regression": {
+    "before": "cap-attest-v1",
+    "after": "cap-attest-v2",
+    "changed": true
+   },
+   "preimage_at_swap_time": "b5b0a75cce90522c5b9b774c00c00711f1c7b19536b7e2ed6dbfb3ba015e8dba",
+   "verdict": "PASS"
+  },
+  "TQ-B1-A8-POS_rollback": {
+   "swap": {
+    "rc": 1,
+    "receipt": "swap_rollback.json",
+    "ok": false,
+    "code": "CAPABILITY_PARITY_NOT_PROVEN",
+    "why": "parity not proven (pos_ok=False, neg_ok=True); preimage restored",
+    "steps": [
+     "grant_bound",
+     "swapped"
+    ],
+    "problems": [],
+    "rollback": {
+     "restored": true,
+     "preimage_files": 2,
+     "after_files": 2
+    },
+    "stderr_tail": ""
+   },
+   "preimage_before": "b5b0a75cce90522c5b9b774c00c00711f1c7b19536b7e2ed6dbfb3ba015e8dba",
+   "preimage_after": "b5b0a75cce90522c5b9b774c00c00711f1c7b19536b7e2ed6dbfb3ba015e8dba",
+   "byte_identical": true,
+   "occupant_identity": "cap-attest-v1",
+   "verdict": "PASS"
+  },
+  "TQ-B1-A8-NEG_scope_escape": {
+   "swap": {
+    "rc": 1,
+    "receipt": "swap_escape.json",
+    "ok": false,
+    "code": "ERR_GRANT_NOT_BOUND",
+    "why": "the grant does not cover this swap: ['GRANT_WRITESET_EXCLUDES_TARGET', 'GRANT_WRITESET_EXCLUDES_CANDIDATE']; nothing moved",
+    "steps": [],
+    "problems": [
+     "GRANT_WRITESET_EXCLUDES_TARGET",
+     "GRANT_WRITESET_EXCLUDES_CANDIDATE"
+    ],
+    "rollback": null,
+    "stderr_tail": ""
+   },
+   "target_sha_before": "b5b0a75cce90522c5b9b774c00c00711f1c7b19536b7e2ed6dbfb3ba015e8dba",
+   "target_identity": "cap-attest-v1",
+   "verdict": "PASS"
+  },
+  "TQ-B1-A8-NEG_missing_red_reproducer": {
+   "swap": {
+    "rc": 0,
+    "receipt": "swap_no_red.json",
+    "ok": true,
+    "code": null,
+    "why": "POS: new occupant serves as cap-attest-v2; NEG: the old occupant no longer serves cap-attest-v1",
+    "steps": [
+     "grant_bound",
+     "swapped"
+    ],
+    "problems": [],
+    "rollback": "not needed",
+    "stderr_tail": ""
+   },
+   "target_identity_after": "cap-attest-v2",
+   "verdict": "FAIL_PREIMAGE_MISMATCH_ACCEPTED"
+  }
+ },
+ "summary": {
+  "TQ-B1-A8-POS": "PASS",
+  "TQ-B1-A8-POS_rollback": "PASS",
+  "TQ-B1-A8-NEG_scope_escape": "PASS",
+  "TQ-B1-A8-NEG_missing_red_reproducer": "FAIL_PREIMAGE_MISMATCH_ACCEPTED"
+ }
+}

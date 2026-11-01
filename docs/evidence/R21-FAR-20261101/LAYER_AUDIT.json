@@ -1,0 +1,105 @@
+{
+ "schema": "LAYER_AUDIT/1",
+ "generated_utc": "2026-11-01T11:21:31Z",
+ "round_id": "R21-FAR-20261101",
+ "copied_this_run": 83,
+ "byte_identical_pairs": 456,
+ "gaps_after_copy": [],
+ "layers": {
+  "L0_CANONICAL": [
+   {
+    "path": "HG-KSEOS/scripts/hgk-lane-dispatch.py",
+    "sha256": "524cfd8352df6c1085121d66c4c7d2ba3d7b023aea7e6eca9ded87a53f5c9071",
+    "verdict": "CANONICAL_UNCHANGED",
+    "note": "the D7 receipt-semantics fix exists only as a candidate patch; canonical bytes are untouched"
+   },
+   {
+    "path": "PIPD/tools/hotswap.py",
+    "sha256": "4b5fe035f90f1f4eecab2f9d067a1487bdcb586e341310e2b10d35a45d602eaa",
+    "verdict": "CANONICAL_UNCHANGED_ON_MAIN",
+    "note": "main still carries f9468f40; the repaired file lives on the candidate branch"
+   }
+  ],
+  "L1_CANDIDATE": [
+   {
+    "path": "branch candidate/r21-far-20261101",
+    "head": "be93a56770572595fd0ab5ef32c4acac9be53a4d",
+    "commits": [
+     "be93a56 hotswap: a stale preimage, a reused grant and a foreign effect class are now refused",
+     "a448e54 R21 FAR: gap ledger, three lane receipts, owner rulings and the D7 receipt-semantics patch",
+     "30b2b2d hotswap: a swap that cannot bind a grant is a swap nobody authorised"
+    ],
+    "verdict": "PRESERVED_IN_CANDIDATE",
+    "note": "PR #22, not merged"
+   }
+  ],
+  "L2_DISPOSABLE": [
+   {
+    "path": "var/FHS-R21-FAR-TT-20261101/wp20/plugin_probe",
+    "verdict": "DISPOSABLE_REGENERABLE",
+    "note": "three isolated HERMES_HOME copies + raw stdout; the findings JSON is preserved in L1"
+   },
+   {
+    "path": "var/FHS-R21-FAR-TT-20261101/s6",
+    "verdict": "DISPOSABLE_REGENERABLE",
+    "note": "raw lane logs dominate the size; the closure/case JSON is preserved in L1"
+   },
+   {
+    "path": "var/FHS-R21-FAR-TT-20261101/*/stdout",
+    "verdict": "DISPOSABLE_REGENERABLE",
+    "note": "raw command output; every claim that depends on it also cites the derived JSON"
+   }
+  ],
+  "L3_HOST": [
+   {
+    "path": "C:/Users/user/.hgk-owner/window.json",
+    "verdict": "HOST_ONLY",
+    "note": "live window state; the signature receipts are preserved in L1"
+   },
+   {
+    "path": "C:/Users/user/.hgk-owner/owner.key.enc",
+    "verdict": "HOST_ONLY_NEVER_COPY",
+    "note": "passphrase envelope; must never enter any repository"
+   }
+  ]
+ },
+ "findings": [
+  {
+   "id": "M1",
+   "state": "FIXED_THIS_CLOSURE",
+   "what": "s5/, s6/, ledgers/, wp12/, wp13/, receipts/ and 39 of 46 tools existed only in the disposable layer",
+   "action": "83 files copied into L1 with sha verification"
+  },
+  {
+   "id": "M2",
+   "state": "FIXED_THIS_CLOSURE",
+   "what": "the two owner signature receipts lived only in var/",
+   "action": "copied to L1 rulings/ with payload_sha256 intact"
+  },
+  {
+   "id": "M3",
+   "state": "OPEN_FOR_OWNER",
+   "what": "the D7 fix targets a canonical HG-KSEOS script and is still candidate-only",
+   "action": "needs an owner merge decision; canonical sha 524cfd83 unchanged today"
+  },
+  {
+   "id": "M4",
+   "state": "OPEN_FOR_OWNER",
+   "what": "the hotswap repair is on a candidate branch, not main",
+   "action": "PR #22 open; main untouched"
+  },
+  {
+   "id": "M5",
+   "state": "OPEN_TECHNICAL",
+   "what": "the selector patch (ECP_MULTIPLE_ACTIVE) collides with the landed repair and is not applied",
+   "action": "rebase required; the capability stays unenforced until then"
+  },
+  {
+   "id": "M6",
+   "state": "PLACEMENT_QUESTION",
+   "what": "owner rulings are governance artefacts but now live in the product repo (PIPD-LS-SP)",
+   "action": "owner may prefer HG-KSEOS as their home; copies are byte-identical either way"
+  }
+ ],
+ "rule": "an artefact that only exists under var/ is not preserved: a cleanup can delete it and no reader of the repository would know it existed"
+}
