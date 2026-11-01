@@ -1,0 +1,88 @@
+{
+ "schema": "TOKEN_ATTRIBUTION/1",
+ "generated_utc": "2026-11-01T10:44:00Z",
+ "runs": {
+  "PLAN": {
+   "receipt": "PLAN_R21FAR_v2.json",
+   "receipt_sha256": "afb9aff07adb3f1bfc9b5a0ccf7af1df028ae392f94494e6edcfffa3b4519283",
+   "usage_rows_after_offset": 0,
+   "usage_receipt_ok": true,
+   "usage_receipt_reason": "no usage row was appended after the attempt offset",
+   "usage_provider": null,
+   "usage_model": null,
+   "required_arm_note": "no arm served; the pin is recorded, not satisfied",
+   "required_arm_satisfied": true,
+   "rollout": {
+    "path": "C:\\Users\\user\\.codex\\sessions\\2026\\11\\01\\rollout-2026-11-01T18-04-59-01a19691-ca60-70b2-9a6e-53fa5124f8bc.jsonl",
+    "sha256": "826b47944ae2304797ef3200bea778a55fcd5c90de7a106a4ce83bb8dbfe24ea",
+    "provider": [
+     "openai"
+    ],
+    "model": [
+     "gpt-6.1-sol"
+    ],
+    "usage_events": 6,
+    "total_tokens_sum": 123482,
+    "last_usage": {
+     "input_tokens": 29534,
+     "cached_input_tokens": 18816,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 4029,
+     "reasoning_output_tokens": 52,
+     "total_tokens": 33563
+    }
+   }
+  },
+  "VERIFY": {
+   "receipt": "VERIFY_R21FAR.json",
+   "receipt_sha256": "ebfbf1aab91964dcd2afc76cc30693f369cddd8ae6fbcbd64631b9fe56162275",
+   "usage_rows_after_offset": 0,
+   "usage_receipt_ok": true,
+   "usage_receipt_reason": "no usage row was appended after the attempt offset",
+   "usage_provider": null,
+   "usage_model": null,
+   "required_arm_note": "no arm served; the pin is recorded, not satisfied",
+   "required_arm_satisfied": true,
+   "rollout": {
+    "path": "C:\\Users\\user\\.codex\\sessions\\2026\\11\\01\\rollout-2026-11-01T18-10-09-01a19696-878f-7641-91f7-b11c9fe25418.jsonl",
+    "sha256": "ed8f1e8ce251b6305b20eb206157468da5aa13c0d55a0d23b72abe6326196fa6",
+    "provider": [
+     "openai"
+    ],
+    "model": [
+     "gpt-6.1-sol"
+    ],
+    "usage_events": 6,
+    "total_tokens_sum": 132015,
+    "last_usage": {
+     "input_tokens": 33332,
+     "cached_input_tokens": 27776,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 1051,
+     "reasoning_output_tokens": 107,
+     "total_tokens": 34383
+    }
+   }
+  }
+ },
+ "local_ledgers": {
+  "opencodex_usage_jsonl": {
+   "path": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes\\usage.jsonl",
+   "bytes": 36061082,
+   "rows_in_plan_window": 0,
+   "note": "scanned ts 1793527400-1793528200: zero rows"
+  },
+  "owner_spend_ledger": {
+   "path": "C:\\Users\\user\\.codex\\desktop-model-router\\spend-ledger-owner.sqlite",
+   "bytes": 0,
+   "tables": [],
+   "note": "0-byte file, no tables: no spend row has ever been written"
+  }
+ },
+ "dispatcher_semantics": {
+  "file": "HG-KSEOS/scripts/hgk-lane-dispatch.py",
+  "line_ref": "~3033-3044",
+  "fact": "on an OAuth-direct turn no usage row exists, so usage_receipt_ok is FORCED true from the codex rollout identity",
+  "consequence": "usage_receipt_ok=true means arm attribution from the client rollout, NOT a billing/usage ledger row"
+ }
+}

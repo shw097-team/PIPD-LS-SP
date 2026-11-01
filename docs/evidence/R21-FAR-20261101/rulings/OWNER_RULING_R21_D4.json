@@ -1,0 +1,59 @@
+{
+ "schema": "OWNER_RULING/1",
+ "round_id": "R21-FAR-20261101",
+ "decision_id": "D4",
+ "title": "supported PASS count and the reclassification of unsupported PASS rows",
+ "window_id": "WIN-759646a93af5",
+ "issued_utc": "2026-11-01T11:05:24Z",
+ "authority": "single owner == issuer, owner order 2026-11-01 (unattended Native E2E round)",
+ "evidence": {
+  "wp_evidence_audit_v2": "var/FHS-R21-FAR-TT-20261101/wp_evidence/CANDIDATE_BINDINGS_V2.json",
+  "wp_evidence_audit_v2_sha256": "56ee722a3ccb74b209aa231b104b21c2a7ad9fb41958d116b78a2329a5230f1c",
+  "work_queue_readback": "var/FHS-R21-FAR-TT-20261101/far/sources/WORK_QUEUE_READBACK.json",
+  "work_queue_readback_sha256": "43053a51661262a8062f80a37e7aa116125632f39e8f937d44c6af8d4dc62b15"
+ },
+ "measured": {
+  "queue_rows": 22,
+  "rows_naming_artefacts_at_family_level_only": 16,
+  "supported_pass": [
+   "WP-FHS-10",
+   "WP-FHS-11",
+   "WP-FHS-17"
+  ],
+  "reclassified_unsupported_pass": [
+   "WP-FHS-00",
+   "WP-FHS-01",
+   "WP-FHS-02",
+   "WP-FHS-03",
+   "WP-FHS-04",
+   "WP-FHS-05",
+   "WP-FHS-06",
+   "WP-FHS-07",
+   "WP-FHS-08",
+   "WP-FHS-09",
+   "WP-FHS-14",
+   "WP-FHS-15",
+   "WP-FHS-16",
+   "WP-FHS-18",
+   "WP-FHS-19",
+   "WP-FHS-21"
+  ],
+  "fail_rows": [
+   "WP-FHS-12",
+   "WP-FHS-13",
+   "WP-FHS-20"
+  ]
+ },
+ "ruling": [
+  "A PASS counts as supported only when a row-specific artefact binds it (path names the work order, or C:/wg/queue/<WP>/output).",
+  "Family-level manifests that name many work orders are NOT evidence for any single row; the audit v1 heuristic that produced 11+6 such bindings is withdrawn.",
+  "The 16 rows listed in reclassified_unsupported_pass keep their historical state but carry no supported claim; they must be re-bound or re-executed before any round reports them as PASS.",
+  "The supported PASS count for this queue is 3 (WP-FHS-10, WP-FHS-11, WP-FHS-17); FAIL rows WP-FHS-12, WP-FHS-13, WP-FHS-20 are unaffected by this ruling.",
+  "No row is deleted, no verdict is upgraded, and no evidence_ref is invented."
+ ],
+ "not_claimed": [
+  "independent acceptance",
+  "main integration",
+  "release"
+ ]
+}

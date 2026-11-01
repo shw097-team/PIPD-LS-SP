@@ -1,0 +1,56 @@
+{
+ "schema": "OWNER_RULING/1",
+ "round_id": "R21-FAR-20261101",
+ "decision_id": "D3+D5+W2",
+ "title": "OPS denominator, TT-20 record, and the withdrawn review_lock claim",
+ "window_id": "WIN-759646a93af5",
+ "issued_utc": "2026-11-01T11:06:08Z",
+ "authority": "single owner == issuer, owner order 2026-11-01",
+ "items": [
+  {
+   "id": "D3",
+   "subject": "OPS ECP denominator",
+   "measured": {
+    "edges_in_body": 31,
+    "contract_states": 32,
+    "ledger": "var/FHS-R21-FAR-TT-20261101/ledgers/S6_EDGE_EFFECT_LEDGER.json",
+    "ledger_sha256": "1b37b6aca682090d5415d0ae8a132a122a9c5ae17db6b0006226f806991a2b60"
+   },
+   "ruling": [
+    "The governing denominator is the measured 31 edges (OPS 14 / OBS 10 / DEV 5 / USER 2).",
+    "The 32nd sub-contract named in the contract is NOT_LOCATED_IN_SOURCE; it is recorded as absent, never invented.",
+    "Contract text is flagged for correction; no agent may add an edge to make the numbers meet."
+   ]
+  },
+  {
+   "id": "D5",
+   "subject": "TT-20",
+   "measured": {
+    "four_repo_records": "TT-R20-1..19 present, TT-20 absent",
+    "readback": "var/FHS-R21-FAR-TT-20261101/far/gaps/GAP_LEDGER.json"
+   },
+   "ruling": [
+    "TT-20 has NO_RECORD in the four repositories; the gap is recorded as a named absence.",
+    "A TT index entry may be created only from a recovered source document, not from inference."
+   ]
+  },
+  {
+   "id": "W2",
+   "subject": "scripts/review_lock.py claim",
+   "measured": {
+    "git_ls_files": "tracked",
+    "path": "HG-KSEOS/scripts/review_lock.py",
+    "previous_claim": "untracked, so the pre-commit hook depended on an unversioned file"
+   },
+   "ruling": [
+    "The earlier claim is WITHDRAWN: the file is tracked in the current branch and needs no versioning work.",
+    "This is recorded because an unmeasured blocker is itself a defect in the round ledger."
+   ]
+  }
+ ],
+ "not_claimed": [
+  "independent acceptance",
+  "main integration",
+  "release"
+ ]
+}

@@ -1,0 +1,76 @@
+{
+ "schema": "FHS.R21.S5.C5_CASES/1",
+ "generated_utc": "2026-11-01T10:36:16Z",
+ "edge": "EDGE-WO-B1-C5",
+ "pd": "PD-27",
+ "domain": "CODEX_MINPATCH",
+ "tool": {
+  "path": "var/FHS-R21-FAR-TT-20261101/s5/patch/PIPD/tools/hotswap_selector.py",
+  "sha256": "03b08c73cd530a648f0c97a72844d1f16a136e501aa0addc47a4f6f240da5f10",
+  "note": "selector candidate; canonical PIPD/tools/hotswap.py untouched"
+ },
+ "canonical_sha256": "f9468f406ac2137080133c66073fb328847b359b966a930402304b7023353a14",
+ "results": {
+  "POS_allowlist_and_rollback": {
+   "swap": {
+    "rc": 0,
+    "ok": true,
+    "code": null,
+    "problems": [],
+    "preimage": {
+     "files": 3,
+     "digest": "68b573b1a5b0254528f84bd32b6b6b37766662ece0b1a52641afcccdf39578c0"
+    },
+    "candidate_sha256": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+    "stderr_tail": ""
+   },
+   "identity_before": "cap-attest-v1",
+   "identity_after": "cap-attest-v2",
+   "files_changed": [
+    "src/app.py"
+   ],
+   "files_outside_allowlist_changed": [],
+   "landed_equals_candidate": true,
+   "rollback_byte_identical": true,
+   "verdict": "PASS"
+  },
+  "POS_regression_independent": {
+   "note": "identity read in a separate process before and after the swap",
+   "before": "cap-attest-v1",
+   "after": "cap-attest-v2",
+   "verdict": "PASS"
+  },
+  "NEG_allowlist_escape": {
+   "swap": {
+    "rc": 1,
+    "ok": false,
+    "code": "ERR_GRANT_NOT_BOUND",
+    "problems": [
+     "GRANT_WRITESET_EXCLUDES_TARGET"
+    ],
+    "preimage": {
+     "files": 3,
+     "digest": "68b573b1a5b0254528f84bd32b6b6b37766662ece0b1a52641afcccdf39578c0"
+    },
+    "candidate_sha256": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+    "stderr_tail": ""
+   },
+   "entry_untouched": true,
+   "verdict": "PASS"
+  },
+  "NEG_checker_edits_diff": {
+   "swap_ok": true,
+   "receipt_matches_disk_after_swap": true,
+   "detected_after_checker_mutation": true,
+   "verdict": "DETECTABLE_NOT_PREVENTED",
+   "honest_reading": "the tool does not stop a checker from editing the diff; the receipt's candidate_sha256 is what a re-verify step must compare against"
+  }
+ },
+ "summary": {
+  "POS_allowlist_and_rollback": "PASS",
+  "POS_regression_independent": "PASS",
+  "NEG_allowlist_escape": "PASS",
+  "NEG_checker_edits_diff": "DETECTABLE_NOT_PREVENTED"
+ },
+ "claim_ceiling": "author-side local measurement on copies. The allowlist boundary is enforced by the grant writeset; a checker editing the diff afterwards is DETECTABLE via the receipt's candidate_sha256 but is not prevented."
+}

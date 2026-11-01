@@ -1,0 +1,30 @@
+NONCE: VERIFY-R21FAR-1793528300
+verdict: OBJECT
+unsupported_claims:
+  - "17 PASS rows lack evidence" :: WORK_QUEUE_READBACK.json shows 17 empty evidence_ref values across all rows: 16 PASS and one FAIL (WP-FHS-12). Three PASS rows have references: WP-FHS-10, WP-FHS-11, WP-FHS-17. A reference alone does not establish acceptance.
+  - "The queue readback proves no per-WP artifact directories exist" :: It contains queue fields, not a directory inventory.
+  - "An independent lane request can resolve WP-12" :: The readback already reports a successful product runtime request. The remaining failure concerns recovery-entry instability; an unrelated lane response does not test that entry.
+  - "EXECUTE reran C5; receipt at far_receipts/EXECUTE_R21FAR_C5.json" :: That cited receipt is absent at the project-relative location. C5_CASES.json exists, but existence does not establish independent execution.
+  - "All numbers have files and sha256 bindings" :: Recorded hashes establish claimed file identities, not complete command/output/operation bindings. The cited EXECUTE receipt is also missing.
+  - "Mandatory hash recomputation satisfies C5" :: This is a proposed detection procedure, not evidence of an implemented mandatory gate. Detection does not establish prevention.
+  - "review_lock.py is a prerequisite for every other change, and merges must receive one blanket authorization" :: Neither necessity follows from the evidence presented; each change still needs its applicable scope and acceptance gates.
+
+misclassified_gaps:
+  - G-01 :: OPEN -> OPEN, corrected scope/unblock :: Reconcile 16 unsupported PASS references and the separate FAIL reference omission. Recover existing bound evidence first; rerun only where evidence is absent or insufficient.
+  - G-WP-FHS-12 :: OPEN -> OPEN, host-dependent remediation :: Its unblock explicitly requires host-owner PATH changes or dependency repair; "no owner decision" does not cover those actions.
+  - G-WP-FHS-13 :: OPEN -> OPEN, issuer-dependent execution :: A new ABI replay requires a covering grant; recording an earlier unauthorized effect as superseded requires owner action. Neither retroactively authorizes the historical swap.
+  - G-WP-FHS-20 :: OPEN -> OPEN, coverage reconciliation required :: Its unblock omits the readback's 48 NOT_RUN_NO_RUNNER cells. The asserted absence of seven install surfaces also needs reconciliation with withdrawn absence claims.
+  - G-07 :: DETECTABLE_NOT_PREVENTED -> OPEN unless detection is the accepted criterion :: Require an implemented, tested verification gate; changing the procedure alone cannot close a prevention requirement.
+  - G-09 :: PARTIAL -> PARTIAL, local/external work separated :: Missing production receivers may block acceptance, but "none is a local engineering gap" is unsupported. Receiver contracts, fixtures, candidate tests, and independent reproduction require individual assessment.
+  - G-16 :: OPEN_UNTIL_EXPIRY -> SNAPSHOT_REQUIRING_REVALIDATION :: Recheck validity, remaining operations, and scope before signing. Reopening is necessary only when expiry, exhaustion, or scope requires it.
+  - G-17 :: OPEN -> OPEN with partial local progress available :: Native evidence may block final S8 acceptance, but evidence indexing, report drafting, and adoption-option preparation can proceed locally.
+
+envelope_proposal: UNSOUND :: The stated permit_sign/admission_bundle_sign/registry_row_sign scope authorizes specified signing operations; it does not itself establish authority to issue native SP identities, provide an SP runtime, or make test principals acceptable under host-issued identity requirements. A signed registry row and permit cannot supply those missing capabilities. A governed test principal is a possible candidate experiment only after explicit issuer authority, identity semantics, runtime support, and acceptance criteria are established. Owner refusal is not the only blocker.
+
+missing:
+  - An explicit authority and capability gap separating registry signing, identity issuance, office implementation, and native acceptance.
+  - Receipt completeness and independent-principal verification for each proposed promotion, including the missing EXECUTE receipt.
+  - WP-20's 48 cells lacking a runner and reconciliation of the full 192-cell denominator.
+  - Explicit closure criteria for historical unauthorized effects and C5 detection versus prevention.
+
+notes: Read-only advisory review; no files changed and no acceptance or promotion granted. Both subjects were read. The single substantive source cross-check was WORK_QUEUE_READBACK.json; cited ledger paths were checked for existence, but their contents and hashes were not otherwise verified.

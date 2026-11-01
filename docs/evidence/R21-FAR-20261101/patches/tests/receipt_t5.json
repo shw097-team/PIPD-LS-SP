@@ -1,0 +1,57 @@
+{
+ "schema": "PIPD-HOTSWAP-RECEIPT/1",
+ "root": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t5",
+ "entry": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t5\\occupant.py",
+ "candidate": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t5\\candidate.py",
+ "started_at": "2026-11-01T14:28:39+0800",
+ "started_at_epoch": 1793514519.4183,
+ "steps": [],
+ "preimage": {
+  "files": 2,
+  "digest": "265452ebefd4474199dc256113052f1b658226ba0101e225ab6084f16838031a"
+ },
+ "before": {
+  "identity": "cap-attest-v1",
+  "served": true,
+  "via": "abi-consumer",
+  "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t5\\occupant.py",
+  "code": null
+ },
+ "candidate_sha256": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+ "grant": {
+  "path": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\grant_misses_target.json",
+  "sha256": "f2f7fe62c35a6b6f82ee8b6830f7cd39a8365466c28074b8d7dcbbdae1c5fbd5",
+  "nonce": "T5-1793514518",
+  "issued_at": 1793514518,
+  "expires_at": 1793515418,
+  "subject": "WP-FHS-13",
+  "operation": "install_occupant",
+  "scope": "WP-FHS-13 remediation test",
+  "policy_epoch": "40",
+  "issuer_verifier_exit": 0,
+  "issuer_verifier": {
+   "grant": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\grant_misses_target.json",
+   "verdict": "GRANT_VALID",
+   "problems": []
+  },
+  "issued_before_effect": true,
+  "ordering_reference": "receipt.started_at",
+  "writeset_paths": [
+   "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\patches\\tests\\unrelated_a.py",
+   "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\patches\\tests\\unrelated_b.py"
+  ],
+  "covers_entry": false,
+  "covers_candidate": false,
+  "preimage_checks": {},
+  "candidate_sha_named": null,
+  "candidate_sha_matches": true,
+  "problems": [
+   "GRANT_WRITESET_EXCLUDES_TARGET",
+   "GRANT_WRITESET_EXCLUDES_CANDIDATE"
+  ]
+ },
+ "code": "ERR_GRANT_NOT_BOUND",
+ "ok": false,
+ "why": "the grant does not cover this swap: ['GRANT_WRITESET_EXCLUDES_TARGET', 'GRANT_WRITESET_EXCLUDES_CANDIDATE']; nothing moved",
+ "finished_at": "2026-11-01T14:28:39+0800"
+}

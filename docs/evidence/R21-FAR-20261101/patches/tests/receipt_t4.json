@@ -1,0 +1,86 @@
+{
+ "schema": "PIPD-HOTSWAP-RECEIPT/1",
+ "root": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t4",
+ "entry": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t4\\occupant.py",
+ "candidate": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t4\\candidate.py",
+ "started_at": "2026-11-01T14:29:14+0800",
+ "started_at_epoch": 1793514554.9547656,
+ "steps": [
+  "grant_bound",
+  "swapped"
+ ],
+ "preimage": {
+  "files": 2,
+  "digest": "265452ebefd4474199dc256113052f1b658226ba0101e225ab6084f16838031a"
+ },
+ "before": {
+  "identity": "cap-attest-v1",
+  "served": true,
+  "via": "abi-consumer",
+  "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t4\\occupant.py",
+  "code": null
+ },
+ "candidate_sha256": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+ "grant": {
+  "path": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\grant_t4.json",
+  "sha256": "be76694780c14b2e8d0dba56c50e87f5888a40be4d480d0bdfcf936e6fd76ff7",
+  "nonce": "T4-1793514554",
+  "issued_at": 1793514554,
+  "expires_at": 1793515454,
+  "subject": "WP-FHS-13",
+  "operation": "install_occupant",
+  "scope": "T4 neg semantics",
+  "policy_epoch": "40",
+  "issuer_verifier_exit": 0,
+  "issuer_verifier": {
+   "grant": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\grant_t4.json",
+   "verdict": "GRANT_VALID",
+   "problems": []
+  },
+  "issued_before_effect": true,
+  "ordering_reference": "receipt.started_at",
+  "writeset_paths": [
+   "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\patches\\tests\\t4\\candidate.py",
+   "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\patches\\tests\\t4\\occupant.py"
+  ],
+  "covers_entry": true,
+  "covers_candidate": true,
+  "preimage_checks": {
+   "entry": {
+    "declared": "b5b0a75cce90522c5b9b774c00c00711f1c7b19536b7e2ed6dbfb3ba015e8dba",
+    "actual": "b5b0a75cce90522c5b9b774c00c00711f1c7b19536b7e2ed6dbfb3ba015e8dba",
+    "ok": true
+   },
+   "candidate": {
+    "declared": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+    "actual": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+    "ok": true
+   }
+  },
+  "candidate_sha_named": null,
+  "candidate_sha_matches": true,
+  "problems": []
+ },
+ "pos": {
+  "identity": "cap-attest-v2",
+  "served": true,
+  "via": "abi-consumer",
+  "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t4\\occupant.py",
+  "code": null
+ },
+ "neg": {
+  "identity_after": "cap-attest-v2",
+  "serves_old": false,
+  "question": "does the target still serve the old capability?"
+ },
+ "control": {
+  "identity": "cap-attest-v1",
+  "served": true,
+  "question": "did the target serve the old capability BEFORE the swap? (control)"
+ },
+ "rollback": "not needed",
+ "code": null,
+ "ok": true,
+ "why": "POS: new occupant serves as cap-attest-v2; NEG: the old occupant no longer serves cap-attest-v1",
+ "finished_at": "2026-11-01T14:29:15+0800"
+}

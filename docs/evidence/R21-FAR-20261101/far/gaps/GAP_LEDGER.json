@@ -1,0 +1,261 @@
+{
+ "schema": "FHS.R21.FAR.GAP_LEDGER/1",
+ "generated_utc": "2026-11-01T10:06:34Z",
+ "sources_read": {
+  "path": "var/FHS-R21-FAR-TT-20261101/far/sources/SOURCE_DENOMINATOR.json",
+  "sha256": "1604b4da42ed41a3133c2c51d73914323cc3b5332596720d12b1e3a0cc6df698",
+  "bytes": 9952
+ },
+ "queue_state": {
+  "rows": 22,
+  "pass": 19,
+  "fail": 3,
+  "without_evidence_ref": 17
+ },
+ "gaps": [
+  {
+   "id": "G-01",
+   "what": "17 of 22 work_queue rows are PASS with an empty evidence_ref and no per-WP artifact dir",
+   "evidence": {
+    "path": "var/FHS-R21-FAR-TT-20261101/far/sources/WORK_QUEUE_READBACK.json",
+    "sha256": "43053a51661262a8062f80a37e7aa116125632f39e8f937d44c6af8d4dc62b15",
+    "bytes": 11052
+   },
+   "state": "OPEN",
+   "cost": "the 22-WP pass rate is not defensible; each row needs a bound receipt or a reopen",
+   "unblock": "re-run each WP's own checker against its artifact dir, or reopen the WP and re-execute",
+   "owner_decision": "OWNER (reopen authority)"
+  },
+  {
+   "id": "G-02",
+   "what": "WP-FHS-11 is state=PASS while carrying blocker_code=HERMES_MODEL_HALF_UNMEASURED",
+   "evidence": {
+    "path": "var/FHS-R21-FAR-TT-20261101/far/sources/WORK_QUEUE_READBACK.json",
+    "sha256": "43053a51661262a8062f80a37e7aa116125632f39e8f937d44c6af8d4dc62b15",
+    "bytes": 11052
+   },
+   "state": "INCONSISTENT",
+   "cost": "a PASS row that admits half the surface was never measured cannot be counted",
+   "unblock": "either measure the model half on a real host request or move the row to FAIL with a named blocker",
+   "owner_decision": "none if the row is corrected"
+  },
+  {
+   "id": "G-WP-FHS-12",
+   "what": "WP-FHS-12 is FAIL with blocker RECOVERY_ENTRY_UNSTABLE",
+   "evidence": {
+    "path": "var/FHS-R21-FAR-TT-20261101/far/sources/WORK_QUEUE_READBACK.json",
+    "sha256": "43053a51661262a8062f80a37e7aa116125632f39e8f937d44c6af8d4dc62b15",
+    "bytes": 11052
+   },
+   "state": "OPEN",
+   "cost": "three of twenty-two WPs cannot be closed; two of them carry owner-envelope and cell evidence already",
+   "unblock": "retire the recovery forwarder from PATH (host owner, one command) or repair the lease-managed dependency install (10 openai modules past 260 chars, 10 extension modules built for cp314 in a 3.11 runtime); then re-sit the AO and clause 2 becomes a statement about one entry instead of a sample of a flaky one",
+   "owner_decision": "none until its own checker re-reads"
+  },
+  {
+   "id": "G-WP-FHS-13",
+   "what": "WP-FHS-13 is FAIL with blocker C5_GRANT_NOT_BOUND_AT_EFFECT_TIME",
+   "evidence": {
+    "path": "var/FHS-R21-FAR-TT-20261101/far/sources/WORK_QUEUE_READBACK.json",
+    "sha256": "43053a51661262a8062f80a37e7aa116125632f39e8f937d44c6af8d4dc62b15",
+    "bytes": 11052
+   },
+   "state": "OPEN",
+   "cost": "three of twenty-two WPs cannot be closed; two of them carry owner-envelope and cell evidence already",
+   "unblock": "re-run the ABI swap on the ABI fixture under a covering grant (now possible), or have the owner record the earlier effect as unauthorised-but-superseded; then re-sit C5",
+   "owner_decision": "none until its own checker re-reads"
+  },
+  {
+   "id": "G-WP-FHS-20",
+   "what": "WP-FHS-20 is FAIL with blocker CELLS_NOT_MEASURED",
+   "evidence": {
+    "path": "var/FHS-R21-FAR-TT-20261101/far/sources/WORK_QUEUE_READBACK.json",
+    "sha256": "43053a51661262a8062f80a37e7aa116125632f39e8f937d44c6af8d4dc62b15",
+    "bytes": 11052
+   },
+   "state": "OPEN",
+   "cost": "three of twenty-two WPs cannot be closed; two of them carry owner-envelope and cell evidence already",
+   "unblock": "exercise the 12 existing-surface cells (Hermes PROFILE and PLUGIN), and accept or scope the 7 Kinds that have no install surface on any host here",
+   "owner_decision": "none until its own checker re-reads"
+  },
+  {
+   "id": "G-05",
+   "what": "S5 DEV ECP: 5 edges; A8/B3/B4 executed, C5 executed today, B5 measured unprovable on this host",
+   "evidence": {
+    "path": "var/FHS-R21-FAR-TT-20261101/s5/C5_CASES.json",
+    "sha256": "f3af976960cbbcaa5b69e2a6873b40263a006fa6bc4cc625a3b272d71f668995",
+    "bytes": 2547
+   },
+   "state": "PARTIAL",
+   "cost": "DEV ECP completion cannot be claimed as 5/5 because B5 needs a host that issues SP identities",
+   "unblock": "B5 unblocks only on a host with three real SP identities; the other four are measured",
+   "owner_decision": "HOST (no local workaround)"
+  },
+  {
+   "id": "G-06",
+   "what": "Four canonical tool defects measured (stale preimage, reused receipt, foreign effect class, two live ECPs)",
+   "evidence": {
+    "path": "var/FHS-R21-FAR-TT-20261101/s5/B3_PATCH_TEST.json",
+    "sha256": "a04d1b4b224ed495e2e3e0d553db77c6b641692508f269b8b2a4eb465c050efd",
+    "bytes": 2040
+   },
+   "state": "OPEN",
+   "cost": "candidate patches pass but the canonical tools still accept all four",
+   "unblock": "owner/issuer authorises landing the candidate patch on PIPD/tools/hotswap.py, then a fresh regression",
+   "owner_decision": "OWNER (repo write on canonical file)"
+  },
+  {
+   "id": "G-07",
+   "what": "C5: a checker editing the landed diff is detectable via receipt candidate_sha256 but is not prevented",
+   "evidence": {
+    "path": "var/FHS-R21-FAR-TT-20261101/s5/C5_CASES.json",
+    "sha256": "f3af976960cbbcaa5b69e2a6873b40263a006fa6bc4cc625a3b272d71f668995",
+    "bytes": 2547
+   },
+   "state": "DETECTABLE_NOT_PREVENTED",
+   "cost": "the NEG clause 'checker edits same diff' is only half satisfied",
+   "unblock": "a re-verify step must recompute the sha; enforcement would need a write-lock the tool does not have",
+   "owner_decision": "none if the re-verify step is mandated"
+  },
+  {
+   "id": "G-08",
+   "what": "OPS ECP: contract says 32 sub-contracts; the body yields 31 edges (OPS 14 / OBS 10 / DEV 5 / USER 2)",
+   "evidence": {
+    "path": "var/FHS-R21-FAR-TT-20261101/ledgers/S6_EDGE_EFFECT_LEDGER.json",
+    "sha256": "1b37b6aca682090d5415d0ae8a132a122a9c5ae17db6b0006226f806991a2b60",
+    "bytes": 18532
+   },
+   "state": "NOT_LOCATED",
+   "cost": "the denominator in the contract cannot be reconciled with the source",
+   "unblock": "owner or the source document must rule where the 32nd comes from; an agent must not invent it",
+   "owner_decision": "OWNER (source authority)"
+  },
+  {
+   "id": "G-09",
+   "what": "S6 closure: 2 defects patched as candidates, 1 partial (no receiver ABI/ACK), 11 PARK",
+   "evidence": {
+    "path": "var/FHS-R21-FAR-TT-20261101/s6/S6_CLOSURE.json",
+    "sha256": "ded23f11960ecf0f28c9cd685f70477373864d0ee7516d9f6fd8b5050f1a9b9e",
+    "bytes": 7869
+   },
+   "state": "PARTIAL",
+   "cost": "11 of 31 edges cannot be exercised without a signed domain receiver and an oracle per edge",
+   "unblock": "each PARK names its own unblock; none is a local engineering gap",
+   "owner_decision": "OWNER/HOST per edge"
+  },
+  {
+   "id": "G-10",
+   "what": "TQAEP 282 cases are machine-read with per-case sha, but no case is mapped to a TestClass/OracleType/G00-G14 or executed",
+   "evidence": {
+    "path": "var/FHS-R21-FAR-TT-20261101/ledgers/S5_S7_INVENTORY.json",
+    "sha256": "ebe11a0070981bc7982c6ed41f549bb071dfa112ff65a23ad3197b3a0ae620ea",
+    "bytes": 6126
+   },
+   "state": "OPEN",
+   "cost": "the 282 denominator is a source identity, not a run",
+   "unblock": "map and execute the minimal closure; 12 TestClasses / 8 OracleTypes are the axes",
+   "owner_decision": "none for mapping; execution needs fixtures"
+  },
+  {
+   "id": "G-11",
+   "what": "Three native offices (TPM / Commander / Challenge) have no host-issued identity on this host",
+   "evidence": {
+    "path": "var/FHS-R21-FAR-TT-20261101/s5/B5_PROBE.json",
+    "sha256": "f1ea29f03e8849e0891167598207e342dcba23344a4d13c1535a6d169de56670",
+    "bytes": 2398
+   },
+   "state": "NOFIT_LOCAL",
+   "cost": "no NATIVE acceptance can be produced locally for any of the three",
+   "unblock": "run each office on a host that issues identities and record command+exit+sha",
+   "owner_decision": "HOST"
+  },
+  {
+   "id": "G-12",
+   "what": "AO returned PARTIAL; four of its claims were re-measured by me and confirmed; three findings remain open (F4/F5/F6) and one (F11) was never stated",
+   "evidence": {
+    "path": "var/FHS-R21-FAR-TT-20261101/wp20/AO_0361E484_RETURN.md",
+    "sha256": "a95a39e7a99e7cc45d2839f5ffb08130736e5893c1fd8aaa6dedcb8a3d4e8d57",
+    "bytes": 5808
+   },
+   "state": "OPEN",
+   "cost": "WP-20's ceiling is narrower than reported before the AO returned",
+   "unblock": "F4: give the three negative kinds measured evidence or drop them; F5: classify SIMPLE_AGENT; F6: install leg; F11: state it",
+   "owner_decision": "none for F4/F11; F6 needs network"
+  },
+  {
+   "id": "G-13",
+   "what": "PLUGIN install leg never exercised: the fixture is a bundled plugin, not a catalog entry",
+   "evidence": {
+    "path": "var/FHS-R21-FAR-TT-20261101/wp20/PLUGIN_PROBE_V2.json",
+    "sha256": "f01efb109aaff0695a43fd951406be6ff87273686ddd5e8fb3aa5d547392bf27",
+    "bytes": 8061
+   },
+   "state": "NOT_EXERCISED",
+   "cost": "the plugin cells can claim list+remove only",
+   "unblock": "install a catalog or git plugin in a throwaway home with dependency bootstrap",
+   "owner_decision": "none (network)"
+  },
+  {
+   "id": "G-14",
+   "what": "TT-20 has no record anywhere; 49 FAR/TT rows reconciled earlier",
+   "evidence": {
+    "path": "var/FHS-R21-FAR-TT-20261101/receipts/FAR_TT_RECONCILE.json",
+    "sha256": "b57843f41660ad751adb540bca4cd4bd21c63f1d8d79b0439a5d616cbaed9578",
+    "bytes": 24062
+   },
+   "state": "NO_RECORD",
+   "cost": "the ledger cannot show 50/50",
+   "unblock": "record TT-20 as NO_RECORD with its provenance, or owner supplies the missing TT",
+   "owner_decision": "OWNER (record authority)"
+  },
+  {
+   "id": "G-15",
+   "what": "scripts/review_lock.py is not under version control while the pre-commit hook depends on it",
+   "evidence": {
+    "path": "HG-KSEOS/scripts/review_lock.py",
+    "sha256": "f726c66113a9d4b38cf6eaca1ae2fa09ff83d60bd087cbcb83d97487cd85679e"
+   },
+   "state": "OPEN",
+   "cost": "the guard that makes reviewed writes reviewable is itself unversioned",
+   "unblock": "commit it under a proper change with a rollback pointer",
+   "owner_decision": "OWNER (repo write)"
+  },
+  {
+   "id": "G-16",
+   "what": "Owner envelope WIN-91b01b7cd918 open, 40 ops, expires 2026-11-01T13:55:31Z",
+   "evidence": {
+    "path": "var/B1-PIPD-PKG-20261027/artifacts/OWNER_WINDOW.json",
+    "sha256": "0ddd38cbad467d3828b18429a4e04cada66ccf9813f4fc99b0aebb3b0692cf77"
+   },
+   "state": "OPEN_UNTIL_EXPIRY",
+   "cost": "any permit / admission bundle / registry row signing after expiry needs a new envelope",
+   "unblock": "reopen the envelope before the first signing op of the next round",
+   "owner_decision": "OWNER (opens the window)"
+  },
+  {
+   "id": "G-17",
+   "what": "S8/S9 not started: no three-office evidence set, no four-repo adoption decision, no final report",
+   "evidence": {
+    "path": "var/FHS-R21-FAR-TT-20261101/far/sources/SOURCE_DENOMINATOR.json",
+    "sha256": "1604b4da42ed41a3133c2c51d73914323cc3b5332596720d12b1e3a0cc6df698",
+    "bytes": 9952
+   },
+   "state": "OPEN",
+   "cost": "the deliverable cannot be called complete",
+   "unblock": "S8 is blocked by G-11; S9 depends on the adoption decisions in this FAR",
+   "owner_decision": "OWNER (adoption and release authority)"
+  }
+ ],
+ "counts": {
+  "OPEN_UNTIL_EXPIRY": 1,
+  "NOT_LOCATED": 1,
+  "DETECTABLE_NOT_PREVENTED": 1,
+  "NOFIT_LOCAL": 1,
+  "OPEN": 9,
+  "NOT_EXERCISED": 1,
+  "INCONSISTENT": 1,
+  "PARTIAL": 2,
+  "NO_RECORD": 1
+ },
+ "claim_ceiling": "author-side inventory; every row names a local file whose sha256 is recorded here"
+}

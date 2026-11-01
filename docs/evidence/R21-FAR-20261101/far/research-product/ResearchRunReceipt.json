@@ -1,0 +1,85 @@
+{
+ "schema": "FAR_RESEARCH_RUN_RECEIPT/1",
+ "round_id": "R21-FAR-20261101",
+ "generated_utc": "2026-11-01T10:37:26Z",
+ "mandate": "var/FHS-R21-FAR-TT-20261101/far/MANDATE_R21_FAR.json",
+ "mandate_sha256": "2ea4d81f53304c1656cecfaef3a487cd738cf1611b49bb5433ea0271f9e980f8",
+ "lanes": {
+  "PLAN": {
+   "file": "PLAN_R21FAR_v2.json",
+   "sha256": "afb9aff07adb3f1bfc9b5a0ccf7af1df028ae392f94494e6edcfffa3b4519283",
+   "ok": true,
+   "code": null,
+   "lane": "PLAN",
+   "required_arm": "openai-codex/gpt-6.1-sol",
+   "served_arm": "openai-codex/gpt-6.1-sol",
+   "served_arm_raw": "openai-codex/gpt-6.1-sol",
+   "used_rank": 1,
+   "used_seconds": 117.61,
+   "identity_source": "codex-rollout",
+   "usage_receipt_ok": true,
+   "required_arm_satisfied": true
+  },
+  "EXECUTE": {
+   "file": "EXECUTE_R21FAR_C5.json",
+   "sha256": "e2aff632388906d86d3437d47d1d7954446076db44c4979afd92a812797adff8",
+   "ok": true,
+   "code": null,
+   "lane": "EXECUTE",
+   "required_arm": "opencode-go/deepseek-v4.1-flash",
+   "served_arm": "opencode-go/deepseek-v4.1-flash",
+   "served_arm_raw": null,
+   "used_rank": null,
+   "used_seconds": null,
+   "identity_source": "codex-run-log",
+   "usage_receipt_ok": null,
+   "required_arm_satisfied": null
+  },
+  "VERIFY": {
+   "file": "VERIFY_R21FAR.json",
+   "sha256": "ebfbf1aab91964dcd2afc76cc30693f369cddd8ae6fbcbd64631b9fe56162275",
+   "ok": true,
+   "code": null,
+   "lane": "VERIFY_SECURITY",
+   "required_arm": "openai-codex/gpt-6.1-sol",
+   "served_arm": "openai-codex/gpt-6.1-sol",
+   "served_arm_raw": "openai-codex/gpt-6.1-sol",
+   "used_rank": 1,
+   "used_seconds": 116.48,
+   "identity_source": "codex-rollout",
+   "usage_receipt_ok": true,
+   "required_arm_satisfied": true
+  }
+ },
+ "products": {
+  "CandidateResearch.yaml": {
+   "sha256": "65294a083bbb1039122e73141eb885c19a208fd6cc0216be0435a50eb9066e83",
+   "bytes": 696
+  },
+  "ClaimLedger.tsv": {
+   "sha256": "c3a3843a314551842c64c80677cea2ec88371cb3343bfc3b710ab85e29e5c823",
+   "bytes": 1563
+  },
+  "FitGapLedger.tsv": {
+   "sha256": "fa9c300cf25020e1c2a8fe9eac6a010f00df45e508772c6b6fe268c3ec85a287",
+   "bytes": 5336
+  },
+  "RejectedAlternativeLedger.tsv": {
+   "sha256": "3151651938378a01e88ec8484abbcf5972fbd2cc47c37b8560ef56503e3da774",
+   "bytes": 1012
+  },
+  "ResearchHandoff.yaml": {
+   "sha256": "db7385a705e1a278eea4758129b0f0aa25847ea9c2b1bd0d17293e6ab2c22614",
+   "bytes": 450
+  },
+  "ResearchRunReceipt.json": {
+   "sha256": "6956b210206da61796cfee1a58e847ac0b829aec9a4f4c024659b9271ca406d5",
+   "bytes": 2745
+  },
+  "ResearchSourceDenominator.tsv": {
+   "sha256": "abae9764ecfd9def783b75420fa58956952c3bbb59ab0e9ef87f536be07cb2e4",
+   "bytes": 7552
+  }
+ },
+ "ceiling": "candidate research product; the VERIFY receipt is advisory only"
+}

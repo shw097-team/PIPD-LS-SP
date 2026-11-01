@@ -1,0 +1,20 @@
+diff --git "a/C:\\Projects\\Agent_Workspace\\PIPD\\src\\pipd_ls_sp\\abi.py" "b/C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\PIPD\\src\\pipd_ls_sp\\abi.py"
+index 268007b..250ec47 100644
+--- "a/C:\\Projects\\Agent_Workspace\\PIPD\\src\\pipd_ls_sp\\abi.py"
++++ "b/C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\PIPD\\src\\pipd_ls_sp\\abi.py"
+@@ -113,7 +113,14 @@ def occupant_from_file(need: Need, path: Path, *, factory: str = "build") -> Occ
+     spec.loader.exec_module(mod)
+     if not hasattr(mod, factory):
+         raise AbiUnsatisfied(f"{path} has no factory {factory!r}")
+-    return Occupant(need=need, impl=getattr(mod, factory)(), origin=str(path))
++    declared = getattr(mod, "NEED", None)
++    if declared is not None and not isinstance(declared, Need):
++        raise AbiUnsatisfied(
++            f"{path} declares NEED of type {type(declared).__name__}, expected Need")
++    # A module that declares its own NEED is checked against the caller's need; stamping the
++    # caller's Need here made the version/name gate compare a Need with itself (AO WP-FHS-13 F6).
++    return Occupant(need=declared if declared is not None else need,
++                    impl=getattr(mod, factory)(), origin=str(path))
+ 
+ 
+ class Consumer:

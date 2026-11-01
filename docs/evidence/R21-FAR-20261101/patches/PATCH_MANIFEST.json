@@ -1,0 +1,62 @@
+{
+ "schema": "FHS.R21.WP13.TOOL_PATCHES/1",
+ "note": "candidate patches only; nothing applied to the repos",
+ "records": {
+  "abi": {
+   "src": "C:\\Projects\\Agent_Workspace\\PIPD\\src\\pipd_ls_sp\\abi.py",
+   "src_sha256": "901f2a1e506de65bde72df996d540cabe302910c858fc938a926fc633563b213",
+   "dst": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\PIPD\\src\\pipd_ls_sp\\abi.py",
+   "dst_sha256": "f2c54868d47dfb417108a016638ee11bf30a49bbd187c8b6a68771566a5b0b53",
+   "edits": [
+    {
+     "ok": true,
+     "anchor": "    return Occupant(need=need, impl=getattr(mod, factory)(), origin=st"
+    }
+   ],
+   "all_applied": true,
+   "patch": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\abi.patch",
+   "patch_sha256": "ea4d6023d51e7709bcb4855d8a8af9f2c7d508c22964911ba8e9de806c9684bf",
+   "patch_bytes": 1285
+  },
+  "hotswap": {
+   "src": "C:\\Projects\\Agent_Workspace\\PIPD\\tools\\hotswap.py",
+   "src_sha256": "f9468f406ac2137080133c66073fb328847b359b966a930402304b7023353a14",
+   "dst": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\PIPD\\tools\\hotswap.py",
+   "dst_sha256": "bbc36dab59c1aac162b738ffe3f8a0358b553ae466a9da1e0ab52ee25a7c466b",
+   "edits": [
+    {
+     "ok": true,
+     "anchor": "def bind_grant(grant_path: Path, entry: Path, candidate: Path, cand_sh"
+    },
+    {
+     "ok": true,
+     "anchor": "        info[\"issued_before_effect\"] = issued <= time.time()"
+    },
+    {
+     "ok": true,
+     "anchor": "    # 4. the grant must name the exact artefact when it names one at a"
+    },
+    {
+     "ok": true,
+     "anchor": "    neg = {\"identity\": pos[\"identity\"], \"served\": pos[\"served\"],\n     "
+    },
+    {
+     "ok": true,
+     "anchor": "    neg_ok = pos[\"identity\"] != args.expect_old"
+    },
+    {
+     "ok": true,
+     "anchor": "    receipt: dict = {\"schema\": SCHEMA, \"root\": str(root), \"entry\": str"
+    },
+    {
+     "ok": true,
+     "anchor": "        info, problems = bind_grant(Path(args.grant), entry, candidate"
+    }
+   ],
+   "all_applied": true,
+   "patch": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\hotswap.patch",
+   "patch_sha256": "4f15b109612ad7013b795130e02a35ba47f75dd569c5f96314edfa823959206a",
+   "patch_bytes": 5290
+  }
+ }
+}

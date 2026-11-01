@@ -1,0 +1,42 @@
+{
+  "schema": "SBL_MANDATE/1",
+  "round_id": "R21-FAR-20261101",
+  "why": "The role split must fail closed. This round is ordered to run PLAN and VERIFY on openai-codex/gpt-6.1-sol and EXECUTE on opencode-go/deepseek-v4.1-flash; the interactive session model is deepseek-v4.1-flash, which is the EXECUTE arm, so any PLAN or VERIFY artefact produced in-session is EXECUTE-arm work wearing the wrong label.",
+  "session_plane": {
+    "note": "Session plane and lane plane are different planes. The session pin does not bind the PLAN lane.",
+    "session_model": "opencode-go/deepseek-v4.1-flash"
+  },
+  "roles": {
+    "PLAN": {
+      "lane": "PLAN",
+      "provider_model": "openai-codex/gpt-6.1-sol",
+      "transport_model": "gpt-6.1-sol",
+      "required_rank": 1,
+      "reasoning_effort": "medium",
+      "payer": "owner OpenAI OAuth (human home ~/.codex, codex-rollout identity)",
+      "applies_to": ["research", "root-cause", "decision", "planning", "engineering-ruling"],
+      "evidence": "receipts/dispatch/PLAN_*.json with ok=true, nonce present, served arm == required arm"
+    },
+    "EXECUTE": {
+      "lane": "EXECUTE",
+      "provider_model": "opencode-go/deepseek-v4.1-flash",
+      "transport_model": "opencode-go/deepseek-v4.1-flash",
+      "required_rank": 1,
+      "payer": "opencode-go key shw0968 via local passthrough 127.0.0.1:10105",
+      "applies_to": ["bounded-write", "measurement-run", "candidate-proposal"],
+      "evidence": "receipts/dispatch/EXECUTE_*.json plus the artefacts it wrote, checked by me"
+    },
+    "VERIFY": {
+      "lane": "VERIFY_SECURITY",
+      "provider_model": "openai-codex/gpt-6.1-sol",
+      "transport_model": "gpt-6.1-sol",
+      "required_rank": 1,
+      "reasoning_effort": "medium",
+      "payer": "owner OpenAI OAuth (human home ~/.codex, codex-rollout identity)",
+      "applies_to": ["verification", "adversarial-review", "acceptance-advisory"],
+      "evidence": "receipts/dispatch/VERIFY_*.json with a fresh process, no candidate write, advisory ceiling"
+    }
+  },
+  "owner_order_ref": "user message 2026-11-01: PLAN gpt-6.1-sol OAuth, EXECUTE deepseek-v4.1-flash via Codex CLI, VERIFY gpt-6.1-sol via Codex CLI",
+  "no_self_accept": "An in-session answer may not become a lane verdict; the VERIFY receipt is the only admissible independent reading."
+}

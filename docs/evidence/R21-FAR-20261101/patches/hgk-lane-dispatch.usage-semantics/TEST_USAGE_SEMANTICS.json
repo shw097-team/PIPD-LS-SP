@@ -1,0 +1,86 @@
+{
+ "schema": "D7_USAGE_SEMANTICS_TEST/1",
+ "candidate": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\hgk-lane-dispatch.usage-semantics\\hgk_lane_dispatch_candidate.py",
+ "candidate_sha256": "4f8a80f6d98cdcfa16cbb4d90e031a857e2f7a98dfe1c372b2dedd93194f5b09",
+ "canonical": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\\hgk-lane-dispatch.py",
+ "canonical_sha256": "524cfd8352df6c1085121d66c4c7d2ba3d7b023aea7e6eca9ded87a53f5c9071",
+ "cases": {
+  "T1_oauth_direct_not_billed": {
+   "view": {
+    "usage_rows": 0,
+    "usage_receipt_ok": false,
+    "arm_attribution_ok": true,
+    "billing_evidence": "none_local:oauth-direct",
+    "payer": "owner-openai-oauth"
+   },
+   "pass": true
+  },
+  "T2_ledger_row_billed": {
+   "view": {
+    "usage_rows": 3,
+    "usage_receipt_ok": true,
+    "arm_attribution_ok": false,
+    "billing_evidence": "usage-row",
+    "payer": "opencode-go"
+   },
+   "pass": true
+  },
+  "T3_nothing_known": {
+   "view": {
+    "usage_rows": 0,
+    "usage_receipt_ok": false,
+    "arm_attribution_ok": false,
+    "billing_evidence": "none",
+    "payer": "unknown"
+   },
+   "pass": true
+  },
+  "T4_canonical_still_forces_the_flag": {
+   "canonical_occurrences": 1,
+   "pass": true
+  },
+  "T5_candidate_no_longer_forces_the_flag": {
+   "candidate_occurrences": 0,
+   "pass": true
+  },
+  "T6_candidate_gate_accepts_attribution": {
+   "pass": true
+  },
+  "T7_candidate_states_billing_at_top_level": {
+   "pass": true
+  },
+  "T8_canonical_bytes_untouched": {
+   "sha256": "524cfd8352df6c1085121d66c4c7d2ba3d7b023aea7e6eca9ded87a53f5c9071",
+   "pass": true
+  },
+  "T9_replay_real_receipts": {
+   "replay": {
+    "PLAN_R21FAR_v2.json": {
+     "old_usage_receipt_ok": true,
+     "old_usage_rows": 0,
+     "new_view": {
+      "usage_rows": 0,
+      "usage_receipt_ok": false,
+      "arm_attribution_ok": true,
+      "billing_evidence": "none_local:oauth-direct",
+      "payer": "owner-openai-oauth"
+     }
+    },
+    "VERIFY_R21FAR.json": {
+     "old_usage_receipt_ok": true,
+     "old_usage_rows": 0,
+     "new_view": {
+      "usage_rows": 0,
+      "usage_receipt_ok": false,
+      "arm_attribution_ok": true,
+      "billing_evidence": "none_local:oauth-direct",
+      "payer": "owner-openai-oauth"
+     }
+    }
+   },
+   "pass": true
+  }
+ },
+ "all_pass": true,
+ "ceiling": "logic-level contrast on a copy; canonical not edited, no dispatch re-run"
+}

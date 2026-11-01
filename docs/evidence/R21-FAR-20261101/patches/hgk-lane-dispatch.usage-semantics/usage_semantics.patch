@@ -1,0 +1,75 @@
+--- HG-KSEOS/scripts/hgk-lane-dispatch.py
++++ candidate/hgk_lane_dispatch_candidate.py
+@@ -1268,6 +1268,29 @@
+         return model
+     return f"{provider}/{model}"
+ 
++
++def derive_billing_view(attempt: dict) -> dict:
++    """Three facts a receipt must never conflate (D7, R21-FAR-20261101).
++
++    `usage_receipt_ok` answers "did a usage ledger row bind to this attempt?".
++    `arm_attribution_ok` answers "did the client record which arm served?".
++    `payer` answers "who is billed?", and is only knowable when a row or a declared
++    alias says so. An OAuth-direct turn has attribution but NO local billing evidence.
++    """
++    rows = int(attempt.get("usage_rows_after_offset") or 0)
++    measured = bool(attempt.get("usage_receipt_ok"))
++    attribution = bool(attempt.get("arm_attribution_ok"))
++    if measured:
++        billing = "usage-row"
++        payer = attempt.get("usage_provider") or "unknown"
++    elif attribution:
++        billing = "none_local:oauth-direct"
++        payer = attempt.get("payer") or "owner-openai-oauth"
++    else:
++        billing = "none"
++        payer = "unknown"
++    return {"usage_rows": rows, "usage_receipt_ok": measured,
++            "arm_attribution_ok": attribution, "billing_evidence": billing, "payer": payer}
+ 
+ # --- Owner-declared provider ALIASES (FAR-B1-v2, N-6) ------------------------------------------
+ # Some arms ANSWER under a different provider label than the one the lane bound: the OpenAI-OAuth
+@@ -3040,9 +3063,14 @@
+                 att["model"] = ident["model"]
+                 att["identity_source"] = ident["source"]
+                 att["identity_rollout"] = ident["rollout"]
+-                att["usage_receipt_ok"] = True
++                # D7: a rollout identity proves WHICH arm answered, never that a usage row exists.
++                # usage_receipt_ok keeps the measured value (False when no ledger row bound).
++                att["arm_attribution_ok"] = True
++                att["arm_attribution_source"] = ident["source"]
++                att["billing_evidence"] = "none_local:oauth-direct"
+                 att["identity_note"] = "served arm read from the codex rollout written for this run and cwd"
+-        if att.get("exit") == 0 and att.get("nonce_present") and att.get("usage_receipt_ok"):
++        if att.get("exit") == 0 and att.get("nonce_present") and (
++                att.get("usage_receipt_ok") or att.get("arm_attribution_ok")):
+             _ce = None
+             if bound:
+                 _ce = _resolve_completion_evidence(att, validated_binding, root=args.cwd or ROOT)
+@@ -3206,6 +3234,13 @@
+     _serving = used if used is not None else next(
+         (a for a in attempts if a.get("exit") == 0), None)
+     receipt["usage_receipt_ok"] = bool(_serving.get("usage_receipt_ok")) if _serving else False
++    # D7: state attribution and billing separately, so "an arm answered" can never be read as
++    # "a usage row was billed". A missing ledger row is recorded, not hidden behind a boolean.
++    _billing = derive_billing_view(_serving) if _serving else derive_billing_view({})
++    receipt["arm_attribution_ok"] = _billing["arm_attribution_ok"]
++    receipt["billing_evidence"] = _billing["billing_evidence"]
++    receipt["payer"] = _billing["payer"]
++    receipt["usage_rows_bound"] = _billing["usage_rows"]
+     # I2 (pass-5): surface the wrong-shaped-row count on the receipt itself (in every case, not only
+     # the failure path), so a skipped/counted bad row is operator-visible even on a passing turn.
+     receipt["usage_rows_shape_invalid"] = sum(
+@@ -3226,9 +3261,11 @@
+         receipt["required_arm"] = str(args.require_arm)
+         receipt["required_arm_satisfied"] = False
+         receipt["required_arm_note"] = "no arm served; the pin is recorded, not satisfied"
++    # D7: drop a stale note once an arm DID serve, otherwise one receipt says both things.
+     if used is not None and args.require_arm:
+         # Always record the pair positively, so a passing receipt also states WHICH arm served.
+         receipt["required_arm"] = str(args.require_arm)
++        receipt.pop("required_arm_note", None)   # D7: a served pin must not keep the refusal note
+         receipt["served_arm_raw"] = served_arm_of(used["provider"], used["model"])
+         receipt["served_arm"], _alias = canonical_arm(used["provider"], used["model"])
+         if _alias is not None:

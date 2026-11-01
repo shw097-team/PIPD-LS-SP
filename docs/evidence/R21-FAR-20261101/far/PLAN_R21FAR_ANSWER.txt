@@ -1,0 +1,331 @@
+PLAN-R21FAR-1793527600
+{
+  "gaps": [
+    {
+      "id": "ACCEPTANCE_INTEGRITY",
+      "what": "Reopen 16 unsupported PASS claims and check dependency closure; validate the other three evidence references.",
+      "evidence": "Brief: 19 PASS rows sampled; 16 lack evidence and artifact directories.",
+      "cost": "The recorded 19/3 split cannot establish deliverable acceptance.",
+      "state": "HOLD"
+    },
+    {
+      "id": "S5_AUTHORIZATION",
+      "what": "Canonical tools retain stale-preimage, grant-replay, effect-class and concurrent-ECP defects.",
+      "evidence": "Brief: four canonical defects; candidate tests 4/4 and 2/2 on copies.",
+      "cost": "Repo-write authorization remains unreliable.",
+      "state": "HOLD"
+    },
+    {
+      "id": "NATIVE_IDENTITIES",
+      "what": "Prove three SP host loads and native TPM, Commander and Challenge identities.",
+      "evidence": "Brief: no SP binary, zero invocation receipts, role briefs only; native identities absent.",
+      "cost": "Native E2E claims remain blocked.",
+      "state": "HOLD"
+    },
+    {
+      "id": "WP13",
+      "what": "Close F2/F3/F4/F6/F7 independently and reconcile the historical unauthorized swap.",
+      "evidence": "Brief reports C5 5/5 and T1-T5 candidate success; queue still records the historical grant failure.",
+      "cost": "Current success cannot authorize a past effect or close all findings.",
+      "state": "OPEN"
+    },
+    {
+      "id": "WP12",
+      "what": "Establish PATH-entry version and dispatch equivalence after the local forwarder repair.",
+      "evidence": "Brief: pm.environments at hermes_bootstrap:527; AO PARTIAL.",
+      "cost": "Normal-mode entry qualification remains incomplete.",
+      "state": "OPEN"
+    },
+    {
+      "id": "WP20",
+      "what": "Reconcile all 192 cells, rerun withdrawn claims and exercise a genuine catalog plugin install.",
+      "evidence": "Brief: 12 cells have step hashes; four claims withdrawn; root-help denominator is 68.",
+      "cost": "Kind and host coverage cannot support full acceptance.",
+      "state": "OPEN"
+    },
+    {
+      "id": "S6",
+      "what": "Close receiver ABI/ACK, independently verify two fixes and assign dispositions to 11 parked items.",
+      "evidence": "Brief: 31 edges, two candidate fixes, one partial, 11 PARK.",
+      "cost": "OPS contract and operational closure remain incomplete.",
+      "state": "OPEN"
+    },
+    {
+      "id": "TQAEP",
+      "what": "Map 282 hashed cases to 12 TestClasses, eight OracleTypes and G00-G14, then execute required coverage.",
+      "evidence": "Brief: extraction complete; mapping not started.",
+      "cost": "Case enumeration supplies no acceptance coverage by itself.",
+      "state": "OPEN"
+    },
+    {
+      "id": "C5_CODEX_MINPATCH",
+      "what": "Execute S5 C5 CODEX_MINPATCH separately from WP13 C5.",
+      "evidence": "Brief: S5 C5 not started.",
+      "cost": "DEV qualification remains incomplete.",
+      "state": "OPEN"
+    },
+    {
+      "id": "DELIVERY_PROVENANCE",
+      "what": "Version review_lock.py, establish candidate diffs and resolve missing TT-20.",
+      "evidence": "Brief: script unversioned; TT-20 has no record.",
+      "cost": "Reproducibility and delivery completeness remain unproved.",
+      "state": "OPEN"
+    },
+    {
+      "id": "LANE_DISPATCH",
+      "what": "Obtain a successful PLAN dispatch and a separate fresh VERIFY receipt.",
+      "evidence": "receipts/dispatch/PLAN_R21FAR.json: ok=false, ERR_GUARD_ROOT_CONTAINS_HARNESS_OUTPUT.",
+      "cost": "This response cannot establish an admitted lane verdict.",
+      "state": "HOLD"
+    }
+  ],
+  "unpassable": [
+    {
+      "id": "INDEPENDENT_ACCEPTANCE",
+      "claimed_reason": "The author cannot independently accept its own candidates.",
+      "recheck": "NARROW_ASSUMPTION",
+      "alternative": "Use a fresh no-write lane under a different principal, with required model dispatch and operation-bound receipts.",
+      "if_none_then_design_change": "None now; fresh context alone does not establish a different principal."
+    },
+    {
+      "id": "HOST_EXPERIMENTS",
+      "claimed_reason": "Plugin installation and service probes cannot run on the current host.",
+      "recheck": "NARROW_ASSUMPTION",
+      "alternative": "Check local Docker availability; use a disposable compatible sandbox for catalog install/remove and service tests, then qualify target-host behavior separately.",
+      "if_none_then_design_change": "None now; sandbox results must retain their platform ceiling."
+    },
+    {
+      "id": "SIGNING",
+      "claimed_reason": "Every permit or admission signature requires another manual owner action.",
+      "recheck": "OVER_READ",
+      "alternative": "Use WIN-91b01b7cd918 only after checking live expiry, remaining operations, revocation and exact scope.",
+      "if_none_then_design_change": "None; renew or issue a narrowly scoped envelope if unavailable."
+    },
+    {
+      "id": "REPO_WRITE_AUTHORITY",
+      "claimed_reason": "The HOST_OPERATIONS envelope automatically permits repo writes.",
+      "recheck": "MISREAD",
+      "alternative": "An authorized issuer must issue a grant explicitly covering REPO_WRITE, target, candidate, preimage and operation.",
+      "if_none_then_design_change": "None; repair effect-class enforcement rather than widening authority implicitly."
+    },
+    {
+      "id": "NATIVE_IDENTITY",
+      "claimed_reason": "Role briefs or sandbox processes can satisfy host-issued native identities.",
+      "recheck": "REAL",
+      "alternative": "Issuer provisions actual identities and loadable implementations; independent lanes verify host invocation. Docker can test loading mechanics only.",
+      "if_none_then_design_change": "If intentionally waived, explicitly amend the three host-issued SP identity requirement and native TPM/Commander/Challenge identity requirements to a named surrogate profile; do not call that native acceptance."
+    },
+    {
+      "id": "HISTORICAL_SWAP",
+      "claimed_reason": "A later signed grant can make the earlier swap compliant.",
+      "recheck": "REAL",
+      "alternative": "Rerun the exact ABI fixture with sign-before-act binding; record the old effect as unauthorized and superseded.",
+      "if_none_then_design_change": "Do not weaken sign-before-act; only the owner may decide incident disposition."
+    },
+    {
+      "id": "KIND_ABSENCE",
+      "claimed_reason": "Absent install verbs establish NO_SURFACE or SIMPLE_AGENT.",
+      "recheck": "MISREAD",
+      "alternative": "Inspect loading, registration, dispatch and object semantics; test applicable surfaces independently and in a sandbox.",
+      "if_none_then_design_change": "Only after exhaustive evidence, amend the specific unsupported kind/host/mode obligation in the 192-cell matrix through an owner-approved applicability ruling."
+    },
+    {
+      "id": "S6_DENOMINATOR",
+      "claimed_reason": "A thirty-second subcontract must be implemented because the contract says 32.",
+      "recheck": "OVER_READ",
+      "alternative": "Reconcile the 31 enumerated edges with the issuer; identify an omitted edge or correct the count.",
+      "if_none_then_design_change": "If no edge is missing, amend the contract phrase '32 sub-contracts' to '31 sub-contracts'."
+    },
+    {
+      "id": "RECEIVER_ACK",
+      "claimed_reason": "Sender tests can close the absent receiver ABI/ACK.",
+      "recheck": "REAL",
+      "alternative": "Receiver owner supplies ABI and actual ACK receipts; sandbox mocks provide preparatory evidence only.",
+      "if_none_then_design_change": "If asynchronous delivery is intended, amend the receiver ABI/ACK acceptance requirement to specify durable receipt, timeout and recovery semantics."
+    }
+  ],
+  "owner_decisions": [
+    {
+      "id": "IDENTITY_ISSUANCE",
+      "decision": "Provision native identities and SP implementations or approve a reduced acceptance profile.",
+      "smallest_form": "Signed subject-scoped identity issuance and load requirements.",
+      "who": "Host identity issuer and acceptance owner",
+      "blocking": "B5 and native E2E",
+      "envelope_op": "registry_row_sign only if identity registration is explicitly within delegated scope"
+    },
+    {
+      "id": "WP13_HISTORY",
+      "decision": "Record the old swap as unauthorized and superseded; require a compliant exact-fixture rerun.",
+      "smallest_form": "Signed incident disposition referencing both operation receipts.",
+      "who": "Owner; independent verifier advises",
+      "blocking": "Historical C5 closure",
+      "envelope_op": "No incident-waiver operation is established by the listed envelope"
+    },
+    {
+      "id": "WP12_ENTRY",
+      "decision": "Select the supported PATH entry set and authorize any host change needed.",
+      "smallest_form": "Bounded entry repair or retirement decision.",
+      "who": "Host owner",
+      "blocking": "Entry equivalence qualification",
+      "envelope_op": "permit_sign for an explicitly covered HOST_OPERATIONS permit"
+    },
+    {
+      "id": "S6_SCOPE",
+      "decision": "Resolve 31 versus 32, assign the ACK owner and disposition each PARK item.",
+      "smallest_form": "One signed edge reconciliation with per-item owners and exit criteria.",
+      "who": "Contract issuer and receiver owner",
+      "blocking": "S6 closure",
+      "envelope_op": "No contract-amendment authority established"
+    },
+    {
+      "id": "TT20_SCOPE",
+      "decision": "Locate TT-20 or explicitly define its requirement and acceptance gate.",
+      "smallest_form": "One issuer ruling with source reference.",
+      "who": "TT requirement issuer",
+      "blocking": "Complete TT delivery claim",
+      "envelope_op": "No requirement-waiver authority established"
+    },
+    {
+      "id": "PROMOTION_AUTHORITY",
+      "decision": "Authorize bounded practical deployment after independent gates; retain human control of main.",
+      "smallest_form": "Per-candidate permit with hashes, effect scope and rollback.",
+      "who": "Authorized issuer; maintainer performs merge",
+      "blocking": "Canonical deployment and main integration",
+      "envelope_op": "permit_sign or admission_bundle_sign only within verified scope"
+    }
+  ],
+  "promotions": [
+    {
+      "candidate": "S5 preimage, single-use grant, effect-class and single-live-ECP fixes",
+      "tested_by": "Reported copy tests: 4/4 and 2/2; principal not established here.",
+      "gate_to_pass": "Different-principal replay of positive, negative and concurrent cases against exact deployment bytes; verify atomic consumption and rollback.",
+      "signer": "Independent verifier advises; authorized REPO_WRITE issuer permits use.",
+      "risk": "Authorization bypass persists until canonical deployment is qualified."
+    },
+    {
+      "candidate": "WP13 F2/F3/F4/F6/F7 repairs and owner-envelope binding sidecar",
+      "tested_by": "Reported T1-T5 and C5 5/5; AO identified findings.",
+      "gate_to_pass": "Independent finding-by-finding closure, exact ABI-fixture rerun and tamper/expiry/replay checks on operation-bound bytes.",
+      "signer": "Independent AO or VERIFY principal; authorized issuer signs admission.",
+      "risk": "Sidecar validation must be enforced before effect; historical failure remains recorded."
+    },
+    {
+      "candidate": "WP12 forwarder repair",
+      "tested_by": "Reported local repair; AO remains PARTIAL.",
+      "gate_to_pass": "Fresh-process PATH/version/dispatch equivalence tests across every supported entry.",
+      "signer": "Independent verifier and host authority.",
+      "risk": "Intermittent recovery entry or environment mismatch."
+    },
+    {
+      "candidate": "Two S6 candidate fixes",
+      "tested_by": "Reported candidate tests; exact cases and principals not supplied here.",
+      "gate_to_pass": "Inspect diffs and independently reproduce both defects and fixes; retain receiver-ACK ceiling.",
+      "signer": "Independent verifier; OPS authority authorizes deployment.",
+      "risk": "Local fixes do not close end-to-end receiver semantics."
+    }
+  ],
+  "merge_candidates": [
+    {
+      "branch_or_patch": "S5 authorization candidates",
+      "tested_by": "Reported tests on copies.",
+      "gate": "Exact diff and hashes, independent security regression receipt, scoped grant, rollback and maintainer review.",
+      "recommendation": "HOLD"
+    },
+    {
+      "branch_or_patch": "WP13 candidate repairs",
+      "tested_by": "Reported T1-T5 and C5 tests.",
+      "gate": "Independent closure of all five findings and reproducible same-fixture effect binding.",
+      "recommendation": "HOLD"
+    },
+    {
+      "branch_or_patch": "WP12 local forwarder patch",
+      "tested_by": "Local tests; AO PARTIAL.",
+      "gate": "Supported-entry equivalence acceptance and reviewable versioned patch.",
+      "recommendation": "HOLD"
+    },
+    {
+      "branch_or_patch": "S6 candidate fixes",
+      "tested_by": "Reported candidate tests.",
+      "gate": "Identify exact patches and independent regression evidence; document residual ACK gap.",
+      "recommendation": "HOLD"
+    },
+    {
+      "branch_or_patch": "scripts/review_lock.py",
+      "tested_by": "No reproducible versioned test evidence supplied.",
+      "gate": "Capture versioned bytes, review behavior and obtain independent relevant regression evidence.",
+      "recommendation": "HOLD"
+    }
+  ],
+  "execution_plan": [
+    {
+      "step": 1,
+      "action": "Separate harness output from guarded subjects and redispatch PLAN; establish a distinct no-write VERIFY principal.",
+      "lane": "PLAN",
+      "evidence": "Successful dispatch receipts with nonce, required served arm and subject hashes.",
+      "stop_if": "Dispatch fails, subjects change or independent principal cannot be established."
+    },
+    {
+      "step": 2,
+      "action": "Reconcile unsupported PASS rows, dependency closure, withdrawn claims and stale queue blockers.",
+      "lane": "PLAN",
+      "evidence": "Per-WP ledger linking files, SHA256, commands, raw output and operation identifiers.",
+      "stop_if": "A claim relies solely on queue state or an author's self-test."
+    },
+    {
+      "step": 3,
+      "action": "Prepare versioned S5 and WP13 candidates and rerun bounded security cases.",
+      "lane": "EXECUTE",
+      "evidence": "Exact diffs, grants, pre/post hashes, raw outputs and rollback artifacts.",
+      "stop_if": "Grant scope, preimage, exclusivity or single-use enforcement fails."
+    },
+    {
+      "step": 4,
+      "action": "Independently verify candidate bytes and advise on bounded practical promotion.",
+      "lane": "VERIFY",
+      "evidence": "Different-principal fresh-process receipt bound to each tested operation.",
+      "stop_if": "Candidate writing occurs in VERIFY or deployment bytes differ."
+    },
+    {
+      "step": 5,
+      "action": "Qualify WP12 entries and WP20 surfaces; use compatible Docker fixtures where available.",
+      "lane": "EXECUTE",
+      "evidence": "Entry equivalence traces, catalog install/remove receipts and revised 192-cell ledger.",
+      "stop_if": "Sandbox evidence is being promoted to unsupported target-host or native claims."
+    },
+    {
+      "step": 6,
+      "action": "Obtain identity and receiver decisions; execute B5, CODEX_MINPATCH and remaining S6 work.",
+      "lane": "EXECUTE",
+      "evidence": "Issuer-bound identities, host invocation receipts, receiver ACKs and PARK exit records.",
+      "stop_if": "Required identity, ABI or effect authority remains absent."
+    },
+    {
+      "step": 7,
+      "action": "Map and execute TQAEP coverage; reconcile TT-20 and assemble delivery evidence.",
+      "lane": "EXECUTE",
+      "evidence": "282-case mapping, coverage results, versioned tooling and complete artifact manifest.",
+      "stop_if": "Missing mappings or requirements are silently treated as covered."
+    },
+    {
+      "step": 8,
+      "action": "Issue independent acceptance advice and hand eligible patches to the authorized maintainer.",
+      "lane": "VERIFY",
+      "evidence": "Final same-operation evidence bundles, residual ceilings and signed decisions.",
+      "stop_if": "Any proposed PASS lacks required evidence; agents never merge, tag, release or move main."
+    }
+  ],
+  "rulings": [
+    "This is a read-only planning response, not an independent acceptance verdict; no files were written.",
+    "The supplied PLAN dispatch receipt failed. No successful lane admission or VERIFY receipt is established here.",
+    "SOURCE_DENOMINATOR.json inventories 34 sources; its hashes do not prove this response inspected those original artifacts.",
+    "The queue readback is older than several brief corrections: WP13 C5 and WP20 blocker text require reconciliation, not automatic acceptance or rejection.",
+    "WP11 is recorded PASS while retaining a loader/model blocker; preserve its measured ceiling until reconciled.",
+    "Sixteen unsupported PASS rows must reopen as unproved; absent evidence does not itself prove implementation failure.",
+    "Use 68 measured root-help commands and 31 enumerated S6 edges; neither count proves semantic coverage.",
+    "Plugin list discrimination and byte-for-byte removal recovery do not demonstrate catalog installation.",
+    "The envelope's reported OPEN state is not proof of current validity; check expiry, remaining budget, revocation and scope at operation time.",
+    "A signing envelope supplies delegated signing capability, not independent acceptance, native identity or implicit REPO_WRITE authority.",
+    "No named branch, exact candidate diff or complete independent evidence bundle was supplied here; all merge recommendations remain HOLD.",
+    "Exact design clause identifiers beyond the brief are unverified; proposed amendments name the affected requirement without inventing section numbers."
+  ]
+}

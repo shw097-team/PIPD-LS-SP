@@ -1,0 +1,39 @@
+schema: FAR_RESEARCH_REQUEST/1
+round_id: R21-FAR-20261101
+requested_by: owner (session message 2026-11-01)
+request_type: RESEARCH_GENERAL
+decision_question: >
+  For FHS-MSC_PIPD-LS-PKG_FAR_TT_NATIVE_E2E_SINGLE_THIN_PROMPT_2026-11-01, what is genuinely unfinished,
+  residual, missing, blocked or unclosed; which of the apparently-impossible items are impossible for a real
+  reason rather than a narrow assumption; and which owner/issuer decisions, promotions and merges are owed.
+sub_questions:
+  - id: Q1
+    text: What remains, ordered by the cost of leaving it open?
+  - id: Q2
+    text: For each item judged unpassable, is that over-reading, misreading, a narrow assumption, or real?
+    candidate_alternatives: [independent lane, local docker sandbox, owner key envelope, design change]
+  - id: Q3
+    text: Which decisions need an owner/issuer, which tested candidates are promotable, which branches are fit to merge?
+scope:
+  governing_docs:
+    - path: 知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/FHS/FHS-MSC/FHS-MSC_PIPD-LS-PKG/實作薄PROMPT/FHS-MSC_PIPD-LS-PKG_FAR_TT_NATIVE_E2E_SINGLE_THIN_PROMPT_2026-11-01.md
+      sha256: 397dd5adc73f9659...
+    - path: 知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/FHS/FHS-MSC/FHS-MSC_PIPD-LS-PKG/FHS-MSC_PIPD-LS-PKG_2026-10-30_HANDOFF-PATCH-v1/01_FHS-MSC_PIPD-LS-PKG_BODY/
+      files: 17
+  in_scope: local candidate work, measurement, lane receipts, promotion and merge recommendations
+  out_of_scope: production, release, main fast-forward, force push, policy/oracle change, second scheduler
+budget:
+  lanes: {PLAN: 1 dispatch, EXECUTE: 1 dispatch, VERIFY: 1 dispatch}
+  wall_clock_minutes: 120
+  note: one office per brief; no brief over 50 KB of reading
+stop_criteria:
+  - every gap row either has a bound local receipt or a named HOLD/PARK/NOFIT with an unblock condition
+  - no PASS is claimed without file + sha256 + rerunnable command + raw output
+  - the VERIFY lane has returned an independent reading, or the absence is recorded as AO_UNRETURNED
+abstain_criteria:
+  - a claim would need an owner credential, a different host, or a network fetch that this round may not perform
+claim_ceiling: candidate research product only; nothing here authorises main, release, or acceptance
+owner_authorization: >
+  Owner envelope WIN-91b01b7cd918 (scope permit_sign, admission_bundle_sign, registry_row_sign; ceiling
+  HOST_OPERATIONS; expires 2026-11-01T13:55:31Z) authorises bounded signing only. This research product
+  performs no signing op.

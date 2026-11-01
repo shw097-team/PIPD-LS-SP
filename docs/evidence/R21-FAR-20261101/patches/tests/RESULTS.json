@@ -1,0 +1,368 @@
+{
+ "T1_patched": {
+  "cmd": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\probe_need.py"
+  ],
+  "rc": 0,
+  "stdout": "{\"ok\": true, \"value\": {\"ok\": false, \"code\": \"ERR_ABI_VERSION_MISMATCH\", \"why\": \"need 'cap.attest' v1 is not satisfied by C:\\\\Projects\\\\Agent_Workspace\\\\var\\\\FHS-R21-FAR-TT-20261101\\\\patches\\\\tests\\\\t1\\\\occupant_v2need.py v2 missing []\"}}\n",
+  "stderr": ""
+ },
+ "T1_original": {
+  "cmd": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\probe_need.py"
+  ],
+  "rc": 0,
+  "stdout": "{\"ok\": true, \"value\": {\"ok\": true, \"value\": \"cap-attest-v2\", \"origin\": \"C:\\\\Projects\\\\Agent_Workspace\\\\var\\\\FHS-R21-FAR-TT-20261101\\\\patches\\\\tests\\\\t1\\\\occupant_v2need.py\"}}\n",
+  "stderr": ""
+ },
+ "T2_issue": {
+  "cmd": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+   "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\\issue_grant.py",
+   "issue",
+   "--principal",
+   "owner",
+   "--operation",
+   "install_occupant",
+   "--writeset",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\ws_bad_preimage.json",
+   "--ttl",
+   "900",
+   "--epoch",
+   "40",
+   "--scope",
+   "WP-FHS-13 remediation test",
+   "--nonce",
+   "T2-1793514518",
+   "--subject",
+   "WP-FHS-13",
+   "--out",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\grant_bad_preimage.json"
+  ],
+  "rc": 0,
+  "stdout": "{\"issued\": \"C:\\\\Projects\\\\Agent_Workspace\\\\var\\\\FHS-R21-FAR-TT-20261101\\\\patches\\\\tests\\\\grant_bad_preimage.json\", \"key_id\": \"135455ca00280c39\", \"nonce\": \"T2-1793514518\", \"expires_at\": 1793515418, \"signature_alg\": \"Ed25519\", \"owner_authorization_sha256\": \"dd03f7b0b80531880ed897e4e831b2ab7bc4e59ec3cc8f10efd523ce3ea11bdf\"}\n",
+  "stderr": ""
+ },
+ "T5_issue": {
+  "cmd": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+   "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\\issue_grant.py",
+   "issue",
+   "--principal",
+   "owner",
+   "--operation",
+   "install_occupant",
+   "--writeset",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\ws_misses_target.json",
+   "--ttl",
+   "900",
+   "--epoch",
+   "40",
+   "--scope",
+   "WP-FHS-13 remediation test",
+   "--nonce",
+   "T5-1793514518",
+   "--subject",
+   "WP-FHS-13",
+   "--out",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\grant_misses_target.json"
+  ],
+  "rc": 0,
+  "stdout": "{\"issued\": \"C:\\\\Projects\\\\Agent_Workspace\\\\var\\\\FHS-R21-FAR-TT-20261101\\\\patches\\\\tests\\\\grant_misses_target.json\", \"key_id\": \"135455ca00280c39\", \"nonce\": \"T5-1793514518\", \"expires_at\": 1793515418, \"signature_alg\": \"Ed25519\", \"owner_authorization_sha256\": \"dd03f7b0b80531880ed897e4e831b2ab7bc4e59ec3cc8f10efd523ce3ea11bdf\"}\n",
+  "stderr": ""
+ },
+ "T2_patched": {
+  "cmd": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\PIPD\\tools\\hotswap.py",
+   "--root",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t2",
+   "--entry",
+   "occupant.py",
+   "--candidate",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t2\\candidate.py",
+   "--expect-old",
+   "cap-attest-v1",
+   "--expect-new",
+   "cap-attest-v2",
+   "--need",
+   "cap.attest",
+   "--method",
+   "identity",
+   "--grant",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\grant_bad_preimage.json",
+   "--grant-verifier",
+   "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\\issue_grant.py",
+   "--out",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\receipt_t2.json"
+  ],
+  "rc": 1,
+  "stdout": "{\"ok\": false, \"code\": \"ERR_GRANT_NOT_BOUND\", \"why\": \"the grant does not cover this swap: ['GRANT_PREIMAGE_MISMATCH_ENTRY']; nothing moved\"}\n",
+  "stderr": "",
+  "receipt": {
+   "schema": "PIPD-HOTSWAP-RECEIPT/1",
+   "root": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t2",
+   "entry": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t2\\occupant.py",
+   "candidate": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t2\\candidate.py",
+   "started_at": "2026-11-01T14:28:38+0800",
+   "started_at_epoch": 1793514518.6265283,
+   "steps": [],
+   "preimage": {
+    "files": 2,
+    "digest": "265452ebefd4474199dc256113052f1b658226ba0101e225ab6084f16838031a"
+   },
+   "before": {
+    "identity": "cap-attest-v1",
+    "served": true,
+    "via": "abi-consumer",
+    "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t2\\occupant.py",
+    "code": null
+   },
+   "candidate_sha256": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+   "grant": {
+    "path": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\grant_bad_preimage.json",
+    "sha256": "c1abe962b08a23f5444732d90f681bbdd6861d4e5f41d65f11ce5a055f4a766c",
+    "nonce": "T2-1793514518",
+    "issued_at": 1793514518,
+    "expires_at": 1793515418,
+    "subject": "WP-FHS-13",
+    "operation": "install_occupant",
+    "scope": "WP-FHS-13 remediation test",
+    "policy_epoch": "40",
+    "issuer_verifier_exit": 0,
+    "issuer_verifier": {
+     "grant": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\grant_bad_preimage.json",
+     "verdict": "GRANT_VALID",
+     "problems": []
+    },
+    "issued_before_effect": true,
+    "ordering_reference": "receipt.started_at",
+    "writeset_paths": [
+     "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\patches\\tests\\t2\\candidate.py",
+     "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\patches\\tests\\t2\\occupant.py"
+    ],
+    "covers_entry": true,
+    "covers_candidate": true,
+    "preimage_checks": {
+     "entry": {
+      "declared": "0000000000000000000000000000000000000000000000000000000000000000",
+      "actual": "b5b0a75cce90522c5b9b774c00c00711f1c7b19536b7e2ed6dbfb3ba015e8dba",
+      "ok": false
+     },
+     "candidate": {
+      "declared": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+      "actual": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+      "ok": true
+     }
+    },
+    "candidate_sha_named": null,
+    "candidate_sha_matches": true,
+    "problems": [
+     "GRANT_PREIMAGE_MISMATCH_ENTRY"
+    ]
+   },
+   "code": "ERR_GRANT_NOT_BOUND",
+   "ok": false,
+   "why": "the grant does not cover this swap: ['GRANT_PREIMAGE_MISMATCH_ENTRY']; nothing moved",
+   "finished_at": "2026-11-01T14:28:38+0800"
+  }
+ },
+ "T2_original": {
+  "cmd": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+   "C:\\Projects\\Agent_Workspace\\PIPD\\tools\\hotswap.py",
+   "--root",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t2",
+   "--entry",
+   "occupant.py",
+   "--candidate",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t2\\candidate.py",
+   "--expect-old",
+   "cap-attest-v1",
+   "--expect-new",
+   "cap-attest-v2",
+   "--need",
+   "cap.attest",
+   "--method",
+   "identity",
+   "--grant",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\grant_bad_preimage.json",
+   "--grant-verifier",
+   "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\\issue_grant.py",
+   "--out",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\receipt_t2.json"
+  ],
+  "rc": 0,
+  "stdout": "{\"ok\": true, \"code\": null, \"why\": \"POS: new occupant serves as cap-attest-v2; NEG: the old occupant no longer serves cap-attest-v1\", \"pos\": {\"identity\": \"cap-attest-v2\", \"served\": true, \"via\": \"abi-consumer\", \"origin\": \"C:\\\\Projects\\\\Agent_Workspace\\\\var\\\\FHS-R21-FAR-TT-20261101\\\\patches\\\\tests\\\\t2\\\\occupant.py\", \"code\": null}, \"neg\": {\"identity\": \"cap-attest-v2\", \"served\": true, \"question\": \"does the target still serve the old capability?\"}}\n",
+  "stderr": "",
+  "receipt": {
+   "schema": "PIPD-HOTSWAP-RECEIPT/1",
+   "root": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t2",
+   "entry": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t2\\occupant.py",
+   "candidate": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t2\\candidate.py",
+   "started_at": "2026-11-01T14:28:39+0800",
+   "steps": [
+    "grant_bound",
+    "swapped"
+   ],
+   "preimage": {
+    "files": 2,
+    "digest": "265452ebefd4474199dc256113052f1b658226ba0101e225ab6084f16838031a"
+   },
+   "before": {
+    "identity": "cap-attest-v1",
+    "served": true,
+    "via": "abi-consumer",
+    "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t2\\occupant.py",
+    "code": null
+   },
+   "candidate_sha256": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+   "grant": {
+    "path": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\grant_bad_preimage.json",
+    "sha256": "c1abe962b08a23f5444732d90f681bbdd6861d4e5f41d65f11ce5a055f4a766c",
+    "nonce": "T2-1793514518",
+    "issued_at": 1793514518,
+    "expires_at": 1793515418,
+    "subject": "WP-FHS-13",
+    "operation": "install_occupant",
+    "scope": "WP-FHS-13 remediation test",
+    "policy_epoch": "40",
+    "issuer_verifier_exit": 0,
+    "issuer_verifier": {
+     "grant": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\grant_bad_preimage.json",
+     "verdict": "GRANT_VALID",
+     "problems": []
+    },
+    "issued_before_effect": true,
+    "writeset_paths": [
+     "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\patches\\tests\\t2\\candidate.py",
+     "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\patches\\tests\\t2\\occupant.py"
+    ],
+    "covers_entry": true,
+    "covers_candidate": true,
+    "candidate_sha_named": null,
+    "candidate_sha_matches": true,
+    "problems": []
+   },
+   "pos": {
+    "identity": "cap-attest-v2",
+    "served": true,
+    "via": "abi-consumer",
+    "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t2\\occupant.py",
+    "code": null
+   },
+   "neg": {
+    "identity": "cap-attest-v2",
+    "served": true,
+    "question": "does the target still serve the old capability?"
+   },
+   "control": {
+    "identity": "cap-attest-v1",
+    "served": true,
+    "question": "did the target serve the old capability BEFORE the swap? (control)"
+   },
+   "rollback": "not needed",
+   "code": null,
+   "ok": true,
+   "why": "POS: new occupant serves as cap-attest-v2; NEG: the old occupant no longer serves cap-attest-v1",
+   "finished_at": "2026-11-01T14:28:39+0800"
+  }
+ },
+ "T5_patched": {
+  "cmd": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\PIPD\\tools\\hotswap.py",
+   "--root",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t5",
+   "--entry",
+   "occupant.py",
+   "--candidate",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t5\\candidate.py",
+   "--expect-old",
+   "cap-attest-v1",
+   "--expect-new",
+   "cap-attest-v2",
+   "--need",
+   "cap.attest",
+   "--method",
+   "identity",
+   "--grant",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\grant_misses_target.json",
+   "--grant-verifier",
+   "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\\issue_grant.py",
+   "--out",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\receipt_t5.json"
+  ],
+  "rc": 1,
+  "stdout": "{\"ok\": false, \"code\": \"ERR_GRANT_NOT_BOUND\", \"why\": \"the grant does not cover this swap: ['GRANT_WRITESET_EXCLUDES_TARGET', 'GRANT_WRITESET_EXCLUDES_CANDIDATE']; nothing moved\"}\n",
+  "stderr": "",
+  "receipt": {
+   "schema": "PIPD-HOTSWAP-RECEIPT/1",
+   "root": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t5",
+   "entry": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t5\\occupant.py",
+   "candidate": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t5\\candidate.py",
+   "started_at": "2026-11-01T14:28:39+0800",
+   "started_at_epoch": 1793514519.4183,
+   "steps": [],
+   "preimage": {
+    "files": 2,
+    "digest": "265452ebefd4474199dc256113052f1b658226ba0101e225ab6084f16838031a"
+   },
+   "before": {
+    "identity": "cap-attest-v1",
+    "served": true,
+    "via": "abi-consumer",
+    "origin": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\t5\\occupant.py",
+    "code": null
+   },
+   "candidate_sha256": "b56ac1abd4c9cab0f0e21808076c05fc87879a98e4ba69cde471495a3bfcec8a",
+   "grant": {
+    "path": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\grant_misses_target.json",
+    "sha256": "f2f7fe62c35a6b6f82ee8b6830f7cd39a8365466c28074b8d7dcbbdae1c5fbd5",
+    "nonce": "T5-1793514518",
+    "issued_at": 1793514518,
+    "expires_at": 1793515418,
+    "subject": "WP-FHS-13",
+    "operation": "install_occupant",
+    "scope": "WP-FHS-13 remediation test",
+    "policy_epoch": "40",
+    "issuer_verifier_exit": 0,
+    "issuer_verifier": {
+     "grant": "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\grant_misses_target.json",
+     "verdict": "GRANT_VALID",
+     "problems": []
+    },
+    "issued_before_effect": true,
+    "ordering_reference": "receipt.started_at",
+    "writeset_paths": [
+     "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\patches\\tests\\unrelated_a.py",
+     "c:\\projects\\agent_workspace\\var\\fhs-r21-far-tt-20261101\\patches\\tests\\unrelated_b.py"
+    ],
+    "covers_entry": false,
+    "covers_candidate": false,
+    "preimage_checks": {},
+    "candidate_sha_named": null,
+    "candidate_sha_matches": true,
+    "problems": [
+     "GRANT_WRITESET_EXCLUDES_TARGET",
+     "GRANT_WRITESET_EXCLUDES_CANDIDATE"
+    ]
+   },
+   "code": "ERR_GRANT_NOT_BOUND",
+   "ok": false,
+   "why": "the grant does not cover this swap: ['GRANT_WRITESET_EXCLUDES_TARGET', 'GRANT_WRITESET_EXCLUDES_CANDIDATE']; nothing moved",
+   "finished_at": "2026-11-01T14:28:39+0800"
+  }
+ },
+ "T3": {
+  "cmd": [
+   "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+   "C:\\Projects\\Agent_Workspace\\var\\FHS-R21-FAR-TT-20261101\\patches\\tests\\bind_ordering.py"
+  ],
+  "rc": 0,
+  "stdout": "{\n \"started_after_grant\": {\n  \"issued_before_effect\": true,\n  \"ordering_reference\": \"receipt.started_at\",\n  \"problems\": []\n },\n \"started_before_grant\": {\n  \"issued_before_effect\": false,\n  \"ordering_reference\": \"receipt.started_at\",\n  \"problems\": [\n   \"GRANT_POSTDATES_EFFECT\"\n  ]\n }\n}\n",
+  "stderr": ""
+ }
+}
