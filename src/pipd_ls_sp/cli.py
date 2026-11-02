@@ -1,7 +1,8 @@
 """`pipd` CLI - original command registry.
 
 Modified 2026-11-02: additive PRE-V2 effect/plan options; canonical commands and
-legacy defaults preserved. The observed registry includes repair (14 commands).
+legacy defaults preserved. The registry has 13 commands; repair is one of them and
+original criterion E7 forbids a 14th.
 """
 from __future__ import annotations
 
