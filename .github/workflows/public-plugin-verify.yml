@@ -79,6 +79,15 @@ jobs:
         # declares its stage, its declared base must be an ancestor of the subject, and the pull
         # request base is printed as context that is explicitly NOT the governed set.
         #
+        # S4-R5 BOUNDARY REPAIR (2026-11-02, FHS-ENTRY-HERMES-FOLLOWUP-2026-11-02-r3 §C): the stage-c
+        # arm now governs from the pull request's base commit and keeps STAGE_C_BASE_SHA as
+        # provenance only. Reason measured, not assumed: on an untouched main the stage-c range named
+        # 37 paths (AGENTS.md, b1_closure_20261028/**, docs/adr/**) that arrived after the freeze and
+        # that no pull request wrote, so every pull request since 2026-10-22 went red for that reason
+        # alone - including README-only ones. The frozen base must still exist and still be an
+        # ancestor, stage-a and stage-b keep their own bases byte-identically, and the classifier
+        # self-test still proves unlisted and frozen paths are refused.
+        #
         # The two stages have deliberately different, non-overlapping write sets. Stage A repairs the
         # pipeline (the CI exit-code truthfulness guard, the packaging build, the first-run examples,
         # the smoke test) and must be able to write src/ and the workflows; Stage B ships the
@@ -190,21 +199,35 @@ jobs:
               # governed product write set is the exemption this arm exists to refuse.
               ALLOWED='^(src/pipd_ls_sp/|schemas/|tests/|fixtures/|pyproject\.toml$|tools/build_dist\.py$|dist/|README\.md$|docs/install/|docs/USER_GUIDE\.md$|docs/RELEASE_TUPLE\.json$|PREVIEW_NOTES_v0\.1\.1-preview\.4\.md$|\.github/workflows/public-plugin-verify\.yml$)'
               DENIED='^(skills/|packaging/public-plugin/)'
-              REFUSED_PLANTS='skills/pipd-core/SKILL.md packaging/public-plugin/plugin.json src/other_package/thing.py tools/build_public_plugin.py'
+              REFUSED_PLANTS='skills/pipd-core/SKILL.md packaging/public-plugin/plugin.json src/other_package/thing.py tools/build_public_plugin.py AGENTS.md b1_closure_20261028/evidence/GATES.json docs/adr/ADR-0009-session-handover-and-next-session-start.md'
               ALLOWED_PLANTS='src/pipd_ls_sp/requirements.py schemas/ClaimCeiling.schema.json tests/test_claim_ceiling_shape.py fixtures/REQ-NEG-PHRASES/source.txt dist/pipd_ls_sp-0.1.1a4-py3-none-any.whl README.md docs/install/README.md docs/RELEASE_TUPLE.json docs/USER_GUIDE.md'
+              # S4-R5 boundary repair (2026-11-02, FHS-ENTRY-HERMES-FOLLOWUP-2026-11-02-r3 §C): the
+              # governed set is the PULL REQUEST's write set, not everything main accumulated after
+              # the freeze. `${BASE}...HEAD` on an ordinary branch off main diffs the frozen subject
+              # against today's main, so it reports drift no pull request in front of this gate ever
+              # wrote - measured on an untouched main: 37 such paths, starting with AGENTS.md and
+              # b1_closure_20261028/**, while the pull request itself only touched README.md.
+              # The frozen base above stays the provenance anchor (it must still exist and be an
+              # ancestor); the comparison point becomes the pull request's base commit, and the
+              # three-dot diff keeps stacked branches honest by judging only head-side commits.
+              GOVERNING_BASE="${PR_BASE_SHA:-${BASE}}"
               ;;
             *)
               echo "STAGE_UNDECLARED: this workflow must declare STAGE as stage-a, stage-b or stage-c; it will not guess which write set applies to this subject" >&2
               exit 1
               ;;
           esac
+          # stage-a and stage-b govern from their declared stage base, unchanged; stage-c overrides
+          # this above with the pull request's base commit (S4-R5 boundary repair, 2026-11-02).
+          GOVERNING_BASE="${GOVERNING_BASE:-${BASE}}"
           # Declared exclusion, not a permission. `.hgk/` is the governance scaffolding tree: this
           # round's admission records, receipts, study and re-derivation tools. It is not product, and
           # it is excluded here so both allowlists enumerate product paths only. Excluded paths are
           # counted and printed below, and the self-test proves no product path can reach this prefix.
           EXCLUDED_PREFIXES='^\.hgk/'
-          echo "=== governed ${STAGE} write set (${BASE}...HEAD) ==="
-          if [ -n "${PR_BASE_SHA}" ] && git cat-file -e "${PR_BASE_SHA}^{commit}" 2>/dev/null; then
+          echo "=== frozen ${STAGE} base (provenance): ${BASE} ==="
+          echo "=== governed ${STAGE} write set (${GOVERNING_BASE}...HEAD) ==="
+          if [ -n "${PR_BASE_SHA}" ] && [ "${PR_BASE_SHA}" != "${GOVERNING_BASE}" ] && git cat-file -e "${PR_BASE_SHA}^{commit}" 2>/dev/null; then
             echo "--- CONTEXT ONLY, not a governed write set: pull request base ${PR_BASE_SHA}...HEAD ---"
             git diff --name-only "${PR_BASE_SHA}...HEAD" || true
             echo "--- end context inventory ---"
@@ -217,9 +240,13 @@ jobs:
             echo "BASE_NOT_ANCESTOR: ${BASE} is not an ancestor of HEAD; the declared ${STAGE} base does not belong to this subject" >&2
             exit 1
           fi
-          CHANGED="$(git diff --name-only "${BASE}...HEAD")"
+          if ! git cat-file -e "${GOVERNING_BASE}^{commit}" 2>/dev/null; then
+            echo "GOVERNING_BASE_UNRESOLVED: ${GOVERNING_BASE} is not present in this checkout; refusing to guess a write-set base" >&2
+            exit 1
+          fi
+          CHANGED="$(git diff --name-only "${GOVERNING_BASE}...HEAD")"
           if [ -z "${CHANGED}" ]; then
-            echo "SCOPE_EMPTY: HEAD IS the declared ${STAGE} base, so there is no ${STAGE} write set to judge."
+            echo "SCOPE_EMPTY: HEAD IS the governing base ${GOVERNING_BASE}, so there is no ${STAGE} write set to judge."
             echo "This run says nothing about a ${STAGE} write set; only the tree-level steps below say"
             echo "anything about this subject, and they must not be cited as a ${STAGE} write-set verdict."
           else
@@ -296,10 +323,10 @@ jobs:
           echo "GATE_SELF_TEST_OK: the declared exclusion matches scaffolding only and no product path"
           echo "GATE_SELF_TEST_OK: planted ${STAGE} artefacts are all allowed"
           if [ "$bad" -ne 0 ]; then
-            echo "WRITE_SET_VIOLATION (${STAGE} base ${BASE})" >&2
+            echo "WRITE_SET_VIOLATION (${STAGE} governed from ${GOVERNING_BASE}; frozen base ${BASE})" >&2
             exit 1
           fi
-          echo "WRITE_SET_CLEAN_AGAINST_${BASE}"
+          echo "WRITE_SET_CLEAN_AGAINST_${GOVERNING_BASE} (frozen base ${BASE})"
 
       - name: Compile the three upgrade tools
         # Nothing is installed for this step: the three tools import the standard library only.
