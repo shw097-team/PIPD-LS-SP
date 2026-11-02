@@ -11,6 +11,8 @@ deterministically.
 Licensed **Apache-2.0**. This repository is an owner-authorised open-source **preview / beta**, not
 a production release — read [Claim ceiling](#claim-ceiling) before building on it.
 
+[FHS Engineering Entry — cross-repository navigation (non-authoritative)](https://github.com/shw097-team/Fabric/blob/main/INTEGRATION/FHS/README.md)
+
 ## Start here — the only navigation you need
 
 This README is an **entry point, not a manual**: it says what this is, what state it is in, and where
