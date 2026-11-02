@@ -1,4 +1,8 @@
-"""`pipd` CLI - exactly the 13 commands of 總藍圖 §5.9.3 (exact-set, no 14th)."""
+"""`pipd` CLI - original command registry.
+
+Modified 2026-11-02: additive PRE-V2 effect/plan options; canonical commands and
+legacy defaults preserved. The observed registry includes repair (14 commands).
+"""
 from __future__ import annotations
 
 import argparse
@@ -53,14 +57,22 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--repo-root", type=Path); s.add_argument("--head", default="")
     s = sub.add_parser("compile-ecp"); s.add_argument("--pd", type=Path, required=True)
     s.add_argument("--pi", type=Path, required=True)
+    s.add_argument("--effect-intent", type=Path, default=None)
+    s.add_argument("--operation-registry", type=Path, default=None)
+    s.add_argument("--operation-registry-sha256", default="")
     s.add_argument("--explain", action="store_true")
     s = sub.add_parser("compile-tqaep"); s.add_argument("--pi", type=Path, required=True)
     s.add_argument("--ecp", type=Path, required=True)
     s.add_argument("--maker", default="HERMES-MAKER")
     s.add_argument("--checker", default="GLM-5.3-FLASH-AO-LANE")
     s.add_argument("--checker-receipt", dest="checker_receipt", default="")
+    s.add_argument("--planned-sidecar", type=Path, default=None)
+    s.add_argument("--pd", type=Path, default=None)
+    s.add_argument("--fixture-root", type=Path, default=None)
     s.add_argument("--explain", action="store_true")
     s = sub.add_parser("validate"); s.add_argument("--bundle", type=Path, required=True)
+    s.add_argument("--planned-sidecar", type=Path, default=None)
+    s.add_argument("--fixture-root", type=Path, default=None)
     s.add_argument("--explain", action="store_true")
     sub.add_parser("doctor")
     s = sub.add_parser("project"); s.add_argument("--out", type=Path, default=None)
@@ -146,13 +158,29 @@ def run(args: argparse.Namespace) -> dict:
                 ctx.setdefault("claims", {})["head"] = args.head
         return pipeline.bind_pd(pi, ctx)
     if cmd == "compile-ecp":
-        out = pipeline.compile_ecp(_read_json(args.pd, "PD package"),
-                                   _read_json(args.pi, "PI package"))
+        if args.effect_intent:
+            from .pre_v2_adapter import pinned_json
+            if not args.operation_registry or not args.operation_registry_sha256:
+                from .errors import EffectUnknown
+                raise EffectUnknown('pinned original operation registry is required')
+            registry_body=pinned_json(args.operation_registry.parent,args.operation_registry.name,
+                                      args.operation_registry_sha256)
+            out=pipeline.compile_effect_ecp(_read_json(args.pd,'PD package'),_read_json(args.pi,'PI package'),
+                                           _read_json(args.effect_intent,'effect intent'),registry_body)
+        else:
+            out = pipeline.compile_ecp(_read_json(args.pd, "PD package"),
+                                       _read_json(args.pi, "PI package"))
         if getattr(args, "explain", False):
             out = dict(out); out.update(_explain("compile-ecp", out,
                                                  {"idempotency": out.get("idempotency", {})}))
         return out
     if cmd == "compile-tqaep":
+        if args.planned_sidecar:
+            if args.pd is None or args.fixture_root is None:
+                from .errors import TqTraceFail
+                raise TqTraceFail('planned sidecar requires its original canonical PD and fixture root')
+            return pipeline.read_planned_tqaep(_read_json(args.pi,'PI package'),_read_json(args.pd,'PD package'),
+                _read_json(args.ecp,'ECP'),_read_json(args.planned_sidecar,'PlannedTQAEP sidecar'),args.fixture_root)
         out = pipeline.compile_tqaep(_read_json(args.pi, "PI package"),
                                      _read_json(args.ecp, "ECP"),
                                      maker=args.maker, checker=args.checker,
@@ -169,6 +197,16 @@ def run(args: argparse.Namespace) -> dict:
         # reported so the operator can see which copy produced the verdict.
         schemas_dir, mode, tried = registry.resolve_for_validate(root)
         out = validate.validate_bundle(bundle, schemas_dir)
+        if args.planned_sidecar:
+            if out.get('verdict')!='PASS':
+                return out
+            if args.fixture_root is None:
+                from .errors import TqTraceFail
+                raise TqTraceFail('planned sidecar validation requires fixture root')
+            pipeline.read_planned_tqaep(bundle.get('PI-PKG',{}),bundle.get('PD-PKG',{}),bundle.get('ECP',{}),
+                                       _read_json(args.planned_sidecar,'PlannedTQAEP sidecar'),args.fixture_root)
+            out['planned_sidecar']={'state':'AUTHOR_DESIGN_ONLY','live_acceptance':'NOT_RUN',
+                                    'independent_acceptance':'NOT_GRANTED','canonical_family_added':False}
         out["schema_source"] = {"mode": mode,
                                 "path": str(schemas_dir) if schemas_dir is not None else "",
                                 "tried": tried}
