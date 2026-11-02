@@ -15,6 +15,13 @@ CLAIM_LADDER = ["PROMPT_COMPILE_PASS", "HGK_ADMITTED", "RUNTIME_READY", "LOCAL_Q
                 "INDEPENDENT_PASS", "PUBLICATION_APPROVED", "RELEASED", "PRODUCTION_VERIFIED"]
 RELEASE_BOUND = ("PI-PKG", "PD-PKG", "ECP", "TQAEP", "ConstructionContract")
 
+# M2b (RUN-20261102-GJ02-01): a scoped validate of a partial bundle is legal, but it must never
+# report ``closure: FULL`` as if the four release objects were all present. `validate --bundle`
+# returned ``checked=3, closure=FULL`` with the TQAEP missing, which read as "four objects closed".
+# The four-object denominator is now explicit: `missing` names what is absent, `complete` says
+# whether the denominator is satisfied, and `--require-four` turns an absent object into a FAIL.
+RELEASE_FOUR = ("PI-PKG", "PD-PKG", "ECP", "TQAEP")
+
 # CE-2 refinement (checker counterexample CE-CODEX-TRACE-WIDENING). Two DISTINCT concepts that
 # used to be conflated into one list: "fields excluded from the body hash" and "fields that are
 # not part of the record at all". They overlap only on `_profile_meta`.
@@ -266,7 +273,8 @@ def closure_findings(bundle: dict[str, dict[str, Any]]) -> dict[str, Any]:
             "findings": [{"contract": "*", "kind": "CLOSURE", "detail": p} for p in problems]}
 
 
-def validate_bundle(bundle: dict[str, dict[str, Any]], schemas_dir: Path | None = None) -> dict[str, Any]:
+def validate_bundle(bundle: dict[str, dict[str, Any]], schemas_dir: Path | None = None,
+                    require_four: bool = False) -> dict[str, Any]:
     findings: list[dict[str, str]] = []
     # C-4 repair: validate_bundle({}) used to return PASS with checked=0. An empty denominator is
     # not a verification result.
@@ -290,5 +298,17 @@ def validate_bundle(bundle: dict[str, dict[str, Any]], schemas_dir: Path | None 
     # as trace-closed.
     closure = closure_findings(bundle)
     findings.extend(closure["findings"])
+    missing = [c for c in RELEASE_FOUR if c not in bundle]
+    # `closure` keeps its original meaning: the trace graph among the records PRESENT in the
+    # bundle. It is deliberately not redefined, because a single PI legitimately closes against
+    # its own atoms. What was missing was the denominator, so `scope` now says whether this was a
+    # four-object validate or a scoped/partial one, and `complete`/`missing` name the gap.
+    closure_state = closure["state"]
+    if require_four and missing:
+        findings.append({"contract": "*", "kind": "DENOMINATOR",
+                         "detail": "missing required object(s): " + ", ".join(missing)})
     return {"verdict": "PASS" if not findings else "FAIL",
-            "checked": len(bundle), "closure": closure["state"], "findings": findings}
+            "checked": len(bundle), "closure": closure_state, "findings": findings,
+            "scope": "FOUR_OBJECT" if not missing else "PARTIAL_BUNDLE",
+            "missing": missing, "complete": not missing,
+            "required": list(RELEASE_FOUR)}

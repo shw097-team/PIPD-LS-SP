@@ -71,6 +71,8 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--fixture-root", type=Path, default=None)
     s.add_argument("--explain", action="store_true")
     s = sub.add_parser("validate"); s.add_argument("--bundle", type=Path, required=True)
+    s.add_argument("--require-four", dest="require_four", action="store_true",
+                   help="fail when any of PI-PKG/PD-PKG/ECP/TQAEP is missing")
     s.add_argument("--planned-sidecar", type=Path, default=None)
     s.add_argument("--fixture-root", type=Path, default=None)
     s.add_argument("--explain", action="store_true")
@@ -196,7 +198,8 @@ def run(args: argparse.Namespace) -> dict:
         # winning only when it actually contains registry.json. The chosen surface is
         # reported so the operator can see which copy produced the verdict.
         schemas_dir, mode, tried = registry.resolve_for_validate(root)
-        out = validate.validate_bundle(bundle, schemas_dir)
+        out = validate.validate_bundle(bundle, schemas_dir,
+                                       require_four=bool(getattr(args, "require_four", False)))
         if args.planned_sidecar:
             if out.get('verdict')!='PASS':
                 return out
