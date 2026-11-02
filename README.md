@@ -1,3 +1,15 @@
+> **MAINTENANCE EXIT — the canonical source moved to SBL.**
+>
+> Since 2026-11-03 the PIPD compiler source, its 19 contract families and its 8 skills are maintained in
+> [`shw097-team/SBL`](https://github.com/shw097-team/SBL) under `integrations/pipd/`. This repository stays
+> as the historical release record: its tags, preview assets, `LICENSE` and `NOTICE` are unchanged and
+> remain downloadable. No further compiler feature work lands here.
+>
+> The single control record — cutover commit, independent distribution route, rollback — is SBL
+> [`docs/pipd-migration/U04-CUTOVER.md`](https://github.com/shw097-team/SBL/blob/main/docs/pipd-migration/U04-CUTOVER.md).
+> Open pull requests here are dispositioned there; nothing was rewritten or deleted, and the repository is
+> not archived at this point (`MAINTENANCE_FROZEN`).
+
 # PIPD-LS-SP — Pre-Implementation / Pre-Dev Lifecycle Skills Plugin
 
 A governed, contract-first toolkit for the **pre-implementation** stage of a project: it turns a
