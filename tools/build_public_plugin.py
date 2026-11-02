@@ -948,3 +948,5 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+# negative-case probe: this path is outside the stage-c allowed set
