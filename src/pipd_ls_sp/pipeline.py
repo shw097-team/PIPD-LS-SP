@@ -16,11 +16,7 @@ from .profiles import compute_profile
 from . import repo_context as repo_probe
 from . import requirements as req_compile
 from .util import canonical_json, content_id, sha256_text  # noqa: F401
-# CE-2: the field lists are defined ONCE in validate and referenced here, so the hash body and
-# the "stripped before validation" contract cannot diverge from the validator again.
-#   HASH_EXCLUDED_FIELDS - the fields `_seal` does not hash (identity + derived `trace` + sidecar).
-#   NON_RECORD_SIDECARS  - re-exported (validate defines it); the fields the schema check strips.
-from .validate import HASH_EXCLUDED_FIELDS, NON_RECORD_SIDECARS  # noqa: F401
+from .validate import HASH_EXCLUDED_FIELDS, NON_RECORD_SIDECARS  # noqa: F401  single definition, by identity
 
 CLAIM_LADDER = ["PROMPT_COMPILE_PASS", "HGK_ADMITTED", "RUNTIME_READY", "LOCAL_QUALIFIED",
                 "INDEPENDENT_PASS", "PUBLICATION_APPROVED", "RELEASED", "PRODUCTION_VERIFIED"]
@@ -33,6 +29,24 @@ CLAIM_LADDER = ["PROMPT_COMPILE_PASS", "HGK_ADMITTED", "RUNTIME_READY", "LOCAL_Q
 # key and never by editing the schema.
 TQAEP_DESIGN_CEILING = "TQAEP_DESIGNED"
 TQAEP_INDEPENDENT_PROOF_REQUIRES = "S5_LIVE_RUNTIME_CHECKER"
+
+
+def propose_oracle_compatibility(pi_bytes: bytes, legacy_schema: dict, *,
+                                subject_id: str, subject_hash: str,
+                                canonical_source_sha256: str,
+                                expected_source_sha256: str) -> dict:
+    """Produce a separate unsigned DOC-07/legacy-DOC-03 compatibility record.
+
+    This is an explicit adapter API, never a compiler PASS or native ratification.
+    The P4 legacy schema is pinned by the adapter; caller relaxation is refused.
+    No PI/schema bytes, REQ enums or installed consumer contracts are changed.
+    The expected source hash must come from the actual Owner's frozen manifest.
+    """
+    from .oracle_compat import propose
+    return propose(pi_bytes, legacy_schema, subject_id=subject_id,
+                   subject_hash=subject_hash, canonical_owner='PIPD_LS_DOC-07',
+                   canonical_source_sha256=canonical_source_sha256,
+                   expected_source_sha256=expected_source_sha256)
 
 
 def _rec(kind: str, prefix: str, payload: Any, **fields: Any) -> dict[str, Any]:
@@ -108,20 +122,10 @@ def intake(goal: str, *, sources: list[str] | None = None,
 
 # ---------------------------------------------------------------- profile binding
 def profile_record(profile_name: str, axes: list[str]) -> tuple[dict[str, Any], dict[str, Any]]:
-    """Return (ProfileBinding record, full profile computation); the record is schema-exact.
-
-    D2: the record's ``axes`` is the NORMALISED list ``compute_profile`` returns - not a
-    ``sorted(set(axes))`` re-derivation - so the escalation basis (the axis count the veto
-    ran on) and the emitted record cannot disagree.
-
-    D3: ``ProfileBinding.schema.json`` does NOT declare ``risk_assessment`` (adding it would
-    break the published record contract), so the honest ``NOT_ASSESSED`` marker rides in the
-    existing non-record ``_profile_meta`` sidecar instead of the record.
-    """
+    """Return (ProfileBinding record, full profile computation); the record is schema-exact."""
     full = compute_profile(profile_name, axes=axes)
-    bound_axes = list(full["axes"])
-    rec = _rec("ProfileBinding", "PB", {"p": full["profile"], "a": bound_axes},
-               profile=full["profile"], axes=bound_axes,
+    rec = _rec("ProfileBinding", "PB", {"p": full["profile"], "a": sorted(axes)},
+               profile=full["profile"], axes=sorted(set(axes)),
                vetoes=full["vetoes"], artifact_depth=full["artifact_depth"],
                assurance=full["assurance"])
     return rec, full
@@ -187,8 +191,7 @@ def _seal(rec: dict[str, Any], prefix: str) -> dict[str, Any]:
     not cover the body and validate.semantic_invariants correctly rejects the record.
     """
     # `trace` is a derived relation, not body content: it carries the parent hash, so it cannot be
-    # inside the hash it references. The validator excludes exactly the same key set
-    # (validate.HASH_EXCLUDED_FIELDS) - one definition, referenced in both places.
+    # inside the hash it references. The validator excludes exactly the same key set.
     body = {k: v for k, v in rec.items() if k not in HASH_EXCLUDED_FIELDS}
     digest = sha256_text(canonical_json(body))
     rec["subject_id"] = f"{prefix}-{digest[:16]}"
@@ -202,6 +205,45 @@ def atoms_of(pi: dict[str, Any]) -> list[dict[str, Any]]:
 
 def strip_sidecar(record: dict[str, Any]) -> dict[str, Any]:
     return {k: v for k, v in record.items() if not k.startswith("_")}
+
+
+# ---------------------------------------------------------------- validation wiring (R7-0)
+def frozen_validation_context(pi: dict[str, Any]) -> dict[str, Any]:
+    """Deterministic frozen context (profile requirement, oracle expectations, trace endpoint
+    digests) derived from a PI package, for `validate.validate_bundle(..., frozen_context=...)`.
+
+    Every value is read from the record the caller already holds; no LLM, network or clock is
+    consulted. This is how the pipeline PASSES the frozen context the R7-0 validator binds to.
+    """
+    from . import validate as _validate
+    return _validate.derive_frozen_context(pi)
+
+
+def validate_pi(pi: dict[str, Any], schemas_dir: Path | None = None) -> dict[str, Any]:
+    """Validate a PI package - the PI-PKG record, its ProfileBinding, every RequirementAtom and
+    every TraceLink - against the frozen context derived from itself.
+
+    Deterministic only. This is the pipeline-level entrypoint that threads the optional frozen
+    context through to the hardened `semantic_invariants`, so the trace-digest / oracle-expected /
+    profile-assurance bindings are checked on the compiler's own output.
+    """
+    from . import validate as _validate
+    ctx = _validate.derive_frozen_context(pi)
+    findings: list[dict[str, str]] = list(
+        _validate.validate_bundle({"PI-PKG": strip_sidecar(pi)}, schemas_dir, ctx)["findings"])
+    ssc = pi.get("stable_semantic_contract") or {}
+    members: list[tuple[str, dict[str, Any]]] = []
+    if isinstance(ssc.get("profile_binding"), dict):
+        members.append(("ProfileBinding", ssc["profile_binding"]))
+    members += [("RequirementAtom", a) for a in (ssc.get("atoms") or []) if isinstance(a, dict)]
+    members += [("TraceLink", t) for t in (pi.get("trace") or []) if isinstance(t, dict)]
+    for contract, rec in members:
+        for f in _validate.validate_record(contract, rec, schemas_dir):
+            findings.append({"contract": contract, "kind": "SCHEMA", "detail": f})
+        for f in _validate.semantic_invariants(contract, rec, ctx):
+            findings.append({"contract": contract, "kind": "SEMANTIC", "detail": f})
+    return {"verdict": "PASS" if not findings else "FAIL",
+            "checked": 1 + len(members), "findings": findings}
 
 
 # ---------------------------------------------------------------- PD
