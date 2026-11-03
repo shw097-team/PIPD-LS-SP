@@ -7,8 +7,13 @@
 >
 > The single control record — cutover commit, independent distribution route, rollback — is SBL
 > [`docs/pipd-migration/U04-CUTOVER.md`](https://github.com/shw097-team/SBL/blob/main/docs/pipd-migration/U04-CUTOVER.md).
-> Open pull requests here are dispositioned there; nothing was rewritten or deleted, and the repository is
-> not archived at this point (`MAINTENANCE_FROZEN`).
+> **Download the maintained distribution:** [`pipd-ls-sp 0.1.1a5`](https://github.com/shw097-team/SBL/releases/tag/pipd-ls-sp-v0.1.1a5)
+> (`pipd_ls_sp-0.1.1a5-py3-none-any.whl`, sha256 `ff3d0f69…`, plus the 8-skill
+> `sbl-tpm-sp-skills-0.1.1a5.zip`). The `v0.1.1-preview.*` assets below stay downloadable and unchanged.
+>
+> Open pull requests here are dispositioned there; nothing was rewritten or deleted. This repository is
+> frozen (`MAINTENANCE_FROZEN`) and archiving is the administrator's next step — if it shows as archived,
+> the repository banner is the authoritative state.
 
 # PIPD-LS-SP — Pre-Implementation / Pre-Dev Lifecycle Skills Plugin
 
